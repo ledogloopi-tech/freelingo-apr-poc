@@ -146,7 +146,7 @@ export default function AdminReviewsPage() {
   const pendingCount = reviews.filter((review) => !review.is_approved).length
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-6xl space-y-4 p-6">
       <AdminNav />
       <AdminPageHeader title={t('title')} eyebrow={t('eyebrow')} />
 

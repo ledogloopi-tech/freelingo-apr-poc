@@ -264,7 +264,12 @@
     "memoryClearAllConfirm": "Cancella tutto",
     "memoryManage": "Gestisci memorie",
     "sectionLanguages": "Lingue",
-    "languagesManage": "Le mie lingue"
+    "languagesManage": "Le mie lingue",
+    "sectionReview": "Recensione",
+    "reviewDescription": "Condividi la tua esperienza con FreeLingo. Se modifichi una recensione già approvata, tornerà in revisione prima di apparire pubblicamente.",
+    "reviewPending": "In attesa di approvazione",
+    "reviewUpdate": "Aggiorna",
+    "reviewSaved": "Recensione salvata."
   },
   "legal": {
     "terms": {
@@ -1231,10 +1236,14 @@
       "desc": "Francese, italiano, portoghese, spagnolo e tedesco sono ora disponibili — ognuno con un curriculum completo da principiante ad avanzato (A1–C2), grammatica, vocabolario, frasi, Reading, Listening e altro. Aggiungili da Impostazioni → Le mie lingue."
     },
     "entry2": {
+      "label": "Aggiungi una recensione dal tuo profilo",
+      "desc": "Ora puoi condividere la tua opinione su FreeLingo direttamente da Impostazioni → Profilo. La tua recensione aiuta altri studenti a scoprire la piattaforma."
+    },
+    "entry3": {
       "label": "Risorse didattiche migliorate",
       "desc": "Tutte le sezioni di risorse didattiche sono state ampliate con nuovi contenuti."
     },
-    "entry3": {
+    "entry4": {
       "label": "Correzioni di bug",
       "desc": "Varie correzioni di bug minori e miglioramenti della stabilità su tutta la piattaforma."
     }

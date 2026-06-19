@@ -264,7 +264,12 @@
     "memoryClearAllConfirm": "Alles wissen",
     "memoryManage": "Herinneringen beheren",
     "sectionLanguages": "Talen",
-    "languagesManage": "Mijn talen"
+    "languagesManage": "Mijn talen",
+    "sectionReview": "Review",
+    "reviewDescription": "Deel je ervaring met FreeLingo. Als je een al goedgekeurde review bewerkt, gaat die opnieuw ter beoordeling voordat hij openbaar verschijnt.",
+    "reviewPending": "Wacht op goedkeuring",
+    "reviewUpdate": "Bijwerken",
+    "reviewSaved": "Review opgeslagen."
   },
   "legal": {
     "terms": {
@@ -1231,10 +1236,14 @@
       "desc": "Duits, Frans, Italiaans, Portugees en Spaans zijn nu beschikbaar — elk met een volledig curriculum van beginner tot gevorderd (A1–C2), grammatica, woordenschat, zinnen, Reading, Listening en meer. Voeg ze toe via Instellingen → Mijn talen."
     },
     "entry2": {
+      "label": "Voeg een review toe vanuit je profiel",
+      "desc": "Je kunt nu je mening over FreeLingo direct delen via Instellingen → Profiel. Je review helpt andere leerlingen het platform te ontdekken."
+    },
+    "entry3": {
       "label": "Verbeterde leermiddelen",
       "desc": "Alle leermiddelensecties zijn uitgebreid met nieuwe inhoud."
     },
-    "entry3": {
+    "entry4": {
       "label": "Bugfixes",
       "desc": "Diverse kleine bugfixes en stabiliteitsverbeteringen in het hele platform."
     }

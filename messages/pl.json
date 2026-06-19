@@ -264,7 +264,12 @@
     "memoryClearAllConfirm": "Wyczyść wszystko",
     "memoryManage": "Zarządzaj wspomnieniami",
     "sectionLanguages": "Języki",
-    "languagesManage": "Moje języki"
+    "languagesManage": "Moje języki",
+    "sectionReview": "Recenzja",
+    "reviewDescription": "Podziel się swoim doświadczeniem z FreeLingo. Jeśli edytujesz już zatwierdzoną recenzję, wróci ona do moderacji przed publicznym wyświetleniem.",
+    "reviewPending": "Oczekuje na zatwierdzenie",
+    "reviewUpdate": "Aktualizuj",
+    "reviewSaved": "Recenzja zapisana."
   },
   "legal": {
     "terms": {
@@ -1231,10 +1236,14 @@
       "desc": "Francuski, hiszpański, niemiecki, portugalski i włoski są już dostępne — każdy z pełnym programem nauczania od początkującego do zaawansowanego (A1–C2), gramatyką, słownictwem, zwrotami, Reading, Listening i więcej. Dodaj je w Ustawienia → Moje języki."
     },
     "entry2": {
+      "label": "Dodaj recenzję ze swojego profilu",
+      "desc": "Możesz teraz podzielić się opinią o FreeLingo bezpośrednio w Ustawienia → Profil. Twoja recenzja pomaga innym uczącym się odkryć platformę."
+    },
+    "entry3": {
       "label": "Ulepszone materiały dydaktyczne",
       "desc": "Wszystkie sekcje materiałów dydaktycznych zostały rozszerzone o nowe treści."
     },
-    "entry3": {
+    "entry4": {
       "label": "Poprawki błędów",
       "desc": "Różne drobne poprawki błędów i ulepszenia stabilności na całej platformie."
     }

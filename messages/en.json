@@ -264,7 +264,12 @@
     "memoryClearAllConfirm": "Clear All",
     "memoryManage": "Manage memories",
     "sectionLanguages": "Languages",
-    "languagesManage": "My languages"
+    "languagesManage": "My languages",
+    "sectionReview": "Review",
+    "reviewDescription": "Share your experience with FreeLingo. If you edit an already approved review, it will go back to review before appearing publicly.",
+    "reviewPending": "Pending approval",
+    "reviewUpdate": "Update",
+    "reviewSaved": "Review saved."
   },
   "legal": {
     "terms": {
@@ -1231,10 +1236,14 @@
       "desc": "French, German, Italian, Portuguese, and Spanish are now available — each with a full curriculum from beginner to advanced (A1–C2), grammar, vocabulary, phrases, Reading, Listening, and more. Add them from Settings → My Languages."
     },
     "entry2": {
+      "label": "Add a review from your profile",
+      "desc": "You can now share your thoughts about FreeLingo directly from Settings → Profile. Your review helps other learners discover the platform."
+    },
+    "entry3": {
       "label": "Expanded learning resources",
       "desc": "All learning resource sections have been expanded with new content."
     },
-    "entry3": {
+    "entry4": {
       "label": "Bug fixes",
       "desc": "Various minor bug fixes and stability improvements across the platform."
     }

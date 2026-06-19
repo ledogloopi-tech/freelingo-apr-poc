@@ -65,8 +65,8 @@ frontend/
 │   │   ├── flashcard/           # Flashcard review components
 │   │   ├── lesson/              # Lesson exercise components
 │   │   ├── plan/                # LevelTestBanner, UnitCard, UnitDrawer
-│   │   ├── reviews/             # ReviewPrompt and landing reviews carousel
-│   │   ├── settings/            # Settings form components
+│   │   ├── reviews/             # ReviewPrompt, reusable ReviewForm, landing reviews carousel
+│   │   ├── settings/            # Settings form components, including profile review section
 │   │   ├── tour/                # OnboardingTour components
 │   │   ├── ui/                  # shadcn/ui + custom: AudioPlayer, VoiceRecorder, confirm-dialog...
 │   │   ├── whats-new/           # What's New changelog modal
@@ -180,7 +180,7 @@ frontend/
 - `/listening` — AI-generated listening comprehension exercises.
 - `/reading` — AI-generated reading comprehension exercises.
 - `/progress` — Skills tracker with radar chart and multi-level vocabulary progress toggle.
-- `/settings` — Profile, avatar, subscription, conversation settings.
+- `/settings` — Profile, avatar, subscription, user review creation/editing, conversation settings.
 - `/faq` — Frequently asked questions.
 - `/admin/reviews` — Admin-only review moderation with status/rating filters, approve/unapprove, and delete confirmation.
 - `/feedback` — Feature requests and bug reports board (community).

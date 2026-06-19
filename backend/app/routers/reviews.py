@@ -18,12 +18,14 @@ from app.schemas.review import (
     ReviewCreate,
     ReviewMeResponse,
     ReviewPublicOut,
+    ReviewUpdate,
 )
 from app.services.review_service import (
     create_review,
     delete_review,
     get_user_review,
     update_review_approval,
+    update_user_review,
 )
 from app.utils.pagination import paginate
 
@@ -50,6 +52,17 @@ async def create_my_review(
     db: AsyncSession = Depends(get_db),
 ) -> Review:
     return await create_review(db, current_user, rating=data.rating, comment=data.comment)
+
+
+@router.patch("/api/reviews/me", response_model=ReviewAdminOut)
+@limiter.limit("10/hour")
+async def patch_my_review(
+    request: Request,
+    data: ReviewUpdate,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> Review:
+    return await update_user_review(db, current_user, rating=data.rating, comment=data.comment)
 
 
 @router.get("/api/reviews/public", response_model=list[ReviewPublicOut])

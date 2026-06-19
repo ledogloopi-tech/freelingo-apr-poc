@@ -58,6 +58,29 @@ async def create_review(
     return review
 
 
+async def update_user_review(
+    db: AsyncSession,
+    user: User,
+    *,
+    rating: int,
+    comment: str | None,
+) -> Review:
+    review = await get_user_review(db, user.id)
+    if not review:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="review_not_found")
+
+    active_language = await get_active_language(db, user.id)
+    review.user_display_name = user.display_name
+    review.target_language = active_language.target_language if active_language else user.target_language
+    review.rating = rating
+    review.comment = comment
+    review.is_approved = False
+    review.updated_at = _utcnow()
+    await db.commit()
+    await db.refresh(review)
+    return review
+
+
 async def get_review_or_404(db: AsyncSession, review_id: int) -> Review:
     review = await db.get(Review, review_id)
     if not review:

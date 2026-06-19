@@ -264,7 +264,12 @@
     "memoryClearAllConfirm": "Tout effacer",
     "memoryManage": "Gérer les souvenirs",
     "sectionLanguages": "Langues",
-    "languagesManage": "Mes langues"
+    "languagesManage": "Mes langues",
+    "sectionReview": "Avis",
+    "reviewDescription": "Partagez votre expérience avec FreeLingo. Si vous modifiez un avis déjà approuvé, il sera de nouveau examiné avant d'apparaître publiquement.",
+    "reviewPending": "En attente d'approbation",
+    "reviewUpdate": "Mettre à jour",
+    "reviewSaved": "Avis enregistré."
   },
   "legal": {
     "terms": {
@@ -1231,10 +1236,14 @@
       "desc": "Allemand, espagnol, français, italien et portugais sont désormais disponibles — chacun avec un programme complet du débutant à l’avancé (A1–C2), grammaire, vocabulaire, phrases, Reading, Listening et plus. Ajoutez-les depuis Paramètres → Mes langues."
     },
     "entry2": {
+      "label": "Ajoutez un avis depuis votre profil",
+      "desc": "Vous pouvez désormais partager votre avis sur FreeLingo directement depuis Paramètres → Profil. Votre avis aide d'autres apprenants à découvrir la plateforme."
+    },
+    "entry3": {
       "label": "Ressources pédagogiques améliorées",
       "desc": "Toutes les sections de ressources pédagogiques ont été enrichies avec du nouveau contenu."
     },
-    "entry3": {
+    "entry4": {
       "label": "Corrections de bugs",
       "desc": "Diverses corrections de bugs mineurs et améliorations de stabilité sur toute la plateforme."
     }

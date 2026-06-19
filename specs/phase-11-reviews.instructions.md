@@ -7,18 +7,19 @@ applyTo: "backend/**, frontend/**, specs/**"
 
 ## Overview
 
-FreeLingo adds a first-party review system so authenticated users can leave one verified rating for the product. Reviews are stored in PostgreSQL, moderated by admins, and approved positive reviews are displayed on the public landing page as social proof. The reusable review prompt is shown after successful learning moments: when the user manually stops a voice conversation session that has been live for at least five minutes, or when completing a lesson advances them out of the current curriculum unit.
+FreeLingo adds a first-party review system so authenticated users can leave one verified rating for the product. Reviews are stored in PostgreSQL, moderated by admins, and approved positive reviews are displayed on the public landing page as social proof. The reusable review prompt is shown after successful learning moments: when the user manually stops a voice conversation session that has been live for at least five minutes, or when completing a lesson advances them out of the current curriculum unit. Users can also create or edit their review from Settings.
 
 ---
 
 ## Product rules
 
 - Each user can create **one review total**.
+- Users can edit their existing review from Settings; edits keep the same review row and reset `is_approved=false` so the changed review is moderated again.
 - If a user already has a review, the app must not ask for another one.
 - `rating` is mandatory and must be an integer from `1` to `5`.
 - `comment` is optional.
-- The review stores a snapshot of the user's visible display name at creation time.
-- The review stores the user's active learning language at creation time.
+- The review stores a snapshot of the user's visible display name at creation time and refreshes it on user edits.
+- The review stores the user's active learning language at creation time and refreshes it on user edits.
 - Reviews are created with `is_approved=false` by default.
 - Only admins can approve, unapprove, or delete reviews.
 - The public landing page shows only reviews where `is_approved=true` and `rating >= 4`.
@@ -36,7 +37,6 @@ FreeLingo adds a first-party review system so authenticated users can leave one 
 - Tracking where the review prompt was shown.
 - Tracking which event triggered the review prompt.
 - Multiple reviews per user.
-- Review editing by users.
 - Admin editing of review text.
 - Public display of unapproved reviews.
 - Public display of ratings below 4 stars.
@@ -78,9 +78,9 @@ Creates `reviews` with all constraints and indexes. Fully reversible via `downgr
 
 ### Snapshot rules
 
-- `user_display_name` is copied when the review is created.
-- If the user changes their profile later, the existing review display name does not change.
-- The active learning language is copied from the current active study language/user-language state when the review is created.
+- `user_display_name` is copied when the review is created and refreshed when the user edits their review.
+- If the user changes their profile later without editing the review, the existing review display name does not change.
+- The active learning language is copied from the current active study language/user-language state when the review is created and refreshed when the user edits their review.
 
 ---
 
@@ -92,6 +92,7 @@ Status: implemented in `backend/app/routers/reviews.py` and registered in `backe
 
 - **GET `/me`** - Rate limit: 60/min. Auth: `get_current_user`. Returns the authenticated user's review if it exists, otherwise a no-review response.
 - **POST `/`** - Rate limit: 5/hour. Auth: `get_current_user`. Creates the authenticated user's review. Body requires `rating`; `comment` is optional. Returns HTTP 201. Returns HTTP 409 if the user already has a review.
+- **PATCH `/me`** - Rate limit: 10/hour. Auth: `get_current_user`. Updates the authenticated user's existing review. Body requires `rating`; `comment` is optional. Refreshes snapshots and resets `is_approved=false`. Returns HTTP 404 if no review exists.
 
 ### Public endpoint - `/api/reviews/public`
 
@@ -107,6 +108,7 @@ Status: implemented in `backend/app/routers/reviews.py` and registered in `backe
 
 - `GET /api/reviews/me` - 60/min.
 - `POST /api/reviews` - 5/hour.
+- `PATCH /api/reviews/me` - 10/hour.
 - `GET /api/reviews/public` - 60/min.
 - `GET /api/admin/reviews` - 60/min.
 - `PATCH /api/admin/reviews/{review_id}` - 60/min.
@@ -119,6 +121,7 @@ Status: implemented in `backend/app/routers/reviews.py` and registered in `backe
 Status: implemented in `backend/app/schemas/review.py`.
 
 - `ReviewCreate` - `rating: int` constrained to 1-5; `comment: str | None` with a practical max length.
+- `ReviewUpdate` - same fields and validation as `ReviewCreate`, used for current-user review edits.
 - `ReviewMeResponse` - existing review or `review: null` plus `has_review: bool`.
 - `ReviewPublicOut` - `id`, `user_display_name`, `target_language`, `rating`, `comment`, `created_at`.
 - `ReviewAdminOut` - public fields plus `user_id`, `is_approved`, `updated_at`.
@@ -135,6 +138,7 @@ Status: implemented in `backend/app/services/review_service.py`.
 - Duplicate creation attempts return HTTP 409 rather than overwriting the existing review.
 - The service must derive `user_display_name` server-side from the authenticated user.
 - The service must derive `target_language` server-side from the current active learning language.
+- Editing a review must update `rating`, normalized `comment`, `user_display_name`, `target_language`, and `updated_at`, and must reset `is_approved=false`.
 - Public listing must never return unapproved reviews.
 - Public listing must never return reviews with `rating < 4`.
 - Deleting a user cascades and removes their review.
@@ -151,6 +155,7 @@ Add review API helpers for:
 
 - Fetching the current user's review state.
 - Creating a review.
+- Updating the current user's existing review.
 - Fetching public landing reviews.
 - Admin listing reviews.
 - Admin approving/unapproving reviews.
@@ -158,9 +163,9 @@ Add review API helpers for:
 
 Implemented in `frontend/src/lib/reviews.ts` with shared types in `frontend/src/types/api.ts`.
 
-### Review prompt component
+### Review form and prompt components
 
-The prompt is reusable and can be mounted by any future product flow.
+The form is reusable and shared by the automatic modal prompt and the Settings review section. The prompt can be mounted by any future product flow.
 
 Implemented in `frontend/src/components/reviews/ReviewPrompt.tsx`.
 
@@ -181,6 +186,20 @@ Required behaviour:
 - If that existing-review status check fails, the prompt must show an error-only state and must not allow submission.
 - Cancel/close must not call the backend create endpoint.
 - Cancel/close may update a `localStorage` cooldown/counter so the app does not ask too often.
+
+### Settings review section
+
+Implemented in `frontend/src/components/settings/ReviewSection.tsx` and mounted below `BillingSection` on `frontend/src/app/(app)/settings/page.tsx`.
+
+Required behaviour:
+
+- Fetch `GET /api/reviews/me` on load.
+- Render the shared review form empty when no review exists.
+- Render the shared review form prefilled when the user already has a review.
+- Submit new reviews with `POST /api/reviews`.
+- Submit edits with `PATCH /api/reviews/me`.
+- Show a pending-approval hint for reviews where `is_approved=false`.
+- Show a short saved confirmation after successful create/update.
 
 ### Prompt cooldown
 

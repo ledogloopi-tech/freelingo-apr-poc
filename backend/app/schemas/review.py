@@ -18,6 +18,10 @@ class ReviewCreate(BaseModel):
         return stripped or None
 
 
+class ReviewUpdate(ReviewCreate):
+    pass
+
+
 class ReviewApprovalUpdate(BaseModel):
     is_approved: bool
 

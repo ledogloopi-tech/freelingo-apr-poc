@@ -264,7 +264,12 @@
     "memoryClearAllConfirm": "Șterge tot",
     "memoryManage": "Gestionează amintirile",
     "sectionLanguages": "Limbi",
-    "languagesManage": "Limbile mele"
+    "languagesManage": "Limbile mele",
+    "sectionReview": "Recenzie",
+    "reviewDescription": "Împărtășește experiența ta cu FreeLingo. Dacă editezi o recenzie deja aprobată, aceasta va reveni la verificare înainte de a apărea public.",
+    "reviewPending": "În așteptarea aprobării",
+    "reviewUpdate": "Actualizează",
+    "reviewSaved": "Recenzie salvată."
   },
   "legal": {
     "terms": {
@@ -1231,10 +1236,14 @@
       "desc": "Franceză, germană, italiană, portugheză și spaniolă sunt acum disponibile — fiecare cu un curriculum complet de la începător la avansat (A1–C2), gramatică, vocabular, fraze, Reading, Listening și mai mult. Adaugă-le din Setări → Limbile mele."
     },
     "entry2": {
+      "label": "Adaugă o recenzie din profil",
+      "desc": "Acum poți împărtăși părerea ta despre FreeLingo direct din Setări → Profil. Recenzia ta îi ajută pe alți cursanți să descopere platforma."
+    },
+    "entry3": {
       "label": "Resurse didactice îmbunătățite",
       "desc": "Toate secțiunile de resurse didactice au fost extinse cu conținut nou."
     },
-    "entry3": {
+    "entry4": {
       "label": "Corectări de bug-uri",
       "desc": "Diverse corectări minore de bug-uri și îmbunătățiri de stabilitate pe întreaga platformă."
     }

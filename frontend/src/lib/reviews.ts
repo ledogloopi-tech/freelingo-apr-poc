@@ -43,6 +43,17 @@ export async function createReview(
   return parseOrThrow<ReviewAdmin>(res)
 }
 
+export async function updateMyReview(
+  data: CreateReviewInput
+): Promise<ReviewAdmin> {
+  const res = await apiFetch('/api/reviews/me', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  return parseOrThrow<ReviewAdmin>(res)
+}
+
 export async function fetchPublicReviews(limit = 20): Promise<ReviewPublic[]> {
   const params = new URLSearchParams({ limit: String(limit) })
   const res = await apiFetch(`/api/reviews/public?${params.toString()}`)

@@ -264,7 +264,12 @@
     "memoryClearAllConfirm": "Apagar tudo",
     "memoryManage": "Gerenciar memórias",
     "sectionLanguages": "Idiomas",
-    "languagesManage": "Meus idiomas"
+    "languagesManage": "Meus idiomas",
+    "sectionReview": "Avaliação",
+    "reviewDescription": "Partilha a tua experiência com o FreeLingo. Se editares uma avaliação já aprovada, voltará a revisão antes de aparecer publicamente.",
+    "reviewPending": "Pendente de aprovação",
+    "reviewUpdate": "Atualizar",
+    "reviewSaved": "Avaliação guardada."
   },
   "legal": {
     "terms": {
@@ -1231,10 +1236,14 @@
       "desc": "Alemão, espanhol, francês, italiano e português já estão disponíveis — cada um com um plano de estudos completo do iniciante ao avançado (A1–C2), gramática, vocabulário, frases, Reading, Listening e mais. Adiciona-os em Definições → Os meus idiomas."
     },
     "entry2": {
+      "label": "Adiciona uma avaliação no teu perfil",
+      "desc": "Agora podes partilhar a tua opinião sobre o FreeLingo diretamente em Definições → Perfil. A tua avaliação ajuda outros estudantes a descobrir a plataforma."
+    },
+    "entry3": {
       "label": "Recursos didáticos melhorados",
       "desc": "Todas as seções de recursos didáticos foram ampliadas com novo conteúdo."
     },
-    "entry3": {
+    "entry4": {
       "label": "Correções de bugs",
       "desc": "Várias correções de bugs menores e melhorias de estabilidade em toda a plataforma."
     }

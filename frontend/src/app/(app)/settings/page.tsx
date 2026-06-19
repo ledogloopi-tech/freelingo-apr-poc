@@ -15,6 +15,7 @@ import { VoiceSection } from '@/components/settings/VoiceSection'
 import { UsageLimitsSection } from '@/components/settings/UsageLimitsSection'
 import { AppearanceSection } from '@/components/settings/AppearanceSection'
 import { BillingSection } from '@/components/settings/BillingSection'
+import { ReviewSection } from '@/components/settings/ReviewSection'
 
 export default function SettingsPage() {
   const t = useTranslations('settings')
@@ -53,6 +54,7 @@ export default function SettingsPage() {
 
       <ProfileSection />
       <BillingSection />
+      <ReviewSection />
 
       {/* Memory */}
       <div className="border-fl-border bg-fl-surface mt-4 border p-6">
