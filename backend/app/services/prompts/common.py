@@ -76,6 +76,7 @@ def get_language_prompt_overlay(target_language: str) -> str:
     canonical_language = _LANGUAGE_PROMPT_OVERLAY_ALIASES.get(target_language, target_language)
     return _LANGUAGE_PROMPT_OVERLAYS.get(canonical_language, "")
 
+
 MEMORY_SYSTEM_INSTRUCTION_BASE = """
 Memory capability: if during the conversation you learn something noteworthy
 about the student as a person — personal details, preferences, tastes, hobbies,

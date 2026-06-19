@@ -1,5 +1,5 @@
 ---
-description: "Testing strategy for FreeLingo: backend pytest suite (33 test files with SQLite in-memory DB and Redis mocking), frontend Vitest suite (16 test files covering stores, components, lib, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
+description: "Testing strategy for FreeLingo: backend pytest suite (38 test files with SQLite in-memory DB and Redis mocking), frontend Vitest suite (24 test files covering stores, components, lib, hooks, app pages, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
 applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 ---
 
@@ -9,11 +9,11 @@ applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 
 | Layer                      | Framework               | Scope                                                   | Coverage          | Status      |
 | -------------------------- | ----------------------- | ------------------------------------------------------- | ----------------- | ----------- |
-| Backend unit + integration | pytest + pytest-asyncio | API endpoints, services, SM-2 algorithm, data integrity | ~83% (target: 70%) | Implemented |
+| Backend unit + integration | pytest + pytest-asyncio | API endpoints, services, SM-2 algorithm, data integrity | 83.78% (target: 70%) | Implemented |
 | Frontend unit              | Vitest                  | Stores, components, hooks, lib, middleware              | —                 | Implemented |
 | E2E                        | Playwright              | Critical user flows                                     | Smoke             | Pending     |
 
-All tests pass on every push. Backend coverage threshold configured at 70%, currently at ~83%. Frontend tests cover stores, critical components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher, TargetLanguageSelector), lib modules, and middleware.
+All tests pass on every push. Backend coverage threshold configured at 70%, currently at 83.78%. Frontend tests cover stores, critical components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher, TargetLanguageSelector), app pages, hooks, lib modules, and middleware.
 
 ---
 
@@ -68,11 +68,11 @@ All tests pass on every push. Backend coverage threshold configured at 70%, curr
 - **`test_lesson_generator.py`** — Lines: —. What it covers: Lesson generator service: `get_valid_grammar_slugs`, `generate_lesson`, fill-blank sanitization, grammar refs filtering, `evaluate_free_write`, `evaluate_pronunciation`, `evaluate_fill_blank` (12 tests, 51%→100% coverage)
 - **`test_listening_service.py`** — Lines: —. What it covers: Listening service DB layer and generation: `structured_output()` generation persistence, `get_available_exercise`, `submit_attempt` (correct/partial/duplicate/replay/not-found), `get_user_history` (empty/attempts/limit/language filter)
 
-**Total: 38 test files, 803 tests.**
+**Total: 38 test files, 815 tests.**
 
 ### Coverage
 
-- **Current coverage**: ~83% (above 70% target)
+- **Current coverage**: 83.78% (above 70% target)
 - **Configured threshold**: 70% (enforced via `pytest --cov-fail-under=70`)
 
 ### Test patterns
