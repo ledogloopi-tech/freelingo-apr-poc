@@ -1,13 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import {
-  VOICE_REVIEW_PROMPT_DISMISS_COOLDOWN_MS,
-  VOICE_REVIEW_PROMPT_MAX_DISMISSALS,
+  REVIEW_PROMPT_DISMISS_COOLDOWN_MS,
+  REVIEW_PROMPT_MAX_DISMISSALS,
   VOICE_REVIEW_PROMPT_MIN_SESSION_MS,
+  shouldShowUnitReviewPrompt,
   shouldShowVoiceReviewPrompt,
-} from '@/lib/voice-review-prompt'
+} from '@/lib/review-prompt-triggers'
 
-describe('voice review prompt trigger', () => {
-  it('does not show before the minimum session duration', () => {
+describe('review prompt triggers', () => {
+  it('does not show voice prompt before the minimum session duration', () => {
     expect(
       shouldShowVoiceReviewPrompt(
         { count: 0, lastDismissedAt: 0 },
@@ -16,13 +17,25 @@ describe('voice review prompt trigger', () => {
     ).toBe(false)
   })
 
-  it('shows after a long enough session when there is no cooldown', () => {
+  it('shows voice prompt after a long enough session when there is no cooldown', () => {
     expect(
       shouldShowVoiceReviewPrompt(
         { count: 0, lastDismissedAt: 0 },
         VOICE_REVIEW_PROMPT_MIN_SESSION_MS
       )
     ).toBe(true)
+  })
+
+  it('shows unit prompt when a unit was completed', () => {
+    expect(
+      shouldShowUnitReviewPrompt({ count: 0, lastDismissedAt: 0 }, true)
+    ).toBe(true)
+  })
+
+  it('does not show unit prompt when no unit was completed', () => {
+    expect(
+      shouldShowUnitReviewPrompt({ count: 0, lastDismissedAt: 0 }, false)
+    ).toBe(false)
   })
 
   it('does not show during dismissal cooldown', () => {
@@ -34,6 +47,13 @@ describe('voice review prompt trigger', () => {
         now
       )
     ).toBe(false)
+    expect(
+      shouldShowUnitReviewPrompt(
+        { count: 1, lastDismissedAt: now - 1_000 },
+        true,
+        now
+      )
+    ).toBe(false)
   })
 
   it('shows after dismissal cooldown expires', () => {
@@ -42,7 +62,7 @@ describe('voice review prompt trigger', () => {
       shouldShowVoiceReviewPrompt(
         {
           count: 1,
-          lastDismissedAt: now - VOICE_REVIEW_PROMPT_DISMISS_COOLDOWN_MS,
+          lastDismissedAt: now - REVIEW_PROMPT_DISMISS_COOLDOWN_MS,
         },
         VOICE_REVIEW_PROMPT_MIN_SESSION_MS,
         now
@@ -53,8 +73,14 @@ describe('voice review prompt trigger', () => {
   it('does not show after the maximum dismissal count', () => {
     expect(
       shouldShowVoiceReviewPrompt(
-        { count: VOICE_REVIEW_PROMPT_MAX_DISMISSALS, lastDismissedAt: 0 },
+        { count: REVIEW_PROMPT_MAX_DISMISSALS, lastDismissedAt: 0 },
         VOICE_REVIEW_PROMPT_MIN_SESSION_MS
+      )
+    ).toBe(false)
+    expect(
+      shouldShowUnitReviewPrompt(
+        { count: REVIEW_PROMPT_MAX_DISMISSALS, lastDismissedAt: 0 },
+        true
       )
     ).toBe(false)
   })

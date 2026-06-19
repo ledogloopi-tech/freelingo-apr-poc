@@ -13,6 +13,11 @@ import { VoiceRecorder } from '@/components/ui/VoiceRecorder'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { WordTooltip, useWordSave } from '@/components/ui/WordTooltip'
 import { PageLoading } from '@/components/ui/page-loading'
+import {
+  ReviewPrompt,
+  getReviewPromptDismissal,
+} from '@/components/reviews/ReviewPrompt'
+import { shouldShowUnitReviewPrompt } from '@/lib/review-prompt-triggers'
 
 interface ExerciseItem {
   id: number
@@ -32,6 +37,11 @@ interface LessonData {
   lesson_type: string
   cefr_level: string
   content: Record<string, unknown>
+}
+
+function getLessonUnitId(lesson: LessonData | null): string | null {
+  const unitId = lesson?.content?.unit_id
+  return typeof unitId === 'string' && unitId ? unitId : null
 }
 
 export default function LessonPage() {
@@ -61,6 +71,7 @@ export default function LessonPage() {
   const [evaluating, setEvaluating] = useState(false)
   const [completed, setCompleted] = useState(false)
   const [dayComplete, setDayComplete] = useState(false)
+  const [reviewPromptOpen, setReviewPromptOpen] = useState(false)
   const [progressDayAtStart, setProgressDayAtStart] = useState(-1)
   const [grammarTopics, setGrammarTopics] = useState<GrammarTopic[]>([])
 
@@ -163,6 +174,7 @@ export default function LessonPage() {
   }
 
   async function completeLessonHandler() {
+    const completedUnitId = getLessonUnitId(lesson)
     await apiFetch(`/api/lessons/${id}/complete`, { method: 'POST' })
     if (lesson) completeLesson(lesson.id)
     // Detect if completing this lesson advanced the plan to the next day
@@ -172,6 +184,24 @@ export default function LessonPage() {
         const d = await todayRes.json()
         if (progressDayAtStart >= 0 && d.progress_day > progressDayAtStart) {
           setDayComplete(true)
+        }
+        const nextUnitId = d.lessons?.find(
+          (item: { unit_id?: string | null }) => item.unit_id
+        )?.unit_id
+        const planComplete =
+          typeof d.progress_day === 'number' &&
+          typeof d.total_days === 'number' &&
+          d.progress_day >= d.total_days
+        const unitCompleted =
+          !!completedUnitId &&
+          ((!!nextUnitId && nextUnitId !== completedUnitId) || planComplete)
+        if (
+          shouldShowUnitReviewPrompt(
+            getReviewPromptDismissal(),
+            unitCompleted
+          )
+        ) {
+          setReviewPromptOpen(true)
         }
       }
     } catch {
@@ -209,32 +239,39 @@ export default function LessonPage() {
 
   if (completed) {
     return (
-      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-6 p-6">
-        <div className="border-fl-border bg-fl-surface border px-10 py-10 text-center">
-          <p className="text-fl-label text-fl-muted-2 mb-4 font-mono tracking-widest uppercase">
-            ● {tCommon('complete')}
-          </p>
-          <p className="text-fl-fg font-mono text-xl font-bold tracking-widest">
-            {t('lessonDone')}
-          </p>
-          {dayComplete && (
-            <div className="border-fl-accent/30 bg-fl-accent/5 mt-6 border px-6 py-4">
-              <p className="text-fl-accent font-mono text-sm font-bold tracking-widest">
-                {t('dayComplete')}
-              </p>
-              <p className="text-fl-muted-1 mt-1 font-mono text-xs">
-                {t('dayCompleteMsg')}
-              </p>
-            </div>
-          )}
-          <button
-            onClick={() => router.push('/dashboard')}
-            className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 mt-8 px-8 py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
-          >
-            {tCommon('backToDashboard')}
-          </button>
+      <>
+        <div className="flex min-h-[60vh] flex-col items-center justify-center gap-6 p-6">
+          <div className="border-fl-border bg-fl-surface border px-10 py-10 text-center">
+            <p className="text-fl-label text-fl-muted-2 mb-4 font-mono tracking-widest uppercase">
+              ● {tCommon('complete')}
+            </p>
+            <p className="text-fl-fg font-mono text-xl font-bold tracking-widest">
+              {t('lessonDone')}
+            </p>
+            {dayComplete && (
+              <div className="border-fl-accent/30 bg-fl-accent/5 mt-6 border px-6 py-4">
+                <p className="text-fl-accent font-mono text-sm font-bold tracking-widest">
+                  {t('dayComplete')}
+                </p>
+                <p className="text-fl-muted-1 mt-1 font-mono text-xs">
+                  {t('dayCompleteMsg')}
+                </p>
+              </div>
+            )}
+            <button
+              onClick={() => router.push('/dashboard')}
+              className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 mt-8 px-8 py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
+            >
+              {tCommon('backToDashboard')}
+            </button>
+          </div>
         </div>
-      </div>
+        <ReviewPrompt
+          open={reviewPromptOpen}
+          onClose={() => setReviewPromptOpen(false)}
+          onSubmitted={() => setReviewPromptOpen(false)}
+        />
+      </>
     )
   }
 

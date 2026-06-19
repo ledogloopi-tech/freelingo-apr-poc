@@ -7,7 +7,7 @@ applyTo: "backend/**, frontend/**, specs/**"
 
 ## Overview
 
-FreeLingo adds a first-party review system so authenticated users can leave one verified rating for the product. Reviews are stored in PostgreSQL, moderated by admins, and approved positive reviews are displayed on the public landing page as social proof. The reusable review prompt is shown after a successful long-form voice practice moment: when the user manually stops a voice conversation session that has been live for at least five minutes.
+FreeLingo adds a first-party review system so authenticated users can leave one verified rating for the product. Reviews are stored in PostgreSQL, moderated by admins, and approved positive reviews are displayed on the public landing page as social proof. The reusable review prompt is shown after successful learning moments: when the user manually stops a voice conversation session that has been live for at least five minutes, or when completing a lesson advances them out of the current curriculum unit.
 
 ---
 
@@ -26,6 +26,7 @@ FreeLingo adds a first-party review system so authenticated users can leave one 
 - Cancelling or closing the review prompt must not create anything in the backend.
 - The frontend may store a local prompt cooldown/counter in `localStorage` to avoid asking too often after cancellation.
 - The voice conversation page may ask for a review after a manually stopped voice session that has been connected for at least 5 minutes.
+- The lesson completion page may ask for a review when completing the lesson moves the user into a different curriculum unit, or completes the plan.
 - The backend remains the source of truth for duplicate prevention; the prompt checks `GET /api/reviews/me` and does not render for users who already have a review.
 
 ---
@@ -39,7 +40,7 @@ FreeLingo adds a first-party review system so authenticated users can leave one 
 - Admin editing of review text.
 - Public display of unapproved reviews.
 - Public display of ratings below 4 stars.
-- Additional lesson, dashboard, or progress prompt triggers beyond the voice conversation trigger.
+- Additional dashboard or progress prompt triggers beyond the voice conversation and unit-completion triggers.
 
 ---
 
@@ -198,7 +199,15 @@ Implemented voice-conversation trigger:
 - `frontend/src/components/conversation/ConversationMode.tsx` records a local session start timestamp when the voice WebSocket opens.
 - When the user manually presses Stop, the prompt is opened only if that live connected duration is at least 5 minutes.
 - Backend quota/session duration accounting remains separate and authoritative for usage limits; the local timestamp is only used to decide whether to show the review prompt immediately after Stop.
-- The trigger uses `frontend/src/lib/voice-review-prompt.ts` to enforce the 5-minute threshold, a 14-day local dismissal cooldown, and a maximum of 3 local dismissals.
+- The trigger uses `frontend/src/lib/review-prompt-triggers.ts` to enforce the 5-minute threshold, a 14-day local dismissal cooldown, and a maximum of 3 local dismissals.
+
+Implemented unit-completion trigger:
+
+- `frontend/src/app/(app)/lesson/[id]/page.tsx` records the completed lesson's `content.unit_id` before marking the lesson complete.
+- After completion, it calls `GET /api/study-plan/today` and compares the next available lesson `unit_id` with the completed lesson's unit.
+- The prompt opens when the next unit differs, or when the plan is complete (`progress_day >= total_days`).
+- If the next lesson cannot be generated and the plan is not complete, the prompt is not shown; this avoids asking for a review on transient lesson-generation failures.
+- The trigger uses the shared local dismissal cooldown and maximum dismissal count from `frontend/src/lib/review-prompt-triggers.ts`.
 
 ---
 
@@ -297,6 +306,8 @@ Status: implemented.
 - Local prompt cooldown/counter is updated on cancel if implemented in shared logic.
 - Voice conversation review trigger requires at least 5 minutes of connected session time.
 - Voice conversation review trigger respects dismissal cooldown and maximum dismissal count.
+- Unit-completion review trigger opens only when a unit was completed.
+- Unit-completion review trigger respects dismissal cooldown and maximum dismissal count.
 - Landing reviews section renders reviews with comments.
 - Landing reviews section renders reviews without comments.
 - Landing reviews section handles an empty list.
@@ -307,7 +318,7 @@ Status: implemented.
 Implemented test files:
 
 - `frontend/tests/lib/reviews.test.ts`
-- `frontend/tests/lib/voice-review-prompt.test.ts`
+- `frontend/tests/lib/review-prompt-triggers.test.ts`
 - `frontend/tests/components/ReviewPrompt.test.tsx`
 - `frontend/tests/components/LandingReviewsCarousel.test.tsx`
 - `frontend/tests/app/admin-reviews.test.tsx`

@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **User reviews**: Phase 11 adds one moderated product review per user with required 1-5 star ratings, optional comments, learning-language snapshots, admin approval/deletion, a reusable in-app review prompt, public approved-review listings, a landing page reviews carousel, and an admin review moderation section. The prompt is now triggered after manually stopping a voice conversation session that has been connected for at least 5 minutes, subject to duplicate-review checks and local dismissal cooldown.
+- **User reviews**: Phase 11 adds one moderated product review per user with required 1-5 star ratings, optional comments, learning-language snapshots, admin approval/deletion, a reusable in-app review prompt, public approved-review listings, a landing page reviews carousel, and an admin review moderation section. The prompt is now triggered after manually stopping a voice conversation session that has been connected for at least 5 minutes, and after completing a curriculum unit, subject to duplicate-review checks and local dismissal cooldown.
 - **Language-specific prompt guidance**: chat, voice, lessons, exercise evaluation, flashcards, reading, listening, and assessment prompts now include concise guidance for each supported learning language, preserving regional variants such as American/British English, Spanish from Spain, and European Portuguese.
 
 ### Changed

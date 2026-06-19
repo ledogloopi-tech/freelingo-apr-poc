@@ -21,7 +21,7 @@ import {
   ReviewPrompt,
   getReviewPromptDismissal,
 } from '@/components/reviews/ReviewPrompt'
-import { shouldShowVoiceReviewPrompt } from '@/lib/voice-review-prompt'
+import { shouldShowVoiceReviewPrompt } from '@/lib/review-prompt-triggers'
 
 interface TranscriptEntry {
   id: number

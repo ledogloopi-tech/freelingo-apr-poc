@@ -103,7 +103,7 @@ frontend/
 │   │   ├── reviews.ts           # Review API client helpers
 │   │   ├── target-languages.ts  # Target language definitions and helpers
 │   │   ├── utils.ts             # General utility functions
-│   │   └── voice-review-prompt.ts # Voice-session review prompt trigger rules
+│   │   └── review-prompt-triggers.ts # Review prompt trigger rules for voice sessions and unit completion
 │   │
 │   ├── i18n/
 │   │   └── request.ts           # next-intl request locale resolver
@@ -168,7 +168,7 @@ frontend/
 - `/dashboard` — Home: XP counter, streak, next lesson card, target language selector.
 - `/assessment` — Level placement test (`BeginnerGate` → `AdaptiveQuiz` → `DurationSelector`).
 - `/plan` — Study plan overview: unit cards, `LevelTestBanner`, `UnitDrawer`.
-- `/lesson/[id]` — Lesson player: content + interactive exercises.
+- `/lesson/[id]` — Lesson player: content + interactive exercises. Completing a lesson may open the reusable review prompt when it advances the user out of the completed curriculum unit, subject to duplicate-review checks and local dismissal cooldown.
 - `/chat` — AI tutor text chat with SSE streaming.
 - `/conversation` — Real-time voice conversation with WebSocket + VAD. When the user manually stops a connected voice session after at least 5 minutes, the page may open the reusable review prompt, subject to duplicate-review checks and local dismissal cooldown.
 - `/flashcards` — Spaced-repetition flashcard review.
