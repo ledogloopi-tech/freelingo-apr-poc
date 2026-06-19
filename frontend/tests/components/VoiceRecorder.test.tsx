@@ -32,7 +32,11 @@ describe('VoiceRecorder', () => {
   let mockProcessor: {
     connect: ReturnType<typeof vi.fn>
     disconnect: ReturnType<typeof vi.fn>
-    onaudioprocess: ((e: { inputBuffer: { getChannelData: (c: number) => Float32Array } }) => void) | null
+    onaudioprocess:
+      | ((e: {
+          inputBuffer: { getChannelData: (c: number) => Float32Array }
+        }) => void)
+      | null
   }
   let mockAudioCtx: {
     close: ReturnType<typeof vi.fn>
@@ -64,15 +68,20 @@ describe('VoiceRecorder', () => {
     mockAudioCtx = ctx
 
     // Must use regular function (not arrow) — arrow functions cannot be called with `new`
-    vi.stubGlobal('AudioContext', vi.fn(function MockAudioContext() {
-      return ctx
-    }))
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(function MockAudioContext() {
+        return ctx
+      })
+    )
 
     mockStartRendering = vi.fn().mockResolvedValue({
       getChannelData: () => new Float32Array(16000),
     })
     const offlineCtx = {
-      createBuffer: vi.fn(() => ({ getChannelData: vi.fn(() => new Float32Array(100)) })),
+      createBuffer: vi.fn(() => ({
+        getChannelData: vi.fn(() => new Float32Array(100)),
+      })),
       createBufferSource: vi.fn(() => ({
         buffer: null,
         connect: vi.fn(),
@@ -82,9 +91,12 @@ describe('VoiceRecorder', () => {
       destination: {},
     }
 
-    vi.stubGlobal('OfflineAudioContext', vi.fn(function MockOfflineAudioContext() {
-      return offlineCtx
-    }))
+    vi.stubGlobal(
+      'OfflineAudioContext',
+      vi.fn(function MockOfflineAudioContext() {
+        return offlineCtx
+      })
+    )
 
     vi.stubGlobal('navigator', {
       mediaDevices: { getUserMedia: mockGetUserMedia },
@@ -128,7 +140,9 @@ describe('VoiceRecorder', () => {
 
   it('has correct aria-label in idle state', () => {
     render(<VoiceRecorder onTranscription={vi.fn()} />)
-    expect(screen.getByRole('button').getAttribute('aria-label')).toBe('ariaRecord')
+    expect(screen.getByRole('button').getAttribute('aria-label')).toBe(
+      'ariaRecord'
+    )
   })
 
   it('applies custom className', () => {
@@ -163,7 +177,11 @@ describe('VoiceRecorder', () => {
     expect(button.textContent).toContain('stop')
     expect(button.getAttribute('aria-label')).toBe('ariaStop')
     expect(mockGetUserMedia).toHaveBeenCalledWith({
-      audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true,
+      },
     })
   })
 
@@ -331,7 +349,9 @@ describe('VoiceRecorder', () => {
   // ===== Error: microphone permission denied =====
 
   it('shows error when getUserMedia rejects', async () => {
-    mockGetUserMedia.mockRejectedValue(new DOMException('Permission denied', 'NotAllowedError'))
+    mockGetUserMedia.mockRejectedValue(
+      new DOMException('Permission denied', 'NotAllowedError')
+    )
 
     render(<VoiceRecorder onTranscription={vi.fn()} />)
     const button = screen.getByRole('button')
@@ -346,7 +366,9 @@ describe('VoiceRecorder', () => {
   it('recovers from getUserMedia error after timeout', async () => {
     vi.useFakeTimers()
 
-    mockGetUserMedia.mockRejectedValue(new DOMException('Permission denied', 'NotAllowedError'))
+    mockGetUserMedia.mockRejectedValue(
+      new DOMException('Permission denied', 'NotAllowedError')
+    )
 
     render(<VoiceRecorder onTranscription={vi.fn()} />)
     const button = screen.getByRole('button')
@@ -378,9 +400,12 @@ describe('VoiceRecorder', () => {
     fireAudioChunk()
     fireEvent.click(button)
 
-    await waitFor(() => {
-      expect(button.textContent).toContain('error')
-    }, { timeout: 4000 })
+    await waitFor(
+      () => {
+        expect(button.textContent).toContain('error')
+      },
+      { timeout: 4000 }
+    )
   })
 
   it('shows error when STT API rejects', async () => {
@@ -394,9 +419,12 @@ describe('VoiceRecorder', () => {
     fireAudioChunk()
     fireEvent.click(button)
 
-    await waitFor(() => {
-      expect(button.textContent).toContain('error')
-    }, { timeout: 4000 })
+    await waitFor(
+      () => {
+        expect(button.textContent).toContain('error')
+      },
+      { timeout: 4000 }
+    )
   })
 
   it('recovers from STT error after timeout', async () => {
@@ -448,9 +476,12 @@ describe('VoiceRecorder', () => {
     await waitForRecordingReady()
     fireAudioChunk()
     fireEvent.click(button)
-    await waitFor(() => {
-      expect(button.textContent).toContain('error')
-    }, { timeout: 4000 })
+    await waitFor(
+      () => {
+        expect(button.textContent).toContain('error')
+      },
+      { timeout: 4000 }
+    )
 
     const mediaCallsCount = mockGetUserMedia.mock.calls.length
     fireEvent.click(button)

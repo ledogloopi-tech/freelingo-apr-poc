@@ -35,16 +35,18 @@ const defaultStatus: UnitStatus = {
   isLevelTest: false,
 }
 
-function renderUnitCard(overrides: Partial<{
-  title: string
-  index: number
-  lessonCount: number
-  grammarCount: number
-  competency: number
-  status: Partial<UnitStatus>
-  onClick: () => void
-  onStartLesson: () => void
-}> = {}) {
+function renderUnitCard(
+  overrides: Partial<{
+    title: string
+    index: number
+    lessonCount: number
+    grammarCount: number
+    competency: number
+    status: Partial<UnitStatus>
+    onClick: () => void
+    onStartLesson: () => void
+  }> = {}
+) {
   const props = {
     title: overrides.title ?? 'Basic Greetings',
     index: overrides.index ?? 0,
@@ -144,7 +146,10 @@ describe('UnitCard', () => {
   })
 
   it('renders 100% progress bar when competency is 1', () => {
-    const { container } = renderUnitCard({ competency: 1, status: { completed: true } })
+    const { container } = renderUnitCard({
+      competency: 1,
+      status: { completed: true },
+    })
     expect(screen.getByText('100%')).toBeInTheDocument()
     const bar = container.querySelector('.bg-fl-fg.h-px') as HTMLElement
     expect(bar.style.width).toBe('100%')
@@ -227,29 +232,66 @@ const mockUnitNoGrammar: CurriculumUnit = {
 }
 
 const mockLessons = [
-  { id: 1, title: 'Verb Conjugation', lesson_type: 'grammar', week: 1, day: 1, completed: true },
-  { id: 2, title: 'Common Phrases', lesson_type: 'vocabulary', week: 1, day: 2, completed: false },
-  { id: 3, title: 'Reading Comprehension', lesson_type: 'reading', week: 2, day: 1, completed: false },
+  {
+    id: 1,
+    title: 'Verb Conjugation',
+    lesson_type: 'grammar',
+    week: 1,
+    day: 1,
+    completed: true,
+  },
+  {
+    id: 2,
+    title: 'Common Phrases',
+    lesson_type: 'vocabulary',
+    week: 1,
+    day: 2,
+    completed: false,
+  },
+  {
+    id: 3,
+    title: 'Reading Comprehension',
+    lesson_type: 'reading',
+    week: 2,
+    day: 1,
+    completed: false,
+  },
 ]
 
 const mockLessonsWithNullId = [
-  { id: null, title: 'Pending Content', lesson_type: 'review', week: 3, day: 1, completed: false },
-  { id: 4, title: 'Final Test', lesson_type: 'review', week: 3, day: 2, completed: false },
+  {
+    id: null,
+    title: 'Pending Content',
+    lesson_type: 'review',
+    week: 3,
+    day: 1,
+    completed: false,
+  },
+  {
+    id: 4,
+    title: 'Final Test',
+    lesson_type: 'review',
+    week: 3,
+    day: 2,
+    completed: false,
+  },
 ]
 
-function renderUnitDrawer(overrides: Partial<{
-  unit: CurriculumUnit
-  lessons: Array<{
-    id: number | null
-    title: string
-    lesson_type: string
-    week: number
-    day: number
-    completed: boolean
-  }>
-  onClose: () => void
-  onStartLesson: (lessonId: number) => void
-}> = {}) {
+function renderUnitDrawer(
+  overrides: Partial<{
+    unit: CurriculumUnit
+    lessons: Array<{
+      id: number | null
+      title: string
+      lesson_type: string
+      week: number
+      day: number
+      completed: boolean
+    }>
+    onClose: () => void
+    onStartLesson: (lessonId: number) => void
+  }> = {}
+) {
   const props = {
     unit: overrides.unit ?? mockUnit,
     lessons: overrides.lessons ?? mockLessons,
@@ -304,7 +346,9 @@ describe('UnitDrawer', () => {
   it('shows completed lessons with checkmark and strikethrough', () => {
     renderUnitDrawer()
     // completed lesson
-    expect(screen.getByText('Verb Conjugation').className).toContain('line-through')
+    expect(screen.getByText('Verb Conjugation').className).toContain(
+      'line-through'
+    )
     // the ✓ icon next to it
     const checkmarks = screen.getAllByText('✓')
     expect(checkmarks.length).toBeGreaterThanOrEqual(1)
@@ -386,7 +430,7 @@ describe('UnitDrawer', () => {
     // There are 2 elements with text 'close': X button's aria-label and bottom button
     const closeButtons = screen.getAllByText('close')
     // The bottom button is the one that is a visible button (the X is ✕)
-    const bottomButton = closeButtons.find(btn => btn.tagName === 'BUTTON')
+    const bottomButton = closeButtons.find((btn) => btn.tagName === 'BUTTON')
     fireEvent.click(bottomButton!)
     expect(onClose).toHaveBeenCalledTimes(1)
   })

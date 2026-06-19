@@ -26,13 +26,21 @@ vi.mock('next/image', () => ({
 }))
 
 describe('TargetLanguageSelector', () => {
-  const allCodes = ['en-US', 'en-GB', 'es-ES', 'it-IT', 'pt-PT', 'fr-FR', 'de-DE']
+  const allCodes = [
+    'en-US',
+    'en-GB',
+    'es-ES',
+    'it-IT',
+    'pt-PT',
+    'fr-FR',
+    'de-DE',
+  ]
 
   it('renders only languages matching availableCodes', () => {
     render(
       <TargetLanguageSelector
         value="en-GB"
-        onChange={() => { }}
+        onChange={() => {}}
         availableCodes={['en-US', 'en-GB']}
       />
     )
@@ -45,7 +53,7 @@ describe('TargetLanguageSelector', () => {
     render(
       <TargetLanguageSelector
         value="en-GB"
-        onChange={() => { }}
+        onChange={() => {}}
         availableCodes={allCodes}
       />
     )
@@ -58,7 +66,7 @@ describe('TargetLanguageSelector', () => {
     const { container } = render(
       <TargetLanguageSelector
         value="en-GB"
-        onChange={() => { }}
+        onChange={() => {}}
         availableCodes={[]}
       />
     )
@@ -72,7 +80,7 @@ describe('TargetLanguageSelector', () => {
     const { container } = render(
       <TargetLanguageSelector
         value="en-GB"
-        onChange={() => { }}
+        onChange={() => {}}
         availableCodes={['ja-JP', 'ko-KR']}
       />
     )
@@ -86,7 +94,7 @@ describe('TargetLanguageSelector', () => {
     render(
       <TargetLanguageSelector
         value="es-ES"
-        onChange={() => { }}
+        onChange={() => {}}
         availableCodes={allCodes}
       />
     )
@@ -147,7 +155,7 @@ describe('TargetLanguageSelector', () => {
     render(
       <TargetLanguageSelector
         value="en-US"
-        onChange={() => { }}
+        onChange={() => {}}
         availableCodes={allCodes}
       />
     )
@@ -168,7 +176,7 @@ describe('TargetLanguageSelector', () => {
     render(
       <TargetLanguageSelector
         value="en-GB"
-        onChange={() => { }}
+        onChange={() => {}}
         availableCodes={allCodes}
       />
     )
@@ -189,7 +197,7 @@ describe('TargetLanguageSelector', () => {
     const { rerender } = render(
       <TargetLanguageSelector
         value="en-GB"
-        onChange={() => { }}
+        onChange={() => {}}
         availableCodes={['en-GB', 'en-US']}
       />
     )
@@ -197,7 +205,7 @@ describe('TargetLanguageSelector', () => {
     rerender(
       <TargetLanguageSelector
         value="en-GB"
-        onChange={() => { }}
+        onChange={() => {}}
         availableCodes={['en-GB', 'en-US']}
       />
     )

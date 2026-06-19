@@ -142,6 +142,8 @@ Status: implemented in `backend/app/services/review_service.py`.
 
 ## Frontend behaviour
 
+Status: implemented.
+
 ### API client
 
 Add review API helpers for:
@@ -153,9 +155,13 @@ Add review API helpers for:
 - Admin approving/unapproving reviews.
 - Admin deleting reviews.
 
+Implemented in `frontend/src/lib/reviews.ts` with shared types in `frontend/src/types/api.ts`.
+
 ### Review prompt component
 
 The prompt is reusable and can be mounted by any future product flow.
+
+Implemented in `frontend/src/components/reviews/ReviewPrompt.tsx`.
 
 Required UI:
 
@@ -185,11 +191,15 @@ Recommended localStorage data:
 
 The backend remains the source of truth for whether a review exists.
 
+Implemented storage key: `freelingo:reviewPromptDismissed`.
+
 ---
 
 ## Landing page
 
 Add a public reviews/testimonials section powered by `GET /api/reviews/public`.
+
+Implemented in `frontend/src/components/reviews/LandingReviewsCarousel.tsx` and mounted on `frontend/src/app/page.tsx` between the features section and pricing section.
 
 Display rules:
 
@@ -219,6 +229,8 @@ UX requirements:
 ## Admin UI
 
 Add a new admin reviews section.
+
+Implemented at `frontend/src/app/(app)/admin/reviews/page.tsx`, with navigation entry in `frontend/src/components/admin/AdminNav.tsx`.
 
 Required fields:
 
@@ -269,6 +281,8 @@ Admin should not edit review content. If content is not acceptable, the review s
 
 ## Frontend tests
 
+Status: implemented.
+
 - Review prompt does not submit without rating.
 - Review prompt submits rating-only reviews.
 - Review prompt submits rating plus comment reviews.
@@ -281,6 +295,13 @@ Admin should not edit review content. If content is not acceptable, the review s
 - Admin reviews page calls approve/unapprove actions.
 - Admin reviews page calls delete only after confirmation.
 
+Implemented test files:
+
+- `frontend/tests/lib/reviews.test.ts`
+- `frontend/tests/components/ReviewPrompt.test.tsx`
+- `frontend/tests/components/LandingReviewsCarousel.test.tsx`
+- `frontend/tests/app/admin-reviews.test.tsx`
+
 ---
 
 ## Implementation phases
@@ -290,12 +311,12 @@ Admin should not edit review content. If content is not acceptable, the review s
 3. **Backend schemas and service** - validation, one-review guard, public/admin query helpers. Status: complete.
 4. **Backend endpoints** - user, public, and admin routes with rate limits. Status: complete.
 5. **Backend tests** - coverage for creation, constraints, moderation, public filtering, permissions. Status: complete.
-6. **Frontend API client** - types and helper functions.
-7. **Reusable prompt component** - star rating, optional comment, cancellation cooldown.
-8. **Landing section** - approved positive reviews carousel.
-9. **Admin section** - list, filters, approve/unapprove, delete.
-10. **Frontend tests** - prompt, landing, admin interactions.
-11. **Verification** - compile/typecheck and targeted test runs.
+6. **Frontend API client** - types and helper functions. Status: complete.
+7. **Reusable prompt component** - star rating, optional comment, cancellation cooldown. Status: complete.
+8. **Landing section** - approved positive reviews carousel. Status: complete.
+9. **Admin section** - list, filters, approve/unapprove, delete. Status: complete.
+10. **Frontend tests** - prompt, landing, admin interactions. Status: complete.
+11. **Verification** - compile/typecheck and targeted test runs. Status: complete for current implementation.
 12. **Documentation finalization** - update specs, changelog, and version docs according to the release scope.
 
 ---

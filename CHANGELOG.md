@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **User reviews backend**: Phase 11 has started with the database model, migration, service layer, API endpoints, and backend tests for one moderated product review per user, including required 1-5 star ratings, optional comments, learning-language snapshots, public approved-review listings, and admin approval/deletion.
+- **User reviews**: Phase 11 adds one moderated product review per user with required 1-5 star ratings, optional comments, learning-language snapshots, admin approval/deletion, a reusable in-app review prompt, public approved-review listings, a landing page reviews carousel, and an admin review moderation section.
 - **Language-specific prompt guidance**: chat, voice, lessons, exercise evaluation, flashcards, reading, listening, and assessment prompts now include concise guidance for each supported learning language, preserving regional variants such as American/British English, Spanish from Spain, and European Portuguese.
 
 ### Changed

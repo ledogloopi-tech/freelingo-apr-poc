@@ -10,7 +10,15 @@ describe('SUPPORTED_TARGET_LANGUAGES', () => {
     expect(SUPPORTED_TARGET_LANGUAGES).toHaveLength(7)
   })
 
-  const expectedCodes = ['en-US', 'en-GB', 'es-ES', 'it-IT', 'pt-PT', 'fr-FR', 'de-DE']
+  const expectedCodes = [
+    'en-US',
+    'en-GB',
+    'es-ES',
+    'it-IT',
+    'pt-PT',
+    'fr-FR',
+    'de-DE',
+  ]
 
   it.each(expectedCodes)('%s has all required fields', (code) => {
     const lang = SUPPORTED_TARGET_LANGUAGES.find((l) => l.code === code)

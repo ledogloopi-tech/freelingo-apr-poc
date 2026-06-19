@@ -178,21 +178,51 @@ describe('useProgressStore — setTodayLessons', () => {
   })
 
   it('replaces existing lessons entirely', () => {
-    useProgressStore.getState().setTodayLessons([
-      { id: 1, title: 'A', lessonType: 'voc', week: 1, day: 1, objectives: [], estimatedMinutes: 5 },
-    ])
-    useProgressStore.getState().setTodayLessons([
-      { id: 2, title: 'B', lessonType: 'gram', week: 1, day: 2, objectives: [], estimatedMinutes: 10 },
-    ])
+    useProgressStore
+      .getState()
+      .setTodayLessons([
+        {
+          id: 1,
+          title: 'A',
+          lessonType: 'voc',
+          week: 1,
+          day: 1,
+          objectives: [],
+          estimatedMinutes: 5,
+        },
+      ])
+    useProgressStore
+      .getState()
+      .setTodayLessons([
+        {
+          id: 2,
+          title: 'B',
+          lessonType: 'gram',
+          week: 1,
+          day: 2,
+          objectives: [],
+          estimatedMinutes: 10,
+        },
+      ])
 
     expect(useProgressStore.getState().todayLessons).toHaveLength(1)
     expect(useProgressStore.getState().todayLessons[0].id).toBe(2)
   })
 
   it('sets an empty array', () => {
-    useProgressStore.getState().setTodayLessons([
-      { id: 1, title: 'X', lessonType: 'voc', week: 1, day: 1, objectives: [], estimatedMinutes: 5 },
-    ])
+    useProgressStore
+      .getState()
+      .setTodayLessons([
+        {
+          id: 1,
+          title: 'X',
+          lessonType: 'voc',
+          week: 1,
+          day: 1,
+          objectives: [],
+          estimatedMinutes: 5,
+        },
+      ])
     useProgressStore.getState().setTodayLessons([])
 
     expect(useProgressStore.getState().todayLessons).toEqual([])
@@ -365,7 +395,9 @@ describe('useProgressStore — updateUnitProgress', () => {
 
     useProgressStore
       .getState()
-      .updateUnitProgress('unit-1', { competencies: { grammar: 0.7, vocabulary: 0.8 } })
+      .updateUnitProgress('unit-1', {
+        competencies: { grammar: 0.7, vocabulary: 0.8 },
+      })
 
     const state = useProgressStore.getState()
     expect(state.unitProgress['unit-1'].competencies).toEqual({
@@ -385,7 +417,9 @@ describe('useProgressStore — updateUnitProgress', () => {
       .getState()
       .updateUnitProgress('unit-1', { competencies: { vocabulary: 0.9 } })
 
-    expect(useProgressStore.getState().unitProgress['unit-1'].competencies).toEqual({
+    expect(
+      useProgressStore.getState().unitProgress['unit-1'].competencies
+    ).toEqual({
       vocabulary: 0.9,
     })
   })
@@ -409,7 +443,9 @@ describe('useProgressStore — updateUnitProgress', () => {
       .getState()
       .updateUnitProgress('unit-99', { completedLessons: 0, totalLessons: 20 })
 
-    expect(useProgressStore.getState().unitProgress['unit-99'].unitId).toBe('unit-99')
+    expect(useProgressStore.getState().unitProgress['unit-99'].unitId).toBe(
+      'unit-99'
+    )
   })
 
   it('handles zero values in progress', () => {
@@ -469,21 +505,33 @@ describe('useProgressStore — setLevelTestResult', () => {
   })
 
   it('sets the level test result', () => {
-    const result = { score: 85, recommendation: 'advance' as const, nextLevel: 'B2' }
+    const result = {
+      score: 85,
+      recommendation: 'advance' as const,
+      nextLevel: 'B2',
+    }
     useProgressStore.getState().setLevelTestResult(result)
 
     expect(useProgressStore.getState().levelTestResult).toEqual(result)
   })
 
   it('sets extend recommendation', () => {
-    const result = { score: 60, recommendation: 'extend' as const, nextLevel: null }
+    const result = {
+      score: 60,
+      recommendation: 'extend' as const,
+      nextLevel: null,
+    }
     useProgressStore.getState().setLevelTestResult(result)
 
     expect(useProgressStore.getState().levelTestResult).toEqual(result)
   })
 
   it('sets repeat recommendation with a next level', () => {
-    const result = { score: 30, recommendation: 'repeat' as const, nextLevel: 'A2' }
+    const result = {
+      score: 30,
+      recommendation: 'repeat' as const,
+      nextLevel: 'A2',
+    }
     useProgressStore.getState().setLevelTestResult(result)
 
     expect(useProgressStore.getState().levelTestResult).toEqual(result)
@@ -535,7 +583,9 @@ describe('useProgressStore — setLevelTestResult', () => {
     })
 
     expect(useProgressStore.getState().levelTestResult?.score).toBe(100)
-    expect(useProgressStore.getState().levelTestResult?.recommendation).toBe('advance')
+    expect(useProgressStore.getState().levelTestResult?.recommendation).toBe(
+      'advance'
+    )
   })
 })
 
@@ -557,7 +607,17 @@ describe('useProgressStore — state transitions / interactions', () => {
 
   it('setProgress does not affect other state fields', () => {
     useProgressStore.setState({
-      todayLessons: [{ id: 1, title: 'A', lessonType: 'voc', week: 1, day: 1, objectives: [], estimatedMinutes: 5 }],
+      todayLessons: [
+        {
+          id: 1,
+          title: 'A',
+          lessonType: 'voc',
+          week: 1,
+          day: 1,
+          objectives: [],
+          estimatedMinutes: 5,
+        },
+      ],
       completedToday: [1],
       levelTestUnlocked: true,
     })
@@ -597,7 +657,14 @@ describe('useProgressStore — state transitions / interactions', () => {
     useProgressStore.setState({
       streak: 8,
       currentUnitId: 'unit-3',
-      unitProgress: { 'unit-3': { unitId: 'unit-3', completedLessons: 4, totalLessons: 10, competencies: {} } },
+      unitProgress: {
+        'unit-3': {
+          unitId: 'unit-3',
+          completedLessons: 4,
+          totalLessons: 10,
+          competencies: {},
+        },
+      },
     })
 
     useProgressStore.getState().setLevelTestResult({
@@ -629,7 +696,15 @@ describe('useProgressStore — state transitions / interactions', () => {
     useProgressStore
       .getState()
       .setTodayLessons([
-        { id: 10, title: 'Intro', lessonType: 'vocabulary', week: 1, day: 1, objectives: ['hello'], estimatedMinutes: 10 },
+        {
+          id: 10,
+          title: 'Intro',
+          lessonType: 'vocabulary',
+          week: 1,
+          day: 1,
+          objectives: ['hello'],
+          estimatedMinutes: 10,
+        },
       ])
 
     // Step 3: complete a lesson

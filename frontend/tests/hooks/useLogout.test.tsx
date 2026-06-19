@@ -27,7 +27,9 @@ describe('useLogout', () => {
 
   it('calls API logout and redirects to /login', async () => {
     const { apiFetch } = await import('@/lib/api')
-    vi.mocked(apiFetch).mockResolvedValueOnce(new Response(null, { status: 200 }))
+    vi.mocked(apiFetch).mockResolvedValueOnce(
+      new Response(null, { status: 200 })
+    )
 
     const { useLogout } = await import('@/hooks/useLogout')
     const { result } = renderHook(() => useLogout())

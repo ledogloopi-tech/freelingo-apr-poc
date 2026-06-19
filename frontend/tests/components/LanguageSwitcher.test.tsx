@@ -24,15 +24,27 @@ vi.mock('@/lib/api', () => ({
   apiFetch: vi.fn(),
 }))
 
-function seedStore(overrides: Partial<ReturnType<typeof useLanguageStore.getState>> = {}) {
+function seedStore(
+  overrides: Partial<ReturnType<typeof useLanguageStore.getState>> = {}
+) {
   useLanguageStore.setState({
     activeLanguage: SUPPORTED_TARGET_LANGUAGES[0],
     userLanguages: [
       {
         target_language: 'en-US',
         is_active: true,
-        plan: { id: 1, cefr_level: 'B1', progress_day: 42, total_days: 48, completion_pct: 87.5 },
-        progress: { total_xp: 12500, current_streak: 23, lessons_completed: 38 },
+        plan: {
+          id: 1,
+          cefr_level: 'B1',
+          progress_day: 42,
+          total_days: 48,
+          completion_pct: 87.5,
+        },
+        progress: {
+          total_xp: 12500,
+          current_streak: 23,
+          lessons_completed: 38,
+        },
       },
     ],
     supportedLanguages: SUPPORTED_TARGET_LANGUAGES,
@@ -77,13 +89,29 @@ describe('LanguageSwitcher', () => {
         {
           target_language: 'en-US',
           is_active: true,
-          plan: { id: 1, cefr_level: 'B1', progress_day: 42, total_days: 48, completion_pct: 87.5 },
-          progress: { total_xp: 12500, current_streak: 23, lessons_completed: 38 },
+          plan: {
+            id: 1,
+            cefr_level: 'B1',
+            progress_day: 42,
+            total_days: 48,
+            completion_pct: 87.5,
+          },
+          progress: {
+            total_xp: 12500,
+            current_streak: 23,
+            lessons_completed: 38,
+          },
         },
         {
           target_language: 'es-ES',
           is_active: false,
-          plan: { id: 2, cefr_level: 'A1', progress_day: 3, total_days: 40, completion_pct: 7.5 },
+          plan: {
+            id: 2,
+            cefr_level: 'A1',
+            progress_day: 3,
+            total_days: 40,
+            completion_pct: 7.5,
+          },
           progress: { total_xp: 850, current_streak: 3, lessons_completed: 3 },
         },
       ],
@@ -102,13 +130,29 @@ describe('LanguageSwitcher', () => {
         {
           target_language: 'en-US',
           is_active: true,
-          plan: { id: 1, cefr_level: 'B1', progress_day: 42, total_days: 48, completion_pct: 87.5 },
-          progress: { total_xp: 12500, current_streak: 23, lessons_completed: 38 },
+          plan: {
+            id: 1,
+            cefr_level: 'B1',
+            progress_day: 42,
+            total_days: 48,
+            completion_pct: 87.5,
+          },
+          progress: {
+            total_xp: 12500,
+            current_streak: 23,
+            lessons_completed: 38,
+          },
         },
         {
           target_language: 'es-ES',
           is_active: false,
-          plan: { id: 2, cefr_level: 'A1', progress_day: 3, total_days: 40, completion_pct: 7.5 },
+          plan: {
+            id: 2,
+            cefr_level: 'A1',
+            progress_day: 3,
+            total_days: 40,
+            completion_pct: 7.5,
+          },
           progress: { total_xp: 850, current_streak: 3, lessons_completed: 3 },
         },
       ],
@@ -127,13 +171,29 @@ describe('LanguageSwitcher', () => {
         {
           target_language: 'en-US',
           is_active: true,
-          plan: { id: 1, cefr_level: 'B1', progress_day: 42, total_days: 48, completion_pct: 87.5 },
-          progress: { total_xp: 12500, current_streak: 23, lessons_completed: 38 },
+          plan: {
+            id: 1,
+            cefr_level: 'B1',
+            progress_day: 42,
+            total_days: 48,
+            completion_pct: 87.5,
+          },
+          progress: {
+            total_xp: 12500,
+            current_streak: 23,
+            lessons_completed: 38,
+          },
         },
         {
           target_language: 'es-ES',
           is_active: false,
-          plan: { id: 2, cefr_level: 'A1', progress_day: 3, total_days: 40, completion_pct: 7.5 },
+          plan: {
+            id: 2,
+            cefr_level: 'A1',
+            progress_day: 3,
+            total_days: 40,
+            completion_pct: 7.5,
+          },
           progress: { total_xp: 850, current_streak: 3, lessons_completed: 3 },
         },
       ],
@@ -153,13 +213,29 @@ describe('LanguageSwitcher', () => {
         {
           target_language: 'en-US',
           is_active: true,
-          plan: { id: 1, cefr_level: 'B1', progress_day: 42, total_days: 48, completion_pct: 87.5 },
-          progress: { total_xp: 12500, current_streak: 23, lessons_completed: 38 },
+          plan: {
+            id: 1,
+            cefr_level: 'B1',
+            progress_day: 42,
+            total_days: 48,
+            completion_pct: 87.5,
+          },
+          progress: {
+            total_xp: 12500,
+            current_streak: 23,
+            lessons_completed: 38,
+          },
         },
         {
           target_language: 'es-ES',
           is_active: false,
-          plan: { id: 2, cefr_level: 'A1', progress_day: 3, total_days: 40, completion_pct: 7.5 },
+          plan: {
+            id: 2,
+            cefr_level: 'A1',
+            progress_day: 3,
+            total_days: 40,
+            completion_pct: 7.5,
+          },
           progress: { total_xp: 850, current_streak: 3, lessons_completed: 3 },
         },
       ],
@@ -185,13 +261,29 @@ describe('LanguageSwitcher', () => {
         {
           target_language: 'en-US',
           is_active: true,
-          plan: { id: 1, cefr_level: 'B1', progress_day: 42, total_days: 48, completion_pct: 87.5 },
-          progress: { total_xp: 12500, current_streak: 23, lessons_completed: 38 },
+          plan: {
+            id: 1,
+            cefr_level: 'B1',
+            progress_day: 42,
+            total_days: 48,
+            completion_pct: 87.5,
+          },
+          progress: {
+            total_xp: 12500,
+            current_streak: 23,
+            lessons_completed: 38,
+          },
         },
         {
           target_language: 'es-ES',
           is_active: false,
-          plan: { id: 2, cefr_level: 'A1', progress_day: 3, total_days: 40, completion_pct: 7.5 },
+          plan: {
+            id: 2,
+            cefr_level: 'A1',
+            progress_day: 3,
+            total_days: 40,
+            completion_pct: 7.5,
+          },
           progress: { total_xp: 850, current_streak: 3, lessons_completed: 3 },
         },
       ],
@@ -218,13 +310,29 @@ describe('LanguageSwitcher', () => {
         {
           target_language: 'en-US',
           is_active: true,
-          plan: { id: 1, cefr_level: 'B1', progress_day: 42, total_days: 48, completion_pct: 87.5 },
-          progress: { total_xp: 12500, current_streak: 23, lessons_completed: 38 },
+          plan: {
+            id: 1,
+            cefr_level: 'B1',
+            progress_day: 42,
+            total_days: 48,
+            completion_pct: 87.5,
+          },
+          progress: {
+            total_xp: 12500,
+            current_streak: 23,
+            lessons_completed: 38,
+          },
         },
         {
           target_language: 'es-ES',
           is_active: false,
-          plan: { id: 2, cefr_level: 'A1', progress_day: 3, total_days: 40, completion_pct: 7.5 },
+          plan: {
+            id: 2,
+            cefr_level: 'A1',
+            progress_day: 3,
+            total_days: 40,
+            completion_pct: 7.5,
+          },
           progress: { total_xp: 850, current_streak: 3, lessons_completed: 3 },
         },
       ],

@@ -401,7 +401,7 @@ This document records what was built and the completion criteria met.
 
 ## Phase 11 — User Reviews
 
-🔄 Status: In progress (backend API and tests complete)
+✅ Status: Complete (v1.8.8)
 
 > One verified review per user, with mandatory 1–5 star rating, optional comment,
 > active learning language snapshot, admin approval, and approved positive reviews
@@ -415,10 +415,10 @@ This document records what was built and the completion criteria met.
 | 2   | Backend model and migration — `reviews` table, one review per user, rating constraints             | ✅     |
 | 3   | Backend API — user review creation/state, public approved reviews, admin moderation                 | ✅     |
 | 4   | Backend tests — validation, duplicate guard, public filtering, admin permissions                    | ✅     |
-| 5   | Frontend API and reusable review prompt with local dismissal cooldown                               | ⬜     |
-| 6   | Landing reviews carousel — approved `rating >= 4` reviews, including rating-only reviews           | ⬜     |
-| 7   | Admin reviews section — list, filters, approve/unapprove, delete                                   | ⬜     |
-| 8   | Frontend tests — prompt, landing, admin interactions                                                | ⬜     |
+| 5   | Frontend API and reusable review prompt with local dismissal cooldown                               | ✅     |
+| 6   | Landing reviews carousel — approved `rating >= 4` reviews, including rating-only reviews           | ✅     |
+| 7   | Admin reviews section — list, filters, approve/unapprove, delete                                   | ✅     |
+| 8   | Frontend tests — prompt, landing, admin interactions                                                | ✅     |
 
 **Completion criteria:**
 
@@ -430,8 +430,9 @@ This document records what was built and the completion criteria met.
 - [x] Reviews store display-name and active-learning-language snapshots.
 - [x] New reviews are pending until admin approval.
 - [x] Public reviews API returns only approved reviews with `rating >= 4`.
-- [ ] Rating-only reviews render cleanly on the landing page.
+- [x] Rating-only reviews render cleanly on the landing page.
 - [x] Admins can approve, unapprove, and delete reviews.
 - [x] Non-admin users cannot access admin review endpoints.
 - [x] Backend targeted tests cover the review API flows.
-- [ ] Frontend targeted tests cover the review UI flows.
+- [x] Frontend targeted tests cover the review UI flows.
+- [x] `npm run lint`, `npx tsc --noEmit`, and `npm run test:run` pass clean for the frontend.

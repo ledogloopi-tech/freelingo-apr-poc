@@ -117,7 +117,7 @@ freelingo/
 | 8     | Feedback board          | ✅ Complete |
 | 9     | Memory                  | ✅ Complete |
 | 10    | Multi-Language Learning | ✅ Complete |
-| 11    | User reviews            | 🔄 In progress |
+| 11    | User reviews            | ✅ Complete |
 
 ## Quick start
 

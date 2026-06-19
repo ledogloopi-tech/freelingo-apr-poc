@@ -257,7 +257,9 @@ describe('useLanguageStore — switchLanguage', () => {
   })
 
   it('sets isSwitching to true while switching and resets on success', async () => {
-    mockApiFetch.mockResolvedValueOnce(mockResponse({ target_language: 'es-ES', is_active: true }))
+    mockApiFetch.mockResolvedValueOnce(
+      mockResponse({ target_language: 'es-ES', is_active: true })
+    )
     mockApiFetch.mockResolvedValueOnce(
       mockResponse({
         languages: [
