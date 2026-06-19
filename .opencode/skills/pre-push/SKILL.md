@@ -25,7 +25,7 @@ Fixes what can be fixed automatically: Python lint + format, JS/TS lint + format
 source .venv/bin/activate && cd backend && pytest -v
 ```
 
-815 tests, >= 70% coverage required. SQLite in-memory, no Docker needed.
+832 tests, >= 70% backend coverage required. Current backend coverage is 84.04%. SQLite in-memory, no Docker needed.
 
 ### 2. Frontend lint + typecheck + tests
 
@@ -35,16 +35,16 @@ cd frontend && npm run lint && npx tsc --noEmit && npm run test:run
 
 ## What each step does
 
-| Step | Tool | Action |
-|------|------|--------|
-| 0 | ruff --fix | Auto-fix Python lint issues |
-| 0 | black | Auto-format Python code |
-| 0 | eslint --fix | Auto-fix JS/TS lint issues |
-| 0 | prettier --write | Auto-format JS/TS/CSS code |
-| 1 | pytest | 815 backend tests, SQLite in-memory |
-| 2 | eslint | Verify no remaining JS/TS errors |
-| 2 | tsc --noEmit | TypeScript type checking |
-| 2 | vitest | 369 frontend tests |
+| Step | Tool             | Action                                         |
+| ---- | ---------------- | ---------------------------------------------- |
+| 0    | ruff --fix       | Auto-fix Python lint issues                    |
+| 0    | black            | Auto-format Python code                        |
+| 0    | eslint --fix     | Auto-fix JS/TS lint issues                     |
+| 0    | prettier --write | Auto-format JS/TS/CSS code                     |
+| 1    | pytest           | 832 backend tests, SQLite in-memory            |
+| 2    | eslint           | Verify no remaining JS/TS errors               |
+| 2    | tsc --noEmit     | TypeScript type checking                       |
+| 2    | vitest           | 385 frontend tests; coverage is not configured |
 
 **Note:** CI does not run ruff/black checks — only pytest, eslint, tsc, and vitest. Backend lint (ruff/black) is kept in step 0 as auto-format only.
 

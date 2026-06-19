@@ -28,6 +28,7 @@ cd backend && pytest
 ```
 
 Options:
+
 - Single file: `pytest tests/test_auth.py -v`
 - Single test: `pytest tests/test_flashcards.py::test_quality_3_basic_progression -v`
 - Coverage HTML: `pytest --cov-report=html`
@@ -38,7 +39,8 @@ Options:
 cd frontend && npm run test:run
 ```
 
-369 tests covering stores, components, hooks, app pages, lib, middleware, and API interceptor:
+385 tests covering stores, components, hooks, app pages, lib, i18n, middleware, review UI, and API interceptor. Frontend coverage is not configured/reported:
+
 - `lib/api.ts` — auth interceptor, 401 refresh, retry
 - `store/auth.ts` — isSubscribed(), logout
 - `lib/audio.ts` — float32ToWav WAV encoding
@@ -56,8 +58,12 @@ cd frontend && npm run test:run
 - `components/AudioPlayer.tsx` — TTS player states
 - `components/ProfileSection.tsx` — profile CRUD, avatar
 - `components/UnitCard.tsx` + `UnitDrawer.tsx` — plan units
+- `components/reviews/*` — review prompt and landing carousel
+- `app/(app)/admin/reviews/page.tsx` — review moderation UI
+- `lib/reviews.ts` — review API client
 
 Options:
+
 - Watch mode: `npm run test`
 - Single file: `npx vitest run tests/lib/api.test.ts`
 

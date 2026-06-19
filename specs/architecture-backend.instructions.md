@@ -127,7 +127,7 @@ backend/
 ├── alembic/
 │   └── versions/                # DB migrations (42 migrations)
 │
-└── tests/                       # pytest suite (39 test files, 831 tests)
+└── tests/                       # pytest suite (41 test files, 832 tests)
 ```
 
 ## Database models
@@ -193,9 +193,9 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 **Summary:**
 
 - **Framework**: pytest + pytest-asyncio + httpx AsyncClient
-- **Test files**: 38 (plus conftest.py for shared fixtures)
-- **Tests**: 815
-- **Coverage**: 83.78% (target: ≥70%)
+- **Test files**: 41 (plus conftest.py for shared fixtures)
+- **Tests**: 832
+- **Coverage**: 84.04% (target: ≥70%)
 - **Key fixtures**: async database session, test client with auth headers, Redis mock, user_language fixture
 
 ---
