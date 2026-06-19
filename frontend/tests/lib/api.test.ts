@@ -66,6 +66,7 @@ describe('apiFetch', () => {
 
   it('calls logout and redirects on refresh failure', async () => {
     useAuthStore.setState({ accessToken: 'old-token' })
+    window.history.pushState({}, '', '/login')
 
     vi.mocked(fetch)
       .mockResolvedValueOnce(new Response('unauthorized', { status: 401 }))

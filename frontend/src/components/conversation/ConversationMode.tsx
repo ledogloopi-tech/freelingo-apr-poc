@@ -812,10 +812,7 @@ export default function ConversationMode({
     sessionStartedAtRef.current = null
     setStatus('ended')
     if (
-      shouldShowVoiceReviewPrompt(
-        getReviewPromptDismissal(),
-        sessionDurationMs
-      )
+      shouldShowVoiceReviewPrompt(getReviewPromptDismissal(), sessionDurationMs)
     ) {
       setReviewPromptOpen(true)
     }

@@ -23,3 +23,7 @@ target-version = ["py314"]
 asyncio_mode = "auto"
 testpaths = ["tests"]
 addopts = "--cov=app --cov-report=term-missing --cov-fail-under=70"
+filterwarnings = [
+    "ignore:Please use `import python_multipart` instead.:PendingDeprecationWarning:slowapi",
+    "ignore:'cgi' is deprecated and slated for removal in Python 3.13:DeprecationWarning:slowapi",
+]

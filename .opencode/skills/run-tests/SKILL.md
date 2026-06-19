@@ -27,6 +27,8 @@ python3 -m venv .venv && source .venv/bin/activate && pip install -r backend/req
 cd backend && pytest
 ```
 
+Use a command timeout of at least 600 seconds for the full backend suite; the current run takes about 4 minutes and can exceed shorter 120-second tool defaults.
+
 Options:
 
 - Single file: `pytest tests/test_auth.py -v`
@@ -39,7 +41,7 @@ Options:
 cd frontend && npm run test:run
 ```
 
-385 tests covering stores, components, hooks, app pages, lib, i18n, middleware, review UI, and API interceptor. Frontend coverage is not configured/reported:
+392 tests covering stores, components, hooks, app pages, lib, i18n, middleware, review UI, review prompt triggers, and API interceptor. Frontend coverage is not configured/reported:
 
 - `lib/api.ts` — auth interceptor, 401 refresh, retry
 - `store/auth.ts` — isSubscribed(), logout
@@ -61,6 +63,7 @@ cd frontend && npm run test:run
 - `components/reviews/*` — review prompt and landing carousel
 - `app/(app)/admin/reviews/page.tsx` — review moderation UI
 - `lib/reviews.ts` — review API client
+- `lib/review-prompt-triggers.ts` — voice-session and unit-completion review prompt triggers
 
 Options:
 

@@ -61,7 +61,7 @@ freelingo/
 │   │   ├── lib/                 # Utilities: api, audio, conversation-ws, locales, mappers, target-languages, utils (7)
 │   │   ├── i18n/                # next-intl locale resolver
 │   │   └── middleware.ts        # Auth guard + locale detection
-│   ├── tests/                   # Vitest suite (28 test files, 385 tests)
+│   ├── tests/                   # Vitest suite (29 test files, 392 tests)
 │   ├── public/                  # Static assets (flags/, vad/ WASM models)
 │   └── scripts/                 # Postinstall helpers (copy-vad-models.js)
 │
@@ -174,5 +174,5 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 **Summary:**
 
 - **Backend**: pytest + pytest-asyncio, 41 test files, 832 tests, 84.04% coverage (target: 70%)
-- **Frontend**: Vitest, 28 test files, 385 tests covering stores, components, hooks, lib, i18n, app pages, and middleware; coverage is not configured/reported
+- **Frontend**: Vitest, 29 test files, 392 tests covering stores, components, hooks, lib, i18n, app pages, and middleware; coverage is not configured/reported
 - **E2E**: Playwright (planned, not yet implemented)

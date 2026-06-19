@@ -1,5 +1,5 @@
 ---
-description: "Testing strategy for FreeLingo: backend pytest suite (41 test files with SQLite in-memory DB and Redis mocking), frontend Vitest suite (28 test files covering stores, components, lib, hooks, app pages, i18n, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
+description: "Testing strategy for FreeLingo: backend pytest suite (41 test files, 832 tests, 84.04% coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (29 test files, 392 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
 applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 ---
 
@@ -26,6 +26,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, curr
 - **LLM**: always mocked at the service layer. Tests never call real Ollama, OpenAI, Anthropic, or DeepSeek.
 - **HTTP client**: `httpx.AsyncClient` with `ASGITransport` for FastAPI app testing, database and Redis dependencies overridden via `app.dependency_overrides`.
 - **Async**: `asyncio_mode = "auto"` — no `@pytest.mark.asyncio` decorators needed.
+- **Warnings**: pytest filters known external `slowapi` deprecations (`python_multipart` pending deprecation and Python `cgi` deprecation) so the suite output stays focused on project warnings.
 
 ### Test file inventory
 
@@ -254,7 +255,7 @@ CI runs on GitHub Actions, triggered on pushes and pull requests. The project is
 | Frontend lint      | `eslint src/ --ext .ts,.tsx` | Zero errors        |
 | Frontend format    | `prettier --check src/`      | Clean diff         |
 | Frontend typecheck | `npx tsc --noEmit`           | Clean output       |
-| Frontend tests     | `npm run test:run`           | All 385 tests pass |
+| Frontend tests     | `npm run test:run`           | All 392 tests pass |
 
 **Note**: The backend test job uses SQLite (same as local tests), not PostgreSQL. No Docker services are required for the backend test job.
 

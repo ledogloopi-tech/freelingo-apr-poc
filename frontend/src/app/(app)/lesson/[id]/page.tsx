@@ -196,10 +196,7 @@ export default function LessonPage() {
           !!completedUnitId &&
           ((!!nextUnitId && nextUnitId !== completedUnitId) || planComplete)
         if (
-          shouldShowUnitReviewPrompt(
-            getReviewPromptDismissal(),
-            unitCompleted
-          )
+          shouldShowUnitReviewPrompt(getReviewPromptDismissal(), unitCompleted)
         ) {
           setReviewPromptOpen(true)
         }

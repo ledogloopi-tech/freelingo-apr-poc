@@ -12,8 +12,16 @@ vi.mock('next-intl', () => ({
 }))
 
 vi.mock('next/image', () => ({
-  default: function MockImage(props: Record<string, unknown>) {
-    return React.createElement('img', props)
+  default: function MockImage(
+    props: React.ImgHTMLAttributes<HTMLImageElement> & {
+      unoptimized?: boolean
+      priority?: boolean
+    }
+  ) {
+    const { unoptimized, priority, ...imgProps } = props
+    void unoptimized
+    void priority
+    return React.createElement('img', imgProps)
   },
 }))
 
