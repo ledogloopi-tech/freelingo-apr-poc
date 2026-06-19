@@ -4,7 +4,14 @@ import { LandingReviewsCarousel } from '@/components/reviews/LandingReviewsCarou
 
 vi.mock('next-intl', () => ({
   useTranslations:
-    () => (key: string, values?: Record<string, string | number>) => {
+    (namespace?: string) => (key: string, values?: Record<string, string | number>) => {
+      if (namespace === 'targetLanguages') {
+        const languageNames: Record<string, string> = {
+          es: 'Spanish',
+          fr: 'French',
+        }
+        return languageNames[key] ?? key
+      }
       if (key === 'learningLanguage') return `Learning ${values?.language}`
       if (key === 'starsLabel') return `${values?.rating} out of 5 stars`
       if (key === 'ratingOnly') return 'Verified FreeLingo rating.'

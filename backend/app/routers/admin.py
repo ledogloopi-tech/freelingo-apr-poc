@@ -79,10 +79,7 @@ async def get_admin_stats(
         or 0
     )
     reviews_pending = (
-        await db.scalar(
-            select(func.count(Review.id)).where(Review.is_approved.is_(False))
-        )
-        or 0
+        await db.scalar(select(func.count(Review.id)).where(Review.is_approved.is_(False))) or 0
     )
 
     return AdminOverviewStatsResponse(
