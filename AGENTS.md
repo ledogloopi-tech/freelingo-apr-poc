@@ -67,6 +67,7 @@ These describe what was built — they are the reference documentation:
 - `specs/phase-8-feedback.instructions.md` — Phase 8: Feedback board — feature requests & bug reports, voting, comments, admin panel, 9 endpoints
 - `specs/phase-9-memories.instructions.md` — Phase 9: LLM Memory — AI tutor autonomously remembers details about the student, injects into future conversations
 - `specs/phase-10-multi-language.instructions.md` — Phase 10: Multi-Language — users can learn multiple languages simultaneously, each with independent study plans and progress
+- `specs/phase-11-reviews.instructions.md` — Phase 11: User Reviews — one verified review per user, admin approval, and approved positive reviews displayed on the landing page
 - `specs/whats-new.instructions.md` — What's New modal: version-aware changelog overlay, localStorage trigger, priority with OnboardingTour
 - `specs/roadmap.instructions.md` — Development roadmap with milestones and completion criteria per phase
 - `specs/changelog.instructions.md` — Changelog format, entry style, and update rules

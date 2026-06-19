@@ -396,3 +396,39 @@ This document records what was built and the completion criteria met.
 - [x] Existing English-only users are unaffected after migration
 - [x] `tsc --noEmit` and `python3 -m compileall` pass clean
 - [x] No regressions in Phases 1–9
+
+---
+
+## Phase 11 — User Reviews
+
+🔄 Status: Spec defined, implementation pending
+
+> One verified review per user, with mandatory 1–5 star rating, optional comment,
+> active learning language snapshot, admin approval, and approved positive reviews
+> displayed on the public landing page.
+>
+> See [`phase-11-reviews.instructions.md`](phase-11-reviews.instructions.md) for the full spec.
+
+| #   | Milestone                                                                                          | Status |
+| --- | -------------------------------------------------------------------------------------------------- | ------ |
+| 1   | Spec and planning — functional rules, model contract, endpoints, frontend behaviour, test plan      | 🔄     |
+| 2   | Backend model and migration — `reviews` table, one review per user, rating constraints             | ⬜     |
+| 3   | Backend API — user review creation/state, public approved reviews, admin moderation                 | ⬜     |
+| 4   | Backend tests — validation, duplicate guard, public filtering, admin permissions                    | ⬜     |
+| 5   | Frontend API and reusable review prompt with local dismissal cooldown                               | ⬜     |
+| 6   | Landing reviews carousel — approved `rating >= 4` reviews, including rating-only reviews           | ⬜     |
+| 7   | Admin reviews section — list, filters, approve/unapprove, delete                                   | ⬜     |
+| 8   | Frontend tests — prompt, landing, admin interactions                                                | ⬜     |
+
+**Completion criteria:**
+
+- [ ] Users can create exactly one review.
+- [ ] Rating is mandatory and constrained to 1–5.
+- [ ] Comment is optional.
+- [ ] Reviews store display-name and active-learning-language snapshots.
+- [ ] New reviews are pending until admin approval.
+- [ ] Landing shows only approved reviews with `rating >= 4`.
+- [ ] Rating-only reviews render cleanly on the landing page.
+- [ ] Admins can approve, unapprove, and delete reviews.
+- [ ] Non-admin users cannot access admin review endpoints.
+- [ ] Backend and frontend targeted tests cover the review flows.
