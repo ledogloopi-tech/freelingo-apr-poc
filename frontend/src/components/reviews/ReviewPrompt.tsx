@@ -56,12 +56,14 @@ export function ReviewPrompt({
   const [comment, setComment] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const [statusCheckFailed, setStatusCheckFailed] = useState(false)
 
   useEffect(() => {
     if (!open) return
     let cancelled = false
     setChecking(true)
     setError('')
+    setStatusCheckFailed(false)
     fetchMyReview()
       .then((data) => {
         if (cancelled) return
@@ -69,6 +71,7 @@ export function ReviewPrompt({
       })
       .catch(() => {
         if (cancelled) return
+        setStatusCheckFailed(true)
         setError(t('statusError'))
       })
       .finally(() => {
@@ -87,6 +90,7 @@ export function ReviewPrompt({
   }
 
   async function handleSubmit() {
+    if (statusCheckFailed) return
     if (!rating) {
       setError(t('ratingRequiredError'))
       return
@@ -134,6 +138,8 @@ export function ReviewPrompt({
             <div className="text-fl-muted-2 flex items-center gap-2 font-mono text-xs">
               <Loader2 className="size-4 animate-spin" /> {t('checking')}
             </div>
+          ) : statusCheckFailed ? (
+            <p className="text-fl-error-fg font-mono text-xs">{error}</p>
           ) : (
             <>
               <div>
@@ -201,7 +207,7 @@ export function ReviewPrompt({
           <button
             type="button"
             onClick={handleSubmit}
-            disabled={checking || submitting}
+            disabled={checking || submitting || statusCheckFailed}
             className="bg-fl-accent text-fl-accent-fg text-fl-label hover:bg-fl-accent/90 flex flex-1 items-center justify-center gap-2 py-3 font-mono font-bold tracking-widest uppercase transition-colors disabled:opacity-60"
           >
             {submitting && <Loader2 className="size-3.5 animate-spin" />}

@@ -178,6 +178,7 @@ Required behaviour:
 - It must allow rating-only submissions.
 - It must allow rating plus comment submissions.
 - It must check whether the user already has a review before showing or before submitting.
+- If that existing-review status check fails, the prompt must show an error-only state and must not allow submission.
 - Cancel/close must not call the backend create endpoint.
 - Cancel/close may update a `localStorage` cooldown/counter so the app does not ask too often.
 
@@ -262,6 +263,7 @@ Required actions:
 - Approve.
 - Unapprove.
 - Delete with confirmation.
+- After deleting a review, reload the effective active page so later reviews fill the list and page bounds stay valid.
 
 Recommended filters:
 

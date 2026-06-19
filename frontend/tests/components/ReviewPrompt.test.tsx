@@ -100,4 +100,12 @@ describe('ReviewPrompt', () => {
       expect(screen.queryByText('Rating required')).toBeNull()
     )
   })
+
+  it('does not submit when review status check fails', async () => {
+    mockFetchMyReview.mockRejectedValue(new Error('network error'))
+    render(<ReviewPrompt open onClose={() => {}} />)
+    await screen.findByText('statusError')
+    fireEvent.click(screen.getByText('Submit'))
+    expect(mockCreateReview).not.toHaveBeenCalled()
+  })
 })

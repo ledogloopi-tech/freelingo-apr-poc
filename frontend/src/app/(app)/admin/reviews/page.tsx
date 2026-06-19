@@ -124,10 +124,11 @@ export default function AdminReviewsPage() {
       await deleteReview(review.id)
       setDeletePending(null)
       const nextTotal = total - 1
-      setTotal(nextTotal)
-      setReviews((prev) => prev.filter((item) => item.id !== review.id))
       const maxPage = Math.max(0, Math.ceil(nextTotal / PAGE_SIZE) - 1)
-      if (page > maxPage) setPage(maxPage)
+      const nextPage = Math.min(page, maxPage)
+      setTotal(nextTotal)
+      if (page !== nextPage) setPage(nextPage)
+      await loadReviews(nextPage, approvalFilter, ratingFilter)
     } catch {
       setError(t('deleteError'))
     } finally {

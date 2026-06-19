@@ -84,7 +84,13 @@ describe('AdminReviewsPage', () => {
   it('calls delete after confirmation', async () => {
     render(<AdminReviewsPage />)
     fireEvent.click(await screen.findByText('Delete'))
+    const callsBeforeDelete = mockFetchAdminReviews.mock.calls.length
     fireEvent.click(screen.getByText('— Delete'))
     await waitFor(() => expect(mockDeleteReview).toHaveBeenCalledWith(7))
+    await waitFor(() =>
+      expect(mockFetchAdminReviews.mock.calls.length).toBeGreaterThan(
+        callsBeforeDelete
+      )
+    )
   })
 })
