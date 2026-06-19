@@ -18,6 +18,7 @@
     "feature6Desc": "XP, dagelijkse reeksen, vaardigheidsscores en eenheidscompetenties. Volg je groei week na week en test je niveau aan het einde van elke CEFR-fase.",
     "footer": "Open source · Zelf hosten gratis of abonneer op de gehoste dienst",
     "navFeatures": "Functies",
+    "navReviews": "Reviews",
     "navPricing": "Prijzen",
     "navFAQ": "FAQ",
     "howItWorks": "Hoe het werkt",
@@ -97,6 +98,7 @@
     "reading": "Reading",
     "contact": "Contact",
     "feedback": "Feedback",
+    "reviews": "Reviews",
     "switchLanguage": "Taal wijzigen"
   },
   "auth": {
@@ -263,7 +265,18 @@
     "memoryClearAllConfirm": "Alles wissen",
     "memoryManage": "Herinneringen beheren",
     "sectionLanguages": "Talen",
-    "languagesManage": "Mijn talen"
+    "languagesManage": "Mijn talen",
+    "sectionReview": "Review",
+    "reviewDescription": "Deel je ervaring met FreeLingo. Als je een al goedgekeurde review bewerkt, gaat die opnieuw ter beoordeling voordat hij openbaar verschijnt.",
+    "reviewPending": "Wacht op goedkeuring",
+    "reviewUpdate": "Bijwerken",
+    "reviewSaved": "Review opgeslagen.",
+    "reviewDelete": "Review verwijderen",
+    "reviewDeleteTitle": "Review verwijderen",
+    "reviewDeleteMessage": "Wil je je review verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+    "reviewDeleteConfirm": "Verwijderen",
+    "reviewDeleted": "Review verwijderd.",
+    "reviewDeleteError": "Je review kon niet worden verwijderd. Probeer het opnieuw."
   },
   "legal": {
     "terms": {
@@ -707,6 +720,7 @@
     "overview": "Overzicht",
     "users": "Gebruikers",
     "feedback": "Feedback",
+    "reviews": "Reviews",
     "invites": "Uitnodigingslinks",
     "createUser": "Gebruiker aanmaken",
     "createInvite": "Uitnodiging genereren",
@@ -800,6 +814,8 @@
     "createUserDesc": "Maak een beheerd gebruikersaccount met een eerste studietaal.",
     "reviewFeedback": "Feedback beoordelen",
     "reviewFeedbackDesc": "Beoordeel functieverzoeken en bugrapporten van leerlingen.",
+    "reviewReviews": "Reviews beoordelen",
+    "reviewReviewsDesc": "Keur geverifieerde reviews van leerlingen goed voor weergave op de landingspagina.",
     "maintenanceOnDesc": "Onderhoudsmodus is actief voor leerhulpmiddelen waarvoor een abonnement nodig is.",
     "maintenanceOffDesc": "Onderhoudsmodus is uitgeschakeld. Leerhulpmiddelen waarvoor een abonnement nodig is, zijn beschikbaar.",
     "openSystemControls": "Systeeminstellingen",
@@ -868,6 +884,7 @@
     "activeUsers": "Actieve gebruikers",
     "paidAccess": "Actief / proef",
     "pendingFeedback": "Openstaande feedback",
+    "pendingReviews": "Reviews in afwachting van goedkeuring",
     "operationalAlerts": "Operationele meldingen",
     "pendingBugs": "Openstaande bugrapporten",
     "pendingBugsDesc": "Bugrapporten die wachten op beoordeling door een admin.",
@@ -1222,17 +1239,21 @@
   },
   "whatsNew": {
     "title": "Nieuw",
-    "version": "v1.8.7",
+    "version": "v1.8.8",
     "cta": "Begrepen",
     "entry1": {
       "label": "Vijf nieuwe leertalen",
       "desc": "Duits, Frans, Italiaans, Portugees en Spaans zijn nu beschikbaar — elk met een volledig curriculum van beginner tot gevorderd (A1–C2), grammatica, woordenschat, zinnen, Reading, Listening en meer. Voeg ze toe via Instellingen → Mijn talen."
     },
     "entry2": {
+      "label": "Voeg een review toe vanuit je profiel",
+      "desc": "Je kunt nu je mening over FreeLingo direct delen via Instellingen → Profiel. Je review helpt andere leerlingen het platform te ontdekken."
+    },
+    "entry3": {
       "label": "Verbeterde leermiddelen",
       "desc": "Alle leermiddelensecties zijn uitgebreid met nieuwe inhoud."
     },
-    "entry3": {
+    "entry4": {
       "label": "Bugfixes",
       "desc": "Diverse kleine bugfixes en stabiliteitsverbeteringen in het hele platform."
     }
@@ -1357,6 +1378,64 @@
     "errorSubmit": "Versturen mislukt. Probeer opnieuw.",
     "prevPage": "← Vorige",
     "nextPage": "Volgende →"
+  },
+  "reviewPrompt": {
+    "statusError": "We konden je beoordelingsstatus niet controleren. Probeer het later opnieuw.",
+    "ratingRequiredError": "Kies een beoordeling voordat je verzendt.",
+    "saveError": "We konden je beoordeling niet opslaan. Probeer het opnieuw.",
+    "eyebrow": "Beoordeel FreeLingo",
+    "title": "Hoe was je ervaring?",
+    "closeLabel": "Beoordelingsprompt sluiten",
+    "checking": "Beoordelingsstatus controleren...",
+    "ratingLabel": "Beoordeling vereist",
+    "ratingGroupLabel": "Beoordeling",
+    "star": "ster",
+    "stars": "sterren",
+    "commentLabel": "Opmerking optioneel",
+    "commentPlaceholder": "Vertel ons wat je heeft geholpen met leren.",
+    "cancel": "Annuleren",
+    "submit": "Verzenden"
+  },
+  "landingReviews": {
+    "eyebrow": "Beoordelingen van cursisten",
+    "title": "Echte vooruitgang, beoordeeld door cursisten",
+    "subtitle": "Geverifieerde FreeLingo-beoordelingen van studenten die het platform gebruiken om met Lingu te leren.",
+    "learningLanguage": "Leert {language}",
+    "starsLabel": "{rating} van 5 sterren",
+    "ratingOnly": "Geverifieerde FreeLingo-beoordeling."
+  },
+  "adminReviews": {
+    "title": "Beoordelingen",
+    "eyebrow": "Admin",
+    "totalFiltered": "Totaal gefilterd",
+    "approvedOnPage": "Goedgekeurd op pagina",
+    "pendingOnPage": "In behandeling op pagina",
+    "filters": "Filters",
+    "approvalFilter": "Goedkeuringsfilter",
+    "allReviews": "Alle beoordelingen",
+    "pending": "In behandeling",
+    "approved": "Goedgekeurd",
+    "ratingFilter": "Beoordelingsfilter",
+    "allRatings": "Alle beoordelingen",
+    "starsOption": "{rating} sterren",
+    "clear": "Wissen",
+    "loadError": "Beoordelingen konden niet worden geladen.",
+    "updateError": "Beoordeling kon niet worden bijgewerkt.",
+    "deleteError": "Beoordeling kon niet worden verwijderd.",
+    "loading": "Beoordelingen laden...",
+    "queue": "Beoordelingswachtrij",
+    "total": "{total} totaal",
+    "empty": "Geen beoordelingen gevonden.",
+    "starsLabel": "{rating} sterren",
+    "learningLanguage": "Leert {language}",
+    "ratingOnly": "Beoordeling zonder opmerking.",
+    "unapprove": "Goedkeuring intrekken",
+    "approve": "Goedkeuren",
+    "delete": "Verwijderen",
+    "prev": "Vorige",
+    "next": "Volgende",
+    "deleteTitle": "Beoordeling verwijderen",
+    "deleteMessage": "Deze beoordeling verwijderen? Deze actie kan niet ongedaan worden gemaakt."
   },
   "maintenance": {
     "label": "Onderhoud",

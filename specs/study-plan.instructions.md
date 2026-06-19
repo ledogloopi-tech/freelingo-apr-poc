@@ -20,6 +20,7 @@ FreeLingo's learning loop works as follows:
 4. When the user opens a day for the first time, lesson content is **generated on-demand by the LLM** and persisted to the DB.
 5. The user's position in the plan is tracked by a single integer: `progress_day`.
 6. Progress advances automatically when all lessons for the current day are marked complete, or manually via "skip day".
+7. When completing a lesson moves the user into a different curriculum unit, the frontend may show the reusable review prompt, subject to duplicate-review checks and local dismissal cooldown.
 
 ---
 
@@ -175,6 +176,16 @@ It returns a structured JSON with:
 - `exercises` — list of exercise objects (`type`, `question`, `options`, `correct`, `explanation`)
 
 If the LLM call fails or returns an empty exercises list, the lesson is discarded (rolled back) and that slot returns `id: null` in the today response. The user can retry by refreshing.
+
+---
+
+## Unit-completion review prompt
+
+**File:** `frontend/src/app/(app)/lesson/[id]/page.tsx`
+
+After `POST /api/lessons/{id}/complete`, the lesson page calls `GET /api/study-plan/today` to detect day advancement and the next available lesson. If the completed lesson has `content.unit_id` and the next available lesson belongs to a different `unit_id`, the frontend treats the previous unit as complete and may show the reusable review prompt. The same prompt may also appear if the plan is complete (`progress_day >= total_days`).
+
+The prompt is not shown when the next `unit_id` is missing and the plan is not complete, which avoids asking for a review if the next lesson failed to generate. Duplicate-review prevention still happens through the review API (`GET /api/reviews/me`), and local dismissal cooldown is handled by `frontend/src/lib/review-prompt-triggers.ts` plus `freelingo:reviewPromptDismissed` in `localStorage`.
 
 ---
 

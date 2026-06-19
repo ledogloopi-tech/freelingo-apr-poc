@@ -38,6 +38,12 @@ from app.services.llm_adapter import (
     LLMUnavailableError,
     llm_adapter,
 )
+from app.services.prompts.assessment import (
+    LEGACY_ASSESSMENT_EVAL_PROMPT,
+    build_legacy_assessment_eval_user_prompt,
+    build_legacy_assessment_quiz_prompt,
+)
+from app.services.prompts.common import get_language_prompt_overlay
 from app.services.study_plan_generator import generate_study_plan
 from app.services.user_language_service import ensure_user_language
 
@@ -123,9 +129,9 @@ async def start_assessment(
             [
                 {
                     "role": "system",
-                    "content": (
-                        f"Generate an adaptive CEFR quiz with 20 questions "
-                        f"for {target_language_name} language proficiency."
+                    "content": build_legacy_assessment_quiz_prompt(
+                        target_language_name=target_language_name,
+                        language_prompt_overlay=get_language_prompt_overlay(target_language),
                     ),
                 }
             ],
@@ -234,23 +240,30 @@ async def submit_assessment(
             status_code=status.HTTP_404_NOT_FOUND, detail="No active assessment session."
         )
     session = json.loads(session_raw)
+    target_language = session.get("target_language") or data.target_language or "en-GB"
+    language_prompt_overlay = get_language_prompt_overlay(target_language)
 
     try:
+        messages = [
+            {
+                "role": "system",
+                "content": LEGACY_ASSESSMENT_EVAL_PROMPT,
+            }
+        ]
+        if language_prompt_overlay:
+            messages.append({"role": "system", "content": language_prompt_overlay})
+        messages.append(
+            {
+                "role": "user",
+                "content": build_legacy_assessment_eval_user_prompt(
+                    session_id=session["session_id"],
+                    quiz=session["quiz"],
+                    answers=data.model_dump(),
+                ),
+            }
+        )
         eval_payload = await llm_adapter.structured_output(
-            [
-                {
-                    "role": "system",
-                    "content": "Evaluate assessment answers and return CEFR placement result as JSON.",
-                },
-                {
-                    "role": "user",
-                    "content": (
-                        f"Session: {session['session_id']}\n"
-                        f"Quiz: {session['quiz']}\n"
-                        f"Answers: {data.model_dump()}"
-                    ),
-                },
-            ],
+            messages,
             LegacyEvalResponse,
         )
     except LLMTimeoutError:

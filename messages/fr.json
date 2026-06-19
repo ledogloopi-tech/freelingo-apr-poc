@@ -18,6 +18,7 @@
     "feature6Desc": "XP, séries quotidiennes, scores de compétences et aptitudes par unité. Suivez votre progression semaine après semaine et testez votre niveau à la fin de chaque étape CECRL.",
     "footer": "Open source · Auto-hébergez gratuitement ou abonnez-vous au service hébergé",
     "navFeatures": "Fonctionnalités",
+    "navReviews": "Avis",
     "navPricing": "Tarifs",
     "navFAQ": "FAQ",
     "howItWorks": "Comment ça marche",
@@ -97,6 +98,7 @@
     "reading": "Reading",
     "contact": "Contact",
     "feedback": "Feedback",
+    "reviews": "Avis",
     "switchLanguage": "Changer de langue"
   },
   "auth": {
@@ -263,7 +265,18 @@
     "memoryClearAllConfirm": "Tout effacer",
     "memoryManage": "Gérer les souvenirs",
     "sectionLanguages": "Langues",
-    "languagesManage": "Mes langues"
+    "languagesManage": "Mes langues",
+    "sectionReview": "Avis",
+    "reviewDescription": "Partagez votre expérience avec FreeLingo. Si vous modifiez un avis déjà approuvé, il sera de nouveau examiné avant d'apparaître publiquement.",
+    "reviewPending": "En attente d'approbation",
+    "reviewUpdate": "Mettre à jour",
+    "reviewSaved": "Avis enregistré.",
+    "reviewDelete": "Supprimer l'avis",
+    "reviewDeleteTitle": "Supprimer l'avis",
+    "reviewDeleteMessage": "Voulez-vous supprimer votre avis ? Cette action est irréversible.",
+    "reviewDeleteConfirm": "Supprimer",
+    "reviewDeleted": "Avis supprimé.",
+    "reviewDeleteError": "Impossible de supprimer votre avis. Veuillez réessayer."
   },
   "legal": {
     "terms": {
@@ -707,6 +720,7 @@
     "overview": "Vue d’ensemble",
     "users": "Utilisateurs",
     "feedback": "Retours",
+    "reviews": "Avis",
     "invites": "Invitations",
     "createUser": "Créer un utilisateur",
     "createInvite": "Générer une invitation",
@@ -800,6 +814,8 @@
     "createUserDesc": "Crée un compte utilisateur géré avec une langue d’étude initiale.",
     "reviewFeedback": "Examiner les retours",
     "reviewFeedbackDesc": "Trier les demandes de fonctionnalités et les rapports de bugs des apprenants.",
+    "reviewReviews": "Examiner les avis",
+    "reviewReviewsDesc": "Approuvez les avis vérifiés des apprenants pour les afficher sur la page d’accueil.",
     "maintenanceOnDesc": "Le mode maintenance est actif pour les outils d’apprentissage soumis à abonnement.",
     "maintenanceOffDesc": "Le mode maintenance est désactivé. Les outils soumis à abonnement sont disponibles.",
     "openSystemControls": "Contrôles système",
@@ -868,6 +884,7 @@
     "activeUsers": "Utilisateurs actifs",
     "paidAccess": "Actifs / essai",
     "pendingFeedback": "Retours en attente",
+    "pendingReviews": "Avis en attente d’approbation",
     "operationalAlerts": "Alertes opérationnelles",
     "pendingBugs": "Bugs en attente",
     "pendingBugsDesc": "Rapports de bugs en attente de triage administrateur.",
@@ -1222,17 +1239,21 @@
   },
   "whatsNew": {
     "title": "Nouveautés",
-    "version": "v1.8.7",
+    "version": "v1.8.8",
     "cta": "Compris",
     "entry1": {
       "label": "Cinq nouvelles langues à apprendre",
       "desc": "Allemand, espagnol, français, italien et portugais sont désormais disponibles — chacun avec un programme complet du débutant à l’avancé (A1–C2), grammaire, vocabulaire, phrases, Reading, Listening et plus. Ajoutez-les depuis Paramètres → Mes langues."
     },
     "entry2": {
+      "label": "Ajoutez un avis depuis votre profil",
+      "desc": "Vous pouvez désormais partager votre avis sur FreeLingo directement depuis Paramètres → Profil. Votre avis aide d'autres apprenants à découvrir la plateforme."
+    },
+    "entry3": {
       "label": "Ressources pédagogiques améliorées",
       "desc": "Toutes les sections de ressources pédagogiques ont été enrichies avec du nouveau contenu."
     },
-    "entry3": {
+    "entry4": {
       "label": "Corrections de bugs",
       "desc": "Diverses corrections de bugs mineurs et améliorations de stabilité sur toute la plateforme."
     }
@@ -1357,6 +1378,64 @@
     "errorSubmit": "Échec de l'envoi. Réessayez.",
     "prevPage": "← Préc.",
     "nextPage": "Suiv. →"
+  },
+  "reviewPrompt": {
+    "statusError": "Impossible de vérifier le statut de votre avis. Réessayez plus tard.",
+    "ratingRequiredError": "Choisissez une note avant d'envoyer.",
+    "saveError": "Impossible d'enregistrer votre avis. Réessayez.",
+    "eyebrow": "Avis FreeLingo",
+    "title": "Comment s'est passée votre expérience ?",
+    "closeLabel": "Fermer la demande d'avis",
+    "checking": "Vérification du statut de l'avis...",
+    "ratingLabel": "Note requise",
+    "ratingGroupLabel": "Note",
+    "star": "étoile",
+    "stars": "étoiles",
+    "commentLabel": "Commentaire facultatif",
+    "commentPlaceholder": "Dites-nous ce qui vous a aidé à apprendre.",
+    "cancel": "Annuler",
+    "submit": "Envoyer"
+  },
+  "landingReviews": {
+    "eyebrow": "Avis des apprenants",
+    "title": "De vrais progrès, notés par les apprenants",
+    "subtitle": "Avis vérifiés sur FreeLingo d'étudiants qui utilisent la plateforme pour apprendre avec Lingu.",
+    "learningLanguage": "Apprentissage : {language}",
+    "starsLabel": "{rating} sur 5 étoiles",
+    "ratingOnly": "Note FreeLingo vérifiée."
+  },
+  "adminReviews": {
+    "title": "Avis",
+    "eyebrow": "Admin",
+    "totalFiltered": "Total filtré",
+    "approvedOnPage": "Approuvés sur la page",
+    "pendingOnPage": "En attente sur la page",
+    "filters": "Filtres",
+    "approvalFilter": "Filtre d'approbation",
+    "allReviews": "Tous les avis",
+    "pending": "En attente",
+    "approved": "Approuvé",
+    "ratingFilter": "Filtre de note",
+    "allRatings": "Toutes les notes",
+    "starsOption": "{rating} étoiles",
+    "clear": "Effacer",
+    "loadError": "Impossible de charger les avis.",
+    "updateError": "Impossible de mettre à jour l'avis.",
+    "deleteError": "Impossible de supprimer l'avis.",
+    "loading": "Chargement des avis...",
+    "queue": "File des avis",
+    "total": "{total} au total",
+    "empty": "Aucun avis trouvé.",
+    "starsLabel": "{rating} étoiles",
+    "learningLanguage": "Apprentissage : {language}",
+    "ratingOnly": "Avis avec note uniquement.",
+    "unapprove": "Désapprouver",
+    "approve": "Approuver",
+    "delete": "Supprimer",
+    "prev": "Précédent",
+    "next": "Suivant",
+    "deleteTitle": "Supprimer l'avis",
+    "deleteMessage": "Supprimer cet avis ? Cette action est irréversible."
   },
   "maintenance": {
     "label": "Maintenance",

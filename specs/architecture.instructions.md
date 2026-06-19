@@ -19,7 +19,7 @@ freelingo/
 │   │   ├── models/              # SQLAlchemy 2.0 ORM models (14 files, 20 model classes)
 │   │   ├── schemas/             # Pydantic v2 request/response schemas (14 modules)
 │   │   ├── routers/             # 22 routers (21 REST + 1 WebSocket)
-│   │   ├── services/            # Business logic + external service clients (17 modules)
+│   │   ├── services/            # Business logic + external service clients (17 modules + prompts package)
 │   │   └── data/                # Static curriculum and content data (4 languages)
 │   │       ├── en/              # English curriculum (A1–C2)
 │   │       ├── es/              # Spanish curriculum (A1–C2)
@@ -27,7 +27,7 @@ freelingo/
 │   │       └── pt/              # Portuguese curriculum (A1–C2)
 │   ├── alembic/
 │   │   └── versions/            # DB migrations (31)
-│   └── tests/                   # pytest suite (38 test files, 793 tests)
+│   └── tests/                   # pytest suite (41 test files, 836 tests)
 │
 ├── frontend/                    # Next.js 16 App Router
 │   ├── src/
@@ -61,7 +61,7 @@ freelingo/
 │   │   ├── lib/                 # Utilities: api, audio, conversation-ws, locales, mappers, target-languages, utils (7)
 │   │   ├── i18n/                # next-intl locale resolver
 │   │   └── middleware.ts        # Auth guard + locale detection
-│   ├── tests/                   # Vitest suite (24 test files, 369 tests)
+│   ├── tests/                   # Vitest suite (29 test files, 394 tests)
 │   ├── public/                  # Static assets (flags/, vad/ WASM models)
 │   └── scripts/                 # Postinstall helpers (copy-vad-models.js)
 │
@@ -173,6 +173,6 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 
 **Summary:**
 
-- **Backend**: pytest + pytest-asyncio, 38 test files, 793 tests, 83% coverage (target: 70%)
-- **Frontend**: Vitest, 24 test files, 369 tests covering stores, components, hooks, lib, and middleware
+- **Backend**: pytest + pytest-asyncio, 41 test files, 836 tests, 84.11% coverage (target: 70%)
+- **Frontend**: Vitest, 29 test files, 394 tests covering stores, components, hooks, lib, i18n, app pages, and middleware; coverage is not configured/reported
 - **E2E**: Playwright (planned, not yet implemented)

@@ -24,6 +24,7 @@ async def test_admin_overview_stats_base_counts(client, admin_user, test_user):
     assert data["feedback_total"] == 0
     assert data["feedback_pending"] == 0
     assert data["feedback_bug_pending"] == 0
+    assert data["reviews_pending"] == 0
 
 
 @pytest.mark.asyncio
@@ -35,6 +36,7 @@ async def test_admin_overview_stats_counts_operational_signals(
 
     from app.core.security import hash_password
     from app.models.feedback import FeedbackEntry
+    from app.models.review import Review
     from app.models.user import User
 
     admin, admin_headers = admin_user
@@ -96,6 +98,17 @@ async def test_admin_overview_stats_counts_operational_signals(
             created_at=now,
         )
     )
+    db_session.add(
+        Review(
+            user_id=user.id,
+            user_display_name=user.display_name,
+            target_language="en-GB",
+            rating=5,
+            comment="Great learning flow",
+            is_approved=False,
+            created_at=now,
+        )
+    )
     await db_session.commit()
 
     response = await client.get("/api/admin/stats", headers=admin_headers)
@@ -110,6 +123,7 @@ async def test_admin_overview_stats_counts_operational_signals(
     assert data["feedback_total"] == 3
     assert data["feedback_pending"] == 2
     assert data["feedback_bug_pending"] == 1
+    assert data["reviews_pending"] == 1
 
 
 @pytest.mark.asyncio

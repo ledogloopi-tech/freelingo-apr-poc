@@ -18,6 +18,7 @@
     "feature6Desc": "XP, sequências diárias, pontuações de habilidades e competências por unidade. Acompanhe seu crescimento semana a semana e teste seu nível ao final de cada etapa CEFR.",
     "footer": "Código aberto · Auto-hospede gratuitamente ou assine o serviço hospedado",
     "navFeatures": "Funcionalidades",
+    "navReviews": "Avaliações",
     "navPricing": "Preços",
     "navFAQ": "FAQ",
     "howItWorks": "Como funciona",
@@ -97,6 +98,7 @@
     "reading": "Reading",
     "contact": "Contato",
     "feedback": "Feedback",
+    "reviews": "Avaliações",
     "switchLanguage": "Mudar idioma"
   },
   "auth": {
@@ -263,7 +265,18 @@
     "memoryClearAllConfirm": "Apagar tudo",
     "memoryManage": "Gerenciar memórias",
     "sectionLanguages": "Idiomas",
-    "languagesManage": "Meus idiomas"
+    "languagesManage": "Meus idiomas",
+    "sectionReview": "Avaliação",
+    "reviewDescription": "Partilha a tua experiência com o FreeLingo. Se editares uma avaliação já aprovada, voltará a revisão antes de aparecer publicamente.",
+    "reviewPending": "Pendente de aprovação",
+    "reviewUpdate": "Atualizar",
+    "reviewSaved": "Avaliação guardada.",
+    "reviewDelete": "Eliminar avaliação",
+    "reviewDeleteTitle": "Eliminar avaliação",
+    "reviewDeleteMessage": "Queres eliminar a tua avaliação? Esta ação não pode ser desfeita.",
+    "reviewDeleteConfirm": "Eliminar",
+    "reviewDeleted": "Avaliação eliminada.",
+    "reviewDeleteError": "Não foi possível eliminar a avaliação. Tenta novamente."
   },
   "legal": {
     "terms": {
@@ -707,6 +720,7 @@
     "overview": "Visão geral",
     "users": "Usuários",
     "feedback": "Feedback",
+    "reviews": "Avaliações",
     "invites": "Convites",
     "createUser": "Criar usuário",
     "createInvite": "Gerar convite",
@@ -800,6 +814,8 @@
     "createUserDesc": "Cria uma conta de utilizador gerida com um idioma de estudo inicial.",
     "reviewFeedback": "Rever feedback",
     "reviewFeedbackDesc": "Triar pedidos de funcionalidades e relatórios de erros dos alunos.",
+    "reviewReviews": "Rever avaliações",
+    "reviewReviewsDesc": "Aprova avaliações verificadas dos alunos para mostrar na página inicial.",
     "maintenanceOnDesc": "O modo de manutenção está ativo para as ferramentas de aprendizagem com assinatura.",
     "maintenanceOffDesc": "O modo de manutenção está desativado. As ferramentas com assinatura estão disponíveis.",
     "openSystemControls": "Controlos do sistema",
@@ -868,6 +884,7 @@
     "activeUsers": "Utilizadores ativos",
     "paidAccess": "Ativas / teste",
     "pendingFeedback": "Feedback pendente",
+    "pendingReviews": "Avaliações pendentes de aprovação",
     "operationalAlerts": "Alertas operacionais",
     "pendingBugs": "Erros pendentes",
     "pendingBugsDesc": "Relatórios de erros à espera de triagem da administração.",
@@ -1222,17 +1239,21 @@
   },
   "whatsNew": {
     "title": "Novidades",
-    "version": "v1.8.7",
+    "version": "v1.8.8",
     "cta": "Entendido",
     "entry1": {
       "label": "Cinco novos idiomas para aprender",
       "desc": "Alemão, espanhol, francês, italiano e português já estão disponíveis — cada um com um plano de estudos completo do iniciante ao avançado (A1–C2), gramática, vocabulário, frases, Reading, Listening e mais. Adiciona-os em Definições → Os meus idiomas."
     },
     "entry2": {
+      "label": "Adiciona uma avaliação no teu perfil",
+      "desc": "Agora podes partilhar a tua opinião sobre o FreeLingo diretamente em Definições → Perfil. A tua avaliação ajuda outros estudantes a descobrir a plataforma."
+    },
+    "entry3": {
       "label": "Recursos didáticos melhorados",
       "desc": "Todas as seções de recursos didáticos foram ampliadas com novo conteúdo."
     },
-    "entry3": {
+    "entry4": {
       "label": "Correções de bugs",
       "desc": "Várias correções de bugs menores e melhorias de estabilidade em toda a plataforma."
     }
@@ -1357,6 +1378,64 @@
     "errorSubmit": "Falha ao enviar. Tente novamente.",
     "prevPage": "← Ant.",
     "nextPage": "Próx. →"
+  },
+  "reviewPrompt": {
+    "statusError": "Não foi possível verificar o estado da tua avaliação. Tenta novamente mais tarde.",
+    "ratingRequiredError": "Escolhe uma classificação antes de enviar.",
+    "saveError": "Não foi possível guardar a tua avaliação. Tenta novamente.",
+    "eyebrow": "Avaliar o FreeLingo",
+    "title": "Como foi a tua experiência?",
+    "closeLabel": "Fechar pedido de avaliação",
+    "checking": "A verificar o estado da avaliação...",
+    "ratingLabel": "Classificação obrigatória",
+    "ratingGroupLabel": "Classificação",
+    "star": "estrela",
+    "stars": "estrelas",
+    "commentLabel": "Comentário opcional",
+    "commentPlaceholder": "Diz-nos o que te ajudou a aprender.",
+    "cancel": "Cancelar",
+    "submit": "Enviar"
+  },
+  "landingReviews": {
+    "eyebrow": "Avaliações de estudantes",
+    "title": "Progresso real, avaliado por estudantes",
+    "subtitle": "Avaliações verificadas no FreeLingo de estudantes que usam a plataforma para aprender com o Lingu.",
+    "learningLanguage": "A aprender {language}",
+    "starsLabel": "{rating} em 5 estrelas",
+    "ratingOnly": "Classificação verificada do FreeLingo."
+  },
+  "adminReviews": {
+    "title": "Avaliações",
+    "eyebrow": "Admin",
+    "totalFiltered": "Total filtrado",
+    "approvedOnPage": "Aprovadas na página",
+    "pendingOnPage": "Pendentes na página",
+    "filters": "Filtros",
+    "approvalFilter": "Filtro de aprovação",
+    "allReviews": "Todas as avaliações",
+    "pending": "Pendente",
+    "approved": "Aprovada",
+    "ratingFilter": "Filtro de classificação",
+    "allRatings": "Todas as classificações",
+    "starsOption": "{rating} estrelas",
+    "clear": "Limpar",
+    "loadError": "Não foi possível carregar as avaliações.",
+    "updateError": "Não foi possível atualizar a avaliação.",
+    "deleteError": "Não foi possível eliminar a avaliação.",
+    "loading": "A carregar avaliações...",
+    "queue": "Fila de avaliações",
+    "total": "{total} no total",
+    "empty": "Nenhuma avaliação encontrada.",
+    "starsLabel": "{rating} estrelas",
+    "learningLanguage": "A aprender {language}",
+    "ratingOnly": "Avaliação apenas com classificação.",
+    "unapprove": "Remover aprovação",
+    "approve": "Aprovar",
+    "delete": "Eliminar",
+    "prev": "Anterior",
+    "next": "Seguinte",
+    "deleteTitle": "Eliminar avaliação",
+    "deleteMessage": "Eliminar esta avaliação? Esta ação não pode ser anulada."
   },
   "maintenance": {
     "label": "Manutenção",

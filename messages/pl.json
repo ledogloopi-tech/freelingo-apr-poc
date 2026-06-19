@@ -18,6 +18,7 @@
     "feature6Desc": "XP, codzienne serie, wyniki umiejętności i kompetencje jednostkowe. Śledź swój rozwój tydzień po tygodniu i testuj poziom na końcu każdego etapu CEFR.",
     "footer": "Open source · Hostuj samodzielnie za darmo lub subskrybuj usługę hostowaną",
     "navFeatures": "Funkcje",
+    "navReviews": "Recenzje",
     "navPricing": "Ceny",
     "navFAQ": "FAQ",
     "howItWorks": "Jak to działa",
@@ -97,6 +98,7 @@
     "reading": "Reading",
     "contact": "Kontakt",
     "feedback": "Feedback",
+    "reviews": "Recenzje",
     "switchLanguage": "Zmień język"
   },
   "auth": {
@@ -263,7 +265,18 @@
     "memoryClearAllConfirm": "Wyczyść wszystko",
     "memoryManage": "Zarządzaj wspomnieniami",
     "sectionLanguages": "Języki",
-    "languagesManage": "Moje języki"
+    "languagesManage": "Moje języki",
+    "sectionReview": "Recenzja",
+    "reviewDescription": "Podziel się swoim doświadczeniem z FreeLingo. Jeśli edytujesz już zatwierdzoną recenzję, wróci ona do moderacji przed publicznym wyświetleniem.",
+    "reviewPending": "Oczekuje na zatwierdzenie",
+    "reviewUpdate": "Aktualizuj",
+    "reviewSaved": "Recenzja zapisana.",
+    "reviewDelete": "Usuń recenzję",
+    "reviewDeleteTitle": "Usuń recenzję",
+    "reviewDeleteMessage": "Czy chcesz usunąć swoją recenzję? Tej czynności nie można cofnąć.",
+    "reviewDeleteConfirm": "Usuń",
+    "reviewDeleted": "Recenzja usunięta.",
+    "reviewDeleteError": "Nie udało się usunąć recenzji. Spróbuj ponownie."
   },
   "legal": {
     "terms": {
@@ -707,6 +720,7 @@
     "overview": "Przegląd",
     "users": "Użytkownicy",
     "feedback": "Opinie",
+    "reviews": "Recenzje",
     "invites": "Linki zaproszenia",
     "createUser": "Utwórz użytkownika",
     "createInvite": "Generuj zaproszenie",
@@ -800,6 +814,8 @@
     "createUserDesc": "Utwórz zarządzane konto użytkownika z początkowym językiem nauki.",
     "reviewFeedback": "Przejrzyj opinie",
     "reviewFeedbackDesc": "Triage próśb o funkcje i zgłoszeń błędów od uczących się.",
+    "reviewReviews": "Przejrzyj recenzje",
+    "reviewReviewsDesc": "Zatwierdzaj zweryfikowane recenzje uczących się do wyświetlenia na stronie głównej.",
     "maintenanceOnDesc": "Tryb konserwacji jest aktywny dla narzędzi edukacyjnych wymagających subskrypcji.",
     "maintenanceOffDesc": "Tryb konserwacji jest wyłączony. Narzędzia wymagające subskrypcji są dostępne.",
     "openSystemControls": "Kontrola systemu",
@@ -868,6 +884,7 @@
     "activeUsers": "Aktywni użytkownicy",
     "paidAccess": "Aktywne / próbne",
     "pendingFeedback": "Oczekujące opinie",
+    "pendingReviews": "Recenzje oczekujące na zatwierdzenie",
     "operationalAlerts": "Alerty operacyjne",
     "pendingBugs": "Oczekujące błędy",
     "pendingBugsDesc": "Zgłoszenia błędów oczekujące na triage administratora.",
@@ -1222,17 +1239,21 @@
   },
   "whatsNew": {
     "title": "Co nowego",
-    "version": "v1.8.7",
+    "version": "v1.8.8",
     "cta": "Rozumiem",
     "entry1": {
       "label": "Pięć nowych języków do nauki",
       "desc": "Francuski, hiszpański, niemiecki, portugalski i włoski są już dostępne — każdy z pełnym programem nauczania od początkującego do zaawansowanego (A1–C2), gramatyką, słownictwem, zwrotami, Reading, Listening i więcej. Dodaj je w Ustawienia → Moje języki."
     },
     "entry2": {
+      "label": "Dodaj recenzję ze swojego profilu",
+      "desc": "Możesz teraz podzielić się opinią o FreeLingo bezpośrednio w Ustawienia → Profil. Twoja recenzja pomaga innym uczącym się odkryć platformę."
+    },
+    "entry3": {
       "label": "Ulepszone materiały dydaktyczne",
       "desc": "Wszystkie sekcje materiałów dydaktycznych zostały rozszerzone o nowe treści."
     },
-    "entry3": {
+    "entry4": {
       "label": "Poprawki błędów",
       "desc": "Różne drobne poprawki błędów i ulepszenia stabilności na całej platformie."
     }
@@ -1357,6 +1378,64 @@
     "errorSubmit": "Wysyłanie nie powiodło się. Spróbuj ponownie.",
     "prevPage": "← Poprz.",
     "nextPage": "Nast. →"
+  },
+  "reviewPrompt": {
+    "statusError": "Nie udało się sprawdzić statusu Twojej recenzji. Spróbuj ponownie później.",
+    "ratingRequiredError": "Wybierz ocenę przed wysłaniem.",
+    "saveError": "Nie udało się zapisać recenzji. Spróbuj ponownie.",
+    "eyebrow": "Oceń FreeLingo",
+    "title": "Jakie są Twoje wrażenia?",
+    "closeLabel": "Zamknij prośbę o recenzję",
+    "checking": "Sprawdzanie statusu recenzji...",
+    "ratingLabel": "Ocena wymagana",
+    "ratingGroupLabel": "Ocena",
+    "star": "gwiazdka",
+    "stars": "gwiazdki",
+    "commentLabel": "Komentarz opcjonalny",
+    "commentPlaceholder": "Powiedz nam, co pomogło Ci w nauce.",
+    "cancel": "Anuluj",
+    "submit": "Wyślij"
+  },
+  "landingReviews": {
+    "eyebrow": "Recenzje uczących się",
+    "title": "Prawdziwe postępy ocenione przez uczących się",
+    "subtitle": "Zweryfikowane recenzje FreeLingo od uczniów korzystających z platformy do nauki z Lingu.",
+    "learningLanguage": "Nauka: {language}",
+    "starsLabel": "{rating} z 5 gwiazdek",
+    "ratingOnly": "Zweryfikowana ocena FreeLingo."
+  },
+  "adminReviews": {
+    "title": "Recenzje",
+    "eyebrow": "Admin",
+    "totalFiltered": "Łącznie po filtrach",
+    "approvedOnPage": "Zatwierdzone na stronie",
+    "pendingOnPage": "Oczekujące na stronie",
+    "filters": "Filtry",
+    "approvalFilter": "Filtr zatwierdzenia",
+    "allReviews": "Wszystkie recenzje",
+    "pending": "Oczekuje",
+    "approved": "Zatwierdzona",
+    "ratingFilter": "Filtr oceny",
+    "allRatings": "Wszystkie oceny",
+    "starsOption": "{rating} gwiazdek",
+    "clear": "Wyczyść",
+    "loadError": "Nie udało się załadować recenzji.",
+    "updateError": "Nie udało się zaktualizować recenzji.",
+    "deleteError": "Nie udało się usunąć recenzji.",
+    "loading": "Ładowanie recenzji...",
+    "queue": "Kolejka recenzji",
+    "total": "{total} łącznie",
+    "empty": "Nie znaleziono recenzji.",
+    "starsLabel": "{rating} gwiazdek",
+    "learningLanguage": "Nauka: {language}",
+    "ratingOnly": "Recenzja tylko z oceną.",
+    "unapprove": "Cofnij zatwierdzenie",
+    "approve": "Zatwierdź",
+    "delete": "Usuń",
+    "prev": "Poprzednia",
+    "next": "Następna",
+    "deleteTitle": "Usuń recenzję",
+    "deleteMessage": "Usunąć tę recenzję? Tej akcji nie można cofnąć."
   },
   "maintenance": {
     "label": "Konserwacja",

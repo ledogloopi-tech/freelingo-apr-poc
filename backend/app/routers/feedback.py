@@ -227,6 +227,8 @@ async def list_feedback(
         stmt = stmt.where(FeedbackEntry.type == type)
     if status_filter:
         stmt = stmt.where(FeedbackEntry.status == status_filter)
+    else:
+        stmt = stmt.where(FeedbackEntry.status != "done")
     if q and q.strip():
         term = f"%{q.strip()}%"
         stmt = stmt.join(User, FeedbackEntry.author_id == User.id).where(

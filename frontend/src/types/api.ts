@@ -60,3 +60,34 @@ export interface QuotaStatus {
   tokens_monthly_limit?: number
   tokens_unlimited?: boolean
 }
+
+// ---------------------------------------------------------------------------
+// Reviews
+// ---------------------------------------------------------------------------
+
+export interface ReviewPublic {
+  id: number
+  user_display_name: string
+  target_language: string
+  rating: number
+  comment: string | null
+  created_at: string
+}
+
+export interface ReviewAdmin extends ReviewPublic {
+  user_id: number
+  is_approved: boolean
+  updated_at: string
+}
+
+export interface ReviewMeResponse {
+  has_review: boolean
+  review: ReviewAdmin | null
+}
+
+export interface PaginatedReviewsResponse {
+  items: ReviewAdmin[]
+  total: number
+  skip: number
+  limit: number
+}

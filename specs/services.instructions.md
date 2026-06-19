@@ -1,5 +1,5 @@
 ---
-description: "Service layer reference for FreeLingo: 16 backend services covering LLM, TTS/STT, study plan, lessons, flashcards, listening, reading, memory, progress, quotas, subscriptions, and voice conversation pipeline."
+description: "Service layer reference for FreeLingo: 18 backend services covering LLM, TTS/STT, study plan, lessons, flashcards, listening, reading, reviews, memory, progress, quotas, subscriptions, and voice conversation pipeline."
 applyTo: "backend/app/services/**, backend/app/core/app_logger.py"
 ---
 
@@ -22,7 +22,7 @@ Singleton providing provider-agnostic LLM access. Supports four providers select
 
 - `chat(messages, stream=False)` — returns string or async generator
 - `structured_output(messages, schema)` — returns validated Pydantic model (JSON mode + retry on parse failure)
-- `parse_llm_json(raw)` — module-level utility; strips optional code fences and parses JSON from LLM output. Shared by `listening_service.py` and `reading_service.py`.
+- `parse_llm_json(raw)` — module-level utility; strips optional code fences and parses JSON from LLM output. Kept for lower-level parsing tests and any legacy callers; reading/listening generation now uses `structured_output()`.
 - 2 automatic retries with exponential backoff, 60 s timeout
 - Custom exception hierarchy: `LLMError`, `LLMTimeoutError`, `LLMUnavailableError`, `LLMResponseError`, `LLMContextOverflowError`
 
@@ -40,7 +40,7 @@ Fully deterministic — no LLM. Uses static curriculum data from `curriculum.py`
 LLM-powered lesson content generation with strict constraints:
 
 - Grammar constrained to a validated set of 24 grammar slugs
-- CEFR level and target language adherence (`en-US` / `en-GB`; BCP-47 tag converted to english variant via `language_helpers.get_english_variant`)
+- CEFR level and target language adherence using BCP-47 `target_language`, human-readable language names, and centralized prompt overlays.
 - Generates 3-5 exercises per lesson (multiple_choice, fill_blank, free_write)
 - Separately evaluates free_write answers and pronunciation (scored 0.0–1.0 with feedback)
 
@@ -49,13 +49,14 @@ LLM-powered lesson content generation with strict constraints:
 Full SM-2 spaced repetition algorithm:
 
 - `sm2_update(card, quality)`: modifies ease_factor, interval, repetitions, and next_review based on 0–5 quality rating
-- LLM-powered `generate_flashcards`: creates flashcards with native-language translations; `native_language` is always sourced from the authenticated user's profile (not from the request body)
+- LLM-powered `generate_flashcards`: creates flashcards with native-language translations; stored native-language codes are converted to human-readable names before prompt injection.
 
 ## Language Helpers (`language_helpers.py`)
 
 Shared BCP-47 conversion utilities used across the service layer:
 
-- `get_english_variant(target_language)` — converts `"en-US"` → `"american"`, `"en-GB"` → `"british"` for LLM prompts
+- `get_language_name(target_language)` — converts BCP-47 target-language codes to prompt-ready display names such as `English (UK)`, `Spanish (Spain)`, and `European Portuguese`
+- `get_native_language_name(native_language)` — converts stored native-language profile codes such as `es` and `fr` to prompt-ready names such as `Spanish` and `French`
 - `get_iso639(target_language)` — strips region subtag: `"en-US"` → `"en"` for Whisper
 - `voice_session_title(native_language)` — localised "Voice session — date" strings for all 9 supported languages
 
@@ -151,6 +152,20 @@ Manages AI-generated reading comprehension exercises end-to-end (Phase 7):
 | B2     | `article`, `news`, `blog_post`, `review` |
 | C1     | `news`, `blog_post`, `review`, `essay`   |
 | C2     | `review`, `essay`                        |
+
+## Review Service (`review_service.py`)
+
+Manages one moderated product review per user (Phase 11):
+
+- `get_user_review(db, user_id)` - returns the authenticated user's existing review or `None`.
+- `create_review(db, user, rating, comment)` - creates the user's single review, derives `user_display_name` from the authenticated user, derives `target_language` from the active learning language with `user.target_language` fallback, normalizes duplicate submissions to HTTP 409, and creates reviews as unapproved.
+- `update_user_review(db, user, rating, comment)` - updates the authenticated user's existing review, refreshes the display-name and active-learning-language snapshots, resets `is_approved=false` so edits are moderated again, and returns HTTP 404 when no review exists.
+- `delete_user_review(db, user_id)` - deletes the authenticated user's own review and returns HTTP 404 when no review exists.
+- `get_review_or_404(db, review_id)` - shared admin lookup helper.
+- `update_review_approval(db, review_id, is_approved)` - admin approve/unapprove operation, updating `updated_at`.
+- `delete_review(db, review_id)` - admin delete operation.
+
+Public review listing is performed by `routers/reviews.py` and always filters to `is_approved=true` and `rating >= 4`.
 
 ## Quota Service (`quota_service.py`)
 

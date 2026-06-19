@@ -8,6 +8,7 @@ import {
   Bug,
   MessageSquareText,
   ShieldAlert,
+  Star,
   Ticket,
   UserPlus,
   Users,
@@ -32,6 +33,7 @@ interface AdminOverviewStats {
   feedback_total: number
   feedback_pending: number
   feedback_bug_pending: number
+  reviews_pending: number
 }
 
 const actions = [
@@ -52,6 +54,12 @@ const actions = [
     key: 'reviewFeedback',
     descriptionKey: 'reviewFeedbackDesc',
     icon: MessageSquareText,
+  },
+  {
+    href: '/admin/reviews',
+    key: 'reviewReviews',
+    descriptionKey: 'reviewReviewsDesc',
+    icon: Star,
   },
 ] as const
 
@@ -93,7 +101,7 @@ export default function AdminOverviewPage() {
 
       <AdminNav />
 
-      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
         <AdminMetric
           label={t('users')}
           value={loadingStats ? t('loading') : (stats?.users_total ?? '—')}
@@ -117,6 +125,11 @@ export default function AdminOverviewPage() {
           label={t('pendingFeedback')}
           value={loadingStats ? t('loading') : (stats?.feedback_pending ?? '—')}
           icon={MessageSquareText}
+        />
+        <AdminMetric
+          label={t('pendingReviews')}
+          value={loadingStats ? t('loading') : (stats?.reviews_pending ?? '—')}
+          icon={Star}
         />
       </div>
 
@@ -208,7 +221,7 @@ export default function AdminOverviewPage() {
         </div>
       </AdminPanel>
 
-      <div className="grid gap-3 md:grid-cols-3">
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         {actions.map((action) => {
           const Icon = action.icon
           return (

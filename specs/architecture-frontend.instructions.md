@@ -22,12 +22,13 @@ frontend/
 │   │   │   ├── reset-password/
 │   │   │   └── verify-email/
 │   │   │
-│   │   ├── (app)/               # Authenticated routes — sidebar layout (18 pages)
+│   │   ├── (app)/               # Authenticated routes — sidebar layout (19 pages)
 │   │   │   ├── layout.tsx       # Sidebar + global layout shell
 │   │   │   ├── loading.tsx
 │   │   │   ├── admin/           # Admin overview + admin-only management routes
 │   │   │   ├── admin/users/     # User list + [id] detail: tabs, quotas, subscription override
 │   │   │   ├── admin/feedback/  # Feedback queue admin panel: search, filters, responsive table/cards
+│   │   │   ├── admin/reviews/   # Review moderation: filters, approve/unapprove, delete
 │   │   │   ├── assessment/      # Level test: BeginnerGate → AdaptiveQuizCard → DurationSelector
 │   │   │   ├── chat/            # AI tutor SSE chat + conversation history
 │   │   │   ├── conversation/    # Real-time voice conversation (WebSocket + VAD)
@@ -55,7 +56,7 @@ frontend/
 │   │       ├── stt/route.ts     # STT proxy
 │   │       └── tts/route.ts     # TTS proxy
 │   │
-│   ├── components/              # 11 directories + 4 standalone files
+│   ├── components/              # 12 directories + 4 standalone files
 │   │   ├── assessment/          # AdaptiveQuizCard, BeginnerGate, DurationSelector
 │   │   ├── admin/               # AdminNav + AdminShell primitives shared across admin pages
 │   │   ├── billing/             # Stripe subscription UI components
@@ -64,7 +65,8 @@ frontend/
 │   │   ├── flashcard/           # Flashcard review components
 │   │   ├── lesson/              # Lesson exercise components
 │   │   ├── plan/                # LevelTestBanner, UnitCard, UnitDrawer
-│   │   ├── settings/            # Settings form components
+│   │   ├── reviews/             # ReviewPrompt, reusable ReviewForm, landing reviews carousel
+│   │   ├── settings/            # Settings form components, including profile review section
 │   │   ├── tour/                # OnboardingTour components
 │   │   ├── ui/                  # shadcn/ui + custom: AudioPlayer, VoiceRecorder, confirm-dialog...
 │   │   ├── whats-new/           # What's New changelog modal
@@ -91,22 +93,24 @@ frontend/
 │   │   ├── progress.ts          # XP, streak, skill scores, dashboard data
 │   │   └── theme.ts             # Dark/light/system theme
 │   │
-│   ├── lib/                     # Utility modules (8)
+│   ├── lib/                     # Utility modules (10)
 │   │   ├── api.ts               # apiFetch: auth interceptor, 401 → silent refresh → retry
 │   │   ├── audio.ts             # Audio player, audio queue, gapless playback helpers
 │   │   ├── conversation-ws.ts   # WebSocket client for voice conversation
 │   │   ├── landing-subscription.ts # Shared landing subscription-status check
 │   │   ├── locales.ts           # Locale utilities for next-intl
 │   │   ├── mappers.ts           # Data transformation / mapping utilities
+│   │   ├── reviews.ts           # Review API client helpers
 │   │   ├── target-languages.ts  # Target language definitions and helpers
-│   │   └── utils.ts             # General utility functions
+│   │   ├── utils.ts             # General utility functions
+│   │   └── review-prompt-triggers.ts # Review prompt trigger rules for voice sessions and unit completion
 │   │
 │   ├── i18n/
 │   │   └── request.ts           # next-intl request locale resolver
 │   │
 │   └── middleware.ts            # Auth guard (redirect to /login) + locale detection
 │
-├── tests/                       # Vitest suite
+├── tests/                       # Vitest suite (29 test files, 394 tests; coverage not configured)
 │   ├── setup.ts                 # Global mocks: localStorage, next/navigation, next-intl
 │   ├── middleware.test.ts
 │   ├── components/
@@ -164,9 +168,9 @@ frontend/
 - `/dashboard` — Home: XP counter, streak, next lesson card, target language selector.
 - `/assessment` — Level placement test (`BeginnerGate` → `AdaptiveQuiz` → `DurationSelector`).
 - `/plan` — Study plan overview: unit cards, `LevelTestBanner`, `UnitDrawer`.
-- `/lesson/[id]` — Lesson player: content + interactive exercises.
+- `/lesson/[id]` — Lesson player: content + interactive exercises. Completing a lesson may open the reusable review prompt when it advances the user out of the completed curriculum unit, subject to duplicate-review checks and local dismissal cooldown.
 - `/chat` — AI tutor text chat with SSE streaming.
-- `/conversation` — Real-time voice conversation with WebSocket + VAD.
+- `/conversation` — Real-time voice conversation with WebSocket + VAD. When the user manually stops a connected voice session after at least 5 minutes, the page may open the reusable review prompt, subject to duplicate-review checks and local dismissal cooldown.
 - `/flashcards` — Spaced-repetition flashcard review.
 - `/grammar` — Grammar reference index.
 - `/grammar/[slug]` — Grammar topic detail page.
@@ -176,10 +180,12 @@ frontend/
 - `/listening` — AI-generated listening comprehension exercises.
 - `/reading` — AI-generated reading comprehension exercises.
 - `/progress` — Skills tracker with radar chart and multi-level vocabulary progress toggle.
-- `/settings` — Profile, avatar, subscription, conversation settings.
+- `/settings` — Profile, avatar, subscription, user review creation/editing, conversation settings.
 - `/faq` — Frequently asked questions.
+- `/admin/reviews` — Admin-only review moderation with status/rating filters, approve/unapprove, and delete confirmation.
+- Landing page — The top navigation includes a Reviews anchor between Features and Pricing when approved public reviews are available; the same conditional link appears in the mobile menu. Review carousel cards keep a consistent height and clamp long comments to 6 lines.
 - `/feedback` — Feature requests and bug reports board (community).
-- `/admin` — Admin overview with aggregated metrics, operational alerts, quick links, and maintenance-mode status (admin only).
+- `/admin` — Admin overview with aggregated metrics including pending feedback and pending review approvals, operational alerts, quick links to users/feedback/reviews, and maintenance-mode status (admin only).
 - `/admin/users` — User management with responsive table/cards, search, filters, invite copy workflow, create-user sheet, and maintenance toggle (admin only).
 - `/admin/users/[id]` — Admin user detail with summary header and tabs for Profile, Languages, Activity, Quotas, and Subscription. Quotas separate current usage from configured limits; email verification and subscription overrides use confirmation dialogs.
 - `/admin/feedback` — Feedback queue admin panel with search, type/status/sort filters, filtered metrics by feedback type, desktop table, mobile cards, status updates, and delete confirmation. Status updates refresh the queue when the updated entry no longer matches the active filter (admin only).
@@ -343,6 +349,7 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 **Summary:**
 
 - **Framework**: Vitest with jsdom environment
-- **Test files**: 24 (plus setup.ts) covering critical logic only
+- **Test files**: 28 (plus setup.ts) covering critical logic only
 - **Setup**: Global mocks for `localStorage`, `next/navigation`, `next-intl`
 - **Coverage areas**: API fetch interceptor, auth store, audio queue, conversation WebSocket, target language utilities, mapper functions, middleware, component rendering
+- **Coverage**: Not configured/reported (`@vitest/coverage-v8` is not installed)

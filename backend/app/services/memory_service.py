@@ -8,8 +8,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.app_logger import get_logger
 from app.models.memory import Memory
+from app.services.prompts import common as common_prompts
 
 logger = get_logger(__name__)
+
+MEMORY_SYSTEM_INSTRUCTION_BASE = common_prompts.MEMORY_SYSTEM_INSTRUCTION_BASE
+get_memory_system_instruction = common_prompts.get_memory_system_instruction
 
 MEMORY_MARKER_RE = re.compile(r"<<MEMORY>>(.*?)<<ENDMEMORY>>", re.DOTALL)
 MAX_MEMORIES_CONTEXT = 20
@@ -20,31 +24,6 @@ MAX_MEMORY_CHARS = 200
 # Only MAX_MEMORIES_CONTEXT (20) are ever injected into the prompt, so 150 gives
 # a comfortable buffer across all languages without wasting storage.
 MAX_MEMORIES_PER_USER = 150
-
-MEMORY_SYSTEM_INSTRUCTION_BASE = """
-Memory capability: if during the conversation you learn something noteworthy
-about the student as a person — personal details, preferences, tastes, hobbies,
-profession, plans, goals, other languages they are studying, learning style,
-motivations, or anything that would help personalise future interactions — you
-may persist it by appending a memory block at the very end of your response.
-Format exactly:
-
-<<MEMORY>>{{"items":["short fact about the student"]}}<<ENDMEMORY>>
-
-Rules for the memory block:
-- Only include it when you genuinely learn something new and worth remembering.
-  Do NOT include it in every response — most replies should have no memory block.
-- Each item must be at most 200 characters, in {target_language_name}, and self-contained.
-- Do NOT repeat facts already captured in the existing memories shown above.
-- The block must be the LAST thing in your response, after all visible text.
-- It will be stripped before the student sees your reply, so it won't confuse them.
-- If there is nothing new to remember, simply omit the block entirely.
-"""
-
-
-def get_memory_system_instruction(target_language_name: str) -> str:
-    """Return the memory system instruction parameterised with the target language name."""
-    return MEMORY_SYSTEM_INSTRUCTION_BASE.format(target_language_name=target_language_name)
 
 
 def parse_memory_marker(text: str) -> list[str]:

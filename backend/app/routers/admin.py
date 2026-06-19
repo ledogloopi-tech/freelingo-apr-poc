@@ -17,6 +17,7 @@ from app.models.feedback import FeedbackEntry
 from app.models.lesson import Lesson
 from app.models.llm_usage import LLMUsage
 from app.models.progress import Progress
+from app.models.review import Review
 from app.models.study_plan import StudyPlan
 from app.models.user import User
 from app.models.user_language import UserLanguage
@@ -77,6 +78,9 @@ async def get_admin_stats(
         )
         or 0
     )
+    reviews_pending = (
+        await db.scalar(select(func.count(Review.id)).where(Review.is_approved.is_(False))) or 0
+    )
 
     return AdminOverviewStatsResponse(
         users_total=users_total,
@@ -88,6 +92,7 @@ async def get_admin_stats(
         feedback_total=feedback_total,
         feedback_pending=feedback_pending,
         feedback_bug_pending=feedback_bug_pending,
+        reviews_pending=reviews_pending,
     )
 
 

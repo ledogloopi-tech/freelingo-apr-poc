@@ -10,8 +10,16 @@ vi.mock('next-intl', () => ({
 }))
 
 vi.mock('next/image', () => ({
-  default: function MockImage(props: Record<string, unknown>) {
-    return React.createElement('img', props)
+  default: function MockImage(
+    props: React.ImgHTMLAttributes<HTMLImageElement> & {
+      unoptimized?: boolean
+      priority?: boolean
+    }
+  ) {
+    const { unoptimized, priority, ...imgProps } = props
+    void unoptimized
+    void priority
+    return React.createElement('img', imgProps)
   },
 }))
 
@@ -65,11 +73,17 @@ function mockMapUserImpl(data: Record<string, any>, current: any) {
     is_verified: data.is_verified ?? current?.is_verified ?? true,
     learning_goals: data.learning_goals ?? current?.learning_goals ?? [],
     conversation_max_duration:
-      data.conversation_max_duration ?? current?.conversation_max_duration ?? 30,
+      data.conversation_max_duration ??
+      current?.conversation_max_duration ??
+      30,
     conversation_inactivity_timeout:
-      data.conversation_inactivity_timeout ?? current?.conversation_inactivity_timeout ?? 10,
-    subscription_status: data.subscription_status ?? current?.subscription_status ?? 'none',
-    subscription_ends_at: data.subscription_ends_at ?? current?.subscription_ends_at ?? null,
+      data.conversation_inactivity_timeout ??
+      current?.conversation_inactivity_timeout ??
+      10,
+    subscription_status:
+      data.subscription_status ?? current?.subscription_status ?? 'none',
+    subscription_ends_at:
+      data.subscription_ends_at ?? current?.subscription_ends_at ?? null,
   }
 }
 
@@ -148,7 +162,9 @@ describe('ProfileSection', () => {
       },
     })
     render(<ProfileSection />)
-    expect((inputAfterLabelText('displayName') as HTMLInputElement).value).toBe('')
+    expect((inputAfterLabelText('displayName') as HTMLInputElement).value).toBe(
+      ''
+    )
     expect((inputAfterLabelText('email') as HTMLInputElement).value).toBe('')
     expect((inputAfterLabelText('bio') as HTMLTextAreaElement).value).toBe('')
   })
@@ -172,7 +188,7 @@ describe('ProfileSection', () => {
     const letterSpans = screen.getAllByText('T')
     // There may be more than one — filter to the one inside the avatar button.
     const avatarLetter = Array.from(letterSpans).find(
-      (el) => el.tagName === 'SPAN' && el.className.includes('select-none'),
+      (el) => el.tagName === 'SPAN' && el.className.includes('select-none')
     )
     expect(avatarLetter).toBeDefined()
     expect(screen.queryByRole('img')).toBeNull()
@@ -206,12 +222,16 @@ describe('ProfileSection', () => {
   it('renders password fields', () => {
     render(<ProfileSection />)
     expect(screen.getByPlaceholderText('newPasswordPlaceholder')).toBeDefined()
-    expect(screen.getByPlaceholderText('confirmPasswordPlaceholder')).toBeDefined()
+    expect(
+      screen.getByPlaceholderText('confirmPasswordPlaceholder')
+    ).toBeDefined()
   })
 
   it('confirm password is disabled when password is empty', () => {
     render(<ProfileSection />)
-    const confirm = screen.getByPlaceholderText('confirmPasswordPlaceholder') as HTMLInputElement
+    const confirm = screen.getByPlaceholderText(
+      'confirmPasswordPlaceholder'
+    ) as HTMLInputElement
     expect(confirm.disabled).toBe(true)
   })
 
@@ -219,7 +239,9 @@ describe('ProfileSection', () => {
     render(<ProfileSection />)
     const password = screen.getByPlaceholderText('newPasswordPlaceholder')
     fireEvent.change(password, { target: { value: 'secret123' } })
-    const confirm = screen.getByPlaceholderText('confirmPasswordPlaceholder') as HTMLInputElement
+    const confirm = screen.getByPlaceholderText(
+      'confirmPasswordPlaceholder'
+    ) as HTMLInputElement
     expect(confirm.disabled).toBe(false)
   })
 
@@ -265,14 +287,19 @@ describe('ProfileSection', () => {
   it('shows save button and triggers save on click', async () => {
     mockApiFetch.mockResolvedValue({
       ok: true,
-      json: () => Promise.resolve({ id: 1, display_name: 'Test User', email: 'test@example.com' }),
+      json: () =>
+        Promise.resolve({
+          id: 1,
+          display_name: 'Test User',
+          email: 'test@example.com',
+        }),
     })
     render(<ProfileSection />)
     fireEvent.click(screen.getByText('saveChanges'))
     await waitFor(() => {
       expect(mockApiFetch).toHaveBeenCalledWith(
         '/api/auth/me',
-        expect.objectContaining({ method: 'PATCH' }),
+        expect.objectContaining({ method: 'PATCH' })
       )
     })
     expect(screen.getByText(/saved/)).toBeDefined()
@@ -302,9 +329,12 @@ describe('ProfileSection', () => {
     fireEvent.change(screen.getByPlaceholderText('newPasswordPlaceholder'), {
       target: { value: 'pass1' },
     })
-    fireEvent.change(screen.getByPlaceholderText('confirmPasswordPlaceholder'), {
-      target: { value: 'pass2' },
-    })
+    fireEvent.change(
+      screen.getByPlaceholderText('confirmPasswordPlaceholder'),
+      {
+        target: { value: 'pass2' },
+      }
+    )
     fireEvent.click(screen.getByText('saveChanges'))
     await waitFor(() => {
       expect(screen.getByText(/passwordMismatch/)).toBeDefined()
@@ -321,18 +351,29 @@ describe('ProfileSection', () => {
     fireEvent.change(screen.getByPlaceholderText('newPasswordPlaceholder'), {
       target: { value: 'secret123' },
     })
-    fireEvent.change(screen.getByPlaceholderText('confirmPasswordPlaceholder'), {
-      target: { value: 'secret123' },
-    })
+    fireEvent.change(
+      screen.getByPlaceholderText('confirmPasswordPlaceholder'),
+      {
+        target: { value: 'secret123' },
+      }
+    )
     fireEvent.click(screen.getByText('saveChanges'))
     await waitFor(() => {
       expect(screen.getByText(/saved/)).toBeDefined()
     })
     expect(
-      (screen.getByPlaceholderText('newPasswordPlaceholder') as HTMLInputElement).value,
+      (
+        screen.getByPlaceholderText(
+          'newPasswordPlaceholder'
+        ) as HTMLInputElement
+      ).value
     ).toBe('')
     expect(
-      (screen.getByPlaceholderText('confirmPasswordPlaceholder') as HTMLInputElement).value,
+      (
+        screen.getByPlaceholderText(
+          'confirmPasswordPlaceholder'
+        ) as HTMLInputElement
+      ).value
     ).toBe('')
   })
 
@@ -370,7 +411,9 @@ describe('ProfileSection', () => {
       json: () => Promise.resolve({ id: 1, ui_locale: 'fr' }),
     })
     render(<ProfileSection />)
-    fireEvent.change(selectAfterLabelText('uiLocale'), { target: { value: 'fr' } })
+    fireEvent.change(selectAfterLabelText('uiLocale'), {
+      target: { value: 'fr' },
+    })
     fireEvent.click(screen.getByText('saveChanges'))
     await waitFor(() => {
       expect(reloadSpy).toHaveBeenCalled()
@@ -455,12 +498,12 @@ describe('ProfileSection', () => {
         (contextId: string) => {
           if (contextId === '2d') return { drawImage: vi.fn() } as any
           return null
-        },
+        }
       )
       vi.spyOn(HTMLCanvasElement.prototype, 'toBlob').mockImplementation(
         (cb: (blob: Blob | null) => void) => {
           cb(new Blob(['resized-image-payload'], { type: 'image/png' }))
-        },
+        }
       )
       vi.stubGlobal(
         'Image',
@@ -475,12 +518,14 @@ describe('ProfileSection', () => {
               this.onload?.()
             }, 10)
           }
-        },
+        }
       )
     })
 
     async function selectFile(container: HTMLElement, file: File) {
-      const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement
+      const fileInput = container.querySelector(
+        'input[type="file"]'
+      ) as HTMLInputElement
       fireEvent.change(fileInput, { target: { files: [file] } })
       return fileInput
     }
@@ -488,7 +533,8 @@ describe('ProfileSection', () => {
     it('uploads avatar successfully', async () => {
       mockApiFetch.mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({ avatar: 'https://example.com/new-avatar.jpg' }),
+        json: () =>
+          Promise.resolve({ avatar: 'https://example.com/new-avatar.jpg' }),
       })
       const { container } = render(<ProfileSection />)
       const file = new File(['photo'], 'photo.png', { type: 'image/png' })
@@ -497,10 +543,10 @@ describe('ProfileSection', () => {
         () => {
           expect(mockApiFetch).toHaveBeenCalledWith(
             '/api/auth/me/avatar',
-            expect.objectContaining({ method: 'POST' }),
+            expect.objectContaining({ method: 'POST' })
           )
         },
-        { timeout: 3000 },
+        { timeout: 3000 }
       )
       const user = useAuthStore.getState().user
       expect(user?.avatar).toBe('https://example.com/new-avatar.jpg')
@@ -542,7 +588,8 @@ describe('ProfileSection', () => {
       })
       resolvePromise!({
         ok: true,
-        json: () => Promise.resolve({ avatar: 'https://example.com/new-avatar.jpg' }),
+        json: () =>
+          Promise.resolve({ avatar: 'https://example.com/new-avatar.jpg' }),
       })
       await waitFor(() => {
         expect(screen.queryByText('...')).toBeNull()
@@ -561,14 +608,15 @@ describe('ProfileSection', () => {
         () => {
           expect(screen.getByText(/avatarTypeError/)).toBeDefined()
         },
-        { timeout: 3000 },
+        { timeout: 3000 }
       )
     })
 
     it('clears file input value after selection', async () => {
       mockApiFetch.mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({ avatar: 'https://example.com/new-avatar.jpg' }),
+        json: () =>
+          Promise.resolve({ avatar: 'https://example.com/new-avatar.jpg' }),
       })
       const { container } = render(<ProfileSection />)
       const file = new File(['photo'], 'photo.png', { type: 'image/png' })
@@ -577,14 +625,16 @@ describe('ProfileSection', () => {
         () => {
           expect(mockApiFetch).toHaveBeenCalled()
         },
-        { timeout: 3000 },
+        { timeout: 3000 }
       )
       expect(fileInput.value).toBe('')
     })
 
     it('does nothing when no file selected', () => {
       const { container } = render(<ProfileSection />)
-      const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement
+      const fileInput = container.querySelector(
+        'input[type="file"]'
+      ) as HTMLInputElement
       fireEvent.change(fileInput, { target: { files: [] } })
       expect(mockApiFetch).not.toHaveBeenCalled()
     })
@@ -635,7 +685,7 @@ describe('ProfileSection', () => {
     mockApiFetch.mockReturnValue(
       new Promise((resolve) => {
         resolvePromise = resolve
-      }),
+      })
     )
     render(<ProfileSection />)
     fireEvent.click(screen.getByText('saveChanges'))
@@ -668,13 +718,13 @@ describe('ProfileSection', () => {
         '/api/auth/me',
         expect.objectContaining({
           body: expect.stringContaining('"email":null'),
-        }),
+        })
       )
       expect(mockApiFetch).toHaveBeenCalledWith(
         '/api/auth/me',
         expect.objectContaining({
           body: expect.stringContaining('"bio":null'),
-        }),
+        })
       )
     })
   })
@@ -688,16 +738,19 @@ describe('ProfileSection', () => {
     fireEvent.change(screen.getByPlaceholderText('newPasswordPlaceholder'), {
       target: { value: 'newpass' },
     })
-    fireEvent.change(screen.getByPlaceholderText('confirmPasswordPlaceholder'), {
-      target: { value: 'newpass' },
-    })
+    fireEvent.change(
+      screen.getByPlaceholderText('confirmPasswordPlaceholder'),
+      {
+        target: { value: 'newpass' },
+      }
+    )
     fireEvent.click(screen.getByText('saveChanges'))
     await waitFor(() => {
       expect(mockApiFetch).toHaveBeenCalledWith(
         '/api/auth/me',
         expect.objectContaining({
           body: expect.stringContaining('"password":"newpass"'),
-        }),
+        })
       )
     })
   })

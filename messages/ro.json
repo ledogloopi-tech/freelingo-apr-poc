@@ -18,6 +18,7 @@
     "feature6Desc": "XP, serii zilnice, scoruri de competențe și aptitudini pe unitate. Urmărește-ți evoluția săptămână după săptămână și testează-ți nivelul la sfârșitul fiecărei etape CEFR.",
     "footer": "Sursă deschisă · Găzduire proprie gratuită sau abonament la serviciul găzduit",
     "navFeatures": "Funcționalități",
+    "navReviews": "Recenzii",
     "navPricing": "Prețuri",
     "navFAQ": "FAQ",
     "howItWorks": "Cum funcționează",
@@ -97,6 +98,7 @@
     "reading": "Reading",
     "contact": "Contact",
     "feedback": "Feedback",
+    "reviews": "Recenzii",
     "switchLanguage": "Schimbă limba"
   },
   "auth": {
@@ -263,7 +265,18 @@
     "memoryClearAllConfirm": "Șterge tot",
     "memoryManage": "Gestionează amintirile",
     "sectionLanguages": "Limbi",
-    "languagesManage": "Limbile mele"
+    "languagesManage": "Limbile mele",
+    "sectionReview": "Recenzie",
+    "reviewDescription": "Împărtășește experiența ta cu FreeLingo. Dacă editezi o recenzie deja aprobată, aceasta va reveni la verificare înainte de a apărea public.",
+    "reviewPending": "În așteptarea aprobării",
+    "reviewUpdate": "Actualizează",
+    "reviewSaved": "Recenzie salvată.",
+    "reviewDelete": "Șterge recenzia",
+    "reviewDeleteTitle": "Șterge recenzia",
+    "reviewDeleteMessage": "Vrei să ștergi recenzia ta? Această acțiune nu poate fi anulată.",
+    "reviewDeleteConfirm": "Șterge",
+    "reviewDeleted": "Recenzie ștearsă.",
+    "reviewDeleteError": "Nu am putut șterge recenzia. Încearcă din nou."
   },
   "legal": {
     "terms": {
@@ -707,6 +720,7 @@
     "overview": "Prezentare generală",
     "users": "Utilizatori",
     "feedback": "Feedback",
+    "reviews": "Recenzii",
     "invites": "Linkuri de invitație",
     "createUser": "Creează utilizator",
     "createInvite": "Generează invitație",
@@ -800,6 +814,8 @@
     "createUserDesc": "Creează un cont de utilizator administrat cu o limbă inițială de studiu.",
     "reviewFeedback": "Revizuiește feedbackul",
     "reviewFeedbackDesc": "Triază cererile de funcționalități și rapoartele de erori de la cursanți.",
+    "reviewReviews": "Revizuiește recenziile",
+    "reviewReviewsDesc": "Aprobă recenziile verificate ale cursanților pentru afișare pe pagina principală.",
     "maintenanceOnDesc": "Modul de mentenanță este activ pentru instrumentele de învățare care necesită abonament.",
     "maintenanceOffDesc": "Modul de mentenanță este dezactivat. Instrumentele care necesită abonament sunt disponibile.",
     "openSystemControls": "Controale de sistem",
@@ -868,6 +884,7 @@
     "activeUsers": "Utilizatori activi",
     "paidAccess": "Active / probă",
     "pendingFeedback": "Feedback în așteptare",
+    "pendingReviews": "Recenzii în așteptarea aprobării",
     "operationalAlerts": "Alerte operaționale",
     "pendingBugs": "Erori în așteptare",
     "pendingBugsDesc": "Rapoarte de erori care așteaptă trierea de către administrator.",
@@ -1222,17 +1239,21 @@
   },
   "whatsNew": {
     "title": "Noutăți",
-    "version": "v1.8.7",
+    "version": "v1.8.8",
     "cta": "Am înțeles",
     "entry1": {
       "label": "Cinci limbi noi de învățat",
       "desc": "Franceză, germană, italiană, portugheză și spaniolă sunt acum disponibile — fiecare cu un curriculum complet de la începător la avansat (A1–C2), gramatică, vocabular, fraze, Reading, Listening și mai mult. Adaugă-le din Setări → Limbile mele."
     },
     "entry2": {
+      "label": "Adaugă o recenzie din profil",
+      "desc": "Acum poți împărtăși părerea ta despre FreeLingo direct din Setări → Profil. Recenzia ta îi ajută pe alți cursanți să descopere platforma."
+    },
+    "entry3": {
       "label": "Resurse didactice îmbunătățite",
       "desc": "Toate secțiunile de resurse didactice au fost extinse cu conținut nou."
     },
-    "entry3": {
+    "entry4": {
       "label": "Corectări de bug-uri",
       "desc": "Diverse corectări minore de bug-uri și îmbunătățiri de stabilitate pe întreaga platformă."
     }
@@ -1357,6 +1378,64 @@
     "errorSubmit": "Trimitere eșuată. Încearcă din nou.",
     "prevPage": "← Prev.",
     "nextPage": "Urm. →"
+  },
+  "reviewPrompt": {
+    "statusError": "Nu am putut verifica starea recenziei tale. Încearcă din nou mai târziu.",
+    "ratingRequiredError": "Alege un rating înainte de trimitere.",
+    "saveError": "Nu am putut salva recenzia. Încearcă din nou.",
+    "eyebrow": "Evaluează FreeLingo",
+    "title": "Cum a fost experiența ta?",
+    "closeLabel": "Închide solicitarea de recenzie",
+    "checking": "Se verifică starea recenziei...",
+    "ratingLabel": "Rating obligatoriu",
+    "ratingGroupLabel": "Rating",
+    "star": "stea",
+    "stars": "stele",
+    "commentLabel": "Comentariu opțional",
+    "commentPlaceholder": "Spune-ne ce te-a ajutat să înveți.",
+    "cancel": "Anulează",
+    "submit": "Trimite"
+  },
+  "landingReviews": {
+    "eyebrow": "Recenzii de la cursanți",
+    "title": "Progres real, evaluat de cursanți",
+    "subtitle": "Recenzii verificate pe FreeLingo de la studenți care folosesc platforma pentru a învăța cu Lingu.",
+    "learningLanguage": "Învață {language}",
+    "starsLabel": "{rating} din 5 stele",
+    "ratingOnly": "Rating FreeLingo verificat."
+  },
+  "adminReviews": {
+    "title": "Recenzii",
+    "eyebrow": "Admin",
+    "totalFiltered": "Total filtrat",
+    "approvedOnPage": "Aprobate pe pagină",
+    "pendingOnPage": "În așteptare pe pagină",
+    "filters": "Filtre",
+    "approvalFilter": "Filtru de aprobare",
+    "allReviews": "Toate recenziile",
+    "pending": "În așteptare",
+    "approved": "Aprobată",
+    "ratingFilter": "Filtru rating",
+    "allRatings": "Toate ratingurile",
+    "starsOption": "{rating} stele",
+    "clear": "Șterge",
+    "loadError": "Nu s-au putut încărca recenziile.",
+    "updateError": "Nu s-a putut actualiza recenzia.",
+    "deleteError": "Nu s-a putut șterge recenzia.",
+    "loading": "Se încarcă recenziile...",
+    "queue": "Coadă de recenzii",
+    "total": "{total} în total",
+    "empty": "Nu s-au găsit recenzii.",
+    "starsLabel": "{rating} stele",
+    "learningLanguage": "Învață {language}",
+    "ratingOnly": "Recenzie doar cu rating.",
+    "unapprove": "Retrage aprobarea",
+    "approve": "Aprobă",
+    "delete": "Șterge",
+    "prev": "Anterior",
+    "next": "Următorul",
+    "deleteTitle": "Șterge recenzia",
+    "deleteMessage": "Ștergi această recenzie? Această acțiune nu poate fi anulată."
   },
   "maintenance": {
     "label": "Întreținere",

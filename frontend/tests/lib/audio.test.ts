@@ -7,10 +7,38 @@ describe('float32ToWav', () => {
     const buffer = float32ToWav(samples, 16000)
     const view = new DataView(buffer)
 
-    expect(String.fromCharCode(view.getUint8(0), view.getUint8(1), view.getUint8(2), view.getUint8(3))).toBe('RIFF')
-    expect(String.fromCharCode(view.getUint8(8), view.getUint8(9), view.getUint8(10), view.getUint8(11))).toBe('WAVE')
-    expect(String.fromCharCode(view.getUint8(12), view.getUint8(13), view.getUint8(14), view.getUint8(15))).toBe('fmt ')
-    expect(String.fromCharCode(view.getUint8(36), view.getUint8(37), view.getUint8(38), view.getUint8(39))).toBe('data')
+    expect(
+      String.fromCharCode(
+        view.getUint8(0),
+        view.getUint8(1),
+        view.getUint8(2),
+        view.getUint8(3)
+      )
+    ).toBe('RIFF')
+    expect(
+      String.fromCharCode(
+        view.getUint8(8),
+        view.getUint8(9),
+        view.getUint8(10),
+        view.getUint8(11)
+      )
+    ).toBe('WAVE')
+    expect(
+      String.fromCharCode(
+        view.getUint8(12),
+        view.getUint8(13),
+        view.getUint8(14),
+        view.getUint8(15)
+      )
+    ).toBe('fmt ')
+    expect(
+      String.fromCharCode(
+        view.getUint8(36),
+        view.getUint8(37),
+        view.getUint8(38),
+        view.getUint8(39)
+      )
+    ).toBe('data')
   })
 
   it('writes correct PCM format chunk', () => {
