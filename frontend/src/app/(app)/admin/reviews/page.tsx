@@ -50,6 +50,7 @@ function stars(rating: number): string {
 
 export default function AdminReviewsPage() {
   const t = useTranslations('adminReviews')
+  const tAdmin = useTranslations('admin')
   const [reviews, setReviews] = useState<ReviewAdmin[]>([])
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(0)
@@ -147,8 +148,12 @@ export default function AdminReviewsPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-4 p-6">
+      <AdminPageHeader
+        title={t('title')}
+        eyebrow={`${tAdmin('title')} / ${tAdmin('reviews')}`}
+      />
+
       <AdminNav />
-      <AdminPageHeader title={t('title')} eyebrow={t('eyebrow')} />
 
       <div className="grid gap-3 md:grid-cols-3">
         <AdminMetric label={t('totalFiltered')} value={total} icon={Star} />

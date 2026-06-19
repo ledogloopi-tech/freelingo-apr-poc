@@ -10,8 +10,10 @@ interface LandingNavProps {
   hasSession: boolean
   stripeEnabled: boolean
   navFeatures: string
+  navReviews: string
   navPricing: string
   navFAQ: string
+  showReviews: boolean
   signIn: string
   dashboard: string
 }
@@ -20,8 +22,10 @@ export function LandingNav({
   hasSession,
   stripeEnabled,
   navFeatures,
+  navReviews,
   navPricing,
   navFAQ,
+  showReviews,
   signIn,
   dashboard,
 }: LandingNavProps) {
@@ -62,6 +66,15 @@ export function LandingNav({
       >
         {navFeatures}
       </a>
+      {showReviews && (
+        <a
+          href="#reviews"
+          onClick={() => setOpen(false)}
+          className="text-fl-muted-2 hover:text-fl-fg font-mono text-xs tracking-widest uppercase transition-colors"
+        >
+          {navReviews}
+        </a>
+      )}
       {showPricing && (
         <a
           href="#pricing"

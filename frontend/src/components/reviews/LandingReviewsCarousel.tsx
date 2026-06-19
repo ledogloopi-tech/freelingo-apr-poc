@@ -20,17 +20,19 @@ function Stars({ rating, label }: { rating: number; label: string }) {
   )
 }
 
-function languageLabel(code: string) {
-  return getLanguageByCode(code)?.nameEn ?? code
-}
-
 export function LandingReviewsCarousel({
   reviews,
 }: {
   reviews: ReviewPublic[]
 }) {
   const t = useTranslations('landingReviews')
+  const tTarget = useTranslations('targetLanguages')
   const scrollerRef = useRef<HTMLDivElement | null>(null)
+
+  function languageLabel(code: string) {
+    const language = getLanguageByCode(code)
+    return language ? tTarget(language.iso639) : code
+  }
 
   useEffect(() => {
     const scroller = scrollerRef.current
@@ -50,6 +52,7 @@ export function LandingReviewsCarousel({
 
   return (
     <section
+      id="reviews"
       className="mx-auto w-full max-w-5xl px-6 pb-24"
       aria-labelledby="reviews-title"
     >
@@ -75,7 +78,7 @@ export function LandingReviewsCarousel({
         {reviews.map((review) => (
           <article
             key={review.id}
-            className="border-fl-border bg-fl-surface min-w-[280px] snap-start border p-5 sm:min-w-[340px]"
+            className="border-fl-border bg-fl-surface flex min-h-52 min-w-[280px] snap-start flex-col border p-5 sm:min-w-[340px]"
           >
             <div className="mb-4 flex items-start justify-between gap-4">
               <div>
@@ -93,7 +96,7 @@ export function LandingReviewsCarousel({
                 label={t('starsLabel', { rating: review.rating })}
               />
             </div>
-            <p className="text-fl-muted-1 min-h-16 font-mono text-xs leading-relaxed">
+            <p className="text-fl-muted-1 line-clamp-6 font-mono text-xs leading-relaxed">
               {review.comment || t('ratingOnly')}
             </p>
           </article>

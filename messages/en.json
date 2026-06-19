@@ -18,6 +18,7 @@
     "feature6Desc": "XP, daily streaks, skill scores and unit competencies. Track your growth week by week and test your level at the end of each CEFR stage.",
     "footer": "Open source · Self-host free or subscribe to the hosted service",
     "navFeatures": "Features",
+    "navReviews": "Reviews",
     "navPricing": "Pricing",
     "navFAQ": "FAQ",
     "howItWorks": "How it works",
@@ -813,6 +814,8 @@
     "createUserDesc": "Create a managed user account with an initial study language.",
     "reviewFeedback": "Review feedback",
     "reviewFeedbackDesc": "Triage feature requests and bug reports from learners.",
+    "reviewReviews": "Review reviews",
+    "reviewReviewsDesc": "Approve verified learner reviews for display on the landing page.",
     "maintenanceOnDesc": "Maintenance mode is active for subscription-gated learning tools.",
     "maintenanceOffDesc": "Maintenance mode is off. Subscription-gated learning tools are available.",
     "openSystemControls": "System controls",
@@ -881,6 +884,7 @@
     "activeUsers": "Active users",
     "paidAccess": "Active / trial",
     "pendingFeedback": "Pending feedback",
+    "pendingReviews": "Reviews pending approval",
     "operationalAlerts": "Operational alerts",
     "pendingBugs": "Pending bug reports",
     "pendingBugsDesc": "Bug reports waiting for admin triage.",
@@ -1395,7 +1399,7 @@
   "landingReviews": {
     "eyebrow": "Learner reviews",
     "title": "Real progress, rated by learners",
-    "subtitle": "Approved FreeLingo reviews from students using the platform to learn with Lingu.",
+    "subtitle": "Verified FreeLingo reviews from students using the platform to learn with Lingu.",
     "learningLanguage": "Learning {language}",
     "starsLabel": "{rating} out of 5 stars",
     "ratingOnly": "Verified FreeLingo rating."

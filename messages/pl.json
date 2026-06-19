@@ -18,6 +18,7 @@
     "feature6Desc": "XP, codzienne serie, wyniki umiejętności i kompetencje jednostkowe. Śledź swój rozwój tydzień po tygodniu i testuj poziom na końcu każdego etapu CEFR.",
     "footer": "Open source · Hostuj samodzielnie za darmo lub subskrybuj usługę hostowaną",
     "navFeatures": "Funkcje",
+    "navReviews": "Recenzje",
     "navPricing": "Ceny",
     "navFAQ": "FAQ",
     "howItWorks": "Jak to działa",
@@ -813,6 +814,8 @@
     "createUserDesc": "Utwórz zarządzane konto użytkownika z początkowym językiem nauki.",
     "reviewFeedback": "Przejrzyj opinie",
     "reviewFeedbackDesc": "Triage próśb o funkcje i zgłoszeń błędów od uczących się.",
+    "reviewReviews": "Przejrzyj recenzje",
+    "reviewReviewsDesc": "Zatwierdzaj zweryfikowane recenzje uczących się do wyświetlenia na stronie głównej.",
     "maintenanceOnDesc": "Tryb konserwacji jest aktywny dla narzędzi edukacyjnych wymagających subskrypcji.",
     "maintenanceOffDesc": "Tryb konserwacji jest wyłączony. Narzędzia wymagające subskrypcji są dostępne.",
     "openSystemControls": "Kontrola systemu",
@@ -881,6 +884,7 @@
     "activeUsers": "Aktywni użytkownicy",
     "paidAccess": "Aktywne / próbne",
     "pendingFeedback": "Oczekujące opinie",
+    "pendingReviews": "Recenzje oczekujące na zatwierdzenie",
     "operationalAlerts": "Alerty operacyjne",
     "pendingBugs": "Oczekujące błędy",
     "pendingBugsDesc": "Zgłoszenia błędów oczekujące na triage administratora.",
@@ -1395,7 +1399,7 @@
   "landingReviews": {
     "eyebrow": "Recenzje uczących się",
     "title": "Prawdziwe postępy ocenione przez uczących się",
-    "subtitle": "Zatwierdzone recenzje FreeLingo od uczniów korzystających z platformy do nauki z Lingu.",
+    "subtitle": "Zweryfikowane recenzje FreeLingo od uczniów korzystających z platformy do nauki z Lingu.",
     "learningLanguage": "Nauka: {language}",
     "starsLabel": "{rating} z 5 gwiazdek",
     "ratingOnly": "Zweryfikowana ocena FreeLingo."

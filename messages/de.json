@@ -18,6 +18,7 @@
     "feature6Desc": "XP, tägliche Serien, Kompetenzwerte und Einheitenkompetenzen. Verfolge dein Wachstum Woche für Woche und teste dein Niveau am Ende jeder CEFR-Stufe.",
     "footer": "Open Source · Selbst hosten (kostenlos) oder gehosteten Dienst abonnieren",
     "navFeatures": "Funktionen",
+    "navReviews": "Bewertungen",
     "navPricing": "Preise",
     "navFAQ": "FAQ",
     "howItWorks": "So funktioniert's",
@@ -813,6 +814,8 @@
     "createUserDesc": "Erstellt ein verwaltetes Benutzerkonto mit einer anfänglichen Lernsprache.",
     "reviewFeedback": "Feedback prüfen",
     "reviewFeedbackDesc": "Feature-Wünsche und Fehlerberichte von Lernenden triagieren.",
+    "reviewReviews": "Bewertungen prüfen",
+    "reviewReviewsDesc": "Genehmige verifizierte Bewertungen von Lernenden für die Landingpage.",
     "maintenanceOnDesc": "Der Wartungsmodus ist für Lernwerkzeuge mit Abonnement aktiv.",
     "maintenanceOffDesc": "Der Wartungsmodus ist deaktiviert. Lernwerkzeuge mit Abonnement sind verfügbar.",
     "openSystemControls": "Systemsteuerung",
@@ -881,6 +884,7 @@
     "activeUsers": "Aktive Benutzer",
     "paidAccess": "Aktiv / Testphase",
     "pendingFeedback": "Ausstehendes Feedback",
+    "pendingReviews": "Bewertungen zur Genehmigung",
     "operationalAlerts": "Operative Hinweise",
     "pendingBugs": "Ausstehende Fehlerberichte",
     "pendingBugsDesc": "Fehlerberichte, die auf Admin-Triage warten.",
@@ -1395,7 +1399,7 @@
   "landingReviews": {
     "eyebrow": "Bewertungen von Lernenden",
     "title": "Echter Fortschritt, bewertet von Lernenden",
-    "subtitle": "Genehmigte FreeLingo-Bewertungen von Lernenden, die mit Lingu auf der Plattform lernen.",
+    "subtitle": "Verifizierte FreeLingo-Bewertungen von Lernenden, die mit Lingu auf der Plattform lernen.",
     "learningLanguage": "Lernt {language}",
     "starsLabel": "{rating} von 5 Sternen",
     "ratingOnly": "Verifizierte FreeLingo-Bewertung."

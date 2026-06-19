@@ -18,6 +18,7 @@
     "feature6Desc": "XP, sequências diárias, pontuações de habilidades e competências por unidade. Acompanhe seu crescimento semana a semana e teste seu nível ao final de cada etapa CEFR.",
     "footer": "Código aberto · Auto-hospede gratuitamente ou assine o serviço hospedado",
     "navFeatures": "Funcionalidades",
+    "navReviews": "Avaliações",
     "navPricing": "Preços",
     "navFAQ": "FAQ",
     "howItWorks": "Como funciona",
@@ -813,6 +814,8 @@
     "createUserDesc": "Cria uma conta de utilizador gerida com um idioma de estudo inicial.",
     "reviewFeedback": "Rever feedback",
     "reviewFeedbackDesc": "Triar pedidos de funcionalidades e relatórios de erros dos alunos.",
+    "reviewReviews": "Rever avaliações",
+    "reviewReviewsDesc": "Aprova avaliações verificadas dos alunos para mostrar na página inicial.",
     "maintenanceOnDesc": "O modo de manutenção está ativo para as ferramentas de aprendizagem com assinatura.",
     "maintenanceOffDesc": "O modo de manutenção está desativado. As ferramentas com assinatura estão disponíveis.",
     "openSystemControls": "Controlos do sistema",
@@ -881,6 +884,7 @@
     "activeUsers": "Utilizadores ativos",
     "paidAccess": "Ativas / teste",
     "pendingFeedback": "Feedback pendente",
+    "pendingReviews": "Avaliações pendentes de aprovação",
     "operationalAlerts": "Alertas operacionais",
     "pendingBugs": "Erros pendentes",
     "pendingBugsDesc": "Relatórios de erros à espera de triagem da administração.",
@@ -1395,7 +1399,7 @@
   "landingReviews": {
     "eyebrow": "Avaliações de estudantes",
     "title": "Progresso real, avaliado por estudantes",
-    "subtitle": "Avaliações aprovadas do FreeLingo de estudantes que usam a plataforma para aprender com o Lingu.",
+    "subtitle": "Avaliações verificadas no FreeLingo de estudantes que usam a plataforma para aprender com o Lingu.",
     "learningLanguage": "A aprender {language}",
     "starsLabel": "{rating} em 5 estrelas",
     "ratingOnly": "Classificação verificada do FreeLingo."

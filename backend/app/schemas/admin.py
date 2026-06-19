@@ -123,6 +123,7 @@ class AdminOverviewStatsResponse(BaseModel):
     feedback_total: int = 0
     feedback_pending: int = 0
     feedback_bug_pending: int = 0
+    reviews_pending: int = 0
 
 
 class LanguageStats(BaseModel):

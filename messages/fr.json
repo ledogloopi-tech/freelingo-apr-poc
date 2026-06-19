@@ -18,6 +18,7 @@
     "feature6Desc": "XP, séries quotidiennes, scores de compétences et aptitudes par unité. Suivez votre progression semaine après semaine et testez votre niveau à la fin de chaque étape CECRL.",
     "footer": "Open source · Auto-hébergez gratuitement ou abonnez-vous au service hébergé",
     "navFeatures": "Fonctionnalités",
+    "navReviews": "Avis",
     "navPricing": "Tarifs",
     "navFAQ": "FAQ",
     "howItWorks": "Comment ça marche",
@@ -813,6 +814,8 @@
     "createUserDesc": "Crée un compte utilisateur géré avec une langue d’étude initiale.",
     "reviewFeedback": "Examiner les retours",
     "reviewFeedbackDesc": "Trier les demandes de fonctionnalités et les rapports de bugs des apprenants.",
+    "reviewReviews": "Examiner les avis",
+    "reviewReviewsDesc": "Approuvez les avis vérifiés des apprenants pour les afficher sur la page d’accueil.",
     "maintenanceOnDesc": "Le mode maintenance est actif pour les outils d’apprentissage soumis à abonnement.",
     "maintenanceOffDesc": "Le mode maintenance est désactivé. Les outils soumis à abonnement sont disponibles.",
     "openSystemControls": "Contrôles système",
@@ -881,6 +884,7 @@
     "activeUsers": "Utilisateurs actifs",
     "paidAccess": "Actifs / essai",
     "pendingFeedback": "Retours en attente",
+    "pendingReviews": "Avis en attente d’approbation",
     "operationalAlerts": "Alertes opérationnelles",
     "pendingBugs": "Bugs en attente",
     "pendingBugsDesc": "Rapports de bugs en attente de triage administrateur.",
@@ -1395,7 +1399,7 @@
   "landingReviews": {
     "eyebrow": "Avis des apprenants",
     "title": "De vrais progrès, notés par les apprenants",
-    "subtitle": "Avis FreeLingo approuvés d'étudiants qui utilisent la plateforme pour apprendre avec Lingu.",
+    "subtitle": "Avis vérifiés sur FreeLingo d'étudiants qui utilisent la plateforme pour apprendre avec Lingu.",
     "learningLanguage": "Apprentissage : {language}",
     "starsLabel": "{rating} sur 5 étoiles",
     "ratingOnly": "Note FreeLingo vérifiée."

@@ -18,6 +18,7 @@
     "feature6Desc": "XP, serie giornaliere, punteggi di abilità e competenze per unità. Monitora la tua crescita settimana per settimana e metti alla prova il tuo livello alla fine di ogni fase QCER.",
     "footer": "Open source · Self-hostalo gratis o abbonati al servizio ospitato",
     "navFeatures": "Funzionalità",
+    "navReviews": "Recensioni",
     "navPricing": "Prezzi",
     "navFAQ": "FAQ",
     "howItWorks": "Come funziona",
@@ -813,6 +814,8 @@
     "createUserDesc": "Crea un account utente gestito con una lingua di studio iniziale.",
     "reviewFeedback": "Rivedi feedback",
     "reviewFeedbackDesc": "Valuta richieste di funzionalità e segnalazioni di bug dagli studenti.",
+    "reviewReviews": "Rivedi recensioni",
+    "reviewReviewsDesc": "Approva recensioni verificate degli studenti da mostrare nella landing page.",
     "maintenanceOnDesc": "La modalità manutenzione è attiva per gli strumenti di apprendimento con abbonamento.",
     "maintenanceOffDesc": "La modalità manutenzione è disattivata. Gli strumenti con abbonamento sono disponibili.",
     "openSystemControls": "Controlli di sistema",
@@ -881,6 +884,7 @@
     "activeUsers": "Utenti attivi",
     "paidAccess": "Attivi / prova",
     "pendingFeedback": "Feedback in sospeso",
+    "pendingReviews": "Recensioni in attesa di approvazione",
     "operationalAlerts": "Avvisi operativi",
     "pendingBugs": "Bug in sospeso",
     "pendingBugsDesc": "Segnalazioni di bug in attesa di revisione amministrativa.",
@@ -1395,7 +1399,7 @@
   "landingReviews": {
     "eyebrow": "Recensioni degli studenti",
     "title": "Progressi reali, valutati dagli studenti",
-    "subtitle": "Recensioni FreeLingo approvate da studenti che usano la piattaforma per imparare con Lingu.",
+    "subtitle": "Recensioni verificate su FreeLingo da studenti che usano la piattaforma per imparare con Lingu.",
     "learningLanguage": "Studia {language}",
     "starsLabel": "{rating} stelle su 5",
     "ratingOnly": "Valutazione FreeLingo verificata."

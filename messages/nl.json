@@ -18,6 +18,7 @@
     "feature6Desc": "XP, dagelijkse reeksen, vaardigheidsscores en eenheidscompetenties. Volg je groei week na week en test je niveau aan het einde van elke CEFR-fase.",
     "footer": "Open source · Zelf hosten gratis of abonneer op de gehoste dienst",
     "navFeatures": "Functies",
+    "navReviews": "Reviews",
     "navPricing": "Prijzen",
     "navFAQ": "FAQ",
     "howItWorks": "Hoe het werkt",
@@ -813,6 +814,8 @@
     "createUserDesc": "Maak een beheerd gebruikersaccount met een eerste studietaal.",
     "reviewFeedback": "Feedback beoordelen",
     "reviewFeedbackDesc": "Beoordeel functieverzoeken en bugrapporten van leerlingen.",
+    "reviewReviews": "Reviews beoordelen",
+    "reviewReviewsDesc": "Keur geverifieerde reviews van leerlingen goed voor weergave op de landingspagina.",
     "maintenanceOnDesc": "Onderhoudsmodus is actief voor leerhulpmiddelen waarvoor een abonnement nodig is.",
     "maintenanceOffDesc": "Onderhoudsmodus is uitgeschakeld. Leerhulpmiddelen waarvoor een abonnement nodig is, zijn beschikbaar.",
     "openSystemControls": "Systeeminstellingen",
@@ -881,6 +884,7 @@
     "activeUsers": "Actieve gebruikers",
     "paidAccess": "Actief / proef",
     "pendingFeedback": "Openstaande feedback",
+    "pendingReviews": "Reviews in afwachting van goedkeuring",
     "operationalAlerts": "Operationele meldingen",
     "pendingBugs": "Openstaande bugrapporten",
     "pendingBugsDesc": "Bugrapporten die wachten op beoordeling door een admin.",
@@ -1395,7 +1399,7 @@
   "landingReviews": {
     "eyebrow": "Beoordelingen van cursisten",
     "title": "Echte vooruitgang, beoordeeld door cursisten",
-    "subtitle": "Goedgekeurde FreeLingo-beoordelingen van studenten die het platform gebruiken om met Lingu te leren.",
+    "subtitle": "Geverifieerde FreeLingo-beoordelingen van studenten die het platform gebruiken om met Lingu te leren.",
     "learningLanguage": "Leert {language}",
     "starsLabel": "{rating} van 5 sterren",
     "ratingOnly": "Geverifieerde FreeLingo-beoordeling."

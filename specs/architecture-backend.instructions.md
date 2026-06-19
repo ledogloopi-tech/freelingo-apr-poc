@@ -65,7 +65,7 @@ backend/
 │   │
 │   ├── routers/                 # FastAPI routers (22 REST + 1 WebSocket = 23 total)
 │   │   ├── __init__.py
-│   │   ├── admin.py             # Admin overview metrics, user management, filtered lists, maintenance toggle
+│   │   ├── admin.py             # Admin overview metrics, review signals, user management, filtered lists, maintenance toggle
 │   │   ├── assessment.py        # Level assessment quiz + completion + static bank
 │   │   ├── auth.py              # Register, login, refresh, logout, verify-email, reset-password
 │   │   ├── billing.py           # Stripe checkout, customer portal, webhook

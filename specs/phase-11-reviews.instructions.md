@@ -243,6 +243,8 @@ Add a public reviews/testimonials section powered by `GET /api/reviews/public`.
 
 Implemented in `frontend/src/components/reviews/LandingReviewsCarousel.tsx` and mounted on `frontend/src/app/page.tsx` between the features section and pricing section.
 
+When public reviews are available, `frontend/src/components/ui/landing-nav.tsx` shows a Reviews link in the landing navigation between Features and Pricing. The link targets the reviews carousel section and is included in both desktop and mobile menus. If no reviews are returned, the nav link is hidden with the section.
+
 Display rules:
 
 - Show approved reviews with `rating >= 4`.
@@ -251,6 +253,7 @@ Display rules:
 - Show star rating.
 - Show comment when present.
 - For reviews without comment, show a short neutral fallback such as "Verified FreeLingo rating".
+- Review cards use a consistent card height and clamp comments to 6 lines with an ellipsis so long comments do not break the carousel layout.
 - Handle an empty list without rendering a broken or sparse section.
 
 Recommended placement:
@@ -273,6 +276,8 @@ UX requirements:
 Add a new admin reviews section.
 
 Implemented at `frontend/src/app/(app)/admin/reviews/page.tsx`, with navigation entry in `frontend/src/components/admin/AdminNav.tsx`.
+
+The admin overview (`/admin`) also surfaces reviews waiting for approval via the `reviews_pending` field from `GET /api/admin/stats` and includes a quick-link card to the review moderation section.
 
 Required fields:
 

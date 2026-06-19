@@ -18,6 +18,7 @@
     "feature6Desc": "XP, serii zilnice, scoruri de competențe și aptitudini pe unitate. Urmărește-ți evoluția săptămână după săptămână și testează-ți nivelul la sfârșitul fiecărei etape CEFR.",
     "footer": "Sursă deschisă · Găzduire proprie gratuită sau abonament la serviciul găzduit",
     "navFeatures": "Funcționalități",
+    "navReviews": "Recenzii",
     "navPricing": "Prețuri",
     "navFAQ": "FAQ",
     "howItWorks": "Cum funcționează",
@@ -813,6 +814,8 @@
     "createUserDesc": "Creează un cont de utilizator administrat cu o limbă inițială de studiu.",
     "reviewFeedback": "Revizuiește feedbackul",
     "reviewFeedbackDesc": "Triază cererile de funcționalități și rapoartele de erori de la cursanți.",
+    "reviewReviews": "Revizuiește recenziile",
+    "reviewReviewsDesc": "Aprobă recenziile verificate ale cursanților pentru afișare pe pagina principală.",
     "maintenanceOnDesc": "Modul de mentenanță este activ pentru instrumentele de învățare care necesită abonament.",
     "maintenanceOffDesc": "Modul de mentenanță este dezactivat. Instrumentele care necesită abonament sunt disponibile.",
     "openSystemControls": "Controale de sistem",
@@ -881,6 +884,7 @@
     "activeUsers": "Utilizatori activi",
     "paidAccess": "Active / probă",
     "pendingFeedback": "Feedback în așteptare",
+    "pendingReviews": "Recenzii în așteptarea aprobării",
     "operationalAlerts": "Alerte operaționale",
     "pendingBugs": "Erori în așteptare",
     "pendingBugsDesc": "Rapoarte de erori care așteaptă trierea de către administrator.",
@@ -1395,7 +1399,7 @@
   "landingReviews": {
     "eyebrow": "Recenzii de la cursanți",
     "title": "Progres real, evaluat de cursanți",
-    "subtitle": "Recenzii FreeLingo aprobate de la studenți care folosesc platforma pentru a învăța cu Lingu.",
+    "subtitle": "Recenzii verificate pe FreeLingo de la studenți care folosesc platforma pentru a învăța cu Lingu.",
     "learningLanguage": "Învață {language}",
     "starsLabel": "{rating} din 5 stele",
     "ratingOnly": "Rating FreeLingo verificat."

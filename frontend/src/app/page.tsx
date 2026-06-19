@@ -120,8 +120,10 @@ export default async function Home() {
         hasSession={hasSession}
         stripeEnabled={stripeEnabled}
         navFeatures={t('navFeatures')}
+        navReviews={t('navReviews')}
         navPricing={t('navPricing')}
         navFAQ={t('navFAQ')}
+        showReviews={reviews.length > 0}
         signIn={t('signIn')}
         dashboard={t('dashboard')}
       />
