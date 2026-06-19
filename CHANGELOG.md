@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Language-specific tutor guidance**: text chat and voice conversation prompts now include concise guidance for each supported learning language, preserving regional variants such as American/British English, Spanish from Spain, and European Portuguese.
+- **Language-specific prompt guidance**: chat, voice, lessons, exercise evaluation, flashcards, reading, listening, and assessment prompts now include concise guidance for each supported learning language, preserving regional variants such as American/British English, Spanish from Spain, and European Portuguese.
 
 ### Changed
 

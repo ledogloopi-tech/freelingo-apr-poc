@@ -8,6 +8,7 @@ from app.schemas.lessons import (
 from app.services.language_helpers import get_language_name
 from app.services.llm_adapter import llm_adapter
 from app.services.prompts import lesson as lesson_prompts
+from app.services.prompts.common import get_language_prompt_overlay
 from app.services.prompts.lesson import (
     build_fill_blank_eval_prompt,
     build_free_write_eval_prompt,
@@ -41,6 +42,7 @@ async def generate_lesson(
     gp_str = ", ".join(grammar_points) if grammar_points else "none specified"
     vs_str = ", ".join(vocabulary_set_ids) if vocabulary_set_ids else "general"
     target_language_name = get_language_name(target_language)
+    language_prompt_overlay = get_language_prompt_overlay(target_language)
     valid_slugs = get_valid_grammar_slugs(target_language)
     valid_slugs_str = ", ".join(sorted(valid_slugs))
     prompt = build_lesson_generation_prompt(
@@ -54,6 +56,7 @@ async def generate_lesson(
         week=week,
         day=day,
         valid_slugs=valid_slugs_str,
+        language_prompt_overlay=language_prompt_overlay,
     )
 
     lesson = await llm_adapter.structured_output(
@@ -81,12 +84,14 @@ async def evaluate_free_write(
     from app.services.language_helpers import get_language_name
 
     target_language_name = get_language_name(target_language)
+    language_prompt_overlay = get_language_prompt_overlay(target_language)
     eval_prompt = build_free_write_eval_prompt(
         cefr_level=cefr_level,
         target_language_name=target_language_name,
         prompt=prompt,
         criteria=", ".join(criteria),
         answer=answer,
+        language_prompt_overlay=language_prompt_overlay,
     )
 
     result = await llm_adapter.structured_output(
@@ -105,11 +110,13 @@ async def evaluate_pronunciation(
     from app.services.language_helpers import get_language_name
 
     target_language_name = get_language_name(target_language)
+    language_prompt_overlay = get_language_prompt_overlay(target_language)
     eval_prompt = build_pronunciation_eval_prompt(
         cefr_level=cefr_level,
         target_language_name=target_language_name,
         target=target,
         transcription=transcription,
+        language_prompt_overlay=language_prompt_overlay,
     )
     result = await llm_adapter.structured_output(
         [{"role": "system", "content": eval_prompt}],
@@ -128,12 +135,14 @@ async def evaluate_fill_blank(
     from app.services.language_helpers import get_language_name
 
     target_language_name = get_language_name(target_language)
+    language_prompt_overlay = get_language_prompt_overlay(target_language)
     eval_prompt = build_fill_blank_eval_prompt(
         cefr_level=cefr_level,
         target_language_name=target_language_name,
         question=question,
         correct_answer=correct_answer,
         student_answer=student_answer,
+        language_prompt_overlay=language_prompt_overlay,
     )
     result = await llm_adapter.structured_output(
         [{"role": "system", "content": eval_prompt}],

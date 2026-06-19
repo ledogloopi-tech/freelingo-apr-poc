@@ -17,6 +17,7 @@ from app.services.prompts.assessment import (
     build_end_of_level_test_prompt,
     build_free_write_assessment_prompt,
 )
+from app.services.prompts.common import get_language_prompt_overlay
 
 END_OF_LEVEL_TEST_PROMPT = assessment_prompts.END_OF_LEVEL_TEST_PROMPT
 FREE_WRITE_ASSESSMENT_PROMPT = assessment_prompts.FREE_WRITE_ASSESSMENT_PROMPT
@@ -88,6 +89,7 @@ async def evaluate_free_write(
         prompt=req.writing_prompt,
         answer=req.student_answer,
         target_language_name=target_language_name,
+        language_prompt_overlay=get_language_prompt_overlay(target_language),
     )
     try:
         raw = await llm_adapter.chat(
@@ -131,6 +133,7 @@ async def generate_level_test_questions(
         vocabulary_sets_studied=", ".join(vocabulary_sets_studied)
         or "all vocabulary for this level",
         next_level=next_level,
+        language_prompt_overlay=get_language_prompt_overlay(target_language),
     )
     try:
         raw = await llm_adapter.chat([{"role": "system", "content": prompt}])

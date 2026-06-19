@@ -55,17 +55,26 @@ Language-specific guidance:
 """.strip(),
     "de-DE": """
 Language-specific guidance:
-- Use Standard German as used in Germany consistently.
+- Use standard German spelling and vocabulary as used in Germany consistently.
 - Pay close attention to noun capitalization, grammatical gender, cases, adjective endings, and verb position.
 - Use du or Sie consistently according to the context and learner level.
 - Avoid Austrian or Swiss variants unless explicitly comparing them.
 """.strip(),
 }
 
+_LANGUAGE_PROMPT_OVERLAY_ALIASES: dict[str, str] = {
+    "de": "de-DE",
+    "fr": "fr-FR",
+    "es": "es-ES",
+    "it": "it-IT",
+    "pt": "pt-PT",
+}
+
 
 def get_language_prompt_overlay(target_language: str) -> str:
     """Return concise language/variant guidance for prompt composition."""
-    return _LANGUAGE_PROMPT_OVERLAYS.get(target_language, "")
+    canonical_language = _LANGUAGE_PROMPT_OVERLAY_ALIASES.get(target_language, target_language)
+    return _LANGUAGE_PROMPT_OVERLAYS.get(canonical_language, "")
 
 MEMORY_SYSTEM_INSTRUCTION_BASE = """
 Memory capability: if during the conversation you learn something noteworthy

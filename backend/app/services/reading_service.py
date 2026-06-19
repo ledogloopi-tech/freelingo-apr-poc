@@ -12,6 +12,7 @@ from app.models.reading import ReadingAttempt, ReadingExercise
 from app.services.language_helpers import get_language_name
 from app.services.llm_adapter import LLMResponseError, llm_adapter, parse_llm_json
 from app.services.progress_service import update_daily_progress
+from app.services.prompts.common import get_language_prompt_overlay
 from app.services.prompts.comprehension import build_reading_generation_prompt
 
 logger = logging.getLogger(__name__)
@@ -158,6 +159,7 @@ async def generate_and_save_exercise(
         exercise_type_desc=_TYPE_DESCRIPTIONS[exercise_type],
         topic=topic_area,
         word_count=word_count,
+        language_prompt_overlay=get_language_prompt_overlay(target_language),
     )
     messages = [{"role": "user", "content": prompt}]
 

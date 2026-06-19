@@ -8,6 +8,7 @@ Requirements:
 - Exercise type: {exercise_type} ({exercise_type_desc})
 - Length: approximately {word_count} words
 - Use {target_language_name} vocabulary and spelling conventions
+{language_prompt_overlay}
 - Write naturally, as if it will be read aloud
 - Do not use headers, markdown, lists, or formatting — plain flowing prose only
 
@@ -39,6 +40,7 @@ Requirements:
 - Topic area: {topic}
 - Length: approximately {word_count} words
 - Use {target_language_name} vocabulary and spelling conventions
+{language_prompt_overlay}
 - Write in the natural register appropriate for the exercise type
 - Do not use headers, markdown, or lists — plain flowing prose only
   (exception: emails may include a greeting and sign-off)
@@ -70,6 +72,7 @@ def build_listening_generation_prompt(
     exercise_type: str,
     exercise_type_desc: str,
     word_count: int,
+    language_prompt_overlay: str = "",
 ) -> str:
     return LISTENING_GENERATION_PROMPT.format(
         target_language_name=target_language_name,
@@ -77,6 +80,7 @@ def build_listening_generation_prompt(
         exercise_type=exercise_type,
         exercise_type_desc=exercise_type_desc,
         word_count=word_count,
+        language_prompt_overlay=language_prompt_overlay,
     )
 
 
@@ -88,6 +92,7 @@ def build_reading_generation_prompt(
     exercise_type_desc: str,
     topic: str,
     word_count: int,
+    language_prompt_overlay: str = "",
 ) -> str:
     return READING_GENERATION_PROMPT.format(
         target_language_name=target_language_name,
@@ -96,4 +101,5 @@ def build_reading_generation_prompt(
         exercise_type_desc=exercise_type_desc,
         topic=topic,
         word_count=word_count,
+        language_prompt_overlay=language_prompt_overlay,
     )

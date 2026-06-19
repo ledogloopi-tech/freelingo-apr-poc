@@ -10,6 +10,7 @@ from app.schemas.flashcards import (
 from app.services.language_helpers import get_language_name
 from app.services.llm_adapter import llm_adapter
 from app.services.prompts import flashcards as flashcard_prompts
+from app.services.prompts.common import get_language_prompt_overlay
 from app.services.prompts.flashcards import (
     build_flashcard_generation_prompt,
     build_word_lookup_prompt,
@@ -40,17 +41,6 @@ def sm2_update(card: Flashcard, quality: int) -> Flashcard:
     return card
 
 
-_LANG_HINTS: dict[str, str] = {
-    "de": ("Use standard German spelling and vocabulary."),
-    "fr": "Use standard French spelling and vocabulary.",
-    "es": "Use Spanish from Spain spelling and vocabulary.",
-    "it": "Use standard Italian spelling and vocabulary.",
-    "pt": "Use European Portuguese spelling and vocabulary.",
-    "en-US": ("Use American English spelling and vocabulary (e.g. color, center, organize)."),
-    "en-GB": ("Use British English spelling and vocabulary (e.g. colour, centre, organise)."),
-}
-
-
 def _clean_generated_word(value: str) -> str:
     cleaned = value.strip().strip("\"'")
     cleaned = re.sub(r"\s*\([^)]*\)", "", cleaned)
@@ -58,25 +48,21 @@ def _clean_generated_word(value: str) -> str:
 
 
 def _get_lang_hint(target_language: str) -> str:
-    hint = _LANG_HINTS.get(target_language)
-    if hint is not None:
-        return hint
-    iso = target_language.split("-")[0].lower()
-    return _LANG_HINTS.get(iso, "")
+    return get_language_prompt_overlay(target_language)
 
 
 async def generate_flashcards(
     topic: str, count: int, cefr_level: str, native_language: str, target_language: str = "en-GB"
 ) -> FlashcardGenerateResponse:
     target_language_name = get_language_name(target_language)
-    lang_hint = _get_lang_hint(target_language)
+    language_prompt_overlay = _get_lang_hint(target_language)
     prompt = build_flashcard_generation_prompt(
         topic=topic,
         count=count,
         cefr_level=cefr_level,
         native_language=native_language,
         target_language_name=target_language_name,
-        lang_hint=lang_hint,
+        language_prompt_overlay=language_prompt_overlay,
     )
 
     result = await llm_adapter.structured_output(
@@ -103,14 +89,14 @@ async def lookup_word(
     target_language: str = "en-GB",
 ) -> FlashcardCreate:
     target_language_name = get_language_name(target_language)
-    lang_hint = _get_lang_hint(target_language)
+    language_prompt_overlay = _get_lang_hint(target_language)
     prompt = build_word_lookup_prompt(
         word=word,
         context=context or word,
         cefr_level=cefr_level,
         native_language=native_language,
         target_language_name=target_language_name,
-        lang_hint=lang_hint,
+        language_prompt_overlay=language_prompt_overlay,
     )
     result = await llm_adapter.structured_output(
         [{"role": "system", "content": prompt}],
