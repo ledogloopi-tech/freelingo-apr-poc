@@ -18,6 +18,7 @@ from app.services.conversation_pipeline import (
     _build_conversation_system_prompt,
 )
 from app.services.llm_adapter import LLMError, LLMTimeoutError, LLMUnavailableError
+from app.services.prompts.common import TUTOR_DISPLAY_NAME
 
 # ---------------------------------------------------------------------------
 # Shared helpers
@@ -86,7 +87,7 @@ def test_system_prompt_contains_student_details() -> None:
     assert "A2" in prompt
     assert "es" in prompt
     assert "English" in prompt
-    assert "FreeLingo" in prompt
+    assert TUTOR_DISPLAY_NAME in prompt
 
 
 def test_system_prompt_includes_user_context() -> None:

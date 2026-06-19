@@ -12,10 +12,15 @@ _LANGUAGE_INFO: dict[str, dict[str, str]] = {
     "en-US": {"name": "English (US)", "self_name": "English (US)", "iso639": "en", "flag": "🇺🇸"},
     "en-GB": {"name": "English (UK)", "self_name": "English (UK)", "iso639": "en", "flag": "🇬🇧"},
     "de-DE": {"name": "German", "self_name": "Deutsch", "iso639": "de", "flag": "🇩🇪"},
-    "es-ES": {"name": "Spanish", "self_name": "Español", "iso639": "es", "flag": "🇪🇸"},
+    "es-ES": {"name": "Spanish (Spain)", "self_name": "Español (España)", "iso639": "es", "flag": "🇪🇸"},
     "fr-FR": {"name": "French", "self_name": "Français", "iso639": "fr", "flag": "🇫🇷"},
     "it-IT": {"name": "Italian", "self_name": "Italiano", "iso639": "it", "flag": "🇮🇹"},
-    "pt-PT": {"name": "Portuguese", "self_name": "Português", "iso639": "pt", "flag": "🇵🇹"},
+    "pt-PT": {
+        "name": "European Portuguese",
+        "self_name": "Português (Portugal)",
+        "iso639": "pt",
+        "flag": "🇵🇹",
+    },
 }
 
 _VOICE_SESSION_TITLES: dict[str, str] = {

@@ -43,9 +43,9 @@ def sm2_update(card: Flashcard, quality: int) -> Flashcard:
 _LANG_HINTS: dict[str, str] = {
     "de": ("Use standard German spelling and vocabulary."),
     "fr": "Use standard French spelling and vocabulary.",
-    "es": "Use standard Spanish spelling and vocabulary.",
+    "es": "Use Spanish from Spain spelling and vocabulary.",
     "it": "Use standard Italian spelling and vocabulary.",
-    "pt": "Use standard Portuguese spelling and vocabulary.",
+    "pt": "Use European Portuguese spelling and vocabulary.",
     "en-US": ("Use American English spelling and vocabulary (e.g. color, center, organize)."),
     "en-GB": ("Use British English spelling and vocabulary (e.g. colour, centre, organise)."),
 }

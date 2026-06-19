@@ -16,6 +16,7 @@ from app.services.memory_service import (
     save_memories,
     strip_memory_marker,
 )
+from app.services.prompts.common import get_language_prompt_overlay
 from app.services.prompts.tutor import build_conversation_system_prompt
 from app.services.quota_service import record_session_seconds
 from app.utils.db import db_session
@@ -39,6 +40,7 @@ def _build_conversation_system_prompt(
     target_language_name: str,
     user_context: str,
     memory_context: str,
+    language_prompt_overlay: str = "",
 ) -> str:
     return build_conversation_system_prompt(
         student_name=student_name,
@@ -47,6 +49,7 @@ def _build_conversation_system_prompt(
         target_language_name=target_language_name,
         user_context=user_context,
         memory_context=memory_context,
+        language_prompt_overlay=language_prompt_overlay,
     )
 
 
@@ -104,6 +107,7 @@ class ConversationPipeline:
         )
         memory_context = build_memory_context(memories or [])
         target_language_name = get_language_name(target_language)
+        language_prompt_overlay = get_language_prompt_overlay(target_language)
         self.system_prompt = _build_conversation_system_prompt(
             student_name=student_name,
             cefr_level=cefr_level,
@@ -111,6 +115,7 @@ class ConversationPipeline:
             target_language_name=target_language_name,
             user_context=user_context,
             memory_context=memory_context,
+            language_prompt_overlay=language_prompt_overlay,
         )
         self.max_duration = max_duration
         self.inactivity_timeout = inactivity_timeout

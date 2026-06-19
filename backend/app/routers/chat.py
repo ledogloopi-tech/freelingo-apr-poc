@@ -36,6 +36,7 @@ from app.services.memory_service import (
     save_memories,
     strip_memory_marker,
 )
+from app.services.prompts.common import get_language_prompt_overlay
 from app.services.prompts.tutor import build_tutor_system_prompt
 
 router = APIRouter(prefix="/api/chat", tags=["chat"])
@@ -55,6 +56,7 @@ def _build_tutor_system_prompt(
     skills: str,
     user_context: str,
     memory_context: str,
+    language_prompt_overlay: str = "",
 ) -> str:
     return build_tutor_system_prompt(
         student_name=student_name,
@@ -67,6 +69,7 @@ def _build_tutor_system_prompt(
         skills=skills,
         user_context=user_context,
         memory_context=memory_context,
+        language_prompt_overlay=language_prompt_overlay,
     )
 
 
@@ -304,6 +307,7 @@ async def chat(
     memory_context = build_memory_context(memories)
 
     target_language_name = get_language_name(target_language)
+    language_prompt_overlay = get_language_prompt_overlay(target_language)
 
     system_prompt = _build_tutor_system_prompt(
         student_name=current_user.display_name,
@@ -316,6 +320,7 @@ async def chat(
         skills=skills_str,
         user_context=user_context,
         memory_context=memory_context,
+        language_prompt_overlay=language_prompt_overlay,
     )
 
     db.add(

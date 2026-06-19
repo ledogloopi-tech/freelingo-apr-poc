@@ -10,6 +10,62 @@ STRUCTURED_OUTPUT_RETRY_PROMPT = (
 )
 
 ANTHROPIC_SYSTEM_ONLY_TRIGGER = "Generate the content as specified."
+TUTOR_DISPLAY_NAME = "Lingu"
+
+_LANGUAGE_PROMPT_OVERLAYS: dict[str, str] = {
+    "en-US": """
+Language-specific guidance:
+- Use American English spelling, vocabulary, punctuation, and idiom consistently.
+- Prefer US forms such as color, center, organize, apartment, elevator, truck, and vacation.
+- Avoid British-only spelling and vocabulary unless explicitly comparing variants.
+""".strip(),
+    "en-GB": """
+Language-specific guidance:
+- Use British English spelling, vocabulary, punctuation, and idiom consistently.
+- Prefer UK forms such as colour, centre, organise, flat, lift, lorry, and holiday.
+- Avoid American-only spelling and vocabulary unless explicitly comparing variants.
+""".strip(),
+    "es-ES": """
+Language-specific guidance:
+- Use Peninsular Spanish from Spain consistently.
+- Prefer Spain usage, including vosotros for informal plural address when appropriate.
+- Avoid voseo and Latin American-only vocabulary unless explicitly comparing variants.
+- Pay close attention to accents, gender, number agreement, and natural Spain Spanish phrasing.
+""".strip(),
+    "it-IT": """
+Language-specific guidance:
+- Use standard Italian as used in Italy consistently.
+- Pay close attention to articles, gender, number agreement, articulated prepositions, and clitic pronouns.
+- Use tu or Lei consistently according to the context and learner level.
+- Avoid strong regionalisms unless explicitly teaching or comparing them.
+""".strip(),
+    "pt-PT": """
+Language-specific guidance:
+- Use European Portuguese from Portugal consistently.
+- Avoid Brazilian Portuguese vocabulary, syntax, and pronoun placement unless explicitly comparing variants.
+- Prefer Portugal usage such as telemóvel, autocarro, pequeno-almoço, and comboio.
+- Pay close attention to European Portuguese clitic placement, contractions, accents, and register.
+""".strip(),
+    "fr-FR": """
+Language-specific guidance:
+- Use standard French from France consistently.
+- Pay close attention to accents, elision, contractions, gender, number agreement, and register.
+- Use tu or vous consistently according to the context and learner level.
+- Avoid Canadian or other regional French variants unless explicitly comparing them.
+""".strip(),
+    "de-DE": """
+Language-specific guidance:
+- Use Standard German as used in Germany consistently.
+- Pay close attention to noun capitalization, grammatical gender, cases, adjective endings, and verb position.
+- Use du or Sie consistently according to the context and learner level.
+- Avoid Austrian or Swiss variants unless explicitly comparing them.
+""".strip(),
+}
+
+
+def get_language_prompt_overlay(target_language: str) -> str:
+    """Return concise language/variant guidance for prompt composition."""
+    return _LANGUAGE_PROMPT_OVERLAYS.get(target_language, "")
 
 MEMORY_SYSTEM_INSTRUCTION_BASE = """
 Memory capability: if during the conversation you learn something noteworthy

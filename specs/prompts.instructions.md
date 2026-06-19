@@ -40,11 +40,24 @@ Service and router modules import builders from this package and pass runtime va
 | `JSON_ONLY_INSTRUCTION` | `prompts/common.py` | Appended by `llm_adapter.structured_output()` to require a JSON-only response. |
 | `STRUCTURED_OUTPUT_RETRY_PROMPT` | `prompts/common.py` | Used by `llm_adapter` when the first structured-output response cannot be parsed. |
 | `ANTHROPIC_SYSTEM_ONLY_TRIGGER` | `prompts/common.py` | Minimal user message for Anthropic calls where all task instructions are system messages. |
+| `TUTOR_DISPLAY_NAME` | `prompts/common.py` | Central display name for the AI tutor persona (`Lingu`). |
+| `get_language_prompt_overlay()` | `prompts/common.py` | Returns concise language/variant guidance for supported target languages. Currently injected into text tutor and voice tutor prompts. |
 | `MEMORY_SYSTEM_INSTRUCTION_BASE` | `prompts/common.py` | Shared memory marker instructions appended to text chat and voice tutor prompts. |
 | `get_memory_system_instruction()` | `prompts/common.py` | Formats the memory block for the current target language name. |
 
 `memory_service.py` remains responsible for parsing, stripping, formatting, saving, and retrieving
 memories. It re-exports the memory instruction helper for backward compatibility.
+
+## Language Prompt Overlays
+
+`get_language_prompt_overlay(target_language)` centralizes concise language-specific guidance for the
+seven supported learning languages. The overlays preserve a single base-prompt architecture while making
+room for language and regional details such as American/British English, Peninsular Spanish, European
+Portuguese, Standard German, French from France, and standard Italian from Italy.
+
+Current status: the helper and tests exist, and the overlays are injected into the text tutor and voice
+conversation prompts. Later phases will add them to lesson, evaluation, flashcard, comprehension, and
+assessment prompts.
 
 ## Active Prompt Builders
 
@@ -69,14 +82,14 @@ memories. It re-exports the memory instruction helper for backward compatibility
 
 | Area | Template | Current behavior |
 |---|---|---|
-| Text tutor | `build_tutor_system_prompt()` | FreeLingo text tutor with mandatory scope, content policy, persona lock, progress context, optional user context, optional memories, target-language-only response, and no emoji/pictographic output. |
-| Voice tutor | `build_conversation_system_prompt()` | FreeLingo voice conversation partner with the same safety core, shorter spoken responses, restrained correction policy, follow-up questions, and TTS-safe plain text. |
+| Text tutor | `build_tutor_system_prompt()` | Lingu text tutor with mandatory scope, content policy, persona lock, progress context, optional user context, optional memories, target-language-only response, language-specific overlay guidance, and no emoji/pictographic output. |
+| Voice tutor | `build_conversation_system_prompt()` | Lingu voice conversation partner with the same safety core, language-specific overlay guidance, shorter spoken responses, restrained correction policy, follow-up questions, and TTS-safe plain text. |
 | Memory | `MEMORY_SYSTEM_INSTRUCTION_BASE` | Allows the LLM to append a hidden `<<MEMORY>>...<<ENDMEMORY>>` marker only when it learns a useful new student fact. |
 | Lesson generation | `LESSON_GENERATION_PROMPT` | Generates structured lesson JSON constrained by CEFR level, target language, curriculum unit, grammar points, vocabulary sets, exercise schema, and valid grammar slugs. |
 | Lesson fill-blank evaluation | `FILL_BLANK_EVAL_PROMPT` | Evaluates a fill-blank answer leniently for minor spelling/case variation and contractions. Dynamic exercise fields are delimited and treated as data only. |
 | Lesson free-write evaluation | `FREE_WRITE_EVAL_PROMPT` | Scores a writing answer and returns feedback plus correction objects. Dynamic exercise fields are delimited and treated as data only. |
 | Pronunciation evaluation | `PRONUNCIATION_EVAL_PROMPT` | Compares target phrase to STT transcription and returns score, feedback, and correctness. Dynamic exercise fields are delimited and treated as data only. |
-| Flashcard generation | `FLASHCARD_GEN_PROMPT` | Generates target-language vocabulary flashcards with native-language definition/translation and strict word cleanup rules. The requested topic is delimited as data only. |
+| Flashcard generation | `FLASHCARD_GEN_PROMPT` | Generates target-language vocabulary flashcards with native-language definition/translation, strict word cleanup rules, and regional spelling hints for `en-US`, `en-GB`, `es-ES` (Spain), and `pt-PT` (European Portuguese). The requested topic is delimited as data only. |
 | Word lookup | `WORD_LOOKUP_PROMPT` | Generates one flashcard from a selected word and context sentence. The selected word and context are delimited as data only. |
 | Listening generation | `LISTENING_GENERATION_PROMPT` | Generates plain-prose listening text and five multiple-choice comprehension questions. |
 | Reading generation | `READING_GENERATION_PROMPT` | Generates plain-prose reading text and five multiple-choice comprehension questions. |
@@ -89,19 +102,20 @@ memories. It re-exports the memory instruction helper for backward compatibility
 
 Common variables:
 
-- `target_language_name`: human-readable target language, derived from BCP-47 code.
+- `target_language_name`: human-readable target language, derived from BCP-47 code. Regional variants are preserved where behaviourally relevant: `en-US` → `English (US)`, `en-GB` → `English (UK)`, `es-ES` → `Spanish (Spain)`, and `pt-PT` → `European Portuguese`.
 - `cefr_level` or `level`: learner level.
 - `native_language`: user's native language, used for explanation/translation where relevant.
 - `student_name`: display name or username.
 - `user_context`: learning goals and bio; explicitly non-authoritative.
 - `memory_context`: saved memories; explicitly non-authoritative.
+- `language_prompt_overlay`: concise language/variant guidance injected into tutor and voice tutor prompts.
 
 Domain-specific variables:
 
 - Tutor: `total_xp`, `streak`, `lessons_today`, `skills`.
 - Lesson generation: `lesson_type`, `topic`, `unit_id`, `grammar_points`, `vocabulary_set_ids`, `week`, `day`, `valid_slugs`.
 - Lesson evaluation: `question`, `correct_answer`, `student_answer`, `prompt`, `criteria`, `answer`, `target`, `transcription`.
-- Flashcards: `topic`, `count`, `word`, `context`, `lang_hint`.
+- Flashcards: `topic`, `count`, `word`, `context`, `lang_hint` (regional spelling/vocabulary guidance, including Spain Spanish and European Portuguese).
 - Reading/listening: `exercise_type`, `exercise_type_desc`, `topic`, `word_count`.
 - Assessment: `preliminary_level`, `next_level`, `grammar_points_studied`, `vocabulary_sets_studied`, `session_id`, `quiz`, `answers`.
 

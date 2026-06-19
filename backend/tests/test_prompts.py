@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from app.routers.chat import _build_tutor_system_prompt
 from app.services.conversation_pipeline import _build_conversation_system_prompt
+from app.services.flashcard_sm2 import _get_lang_hint
+from app.services.language_helpers import get_language_name
 from app.services.memory_service import parse_memory_marker
 from app.services.prompts.assessment import (
     build_end_of_level_test_prompt,
@@ -9,7 +11,12 @@ from app.services.prompts.assessment import (
     build_legacy_assessment_eval_user_prompt,
     build_legacy_assessment_quiz_prompt,
 )
-from app.services.prompts.common import JSON_ONLY_INSTRUCTION, get_memory_system_instruction
+from app.services.prompts.common import (
+    JSON_ONLY_INSTRUCTION,
+    TUTOR_DISPLAY_NAME,
+    get_language_prompt_overlay,
+    get_memory_system_instruction,
+)
 from app.services.prompts.comprehension import (
     build_listening_generation_prompt,
     build_reading_generation_prompt,
@@ -60,6 +67,35 @@ def test_conversation_prompt_wrapper_matches_central_builder() -> None:
     assert _build_conversation_system_prompt(**kwargs) == build_conversation_system_prompt(**kwargs)
 
 
+def test_regional_language_names_and_hints_are_prompt_ready() -> None:
+    assert get_language_name("es-ES") == "Spanish (Spain)"
+    assert get_language_name("pt-PT") == "European Portuguese"
+    assert _get_lang_hint("es-ES") == "Use Spanish from Spain spelling and vocabulary."
+    assert _get_lang_hint("pt-PT") == "Use European Portuguese spelling and vocabulary."
+
+
+def test_language_prompt_overlays_cover_supported_learning_languages() -> None:
+    expected_markers = {
+        "en-US": "American English",
+        "en-GB": "British English",
+        "es-ES": "Peninsular Spanish",
+        "it-IT": "standard Italian",
+        "pt-PT": "European Portuguese",
+        "fr-FR": "standard French",
+        "de-DE": "Standard German",
+    }
+
+    for target_language, marker in expected_markers.items():
+        overlay = get_language_prompt_overlay(target_language)
+
+        assert overlay.startswith("Language-specific guidance:")
+        assert marker in overlay
+
+
+def test_language_prompt_overlay_falls_back_to_empty_string() -> None:
+    assert get_language_prompt_overlay("unknown") == ""
+
+
 def test_tutor_prompts_include_shared_memory_instruction() -> None:
     prompt = build_tutor_system_prompt(
         student_name="Alice",
@@ -76,6 +112,70 @@ def test_tutor_prompts_include_shared_memory_instruction() -> None:
 
     assert get_memory_system_instruction("German") in prompt
     assert "<<MEMORY>>" in prompt
+
+
+def test_tutor_prompts_use_central_tutor_display_name() -> None:
+    tutor_prompt = build_tutor_system_prompt(
+        student_name="Alice",
+        cefr_level="B1",
+        native_language="es",
+        target_language_name="German",
+        total_xp=0,
+        streak=0,
+        lessons_today=0,
+        skills="None yet",
+        user_context="",
+        memory_context="",
+    )
+    conversation_prompt = build_conversation_system_prompt(
+        student_name="Alice",
+        cefr_level="A2",
+        native_language="es",
+        target_language_name="French",
+        user_context="",
+        memory_context="",
+    )
+
+    assert f"named {TUTOR_DISPLAY_NAME}" in tutor_prompt
+    assert f"named {TUTOR_DISPLAY_NAME}" in conversation_prompt
+    assert "named FreeLingo" not in tutor_prompt
+    assert "named FreeLingo" not in conversation_prompt
+
+
+def test_tutor_prompt_can_include_language_overlay() -> None:
+    prompt = build_tutor_system_prompt(
+        student_name="Alice",
+        cefr_level="B1",
+        native_language="es",
+        target_language_name="European Portuguese",
+        total_xp=120,
+        streak=4,
+        lessons_today=2,
+        skills="conversation",
+        user_context="",
+        memory_context="",
+        language_prompt_overlay=get_language_prompt_overlay("pt-PT"),
+    )
+
+    assert "Language-specific guidance:" in prompt
+    assert "Use European Portuguese from Portugal consistently." in prompt
+    assert "Avoid Brazilian Portuguese" in prompt
+
+
+def test_conversation_prompt_can_include_language_overlay() -> None:
+    prompt = build_conversation_system_prompt(
+        student_name="Alice",
+        cefr_level="A2",
+        native_language="es",
+        target_language_name="Spanish (Spain)",
+        user_context="",
+        memory_context="",
+        language_prompt_overlay=get_language_prompt_overlay("es-ES"),
+    )
+
+    assert "Language-specific guidance:" in prompt
+    assert "Use Peninsular Spanish from Spain consistently." in prompt
+    assert "vosotros" in prompt
 
 
 def test_json_only_instruction_is_single_shared_block() -> None:
