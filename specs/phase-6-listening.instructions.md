@@ -180,7 +180,9 @@ backend service), so files survive container restarts.
 
 ### 2.2 LLM prompt (`app/services/listening_service.py`)
 
-The generation prompt instructs the LLM to return a strict JSON object:
+The generation prompt is built by `build_listening_generation_prompt()` and passed to
+`llm_adapter.structured_output()` with `ListeningGenerationResponse`, so the LLM response is validated
+as a Pydantic model before persistence:
 
 ```
 You are an English language content creator. Generate a listening exercise for a {level}
@@ -209,9 +211,8 @@ Return ONLY valid JSON, no prose, no code fences:
 }
 ```
 
-Error handling: if JSON parsing fails, retry once. If still invalid, raise
-`ListeningGenerationError` (HTTP 503 upstream). Follow the same retry pattern
-established in `specs/llm-error-handling.instructions.md`.
+Error handling: malformed JSON/schema responses are handled by `structured_output()`'s JSON-only retry.
+If validation still fails, the service raises `ValueError` for the generation task.
 
 ### 2.3 Service (`app/services/listening_service.py`)
 
@@ -236,7 +237,7 @@ async def generate_and_save_exercise(
 ) -> ListeningExercise:
     """
     Uses the global llm_adapter singleton (no injection).
-    Calls LLM → generates text + 5 questions (retries once on bad JSON).
+    Calls LLM via structured_output → generates validated text + 5 questions.
     Calls TTS → receives MP3 bytes.
     Flushes DB to get the integer exercise ID.
     Saves MP3 to {storage_path}/listening/{id}.mp3.

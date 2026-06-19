@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import logging
 import random
 from typing import Any
@@ -9,9 +8,12 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.reading import ReadingAttempt, ReadingExercise
+from app.schemas.reading import ReadingGenerationResponse
 from app.services.language_helpers import get_language_name
-from app.services.llm_adapter import LLMResponseError, llm_adapter, parse_llm_json
+from app.services.llm_adapter import LLMResponseError, llm_adapter
 from app.services.progress_service import update_daily_progress
+from app.services.prompts.common import get_language_prompt_overlay
+from app.services.prompts.comprehension import build_reading_generation_prompt
 
 logger = logging.getLogger(__name__)
 
@@ -109,39 +111,6 @@ def _get_cultural_topics(target_language: str) -> list[str]:
     return _CULTURAL_TOPICS.get(iso, _CULTURAL_TOPICS.get("en-GB", []))
 
 
-_GENERATION_PROMPT = """\
-You are a {target_language_name} language content creator. Generate a reading comprehension exercise \
-for a {level} learner. Target language: {target_language_name}.
-
-Requirements:
-- Exercise type: {exercise_type} ({exercise_type_desc})
-- Topic area: {topic}
-- Length: approximately {word_count} words
-- Use {target_language_name} vocabulary and spelling conventions
-- Write in the natural register appropriate for the exercise type
-- Do not use headers, markdown, or lists — plain flowing prose only
-  (exception: emails may include a greeting and sign-off)
-
-Return ONLY valid JSON with no prose, no code fences, no extra text:
-{{
-  "topic": "<brief topic label, max 10 words>",
-  "text": "<exercise text as flowing prose>",
-  "questions": [
-    {{
-      "index": 0,
-      "question": "<question text>",
-      "options": {{ "A": "<option>", "B": "<option>", "C": "<option>", "D": "<option>" }},
-      "correct": "<A|B|C|D>"
-    }}
-  ]
-}}
-
-Include exactly 5 questions ordered by cognitive demand:
-- Q0-Q1: literal comprehension (directly stated information)
-- Q2-Q3: inference (implied meaning, tone, or purpose)
-- Q4: vocabulary or register (word meaning in context or formality level)"""
-
-
 async def get_available_exercise(
     level: str,
     target_language: str,
@@ -183,33 +152,25 @@ async def generate_and_save_exercise(
     topic_area = random.choice(generic_topics + cultural_topics)
     word_count = _WORD_COUNT_BY_LEVEL.get(level, 200)
 
-    prompt = _GENERATION_PROMPT.format(
+    prompt = build_reading_generation_prompt(
         level=level,
         target_language_name=get_language_name(target_language),
         exercise_type=exercise_type,
         exercise_type_desc=_TYPE_DESCRIPTIONS[exercise_type],
         topic=topic_area,
         word_count=word_count,
+        language_prompt_overlay=get_language_prompt_overlay(target_language),
     )
     messages = [{"role": "user", "content": prompt}]
 
-    # LLM generation — one retry on JSON parse failure
-    parsed: dict[str, Any] | None = None
-    for attempt in range(2):
-        try:
-            raw = await llm_adapter.chat(messages)
-            parsed = parse_llm_json(raw)
-            break
-        except (json.JSONDecodeError, LLMResponseError, KeyError) as exc:
-            if attempt == 1:
-                raise ValueError(
-                    f"LLM failed to produce valid JSON after 2 attempts: {exc}"
-                ) from exc
-            logger.warning("reading: LLM JSON parse failed on attempt 1, retrying")
+    try:
+        parsed = await llm_adapter.structured_output(messages, ReadingGenerationResponse)
+    except LLMResponseError as exc:
+        raise ValueError(f"LLM failed to produce valid reading exercise JSON: {exc}") from exc
 
-    topic: str = parsed["topic"]  # type: ignore[index]
-    text: str = parsed["text"]  # type: ignore[index]
-    questions: list[dict[str, Any]] = parsed["questions"]  # type: ignore[index]
+    topic = parsed.topic
+    text = parsed.text
+    questions = [question.model_dump() for question in parsed.questions]
 
     exercise = ReadingExercise(
         level=level,

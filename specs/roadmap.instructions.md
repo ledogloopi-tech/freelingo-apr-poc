@@ -266,7 +266,7 @@ This document records what was built and the completion criteria met.
 | 1   | DB models — `reading_exercises` + `reading_attempts` + migration `0019`                          | ✅     |
 | 2   | Backend service — LLM generation (no TTS), 7 exercise types, 6 topic sets, Redis generation lock | ✅     |
 | 3   | Backend router — 4 endpoints: next, generate, attempt, history                                   | ✅     |
-| 4   | `parse_llm_json` refactored from `listening_service.py` → `llm_adapter.py` (shared utility)      | ✅     |
+| 4   | Reading/listening generation validated via `structured_output()` Pydantic schemas                | ✅     |
 | 5   | Frontend page — 6 UI states: loading → generating → idle → exercise → results → history          | ✅     |
 | 6   | Two-column layout (passage 55% / questions 45%) on desktop; stacked on mobile                    | ✅     |
 | 7   | Sidebar nav entry (immediately after Listening)                                                  | ✅     |

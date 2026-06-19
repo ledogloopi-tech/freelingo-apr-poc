@@ -12,10 +12,20 @@ _LANGUAGE_INFO: dict[str, dict[str, str]] = {
     "en-US": {"name": "English (US)", "self_name": "English (US)", "iso639": "en", "flag": "🇺🇸"},
     "en-GB": {"name": "English (UK)", "self_name": "English (UK)", "iso639": "en", "flag": "🇬🇧"},
     "de-DE": {"name": "German", "self_name": "Deutsch", "iso639": "de", "flag": "🇩🇪"},
-    "es-ES": {"name": "Spanish", "self_name": "Español", "iso639": "es", "flag": "🇪🇸"},
+    "es-ES": {
+        "name": "Spanish (Spain)",
+        "self_name": "Español (España)",
+        "iso639": "es",
+        "flag": "🇪🇸",
+    },
     "fr-FR": {"name": "French", "self_name": "Français", "iso639": "fr", "flag": "🇫🇷"},
     "it-IT": {"name": "Italian", "self_name": "Italiano", "iso639": "it", "flag": "🇮🇹"},
-    "pt-PT": {"name": "Portuguese", "self_name": "Português", "iso639": "pt", "flag": "🇵🇹"},
+    "pt-PT": {
+        "name": "European Portuguese",
+        "self_name": "Português (Portugal)",
+        "iso639": "pt",
+        "flag": "🇵🇹",
+    },
 }
 
 _VOICE_SESSION_TITLES: dict[str, str] = {
@@ -28,6 +38,19 @@ _VOICE_SESSION_TITLES: dict[str, str] = {
     "nl": "Spraaksessie",
     "ro": "Sesiune vocală",
     "ru": "Голосовая сессия",
+}
+
+_NATIVE_LANGUAGE_NAMES: dict[str, str] = {
+    "en": "English",
+    "es": "Spanish",
+    "fr": "French",
+    "pt": "Portuguese",
+    "de": "German",
+    "it": "Italian",
+    "pl": "Polish",
+    "nl": "Dutch",
+    "ro": "Romanian",
+    "ru": "Russian",
 }
 
 _MONTH_NAMES: dict[str, list[str]] = {
@@ -182,6 +205,11 @@ def get_language_flag(target_language: str) -> str:
     """'es-ES' → '🇪🇸', 'it-IT' → '🇮🇹'"""
     info = _LANGUAGE_INFO.get(target_language)
     return info["flag"] if info else ""
+
+
+def get_native_language_name(native_language: str) -> str:
+    """Return a human-readable name for native language codes used by user profiles."""
+    return _NATIVE_LANGUAGE_NAMES.get(native_language, native_language)
 
 
 def voice_session_title(native_language: str) -> str:

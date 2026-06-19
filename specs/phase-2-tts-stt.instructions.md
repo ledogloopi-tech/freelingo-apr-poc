@@ -58,6 +58,7 @@ The `TTSService` class wraps the Kokoro HTTP API:
 - **Response**: `audio/mpeg` binary content
 - **Auth**: Requires valid access token
 - **Guard**: Returns 503 if `TTS_ENABLED=false`
+- **Voice preview text**: OpenAI voice previews introduce the AI tutor as Lingu, using the shared `TUTOR_DISPLAY_NAME` prompt constant.
 
 ---
 

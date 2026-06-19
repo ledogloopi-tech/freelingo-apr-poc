@@ -92,7 +92,7 @@ Flashcards contain the word in the target language and the translation in the us
 ```
 BEFORE: "You are an encouraging and patient English conversation partner named FreeLingo..."
         "ALWAYS respond in English, regardless of the language the student uses..."
-NOW:    "You are an encouraging and patient {target_language_name} conversation partner named FreeLingo..."
+NOW:    "You are an encouraging and patient {target_language_name} conversation partner named Lingu..."
         "ALWAYS respond in {target_language_name}, regardless of the language the student uses..."
 ```
 
@@ -107,7 +107,7 @@ NOW:    "You are an encouraging and patient {target_language_name} conversation 
 ```
 BEFORE: "You are an encouraging and patient English language tutor named FreeLingo..."
         "ALWAYS respond in English, regardless of the language the student writes in..."
-NOW:    "You are an encouraging and patient {target_language_name} language tutor named FreeLingo..."
+NOW:    "You are an encouraging and patient {target_language_name} language tutor named Lingu..."
         "ALWAYS respond in {target_language_name}, regardless of the language the student writes in..."
 ```
 

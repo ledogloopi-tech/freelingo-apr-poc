@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.8] - 2026-06-19
+
+### Added
+
+- **Language-specific prompt guidance**: chat, voice, lessons, exercise evaluation, flashcards, reading, listening, and assessment prompts now include concise guidance for each supported learning language, preserving regional variants such as American/British English, Spanish from Spain, and European Portuguese.
+
+### Changed
+
+- **AI tutor persona**: the tutor is now consistently named Lingu in text tutor prompts, voice conversation prompts, and TTS voice previews.
+- **Reading/listening generation robustness**: AI-generated reading and listening exercises now use structured Pydantic output validation instead of raw JSON parsing.
+- **Native-language prompt clarity**: stored native-language codes such as `es` and `fr` are converted to human-readable names before being injected into LLM prompts.
+- **What's New version marker**: bumped to `v1.8.8` while keeping the existing What's New entry text unchanged.
+
 ## [1.8.7] - 2026-06-17
 
 ### Added

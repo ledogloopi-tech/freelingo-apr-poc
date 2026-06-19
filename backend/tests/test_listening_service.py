@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from unittest.mock import AsyncMock, patch
+
 import pytest
 import pytest_asyncio
 from sqlalchemy import select
@@ -19,6 +21,11 @@ _QUESTIONS = [
     }
     for i in range(5)
 ]
+
+
+class _FakeTTS:
+    def __init__(self) -> None:
+        self.synthesize = AsyncMock(return_value=b"fake-mp3-bytes")
 
 
 @pytest_asyncio.fixture
@@ -76,6 +83,37 @@ class TestGetAvailableExercise:
         user, _headers = test_user
         result = await get_available_exercise("A1", "en-US", user.id, db_session)
         assert result is None
+
+
+class TestGenerateAndSaveExercise:
+    @pytest.mark.asyncio
+    async def test_uses_structured_output_schema_and_saves_exercise(self, db_session, tmp_path):
+        from app.schemas.listening import ListeningGenerationResponse
+        from app.services.listening_service import generate_and_save_exercise
+
+        response = ListeningGenerationResponse(
+            topic="Daily routine",
+            text="A short listening text.",
+            questions=_QUESTIONS,
+        )
+
+        with patch(
+            "app.services.listening_service.llm_adapter.structured_output",
+            new=AsyncMock(return_value=response),
+        ) as mock_structured:
+            exercise = await generate_and_save_exercise(
+                level="A1",
+                target_language="es-ES",
+                db=db_session,
+                tts_service=_FakeTTS(),
+                storage_path=str(tmp_path),
+            )
+
+        assert exercise.topic == "Daily routine"
+        assert exercise.text == "A short listening text."
+        assert exercise.questions == _QUESTIONS
+        assert exercise.target_language == "es-ES"
+        assert mock_structured.await_args.args[1] is ListeningGenerationResponse
 
     @pytest.mark.asyncio
     async def test_returns_uncompleted_exercise(self, db_session, exercise):

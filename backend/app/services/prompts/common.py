@@ -1,0 +1,103 @@
+"""Shared prompt fragments used across LLM-backed services."""
+
+JSON_ONLY_INSTRUCTION = (
+    "IMPORTANT: Respond with ONLY a valid JSON object. "
+    "No markdown, no code fences, no extra text."
+)
+
+STRUCTURED_OUTPUT_RETRY_PROMPT = (
+    "That response was not valid JSON. Error: {error}. " "Please return ONLY the JSON object."
+)
+
+ANTHROPIC_SYSTEM_ONLY_TRIGGER = "Generate the content as specified."
+TUTOR_DISPLAY_NAME = "Lingu"
+
+_LANGUAGE_PROMPT_OVERLAYS: dict[str, str] = {
+    "en-US": """
+Language-specific guidance:
+- Use American English spelling, vocabulary, punctuation, and idiom consistently.
+- Prefer US forms such as color, center, organize, apartment, elevator, truck, and vacation.
+- Avoid British-only spelling and vocabulary unless explicitly comparing variants.
+""".strip(),
+    "en-GB": """
+Language-specific guidance:
+- Use British English spelling, vocabulary, punctuation, and idiom consistently.
+- Prefer UK forms such as colour, centre, organise, flat, lift, lorry, and holiday.
+- Avoid American-only spelling and vocabulary unless explicitly comparing variants.
+""".strip(),
+    "es-ES": """
+Language-specific guidance:
+- Use Peninsular Spanish from Spain consistently.
+- Prefer Spain usage, including vosotros for informal plural address when appropriate.
+- Avoid voseo and Latin American-only vocabulary unless explicitly comparing variants.
+- Pay close attention to accents, gender, number agreement, and natural Spain Spanish phrasing.
+""".strip(),
+    "it-IT": """
+Language-specific guidance:
+- Use standard Italian as used in Italy consistently.
+- Pay close attention to articles, gender, number agreement, articulated prepositions, and clitic pronouns.
+- Use tu or Lei consistently according to the context and learner level.
+- Avoid strong regionalisms unless explicitly teaching or comparing them.
+""".strip(),
+    "pt-PT": """
+Language-specific guidance:
+- Use European Portuguese from Portugal consistently.
+- Avoid Brazilian Portuguese vocabulary, syntax, and pronoun placement unless explicitly comparing variants.
+- Prefer Portugal usage such as telemóvel, autocarro, pequeno-almoço, and comboio.
+- Pay close attention to European Portuguese clitic placement, contractions, accents, and register.
+""".strip(),
+    "fr-FR": """
+Language-specific guidance:
+- Use standard French from France consistently.
+- Pay close attention to accents, elision, contractions, gender, number agreement, and register.
+- Use tu or vous consistently according to the context and learner level.
+- Avoid Canadian or other regional French variants unless explicitly comparing them.
+""".strip(),
+    "de-DE": """
+Language-specific guidance:
+- Use standard German spelling and vocabulary as used in Germany consistently.
+- Pay close attention to noun capitalization, grammatical gender, cases, adjective endings, and verb position.
+- Use du or Sie consistently according to the context and learner level.
+- Avoid Austrian or Swiss variants unless explicitly comparing them.
+""".strip(),
+}
+
+_LANGUAGE_PROMPT_OVERLAY_ALIASES: dict[str, str] = {
+    "de": "de-DE",
+    "fr": "fr-FR",
+    "es": "es-ES",
+    "it": "it-IT",
+    "pt": "pt-PT",
+}
+
+
+def get_language_prompt_overlay(target_language: str) -> str:
+    """Return concise language/variant guidance for prompt composition."""
+    canonical_language = _LANGUAGE_PROMPT_OVERLAY_ALIASES.get(target_language, target_language)
+    return _LANGUAGE_PROMPT_OVERLAYS.get(canonical_language, "")
+
+
+MEMORY_SYSTEM_INSTRUCTION_BASE = """
+Memory capability: if during the conversation you learn something noteworthy
+about the student as a person — personal details, preferences, tastes, hobbies,
+profession, plans, goals, other languages they are studying, learning style,
+motivations, or anything that would help personalise future interactions — you
+may persist it by appending a memory block at the very end of your response.
+Format exactly:
+
+<<MEMORY>>{{"items":["short fact about the student"]}}<<ENDMEMORY>>
+
+Rules for the memory block:
+- Only include it when you genuinely learn something new and worth remembering.
+  Do NOT include it in every response — most replies should have no memory block.
+- Each item must be at most 200 characters, in {target_language_name}, and self-contained.
+- Do NOT repeat facts already captured in the existing memories shown above.
+- The block must be the LAST thing in your response, after all visible text.
+- It will be stripped before the student sees your reply, so it won't confuse them.
+- If there is nothing new to remember, simply omit the block entirely.
+"""
+
+
+def get_memory_system_instruction(target_language_name: str) -> str:
+    """Return the memory system instruction parameterised with the target language name."""
+    return MEMORY_SYSTEM_INSTRUCTION_BASE.format(target_language_name=target_language_name)

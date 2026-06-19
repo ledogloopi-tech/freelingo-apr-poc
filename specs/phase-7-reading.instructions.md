@@ -206,6 +206,10 @@ def parse_llm_json(raw: str) -> dict:
 
 ### 2.2 LLM prompt (`app/services/reading_service.py`)
 
+The generation prompt is built by `build_reading_generation_prompt()` and passed to
+`llm_adapter.structured_output()` with `ReadingGenerationResponse`, so the LLM response is validated
+as a Pydantic model before persistence.
+
 ```
 You are an English language content creator. Generate a reading comprehension exercise
 for a {level} learner. Target language variant: {target_language}.
@@ -239,9 +243,8 @@ Include exactly 5 questions ordered by cognitive demand:
 - Q4: vocabulary or register (word meaning in context or formality level)
 ```
 
-Error handling: if JSON parsing fails, retry once. If still invalid, raise
-`ValueError("LLM failed to produce valid JSON after 2 attempts")`.
-Follow the same retry pattern as `listening_service.py`.
+Error handling: malformed JSON/schema responses are handled by `structured_output()`'s JSON-only retry.
+If validation still fails, the service raises `ValueError` for the generation task.
 
 ### 2.3 Service (`app/services/reading_service.py`)
 
@@ -263,7 +266,7 @@ async def generate_and_save_exercise(
     db: AsyncSession,
 ) -> ReadingExercise:
     """
-    Calls LLM → generates text + 5 questions (retries once on bad JSON).
+    Calls LLM via structured_output → generates validated text + 5 questions.
     No TTS — text is stored directly.
     Commits and returns the new ReadingExercise.
     """

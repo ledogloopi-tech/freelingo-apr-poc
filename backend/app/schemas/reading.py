@@ -13,6 +13,19 @@ class QuestionOut(BaseModel):
     options: dict[str, str]  # {"A": "...", "B": "...", "C": "...", "D": "..."}
 
 
+class ReadingGenerationQuestion(BaseModel):
+    index: int
+    question: str
+    options: dict[str, str]
+    correct: str
+
+
+class ReadingGenerationResponse(BaseModel):
+    topic: str
+    text: str
+    questions: list[ReadingGenerationQuestion]
+
+
 class ReadingExerciseOut(BaseModel):
     """Full exercise representation — text is included immediately (unlike listening)."""
 

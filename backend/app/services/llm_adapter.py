@@ -10,6 +10,11 @@ from pydantic import BaseModel
 
 from app.core.app_logger import get_logger
 from app.core.config import settings
+from app.services.prompts.common import (
+    ANTHROPIC_SYSTEM_ONLY_TRIGGER,
+    JSON_ONLY_INSTRUCTION,
+    STRUCTURED_OUTPUT_RETRY_PROMPT,
+)
 
 logger = get_logger(__name__)
 
@@ -198,10 +203,7 @@ class LLMAdapter:
         messages_with_format = messages + [
             {
                 "role": "system",
-                "content": (
-                    "IMPORTANT: Respond with ONLY a valid JSON object. "
-                    "No markdown, no code fences, no extra text."
-                ),
+                "content": JSON_ONLY_INSTRUCTION,
             }
         ]
 
@@ -220,10 +222,7 @@ class LLMAdapter:
             retry_messages = messages_with_format + [
                 {
                     "role": "user",
-                    "content": (
-                        f"That response was not valid JSON. Error: {str(e)}. "
-                        "Please return ONLY the JSON object."
-                    ),
+                    "content": STRUCTURED_OUTPUT_RETRY_PROMPT.format(error=str(e)),
                 }
             ]
             try:
@@ -255,7 +254,7 @@ class LLMAdapter:
         # inject a minimal trigger so the API call succeeds. All task
         # instructions are already in the system parameter.
         if not user_messages:
-            user_messages = [{"role": "user", "content": "Generate the content as specified."}]
+            user_messages = [{"role": "user", "content": ANTHROPIC_SYSTEM_ONLY_TRIGGER}]
 
         kwargs: dict = dict(
             model=self.model,

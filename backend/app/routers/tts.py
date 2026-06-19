@@ -11,6 +11,7 @@ from app.core.deps import get_current_user
 from app.core.limiter import limiter
 from app.models.user import User
 from app.schemas.tts_stt import TTSRequest
+from app.services.prompts.common import TUTOR_DISPLAY_NAME
 
 router = APIRouter(prefix="/api", tags=["tts"])
 logger = get_logger(__name__)
@@ -19,7 +20,10 @@ _PREVIEW_DIR = "/app/tts_previews"
 _OPENAI_VOICES = frozenset(
     {"alloy", "ash", "coral", "echo", "fable", "nova", "onyx", "sage", "shimmer"}
 )
-_PREVIEW_TEXT = "Hello! I'm your FreeLingo tutor. This is how I sound — warm, clear, and ready to help you practise every day. Let's get started!"
+_PREVIEW_TEXT = (
+    f"Hello! I'm {TUTOR_DISPLAY_NAME}, your tutor. This is how I sound — warm, clear, "
+    "and ready to help you practise every day. Let's get started!"
+)
 
 
 @router.post("/tts")
