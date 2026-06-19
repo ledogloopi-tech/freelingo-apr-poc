@@ -186,6 +186,7 @@ pytest --cov-report=html
 - **`tests/components/UnitCard.test.tsx`** — Tests: 41. What it covers: UnitCard: all 5 status states (completed/active/locked/level-test/default), progress bar, click interactions. UnitDrawer: grammar points, lesson list, completion states, escape/outside-click dismiss
 - **`tests/store/progress.test.ts`** — Tests: 48. What it covers: Progress store: 10 initial state fields, setProgress/setTodayLessons/completeLesson/setCurrentUnit/setPlanDuration/updateUnitProgress/unlockLevelTest/setLevelTestResult, state transition isolation
 - **`tests/lib/reviews.test.ts`** — Tests: 5. What it covers: Review API client helpers for my-review, create, public, admin update, and delete calls
+- **`tests/lib/voice-review-prompt.test.ts`** — Tests: 5. What it covers: Voice-session review prompt trigger: 5-minute threshold, dismissal cooldown expiry, and maximum dismissal count
 - **`tests/components/ReviewPrompt.test.tsx`** — Tests: 5. What it covers: Review prompt status check, rating validation, rating-only and commented submission, dismissal, duplicate-review suppression
 - **`tests/components/LandingReviewsCarousel.test.tsx`** — Tests: 3. What it covers: Landing reviews carousel rendering with comments, rating-only fallback text, empty list behavior
 - **`tests/app/admin-overview.test.tsx`** — Tests: 2. What it covers: Admin overview rendering and metrics
@@ -193,7 +194,7 @@ pytest --cov-report=html
 - **`tests/app/admin-reviews.test.tsx`** — Tests: 3. What it covers: Admin review moderation list, approval action, delete confirmation
 - **`tests/i18n/admin-messages.test.ts`** — Tests: 1. What it covers: Admin message bundle integrity
 
-**Total: 385 tests across 28 files. Frontend coverage is not configured/reported.**
+**Total: 390 tests across 29 files. Frontend coverage is not configured/reported.**
 
 ### Running tests
 

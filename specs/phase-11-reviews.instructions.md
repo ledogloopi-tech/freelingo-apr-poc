@@ -7,9 +7,7 @@ applyTo: "backend/**, frontend/**, specs/**"
 
 ## Overview
 
-FreeLingo adds a first-party review system so authenticated users can leave one verified rating for the product. Reviews are stored in PostgreSQL, moderated by admins, and approved positive reviews are displayed on the public landing page as social proof.
-
-This phase defines the feature contract only. The exact product moments where the review prompt appears are intentionally out of scope for this spec and will be decided later.
+FreeLingo adds a first-party review system so authenticated users can leave one verified rating for the product. Reviews are stored in PostgreSQL, moderated by admins, and approved positive reviews are displayed on the public landing page as social proof. The reusable review prompt is shown after a successful long-form voice practice moment: when the user manually stops a voice conversation session that has been live for at least five minutes.
 
 ---
 
@@ -27,6 +25,8 @@ This phase defines the feature contract only. The exact product moments where th
 - Reviews without comments can still be shown on the landing page.
 - Cancelling or closing the review prompt must not create anything in the backend.
 - The frontend may store a local prompt cooldown/counter in `localStorage` to avoid asking too often after cancellation.
+- The voice conversation page may ask for a review after a manually stopped voice session that has been connected for at least 5 minutes.
+- The backend remains the source of truth for duplicate prevention; the prompt checks `GET /api/reviews/me` and does not render for users who already have a review.
 
 ---
 
@@ -39,7 +39,7 @@ This phase defines the feature contract only. The exact product moments where th
 - Admin editing of review text.
 - Public display of unapproved reviews.
 - Public display of ratings below 4 stars.
-- Defining the exact lesson, conversation, dashboard, or progress moments where the prompt appears.
+- Additional lesson, dashboard, or progress prompt triggers beyond the voice conversation trigger.
 
 ---
 
@@ -193,6 +193,13 @@ The backend remains the source of truth for whether a review exists.
 
 Implemented storage key: `freelingo:reviewPromptDismissed`.
 
+Implemented voice-conversation trigger:
+
+- `frontend/src/components/conversation/ConversationMode.tsx` records a local session start timestamp when the voice WebSocket opens.
+- When the user manually presses Stop, the prompt is opened only if that live connected duration is at least 5 minutes.
+- Backend quota/session duration accounting remains separate and authoritative for usage limits; the local timestamp is only used to decide whether to show the review prompt immediately after Stop.
+- The trigger uses `frontend/src/lib/voice-review-prompt.ts` to enforce the 5-minute threshold, a 14-day local dismissal cooldown, and a maximum of 3 local dismissals.
+
 ---
 
 ## Landing page
@@ -288,6 +295,8 @@ Status: implemented.
 - Review prompt submits rating plus comment reviews.
 - Cancel/close does not call the create-review API.
 - Local prompt cooldown/counter is updated on cancel if implemented in shared logic.
+- Voice conversation review trigger requires at least 5 minutes of connected session time.
+- Voice conversation review trigger respects dismissal cooldown and maximum dismissal count.
 - Landing reviews section renders reviews with comments.
 - Landing reviews section renders reviews without comments.
 - Landing reviews section handles an empty list.
@@ -298,6 +307,7 @@ Status: implemented.
 Implemented test files:
 
 - `frontend/tests/lib/reviews.test.ts`
+- `frontend/tests/lib/voice-review-prompt.test.ts`
 - `frontend/tests/components/ReviewPrompt.test.tsx`
 - `frontend/tests/components/LandingReviewsCarousel.test.tsx`
 - `frontend/tests/app/admin-reviews.test.tsx`

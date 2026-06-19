@@ -93,7 +93,7 @@ frontend/
 │   │   ├── progress.ts          # XP, streak, skill scores, dashboard data
 │   │   └── theme.ts             # Dark/light/system theme
 │   │
-│   ├── lib/                     # Utility modules (9)
+│   ├── lib/                     # Utility modules (10)
 │   │   ├── api.ts               # apiFetch: auth interceptor, 401 → silent refresh → retry
 │   │   ├── audio.ts             # Audio player, audio queue, gapless playback helpers
 │   │   ├── conversation-ws.ts   # WebSocket client for voice conversation
@@ -102,7 +102,8 @@ frontend/
 │   │   ├── mappers.ts           # Data transformation / mapping utilities
 │   │   ├── reviews.ts           # Review API client helpers
 │   │   ├── target-languages.ts  # Target language definitions and helpers
-│   │   └── utils.ts             # General utility functions
+│   │   ├── utils.ts             # General utility functions
+│   │   └── voice-review-prompt.ts # Voice-session review prompt trigger rules
 │   │
 │   ├── i18n/
 │   │   └── request.ts           # next-intl request locale resolver
@@ -169,7 +170,7 @@ frontend/
 - `/plan` — Study plan overview: unit cards, `LevelTestBanner`, `UnitDrawer`.
 - `/lesson/[id]` — Lesson player: content + interactive exercises.
 - `/chat` — AI tutor text chat with SSE streaming.
-- `/conversation` — Real-time voice conversation with WebSocket + VAD.
+- `/conversation` — Real-time voice conversation with WebSocket + VAD. When the user manually stops a connected voice session after at least 5 minutes, the page may open the reusable review prompt, subject to duplicate-review checks and local dismissal cooldown.
 - `/flashcards` — Spaced-repetition flashcard review.
 - `/grammar` — Grammar reference index.
 - `/grammar/[slug]` — Grammar topic detail page.

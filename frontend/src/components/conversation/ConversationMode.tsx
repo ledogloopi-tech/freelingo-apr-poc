@@ -17,6 +17,11 @@ import TranscriptBubble from './TranscriptBubble'
 import SessionTimeoutBanner from './SessionTimeoutBanner'
 import MicButton from './MicButton'
 import { type QuotaStatus } from '@/types/api'
+import {
+  ReviewPrompt,
+  getReviewPromptDismissal,
+} from '@/components/reviews/ReviewPrompt'
+import { shouldShowVoiceReviewPrompt } from '@/lib/voice-review-prompt'
 
 interface TranscriptEntry {
   id: number
@@ -194,6 +199,7 @@ export default function ConversationMode({
   const [assistantSpeaking, setAssistantSpeaking] = useState(false)
   const [memoryToast, setMemoryToast] = useState(false)
   const [quota, setQuota] = useState<QuotaStatus | null>(null)
+  const [reviewPromptOpen, setReviewPromptOpen] = useState(false)
 
   // 6 random starters picked once per component mount, shown alphabetically
   const visibleStarters = useMemo(
@@ -237,6 +243,7 @@ export default function ConversationMode({
   const closeReasonRef = useRef<'manual' | 'route_unload' | 'unknown'>(
     'unknown'
   )
+  const sessionStartedAtRef = useRef<number | null>(null)
 
   useEffect(() => {
     assistantSpeakingRef.current = assistantSpeaking
@@ -494,6 +501,7 @@ export default function ConversationMode({
         if (context?.length) authPayload.context = context
         if (targetLanguage) authPayload.target_language = targetLanguage
         ws.send(JSON.stringify(authPayload))
+        sessionStartedAtRef.current = Date.now()
         convLogger.info('ws auth sent', {
           hasContext: !!context?.length,
           targetLanguage: targetLanguage ?? null,
@@ -711,6 +719,7 @@ export default function ConversationMode({
     setUserSpeaking(false)
     setAssistantSpeaking(false)
     activeTurnIdRef.current = null
+    sessionStartedAtRef.current = null
     refreshQuota()
 
     // Trigger model warmup on TTS/STT services and WAIT for them to be ready
@@ -794,10 +803,22 @@ export default function ConversationMode({
   }
 
   function handleStop() {
+    const sessionDurationMs = sessionStartedAtRef.current
+      ? Date.now() - sessionStartedAtRef.current
+      : 0
     startAttemptRef.current++
     cleanEndRef.current = true
     finalizeSession('manual')
+    sessionStartedAtRef.current = null
     setStatus('ended')
+    if (
+      shouldShowVoiceReviewPrompt(
+        getReviewPromptDismissal(),
+        sessionDurationMs
+      )
+    ) {
+      setReviewPromptOpen(true)
+    }
     // Allow a moment for the backend to record session seconds, then refresh
     setTimeout(() => refreshQuota(), 1500)
   }
@@ -823,6 +844,7 @@ export default function ConversationMode({
       vad.pause()
       audioQueueRef.current?.cancel()
       audioCtxRef.current?.close()
+      sessionStartedAtRef.current = null
     }
   }, [])
   /* eslint-enable react-hooks/exhaustive-deps */
@@ -958,6 +980,11 @@ export default function ConversationMode({
           onStop={handleStop}
         />
       </div>
+      <ReviewPrompt
+        open={reviewPromptOpen}
+        onClose={() => setReviewPromptOpen(false)}
+        onSubmitted={() => setReviewPromptOpen(false)}
+      />
     </div>
   )
 }
