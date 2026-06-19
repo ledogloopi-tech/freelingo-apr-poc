@@ -269,7 +269,13 @@
     "reviewDescription": "Share your experience with FreeLingo. If you edit an already approved review, it will go back to review before appearing publicly.",
     "reviewPending": "Pending approval",
     "reviewUpdate": "Update",
-    "reviewSaved": "Review saved."
+    "reviewSaved": "Review saved.",
+    "reviewDelete": "Delete review",
+    "reviewDeleteTitle": "Delete review",
+    "reviewDeleteMessage": "Do you want to delete your review? This action cannot be undone.",
+    "reviewDeleteConfirm": "Delete",
+    "reviewDeleted": "Review deleted.",
+    "reviewDeleteError": "We could not delete your review. Please try again."
   },
   "legal": {
     "terms": {

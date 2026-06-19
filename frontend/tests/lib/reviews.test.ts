@@ -6,10 +6,12 @@ vi.mock('@/lib/api', () => ({ apiFetch: mockApiFetch }))
 
 import {
   createReview,
+  deleteMyReview,
   deleteReview,
   fetchAdminReviews,
   fetchMyReview,
   fetchPublicReviews,
+  updateMyReview,
   updateReviewApproval,
 } from '@/lib/reviews'
 
@@ -41,6 +43,22 @@ describe('reviews API client', () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ rating: 5, comment: 'Nice' }),
+    })
+  })
+
+  it('updates and deletes the current user review', async () => {
+    mockApiFetch
+      .mockResolvedValueOnce(jsonResponse({ id: 1, rating: 4 }))
+      .mockResolvedValueOnce(new Response(null, { status: 204 }))
+    await updateMyReview({ rating: 4, comment: 'Updated' })
+    await deleteMyReview()
+    expect(mockApiFetch).toHaveBeenNthCalledWith(1, '/api/reviews/me', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rating: 4, comment: 'Updated' }),
+    })
+    expect(mockApiFetch).toHaveBeenNthCalledWith(2, '/api/reviews/me', {
+      method: 'DELETE',
     })
   })
 

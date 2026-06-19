@@ -269,7 +269,13 @@
     "reviewDescription": "Teile deine Erfahrung mit FreeLingo. Wenn du eine bereits freigegebene Bewertung bearbeitest, wird sie vor der öffentlichen Anzeige erneut geprüft.",
     "reviewPending": "Wartet auf Freigabe",
     "reviewUpdate": "Aktualisieren",
-    "reviewSaved": "Bewertung gespeichert."
+    "reviewSaved": "Bewertung gespeichert.",
+    "reviewDelete": "Bewertung löschen",
+    "reviewDeleteTitle": "Bewertung löschen",
+    "reviewDeleteMessage": "Möchtest du deine Bewertung löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "reviewDeleteConfirm": "Löschen",
+    "reviewDeleted": "Bewertung gelöscht.",
+    "reviewDeleteError": "Deine Bewertung konnte nicht gelöscht werden. Bitte versuche es erneut."
   },
   "legal": {
     "terms": {

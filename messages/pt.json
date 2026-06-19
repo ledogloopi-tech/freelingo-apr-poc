@@ -269,7 +269,13 @@
     "reviewDescription": "Partilha a tua experiência com o FreeLingo. Se editares uma avaliação já aprovada, voltará a revisão antes de aparecer publicamente.",
     "reviewPending": "Pendente de aprovação",
     "reviewUpdate": "Atualizar",
-    "reviewSaved": "Avaliação guardada."
+    "reviewSaved": "Avaliação guardada.",
+    "reviewDelete": "Eliminar avaliação",
+    "reviewDeleteTitle": "Eliminar avaliação",
+    "reviewDeleteMessage": "Queres eliminar a tua avaliação? Esta ação não pode ser desfeita.",
+    "reviewDeleteConfirm": "Eliminar",
+    "reviewDeleted": "Avaliação eliminada.",
+    "reviewDeleteError": "Não foi possível eliminar a avaliação. Tenta novamente."
   },
   "legal": {
     "terms": {

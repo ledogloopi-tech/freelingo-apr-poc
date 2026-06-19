@@ -105,7 +105,7 @@ describe('ReviewPrompt', () => {
     mockFetchMyReview.mockRejectedValue(new Error('network error'))
     render(<ReviewPrompt open onClose={() => {}} />)
     await screen.findByText('statusError')
-    fireEvent.click(screen.getByText('Submit'))
+    expect(screen.queryByText('Submit')).toBeNull()
     expect(mockCreateReview).not.toHaveBeenCalled()
   })
 })

@@ -54,6 +54,15 @@ export async function updateMyReview(
   return parseOrThrow<ReviewAdmin>(res)
 }
 
+export async function deleteMyReview(): Promise<void> {
+  const res = await apiFetch('/api/reviews/me', {
+    method: 'DELETE',
+  })
+  if (!res.ok) {
+    throw new Error(`reviews_api_error_${res.status}`)
+  }
+}
+
 export async function fetchPublicReviews(limit = 20): Promise<ReviewPublic[]> {
   const params = new URLSearchParams({ limit: String(limit) })
   const res = await apiFetch(`/api/reviews/public?${params.toString()}`)

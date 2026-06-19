@@ -269,7 +269,13 @@
     "reviewDescription": "Comparte tu experiencia con FreeLingo. Si editas una reseña ya aprobada, volverá a revisión antes de mostrarse públicamente.",
     "reviewPending": "Pendiente de aprobación",
     "reviewUpdate": "Actualizar",
-    "reviewSaved": "Reseña guardada."
+    "reviewSaved": "Reseña guardada.",
+    "reviewDelete": "Eliminar reseña",
+    "reviewDeleteTitle": "Eliminar reseña",
+    "reviewDeleteMessage": "¿Quieres eliminar tu reseña? Esta acción no se puede deshacer.",
+    "reviewDeleteConfirm": "Eliminar",
+    "reviewDeleted": "Reseña eliminada.",
+    "reviewDeleteError": "No se pudo eliminar la reseña. Inténtalo de nuevo."
   },
   "legal": {
     "terms": {

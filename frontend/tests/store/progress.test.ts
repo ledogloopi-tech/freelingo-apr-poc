@@ -178,51 +178,45 @@ describe('useProgressStore — setTodayLessons', () => {
   })
 
   it('replaces existing lessons entirely', () => {
-    useProgressStore
-      .getState()
-      .setTodayLessons([
-        {
-          id: 1,
-          title: 'A',
-          lessonType: 'voc',
-          week: 1,
-          day: 1,
-          objectives: [],
-          estimatedMinutes: 5,
-        },
-      ])
-    useProgressStore
-      .getState()
-      .setTodayLessons([
-        {
-          id: 2,
-          title: 'B',
-          lessonType: 'gram',
-          week: 1,
-          day: 2,
-          objectives: [],
-          estimatedMinutes: 10,
-        },
-      ])
+    useProgressStore.getState().setTodayLessons([
+      {
+        id: 1,
+        title: 'A',
+        lessonType: 'voc',
+        week: 1,
+        day: 1,
+        objectives: [],
+        estimatedMinutes: 5,
+      },
+    ])
+    useProgressStore.getState().setTodayLessons([
+      {
+        id: 2,
+        title: 'B',
+        lessonType: 'gram',
+        week: 1,
+        day: 2,
+        objectives: [],
+        estimatedMinutes: 10,
+      },
+    ])
 
     expect(useProgressStore.getState().todayLessons).toHaveLength(1)
     expect(useProgressStore.getState().todayLessons[0].id).toBe(2)
   })
 
   it('sets an empty array', () => {
-    useProgressStore
-      .getState()
-      .setTodayLessons([
-        {
-          id: 1,
-          title: 'X',
-          lessonType: 'voc',
-          week: 1,
-          day: 1,
-          objectives: [],
-          estimatedMinutes: 5,
-        },
-      ])
+    useProgressStore.getState().setTodayLessons([
+      {
+        id: 1,
+        title: 'X',
+        lessonType: 'voc',
+        week: 1,
+        day: 1,
+        objectives: [],
+        estimatedMinutes: 5,
+      },
+    ])
     useProgressStore.getState().setTodayLessons([])
 
     expect(useProgressStore.getState().todayLessons).toEqual([])
@@ -393,11 +387,9 @@ describe('useProgressStore — updateUnitProgress', () => {
       .getState()
       .updateUnitProgress('unit-1', { completedLessons: 2, totalLessons: 8 })
 
-    useProgressStore
-      .getState()
-      .updateUnitProgress('unit-1', {
-        competencies: { grammar: 0.7, vocabulary: 0.8 },
-      })
+    useProgressStore.getState().updateUnitProgress('unit-1', {
+      competencies: { grammar: 0.7, vocabulary: 0.8 },
+    })
 
     const state = useProgressStore.getState()
     expect(state.unitProgress['unit-1'].competencies).toEqual({
@@ -693,19 +685,17 @@ describe('useProgressStore — state transitions / interactions', () => {
     expect(useProgressStore.getState().streak).toBe(1)
 
     // Step 2: lessons load
-    useProgressStore
-      .getState()
-      .setTodayLessons([
-        {
-          id: 10,
-          title: 'Intro',
-          lessonType: 'vocabulary',
-          week: 1,
-          day: 1,
-          objectives: ['hello'],
-          estimatedMinutes: 10,
-        },
-      ])
+    useProgressStore.getState().setTodayLessons([
+      {
+        id: 10,
+        title: 'Intro',
+        lessonType: 'vocabulary',
+        week: 1,
+        day: 1,
+        objectives: ['hello'],
+        estimatedMinutes: 10,
+      },
+    ])
 
     // Step 3: complete a lesson
     useProgressStore.getState().completeLesson(10)

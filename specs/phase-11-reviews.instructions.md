@@ -15,6 +15,7 @@ FreeLingo adds a first-party review system so authenticated users can leave one 
 
 - Each user can create **one review total**.
 - Users can edit their existing review from Settings; edits keep the same review row and reset `is_approved=false` so the changed review is moderated again.
+- Users can delete their existing review from Settings after confirmation.
 - If a user already has a review, the app must not ask for another one.
 - `rating` is mandatory and must be an integer from `1` to `5`.
 - `comment` is optional.
@@ -93,6 +94,7 @@ Status: implemented in `backend/app/routers/reviews.py` and registered in `backe
 - **GET `/me`** - Rate limit: 60/min. Auth: `get_current_user`. Returns the authenticated user's review if it exists, otherwise a no-review response.
 - **POST `/`** - Rate limit: 5/hour. Auth: `get_current_user`. Creates the authenticated user's review. Body requires `rating`; `comment` is optional. Returns HTTP 201. Returns HTTP 409 if the user already has a review.
 - **PATCH `/me`** - Rate limit: 10/hour. Auth: `get_current_user`. Updates the authenticated user's existing review. Body requires `rating`; `comment` is optional. Refreshes snapshots and resets `is_approved=false`. Returns HTTP 404 if no review exists.
+- **DELETE `/me`** - Rate limit: 10/hour. Auth: `get_current_user`. Deletes the authenticated user's existing review. Returns HTTP 204, or HTTP 404 if no review exists.
 
 ### Public endpoint - `/api/reviews/public`
 
@@ -109,6 +111,7 @@ Status: implemented in `backend/app/routers/reviews.py` and registered in `backe
 - `GET /api/reviews/me` - 60/min.
 - `POST /api/reviews` - 5/hour.
 - `PATCH /api/reviews/me` - 10/hour.
+- `DELETE /api/reviews/me` - 10/hour.
 - `GET /api/reviews/public` - 60/min.
 - `GET /api/admin/reviews` - 60/min.
 - `PATCH /api/admin/reviews/{review_id}` - 60/min.
@@ -139,6 +142,7 @@ Status: implemented in `backend/app/services/review_service.py`.
 - The service must derive `user_display_name` server-side from the authenticated user.
 - The service must derive `target_language` server-side from the current active learning language.
 - Editing a review must update `rating`, normalized `comment`, `user_display_name`, `target_language`, and `updated_at`, and must reset `is_approved=false`.
+- Deleting a review must be scoped to the authenticated user's `user_id`.
 - Public listing must never return unapproved reviews.
 - Public listing must never return reviews with `rating < 4`.
 - Deleting a user cascades and removes their review.
@@ -156,6 +160,7 @@ Add review API helpers for:
 - Fetching the current user's review state.
 - Creating a review.
 - Updating the current user's existing review.
+- Deleting the current user's existing review.
 - Fetching public landing reviews.
 - Admin listing reviews.
 - Admin approving/unapproving reviews.
@@ -198,8 +203,9 @@ Required behaviour:
 - Render the shared review form prefilled when the user already has a review.
 - Submit new reviews with `POST /api/reviews`.
 - Submit edits with `PATCH /api/reviews/me`.
+- Delete existing reviews with `DELETE /api/reviews/me` after a confirmation dialog.
 - Show a pending-approval hint for reviews where `is_approved=false`.
-- Show a short saved confirmation after successful create/update.
+- Show a short saved/deleted confirmation after successful create/update/delete.
 
 ### Prompt cooldown
 

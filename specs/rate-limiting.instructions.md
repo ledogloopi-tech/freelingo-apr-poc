@@ -48,6 +48,7 @@ Only endpoints with explicit `@limiter.limit()` decorators override the global d
 | `GET /api/reviews/me`                | 60 / minute  | IP       | Authenticated current-user review state check                                                            |
 | `POST /api/reviews`                  | 5 / hour     | IP       | User-generated review creation; one review per user plus rate limit                                      |
 | `PATCH /api/reviews/me`              | 10 / hour    | IP       | Authenticated current-user review edits; edited reviews return to pending approval                       |
+| `DELETE /api/reviews/me`             | 10 / hour    | IP       | Authenticated current-user review deletion                                                              |
 | `GET /api/reviews/public`            | 60 / minute  | IP       | Public landing review list                                                                               |
 | `POST /api/tts`                      | 20 / minute  | User     | Audio generation (computationally expensive)                                                            |
 | `POST /api/stt`                      | 20 / minute  | User     | Audio transcription (computationally expensive)                                                         |

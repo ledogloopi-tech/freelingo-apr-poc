@@ -184,6 +184,29 @@ async def test_update_my_review_requires_existing_review(client, test_user):
 
 
 @pytest.mark.asyncio
+async def test_delete_my_review(client, test_user, db_session):
+    from app.models.review import Review
+
+    user, headers = test_user
+    review = await _add_review(db_session, user_id=user.id, display_name=user.display_name)
+
+    response = await client.delete("/api/reviews/me", headers=headers)
+
+    assert response.status_code == 204
+    assert await db_session.get(Review, review.id) is None
+
+
+@pytest.mark.asyncio
+async def test_delete_my_review_requires_existing_review(client, test_user):
+    _, headers = test_user
+
+    response = await client.delete("/api/reviews/me", headers=headers)
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "review_not_found"
+
+
+@pytest.mark.asyncio
 async def test_public_reviews_exclude_unapproved(client, test_user, db_session):
     user, _ = test_user
     await _add_review(db_session, user_id=user.id, rating=5, is_approved=False)

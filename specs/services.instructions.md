@@ -160,6 +160,7 @@ Manages one moderated product review per user (Phase 11):
 - `get_user_review(db, user_id)` - returns the authenticated user's existing review or `None`.
 - `create_review(db, user, rating, comment)` - creates the user's single review, derives `user_display_name` from the authenticated user, derives `target_language` from the active learning language with `user.target_language` fallback, normalizes duplicate submissions to HTTP 409, and creates reviews as unapproved.
 - `update_user_review(db, user, rating, comment)` - updates the authenticated user's existing review, refreshes the display-name and active-learning-language snapshots, resets `is_approved=false` so edits are moderated again, and returns HTTP 404 when no review exists.
+- `delete_user_review(db, user_id)` - deletes the authenticated user's own review and returns HTTP 404 when no review exists.
 - `get_review_or_404(db, review_id)` - shared admin lookup helper.
 - `update_review_approval(db, review_id, is_approved)` - admin approve/unapprove operation, updating `updated_at`.
 - `delete_review(db, review_id)` - admin delete operation.

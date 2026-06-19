@@ -269,7 +269,13 @@
     "reviewDescription": "Condividi la tua esperienza con FreeLingo. Se modifichi una recensione già approvata, tornerà in revisione prima di apparire pubblicamente.",
     "reviewPending": "In attesa di approvazione",
     "reviewUpdate": "Aggiorna",
-    "reviewSaved": "Recensione salvata."
+    "reviewSaved": "Recensione salvata.",
+    "reviewDelete": "Elimina recensione",
+    "reviewDeleteTitle": "Elimina recensione",
+    "reviewDeleteMessage": "Vuoi eliminare la tua recensione? Questa azione non può essere annullata.",
+    "reviewDeleteConfirm": "Elimina",
+    "reviewDeleted": "Recensione eliminata.",
+    "reviewDeleteError": "Impossibile eliminare la recensione. Riprova."
   },
   "legal": {
     "terms": {

@@ -269,7 +269,13 @@
     "reviewDescription": "Podziel się swoim doświadczeniem z FreeLingo. Jeśli edytujesz już zatwierdzoną recenzję, wróci ona do moderacji przed publicznym wyświetleniem.",
     "reviewPending": "Oczekuje na zatwierdzenie",
     "reviewUpdate": "Aktualizuj",
-    "reviewSaved": "Recenzja zapisana."
+    "reviewSaved": "Recenzja zapisana.",
+    "reviewDelete": "Usuń recenzję",
+    "reviewDeleteTitle": "Usuń recenzję",
+    "reviewDeleteMessage": "Czy chcesz usunąć swoją recenzję? Tej czynności nie można cofnąć.",
+    "reviewDeleteConfirm": "Usuń",
+    "reviewDeleted": "Recenzja usunięta.",
+    "reviewDeleteError": "Nie udało się usunąć recenzji. Spróbuj ponownie."
   },
   "legal": {
     "terms": {

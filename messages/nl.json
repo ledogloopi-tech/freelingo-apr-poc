@@ -269,7 +269,13 @@
     "reviewDescription": "Deel je ervaring met FreeLingo. Als je een al goedgekeurde review bewerkt, gaat die opnieuw ter beoordeling voordat hij openbaar verschijnt.",
     "reviewPending": "Wacht op goedkeuring",
     "reviewUpdate": "Bijwerken",
-    "reviewSaved": "Review opgeslagen."
+    "reviewSaved": "Review opgeslagen.",
+    "reviewDelete": "Review verwijderen",
+    "reviewDeleteTitle": "Review verwijderen",
+    "reviewDeleteMessage": "Wil je je review verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+    "reviewDeleteConfirm": "Verwijderen",
+    "reviewDeleted": "Review verwijderd.",
+    "reviewDeleteError": "Je review kon niet worden verwijderd. Probeer het opnieuw."
   },
   "legal": {
     "terms": {

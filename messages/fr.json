@@ -269,7 +269,13 @@
     "reviewDescription": "Partagez votre expérience avec FreeLingo. Si vous modifiez un avis déjà approuvé, il sera de nouveau examiné avant d'apparaître publiquement.",
     "reviewPending": "En attente d'approbation",
     "reviewUpdate": "Mettre à jour",
-    "reviewSaved": "Avis enregistré."
+    "reviewSaved": "Avis enregistré.",
+    "reviewDelete": "Supprimer l'avis",
+    "reviewDeleteTitle": "Supprimer l'avis",
+    "reviewDeleteMessage": "Voulez-vous supprimer votre avis ? Cette action est irréversible.",
+    "reviewDeleteConfirm": "Supprimer",
+    "reviewDeleted": "Avis supprimé.",
+    "reviewDeleteError": "Impossible de supprimer votre avis. Veuillez réessayer."
   },
   "legal": {
     "terms": {

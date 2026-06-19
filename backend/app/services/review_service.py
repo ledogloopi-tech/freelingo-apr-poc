@@ -71,7 +71,9 @@ async def update_user_review(
 
     active_language = await get_active_language(db, user.id)
     review.user_display_name = user.display_name
-    review.target_language = active_language.target_language if active_language else user.target_language
+    review.target_language = (
+        active_language.target_language if active_language else user.target_language
+    )
     review.rating = rating
     review.comment = comment
     review.is_approved = False
@@ -79,6 +81,14 @@ async def update_user_review(
     await db.commit()
     await db.refresh(review)
     return review
+
+
+async def delete_user_review(db: AsyncSession, user_id: int) -> None:
+    review = await get_user_review(db, user_id)
+    if not review:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="review_not_found")
+    await db.delete(review)
+    await db.commit()
 
 
 async def get_review_or_404(db: AsyncSession, review_id: int) -> Review:

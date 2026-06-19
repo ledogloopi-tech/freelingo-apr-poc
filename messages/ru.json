@@ -269,7 +269,13 @@
     "reviewDescription": "Поделитесь своим опытом использования FreeLingo. Если вы измените уже одобренный отзыв, он снова попадет на проверку перед публикацией.",
     "reviewPending": "Ожидает одобрения",
     "reviewUpdate": "Обновить",
-    "reviewSaved": "Отзыв сохранен."
+    "reviewSaved": "Отзыв сохранен.",
+    "reviewDelete": "Удалить отзыв",
+    "reviewDeleteTitle": "Удалить отзыв",
+    "reviewDeleteMessage": "Вы хотите удалить свой отзыв? Это действие нельзя отменить.",
+    "reviewDeleteConfirm": "Удалить",
+    "reviewDeleted": "Отзыв удален.",
+    "reviewDeleteError": "Не удалось удалить отзыв. Повторите попытку."
   },
   "legal": {
     "terms": {
