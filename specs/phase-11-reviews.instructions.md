@@ -85,30 +85,37 @@ Creates `reviews` with all constraints and indexes. Fully reversible via `downgr
 
 ## Backend API
 
+Status: implemented in `backend/app/routers/reviews.py` and registered in `backend/app/main.py`.
+
 ### User endpoints - `/api/reviews`
 
-- **GET `/me`** - Auth: `get_current_user`. Returns the authenticated user's review if it exists, otherwise a no-review response.
-- **POST `/`** - Auth: `get_current_user`. Creates the authenticated user's review. Body requires `rating`; `comment` is optional. Returns HTTP 201. Returns HTTP 409 if the user already has a review.
+- **GET `/me`** - Rate limit: 60/min. Auth: `get_current_user`. Returns the authenticated user's review if it exists, otherwise a no-review response.
+- **POST `/`** - Rate limit: 5/hour. Auth: `get_current_user`. Creates the authenticated user's review. Body requires `rating`; `comment` is optional. Returns HTTP 201. Returns HTTP 409 if the user already has a review.
 
 ### Public endpoint - `/api/reviews/public`
 
-- **GET `/`** - Public or auth-optional endpoint for the landing page. Returns approved reviews with `rating >= 4`, ordered newest-first or by a deterministic display ordering.
+- **GET `/`** - Rate limit: 60/min. Public endpoint for the landing page. Returns approved reviews with `rating >= 4`, ordered newest-first. Query param: `limit` (default 20, max 100).
 
 ### Admin endpoints - `/api/admin/reviews`
 
-- **GET `/`** - Auth: `require_admin`. Lists all reviews with pagination and optional filters.
-- **PATCH `/{review_id}`** - Auth: `require_admin`. Updates `is_approved` to approve or unapprove a review.
-- **DELETE `/{review_id}`** - Auth: `require_admin`. Permanently deletes a review.
+- **GET `/`** - Rate limit: 60/min. Auth: `require_admin`. Lists all reviews with pagination and optional filters: `is_approved`, `rating`, `target_language`, `order`, `skip`, `limit`.
+- **PATCH `/{review_id}`** - Rate limit: 60/min. Auth: `require_admin`. Updates `is_approved` to approve or unapprove a review.
+- **DELETE `/{review_id}`** - Rate limit: 60/min. Auth: `require_admin`. Permanently deletes a review.
 
 ### Rate limits
 
-- `POST /api/reviews` should be rate-limited because it creates user content.
-- Public landing review reads may use the same conservative read limits as other public/config endpoints if a project-wide public limit exists.
-- Admin endpoints can follow existing admin route defaults.
+- `GET /api/reviews/me` - 60/min.
+- `POST /api/reviews` - 5/hour.
+- `GET /api/reviews/public` - 60/min.
+- `GET /api/admin/reviews` - 60/min.
+- `PATCH /api/admin/reviews/{review_id}` - 60/min.
+- `DELETE /api/admin/reviews/{review_id}` - 60/min.
 
 ---
 
 ## Backend schemas
+
+Status: implemented in `backend/app/schemas/review.py`.
 
 - `ReviewCreate` - `rating: int` constrained to 1-5; `comment: str | None` with a practical max length.
 - `ReviewMeResponse` - existing review or `review: null` plus `has_review: bool`.
@@ -120,6 +127,8 @@ Creates `reviews` with all constraints and indexes. Fully reversible via `downgr
 ---
 
 ## Backend service behaviour
+
+Status: implemented in `backend/app/services/review_service.py`.
 
 - Creating a review must be atomic enough to handle duplicate submissions safely.
 - Duplicate creation attempts return HTTP 409 rather than overwriting the existing review.
@@ -278,9 +287,9 @@ Admin should not edit review content. If content is not acceptable, the review s
 
 1. **Spec and planning** - this document plus affected architecture/API/database/frontend documentation updates.
 2. **Backend model and migration** - `Review` ORM model, Alembic migration, constraints, relationships. Status: complete.
-3. **Backend schemas and service** - validation, one-review guard, public/admin query helpers.
-4. **Backend endpoints** - user, public, and admin routes with rate limits.
-5. **Backend tests** - coverage for creation, constraints, moderation, public filtering, permissions.
+3. **Backend schemas and service** - validation, one-review guard, public/admin query helpers. Status: complete.
+4. **Backend endpoints** - user, public, and admin routes with rate limits. Status: complete.
+5. **Backend tests** - coverage for creation, constraints, moderation, public filtering, permissions. Status: complete.
 6. **Frontend API client** - types and helper functions.
 7. **Reusable prompt component** - star rating, optional comment, cancellation cooldown.
 8. **Landing section** - approved positive reviews carousel.

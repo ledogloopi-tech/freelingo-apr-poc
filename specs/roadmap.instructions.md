@@ -401,7 +401,7 @@ This document records what was built and the completion criteria met.
 
 ## Phase 11 — User Reviews
 
-🔄 Status: In progress (backend model and migration complete)
+🔄 Status: In progress (backend API and tests complete)
 
 > One verified review per user, with mandatory 1–5 star rating, optional comment,
 > active learning language snapshot, admin approval, and approved positive reviews
@@ -413,8 +413,8 @@ This document records what was built and the completion criteria met.
 | --- | -------------------------------------------------------------------------------------------------- | ------ |
 | 1   | Spec and planning — functional rules, model contract, endpoints, frontend behaviour, test plan      | ✅     |
 | 2   | Backend model and migration — `reviews` table, one review per user, rating constraints             | ✅     |
-| 3   | Backend API — user review creation/state, public approved reviews, admin moderation                 | ⬜     |
-| 4   | Backend tests — validation, duplicate guard, public filtering, admin permissions                    | ⬜     |
+| 3   | Backend API — user review creation/state, public approved reviews, admin moderation                 | ✅     |
+| 4   | Backend tests — validation, duplicate guard, public filtering, admin permissions                    | ✅     |
 | 5   | Frontend API and reusable review prompt with local dismissal cooldown                               | ⬜     |
 | 6   | Landing reviews carousel — approved `rating >= 4` reviews, including rating-only reviews           | ⬜     |
 | 7   | Admin reviews section — list, filters, approve/unapprove, delete                                   | ⬜     |
@@ -424,13 +424,14 @@ This document records what was built and the completion criteria met.
 
 - [x] Database model enforces one review per user.
 - [x] Database model constrains rating to 1–5.
-- [ ] Users can create exactly one review via API.
-- [ ] Rating is mandatory in API payloads and constrained to 1–5.
-- [ ] Comment is optional.
-- [ ] Reviews store display-name and active-learning-language snapshots.
-- [ ] New reviews are pending until admin approval.
-- [ ] Landing shows only approved reviews with `rating >= 4`.
+- [x] Users can create exactly one review via API.
+- [x] Rating is mandatory in API payloads and constrained to 1–5.
+- [x] Comment is optional.
+- [x] Reviews store display-name and active-learning-language snapshots.
+- [x] New reviews are pending until admin approval.
+- [x] Public reviews API returns only approved reviews with `rating >= 4`.
 - [ ] Rating-only reviews render cleanly on the landing page.
-- [ ] Admins can approve, unapprove, and delete reviews.
-- [ ] Non-admin users cannot access admin review endpoints.
-- [ ] Backend and frontend targeted tests cover the review flows.
+- [x] Admins can approve, unapprove, and delete reviews.
+- [x] Non-admin users cannot access admin review endpoints.
+- [x] Backend targeted tests cover the review API flows.
+- [ ] Frontend targeted tests cover the review UI flows.

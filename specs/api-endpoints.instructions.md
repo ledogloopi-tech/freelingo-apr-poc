@@ -43,6 +43,9 @@ Requires `role="admin"`. All endpoints return 403 for non-admin users.
 - **POST `/invite`** — Generates single-use invite link (48h Redis TTL)
 - **GET `/maintenance`** — Returns `{"maintenance_mode": bool}` — current maintenance mode state
 - **PATCH `/maintenance`** — Toggles maintenance mode on/off in Redis. Returns `{"maintenance_mode": bool}`
+- **GET `/reviews`** — Rate limit: 60/min. Lists reviews for admin moderation. Query params: `is_approved`, `rating` (1–5), `target_language`, `order` (`asc`|`desc`), `skip`, `limit`. Returns `{items, total, skip, limit}`.
+- **PATCH `/reviews/{review_id}`** — Rate limit: 60/min. Updates review approval state. Body: `{is_approved: bool}`. Returns updated review.
+- **DELETE `/reviews/{review_id}`** — Rate limit: 60/min. Permanently deletes a review. Returns HTTP 204.
 
 ---
 
@@ -242,6 +245,14 @@ All endpoints require `get_current_user`. Status update requires `require_admin`
 - **GET `/{id}/comments`** — Rate limit: 60/min. Auth: get_current_user. Returns all comments for an entry ordered by date ASC. Response: `{items, total}`.
 - **POST `/{id}/comments`** — Rate limit: 20/hour. Auth: get_current_user. Adds a comment to an entry. Body: `{body}` (max 2000 chars). Returns HTTP 201 + the created comment.
 - **DELETE `/{id}/comments/{cid}`** — Rate limit: 20/min. Auth: get_current_user. Deletes a comment. Author can delete their own; admin can delete any. Returns HTTP 204.
+
+## Reviews — `/api/reviews`
+
+User review endpoints. Admin moderation endpoints live under `/api/admin/reviews`.
+
+- **GET `/me`** — Rate limit: 60/min. Auth: get_current_user. Returns `{has_review, review}` for the authenticated user. `review` is `null` when the user has not submitted one.
+- **POST ``** — Rate limit: 5/hour. Auth: get_current_user. Creates the authenticated user's single review. Body: `{rating: 1-5, comment?: string}`. Stores display-name and active-learning-language snapshots server-side, creates with `is_approved=false`, returns HTTP 201, and returns HTTP 409 with `review_already_exists` if the user already has a review.
+- **GET `/public`** — Rate limit: 60/min. Public. Returns approved landing reviews only (`is_approved=true` and `rating >= 4`), ordered newest-first. Query param: `limit` (default 20, max 100). Response omits `user_id` and `is_approved`.
 
 ## Memories — `/api/memories`
 

@@ -43,7 +43,7 @@ backend/
 │   │   ├── memory.py            # Memory (persistent LLM context)
 │   │   └── llm_usage.py         # LLMUsage (token audit trail)
 │   │
-│   ├── schemas/                 # Pydantic v2 request/response schemas (14 modules)
+│   ├── schemas/                 # Pydantic v2 request/response schemas (15 modules)
 │   │   ├── __init__.py
 │   │   ├── auth.py
 │   │   ├── admin.py
@@ -56,13 +56,14 @@ backend/
 │   │   ├── listening.py
 │   │   ├── progress.py
 │   │   ├── reading.py
+│   │   ├── review.py
 │   │   ├── study_plan.py
 │   │   └── tts_stt.py
 │   │   ├── vocabulary.py
 │   │   ├── curriculum.py
 │   │   └── phrasebook.py
 │   │
-│   ├── routers/                 # FastAPI routers (21 REST + 1 WebSocket = 22 total)
+│   ├── routers/                 # FastAPI routers (22 REST + 1 WebSocket = 23 total)
 │   │   ├── __init__.py
 │   │   ├── admin.py             # Admin overview metrics, user management, filtered lists, maintenance toggle
 │   │   ├── assessment.py        # Level assessment quiz + completion + static bank
@@ -84,12 +85,13 @@ backend/
 │   │   ├── phrasebook.py        # Phrasebook categories and phrases
 │   │   ├── progress.py          # User progress, XP, streak, skills
 │   │   ├── reading.py           # AI-generated reading exercises
+│   │   ├── reviews.py           # User reviews: create/state, public list, admin moderation
 │   │   ├── stt.py               # Speech-to-text proxy
 │   │   ├── study_plan.py        # Study plan generation + today's lessons
 │   │   ├── tts.py               # Text-to-speech proxy
 │   │   └── vocabulary.py        # Static vocabulary data (per language + per level)
 │   │
-│   ├── services/                # Business logic + external service clients (17 modules + prompts package)
+│   ├── services/                # Business logic + external service clients (18 modules + prompts package)
 │   │   ├── __init__.py
 │   │   ├── assessment.py        # Adaptive quiz logic, CEFR level estimation
 │   │   ├── conversation_pipeline.py  # WebSocket voice orchestrator: STT → LLM → TTS
@@ -104,6 +106,7 @@ backend/
 │   │   ├── prompts/             # Centralized LLM prompt templates and builders
 │   │   ├── quota_service.py     # Token quota tracking and enforcement
 │   │   ├── reading_service.py   # AI reading exercise generation + caching
+│   │   ├── review_service.py    # User review creation, duplicate guard, approval, deletion
 │   │   ├── stt_service.py       # Speech-to-text abstraction (local Whisper / OpenAI)
 │   │   ├── study_plan_generator.py  # Deterministic unit distribution from curriculum
 │   │   ├── subscription_service.py  # Stripe subscription management
@@ -124,7 +127,7 @@ backend/
 ├── alembic/
 │   └── versions/                # DB migrations (42 migrations)
 │
-└── tests/                       # pytest suite (38 test files, 815 tests)
+└── tests/                       # pytest suite (39 test files, 831 tests)
 ```
 
 ## Database models
@@ -150,12 +153,13 @@ For complete schema details, relationships, constraints, and business rules, see
 
 All external dependencies are accessed through the service layer. The frontend never calls Ollama, Kokoro, or Whisper directly — the backend is the single gateway.
 
-The application uses 17 services plus a centralized `services/prompts/` package organized into 5 domains:
+The application uses 18 services plus a centralized `services/prompts/` package organized into 5 domains:
 
 - **LLM & AI**: LLM Adapter (multi-provider), Assessment, Study Plan Generator, Lesson Generator, Flashcard SM-2
 - **Media**: TTS Service, STT Service, Conversation Pipeline (WebSocket voice orchestrator)
 - **Content**: Listening Service, Reading Service (AI-generated exercises with caching; generation responses validated with Pydantic `structured_output()` schemas)
 - **User**: Progress Service, Memory Service, Quota Service, Subscription Service, User Language Service
+- **Community**: Review Service
 - **Infrastructure**: Language Helpers, Email Service
 - **Prompt architecture**: prompt templates, shared blocks, and builders live in `services/prompts/`; see [prompts.instructions.md](prompts.instructions.md)
 

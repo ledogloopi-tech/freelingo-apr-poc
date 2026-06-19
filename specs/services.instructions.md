@@ -1,5 +1,5 @@
 ---
-description: "Service layer reference for FreeLingo: 16 backend services covering LLM, TTS/STT, study plan, lessons, flashcards, listening, reading, memory, progress, quotas, subscriptions, and voice conversation pipeline."
+description: "Service layer reference for FreeLingo: 18 backend services covering LLM, TTS/STT, study plan, lessons, flashcards, listening, reading, reviews, memory, progress, quotas, subscriptions, and voice conversation pipeline."
 applyTo: "backend/app/services/**, backend/app/core/app_logger.py"
 ---
 
@@ -152,6 +152,18 @@ Manages AI-generated reading comprehension exercises end-to-end (Phase 7):
 | B2     | `article`, `news`, `blog_post`, `review` |
 | C1     | `news`, `blog_post`, `review`, `essay`   |
 | C2     | `review`, `essay`                        |
+
+## Review Service (`review_service.py`)
+
+Manages one moderated product review per user (Phase 11):
+
+- `get_user_review(db, user_id)` - returns the authenticated user's existing review or `None`.
+- `create_review(db, user, rating, comment)` - creates the user's single review, derives `user_display_name` from the authenticated user, derives `target_language` from the active learning language with `user.target_language` fallback, normalizes duplicate submissions to HTTP 409, and creates reviews as unapproved.
+- `get_review_or_404(db, review_id)` - shared admin lookup helper.
+- `update_review_approval(db, review_id, is_approved)` - admin approve/unapprove operation, updating `updated_at`.
+- `delete_review(db, review_id)` - admin delete operation.
+
+Public review listing is performed by `routers/reviews.py` and always filters to `is_approved=true` and `rating >= 4`.
 
 ## Quota Service (`quota_service.py`)
 
