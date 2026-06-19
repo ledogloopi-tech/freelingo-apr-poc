@@ -9,11 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **User reviews**: Phase 11 adds one moderated product review per user with required 1-5 star ratings, optional comments, learning-language snapshots, admin approval/deletion, a reusable in-app review prompt, public approved-review listings, a landing page reviews carousel, and an admin review moderation section. The prompt is now triggered after manually stopping a voice conversation session that has been connected for at least 5 minutes, and after completing a curriculum unit, subject to duplicate-review checks and local dismissal cooldown.
 - **Language-specific prompt guidance**: chat, voice, lessons, exercise evaluation, flashcards, reading, listening, and assessment prompts now include concise guidance for each supported learning language, preserving regional variants such as American/British English, Spanish from Spain, and European Portuguese.
 
 ### Changed
 
 - **AI tutor persona**: the tutor is now consistently named Lingu in text tutor prompts, voice conversation prompts, and TTS voice previews.
+- **Feedback queue noise reduction**: feedback entries marked as Done are now hidden from default public and admin listings, and only appear when the Done status filter is selected.
+- **Review moderation UX**: deleting a review in the admin queue now reloads the active page so remaining reviews fill the list, and the in-app review prompt no longer allows submission if the existing-review status check fails.
 - **Reading/listening generation robustness**: AI-generated reading and listening exercises now use structured Pydantic output validation instead of raw JSON parsing.
 - **Native-language prompt clarity**: stored native-language codes such as `es` and `fr` are converted to human-readable names before being injected into LLM prompts.
 - **What's New version marker**: bumped to `v1.8.8` while keeping the existing What's New entry text unchanged.

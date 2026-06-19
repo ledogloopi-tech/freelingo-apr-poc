@@ -9,6 +9,7 @@ from app.models.llm_usage import LLMUsage
 from app.models.memory import Memory
 from app.models.progress import Progress
 from app.models.reading import ReadingAttempt, ReadingExercise
+from app.models.review import Review
 from app.models.study_plan import StudyPlan
 from app.models.user import User
 from app.models.user_language import UserLanguage
@@ -30,6 +31,7 @@ __all__ = [
     "Progress",
     "ReadingAttempt",
     "ReadingExercise",
+    "Review",
     "StudyPlan",
     "User",
     "UserLanguage",

@@ -17,6 +17,8 @@ import { LandingNav } from '@/components/ui/landing-nav'
 import { ScrollReveal } from '@/components/ui/scroll-reveal'
 import { ContactButton } from '@/components/ui/contact-button'
 import { LanguageBubbles } from '@/components/LanguageBubbles'
+import { LandingReviewsCarousel } from '@/components/reviews/LandingReviewsCarousel'
+import type { ReviewPublic } from '@/types/api'
 
 export const metadata: Metadata = {
   title: 'FreeLingo: AI-powered language learning',
@@ -81,11 +83,15 @@ export default async function Home() {
   let priceYearly = 0.0
   let totalPriceMonthly = 0.0
   let totalPriceYearly = 0.0
+  let reviews: ReviewPublic[] = []
   try {
     const backendUrl = process.env.BACKEND_URL || 'http://backend:8000'
-    const configRes = await fetch(`${backendUrl}/api/config`, {
-      next: { revalidate: 3600 },
-    })
+    const [configRes, reviewsRes] = await Promise.all([
+      fetch(`${backendUrl}/api/config`, { next: { revalidate: 3600 } }),
+      fetch(`${backendUrl}/api/reviews/public?limit=12`, {
+        next: { revalidate: 300 },
+      }),
+    ])
     if (configRes.ok) {
       const cfg = await configRes.json()
       stripeEnabled = cfg.stripe_enabled ?? false
@@ -94,6 +100,9 @@ export default async function Home() {
       priceYearly = cfg.price_yearly ?? 0.0
       totalPriceMonthly = cfg.total_price_monthly ?? 0.0
       totalPriceYearly = cfg.total_price_yearly ?? 0.0
+    }
+    if (reviewsRes.ok) {
+      reviews = await reviewsRes.json()
     }
   } catch {
     /* non-fatal */
@@ -198,6 +207,11 @@ export default async function Home() {
             ))}
           </div>
         </section>
+      </ScrollReveal>
+
+      {/* Reviews */}
+      <ScrollReveal>
+        <LandingReviewsCarousel reviews={reviews} />
       </ScrollReveal>
 
       {/* Pricing */}

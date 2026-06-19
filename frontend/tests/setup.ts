@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom/vitest'
+import React from 'react'
 import { vi, afterEach } from 'vitest'
 
 const localStorageMock = (() => {
@@ -42,4 +43,18 @@ vi.mock('next/navigation', () => ({
   }),
   usePathname: () => '/',
   useSearchParams: () => new URLSearchParams(),
+}))
+
+vi.mock('next/image', () => ({
+  default: function MockImage(
+    props: React.ImgHTMLAttributes<HTMLImageElement> & {
+      unoptimized?: boolean
+      priority?: boolean
+    }
+  ) {
+    const { unoptimized, priority, ...imgProps } = props
+    void unoptimized
+    void priority
+    return React.createElement('img', imgProps)
+  },
 }))

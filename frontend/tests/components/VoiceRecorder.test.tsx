@@ -20,8 +20,16 @@ vi.mock('next-intl', () => ({
 }))
 
 vi.mock('next/image', () => ({
-  default: function MockImage(props: Record<string, unknown>) {
-    return React.createElement('img', props)
+  default: function MockImage(
+    props: React.ImgHTMLAttributes<HTMLImageElement> & {
+      unoptimized?: boolean
+      priority?: boolean
+    }
+  ) {
+    const { unoptimized, priority, ...imgProps } = props
+    void unoptimized
+    void priority
+    return React.createElement('img', imgProps)
   },
 }))
 
@@ -32,7 +40,11 @@ describe('VoiceRecorder', () => {
   let mockProcessor: {
     connect: ReturnType<typeof vi.fn>
     disconnect: ReturnType<typeof vi.fn>
-    onaudioprocess: ((e: { inputBuffer: { getChannelData: (c: number) => Float32Array } }) => void) | null
+    onaudioprocess:
+      | ((e: {
+          inputBuffer: { getChannelData: (c: number) => Float32Array }
+        }) => void)
+      | null
   }
   let mockAudioCtx: {
     close: ReturnType<typeof vi.fn>
@@ -64,15 +76,20 @@ describe('VoiceRecorder', () => {
     mockAudioCtx = ctx
 
     // Must use regular function (not arrow) — arrow functions cannot be called with `new`
-    vi.stubGlobal('AudioContext', vi.fn(function MockAudioContext() {
-      return ctx
-    }))
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(function MockAudioContext() {
+        return ctx
+      })
+    )
 
     mockStartRendering = vi.fn().mockResolvedValue({
       getChannelData: () => new Float32Array(16000),
     })
     const offlineCtx = {
-      createBuffer: vi.fn(() => ({ getChannelData: vi.fn(() => new Float32Array(100)) })),
+      createBuffer: vi.fn(() => ({
+        getChannelData: vi.fn(() => new Float32Array(100)),
+      })),
       createBufferSource: vi.fn(() => ({
         buffer: null,
         connect: vi.fn(),
@@ -82,9 +99,12 @@ describe('VoiceRecorder', () => {
       destination: {},
     }
 
-    vi.stubGlobal('OfflineAudioContext', vi.fn(function MockOfflineAudioContext() {
-      return offlineCtx
-    }))
+    vi.stubGlobal(
+      'OfflineAudioContext',
+      vi.fn(function MockOfflineAudioContext() {
+        return offlineCtx
+      })
+    )
 
     vi.stubGlobal('navigator', {
       mediaDevices: { getUserMedia: mockGetUserMedia },
@@ -128,7 +148,9 @@ describe('VoiceRecorder', () => {
 
   it('has correct aria-label in idle state', () => {
     render(<VoiceRecorder onTranscription={vi.fn()} />)
-    expect(screen.getByRole('button').getAttribute('aria-label')).toBe('ariaRecord')
+    expect(screen.getByRole('button').getAttribute('aria-label')).toBe(
+      'ariaRecord'
+    )
   })
 
   it('applies custom className', () => {
@@ -163,7 +185,11 @@ describe('VoiceRecorder', () => {
     expect(button.textContent).toContain('stop')
     expect(button.getAttribute('aria-label')).toBe('ariaStop')
     expect(mockGetUserMedia).toHaveBeenCalledWith({
-      audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true,
+      },
     })
   })
 
@@ -248,15 +274,15 @@ describe('VoiceRecorder', () => {
     const button = screen.getByRole('button')
 
     fireEvent.click(button)
-    await vi.advanceTimersByTimeAsync(0)
+    await act(() => vi.advanceTimersByTimeAsync(0))
 
     expect(button.textContent).toContain('stop')
 
     fireAudioChunk()
 
     // Advance past auto-stop timeout
-    await vi.advanceTimersByTimeAsync(3001)
-    await vi.advanceTimersByTimeAsync(0)
+    await act(() => vi.advanceTimersByTimeAsync(3001))
+    await act(() => vi.advanceTimersByTimeAsync(0))
 
     expect(onTranscription).toHaveBeenCalledWith('transcribed text')
     expect(button.textContent).toContain('record')
@@ -321,17 +347,21 @@ describe('VoiceRecorder', () => {
     fireEvent.click(button)
     expect(mockGetUserMedia).toHaveBeenCalledTimes(callsBefore)
 
-    resolveApi!({
-      ok: true,
-      status: 200,
-      json: () => Promise.resolve({ text: 'done' }),
-    } as Response)
+    await act(async () => {
+      resolveApi!({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve({ text: 'done' }),
+      } as Response)
+    })
   })
 
   // ===== Error: microphone permission denied =====
 
   it('shows error when getUserMedia rejects', async () => {
-    mockGetUserMedia.mockRejectedValue(new DOMException('Permission denied', 'NotAllowedError'))
+    mockGetUserMedia.mockRejectedValue(
+      new DOMException('Permission denied', 'NotAllowedError')
+    )
 
     render(<VoiceRecorder onTranscription={vi.fn()} />)
     const button = screen.getByRole('button')
@@ -346,7 +376,9 @@ describe('VoiceRecorder', () => {
   it('recovers from getUserMedia error after timeout', async () => {
     vi.useFakeTimers()
 
-    mockGetUserMedia.mockRejectedValue(new DOMException('Permission denied', 'NotAllowedError'))
+    mockGetUserMedia.mockRejectedValue(
+      new DOMException('Permission denied', 'NotAllowedError')
+    )
 
     render(<VoiceRecorder onTranscription={vi.fn()} />)
     const button = screen.getByRole('button')
@@ -378,9 +410,12 @@ describe('VoiceRecorder', () => {
     fireAudioChunk()
     fireEvent.click(button)
 
-    await waitFor(() => {
-      expect(button.textContent).toContain('error')
-    }, { timeout: 4000 })
+    await waitFor(
+      () => {
+        expect(button.textContent).toContain('error')
+      },
+      { timeout: 4000 }
+    )
   })
 
   it('shows error when STT API rejects', async () => {
@@ -394,9 +429,12 @@ describe('VoiceRecorder', () => {
     fireAudioChunk()
     fireEvent.click(button)
 
-    await waitFor(() => {
-      expect(button.textContent).toContain('error')
-    }, { timeout: 4000 })
+    await waitFor(
+      () => {
+        expect(button.textContent).toContain('error')
+      },
+      { timeout: 4000 }
+    )
   })
 
   it('recovers from STT error after timeout', async () => {
@@ -448,9 +486,12 @@ describe('VoiceRecorder', () => {
     await waitForRecordingReady()
     fireAudioChunk()
     fireEvent.click(button)
-    await waitFor(() => {
-      expect(button.textContent).toContain('error')
-    }, { timeout: 4000 })
+    await waitFor(
+      () => {
+        expect(button.textContent).toContain('error')
+      },
+      { timeout: 4000 }
+    )
 
     const mediaCallsCount = mockGetUserMedia.mock.calls.length
     fireEvent.click(button)
@@ -467,16 +508,16 @@ describe('VoiceRecorder', () => {
     const button = screen.getByRole('button')
 
     fireEvent.click(button)
-    await vi.advanceTimersByTimeAsync(0)
+    await act(() => vi.advanceTimersByTimeAsync(0))
 
     fireAudioChunk([0.1, 0.2, 0.3])
 
     fireEvent.click(button)
-    await vi.advanceTimersByTimeAsync(0)
+    await act(() => vi.advanceTimersByTimeAsync(0))
 
     expect(mockStartRendering).toHaveBeenCalled()
 
-    await vi.advanceTimersByTimeAsync(100)
+    await act(() => vi.advanceTimersByTimeAsync(100))
 
     expect(onTranscription).toHaveBeenCalledWith('transcribed text')
 
@@ -501,14 +542,14 @@ describe('VoiceRecorder', () => {
     const button = screen.getByRole('button')
 
     fireEvent.click(button)
-    await vi.advanceTimersByTimeAsync(0)
+    await act(() => vi.advanceTimersByTimeAsync(0))
 
     expect(button.textContent).toContain('stop')
 
     fireAudioChunk()
 
-    await vi.advanceTimersByTimeAsync(1001)
-    await vi.advanceTimersByTimeAsync(0)
+    await act(() => vi.advanceTimersByTimeAsync(1001))
+    await act(() => vi.advanceTimersByTimeAsync(0))
 
     expect(onTranscription).toHaveBeenCalled()
 
@@ -523,19 +564,19 @@ describe('VoiceRecorder', () => {
     const button = screen.getByRole('button')
 
     fireEvent.click(button)
-    await vi.advanceTimersByTimeAsync(0)
+    await act(() => vi.advanceTimersByTimeAsync(0))
 
     expect(button.textContent).toContain('stop')
 
     fireAudioChunk()
 
     // At 4s, still recording
-    await vi.advanceTimersByTimeAsync(4000)
+    await act(() => vi.advanceTimersByTimeAsync(4000))
     expect(button.textContent).toContain('stop')
 
     // At 5s+, auto-stop fires
-    await vi.advanceTimersByTimeAsync(1001)
-    await vi.advanceTimersByTimeAsync(0)
+    await act(() => vi.advanceTimersByTimeAsync(1001))
+    await act(() => vi.advanceTimersByTimeAsync(0))
 
     expect(onTranscription).toHaveBeenCalled()
 

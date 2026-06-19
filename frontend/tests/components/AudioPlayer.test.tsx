@@ -12,7 +12,8 @@ function makeOkResponse(blob?: Blob) {
   return {
     ok: true,
     status: 200,
-    blob: () => Promise.resolve(blob ?? new Blob(['audio'], { type: 'audio/mpeg' })),
+    blob: () =>
+      Promise.resolve(blob ?? new Blob(['audio'], { type: 'audio/mpeg' })),
     headers: new Headers(),
   }
 }
@@ -151,9 +152,11 @@ describe('AudioPlayer', () => {
       '/api/tts',
       expect.objectContaining({
         method: 'POST',
-        headers: expect.objectContaining({ 'Content-Type': 'application/json' }),
+        headers: expect.objectContaining({
+          'Content-Type': 'application/json',
+        }),
         body: JSON.stringify({ text: 'Hello world', voice: undefined }),
-      }),
+      })
     )
   })
 
@@ -164,7 +167,9 @@ describe('AudioPlayer', () => {
     fireEvent.click(screen.getByRole('button'))
 
     await waitFor(() => {
-      expect(fetchMock.mock.calls[0][1].headers['X-TTS-Trace-ID']).toMatch(/^tts-/)
+      expect(fetchMock.mock.calls[0][1].headers['X-TTS-Trace-ID']).toMatch(
+        /^tts-/
+      )
     })
   })
 
@@ -176,7 +181,9 @@ describe('AudioPlayer', () => {
     fireEvent.click(screen.getByRole('button'))
 
     await waitFor(() => {
-      expect(fetchMock.mock.calls[0][1].headers.Authorization).toBe('Bearer tok-abc123')
+      expect(fetchMock.mock.calls[0][1].headers.Authorization).toBe(
+        'Bearer tok-abc123'
+      )
     })
   })
 
@@ -228,7 +235,10 @@ describe('AudioPlayer', () => {
     })
 
     await waitFor(() => {
-      const c = screen.getByRole('button').className.split(/\s+/).filter(Boolean)
+      const c = screen
+        .getByRole('button')
+        .className.split(/\s+/)
+        .filter(Boolean)
       expect(c).toContain('text-fl-fg')
     })
   })
@@ -253,7 +263,10 @@ describe('AudioPlayer', () => {
     fireEvent.click(screen.getByRole('button'))
 
     await waitFor(() => {
-      const c = screen.getByRole('button').className.split(/\s+/).filter(Boolean)
+      const c = screen
+        .getByRole('button')
+        .className.split(/\s+/)
+        .filter(Boolean)
       expect(c).toContain('animate-pulse')
       expect(c).toContain('text-fl-muted-3')
     })
@@ -312,7 +325,7 @@ describe('AudioPlayer', () => {
         '/api/tts',
         expect.objectContaining({
           body: JSON.stringify({ text: 'Hello', voice: 'nova' }),
-        }),
+        })
       )
     })
   })
@@ -329,7 +342,7 @@ describe('AudioPlayer', () => {
         '/api/tts',
         expect.objectContaining({
           body: JSON.stringify({ text: 'Hello', voice: 'alloy' }),
-        }),
+        })
       )
     })
   })
@@ -346,7 +359,7 @@ describe('AudioPlayer', () => {
         '/api/tts',
         expect.objectContaining({
           body: JSON.stringify({ text: 'Hello', voice: 'nova' }),
-        }),
+        })
       )
     })
   })
@@ -529,7 +542,7 @@ describe('AudioPlayer', () => {
       <>
         <AudioPlayer text="Item A" />
         <AudioPlayer text="Item B" />
-      </>,
+      </>
     )
 
     const buttons = screen.getAllByRole('button')
@@ -573,7 +586,7 @@ describe('AudioPlayer', () => {
       <>
         <AudioPlayer text="First text" />
         <AudioPlayer text="Second text" />
-      </>,
+      </>
     )
 
     const buttons = screen.getAllByRole('button')
@@ -589,7 +602,9 @@ describe('AudioPlayer', () => {
       expect(fetchMock).toHaveBeenCalledTimes(2)
     })
 
-    const bodies = fetchMock.mock.calls.map((call: any[]) => JSON.parse(call[1].body))
+    const bodies = fetchMock.mock.calls.map((call: any[]) =>
+      JSON.parse(call[1].body)
+    )
     expect(bodies[0].text).toBe('First text')
     expect(bodies[1].text).toBe('Second text')
   })
@@ -679,7 +694,7 @@ describe('AudioPlayer', () => {
       '/api/tts',
       expect.objectContaining({
         body: expect.stringContaining('A'.repeat(5000)),
-      }),
+      })
     )
   })
 

@@ -1,5 +1,5 @@
 ---
-description: "Database models reference for FreeLingo: 19 SQLAlchemy ORM models with full schema details, relationships, constraints, and business rules."
+description: "Database models reference for FreeLingo: 20 SQLAlchemy ORM models with full schema details, relationships, constraints, and business rules."
 applyTo: "backend/app/models/**, backend/alembic/**"
 ---
 
@@ -330,6 +330,35 @@ A flat comment on a feedback entry. No nesting.
 | author_id  | integer  | FK → users (CASCADE DELETE)              |
 | body       | text     | Comment body (max 2000 chars via schema) |
 | created_at | datetime | Auto-set on creation                     |
+
+## Review (`reviews`)
+
+One moderated product review per user. Added in Phase 11.
+
+| Column            | Type        | Notes                                                                |
+| ----------------- | ----------- | -------------------------------------------------------------------- |
+| id                | integer     | Primary key                                                          |
+| user_id           | integer     | FK -> users (CASCADE DELETE), unique, indexed                        |
+| user_display_name | string(150) | Snapshot of the user's visible name when the review is created       |
+| target_language   | string(10)  | Active learning language when the review is created, indexed         |
+| rating            | integer     | Required 1-5 star rating                                             |
+| comment           | text        | Optional review comment                                              |
+| is_approved       | boolean     | Admin moderation flag, default `false`, indexed                      |
+| created_at        | datetime    | Auto-set on creation, indexed                                        |
+| updated_at        | datetime    | Auto-set on creation; updated when ORM updates the row               |
+
+**Constraints and indexes:**
+
+- `uq_reviews_user_id` - enforces exactly one review per user.
+- `ck_reviews_rating_range` - enforces `rating >= 1 AND rating <= 5`.
+- Indexes: `user_id`, `target_language`, `is_approved`, `created_at`.
+
+**Business rules:**
+
+- New reviews start as unapproved and must be approved by an admin before public display.
+- Landing/public queries must show only approved reviews with `rating >= 4`.
+- Rating-only reviews are valid; `comment` may be null.
+- Deleting a user cascades and deletes their review.
 
 ## Memory (`memories`)
 
