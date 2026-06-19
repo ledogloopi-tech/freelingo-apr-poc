@@ -152,6 +152,51 @@ async def test_list_feedback_filter_by_status(client, test_user, db_session):
 
 
 @pytest.mark.asyncio
+async def test_list_feedback_excludes_done_by_default(client, test_user, db_session):
+    """Done feedback is hidden unless the done status filter is selected."""
+    from datetime import datetime, timezone
+
+    from app.models.feedback import FeedbackEntry
+
+    user, headers = test_user
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
+
+    db_session.add(
+        FeedbackEntry(
+            type="feature",
+            title="Completed item",
+            description="d",
+            status="done",
+            author_id=user.id,
+            created_at=now,
+        )
+    )
+    db_session.add(
+        FeedbackEntry(
+            type="feature",
+            title="Active item",
+            description="d",
+            status="pending",
+            author_id=user.id,
+            created_at=now,
+        )
+    )
+    await db_session.commit()
+
+    resp = await client.get("/api/feedback", headers=headers)
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["total"] == 1
+    assert [item["title"] for item in data["items"]] == ["Active item"]
+
+    done_resp = await client.get("/api/feedback?status=done", headers=headers)
+    assert done_resp.status_code == 200
+    done_data = done_resp.json()
+    assert done_data["total"] == 1
+    assert [item["title"] for item in done_data["items"]] == ["Completed item"]
+
+
+@pytest.mark.asyncio
 async def test_list_feedback_search_by_title_and_description(client, test_user, db_session):
     """Filtering by q searches title and description."""
     from datetime import datetime, timezone

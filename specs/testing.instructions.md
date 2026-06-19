@@ -55,7 +55,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, curr
 - **`test_reading.py`** — Lines: 400+. What it covers: Reading exercise generation with `structured_output()`, comprehension questions, answer evaluation, XP calculation
 - **`test_reading_extra.py`** — Lines: 255. What it covers: Additional reading exercise scenarios
 - **`test_vocabulary.py`** — Lines: 175. What it covers: Vocabulary API: list sets, by-level, set detail, language switching, auth, error cases (14 tests)
-- **`test_feedback.py`** — Lines: 1116. What it covers: Feedback board: feature requests, bug reports, voting, comments, admin moderation
+- **`test_feedback.py`** — Lines: 1261. What it covers: Feedback board: feature requests, bug reports, default exclusion of done entries, voting, comments, admin moderation
 - **`test_billing.py`** — Lines: 381. What it covers: Stripe subscriptions, webhooks, payment status, subscription lifecycle
 - **`test_maintenance.py`** — Lines: 153. What it covers: Maintenance mode toggle, API behavior during maintenance
 - **`test_memories.py`** — Lines: 362. What it covers: LLM memory (Phase 9): memory creation, retrieval, update, deletion

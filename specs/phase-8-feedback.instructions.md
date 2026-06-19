@@ -73,7 +73,7 @@ Creates `feedback_entries`, `feedback_votes`, `feedback_comments` with all index
 
 ### Endpoints
 
-- **GET `/`** — Rate limit: 60/min. Auth: get_current_user. Notes: Accepts `q` (title, description, username, or display name search; max 100 chars), `type`, `status` (alias for `status_filter`), `sort` (votes\|date), `order` (asc\|desc), `skip`, `limit`. Count runs against `stmt.subquery()` for accurate filtered totals.
+- **GET `/`** — Rate limit: 60/min. Auth: get_current_user. Notes: Accepts `q` (title, description, username, or display name search; max 100 chars), `type`, `status` (alias for `status_filter`), `sort` (votes\|date), `order` (asc\|desc), `skip`, `limit`. If `status` is omitted, `done` entries are excluded by default from both the public board and admin queue; they are returned only when `status=done` is explicitly requested. Count runs against `stmt.subquery()` for accurate filtered totals.
 - **POST `/`** — Rate limit: 10/hour. Auth: get_current_user. Notes: Creates entry with status `pending`. Returns HTTP 201. Fires an admin email notification (see below).
 - **GET `/{id}`** — Rate limit: 60/min. Auth: get_current_user. Notes: Returns `FeedbackEntryDetail` with comments list (ordered by `created_at ASC`).
 - **DELETE `/{id}`** — Rate limit: 20/min. Auth: get_current_user. Notes: Allowed if `author_id == current_user.id` OR `current_user.role == "admin"`. Returns HTTP 204.
@@ -117,6 +117,7 @@ Creates `feedback_entries`, `feedback_votes`, `feedback_comments` with all index
 - `DetailView` receives `isAdmin` and `getStatusLabel` as props from the parent to avoid re-deriving them.
 - `CreateModal` calls `onCreated()` with no arguments after a successful POST; the parent reloads with `loadEntries(0, tab, sort, statusFilter)`.
 - Pagination: identical two-effect pattern as `admin/users/page.tsx` — one effect on `page`, one effect on filters that resets to page 0 before loading.
+- Default listing behavior: entries with `status=done` are hidden unless the status dropdown is set to Done.
 - Admin users see delete button on all entries in both list and detail views; regular users only see it on their own entries.
 
 **Status badge colours (consistent with admin users page):**
@@ -131,7 +132,7 @@ Creates `feedback_entries`, `feedback_votes`, `feedback_comments` with all index
 
 ### `/admin/feedback` (`frontend/src/app/(app)/admin/feedback/page.tsx`)
 
-Paginated feedback queue for admins. Filters: `q` search, type (all/feature/bug), status, and sort (date/votes). The page uses shared admin primitives (`AdminPageHeader`, `AdminPanel`, `AdminMetric`, `AdminBadge`) and renders a dense desktop table plus responsive mobile cards. Status changes use an inline `<select>` and trigger `PATCH /{id}/status`; delete uses `ConfirmDialog`. The page includes the shared `AdminNav` navigation alongside `/admin` and `/admin/users`.
+Paginated feedback queue for admins. Filters: `q` search, type (all/feature/bug), status, and sort (date/votes). Entries with `status=done` are hidden from the default queue and only appear when the Done status filter is selected. The page uses shared admin primitives (`AdminPageHeader`, `AdminPanel`, `AdminMetric`, `AdminBadge`) and renders a dense desktop table plus responsive mobile cards. Status changes use an inline `<select>` and trigger `PATCH /{id}/status`; delete uses `ConfirmDialog`. The page includes the shared `AdminNav` navigation alongside `/admin` and `/admin/users`.
 
 ---
 
