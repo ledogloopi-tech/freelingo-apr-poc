@@ -90,6 +90,13 @@ def test_system_prompt_contains_student_details() -> None:
     assert TUTOR_DISPLAY_NAME in prompt
 
 
+def test_pipeline_humanizes_native_language_code_in_system_prompt() -> None:
+    pipeline = _make_pipeline(native_language="es", target_language="en-GB")
+
+    assert "Student's native language: Spanish" in pipeline.system_prompt
+    assert "Student's native language: es" not in pipeline.system_prompt
+
+
 def test_system_prompt_includes_user_context() -> None:
     prompt = _build_conversation_system_prompt(
         student_name="Bob",

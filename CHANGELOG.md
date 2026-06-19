@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - **AI tutor persona**: the tutor is now consistently named Lingu in text tutor prompts, voice conversation prompts, and TTS voice previews.
+- **Reading/listening generation robustness**: AI-generated reading and listening exercises now use structured Pydantic output validation instead of raw JSON parsing.
+- **Native-language prompt clarity**: stored native-language codes such as `es` and `fr` are converted to human-readable names before being injected into LLM prompts.
 - **What's New version marker**: bumped to `v1.8.8` while keeping the existing What's New entry text unchanged.
 
 ## [1.8.7] - 2026-06-17

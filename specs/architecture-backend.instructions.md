@@ -153,7 +153,7 @@ The application uses 17 services plus a centralized `services/prompts/` package 
 
 - **LLM & AI**: LLM Adapter (multi-provider), Assessment, Study Plan Generator, Lesson Generator, Flashcard SM-2
 - **Media**: TTS Service, STT Service, Conversation Pipeline (WebSocket voice orchestrator)
-- **Content**: Listening Service, Reading Service (AI-generated exercises with caching)
+- **Content**: Listening Service, Reading Service (AI-generated exercises with caching; generation responses validated with Pydantic `structured_output()` schemas)
 - **User**: Progress Service, Memory Service, Quota Service, Subscription Service, User Language Service
 - **Infrastructure**: Language Helpers, Email Service
 - **Prompt architecture**: prompt templates, shared blocks, and builders live in `services/prompts/`; see [prompts.instructions.md](prompts.instructions.md)

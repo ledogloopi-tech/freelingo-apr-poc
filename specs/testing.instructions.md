@@ -48,11 +48,11 @@ All tests pass on every push. Backend coverage threshold configured at 70%, curr
 - **`test_progress.py`** — Lines: 48. What it covers: Progress summary and history with empty and populated data
 - **`test_progress_extra.py`** — Lines: 83. What it covers: Additional progress tracking scenarios
 - **`test_conversation.py`** — Lines: 555. What it covers: WebSocket authentication, TTS/STT disabled rejection, pipeline lifecycle, session management
-- **`test_conversation_pipeline_service.py`** — Lines: —. What it covers: Conversation pipeline service: system prompt, sentence cleaning, TTS queue, greet, audio processing, barge-in, usage tracking, inactivity watcher, max-duration watcher, full lifecycle (76 tests, 50%→97% coverage)
+- **`test_conversation_pipeline_service.py`** — Lines: —. What it covers: Conversation pipeline service: system prompt, native-language name injection, sentence cleaning, TTS queue, greet, audio processing, barge-in, usage tracking, inactivity watcher, max-duration watcher, full lifecycle
 - **`test_frontend_data_integrity.py`** — Lines: 168. What it covers: Cross-reference validation: curriculum.ts vs grammar.ts, all 4 languages' curriculum vs backend vocabulary — ensures all referenced slugs and IDs exist
 - **`test_listening.py`** — Lines: 503. What it covers: Exercise pool (next / generate), generation lock, audio serving, answer evaluation (score + XP), attempt deduplication, history
 - **`test_listening_extra.py`** — Lines: 208. What it covers: Additional listening exercise scenarios
-- **`test_reading.py`** — Lines: 400. What it covers: Reading exercise generation, comprehension questions, answer evaluation, XP calculation
+- **`test_reading.py`** — Lines: 400+. What it covers: Reading exercise generation with `structured_output()`, comprehension questions, answer evaluation, XP calculation
 - **`test_reading_extra.py`** — Lines: 255. What it covers: Additional reading exercise scenarios
 - **`test_vocabulary.py`** — Lines: 175. What it covers: Vocabulary API: list sets, by-level, set detail, language switching, auth, error cases (14 tests)
 - **`test_feedback.py`** — Lines: 1116. What it covers: Feedback board: feature requests, bug reports, voting, comments, admin moderation
@@ -62,11 +62,11 @@ All tests pass on every push. Backend coverage threshold configured at 70%, curr
 - **`test_llm_adapter.py`** — Lines: —. What it covers: LLM adapter: JSON parsing, streaming, 5 exception classes, 4 provider init paths, chat (streaming + non-streaming), Anthropic error mapping, structured output with retry, DeepSeek provider, edge cases (63 tests, 38%→100% coverage)
 - **`test_phrasebook.py`** — Lines: 185. What it covers: Phrasebook API: list categories, by-level filtering, category detail, language switching, auth, error cases (14 tests)
 - **`test_quota_service.py`** — Lines: —. What it covers: Quota service: key helpers, quota status, session tracking, daily/weekly minute checks, monthly token tracking, combined quota validation, full session lifecycle (71 tests, 37%→100% coverage)
-- **`test_flashcard_sm2.py`** — Lines: —. What it covers: Flashcard service: `_clean_generated_word`, `_get_lang_hint` (9 languages + fallbacks), `generate_flashcards`, `lookup_word` (18 tests, 57%→100% coverage)
+- **`test_flashcard_sm2.py`** — Lines: —. What it covers: Flashcard service: `_clean_generated_word`, `_get_lang_hint` (9 languages + fallbacks), native-language name injection, `generate_flashcards`, `lookup_word`
 - **`test_assessment_bank.py`** — Lines: —. What it covers: Assessment bank dispatcher: all 7 languages, unknown fallback to en-GB, ISO prefix fallback, cache reuse (12 tests, 0%→100% coverage)
 - **`test_limiter.py`** — Lines: —. What it covers: Rate limiter: `_get_real_ip` (X-Real-IP, X-Forwarded-For single/multiple, client host fallback, unknown), limiter construction (9 tests, 42%→100% coverage)
 - **`test_lesson_generator.py`** — Lines: —. What it covers: Lesson generator service: `get_valid_grammar_slugs`, `generate_lesson`, fill-blank sanitization, grammar refs filtering, `evaluate_free_write`, `evaluate_pronunciation`, `evaluate_fill_blank` (12 tests, 51%→100% coverage)
-- **`test_listening_service.py`** — Lines: —. What it covers: Listening service DB layer: `get_available_exercise`, `submit_attempt` (correct/partial/duplicate/replay/not-found), `get_user_history` (empty/attempts/limit/language filter) (12 tests, 63%→64% coverage)
+- **`test_listening_service.py`** — Lines: —. What it covers: Listening service DB layer and generation: `structured_output()` generation persistence, `get_available_exercise`, `submit_attempt` (correct/partial/duplicate/replay/not-found), `get_user_history` (empty/attempts/limit/language filter)
 
 **Total: 38 test files, 803 tests.**
 
@@ -81,7 +81,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, curr
 
 - `chat()` → returns a deterministic string (used in assessment, flashcards, chat tests)
 - `chat(stream=True)` → returns an async generator yielding token chunks (used in chat SSE tests)
-- `structured_output()` → returns a pre-built Pydantic model (used in assessment and lesson tests)
+- `structured_output()` → returns a pre-built Pydantic model (used in assessment, lesson, flashcard, reading, and listening tests)
 
 **Mocking Redis**: Mock `get_redis` dependency. The in-memory mock stores `refresh:{token}` → user_id mappings and `invite:{token}` → "1" for invite tokens, matching the real Redis interface.
 

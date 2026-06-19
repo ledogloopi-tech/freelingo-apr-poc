@@ -13,6 +13,19 @@ class QuestionOut(BaseModel):
     options: dict[str, str]  # {"A": "...", "B": "...", "C": "...", "D": "..."}
 
 
+class ListeningGenerationQuestion(BaseModel):
+    index: int
+    question: str
+    options: dict[str, str]
+    correct: str
+
+
+class ListeningGenerationResponse(BaseModel):
+    topic: str
+    text: str
+    questions: list[ListeningGenerationQuestion]
+
+
 class ListeningExerciseOut(BaseModel):
     """Safe exercise representation — never includes text or correct answers."""
 

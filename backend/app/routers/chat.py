@@ -21,7 +21,7 @@ from app.schemas.chat import (
     ConversationCreate,
     ConversationResponse,
 )
-from app.services.language_helpers import get_language_name
+from app.services.language_helpers import get_language_name, get_native_language_name
 from app.services.llm_adapter import (
     LLMError,
     LLMStream,
@@ -312,7 +312,7 @@ async def chat(
     system_prompt = _build_tutor_system_prompt(
         student_name=current_user.display_name,
         cefr_level=cefr_level,
-        native_language=current_user.native_language,
+        native_language=get_native_language_name(current_user.native_language),
         target_language_name=target_language_name,
         total_xp=total_xp,
         streak=streak,

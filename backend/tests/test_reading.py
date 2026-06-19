@@ -130,6 +130,35 @@ async def _make_exercise(db, level: str = "B1") -> ReadingExercise:
     return ex
 
 
+class TestReadingGenerationService:
+    @pytest.mark.asyncio
+    async def test_uses_structured_output_schema_and_saves_exercise(self, db_session):
+        from app.schemas.reading import ReadingGenerationResponse
+        from app.services.reading_service import generate_and_save_exercise
+
+        response = ReadingGenerationResponse(
+            topic="City life",
+            text="A short reading text.",
+            questions=_QUESTIONS,
+        )
+
+        with patch(
+            "app.services.reading_service.llm_adapter.structured_output",
+            new=AsyncMock(return_value=response),
+        ) as mock_structured:
+            exercise = await generate_and_save_exercise(
+                level="B1",
+                target_language="pt-PT",
+                db=db_session,
+            )
+
+        assert exercise.topic == "City life"
+        assert exercise.text == "A short reading text."
+        assert exercise.questions == _QUESTIONS
+        assert exercise.target_language == "pt-PT"
+        assert mock_structured.await_args.args[1] is ReadingGenerationResponse
+
+
 # ---------------------------------------------------------------------------
 # Fixtures
 # ---------------------------------------------------------------------------

@@ -7,7 +7,7 @@ from app.schemas.flashcards import (
     FlashcardGenerateResponse,
     GeneratedFlashcard,
 )
-from app.services.language_helpers import get_language_name
+from app.services.language_helpers import get_language_name, get_native_language_name
 from app.services.llm_adapter import llm_adapter
 from app.services.prompts import flashcards as flashcard_prompts
 from app.services.prompts.common import get_language_prompt_overlay
@@ -55,12 +55,13 @@ async def generate_flashcards(
     topic: str, count: int, cefr_level: str, native_language: str, target_language: str = "en-GB"
 ) -> FlashcardGenerateResponse:
     target_language_name = get_language_name(target_language)
+    native_language_name = get_native_language_name(native_language)
     language_prompt_overlay = _get_lang_hint(target_language)
     prompt = build_flashcard_generation_prompt(
         topic=topic,
         count=count,
         cefr_level=cefr_level,
-        native_language=native_language,
+        native_language=native_language_name,
         target_language_name=target_language_name,
         language_prompt_overlay=language_prompt_overlay,
     )
@@ -89,12 +90,13 @@ async def lookup_word(
     target_language: str = "en-GB",
 ) -> FlashcardCreate:
     target_language_name = get_language_name(target_language)
+    native_language_name = get_native_language_name(native_language)
     language_prompt_overlay = _get_lang_hint(target_language)
     prompt = build_word_lookup_prompt(
         word=word,
         context=context or word,
         cefr_level=cefr_level,
-        native_language=native_language,
+        native_language=native_language_name,
         target_language_name=target_language_name,
         language_prompt_overlay=language_prompt_overlay,
     )

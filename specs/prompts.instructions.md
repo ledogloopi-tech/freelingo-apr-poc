@@ -72,8 +72,8 @@ language-specific guidance across all active LLM-backed learning areas.
 | `build_pronunciation_eval_prompt()` | `prompts/lesson.py` | `services/lesson_generator.py` | `system` via `structured_output` | `PronunciationEvaluation` JSON. |
 | `build_flashcard_generation_prompt()` | `prompts/flashcards.py` | `services/flashcard_sm2.py` | `system` via `structured_output` | `FlashcardGenerateResponse` JSON. |
 | `build_word_lookup_prompt()` | `prompts/flashcards.py` | `services/flashcard_sm2.py` | `system` via `structured_output` | `FlashcardCreate` JSON. |
-| `build_listening_generation_prompt()` | `prompts/comprehension.py` | `services/listening_service.py` | `user` | Raw JSON parsed with `parse_llm_json()`. |
-| `build_reading_generation_prompt()` | `prompts/comprehension.py` | `services/reading_service.py` | `user` | Raw JSON parsed with `parse_llm_json()`. |
+| `build_listening_generation_prompt()` | `prompts/comprehension.py` | `services/listening_service.py` | `user` via `structured_output` | `ListeningGenerationResponse` JSON. |
+| `build_reading_generation_prompt()` | `prompts/comprehension.py` | `services/reading_service.py` | `user` via `structured_output` | `ReadingGenerationResponse` JSON. |
 | `build_free_write_assessment_prompt()` | `prompts/assessment.py` | `services/assessment.py` | `system` | Raw JSON parsed by assessment service. |
 | `build_end_of_level_test_prompt()` | `prompts/assessment.py` | `services/assessment.py` | `system` | Raw JSON with `questions`. |
 | `build_legacy_assessment_quiz_prompt()` | `prompts/assessment.py` | `routers/assessment.py` | `system` via `structured_output` | `LegacyQuizResponse` JSON. |
@@ -105,7 +105,7 @@ Common variables:
 
 - `target_language_name`: human-readable target language, derived from BCP-47 code. Regional variants are preserved where behaviourally relevant: `en-US` → `English (US)`, `en-GB` → `English (UK)`, `es-ES` → `Spanish (Spain)`, and `pt-PT` → `European Portuguese`.
 - `cefr_level` or `level`: learner level.
-- `native_language`: user's native language, used for explanation/translation where relevant.
+- `native_language`: user's native language, converted from stored code to a human-readable name before prompt injection where relevant.
 - `student_name`: display name or username.
 - `user_context`: learning goals and bio; explicitly non-authoritative.
 - `memory_context`: saved memories; explicitly non-authoritative.

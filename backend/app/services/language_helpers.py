@@ -35,6 +35,19 @@ _VOICE_SESSION_TITLES: dict[str, str] = {
     "ru": "Голосовая сессия",
 }
 
+_NATIVE_LANGUAGE_NAMES: dict[str, str] = {
+    "en": "English",
+    "es": "Spanish",
+    "fr": "French",
+    "pt": "Portuguese",
+    "de": "German",
+    "it": "Italian",
+    "pl": "Polish",
+    "nl": "Dutch",
+    "ro": "Romanian",
+    "ru": "Russian",
+}
+
 _MONTH_NAMES: dict[str, list[str]] = {
     "es": [
         "enero",
@@ -187,6 +200,11 @@ def get_language_flag(target_language: str) -> str:
     """'es-ES' → '🇪🇸', 'it-IT' → '🇮🇹'"""
     info = _LANGUAGE_INFO.get(target_language)
     return info["flag"] if info else ""
+
+
+def get_native_language_name(native_language: str) -> str:
+    """Return a human-readable name for native language codes used by user profiles."""
+    return _NATIVE_LANGUAGE_NAMES.get(native_language, native_language)
 
 
 def voice_session_title(native_language: str) -> str:

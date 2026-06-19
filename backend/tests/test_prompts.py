@@ -3,7 +3,7 @@ from __future__ import annotations
 from app.routers.chat import _build_tutor_system_prompt
 from app.services.conversation_pipeline import _build_conversation_system_prompt
 from app.services.flashcard_sm2 import _get_lang_hint
-from app.services.language_helpers import get_language_name
+from app.services.language_helpers import get_language_name, get_native_language_name
 from app.services.memory_service import parse_memory_marker
 from app.services.prompts.assessment import (
     build_end_of_level_test_prompt,
@@ -72,6 +72,12 @@ def test_regional_language_names_and_hints_are_prompt_ready() -> None:
     assert get_language_name("pt-PT") == "European Portuguese"
     assert _get_lang_hint("es-ES") == get_language_prompt_overlay("es-ES")
     assert _get_lang_hint("pt-PT") == get_language_prompt_overlay("pt-PT")
+
+
+def test_native_language_names_are_prompt_ready() -> None:
+    assert get_native_language_name("es") == "Spanish"
+    assert get_native_language_name("fr") == "French"
+    assert get_native_language_name("unknown") == "unknown"
 
 
 def test_language_prompt_overlays_cover_supported_learning_languages() -> None:

@@ -146,6 +146,37 @@ class TestGenerateFlashcards:
         assert result.flashcards[0].word == "run"
         assert result.flashcards[1].word == "study"
 
+    @pytest.mark.asyncio
+    async def test_native_language_code_is_humanized_in_prompt(self):
+        from app.services.flashcard_sm2 import generate_flashcards
+
+        mock_response = FlashcardGenerateResponse(
+            flashcards=[
+                GeneratedFlashcard(
+                    word="book",
+                    definition="libro",
+                    example_sentence="I read a book.",
+                    translation="libro",
+                )
+            ]
+        )
+
+        with patch(
+            "app.services.flashcard_sm2.llm_adapter.structured_output",
+            AsyncMock(return_value=mock_response),
+        ) as mock_structured:
+            await generate_flashcards(
+                topic="objects",
+                count=1,
+                cefr_level="A1",
+                native_language="es",
+                target_language="en-GB",
+            )
+
+        prompt = mock_structured.await_args.args[0][0]["content"]
+        assert "definition in Spanish" in prompt
+        assert "student's native language (Spanish)" in prompt
+
 
 class TestLookupWord:
     @pytest.mark.asyncio
