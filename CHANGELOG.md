@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **User reviews foundation**: Phase 11 has started with the new database model and migration for one moderated product review per user, including required 1-5 star ratings, optional comments, learning-language snapshots, and admin-approval state.
 - **Language-specific prompt guidance**: chat, voice, lessons, exercise evaluation, flashcards, reading, listening, and assessment prompts now include concise guidance for each supported learning language, preserving regional variants such as American/British English, Spanish from Spain, and European Portuguese.
 
 ### Changed

@@ -45,6 +45,8 @@ This phase defines the feature contract only. The exact product moments where th
 
 ## Database model
 
+Status: implemented in `backend/app/models/review.py` and migration `backend/alembic/versions/0042_reviews.py`.
+
 ### `reviews`
 
 | Column            | Type        | Constraints                                | Notes                                      |
@@ -61,11 +63,17 @@ This phase defines the feature contract only. The exact product moments where th
 
 ### Constraints and indexes
 
-- `UNIQUE(user_id)` - one review per user.
-- `CHECK(rating >= 1 AND rating <= 5)` - database-level rating guard.
+- `uq_reviews_user_id` - `UNIQUE(user_id)`, one review per user.
+- `ck_reviews_rating_range` - `CHECK(rating >= 1 AND rating <= 5)`, database-level rating guard.
 - Index `target_language` for admin filtering and public display grouping.
 - Index `is_approved` for landing/public review queries.
 - Index `created_at` for newest-first admin lists.
+
+### Alembic migration
+
+`backend/alembic/versions/0042_reviews.py` - revision `0042_reviews`, down_revision `0041_backfill_learning_goals`.
+
+Creates `reviews` with all constraints and indexes. Fully reversible via `downgrade()`.
 
 ### Snapshot rules
 
@@ -269,7 +277,7 @@ Admin should not edit review content. If content is not acceptable, the review s
 ## Implementation phases
 
 1. **Spec and planning** - this document plus affected architecture/API/database/frontend documentation updates.
-2. **Backend model and migration** - `Review` ORM model, Alembic migration, constraints, relationships.
+2. **Backend model and migration** - `Review` ORM model, Alembic migration, constraints, relationships. Status: complete.
 3. **Backend schemas and service** - validation, one-review guard, public/admin query helpers.
 4. **Backend endpoints** - user, public, and admin routes with rate limits.
 5. **Backend tests** - coverage for creation, constraints, moderation, public filtering, permissions.

@@ -25,7 +25,7 @@ backend/
 │   │   ├── app_logger.py        # Structured logging (structlog)
 │   │   └── limiter.py           # slowapi rate limiter setup
 │   │
-│   ├── models/                  # SQLAlchemy 2.0 ORM models (14 files, 20 model classes)
+│   ├── models/                  # SQLAlchemy 2.0 ORM models (15 files, 21 model classes)
 │   │   ├── __init__.py
 │   │   ├── user.py              # User, UserPreferences, user quotas, avatar
 │   │   ├── user_language.py     # UserLanguage (phase 10: multi-language learning)
@@ -39,6 +39,7 @@ backend/
 │   │   ├── listening.py         # ListeningExercise, ListeningAttempt
 │   │   ├── reading.py           # ReadingExercise, ReadingAttempt
 │   │   ├── feedback.py          # FeedbackEntry, FeedbackVote, FeedbackComment
+│   │   ├── review.py            # Review (one moderated product review per user)
 │   │   ├── memory.py            # Memory (persistent LLM context)
 │   │   └── llm_usage.py         # LLMUsage (token audit trail)
 │   │
@@ -121,21 +122,21 @@ backend/
 │       └── pt/                   # Portuguese — curriculum, assessment bank, vocabulary, phrasebook
 │
 ├── alembic/
-│   └── versions/                # DB migrations (31 migrations)
+│   └── versions/                # DB migrations (42 migrations)
 │
 └── tests/                       # pytest suite (38 test files, 815 tests)
 ```
 
 ## Database models
 
-The application uses 19 SQLAlchemy ORM models organized into 5 domains:
+The application uses 20 SQLAlchemy ORM models organized into 5 domains:
 
 - **Core**: User (authentication, preferences, quotas), Progress (daily XP/streak/skills)
 - **Study plan**: StudyPlan, Lesson, Exercise, UserCompetency (curriculum tracking)
 - **Spaced repetition**: Flashcard (SM-2 algorithm)
 - **Conversations**: Conversation, ChatHistory (text and voice transcripts)
 - **AI-generated content**: ListeningExercise, ListeningAttempt, ReadingExercise, ReadingAttempt (shared exercise pools)
-- **Community**: FeedbackEntry, FeedbackVote, FeedbackComment (feature requests and bug reports)
+- **Community**: FeedbackEntry, FeedbackVote, FeedbackComment (feature requests and bug reports), Review (moderated product reviews)
 - **LLM**: Memory (persistent context), LLMUsage (token audit trail)
 - **Multi-language**: UserLanguage (phase 10 — enables learning multiple target languages per user)
 

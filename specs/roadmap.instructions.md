@@ -401,7 +401,7 @@ This document records what was built and the completion criteria met.
 
 ## Phase 11 — User Reviews
 
-🔄 Status: Spec defined, implementation pending
+🔄 Status: In progress (backend model and migration complete)
 
 > One verified review per user, with mandatory 1–5 star rating, optional comment,
 > active learning language snapshot, admin approval, and approved positive reviews
@@ -411,8 +411,8 @@ This document records what was built and the completion criteria met.
 
 | #   | Milestone                                                                                          | Status |
 | --- | -------------------------------------------------------------------------------------------------- | ------ |
-| 1   | Spec and planning — functional rules, model contract, endpoints, frontend behaviour, test plan      | 🔄     |
-| 2   | Backend model and migration — `reviews` table, one review per user, rating constraints             | ⬜     |
+| 1   | Spec and planning — functional rules, model contract, endpoints, frontend behaviour, test plan      | ✅     |
+| 2   | Backend model and migration — `reviews` table, one review per user, rating constraints             | ✅     |
 | 3   | Backend API — user review creation/state, public approved reviews, admin moderation                 | ⬜     |
 | 4   | Backend tests — validation, duplicate guard, public filtering, admin permissions                    | ⬜     |
 | 5   | Frontend API and reusable review prompt with local dismissal cooldown                               | ⬜     |
@@ -422,8 +422,10 @@ This document records what was built and the completion criteria met.
 
 **Completion criteria:**
 
-- [ ] Users can create exactly one review.
-- [ ] Rating is mandatory and constrained to 1–5.
+- [x] Database model enforces one review per user.
+- [x] Database model constrains rating to 1–5.
+- [ ] Users can create exactly one review via API.
+- [ ] Rating is mandatory in API payloads and constrained to 1–5.
 - [ ] Comment is optional.
 - [ ] Reviews store display-name and active-learning-language snapshots.
 - [ ] New reviews are pending until admin approval.
