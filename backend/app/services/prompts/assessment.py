@@ -51,7 +51,9 @@ LEGACY_ASSESSMENT_QUIZ_PROMPT = (
     "for {target_language_name} language proficiency."
 )
 
-LEGACY_ASSESSMENT_EVAL_PROMPT = "Evaluate assessment answers and return CEFR placement result as JSON."
+LEGACY_ASSESSMENT_EVAL_PROMPT = (
+    "Evaluate assessment answers and return CEFR placement result as JSON."
+)
 
 LEGACY_ASSESSMENT_EVAL_USER_PROMPT = """Session: {session_id}
 Quiz: {quiz}
@@ -105,4 +107,3 @@ def build_legacy_assessment_eval_user_prompt(
         quiz=quiz,
         answers=answers,
     )
-

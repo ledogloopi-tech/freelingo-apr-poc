@@ -25,6 +25,7 @@ MAX_MEMORY_CHARS = 200
 # a comfortable buffer across all languages without wasting storage.
 MAX_MEMORIES_PER_USER = 150
 
+
 def parse_memory_marker(text: str) -> list[str]:
     """Extract memory items from a <<MEMORY>>...<<ENDMEMORY>> block.
 

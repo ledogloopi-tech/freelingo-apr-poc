@@ -36,9 +36,7 @@ def test_conversation_prompt_wrapper_matches_central_builder() -> None:
         "memory_context": "Saved memories about the student:\n- Studies after work\n",
     }
 
-    assert _build_conversation_system_prompt(**kwargs) == build_conversation_system_prompt(
-        **kwargs
-    )
+    assert _build_conversation_system_prompt(**kwargs) == build_conversation_system_prompt(**kwargs)
 
 
 def test_tutor_prompts_include_shared_memory_instruction() -> None:
@@ -64,4 +62,3 @@ def test_json_only_instruction_is_single_shared_block() -> None:
         "IMPORTANT: Respond with ONLY a valid JSON object. "
         "No markdown, no code fences, no extra text."
     )
-

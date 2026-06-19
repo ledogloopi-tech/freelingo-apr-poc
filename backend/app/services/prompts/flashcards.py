@@ -74,4 +74,3 @@ def build_word_lookup_prompt(
         native_language=native_language,
         lang_hint=lang_hint,
     )
-

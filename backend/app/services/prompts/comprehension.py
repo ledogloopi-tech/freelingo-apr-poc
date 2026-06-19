@@ -97,4 +97,3 @@ def build_reading_generation_prompt(
         topic=topic,
         word_count=word_count,
     )
-

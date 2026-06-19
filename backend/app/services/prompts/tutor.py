@@ -109,4 +109,3 @@ Rules:
 - ALWAYS respond in {target_language_name}, regardless of the language the student uses. If they speak in another language, reply in {target_language_name} and gently encourage them to try in {target_language_name}.
 - NEVER use emojis, emoticons, or any Unicode pictographic symbols in your responses. They are strictly forbidden because responses are read aloud by a text-to-speech engine and emoticons produce unnatural noise (e.g. "face with tears of joy"). Plain text only.
 """ + "\n" + get_memory_system_instruction(target_language_name)
-

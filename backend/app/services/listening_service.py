@@ -49,6 +49,7 @@ _TYPE_DESCRIPTIONS: dict[str, str] = {
     "news": "a short news broadcast or report segment",
 }
 
+
 async def get_available_exercise(
     level: str,
     target_language: str,

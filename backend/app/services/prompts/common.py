@@ -6,8 +6,7 @@ JSON_ONLY_INSTRUCTION = (
 )
 
 STRUCTURED_OUTPUT_RETRY_PROMPT = (
-    "That response was not valid JSON. Error: {error}. "
-    "Please return ONLY the JSON object."
+    "That response was not valid JSON. Error: {error}. " "Please return ONLY the JSON object."
 )
 
 ANTHROPIC_SYSTEM_ONLY_TRIGGER = "Generate the content as specified."
@@ -36,4 +35,3 @@ Rules for the memory block:
 def get_memory_system_instruction(target_language_name: str) -> str:
     """Return the memory system instruction parameterised with the target language name."""
     return MEMORY_SYSTEM_INSTRUCTION_BASE.format(target_language_name=target_language_name)
-
