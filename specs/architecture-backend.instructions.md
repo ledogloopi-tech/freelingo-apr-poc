@@ -88,7 +88,7 @@ backend/
 │   │   ├── tts.py               # Text-to-speech proxy
 │   │   └── vocabulary.py        # Static vocabulary data (per language + per level)
 │   │
-│   ├── services/                # Business logic + external service clients (17 modules)
+│   ├── services/                # Business logic + external service clients (17 modules + prompts package)
 │   │   ├── __init__.py
 │   │   ├── assessment.py        # Adaptive quiz logic, CEFR level estimation
 │   │   ├── conversation_pipeline.py  # WebSocket voice orchestrator: STT → LLM → TTS
@@ -100,6 +100,7 @@ backend/
 │   │   ├── llm_adapter.py       # Multi-provider LLM interface (Ollama, OpenAI, Anthropic, DeepSeek)
 │   │   ├── memory_service.py    # Autonomous LLM memory management
 │   │   ├── progress_service.py  # XP calculation, streak logic, skill scoring
+│   │   ├── prompts/             # Centralized LLM prompt templates and builders
 │   │   ├── quota_service.py     # Token quota tracking and enforcement
 │   │   ├── reading_service.py   # AI reading exercise generation + caching
 │   │   ├── stt_service.py       # Speech-to-text abstraction (local Whisper / OpenAI)
@@ -148,13 +149,14 @@ For complete schema details, relationships, constraints, and business rules, see
 
 All external dependencies are accessed through the service layer. The frontend never calls Ollama, Kokoro, or Whisper directly — the backend is the single gateway.
 
-The application uses 17 services organized into 5 domains:
+The application uses 17 services plus a centralized `services/prompts/` package organized into 5 domains:
 
 - **LLM & AI**: LLM Adapter (multi-provider), Assessment, Study Plan Generator, Lesson Generator, Flashcard SM-2
 - **Media**: TTS Service, STT Service, Conversation Pipeline (WebSocket voice orchestrator)
 - **Content**: Listening Service, Reading Service (AI-generated exercises with caching)
 - **User**: Progress Service, Memory Service, Quota Service, Subscription Service, User Language Service
 - **Infrastructure**: Language Helpers, Email Service
+- **Prompt architecture**: prompt templates, shared blocks, and builders live in `services/prompts/`; see [prompts.instructions.md](prompts.instructions.md)
 
 Key architectural decisions:
 

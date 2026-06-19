@@ -19,7 +19,7 @@ freelingo/
 │   │   ├── models/              # SQLAlchemy 2.0 ORM models (14 files, 20 model classes)
 │   │   ├── schemas/             # Pydantic v2 request/response schemas (14 modules)
 │   │   ├── routers/             # 22 routers (21 REST + 1 WebSocket)
-│   │   ├── services/            # Business logic + external service clients (17 modules)
+│   │   ├── services/            # Business logic + external service clients (17 modules + prompts package)
 │   │   └── data/                # Static curriculum and content data (4 languages)
 │   │       ├── en/              # English curriculum (A1–C2)
 │   │       ├── es/              # Spanish curriculum (A1–C2)

@@ -1,0 +1,77 @@
+"""Prompt templates and builders for flashcard generation."""
+
+FLASHCARD_GEN_PROMPT = """
+Generate {count} {target_language_name} vocabulary flashcards for a {cefr_level} student
+about the topic: "{topic}". Use {target_language_name} vocabulary and spelling.
+Word rules:
+- word must be only the core vocabulary term.
+- never include articles, gender markers, plural notes, qualifiers, parentheses, numbering, or prefixes/suffixes.
+- use lowercase, no trailing punctuation, and no extra metadata.
+{lang_hint}
+Return JSON:
+{{
+  "flashcards": [
+    {{
+      "word": "...",
+      "definition": "Simple definition in {native_language}",
+      "example_sentence": "Natural example sentence",
+      "translation": "Translation in the student's native language ({native_language})"
+    }}
+  ]
+}}
+"""
+
+WORD_LOOKUP_PROMPT = """
+A {cefr_level} {target_language_name} student selected the word "{word}" while reading.
+Context sentence: "{context}"
+
+Generate a flashcard for this word. Use {target_language_name} vocabulary and spelling.
+Word output must be only the target-language term without articles, gender markers, parentheses, qualifiers, prefixes, suffixes, or metadata.
+{lang_hint}
+Return JSON:
+{{
+  "word": "{word}",
+  "definition": "Simple definition in {native_language} (max 20 words)",
+  "example_sentence": "A natural example sentence using the word",
+  "translation": "Translation in the student's native language ({native_language})"
+}}
+"""
+
+
+def build_flashcard_generation_prompt(
+    *,
+    count: int,
+    target_language_name: str,
+    cefr_level: str,
+    topic: str,
+    native_language: str,
+    lang_hint: str,
+) -> str:
+    return FLASHCARD_GEN_PROMPT.format(
+        count=count,
+        target_language_name=target_language_name,
+        cefr_level=cefr_level,
+        topic=topic,
+        native_language=native_language,
+        lang_hint=lang_hint,
+    )
+
+
+def build_word_lookup_prompt(
+    *,
+    cefr_level: str,
+    target_language_name: str,
+    word: str,
+    context: str,
+    native_language: str,
+    lang_hint: str,
+) -> str:
+    return WORD_LOOKUP_PROMPT.format(
+        cefr_level=cefr_level,
+        target_language_name=target_language_name,
+        word=word,
+        context=context,
+        native_language=native_language,
+        lang_hint=lang_hint,
+    )
+

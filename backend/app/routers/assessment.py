@@ -38,6 +38,11 @@ from app.services.llm_adapter import (
     LLMUnavailableError,
     llm_adapter,
 )
+from app.services.prompts.assessment import (
+    LEGACY_ASSESSMENT_EVAL_PROMPT,
+    build_legacy_assessment_eval_user_prompt,
+    build_legacy_assessment_quiz_prompt,
+)
 from app.services.study_plan_generator import generate_study_plan
 from app.services.user_language_service import ensure_user_language
 
@@ -123,9 +128,8 @@ async def start_assessment(
             [
                 {
                     "role": "system",
-                    "content": (
-                        f"Generate an adaptive CEFR quiz with 20 questions "
-                        f"for {target_language_name} language proficiency."
+                    "content": build_legacy_assessment_quiz_prompt(
+                        target_language_name=target_language_name
                     ),
                 }
             ],
@@ -240,14 +244,14 @@ async def submit_assessment(
             [
                 {
                     "role": "system",
-                    "content": "Evaluate assessment answers and return CEFR placement result as JSON.",
+                    "content": LEGACY_ASSESSMENT_EVAL_PROMPT,
                 },
                 {
                     "role": "user",
-                    "content": (
-                        f"Session: {session['session_id']}\n"
-                        f"Quiz: {session['quiz']}\n"
-                        f"Answers: {data.model_dump()}"
+                    "content": build_legacy_assessment_eval_user_prompt(
+                        session_id=session["session_id"],
+                        quiz=session["quiz"],
+                        answers=data.model_dump(),
                     ),
                 },
             ],

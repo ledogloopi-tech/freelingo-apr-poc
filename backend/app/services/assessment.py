@@ -12,52 +12,14 @@ from app.services.llm_adapter import (
     LLMResponseError,
     llm_adapter,
 )
+from app.services.prompts import assessment as assessment_prompts
+from app.services.prompts.assessment import (
+    build_end_of_level_test_prompt,
+    build_free_write_assessment_prompt,
+)
 
-FREE_WRITE_ASSESSMENT_PROMPT = """
-You are evaluating a short {target_language_name} writing sample for CEFR placement.
-The student's apparent level based on grammar/vocabulary questions: {preliminary_level}
-
-Writing prompt given to student: "{prompt}"
-Student's answer: "{answer}"
-
-Assess vocabulary range, grammar accuracy, and coherence.
-Return JSON:
-{{
-  "adjusted_level": "{preliminary_level}",
-  "writing_score": 0.5,
-  "analysis": "2–3 sentence summary of strengths and gaps",
-  "strengths": [],
-  "weaknesses": []
-}}
-"""
-
-END_OF_LEVEL_TEST_PROMPT = """
-You are assessing whether a student has mastered CEFR level {cefr_level} in {target_language_name}.
-
-Generate a 20-question test completely in {target_language_name} covering ALL grammar
-points and vocabulary sets studied during {cefr_level}. Write every question, every
-answer option, and every piece of content exclusively in {target_language_name}.
-Questions must come exclusively from:
-Grammar: {grammar_points_studied}
-Vocabulary: {vocabulary_sets_studied}
-
-Use the same question schema as the placement test (multiple_choice, 4 options, correct field).
-Do NOT include content from {next_level}.
-
-Return JSON:
-{{
-  "questions": [
-    {{
-      "id": "lt-001",
-      "skill": "grammar",
-      "difficulty": "{cefr_level}",
-      "question": "...",
-      "options": ["...", "...", "...", "..."],
-      "correct": "..."
-    }}
-  ]
-}}
-"""
+END_OF_LEVEL_TEST_PROMPT = assessment_prompts.END_OF_LEVEL_TEST_PROMPT
+FREE_WRITE_ASSESSMENT_PROMPT = assessment_prompts.FREE_WRITE_ASSESSMENT_PROMPT
 
 
 def evaluate_adaptive_quiz(answers: list[AnswerRecord]) -> AssessmentResult:
@@ -121,7 +83,7 @@ async def evaluate_free_write(
 ) -> dict:
     """Optional LLM call for the single free-write question at the end of the quiz."""
     target_language_name = get_language_name(target_language)
-    prompt = FREE_WRITE_ASSESSMENT_PROMPT.format(
+    prompt = build_free_write_assessment_prompt(
         preliminary_level=req.preliminary_level,
         prompt=req.writing_prompt,
         answer=req.student_answer,
@@ -162,7 +124,7 @@ async def generate_level_test_questions(
     idx = CEFR_LEVELS.index(cefr_level) if cefr_level in CEFR_LEVELS else 0
     next_level = CEFR_LEVELS[idx + 1] if idx + 1 < len(CEFR_LEVELS) else "higher levels"
 
-    prompt = END_OF_LEVEL_TEST_PROMPT.format(
+    prompt = build_end_of_level_test_prompt(
         cefr_level=cefr_level,
         target_language_name=target_language_name,
         grammar_points_studied=", ".join(grammar_points_studied) or "all grammar for this level",
