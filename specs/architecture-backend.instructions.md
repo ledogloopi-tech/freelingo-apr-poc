@@ -189,7 +189,7 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 
 - **Framework**: pytest + pytest-asyncio + httpx AsyncClient
 - **Test files**: 38 (plus conftest.py for shared fixtures)
-- **Tests**: 797
+- **Tests**: 803
 - **Coverage**: ~83% (target: ≥70%)
 - **Key fixtures**: async database session, test client with auth headers, Redis mock, user_language fixture
 

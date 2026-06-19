@@ -63,7 +63,7 @@ memories. It re-exports the memory instruction helper for backward compatibility
 | `build_free_write_assessment_prompt()` | `prompts/assessment.py` | `services/assessment.py` | `system` | Raw JSON parsed by assessment service. |
 | `build_end_of_level_test_prompt()` | `prompts/assessment.py` | `services/assessment.py` | `system` | Raw JSON with `questions`. |
 | `build_legacy_assessment_quiz_prompt()` | `prompts/assessment.py` | `routers/assessment.py` | `system` via `structured_output` | `LegacyQuizResponse` JSON. |
-| `build_legacy_assessment_eval_user_prompt()` | `prompts/assessment.py` | `routers/assessment.py` | `user` via `structured_output` | User payload for legacy assessment evaluation. |
+| `build_legacy_assessment_eval_user_prompt()` | `prompts/assessment.py` | `routers/assessment.py` | `user` via `structured_output` | JSON user payload for legacy assessment evaluation. |
 
 ## Prompt Inventory
 
@@ -73,17 +73,17 @@ memories. It re-exports the memory instruction helper for backward compatibility
 | Voice tutor | `build_conversation_system_prompt()` | FreeLingo voice conversation partner with the same safety core, shorter spoken responses, restrained correction policy, follow-up questions, and TTS-safe plain text. |
 | Memory | `MEMORY_SYSTEM_INSTRUCTION_BASE` | Allows the LLM to append a hidden `<<MEMORY>>...<<ENDMEMORY>>` marker only when it learns a useful new student fact. |
 | Lesson generation | `LESSON_GENERATION_PROMPT` | Generates structured lesson JSON constrained by CEFR level, target language, curriculum unit, grammar points, vocabulary sets, exercise schema, and valid grammar slugs. |
-| Lesson fill-blank evaluation | `FILL_BLANK_EVAL_PROMPT` | Evaluates a fill-blank answer leniently for minor spelling/case variation and contractions. |
-| Lesson free-write evaluation | `FREE_WRITE_EVAL_PROMPT` | Scores a writing answer and returns feedback plus correction objects. |
-| Pronunciation evaluation | `PRONUNCIATION_EVAL_PROMPT` | Compares target phrase to STT transcription and returns score, feedback, and correctness. |
-| Flashcard generation | `FLASHCARD_GEN_PROMPT` | Generates target-language vocabulary flashcards with native-language definition/translation and strict word cleanup rules. |
-| Word lookup | `WORD_LOOKUP_PROMPT` | Generates one flashcard from a selected word and context sentence. |
+| Lesson fill-blank evaluation | `FILL_BLANK_EVAL_PROMPT` | Evaluates a fill-blank answer leniently for minor spelling/case variation and contractions. Dynamic exercise fields are delimited and treated as data only. |
+| Lesson free-write evaluation | `FREE_WRITE_EVAL_PROMPT` | Scores a writing answer and returns feedback plus correction objects. Dynamic exercise fields are delimited and treated as data only. |
+| Pronunciation evaluation | `PRONUNCIATION_EVAL_PROMPT` | Compares target phrase to STT transcription and returns score, feedback, and correctness. Dynamic exercise fields are delimited and treated as data only. |
+| Flashcard generation | `FLASHCARD_GEN_PROMPT` | Generates target-language vocabulary flashcards with native-language definition/translation and strict word cleanup rules. The requested topic is delimited as data only. |
+| Word lookup | `WORD_LOOKUP_PROMPT` | Generates one flashcard from a selected word and context sentence. The selected word and context are delimited as data only. |
 | Listening generation | `LISTENING_GENERATION_PROMPT` | Generates plain-prose listening text and five multiple-choice comprehension questions. |
 | Reading generation | `READING_GENERATION_PROMPT` | Generates plain-prose reading text and five multiple-choice comprehension questions. |
-| Free-write assessment | `FREE_WRITE_ASSESSMENT_PROMPT` | Evaluates placement writing with adjusted level, writing score, analysis, strengths, and weaknesses. |
+| Free-write assessment | `FREE_WRITE_ASSESSMENT_PROMPT` | Evaluates placement writing with adjusted level, writing score, analysis, strengths, and weaknesses. Student prompt/answer fields are delimited as data only. |
 | End-of-level test | `END_OF_LEVEL_TEST_PROMPT` | Generates a 20-question test covering studied grammar and vocabulary for the current CEFR level. |
 | Legacy assessment quiz | `LEGACY_ASSESSMENT_QUIZ_PROMPT` | Generates an adaptive CEFR quiz for legacy assessment flow. |
-| Legacy assessment evaluation | `LEGACY_ASSESSMENT_EVAL_PROMPT` and `LEGACY_ASSESSMENT_EVAL_USER_PROMPT` | Evaluates legacy assessment answers with quiz/session payload. |
+| Legacy assessment evaluation | `LEGACY_ASSESSMENT_EVAL_PROMPT` and `LEGACY_ASSESSMENT_EVAL_USER_PROMPT` | Evaluates legacy assessment answers with an explicit JSON quiz/answers payload and a fixed JSON response schema. |
 
 ## Dynamic Variables
 
@@ -104,6 +104,22 @@ Domain-specific variables:
 - Flashcards: `topic`, `count`, `word`, `context`, `lang_hint`.
 - Reading/listening: `exercise_type`, `exercise_type_desc`, `topic`, `word_count`.
 - Assessment: `preliminary_level`, `next_level`, `grammar_points_studied`, `vocabulary_sets_studied`, `session_id`, `quiz`, `answers`.
+
+## Dynamic Data Delimiters
+
+Prompts that include user-controlled or LLM-generated exercise data wrap those fields in explicit
+sentinel blocks such as `<<<STUDENT_ANSWER ... STUDENT_ANSWER`, `<<<QUESTION ... QUESTION`,
+`<<<TOPIC ... TOPIC`, or `<<<CONTEXT ... CONTEXT`. The surrounding instruction states that these
+fields are data only and must not override the prompt.
+
+This delimiter pattern is currently used for:
+
+- Lesson evaluation prompts: fill-blank, free-write, and pronunciation fields.
+- Flashcard prompts: generated topic, selected word, and context sentence.
+- Free-write assessment: writing prompt and student answer.
+
+Legacy assessment evaluation sends the quiz and answers as serialized JSON inside the user message
+instead of a Python object representation.
 
 ## Behavior-Critical Prompts
 
@@ -130,12 +146,15 @@ student-facing language. Treat such edits as product behavior changes.
 6. For target-language or CEFR improvements, add explicit tests proving the right block is injected.
 7. For schema-producing prompts, keep `structured_output()` or explicit JSON parsing tests in place.
 8. Do not remove backward-compatible constants/imports until tests and specs are updated together.
+9. User-controlled or generated text inserted into a prompt should be delimited and described as
+   non-authoritative data.
 
 ## Tests
 
 Prompt architecture is covered by:
 
-- `backend/tests/test_prompts.py` for builder/wrapper equivalence and shared block checks.
+- `backend/tests/test_prompts.py` for builder/wrapper equivalence, shared block checks, target-language
+  injection, dynamic-data delimiter checks, legacy assessment payload JSON, and memory marker parsing.
 - Existing conversation pipeline prompt tests in `backend/tests/test_conversation_pipeline_service.py`.
 - Existing service tests that mock LLM calls and validate parsed outputs.
 

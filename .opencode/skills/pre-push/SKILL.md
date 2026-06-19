@@ -25,7 +25,7 @@ Fixes what can be fixed automatically: Python lint + format, JS/TS lint + format
 source .venv/bin/activate && cd backend && pytest -v
 ```
 
-797 tests, >= 70% coverage required. SQLite in-memory, no Docker needed.
+803 tests, >= 70% coverage required. SQLite in-memory, no Docker needed.
 
 ### 2. Frontend lint + typecheck + tests
 
@@ -41,7 +41,7 @@ cd frontend && npm run lint && npx tsc --noEmit && npm run test:run
 | 0 | black | Auto-format Python code |
 | 0 | eslint --fix | Auto-fix JS/TS lint issues |
 | 0 | prettier --write | Auto-format JS/TS/CSS code |
-| 1 | pytest | 797 backend tests, SQLite in-memory |
+| 1 | pytest | 803 backend tests, SQLite in-memory |
 | 2 | eslint | Verify no remaining JS/TS errors |
 | 2 | tsc --noEmit | TypeScript type checking |
 | 2 | vitest | 369 frontend tests |
