@@ -16,7 +16,13 @@ A1_UNITS: list[CurriculumUnit] = [
             "articulos-definidos",
             "signos-interrogacion-exclamacion",
         ],
-        vocabulary_set_ids=["alfabeto_a1", "numeros_a1", "saludos_a1", "presentaciones_a1"],
+        vocabulary_set_ids=[
+            "alfabeto_a1",
+            "numeros_a1",
+            "objetos_clase_a1",
+            "saludos_a1",
+            "presentaciones_a1",
+        ],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Se presenta usando ser: nombre, edad y nacionalidad (Soy María, tengo 25 años, soy española)",
@@ -51,7 +57,7 @@ A1_UNITS: list[CurriculumUnit] = [
         unit_number=3,
         title="La familia y descripciones",
         grammar_points=["tener", "adjetivos-posesivos", "adjetivos-descriptivos", "demostrativos"],
-        vocabulary_set_ids=["familia_a1", "descripciones_a1"],
+        vocabulary_set_ids=["familia_a1", "descripciones_a1", "colores_a1", "cuerpo_a1", "ropa_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Nombra miembros de la familia y usa tener para edad y parentesco: Tengo dos hermanos, Mi madre tiene 50 años",
@@ -102,7 +108,7 @@ A1_UNITS: list[CurriculumUnit] = [
         unit_number=6,
         title="Lugares y direcciones",
         grammar_points=["estar", "hay", "preposiciones-lugar"],
-        vocabulary_set_ids=["lugares_a1", "direcciones_a1"],
+        vocabulary_set_ids=["lugares_a1", "direcciones_a1", "casa_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Distingue estar (ubicación de personas y objetos concretos) de hay (existencia de elementos no definidos): La farmacia está en la calle Mayor vs Hay una farmacia cerca",
@@ -119,7 +125,7 @@ A1_UNITS: list[CurriculumUnit] = [
         unit_number=7,
         title="Planes y futuro próximo",
         grammar_points=["ir-a-futuro", "querer-poder", "dias-semana"],
-        vocabulary_set_ids=["transporte_a1", "clima_a1"],
+        vocabulary_set_ids=["transporte_a1", "clima_a1", "fechas_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Forma correctamente ir a + infinitivo en todas las personas para expresar planes: Voy a estudiar el lunes, ¿Qué vas a hacer mañana?",

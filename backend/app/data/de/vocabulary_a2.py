@@ -1,6 +1,11 @@
 """A2 vocabulary sets."""
 
-from app.data._types import VocabularyEntry, VocabularySet
+from app.data._types import PartOfSpeech, VocabularyEntry, VocabularySet
+
+
+def _entry(word: str, pos: PartOfSpeech, definition: str, example: str) -> VocabularyEntry:
+    return VocabularyEntry(word=word, pos=pos, definition=definition, example=example)
+
 
 A2_SETS: list[VocabularySet] = [
     VocabularySet(
@@ -1569,6 +1574,70 @@ A2_SETS: list[VocabularySet] = [
                 example="Die Geschichte ist noch nicht zu Ende.",
                 ipa="/tsuː ˈɛndə/",
             ),
+        ],
+    ),
+    VocabularySet(
+        id="geld_preise_de_a2",
+        level="A2",
+        topic="Geld und Preise",
+        unit_ref="a2-unit-3",
+        words=[
+            _entry(
+                "das Geld", "noun", "Mittel zum Kaufen von Dingen.", "Ich habe kein Bargeld dabei."
+            ),
+            _entry(
+                "der Preis",
+                "noun",
+                "Betrag, den etwas kostet.",
+                "Wie hoch ist der Preis für dieses Hemd?",
+            ),
+            _entry(
+                "der Euro",
+                "noun",
+                "Währung in Deutschland und anderen europäischen Ländern.",
+                "Das kostet zehn Euro.",
+            ),
+            _entry("bezahlen", "verb", "Geld für etwas geben.", "Ich bezahle mit Karte."),
+            _entry("kosten", "verb", "Einen Preis haben.", "Wie viel kostet das?"),
+            _entry("billig", "adjective", "Nicht teuer.", "Dieses Restaurant ist billig."),
+            _entry("teuer", "adjective", "Viel Geld kostend.", "Das Hotel ist teuer."),
+            _entry("die Karte", "noun", "Bankkarte zum Bezahlen.", "Ich zahle mit Karte."),
+            _entry("das Bargeld", "noun", "Geld in Münzen oder Scheinen.", "Ich zahle lieber bar."),
+            _entry(
+                "das Wechselgeld",
+                "noun",
+                "Geld, das man nach dem Bezahlen zurückbekommt.",
+                "Hier ist Ihr Wechselgeld.",
+            ),
+        ],
+    ),
+    VocabularySet(
+        id="tiere_natur_de_a2",
+        level="A2",
+        topic="Tiere und Natur",
+        unit_ref="a2-unit-4",
+        words=[
+            _entry("der Hund", "noun", "Häufiges Haustier.", "Mein Hund ist ruhig."),
+            _entry(
+                "die Katze",
+                "noun",
+                "Haustier, das oft im Haus lebt.",
+                "Die Katze schläft auf dem Sofa.",
+            ),
+            _entry("der Vogel", "noun", "Tier mit Flügeln und Federn.", "Ein Vogel sitzt im Baum."),
+            _entry(
+                "der Baum", "noun", "Große Pflanze mit Stamm und Ästen.", "Der Baum gibt Schatten."
+            ),
+            _entry("die Blume", "noun", "Bunter Teil vieler Pflanzen.", "Die Blume ist gelb."),
+            _entry(
+                "der Fluss", "noun", "Natürlicher Wasserlauf.", "Der Fluss fließt durch die Stadt."
+            ),
+            _entry("der Berg", "noun", "Große Erhebung im Gelände.", "Der Berg ist verschneit."),
+            _entry(
+                "der Strand", "noun", "Ort mit Sand am Meer.", "Wir gehen im Sommer an den Strand."
+            ),
+            _entry("der Wald", "noun", "Ort mit vielen Bäumen.", "Wir wandern im Wald."),
+            _entry("das Meer", "noun", "Große Menge salzigen Wassers.", "Das Meer ist ruhig."),
         ],
     ),
     VocabularySet(

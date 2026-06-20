@@ -49,7 +49,7 @@ A2_UNITS: list[CurriculumUnit] = [
         unit_number=3,
         title="Pronomi diretti e indiretti",
         grammar_points=["pronomi-diretti", "pronomi-indiretti", "pronomi-combinati"],
-        vocabulary_set_ids=["acquisti_a2", "regali_a2"],
+        vocabulary_set_ids=["acquisti_a2", "regali_a2", "soldi_prezzi_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Sostituisce il complemento oggetto con lo/la/li/le prima del verbo coniugato: Compro il libro -> Lo compro; ho visto le ragazze -> Le ho viste, includendo la concordanza obbligatoria del participio con li/la/le/lo",
@@ -66,7 +66,7 @@ A2_UNITS: list[CurriculumUnit] = [
         unit_number=4,
         title="Comparativi e superlativi",
         grammar_points=["comparativi", "superlativi", "cosi-come"],
-        vocabulary_set_ids=["città_a2", "cultura_a2"],
+        vocabulary_set_ids=["città_a2", "cultura_a2", "animali_natura_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Forma i comparativi di maggioranza/minoranza con piu/meno + aggettivo + di (davanti a nome/pronome) o che (davanti a due aggettivi, due nomi confrontati direttamente o un infinito): Roma e piu grande di Milano; E piu bello che utile",

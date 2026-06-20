@@ -17,6 +17,7 @@ A1_UNITS: list[CurriculumUnit] = [
             "greetings_a1",
             "numbers_1_20_a1",
             "numbers_extra_a1",
+            "classroom_objects_a1",
             "american_greetings_a1",
         ],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],

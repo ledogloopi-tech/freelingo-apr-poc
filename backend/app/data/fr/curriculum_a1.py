@@ -19,6 +19,7 @@ A1_UNITS: list[CurriculumUnit] = [
         vocabulary_set_ids=[
             "alphabet_fr_a1",
             "nombres_fr_a1",
+            "objets_classe_fr_a1",
             "salutations_fr_a1",
             "presentations_fr_a1",
         ],
@@ -57,7 +58,13 @@ A1_UNITS: list[CurriculumUnit] = [
         unit_number=3,
         title="La famille et les descriptions",
         grammar_points=["adjectifs-possessifs", "adjectifs-qualificatifs", "accord-adjectifs"],
-        vocabulary_set_ids=["famille_fr_a1", "descriptions_fr_a1"],
+        vocabulary_set_ids=[
+            "famille_fr_a1",
+            "descriptions_fr_a1",
+            "couleurs_fr_a1",
+            "corps_fr_a1",
+            "vetements_fr_a1",
+        ],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Nomme les membres de la famille et utilise avoir pour l'âge et les relations : J'ai deux frères, Ma mère a 50 ans",
@@ -111,7 +118,7 @@ A1_UNITS: list[CurriculumUnit] = [
         unit_number=6,
         title="Lieux et directions",
         grammar_points=["il-y-a", "prepositions-lieu", "aller-a-chez"],
-        vocabulary_set_ids=["lieux_fr_a1", "directions_fr_a1"],
+        vocabulary_set_ids=["lieux_fr_a1", "directions_fr_a1", "maison_fr_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Utilise il y a pour exprimer l'existence : Il y a une boulangerie près d'ici",
@@ -129,7 +136,7 @@ A1_UNITS: list[CurriculumUnit] = [
         unit_number=7,
         title="Projets et futur proche",
         grammar_points=["futur-proche", "vouloir-pouvoir-devoir", "jours-semaine"],
-        vocabulary_set_ids=["transport_fr_a1", "meteo_fr_a1"],
+        vocabulary_set_ids=["transport_fr_a1", "meteo_fr_a1", "dates_fr_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Forme correctement le futur proche avec aller + infinitif pour exprimer des projets : Je vais étudier lundi, Qu'est-ce que tu vas faire demain ?",

@@ -1,6 +1,11 @@
 """A1 vocabulary sets."""
 
-from app.data._types import VocabularyEntry, VocabularySet
+from app.data._types import PartOfSpeech, VocabularyEntry, VocabularySet
+
+
+def _entry(word: str, pos: PartOfSpeech, definition: str, example: str) -> VocabularyEntry:
+    return VocabularyEntry(word=word, pos=pos, definition=definition, example=example)
+
 
 A1_SETS: list[VocabularySet] = [
     VocabularySet(
@@ -2977,6 +2982,44 @@ A1_SETS: list[VocabularySet] = [
                 ipa="/niː/",
                 frequency_rank=320,
             ),
+        ],
+    ),
+    VocabularySet(
+        id="classroom_objects_a1",
+        level="A1",
+        topic="Classroom & Learning Objects",
+        unit_ref="a1-unit-1",
+        words=[
+            _entry(
+                "book",
+                "noun",
+                "A set of printed or digital pages for reading.",
+                "Open your book, please.",
+            ),
+            _entry(
+                "notebook",
+                "noun",
+                "A small book for writing notes.",
+                "I write new words in my notebook.",
+            ),
+            _entry("pen", "noun", "An object used for writing with ink.", "Can I borrow a pen?"),
+            _entry(
+                "pencil",
+                "noun",
+                "An object used for writing or drawing.",
+                "Write your answer with a pencil.",
+            ),
+            _entry("page", "noun", "One side of a sheet in a book.", "Read page ten."),
+            _entry("word", "noun", "A unit of language with meaning.", "This word is new for me."),
+            _entry(
+                "sentence",
+                "noun",
+                "A group of words with a complete meaning.",
+                "Write one sentence.",
+            ),
+            _entry("question", "noun", "Something you ask.", "I have a question."),
+            _entry("answer", "noun", "A reply to a question.", "Write the answer here."),
+            _entry("exercise", "noun", "A task for practice.", "This exercise is easy."),
         ],
     ),
     VocabularySet(
