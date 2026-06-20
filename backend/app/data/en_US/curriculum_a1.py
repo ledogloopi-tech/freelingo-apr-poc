@@ -12,6 +12,7 @@ A1_UNITS: list[CurriculumUnit] = [
         title="Identity & Greetings",
         grammar_points=["to-be", "subject-pronouns", "questions-yes-no", "american-spelling"],
         vocabulary_set_ids=[
+            "alphabet_a1",
             "identity_a1",
             "greetings_a1",
             "numbers_1_20_a1",

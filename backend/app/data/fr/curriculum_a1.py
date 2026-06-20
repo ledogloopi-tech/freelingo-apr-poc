@@ -16,7 +16,7 @@ A1_UNITS: list[CurriculumUnit] = [
             "pronoms-sujets",
             "articles-definis",
         ],
-        vocabulary_set_ids=["salutations_fr_a1", "presentations_fr_a1"],
+        vocabulary_set_ids=["alphabet_fr_a1", "salutations_fr_a1", "presentations_fr_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Se présente en utilisant être et avoir : nom, âge, nationalité (Je m'appelle Marie, j'ai 25 ans, je suis française)",

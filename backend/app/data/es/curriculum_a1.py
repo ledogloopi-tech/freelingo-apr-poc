@@ -16,7 +16,7 @@ A1_UNITS: list[CurriculumUnit] = [
             "articulos-definidos",
             "signos-interrogacion-exclamacion",
         ],
-        vocabulary_set_ids=["saludos_a1", "presentaciones_a1"],
+        vocabulary_set_ids=["alfabeto_a1", "saludos_a1", "presentaciones_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Se presenta usando ser: nombre, edad y nacionalidad (Soy María, tengo 25 años, soy española)",

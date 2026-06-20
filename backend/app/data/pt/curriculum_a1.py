@@ -11,7 +11,7 @@ A1_UNITS: list[CurriculumUnit] = [
         unit_number=1,
         title="Saudações e apresentações",
         grammar_points=["ser", "estar", "pronomes-sujeito", "artigos-definidos"],
-        vocabulary_set_ids=["saudações_a1", "apresentações_a1"],
+        vocabulary_set_ids=["alfabeto_a1", "saudações_a1", "apresentações_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Apresenta-se usando ser e estar: Chamo-me Inês, sou portuguesa, tenho 28 anos, estou bem; e trata corretamente por tu/você no pt-PT (tu no informal, o senhor/a senhora no formal)",

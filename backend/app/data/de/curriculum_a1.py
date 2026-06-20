@@ -16,7 +16,7 @@ A1_UNITS: list[CurriculumUnit] = [
             "personalpronomen",
             "ja-nein-doch",
         ],
-        vocabulary_set_ids=["begruessung_de_a1", "vorstellung_de_a1"],
+        vocabulary_set_ids=["alphabet_de_a1", "begruessung_de_a1", "vorstellung_de_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Stellt sich vor mit sein und heißen: Name, Alter, Herkunft (Ich heiße Anna, ich bin 25, ich bin aus Spanien)",
