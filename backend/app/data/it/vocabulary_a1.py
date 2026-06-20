@@ -2216,3 +2216,24 @@ A1_SETS: list[VocabularySet] = [
         ],
     ),
 ]
+
+
+def _fill_missing_frequency_ranks() -> None:
+    next_rank = (
+        max(
+            word.frequency_rank
+            for vocab_set in A1_SETS
+            for word in vocab_set.words
+            if word.frequency_rank is not None
+        )
+        + 1
+    )
+
+    for vocab_set in A1_SETS:
+        for word in vocab_set.words:
+            if word.frequency_rank is None:
+                word.frequency_rank = next_rank
+                next_rank += 1
+
+
+_fill_missing_frequency_ranks()

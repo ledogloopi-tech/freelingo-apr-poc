@@ -2120,11 +2120,11 @@ A1_SETS: list[VocabularySet] = [
                 frequency_rank=180,
             ),
             VocabularyEntry(
-                word="casa",
+                word="lar",
                 pos="noun",
-                definition="Edifício onde se habita.",
-                example="A minha casa tem três quartos.",
-                ipa="/ˈkazɐ/",
+                definition="Lugar onde se vive e se sente pertença.",
+                example="O meu lar é acolhedor.",
+                ipa="/laɾ/",
                 frequency_rank=181,
             ),
             VocabularyEntry(

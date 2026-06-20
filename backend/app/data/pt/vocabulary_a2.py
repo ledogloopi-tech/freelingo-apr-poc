@@ -1483,17 +1483,22 @@ A2_SETS: list[VocabularySet] = [
                 "Moeda usada em Portugal e noutros países europeus.",
                 "Custa dez euros.",
             ),
-            _entry("pagar", "verb", "Dar dinheiro por algo.", "Vou pagar com cartão."),
-            _entry("custar", "verb", "Ter um preço.", "Quanto custa?"),
+            _entry("liquidar", "verb", "Pagar uma conta ou uma dívida.", "Vou liquidar a conta."),
+            _entry("valer", "verb", "Ter determinado valor.", "Este bilhete vale dez euros."),
             _entry(
-                "barato", "adjective", "Que custa pouco dinheiro.", "Este restaurante é barato."
+                "acessível",
+                "adjective",
+                "Com preço fácil de pagar.",
+                "Este restaurante é acessível.",
             ),
-            _entry("caro", "adjective", "Que custa muito dinheiro.", "O hotel é caro."),
+            _entry(
+                "dispendioso", "adjective", "Que exige muito dinheiro.", "O hotel é dispendioso."
+            ),
             _entry("cartão", "noun", "Cartão bancário para pagar.", "Pago com cartão."),
             _entry(
                 "numerário", "noun", "Dinheiro em moedas ou notas.", "Prefiro pagar em numerário."
             ),
-            _entry("troco", "noun", "Dinheiro devolvido depois de pagar.", "Aqui está o troco."),
+            _entry("moedas", "noun", "Peças de dinheiro metálicas.", "Tenho algumas moedas."),
         ],
     ),
     VocabularySet(
