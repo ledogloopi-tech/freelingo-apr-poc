@@ -139,11 +139,14 @@ async def test_unknown_language_falls_back_to_english(client, test_user):
 
 
 @pytest.mark.asyncio
-async def test_japanese_language_resolves_explicit_empty_topics(client, test_user):
-    """ja-JP is a known language package and should not fall back to English."""
+async def test_japanese_language_returns_japanese_topics(client, test_user):
+    """ja-JP returns Japanese grammar topics and does not fall back to English."""
     _, headers = test_user
 
     response = await client.get("/api/grammar?language=ja-JP", headers=headers)
 
     assert response.status_code == 200
-    assert response.json()["topics"] == []
+    topics = response.json()["topics"]
+    assert len(topics) > 0
+    assert any(t["slug"] == "hiragana" for t in topics)
+    assert any(t["title"] == "ひらがな" for t in topics)

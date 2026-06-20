@@ -1251,11 +1251,11 @@
   },
   "whatsNew": {
     "title": "Nouveautés",
-    "version": "v1.8.9",
+    "version": "v1.9.0",
     "cta": "Compris",
     "entry1": {
-      "label": "Cinq nouvelles langues à apprendre",
-      "desc": "Allemand, espagnol, français, italien et portugais sont désormais disponibles — chacun avec un programme complet du débutant à l’avancé (A1–C2), grammaire, vocabulaire, phrases, Reading, Listening et plus. Ajoutez-les depuis Paramètres → Mes langues."
+      "label": "Plus de langues à apprendre",
+      "desc": "Allemand, chinois continental, coréen, espagnol, français, italien, japonais et portugais sont désormais disponibles, avec des parcours complets du débutant à l’avancé, grammaire, vocabulaire, phrases, Reading, Listening et plus. Ajoutez-les depuis Paramètres → Mes langues."
     },
     "entry2": {
       "label": "Ajoutez un avis depuis votre profil",

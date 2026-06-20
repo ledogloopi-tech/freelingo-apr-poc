@@ -456,7 +456,9 @@ class TestLanguageAPI:
         """ja-JP is accepted by the backend language allow-list."""
         user, headers = await _make_user(db_session)
 
-        res = await client.post("/api/languages", headers=headers, json={"target_language": "ja-JP"})
+        res = await client.post(
+            "/api/languages", headers=headers, json={"target_language": "ja-JP"}
+        )
 
         assert res.status_code == 201
         assert res.json()["target_language"] == "ja-JP"
@@ -749,13 +751,15 @@ class TestCurriculumPerLanguage:
         assert c["A1"][0].title == "Identity & Greetings"
 
     @pytest.mark.asyncio
-    async def test_curriculum_japanese_empty_structure(self, client):
-        """get_curriculum('ja-JP') resolves the Japanese package without English fallback."""
+    async def test_curriculum_japanese(self, client):
+        """get_curriculum('ja-JP') returns Japanese curriculum."""
         from app.data.curriculum import get_curriculum
 
         c = get_curriculum("ja-JP")
         assert list(c.keys()) == ["A1", "A2", "B1", "B2", "C1", "C2"]
-        assert c["A1"] == []
+        assert len(c["A1"]) == 8
+        assert c["A1"][0].title == "文字とあいさつ"
+        assert c["C2"][-1].title == "C2総復習と最終統合"
 
     @pytest.mark.asyncio
     async def test_get_curriculum_units_with_language(self, client):

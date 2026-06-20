@@ -79,7 +79,7 @@ Dynamic route rendering a single grammar topic. The `[slug]` parameter maps dire
 
 ### Data model (`backend/app/data/_types.py` + per-language `vocabulary.py`)
 
-> **Migrated to backend in v1.7.4.** Originally static TypeScript (`frontend/src/data/vocabulary.ts`); now served via `GET /api/vocabulary` from Python dataclasses organized per CEFR level (A1–C2) across 4 languages (en, es, it, pt). The frontend vocabulary hub and set detail pages consume the API instead of importing static data.
+> **Migrated to backend in v1.7.4.** Originally static TypeScript (`frontend/src/data/vocabulary.ts`); now served via `GET /api/vocabulary` from Python dataclasses organized per CEFR level (A1–C2) across backend language modules, including Japanese (`ja-JP`). The frontend vocabulary hub and set detail pages consume the API instead of importing static data.
 
 **VocabularyEntry** (per word):
 
@@ -322,7 +322,7 @@ Grammar topics and phrasebook entries remain static TypeScript constants in the 
 Reasons for the mixed approach:
 
 1. **Grammar/phrasebook (frontend static)**: zero latency, offline-capable, tree-shakeable, no DB migrations
-2. **Vocabulary/assessment (backend API)**: large datasets (~330 sets, ~3,940 words across 4 languages; ~400 questions across 4 languages) benefit from server-side serving and language-aware dispatching without bloating the client bundle
+2. **Vocabulary/assessment (backend API)**: large datasets across backend language modules benefit from server-side serving and language-aware dispatching without bloating the client bundle
 3. **Curriculum (both)**: lightweight unit definitions in frontend for quick rendering; full data in backend for plan generation
 
 ### Cross-referencing
@@ -330,7 +330,7 @@ Reasons for the mixed approach:
 A data integrity test (`test_frontend_data_integrity.py`) validates that:
 
 - Every `grammar_slug` referenced in curriculum units exists in `grammar.ts`
-- Every `vocabulary_set_id` referenced in each language's curriculum exists in that language's backend vocabulary data (validated for all 4 languages: en, es, it, pt)
+- Every `vocabulary_set_id` referenced in each language's curriculum exists in that language's backend vocabulary data, including Japanese
 - Every `related` slug in grammar topics points to an existing topic
 
 ### Dual data files (frontend + backend)

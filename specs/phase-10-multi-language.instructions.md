@@ -24,21 +24,36 @@ FreeLingo moves from "one user = one language = one study plan" to an architectu
 7. **Language-isolated data**: each language has its own progress, flashcards, conversations, memories, and competencies.
 8. **Language-specific curriculum**: curriculum for each language is different and adapted to that language.
 9. **Adapted prompts**: system prompts use the target language name and never hardcode "English".
-10. **Supported languages**: 3 new languages added (Spanish, Italian, Portuguese) in addition to existing English variants.
+10. **Supported languages**: Spanish, Italian, Portuguese, French, German, and Japanese have backend learning data in addition to the existing English variants. Korean and Mainland Chinese frontend/backend metadata is prepared for upcoming data phases.
 
-### Initially supported languages
+### Current backend learning-data languages
 
 | BCP-47 Code | Language                        |
 | ----------- | ------------------------------- |
-| `en-US`     | English (American) — existing   |
-| `en-GB`     | English (British) — existing    |
-| `es-ES`     | Spanish (Spain) — **new**       |
-| `it-IT`     | Italian — **new**               |
-| `pt-PT`     | Portuguese (Portugal) — **new** |
+| `en-GB`     | English (British)               |
+| `en-US`     | English (American)              |
+| `de-DE`     | German                          |
+| `es-ES`     | Spanish (Spain)                 |
+| `fr-FR`     | French                          |
+| `it-IT`     | Italian                         |
+| `ja-JP`     | Japanese                        |
+| `pt-PT`     | Portuguese (Portugal)           |
+
+### Japanese backend data
+
+Japanese (`ja-JP`) is enabled in backend schemas, `AVAILABLE_TARGET_LANGUAGES` defaults, language dispatchers, and static learning data. The `backend/app/data/ja/` package contains A1-C2 curriculum, grammar, vocabulary, phrasebook, and assessment content:
+
+| Data area | Current Japanese coverage |
+| --------- | ------------------------- |
+| Curriculum | 48 units across A1-C2, with Japanese unit titles and competency checklists |
+| Grammar | 130 topics matching all curriculum `grammar_points` slugs |
+| Vocabulary | 98 sets matching all curriculum `vocabulary_set_ids` |
+| Phrasebook | 14 A1-C2 categories with Japanese phrases, contexts, registers, and unit references |
+| Assessment bank | 120 static questions across grammar, vocabulary, and reading |
 
 ### CJK frontend catalog readiness
 
-The frontend catalog includes Japanese, Korean, and Mainland Chinese metadata. Static/default surfaces still use the current `SUPPORTED_TARGET_LANGUAGES` list, while selectable surfaces use `TARGET_LANGUAGE_CATALOG` filtered by backend-provided `availableCodes` / `availableLanguageCodes`.
+The frontend catalog includes Japanese, Korean, and Mainland Chinese metadata. Japanese now has backend learning data; Korean and Mainland Chinese remain catalog-ready until their backend data packages are implemented. Static/default surfaces still use the current `SUPPORTED_TARGET_LANGUAGES` list, while selectable surfaces use `TARGET_LANGUAGE_CATALOG` filtered by backend-provided `availableCodes` / `availableLanguageCodes`.
 
 Prepared capabilities and catalog entries live in `frontend/src/lib/target-languages.ts`:
 
@@ -48,19 +63,19 @@ Prepared capabilities and catalog entries live in `frontend/src/lib/target-langu
 | `ko-KR` | `name=한국어`, `nameEn=Korean`, `flagPath=/flags/south_korea.jpg`, `script=hangul`, `romanization=revised-romanization`               |
 | `zh-CN` | `name=中文（中国）`, `nameEn=Chinese (Mainland China)`, `flagPath=/flags/china.jpg`, `script=simplified-hanzi`, `romanization=pinyin` |
 
-Learned-language content should render through `TargetLanguageText` rather than direct `font-mono` text. Current Latin-script languages keep the existing mono visual style via `font-target-latin`; future CJK content receives larger, looser, non-uppercase typography with Noto/system CJK font fallbacks.
+Learned-language content should render through `TargetLanguageText` rather than direct `font-mono` text. Current Latin-script languages keep the existing mono visual style via `font-target-latin`; CJK content receives larger, looser, non-uppercase typography with Noto/system CJK font fallbacks.
 
 All 10 `messages/*.json` locale files include `targetLanguages` names, ISO aliases, descriptions, and landing greetings for `ja-JP`, `ko-KR`, and `zh-CN`.
 
 ### CJK backend readiness
 
-The backend service layer is prepared with prompt and metadata support for Japanese, Korean, and Mainland Chinese without changing registration schemas, environment allow-lists, or static content dispatchers.
+The backend service layer is prepared with prompt and metadata support for Japanese, Korean, and Mainland Chinese. Japanese now also has registration-schema, environment default, dispatcher, and static-content support.
 
-`.env.example` and `.env.dev` include `ja-JP`, `ko-KR`, and `zh-CN` in `AVAILABLE_TARGET_LANGUAGES` as operator-ready configuration. Backend `get_available_languages()` still filters that list through `SUPPORTED_TARGET_LANGUAGES`, so codes without backend curriculum support are ignored until the corresponding language phase expands the backend support set.
+`.env.example` and `.env.dev` include `ja-JP`, `ko-KR`, and `zh-CN` in `AVAILABLE_TARGET_LANGUAGES` as operator-ready configuration. Backend `get_available_languages()` filters that list through `SUPPORTED_TARGET_LANGUAGES`; `ja-JP` is now accepted, while `ko-KR` and `zh-CN` remain ignored until their backend data phases expand the support set.
 
 Prepared capabilities live in `backend/app/services/language_helpers.py`:
 
-| Future code | Backend metadata                                                                                                         |
+| Code        | Backend metadata                                                                                                         |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------ |
 | `ja-JP`     | `name=Japanese`, `iso639=ja`, `script=hiragana-katakana-kanji`, `romanization=romaji`, length unit `characters`          |
 | `ko-KR`     | `name=Korean (South Korea)`, `iso639=ko`, `script=hangul`, `romanization=revised-romanization`, length unit `words`      |
@@ -96,6 +111,7 @@ Prompt overlays live in `backend/app/services/prompts/common.py` and include ali
 | `backend/app/data/es/` (8 files)                     | 10.6                     |
 | `backend/app/data/it/` (8 files)                     | 10.6                     |
 | `backend/app/data/pt/` (8 files)                     | 10.6                     |
+| `backend/app/data/ja/` (11 files)                    | Japanese data phase      |
 | `frontend/src/config/target-languages.ts`            | 10.4                     |
 | `frontend/src/store/language.ts`                     | 10.4                     |
 | `frontend/src/components/LanguageSwitcher.tsx`       | 10.4                     |

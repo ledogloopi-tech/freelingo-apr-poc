@@ -192,11 +192,14 @@ async def test_unknown_language_falls_back_to_english(client, test_user):
 
 
 @pytest.mark.asyncio
-async def test_japanese_language_resolves_explicit_empty_categories(client, test_user):
-    """ja-JP is a known language package and should not fall back to English."""
+async def test_japanese_language_returns_japanese_categories(client, test_user):
+    """ja-JP returns Japanese phrasebook categories and does not fall back to English."""
     _, headers = test_user
 
     response = await client.get("/api/phrasebook?language=ja-JP", headers=headers)
 
     assert response.status_code == 200
-    assert response.json()["categories"] == []
+    categories = response.json()["categories"]
+    assert len(categories) > 0
+    assert any(c["id"] == "greetings_ja_a1" for c in categories)
+    assert any(c["situation"] == "あいさつと自己紹介" for c in categories)

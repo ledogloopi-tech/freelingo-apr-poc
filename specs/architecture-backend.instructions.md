@@ -113,15 +113,19 @@ backend/
 │   │   ├── tts_service.py       # Text-to-speech abstraction (local Kokoro / OpenAI)
 │   │   └── user_language_service.py # Multi-language study plan management (phase 10)
 │   │
-│   └── data/                    # Static curriculum, assessment, vocabulary, and phrasebook content (4 languages)
+│   └── data/                    # Static curriculum, assessment, vocabulary, and phrasebook content (8 language modules)
 │       ├── __init__.py
 │       ├── _types.py             # Shared types (CEFRLevel, CurriculumUnit, AssessmentQuestion, VocabularyEntry, VocabularySet, PhrasebookEntry, PhrasebookCategory)
 │       ├── curriculum.py         # Language-aware curriculum dispatcher
 │       ├── assessment_bank.py    # Language-aware assessment bank dispatcher
 │       ├── vocabulary.py         # Language-aware vocabulary dispatcher
-│       ├── en/                   # English — curriculum, assessment bank, vocabulary, phrasebook (per CEFR level)
+│       ├── en_GB/                # British English — curriculum, assessment bank, vocabulary, phrasebook
+│       ├── en_US/                # American English — curriculum, assessment bank, vocabulary, phrasebook
+│       ├── de/                   # German — curriculum, assessment bank, vocabulary, phrasebook
 │       ├── es/                   # Spanish — curriculum, assessment bank, vocabulary, phrasebook
+│       ├── fr/                   # French — curriculum, assessment bank, vocabulary, phrasebook
 │       ├── it/                   # Italian — curriculum, assessment bank, vocabulary, phrasebook
+│       ├── ja/                   # Japanese — curriculum, assessment bank, vocabulary, phrasebook
 │       └── pt/                   # Portuguese — curriculum, assessment bank, vocabulary, phrasebook
 │
 ├── alembic/
@@ -169,7 +173,7 @@ Key architectural decisions:
 - **Study Plan Generator** and **Lesson Generator** are deterministic within curriculum constraints
 - **TTS/STT services** abstract local (Kokoro/Whisper) and cloud (OpenAI) providers behind common interfaces
 - **Conversation Pipeline** orchestrates real-time voice: cancellable greeting, STT → full LLM response → sentence-level TTS chunks, serialized WebSocket sends, empty-STT guard, and backend barge-in support with frontend automatic interruption disabled
-- **Language Helpers** centralize target-language display names, ISO codes, script metadata, romanization metadata, word-spacing metadata, and reading/listening length guidance. Japanese, South Korean Korean, and Mainland Chinese metadata are present for prompt/readiness work without changing schema or environment allow-lists.
+- **Language Helpers** centralize target-language display names, ISO codes, script metadata, romanization metadata, word-spacing metadata, and reading/listening length guidance. Japanese (`ja-JP`) is enabled in backend language allow-lists and static content dispatchers; South Korean Korean and Mainland Chinese metadata remain prepared for prompt/readiness work until their data phases are implemented.
 
 For complete service details, APIs, and implementation notes, see [services.instructions.md](services.instructions.md).
 
@@ -294,7 +298,7 @@ All configuration is environment-driven. Variables are defined in `app/core/conf
 | -------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | RATE_LIMIT_ENABLED         | true                                                                              | Enable slowapi rate limiting                                                                                                  |
 | AUDIO_STORAGE_PATH         | /data/audio                                                                       | Docker volume path for generated listening MP3 files                                                                          |
-| AVAILABLE_TARGET_LANGUAGES | ["de-DE","en-US","en-GB","es-ES","fr-FR","it-IT","pt-PT","ja-JP","ko-KR","zh-CN"] | Operator-configured BCP-47 target-language list; entries not present in backend `SUPPORTED_TARGET_LANGUAGES` are filtered out |
+| AVAILABLE_TARGET_LANGUAGES | ["de-DE","en-GB","en-US","es-ES","fr-FR","it-IT","ja-JP","ko-KR","pt-PT","zh-CN"] | Operator-configured BCP-47 target-language list; entries not present in backend `SUPPORTED_TARGET_LANGUAGES` are filtered out |
 
 ### Docker-level variables (not consumed by Python backend)
 

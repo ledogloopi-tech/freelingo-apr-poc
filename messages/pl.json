@@ -1251,11 +1251,11 @@
   },
   "whatsNew": {
     "title": "Co nowego",
-    "version": "v1.8.9",
+    "version": "v1.9.0",
     "cta": "Rozumiem",
     "entry1": {
-      "label": "Pięć nowych języków do nauki",
-      "desc": "Francuski, hiszpański, niemiecki, portugalski i włoski są już dostępne — każdy z pełnym programem nauczania od początkującego do zaawansowanego (A1–C2), gramatyką, słownictwem, zwrotami, Reading, Listening i więcej. Dodaj je w Ustawienia → Moje języki."
+      "label": "Więcej języków do nauki",
+      "desc": "Chiński kontynentalny, francuski, hiszpański, japoński, koreański, niemiecki, portugalski i włoski są już dostępne — z pełnymi ścieżkami nauki od początkującego do zaawansowanego, gramatyką, słownictwem, zwrotami, Reading, Listening i więcej. Dodaj je w Ustawienia → Moje języki."
     },
     "entry2": {
       "label": "Dodaj recenzję ze swojego profilu",

@@ -123,6 +123,8 @@ Plan generation is **fully deterministic** — no LLM call. The service:
 3. Builds a list of `WeekPlan` objects, each containing a list of `DayPlan` objects.
 4. Returns a `GeneratedPlan` Pydantic model, which is stored as JSON in `study_plans.generated_plan`.
 
+Current backend curriculum modules cover `en-GB`, `en-US`, `de-DE`, `es-ES`, `fr-FR`, `it-IT`, `pt-PT`, and `ja-JP`. Japanese plans use Japanese unit titles, Japanese competency objectives, and Japanese lesson/test title templates such as `文字とあいさつ - レッスン 1`.
+
 ### Plan JSON structure (`generated_plan`)
 
 ```jsonc

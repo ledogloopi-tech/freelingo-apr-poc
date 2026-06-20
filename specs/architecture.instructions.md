@@ -20,7 +20,7 @@ freelingo/
 │   │   ├── schemas/             # Pydantic v2 request/response schemas (14 modules)
 │   │   ├── routers/             # 22 routers (21 REST + 1 WebSocket)
 │   │   ├── services/            # Business logic + external service clients (17 modules + prompts package)
-│   │   └── data/                # Static curriculum and content data (4 languages)
+│   │   └── data/                # Static curriculum and content data (8 language modules)
 │   │       ├── en/              # English curriculum (A1–C2)
 │   │       ├── es/              # Spanish curriculum (A1–C2)
 │   │       ├── it/              # Italian curriculum (A1–C2)
