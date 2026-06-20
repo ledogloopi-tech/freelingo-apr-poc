@@ -111,9 +111,13 @@ SMTP email dispatch via **fastapi-mail 1.4.1** (async, `aiosmtplib` backend). On
 
 - `send_verification_email(to, display_name, token, locale)` — sends a verification link valid 24 h.
 - `send_reset_password_email(to, display_name, token, locale)` — sends a password-reset link valid 1 h.
-- `send_contact_email(sender_email, subject, description)` — forwards a contact-form submission to `CONTACT_EMAIL`. Sets `Reply-To` to the sender's address. Raises on SMTP failure (the router converts this to HTTP 502).
+- `send_contact_email(sender_email, subject, description, locale)` — forwards a contact-form submission to `CONTACT_EMAIL`. Sets `Reply-To` to the sender's address. Raises on SMTP failure (the router converts this to HTTP 502). Admin-facing labels and subject prefix are translated with `locale`.
+- `send_feedback_notification(entry_type, title, description, author_username, entry_id, locale)` — notifies `CONTACT_EMAIL` when a feature request or bug report is created. Admin-facing labels and subject prefix are translated with `locale`; errors are logged and do not fail the already-persisted feedback entry.
+- `send_review_notification(user_display_name, rating, comment, target_language, review_id, locale)` — notifies `CONTACT_EMAIL` when a user creates a new product review. Admin-facing labels and subject prefix are translated with `locale`; errors are logged and do not fail the already-persisted review.
 
-Both `send_verification_email` and `send_reset_password_email` accept a `locale` parameter (BCP-47 language tag, e.g. `"es"`) and render fully translated email bodies using internal `_VERIFY_I18N` / `_RESET_I18N` dicts covering the 10 supported UI languages. HTML templates are in `backend/app/templates/email/`.
+Email methods with a `locale` parameter accept BCP-47 language tags (e.g. `"es"`) and render translated bodies or admin-facing labels using internal i18n dicts covering the 10 supported UI languages. User emails use the recipient user's native language. Admin contact/feedback/review emails use the native language of the first admin user by ascending `id`, with English fallback for unsupported locales. HTML templates are in `backend/app/templates/email/`.
+
+Email template rendering escapes every interpolated value by default (`html.escape(..., quote=True)`) to prevent HTML injection from user-controlled fields such as contact subjects/messages, feedback titles/descriptions, and review comments. Only application-controlled snippets that intentionally contain markup (`<br />`, `<strong>`, etc.) are wrapped with the internal `_safe_html()` helper before rendering.
 
 ## Listening Service (`listening_service.py`)
 

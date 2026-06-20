@@ -95,7 +95,7 @@ backend/
 │   │   ├── __init__.py
 │   │   ├── assessment.py        # Adaptive quiz logic, CEFR level estimation
 │   │   ├── conversation_pipeline.py  # WebSocket voice orchestrator: STT → LLM → TTS
-│   │   ├── email_service.py     # SMTP email (verification, password reset, contact)
+│   │   ├── email_service.py     # SMTP email (verification, password reset, contact, admin notifications)
 │   │   ├── flashcard_sm2.py     # SM-2 spaced repetition algorithm
 │   │   ├── language_helpers.py  # Language code parsing, voice/engine selection
 │   │   ├── lesson_generator.py  # LLM-powered lesson content generation
@@ -127,7 +127,7 @@ backend/
 ├── alembic/
 │   └── versions/                # DB migrations (42 migrations)
 │
-└── tests/                       # pytest suite (41 test files, 836 tests)
+└── tests/                       # pytest suite (43 test files, 845 tests)
 ```
 
 ## Database models
@@ -276,8 +276,8 @@ All configuration is environment-driven. Variables are defined in `app/core/conf
 
 | Variable      | Default               | Purpose                                                          |
 | ------------- | --------------------- | ---------------------------------------------------------------- |
-| EMAIL_ENABLED | false                 | Enable SMTP email (verification + password reset + contact form) |
-| CONTACT_EMAIL | ``                    | Destination address for contact form submissions                 |
+| EMAIL_ENABLED | false                 | Enable SMTP email (verification, password reset, contact form, admin notifications) |
+| CONTACT_EMAIL | ``                    | Destination address for contact form submissions and admin notifications            |
 | SMTP_HOST     | localhost             | SMTP server hostname                                             |
 | SMTP_PORT     | 587                   | SMTP server port                                                 |
 | SMTP_USER     | ``                    | SMTP username                                                    |

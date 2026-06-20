@@ -27,7 +27,7 @@ freelingo/
 │   │       └── pt/              # Portuguese curriculum (A1–C2)
 │   ├── alembic/
 │   │   └── versions/            # DB migrations (31)
-│   └── tests/                   # pytest suite (41 test files, 836 tests)
+│   └── tests/                   # pytest suite (43 test files, 845 tests)
 │
 ├── frontend/                    # Next.js 16 App Router
 │   ├── src/
@@ -173,6 +173,6 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 
 **Summary:**
 
-- **Backend**: pytest + pytest-asyncio, 41 test files, 836 tests, 84.11% coverage (target: 70%)
+- **Backend**: pytest + pytest-asyncio, 43 test files, 845 tests, 84.28% coverage (target: 70%)
 - **Frontend**: Vitest, 29 test files, 394 tests covering stores, components, hooks, lib, i18n, app pages, and middleware; coverage is not configured/reported
 - **E2E**: Playwright (planned, not yet implemented)

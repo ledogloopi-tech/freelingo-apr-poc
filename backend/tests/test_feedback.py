@@ -1180,11 +1180,13 @@ async def test_feedback_entry_detail_includes_comments(client, test_user, db_ses
 
 
 @pytest.mark.asyncio
-async def test_create_feedback_sends_admin_email(client, test_user):
+async def test_create_feedback_sends_admin_email(client, test_user, admin_user):
     """Creating a feature request triggers one admin notification email."""
     from unittest.mock import AsyncMock, patch
 
     _, headers = test_user
+    admin, _ = admin_user
+    admin.native_language = "es"
     with patch(
         "app.routers.feedback.email_service.send_feedback_notification",
         new_callable=AsyncMock,
@@ -1203,6 +1205,7 @@ async def test_create_feedback_sends_admin_email(client, test_user):
     call_kwargs = mock_notify.call_args.kwargs
     assert call_kwargs["entry_type"] == "feature"
     assert call_kwargs["title"] == "Admin notif test"
+    assert call_kwargs["locale"] == "es"
 
 
 @pytest.mark.asyncio

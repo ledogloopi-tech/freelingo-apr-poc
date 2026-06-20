@@ -2,7 +2,7 @@
 
 ## Project state
 
-**v1.8.8 — Phase 11 (User Reviews) implemented.** Phase 1 (platform), Phase 1+ (resources hub), Phase 2 (TTS/STT), Phase 3 (voice conversation), Phase 4 (multi-language support), Phase 5 (Stripe subscriptions), Phase 6 (Listening exercises), Phase 7 (Reading exercises), Phase 8 (Feedback board), Phase 9 (LLM Memory), Phase 10 (Multi-Language), and Phase 11 (User Reviews) are complete. Email verification and password reset are also included. Voice conversations are persisted as text transcripts alongside chat conversations. The AI tutor persona is named Lingu. The repo contains `backend/`, `frontend/`, `docker-compose.yml`, `.env.example`, and CI/CD via GitHub Actions. See [CHANGELOG.md](CHANGELOG.md) for the full version history.
+**v1.8.9 — Phase 11 (User Reviews) implemented.** Phase 1 (platform), Phase 1+ (resources hub), Phase 2 (TTS/STT), Phase 3 (voice conversation), Phase 4 (multi-language support), Phase 5 (Stripe subscriptions), Phase 6 (Listening exercises), Phase 7 (Reading exercises), Phase 8 (Feedback board), Phase 9 (LLM Memory), Phase 10 (Multi-Language), and Phase 11 (User Reviews) are complete. Email verification and password reset are also included. Voice conversations are persisted as text transcripts alongside chat conversations. The AI tutor persona is named Lingu. The repo contains `backend/`, `frontend/`, `docker-compose.yml`, `.env.example`, and CI/CD via GitHub Actions. See [CHANGELOG.md](CHANGELOG.md) for the full version history.
 
 ## Architecture at a glance
 
@@ -107,6 +107,12 @@ pytest tests/test_auth.py -v
 docker compose exec backend alembic revision --autogenerate -m "description"
 docker compose exec backend alembic upgrade head
 ```
+
+## Validation and test accounting
+
+- When finishing a feature or task that requires test validation, use only the `pre-push` skill for the final test run.
+- If new backend tests are added, update the documented backend test count and backend coverage percentage wherever those metrics are recorded.
+- If new frontend tests are added, update the documented frontend test count wherever it is recorded. Frontend coverage percentage is not tracked.
 
 ## Auth design (do not deviate)
 

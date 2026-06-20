@@ -155,8 +155,8 @@ Paginated feedback queue for admins. Filters: `q` search, type (all/feature/bug)
 When a user creates a new feature request or bug report, an email is sent to `CONTACT_EMAIL` (if `EMAIL_ENABLED=true` and `CONTACT_EMAIL` is configured).
 
 - **Triggered by:** `POST /api/feedback` only. Comments (`POST /{id}/comments`) do **not** send notifications.
-- **Language:** English only (admin-facing, no i18n).
-- **Subject:** `[Feature Request] <title>` or `[Bug Report] <title>`.
-- **Template:** `backend/app/templates/email/feedback_submitted.html` — shows type badge, author username, title, description, and a direct link to `APP_BASE_URL/admin/feedback/{id}`.
+- **Language:** native language of the first admin user by ascending `id`, with English fallback for unsupported locales.
+- **Subject:** localized equivalent of `[Feature Request] <title>` or `[Bug Report] <title>`.
+- **Template:** `backend/app/templates/email/feedback_submitted.html` — shows type badge, author username, title, description, and a link to the admin feedback queue at `APP_BASE_URL/admin/feedback`.
 - **Implementation:** `email_service.send_feedback_notification()`. Called via `asyncio.create_task()` after `db.commit()` to avoid blocking the HTTP response. Errors are logged but never re-raised — the entry is already persisted.
 - **Config:** reuses existing `EMAIL_ENABLED` and `CONTACT_EMAIL` settings; no new env vars required.

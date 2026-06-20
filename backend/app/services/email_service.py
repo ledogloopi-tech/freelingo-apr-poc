@@ -6,6 +6,7 @@ functions are no-ops so the app works without SMTP configured.
 
 from __future__ import annotations
 
+from html import escape
 from pathlib import Path
 
 from fastapi_mail import ConnectionConfig, FastMail, MessageSchema, MessageType
@@ -16,6 +17,14 @@ from app.core.config import settings
 logger = get_logger(__name__)
 
 _TEMPLATES_DIR = Path(__file__).parent.parent / "templates" / "email"
+
+
+class _SafeHtml(str):
+    """Trusted HTML controlled by the application, never by user input."""
+
+
+def _safe_html(value: str) -> _SafeHtml:
+    return _SafeHtml(value)
 
 
 def _get_mail_config() -> ConnectionConfig:
@@ -365,13 +374,363 @@ _DELETION_I18N: dict[str, dict[str, str]] = {
     },
 }
 
+_CONTACT_I18N: dict[str, dict[str, str]] = {
+    "en": {
+        "email_title": "Contact form message",
+        "subject_prefix": "[FreeLingo Contact]",
+        "logo": "FreeLingo: Contact Form",
+        "from_label": "From",
+        "subject_label": "Subject",
+        "message_label": "Message",
+        "footer": "Sent via FreeLingo contact form",
+    },
+    "es": {
+        "email_title": "Mensaje del formulario de contacto",
+        "subject_prefix": "[Contacto FreeLingo]",
+        "logo": "FreeLingo: Formulario de contacto",
+        "from_label": "De",
+        "subject_label": "Asunto",
+        "message_label": "Mensaje",
+        "footer": "Enviado desde el formulario de contacto de FreeLingo",
+    },
+    "fr": {
+        "email_title": "Message du formulaire de contact",
+        "subject_prefix": "[Contact FreeLingo]",
+        "logo": "FreeLingo : Formulaire de contact",
+        "from_label": "De",
+        "subject_label": "Sujet",
+        "message_label": "Message",
+        "footer": "Envoyé via le formulaire de contact FreeLingo",
+    },
+    "de": {
+        "email_title": "Nachricht aus dem Kontaktformular",
+        "subject_prefix": "[FreeLingo Kontakt]",
+        "logo": "FreeLingo: Kontaktformular",
+        "from_label": "Von",
+        "subject_label": "Betreff",
+        "message_label": "Nachricht",
+        "footer": "Gesendet über das FreeLingo-Kontaktformular",
+    },
+    "pt": {
+        "email_title": "Mensagem do formulário de contacto",
+        "subject_prefix": "[Contacto FreeLingo]",
+        "logo": "FreeLingo: Formulário de contacto",
+        "from_label": "De",
+        "subject_label": "Assunto",
+        "message_label": "Mensagem",
+        "footer": "Enviado pelo formulário de contacto do FreeLingo",
+    },
+    "it": {
+        "email_title": "Messaggio dal modulo di contatto",
+        "subject_prefix": "[Contatto FreeLingo]",
+        "logo": "FreeLingo: Modulo di contatto",
+        "from_label": "Da",
+        "subject_label": "Oggetto",
+        "message_label": "Messaggio",
+        "footer": "Inviato tramite il modulo di contatto FreeLingo",
+    },
+    "nl": {
+        "email_title": "Bericht van het contactformulier",
+        "subject_prefix": "[FreeLingo Contact]",
+        "logo": "FreeLingo: Contactformulier",
+        "from_label": "Van",
+        "subject_label": "Onderwerp",
+        "message_label": "Bericht",
+        "footer": "Verzonden via het FreeLingo-contactformulier",
+    },
+    "pl": {
+        "email_title": "Wiadomość z formularza kontaktowego",
+        "subject_prefix": "[Kontakt FreeLingo]",
+        "logo": "FreeLingo: Formularz kontaktowy",
+        "from_label": "Od",
+        "subject_label": "Temat",
+        "message_label": "Wiadomość",
+        "footer": "Wysłano przez formularz kontaktowy FreeLingo",
+    },
+    "ro": {
+        "email_title": "Mesaj din formularul de contact",
+        "subject_prefix": "[Contact FreeLingo]",
+        "logo": "FreeLingo: Formular de contact",
+        "from_label": "De la",
+        "subject_label": "Subiect",
+        "message_label": "Mesaj",
+        "footer": "Trimis prin formularul de contact FreeLingo",
+    },
+    "ru": {
+        "email_title": "Сообщение из контактной формы",
+        "subject_prefix": "[Контакт FreeLingo]",
+        "logo": "FreeLingo: Контактная форма",
+        "from_label": "От",
+        "subject_label": "Тема",
+        "message_label": "Сообщение",
+        "footer": "Отправлено через контактную форму FreeLingo",
+    },
+}
+
+_FEEDBACK_I18N: dict[str, dict[str, str]] = {
+    "en": {
+        "email_title": "New feedback submitted",
+        "logo": "FreeLingo: New Feedback",
+        "feature_label": "Feature request",
+        "bug_label": "Bug report",
+        "feature_subject_prefix": "[Feature Request]",
+        "bug_subject_prefix": "[Bug Report]",
+        "author_label": "Submitted by",
+        "title_label": "Title",
+        "description_label": "Description",
+        "cta": "View in admin panel",
+        "footer": "FreeLingo feedback board",
+    },
+    "es": {
+        "email_title": "Nuevo feedback recibido",
+        "logo": "FreeLingo: Nuevo feedback",
+        "feature_label": "Solicitud de funcionalidad",
+        "bug_label": "Reporte de error",
+        "feature_subject_prefix": "[Solicitud de funcionalidad]",
+        "bug_subject_prefix": "[Reporte de error]",
+        "author_label": "Enviado por",
+        "title_label": "Título",
+        "description_label": "Descripción",
+        "cta": "Ver en el panel de admin",
+        "footer": "Panel de feedback de FreeLingo",
+    },
+    "fr": {
+        "email_title": "Nouveau retour reçu",
+        "logo": "FreeLingo : Nouveau retour",
+        "feature_label": "Demande de fonctionnalité",
+        "bug_label": "Rapport de bug",
+        "feature_subject_prefix": "[Demande de fonctionnalité]",
+        "bug_subject_prefix": "[Rapport de bug]",
+        "author_label": "Envoyé par",
+        "title_label": "Titre",
+        "description_label": "Description",
+        "cta": "Voir dans le panneau admin",
+        "footer": "Tableau de feedback FreeLingo",
+    },
+    "de": {
+        "email_title": "Neues Feedback eingereicht",
+        "logo": "FreeLingo: Neues Feedback",
+        "feature_label": "Funktionswunsch",
+        "bug_label": "Fehlerbericht",
+        "feature_subject_prefix": "[Funktionswunsch]",
+        "bug_subject_prefix": "[Fehlerbericht]",
+        "author_label": "Eingereicht von",
+        "title_label": "Titel",
+        "description_label": "Beschreibung",
+        "cta": "Im Adminbereich ansehen",
+        "footer": "FreeLingo-Feedbackboard",
+    },
+    "pt": {
+        "email_title": "Novo feedback recebido",
+        "logo": "FreeLingo: Novo feedback",
+        "feature_label": "Pedido de funcionalidade",
+        "bug_label": "Relatório de erro",
+        "feature_subject_prefix": "[Pedido de funcionalidade]",
+        "bug_subject_prefix": "[Relatório de erro]",
+        "author_label": "Enviado por",
+        "title_label": "Título",
+        "description_label": "Descrição",
+        "cta": "Ver no painel de admin",
+        "footer": "Quadro de feedback FreeLingo",
+    },
+    "it": {
+        "email_title": "Nuovo feedback ricevuto",
+        "logo": "FreeLingo: Nuovo feedback",
+        "feature_label": "Richiesta di funzionalità",
+        "bug_label": "Segnalazione bug",
+        "feature_subject_prefix": "[Richiesta di funzionalità]",
+        "bug_subject_prefix": "[Segnalazione bug]",
+        "author_label": "Inviato da",
+        "title_label": "Titolo",
+        "description_label": "Descrizione",
+        "cta": "Vedi nel pannello admin",
+        "footer": "Bacheca feedback FreeLingo",
+    },
+    "nl": {
+        "email_title": "Nieuwe feedback ingediend",
+        "logo": "FreeLingo: Nieuwe feedback",
+        "feature_label": "Functieverzoek",
+        "bug_label": "Bugrapport",
+        "feature_subject_prefix": "[Functieverzoek]",
+        "bug_subject_prefix": "[Bugrapport]",
+        "author_label": "Ingediend door",
+        "title_label": "Titel",
+        "description_label": "Beschrijving",
+        "cta": "Bekijk in adminpaneel",
+        "footer": "FreeLingo-feedbackbord",
+    },
+    "pl": {
+        "email_title": "Dodano nową opinię",
+        "logo": "FreeLingo: Nowa opinia",
+        "feature_label": "Prośba o funkcję",
+        "bug_label": "Zgłoszenie błędu",
+        "feature_subject_prefix": "[Prośba o funkcję]",
+        "bug_subject_prefix": "[Zgłoszenie błędu]",
+        "author_label": "Przesłane przez",
+        "title_label": "Tytuł",
+        "description_label": "Opis",
+        "cta": "Zobacz w panelu admina",
+        "footer": "Tablica opinii FreeLingo",
+    },
+    "ro": {
+        "email_title": "Feedback nou trimis",
+        "logo": "FreeLingo: Feedback nou",
+        "feature_label": "Solicitare funcționalitate",
+        "bug_label": "Raport de eroare",
+        "feature_subject_prefix": "[Solicitare funcționalitate]",
+        "bug_subject_prefix": "[Raport de eroare]",
+        "author_label": "Trimis de",
+        "title_label": "Titlu",
+        "description_label": "Descriere",
+        "cta": "Vezi în panoul admin",
+        "footer": "Panoul de feedback FreeLingo",
+    },
+    "ru": {
+        "email_title": "Новый отзыв отправлен",
+        "logo": "FreeLingo: Новый отзыв",
+        "feature_label": "Запрос функции",
+        "bug_label": "Отчет об ошибке",
+        "feature_subject_prefix": "[Запрос функции]",
+        "bug_subject_prefix": "[Отчет об ошибке]",
+        "author_label": "Отправил",
+        "title_label": "Заголовок",
+        "description_label": "Описание",
+        "cta": "Открыть в панели администратора",
+        "footer": "Доска отзывов FreeLingo",
+    },
+}
+
+_REVIEW_I18N: dict[str, dict[str, str]] = {
+    "en": {
+        "email_title": "New review submitted",
+        "subject_prefix": "[New Review]",
+        "logo": "FreeLingo: New Review",
+        "author_label": "Submitted by",
+        "rating_label": "Rating",
+        "language_label": "Learning language",
+        "comment_label": "Comment",
+        "empty_comment": "No comment provided.",
+        "cta": "View in admin panel",
+        "footer": "FreeLingo review moderation",
+    },
+    "es": {
+        "email_title": "Nueva reseña recibida",
+        "subject_prefix": "[Nueva reseña]",
+        "logo": "FreeLingo: Nueva reseña",
+        "author_label": "Enviada por",
+        "rating_label": "Valoración",
+        "language_label": "Idioma de aprendizaje",
+        "comment_label": "Comentario",
+        "empty_comment": "No se incluyó ningún comentario.",
+        "cta": "Ver en el panel de admin",
+        "footer": "Moderación de reseñas de FreeLingo",
+    },
+    "fr": {
+        "email_title": "Nouvel avis reçu",
+        "subject_prefix": "[Nouvel avis]",
+        "logo": "FreeLingo : Nouvel avis",
+        "author_label": "Envoyé par",
+        "rating_label": "Note",
+        "language_label": "Langue d'apprentissage",
+        "comment_label": "Commentaire",
+        "empty_comment": "Aucun commentaire fourni.",
+        "cta": "Voir dans le panneau admin",
+        "footer": "Modération des avis FreeLingo",
+    },
+    "de": {
+        "email_title": "Neue Bewertung eingereicht",
+        "subject_prefix": "[Neue Bewertung]",
+        "logo": "FreeLingo: Neue Bewertung",
+        "author_label": "Eingereicht von",
+        "rating_label": "Bewertung",
+        "language_label": "Lernsprache",
+        "comment_label": "Kommentar",
+        "empty_comment": "Kein Kommentar angegeben.",
+        "cta": "Im Adminbereich ansehen",
+        "footer": "FreeLingo-Bewertungsmoderation",
+    },
+    "pt": {
+        "email_title": "Nova avaliação recebida",
+        "subject_prefix": "[Nova avaliação]",
+        "logo": "FreeLingo: Nova avaliação",
+        "author_label": "Enviada por",
+        "rating_label": "Avaliação",
+        "language_label": "Idioma de aprendizagem",
+        "comment_label": "Comentário",
+        "empty_comment": "Nenhum comentário fornecido.",
+        "cta": "Ver no painel de admin",
+        "footer": "Moderação de avaliações FreeLingo",
+    },
+    "it": {
+        "email_title": "Nuova recensione ricevuta",
+        "subject_prefix": "[Nuova recensione]",
+        "logo": "FreeLingo: Nuova recensione",
+        "author_label": "Inviata da",
+        "rating_label": "Valutazione",
+        "language_label": "Lingua di apprendimento",
+        "comment_label": "Commento",
+        "empty_comment": "Nessun commento fornito.",
+        "cta": "Vedi nel pannello admin",
+        "footer": "Moderazione recensioni FreeLingo",
+    },
+    "nl": {
+        "email_title": "Nieuwe review ingediend",
+        "subject_prefix": "[Nieuwe review]",
+        "logo": "FreeLingo: Nieuwe review",
+        "author_label": "Ingediend door",
+        "rating_label": "Beoordeling",
+        "language_label": "Leertaal",
+        "comment_label": "Opmerking",
+        "empty_comment": "Geen opmerking toegevoegd.",
+        "cta": "Bekijk in adminpaneel",
+        "footer": "FreeLingo-reviewmoderatie",
+    },
+    "pl": {
+        "email_title": "Dodano nową recenzję",
+        "subject_prefix": "[Nowa recenzja]",
+        "logo": "FreeLingo: Nowa recenzja",
+        "author_label": "Przesłana przez",
+        "rating_label": "Ocena",
+        "language_label": "Język nauki",
+        "comment_label": "Komentarz",
+        "empty_comment": "Nie podano komentarza.",
+        "cta": "Zobacz w panelu admina",
+        "footer": "Moderacja recenzji FreeLingo",
+    },
+    "ro": {
+        "email_title": "Recenzie nouă trimisă",
+        "subject_prefix": "[Recenzie nouă]",
+        "logo": "FreeLingo: Recenzie nouă",
+        "author_label": "Trimisă de",
+        "rating_label": "Evaluare",
+        "language_label": "Limba de învățare",
+        "comment_label": "Comentariu",
+        "empty_comment": "Nu a fost furnizat niciun comentariu.",
+        "cta": "Vezi în panoul admin",
+        "footer": "Moderare recenzii FreeLingo",
+    },
+    "ru": {
+        "email_title": "Новый отзыв отправлен",
+        "subject_prefix": "[Новый отзыв]",
+        "logo": "FreeLingo: Новый отзыв",
+        "author_label": "Отправил",
+        "rating_label": "Оценка",
+        "language_label": "Изучаемый язык",
+        "comment_label": "Комментарий",
+        "empty_comment": "Комментарий не указан.",
+        "cta": "Открыть в панели администратора",
+        "footer": "Модерация отзывов FreeLingo",
+    },
+}
+
 
 def _render_template(name: str, context: dict) -> str:
-    """Render a plain HTML template with simple {{key}} substitution."""
+    """Render a plain HTML template, escaping interpolated values by default."""
     path = _TEMPLATES_DIR / name
     html = path.read_text(encoding="utf-8")
     for key, value in context.items():
-        html = html.replace(f"{{{{{key}}}}}", str(value))
+        rendered = str(value) if isinstance(value, _SafeHtml) else escape(str(value), quote=True)
+        html = html.replace(f"{{{{{key}}}}}", rendered)
     return html
 
 
@@ -401,7 +760,7 @@ async def send_verification_email(
         "verify_email.html",
         {
             "greeting": strings["greeting"].format(name=display_name),
-            "body": strings["body"],
+            "body": _safe_html(strings["body"]),
             "button": strings["button"],
             "link_fallback": strings["link_fallback"],
             "footer": strings["footer"],
@@ -424,7 +783,7 @@ async def send_reset_password_email(
         "reset_password.html",
         {
             "greeting": strings["greeting"].format(name=display_name),
-            "body": strings["body"],
+            "body": _safe_html(strings["body"]),
             "button": strings["button"],
             "link_fallback": strings["link_fallback"],
             "footer": strings["footer"],
@@ -445,9 +804,9 @@ async def send_welcome_email(to: str, display_name: str, locale: str = "en") -> 
         "welcome.html",
         {
             "greeting": strings["greeting"].format(name=display_name),
-            "body": strings["body"],
-            "step1": strings["step1"],
-            "step2": strings["step2"],
+            "body": _safe_html(strings["body"]),
+            "step1": _safe_html(strings["step1"]),
+            "step2": _safe_html(strings["step2"]),
             "step3": strings["step3"],
             "button": strings["button"],
             "footer": strings["footer"],
@@ -458,24 +817,33 @@ async def send_welcome_email(to: str, display_name: str, locale: str = "en") -> 
     await _dispatch(strings["subject"], [to], html)
 
 
-async def send_contact_email(sender_email: str, subject: str, description: str) -> None:
+async def send_contact_email(
+    sender_email: str, subject: str, description: str, locale: str = "en"
+) -> None:
     """Forward a contact-form submission to the configured CONTACT_EMAIL address."""
     if not settings.EMAIL_ENABLED:
         return
     if not settings.CONTACT_EMAIL:
         logger.warning("CONTACT_EMAIL is not configured — contact form submission dropped")
         return
+    strings = _CONTACT_I18N.get(locale, _CONTACT_I18N["en"])
     html = _render_template(
         "contact.html",
         {
+            "email_title": strings["email_title"],
+            "logo": strings["logo"],
+            "from_label": strings["from_label"],
+            "subject_label": strings["subject_label"],
+            "message_label": strings["message_label"],
             "sender_email": sender_email,
             "subject": subject,
             "description": description,
+            "footer": strings["footer"],
             "base_url": settings.APP_BASE_URL,
         },
     )
     message = MessageSchema(
-        subject=f"[FreeLingo Contact] {subject}",
+        subject=f"{strings['subject_prefix']} {subject}",
         recipients=[settings.CONTACT_EMAIL],
         reply_to=[sender_email],
         body=html,
@@ -498,7 +866,7 @@ async def send_account_deleted_email(to: str, display_name: str, locale: str = "
         "account_deleted.html",
         {
             "greeting": strings["greeting"].format(name=display_name),
-            "body": strings["body"],
+            "body": _safe_html(strings["body"]),
             "footer": strings["footer"],
             "base_url": settings.APP_BASE_URL,
         },
@@ -512,10 +880,11 @@ async def send_feedback_notification(
     description: str,
     author_username: str,
     entry_id: int,
+    locale: str = "en",
 ) -> None:
     """Notify CONTACT_EMAIL when a new feature request or bug report is submitted.
 
-    Always sent in English (admin-facing notification, no i18n needed).
+    Sent in the first admin user's native language, with English fallback.
     Silently skipped when EMAIL_ENABLED=false or CONTACT_EMAIL is not set.
     Never raises — the feedback entry is already persisted before this is called.
     """
@@ -524,19 +893,78 @@ async def send_feedback_notification(
     if not settings.CONTACT_EMAIL:
         logger.warning("CONTACT_EMAIL is not configured — feedback notification dropped")
         return
-    type_label = "Feature request" if entry_type == "feature" else "Bug report"
-    admin_url = f"{settings.APP_BASE_URL}/admin/feedback/{entry_id}"
+    strings = _FEEDBACK_I18N.get(locale, _FEEDBACK_I18N["en"])
+    type_label = strings["feature_label"] if entry_type == "feature" else strings["bug_label"]
+    admin_url = f"{settings.APP_BASE_URL}/admin/feedback"
     html = _render_template(
         "feedback_submitted.html",
         {
+            "email_title": strings["email_title"],
+            "logo": strings["logo"],
             "type": entry_type,
             "type_label": type_label,
+            "author_label": strings["author_label"],
             "author_username": author_username,
+            "title_label": strings["title_label"],
             "title": title,
+            "description_label": strings["description_label"],
             "description": description,
+            "cta": strings["cta"],
+            "footer": strings["footer"],
             "admin_url": admin_url,
             "base_url": settings.APP_BASE_URL,
         },
     )
-    subject_prefix = "[Feature Request]" if entry_type == "feature" else "[Bug Report]"
+    subject_prefix = (
+        strings["feature_subject_prefix"]
+        if entry_type == "feature"
+        else strings["bug_subject_prefix"]
+    )
     await _dispatch(f"{subject_prefix} {title}", [settings.CONTACT_EMAIL], html)
+
+
+async def send_review_notification(
+    user_display_name: str,
+    rating: int,
+    comment: str | None,
+    target_language: str,
+    review_id: int,
+    locale: str = "en",
+) -> None:
+    """Notify CONTACT_EMAIL when a new user review is submitted.
+
+    Sent in the first admin user's native language, with English fallback.
+    Silently skipped when EMAIL_ENABLED=false or CONTACT_EMAIL is not set.
+    Never raises — the review is already persisted before this is called.
+    """
+    if not settings.EMAIL_ENABLED:
+        return
+    if not settings.CONTACT_EMAIL:
+        logger.warning("CONTACT_EMAIL is not configured — review notification dropped")
+        return
+    strings = _REVIEW_I18N.get(locale, _REVIEW_I18N["en"])
+    admin_url = f"{settings.APP_BASE_URL}/admin/reviews"
+    html = _render_template(
+        "review_submitted.html",
+        {
+            "email_title": strings["email_title"],
+            "logo": strings["logo"],
+            "author_label": strings["author_label"],
+            "user_display_name": user_display_name,
+            "rating_label": strings["rating_label"],
+            "rating": f"{rating}/5",
+            "language_label": strings["language_label"],
+            "target_language": target_language,
+            "comment_label": strings["comment_label"],
+            "comment": comment or strings["empty_comment"],
+            "cta": strings["cta"],
+            "admin_url": admin_url,
+            "footer": strings["footer"],
+            "base_url": settings.APP_BASE_URL,
+        },
+    )
+    await _dispatch(
+        f"{strings['subject_prefix']} {rating}/5 — {user_display_name}",
+        [settings.CONTACT_EMAIL],
+        html,
+    )

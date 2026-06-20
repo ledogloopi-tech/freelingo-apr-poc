@@ -401,7 +401,7 @@ This document records what was built and the completion criteria met.
 
 ## Phase 11 — User Reviews
 
-✅ Status: Complete (v1.8.8)
+✅ Status: Complete (v1.8.9)
 
 > One verified review per user, with mandatory 1–5 star rating, optional comment,
 > active learning language snapshot, admin approval, and approved positive reviews

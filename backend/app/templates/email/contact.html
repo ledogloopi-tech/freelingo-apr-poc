@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact form message</title>
+  <title>{{email_title}}</title>
   <style>
     body {
       margin: 0;
@@ -78,20 +78,20 @@
 <body>
   <div class="wrapper">
     <div class="header">
-      <span class="logo">● FreeLingo: Contact Form</span>
+      <span class="logo">● {{logo}}</span>
     </div>
     <div class="body">
-      <p class="label">From</p>
+      <p class="label">{{from_label}}</p>
       <p class="value">{{sender_email}}</p>
-      <p class="label">Subject</p>
+      <p class="label">{{subject_label}}</p>
       <p class="value">{{subject}}</p>
-      <p class="label">Message</p>
+      <p class="label">{{message_label}}</p>
       <div class="description-block">
         <p class="description-text">{{description}}</p>
       </div>
     </div>
     <div class="footer">
-      Sent via FreeLingo contact form &mdash; <a href="{{base_url}}" style="color:#9b9b94;">{{base_url}}</a>
+      {{footer}} &mdash; <a href="{{base_url}}" style="color:#9b9b94;">{{base_url}}</a>
     </div>
   </div>
 </body>
