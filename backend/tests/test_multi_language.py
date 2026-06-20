@@ -395,6 +395,7 @@ class TestLanguageAPI:
         assert len(data["languages"]) >= 1
         assert any(lang["target_language"] == "en-US" for lang in data["languages"])
         assert "all_supported_languages" in data
+        assert "ja-JP" in data["all_supported_languages"]
 
     @pytest.mark.asyncio
     async def test_remove_language_cascades(self, client, db_session):
@@ -449,6 +450,16 @@ class TestLanguageAPI:
             json={"target_language": "xx-XX"},
         )
         assert res.status_code == 422
+
+    @pytest.mark.asyncio
+    async def test_japanese_language_can_be_added(self, client, db_session):
+        """ja-JP is accepted by the backend language allow-list."""
+        user, headers = await _make_user(db_session)
+
+        res = await client.post("/api/languages", headers=headers, json={"target_language": "ja-JP"})
+
+        assert res.status_code == 201
+        assert res.json()["target_language"] == "ja-JP"
 
     @pytest.mark.asyncio
     async def test_plan_deactivation_scoped_by_language(self, client, db_session):
@@ -732,10 +743,19 @@ class TestCurriculumPerLanguage:
         """Unsupported language falls back to English."""
         from app.data.curriculum import get_curriculum
 
-        c = get_curriculum("ja-JP")
+        c = get_curriculum("xx-XX")
         assert "A1" in c
         # Should be English content
         assert c["A1"][0].title == "Identity & Greetings"
+
+    @pytest.mark.asyncio
+    async def test_curriculum_japanese_empty_structure(self, client):
+        """get_curriculum('ja-JP') resolves the Japanese package without English fallback."""
+        from app.data.curriculum import get_curriculum
+
+        c = get_curriculum("ja-JP")
+        assert list(c.keys()) == ["A1", "A2", "B1", "B2", "C1", "C2"]
+        assert c["A1"] == []
 
     @pytest.mark.asyncio
     async def test_get_curriculum_units_with_language(self, client):

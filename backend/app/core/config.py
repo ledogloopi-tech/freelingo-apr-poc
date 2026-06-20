@@ -65,12 +65,13 @@ class Settings(BaseSettings):
 
     # Multi-language — operator-configured subset of supported target languages.
     AVAILABLE_TARGET_LANGUAGES: list[str] = [
-        "en-US",
-        "en-GB",
         "de-DE",
+        "en-GB",
+        "en-US",
         "es-ES",
         "fr-FR",
         "it-IT",
+        "ja-JP",
         "pt-PT",
     ]
 

@@ -187,9 +187,20 @@ async def test_unknown_language_falls_back_to_english(client, test_user):
     _, headers = test_user
 
     en_res = await client.get("/api/vocabulary?language=en-GB", headers=headers)
-    unknown_res = await client.get("/api/vocabulary?language=ja-JP", headers=headers)
+    unknown_res = await client.get("/api/vocabulary?language=xx-XX", headers=headers)
 
     en_ids = {s["id"] for s in en_res.json()["sets"]}
     unknown_ids = {s["id"] for s in unknown_res.json()["sets"]}
 
     assert en_ids == unknown_ids, "Unknown language should fall back to English"
+
+
+@pytest.mark.asyncio
+async def test_japanese_language_resolves_explicit_empty_sets(client, test_user):
+    """ja-JP is a known language package and should not fall back to English."""
+    _, headers = test_user
+
+    response = await client.get("/api/vocabulary?language=ja-JP", headers=headers)
+
+    assert response.status_code == 200
+    assert response.json()["sets"] == []

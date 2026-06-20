@@ -21,6 +21,7 @@ _LANG_MODULES: dict[str, str] = {
     "es": "app.data.es.curriculum",
     "fr": "app.data.fr.curriculum",
     "it": "app.data.it.curriculum",
+    "ja": "app.data.ja.curriculum",
     "pt": "app.data.pt.curriculum",
 }
 
@@ -88,6 +89,15 @@ _I18N = {
         "test_objectives": [
             "Alle Grammatikthemen dieses Niveaus wiederholen",
             "Die Prüfung bestehen, um das nächste Niveau freizuschalten",
+        ],
+    },
+    "ja-JP": {
+        "lesson_title": "{title} - レッスン {n}",
+        "test_unit_title": "{level} レベル修了テスト",
+        "test_title": "{level} レベル修了テスト",
+        "test_objectives": [
+            "このレベルの文法項目を復習する",
+            "評価を完了して次のレベルを解放する",
         ],
     },
 }

@@ -53,6 +53,13 @@ class TestGetAssessmentBank:
         assert isinstance(bank, list)
         assert len(bank) > 0
 
+    def test_japanese_returns_explicit_empty_bank(self):
+        from app.data.assessment_bank import get_assessment_bank
+
+        bank = get_assessment_bank("ja-JP")
+        assert isinstance(bank, list)
+        assert bank == []
+
     def test_unknown_language_falls_back_to_en_gb(self):
         from app.data.assessment_bank import get_assessment_bank
 

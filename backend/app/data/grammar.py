@@ -18,6 +18,7 @@ _LANG_MODULES: dict[str, str] = {
     "es": "app.data.es.grammar",
     "fr": "app.data.fr.grammar",
     "it": "app.data.it.grammar",
+    "ja": "app.data.ja.grammar",
     "pt": "app.data.pt.grammar",
 }
 
