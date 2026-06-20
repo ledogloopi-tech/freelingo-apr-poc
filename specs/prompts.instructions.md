@@ -35,15 +35,15 @@ Service and router modules import builders from this package and pass runtime va
 
 ## Shared Blocks
 
-| Block | File | Purpose |
-|---|---|---|
-| `JSON_ONLY_INSTRUCTION` | `prompts/common.py` | Appended by `llm_adapter.structured_output()` to require a JSON-only response. |
-| `STRUCTURED_OUTPUT_RETRY_PROMPT` | `prompts/common.py` | Used by `llm_adapter` when the first structured-output response cannot be parsed. |
-| `ANTHROPIC_SYSTEM_ONLY_TRIGGER` | `prompts/common.py` | Minimal user message for Anthropic calls where all task instructions are system messages. |
-| `TUTOR_DISPLAY_NAME` | `prompts/common.py` | Central display name for the AI tutor persona (`Lingu`). |
-| `get_language_prompt_overlay()` | `prompts/common.py` | Returns concise language/variant guidance for supported target languages. Injected into tutor, voice, lesson, evaluation, flashcard, comprehension, and assessment prompts. Supports canonical BCP-47 codes plus short aliases (`de`, `fr`, `es`, `it`, `pt`). |
-| `MEMORY_SYSTEM_INSTRUCTION_BASE` | `prompts/common.py` | Shared memory marker instructions appended to text chat and voice tutor prompts. |
-| `get_memory_system_instruction()` | `prompts/common.py` | Formats the memory block for the current target language name. |
+| Block                             | File                | Purpose                                                                                                                                                                                                                                                                                        |
+| --------------------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `JSON_ONLY_INSTRUCTION`           | `prompts/common.py` | Appended by `llm_adapter.structured_output()` to require a JSON-only response.                                                                                                                                                                                                                 |
+| `STRUCTURED_OUTPUT_RETRY_PROMPT`  | `prompts/common.py` | Used by `llm_adapter` when the first structured-output response cannot be parsed.                                                                                                                                                                                                              |
+| `ANTHROPIC_SYSTEM_ONLY_TRIGGER`   | `prompts/common.py` | Minimal user message for Anthropic calls where all task instructions are system messages.                                                                                                                                                                                                      |
+| `TUTOR_DISPLAY_NAME`              | `prompts/common.py` | Central display name for the AI tutor persona (`Lingu`).                                                                                                                                                                                                                                       |
+| `get_language_prompt_overlay()`   | `prompts/common.py` | Returns concise language/variant guidance for supported and readiness target languages. Injected into tutor, voice, lesson, evaluation, flashcard, comprehension, and assessment prompts. Supports canonical BCP-47 codes plus short aliases (`de`, `fr`, `es`, `it`, `pt`, `ja`, `ko`, `zh`). |
+| `MEMORY_SYSTEM_INSTRUCTION_BASE`  | `prompts/common.py` | Shared memory marker instructions appended to text chat and voice tutor prompts.                                                                                                                                                                                                               |
+| `get_memory_system_instruction()` | `prompts/common.py` | Formats the memory block for the current target language name.                                                                                                                                                                                                                                 |
 
 `memory_service.py` remains responsible for parsing, stripping, formatting, saving, and retrieving
 memories. It re-exports the memory instruction helper for backward compatibility.
@@ -51,53 +51,57 @@ memories. It re-exports the memory instruction helper for backward compatibility
 ## Language Prompt Overlays
 
 `get_language_prompt_overlay(target_language)` centralizes concise language-specific guidance for the
-seven supported learning languages. The overlays preserve a single base-prompt architecture while making
-room for language and regional details such as American/British English, Peninsular Spanish, European
-Portuguese, Standard German, French from France, and standard Italian from Italy.
+current learning languages plus backend readiness targets. The overlays preserve a single base-prompt
+architecture while making room for language and regional details such as American/British English,
+Peninsular Spanish, European Portuguese, Standard German, French from France, standard Italian from Italy,
+standard Japanese from Japan, South Korean Korean, and Mainland China Standard Mandarin with simplified
+characters.
 
 Current status: the helper and tests exist, and the overlays are injected into text tutor, voice
 conversation, lesson generation, lesson evaluation, flashcard generation/lookup, reading/listening
 generation, and assessment prompts. This keeps one shared prompt architecture while adding concise
-language-specific guidance across all active LLM-backed learning areas.
+language-specific guidance across all active LLM-backed learning areas. Japanese (`ja-JP`), Korean
+(`ko-KR`), and Mainland Chinese (`zh-CN`) overlays are covered by tests for prompt-readiness work and have
+ISO alias support (`ja`, `ko`, `zh`).
 
 ## Active Prompt Builders
 
-| Builder | File | Caller | Role sent to LLM | Output expectation |
-|---|---|---|---|---|
-| `build_tutor_system_prompt()` | `prompts/tutor.py` | `routers/chat.py` | `system` | Streaming conversational text response. |
-| `build_conversation_system_prompt()` | `prompts/tutor.py` | `services/conversation_pipeline.py` | `system` | Streaming voice-safe tutor response. |
-| `build_lesson_generation_prompt()` | `prompts/lesson.py` | `services/lesson_generator.py` | `system` via `structured_output` | `LessonContent` JSON. |
-| `build_fill_blank_eval_prompt()` | `prompts/lesson.py` | `services/lesson_generator.py` | `system` via `structured_output` | `FillBlankEvaluation` JSON. |
-| `build_free_write_eval_prompt()` | `prompts/lesson.py` | `services/lesson_generator.py` | `system` via `structured_output` | `FreeWriteEvaluation` JSON. |
-| `build_pronunciation_eval_prompt()` | `prompts/lesson.py` | `services/lesson_generator.py` | `system` via `structured_output` | `PronunciationEvaluation` JSON. |
-| `build_flashcard_generation_prompt()` | `prompts/flashcards.py` | `services/flashcard_sm2.py` | `system` via `structured_output` | `FlashcardGenerateResponse` JSON. |
-| `build_word_lookup_prompt()` | `prompts/flashcards.py` | `services/flashcard_sm2.py` | `system` via `structured_output` | `FlashcardCreate` JSON. |
-| `build_listening_generation_prompt()` | `prompts/comprehension.py` | `services/listening_service.py` | `user` via `structured_output` | `ListeningGenerationResponse` JSON. |
-| `build_reading_generation_prompt()` | `prompts/comprehension.py` | `services/reading_service.py` | `user` via `structured_output` | `ReadingGenerationResponse` JSON. |
-| `build_free_write_assessment_prompt()` | `prompts/assessment.py` | `services/assessment.py` | `system` | Raw JSON parsed by assessment service. |
-| `build_end_of_level_test_prompt()` | `prompts/assessment.py` | `services/assessment.py` | `system` | Raw JSON with `questions`. |
-| `build_legacy_assessment_quiz_prompt()` | `prompts/assessment.py` | `routers/assessment.py` | `system` via `structured_output` | `LegacyQuizResponse` JSON. |
-| `build_legacy_assessment_eval_user_prompt()` | `prompts/assessment.py` | `routers/assessment.py` | `user` via `structured_output` | JSON user payload for legacy assessment evaluation. |
+| Builder                                      | File                       | Caller                              | Role sent to LLM                 | Output expectation                                  |
+| -------------------------------------------- | -------------------------- | ----------------------------------- | -------------------------------- | --------------------------------------------------- |
+| `build_tutor_system_prompt()`                | `prompts/tutor.py`         | `routers/chat.py`                   | `system`                         | Streaming conversational text response.             |
+| `build_conversation_system_prompt()`         | `prompts/tutor.py`         | `services/conversation_pipeline.py` | `system`                         | Streaming voice-safe tutor response.                |
+| `build_lesson_generation_prompt()`           | `prompts/lesson.py`        | `services/lesson_generator.py`      | `system` via `structured_output` | `LessonContent` JSON.                               |
+| `build_fill_blank_eval_prompt()`             | `prompts/lesson.py`        | `services/lesson_generator.py`      | `system` via `structured_output` | `FillBlankEvaluation` JSON.                         |
+| `build_free_write_eval_prompt()`             | `prompts/lesson.py`        | `services/lesson_generator.py`      | `system` via `structured_output` | `FreeWriteEvaluation` JSON.                         |
+| `build_pronunciation_eval_prompt()`          | `prompts/lesson.py`        | `services/lesson_generator.py`      | `system` via `structured_output` | `PronunciationEvaluation` JSON.                     |
+| `build_flashcard_generation_prompt()`        | `prompts/flashcards.py`    | `services/flashcard_sm2.py`         | `system` via `structured_output` | `FlashcardGenerateResponse` JSON.                   |
+| `build_word_lookup_prompt()`                 | `prompts/flashcards.py`    | `services/flashcard_sm2.py`         | `system` via `structured_output` | `FlashcardCreate` JSON.                             |
+| `build_listening_generation_prompt()`        | `prompts/comprehension.py` | `services/listening_service.py`     | `user` via `structured_output`   | `ListeningGenerationResponse` JSON.                 |
+| `build_reading_generation_prompt()`          | `prompts/comprehension.py` | `services/reading_service.py`       | `user` via `structured_output`   | `ReadingGenerationResponse` JSON.                   |
+| `build_free_write_assessment_prompt()`       | `prompts/assessment.py`    | `services/assessment.py`            | `system`                         | Raw JSON parsed by assessment service.              |
+| `build_end_of_level_test_prompt()`           | `prompts/assessment.py`    | `services/assessment.py`            | `system`                         | Raw JSON with `questions`.                          |
+| `build_legacy_assessment_quiz_prompt()`      | `prompts/assessment.py`    | `routers/assessment.py`             | `system` via `structured_output` | `LegacyQuizResponse` JSON.                          |
+| `build_legacy_assessment_eval_user_prompt()` | `prompts/assessment.py`    | `routers/assessment.py`             | `user` via `structured_output`   | JSON user payload for legacy assessment evaluation. |
 
 ## Prompt Inventory
 
-| Area | Template | Current behavior |
-|---|---|---|
-| Text tutor | `build_tutor_system_prompt()` | Lingu text tutor with mandatory scope, content policy, persona lock, progress context, optional user context, optional memories, target-language-only response, language-specific overlay guidance, and no emoji/pictographic output. |
-| Voice tutor | `build_conversation_system_prompt()` | Lingu voice conversation partner with the same safety core, language-specific overlay guidance, shorter spoken responses, restrained correction policy, follow-up questions, and TTS-safe plain text. |
-| Memory | `MEMORY_SYSTEM_INSTRUCTION_BASE` | Allows the LLM to append a hidden `<<MEMORY>>...<<ENDMEMORY>>` marker only when it learns a useful new student fact. |
-| Lesson generation | `LESSON_GENERATION_PROMPT` | Generates structured lesson JSON constrained by CEFR level, target language, curriculum unit, grammar points, vocabulary sets, exercise schema, valid grammar slugs, and language-specific overlay guidance. |
-| Lesson fill-blank evaluation | `FILL_BLANK_EVAL_PROMPT` | Evaluates a fill-blank answer leniently for minor spelling/case variation and contractions, with language-specific overlay guidance. Dynamic exercise fields are delimited and treated as data only. |
-| Lesson free-write evaluation | `FREE_WRITE_EVAL_PROMPT` | Scores a writing answer and returns feedback plus correction objects, with language-specific overlay guidance. Dynamic exercise fields are delimited and treated as data only. |
-| Pronunciation evaluation | `PRONUNCIATION_EVAL_PROMPT` | Compares target phrase to STT transcription and returns score, feedback, and correctness, with language-specific overlay guidance. Dynamic exercise fields are delimited and treated as data only. |
-| Flashcard generation | `FLASHCARD_GEN_PROMPT` | Generates target-language vocabulary flashcards with native-language definition/translation, strict word cleanup rules, and centralized language-specific overlay guidance. The requested topic is delimited as data only. |
-| Word lookup | `WORD_LOOKUP_PROMPT` | Generates one flashcard from a selected word and context sentence, with centralized language-specific overlay guidance. The selected word and context are delimited as data only. |
-| Listening generation | `LISTENING_GENERATION_PROMPT` | Generates plain-prose listening text and five multiple-choice comprehension questions with language-specific overlay guidance. |
-| Reading generation | `READING_GENERATION_PROMPT` | Generates plain-prose reading text and five multiple-choice comprehension questions with language-specific overlay guidance. |
-| Free-write assessment | `FREE_WRITE_ASSESSMENT_PROMPT` | Evaluates placement writing with adjusted level, writing score, analysis, strengths, weaknesses, and language-specific overlay guidance. Student prompt/answer fields are delimited as data only. |
-| End-of-level test | `END_OF_LEVEL_TEST_PROMPT` | Generates a 20-question test covering studied grammar and vocabulary for the current CEFR level with language-specific overlay guidance. |
-| Legacy assessment quiz | `LEGACY_ASSESSMENT_QUIZ_PROMPT` | Generates an adaptive CEFR quiz for legacy assessment flow with language-specific overlay guidance. |
-| Legacy assessment evaluation | `LEGACY_ASSESSMENT_EVAL_PROMPT` and `LEGACY_ASSESSMENT_EVAL_USER_PROMPT` | Evaluates legacy assessment answers with an explicit JSON quiz/answers payload, a fixed JSON response schema, and an additional language-specific system overlay when available. |
+| Area                         | Template                                                                 | Current behavior                                                                                                                                                                                                                      |
+| ---------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Text tutor                   | `build_tutor_system_prompt()`                                            | Lingu text tutor with mandatory scope, content policy, persona lock, progress context, optional user context, optional memories, target-language-only response, language-specific overlay guidance, and no emoji/pictographic output. |
+| Voice tutor                  | `build_conversation_system_prompt()`                                     | Lingu voice conversation partner with the same safety core, language-specific overlay guidance, shorter spoken responses, restrained correction policy, follow-up questions, and TTS-safe plain text.                                 |
+| Memory                       | `MEMORY_SYSTEM_INSTRUCTION_BASE`                                         | Allows the LLM to append a hidden `<<MEMORY>>...<<ENDMEMORY>>` marker only when it learns a useful new student fact.                                                                                                                  |
+| Lesson generation            | `LESSON_GENERATION_PROMPT`                                               | Generates structured lesson JSON constrained by CEFR level, target language, curriculum unit, grammar points, vocabulary sets, exercise schema, valid grammar slugs, and language-specific overlay guidance.                          |
+| Lesson fill-blank evaluation | `FILL_BLANK_EVAL_PROMPT`                                                 | Evaluates a fill-blank answer leniently for minor spelling/case variation and contractions, with language-specific overlay guidance. Dynamic exercise fields are delimited and treated as data only.                                  |
+| Lesson free-write evaluation | `FREE_WRITE_EVAL_PROMPT`                                                 | Scores a writing answer and returns feedback plus correction objects, with language-specific overlay guidance. Dynamic exercise fields are delimited and treated as data only.                                                        |
+| Pronunciation evaluation     | `PRONUNCIATION_EVAL_PROMPT`                                              | Compares target phrase to STT transcription and returns score, feedback, and correctness, with language-specific overlay guidance. Dynamic exercise fields are delimited and treated as data only.                                    |
+| Flashcard generation         | `FLASHCARD_GEN_PROMPT`                                                   | Generates target-language vocabulary flashcards with native-language definition/translation, strict word cleanup rules, and centralized language-specific overlay guidance. The requested topic is delimited as data only.            |
+| Word lookup                  | `WORD_LOOKUP_PROMPT`                                                     | Generates one flashcard from a selected word and context sentence, with centralized language-specific overlay guidance. The selected word and context are delimited as data only.                                                     |
+| Listening generation         | `LISTENING_GENERATION_PROMPT`                                            | Generates plain-prose listening text and five multiple-choice comprehension questions with language-specific overlay guidance and language-aware length guidance.                                                                     |
+| Reading generation           | `READING_GENERATION_PROMPT`                                              | Generates plain-prose reading text and five multiple-choice comprehension questions with language-specific overlay guidance and language-aware length guidance.                                                                       |
+| Free-write assessment        | `FREE_WRITE_ASSESSMENT_PROMPT`                                           | Evaluates placement writing with adjusted level, writing score, analysis, strengths, weaknesses, and language-specific overlay guidance. Student prompt/answer fields are delimited as data only.                                     |
+| End-of-level test            | `END_OF_LEVEL_TEST_PROMPT`                                               | Generates a 20-question test covering studied grammar and vocabulary for the current CEFR level with language-specific overlay guidance.                                                                                              |
+| Legacy assessment quiz       | `LEGACY_ASSESSMENT_QUIZ_PROMPT`                                          | Generates an adaptive CEFR quiz for legacy assessment flow with language-specific overlay guidance.                                                                                                                                   |
+| Legacy assessment evaluation | `LEGACY_ASSESSMENT_EVAL_PROMPT` and `LEGACY_ASSESSMENT_EVAL_USER_PROMPT` | Evaluates legacy assessment answers with an explicit JSON quiz/answers payload, a fixed JSON response schema, and an additional language-specific system overlay when available.                                                      |
 
 ## Dynamic Variables
 
@@ -110,6 +114,7 @@ Common variables:
 - `user_context`: learning goals and bio; explicitly non-authoritative.
 - `memory_context`: saved memories; explicitly non-authoritative.
 - `language_prompt_overlay`: concise language/variant guidance injected into tutor, voice tutor, lesson, evaluation, flashcard, comprehension, and assessment prompts.
+- `length_guidance`: reading/listening length string derived from `language_helpers.get_comprehension_length_guidance()`, using word counts for word-spaced targets and character ranges for Japanese/Mainland Chinese.
 
 Domain-specific variables:
 
@@ -117,7 +122,7 @@ Domain-specific variables:
 - Lesson generation: `lesson_type`, `topic`, `unit_id`, `grammar_points`, `vocabulary_set_ids`, `week`, `day`, `valid_slugs`.
 - Lesson evaluation: `question`, `correct_answer`, `student_answer`, `prompt`, `criteria`, `answer`, `target`, `transcription`.
 - Flashcards: `topic`, `count`, `word`, `context`, `lang_hint` (backward-compatible builder parameter; production uses centralized `language_prompt_overlay`).
-- Reading/listening: `exercise_type`, `exercise_type_desc`, `topic`, `word_count`.
+- Reading/listening: `exercise_type`, `exercise_type_desc`, `topic`, `word_count`, `length_guidance`.
 - Assessment: `preliminary_level`, `next_level`, `grammar_points_studied`, `vocabulary_sets_studied`, `session_id`, `quiz`, `answers`.
 
 ## Dynamic Data Delimiters

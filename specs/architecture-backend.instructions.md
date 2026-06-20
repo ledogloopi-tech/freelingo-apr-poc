@@ -97,7 +97,7 @@ backend/
 │   │   ├── conversation_pipeline.py  # WebSocket voice orchestrator: STT → LLM → TTS
 │   │   ├── email_service.py     # SMTP email (verification, password reset, contact, admin notifications)
 │   │   ├── flashcard_sm2.py     # SM-2 spaced repetition algorithm
-│   │   ├── language_helpers.py  # Language code parsing, voice/engine selection
+│   │   ├── language_helpers.py  # Language code parsing, script metadata, prompt length guidance, voice/engine selection
 │   │   ├── lesson_generator.py  # LLM-powered lesson content generation
 │   │   ├── listening_service.py # AI listening exercise generation + caching
 │   │   ├── llm_adapter.py       # Multi-provider LLM interface (Ollama, OpenAI, Anthropic, DeepSeek)
@@ -127,7 +127,7 @@ backend/
 ├── alembic/
 │   └── versions/                # DB migrations (42 migrations)
 │
-└── tests/                       # pytest suite (43 test files, 846 tests)
+└── tests/                       # pytest suite (43 test files, 851 tests)
 ```
 
 ## Database models
@@ -161,7 +161,7 @@ The application uses 18 services plus a centralized `services/prompts/` package 
 - **User**: Progress Service, Memory Service, Quota Service, Subscription Service, User Language Service
 - **Community**: Review Service
 - **Infrastructure**: Language Helpers, Email Service
-- **Prompt architecture**: prompt templates, shared blocks, and builders live in `services/prompts/`; see [prompts.instructions.md](prompts.instructions.md)
+- **Prompt architecture**: prompt templates, shared blocks, CJK-ready language overlays, and builders live in `services/prompts/`; see [prompts.instructions.md](prompts.instructions.md)
 
 Key architectural decisions:
 
@@ -169,6 +169,7 @@ Key architectural decisions:
 - **Study Plan Generator** and **Lesson Generator** are deterministic within curriculum constraints
 - **TTS/STT services** abstract local (Kokoro/Whisper) and cloud (OpenAI) providers behind common interfaces
 - **Conversation Pipeline** orchestrates real-time voice: cancellable greeting, STT → full LLM response → sentence-level TTS chunks, serialized WebSocket sends, empty-STT guard, and backend barge-in support with frontend automatic interruption disabled
+- **Language Helpers** centralize target-language display names, ISO codes, script metadata, romanization metadata, word-spacing metadata, and reading/listening length guidance. Japanese, South Korean Korean, and Mainland Chinese metadata are present for prompt/readiness work without changing schema or environment allow-lists.
 
 For complete service details, APIs, and implementation notes, see [services.instructions.md](services.instructions.md).
 
@@ -194,8 +195,8 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 
 - **Framework**: pytest + pytest-asyncio + httpx AsyncClient
 - **Test files**: 43 (plus conftest.py for shared fixtures)
-- **Tests**: 846
-- **Coverage**: 84.23% (target: ≥70%)
+- **Tests**: 851
+- **Coverage**: 84.23% last measured (target: ≥70%)
 - **Key fixtures**: async database session, test client with auth headers, Redis mock, user_language fixture
 
 ---
@@ -274,18 +275,18 @@ All configuration is environment-driven. Variables are defined in `app/core/conf
 
 ### Email
 
-| Variable      | Default               | Purpose                                                          |
-| ------------- | --------------------- | ---------------------------------------------------------------- |
+| Variable      | Default               | Purpose                                                                             |
+| ------------- | --------------------- | ----------------------------------------------------------------------------------- |
 | EMAIL_ENABLED | false                 | Enable SMTP email (verification, password reset, contact form, admin notifications) |
 | CONTACT_EMAIL | ``                    | Destination address for contact form submissions and admin notifications            |
-| SMTP_HOST     | localhost             | SMTP server hostname                                             |
-| SMTP_PORT     | 587                   | SMTP server port                                                 |
-| SMTP_USER     | ``                    | SMTP username                                                    |
-| SMTP_PASSWORD | ``                    | SMTP password                                                    |
-| SMTP_FROM     | noreply@freelingo.app | From address for outgoing emails                                 |
-| SMTP_TLS      | true                  | Use STARTTLS                                                     |
-| SMTP_SSL      | false                 | Use implicit SSL (port 465)                                      |
-| APP_BASE_URL  | http://localhost:3000 | Public frontend URL (used in email links)                        |
+| SMTP_HOST     | localhost             | SMTP server hostname                                                                |
+| SMTP_PORT     | 587                   | SMTP server port                                                                    |
+| SMTP_USER     | ``                    | SMTP username                                                                       |
+| SMTP_PASSWORD | ``                    | SMTP password                                                                       |
+| SMTP_FROM     | noreply@freelingo.app | From address for outgoing emails                                                    |
+| SMTP_TLS      | true                  | Use STARTTLS                                                                        |
+| SMTP_SSL      | false                 | Use implicit SSL (port 465)                                                         |
+| APP_BASE_URL  | http://localhost:3000 | Public frontend URL (used in email links)                                           |
 
 ### Other
 

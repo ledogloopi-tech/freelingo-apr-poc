@@ -13,11 +13,14 @@ import { VoiceRecorder } from '@/components/ui/VoiceRecorder'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { WordTooltip, useWordSave } from '@/components/ui/WordTooltip'
 import { PageLoading } from '@/components/ui/page-loading'
+import { TargetLanguageText } from '@/components/TargetLanguageText'
 import {
   ReviewPrompt,
   getReviewPromptDismissal,
 } from '@/components/reviews/ReviewPrompt'
 import { shouldShowUnitReviewPrompt } from '@/lib/review-prompt-triggers'
+import { cn } from '@/lib/utils'
+import { getTargetLanguageTextClass } from '@/lib/target-languages'
 
 interface ExerciseItem {
   id: number
@@ -274,6 +277,7 @@ export default function LessonPage() {
 
   const exercise = exercises[currentExercise]
   const isEvaluated = exercise?.score !== null
+  const targetLanguageCode = activeLanguage?.code ?? 'en-GB'
   const explanation = lesson?.content?.explanation as
     | Record<string, unknown>
     | undefined
@@ -324,8 +328,10 @@ export default function LessonPage() {
             {explanation && (
               <div className="mt-4 space-y-3">
                 {explanation.text != null && (
-                  <p
-                    className="text-fl-muted-1 word-selectable cursor-text font-mono text-xs leading-relaxed select-text"
+                  <TargetLanguageText
+                    as="p"
+                    languageCode={targetLanguageCode}
+                    className="text-fl-muted-1 word-selectable cursor-text select-text"
                     onMouseUp={() =>
                       handleTextMouseUp(
                         String(explanation.text),
@@ -334,14 +340,16 @@ export default function LessonPage() {
                     }
                   >
                     {String(explanation.text)}
-                  </p>
+                  </TargetLanguageText>
                 )}
                 {(explanation.key_points as string[])?.length > 0 && (
                   <ul className="border-fl-border space-y-1 border-t pt-3">
                     {(explanation.key_points as string[]).map((kp, i) => (
-                      <li key={i} className="text-fl-muted-3 font-mono text-xs">
+                      <li key={i} className="text-fl-muted-3">
                         <span className="text-fl-muted-2 mr-2">·</span>
-                        {kp}
+                        <TargetLanguageText languageCode={targetLanguageCode}>
+                          {kp}
+                        </TargetLanguageText>
                       </li>
                     ))}
                   </ul>
@@ -362,9 +370,12 @@ export default function LessonPage() {
                         <span className="text-fl-muted-3 mt-0.5">·</span>
                         <div className="min-w-0 flex-1">
                           <div className="flex flex-wrap items-center gap-2">
-                            <span className="text-fl-muted-1 font-mono text-xs italic">
+                            <TargetLanguageText
+                              languageCode={targetLanguageCode}
+                              className="text-fl-muted-1 italic"
+                            >
                               {ex.sentence}
-                            </span>
+                            </TargetLanguageText>
                             <AudioPlayer text={ex.sentence} size="sm" />
                           </div>
                           {ex.note && (
@@ -415,9 +426,13 @@ export default function LessonPage() {
             </div>
 
             <div className="space-y-5 px-6 py-6">
-              <p className="text-fl-fg font-mono text-sm leading-relaxed">
+              <TargetLanguageText
+                as="p"
+                languageCode={targetLanguageCode}
+                className="text-fl-fg"
+              >
                 {exercise.question}
-              </p>
+              </TargetLanguageText>
 
               {exercise.exercise_type === 'multiple_choice' &&
               exercise.options ? (
@@ -429,13 +444,15 @@ export default function LessonPage() {
                         key={opt}
                         disabled={isEvaluated}
                         onClick={() => setAnswer(opt)}
-                        className={`w-full border px-4 py-3 text-left font-mono text-xs tracking-wide transition-colors disabled:opacity-60 ${
+                        className={`w-full border px-4 py-3 text-left transition-colors disabled:opacity-60 ${
                           isSelected
                             ? 'border-fl-accent bg-fl-accent text-fl-accent-fg'
                             : 'border-fl-border text-fl-muted-1 hover:border-fl-border-2 hover:text-fl-fg'
                         }`}
                       >
-                        {opt}
+                        <TargetLanguageText languageCode={targetLanguageCode}>
+                          {opt}
+                        </TargetLanguageText>
                       </button>
                     )
                   })}
@@ -444,15 +461,22 @@ export default function LessonPage() {
                 <div className="space-y-4">
                   {/* Target phrase + listen button */}
                   <div className="border-fl-border bg-fl-bg flex flex-wrap items-center gap-3 border px-4 py-4">
-                    <span className="text-fl-fg flex-1 font-mono text-sm font-bold">
+                    <TargetLanguageText
+                      languageCode={targetLanguageCode}
+                      className="text-fl-fg flex-1 font-bold"
+                    >
                       {exercise.correct_answer}
-                    </span>
+                    </TargetLanguageText>
                     <AudioPlayer text={exercise.correct_answer} size="md" />
                   </div>
                   {exercise.options?.[0] && (
-                    <p className="text-fl-hint text-fl-muted-3 font-mono">
+                    <TargetLanguageText
+                      as="p"
+                      languageCode={targetLanguageCode}
+                      className="text-fl-muted-3"
+                    >
                       {exercise.options[0]}
-                    </p>
+                    </TargetLanguageText>
                   )}
                   {!isEvaluated && (
                     <VoiceRecorder
@@ -469,7 +493,10 @@ export default function LessonPage() {
                 </div>
               ) : (
                 <textarea
-                  className="bg-fl-bg border-fl-border text-fl-fg placeholder:text-fl-muted-4 focus:border-fl-border-2 min-h-[90px] w-full resize-y border px-4 py-3 font-mono text-xs transition-colors focus:outline-none"
+                  className={cn(
+                    getTargetLanguageTextClass(targetLanguageCode),
+                    'bg-fl-bg border-fl-border text-fl-fg placeholder:text-fl-muted-4 focus:border-fl-border-2 min-h-[90px] w-full resize-y border px-4 py-3 transition-colors focus:outline-none'
+                  )}
                   placeholder={t('yourAnswer')}
                   value={answer}
                   onChange={(e) => setAnswer(e.target.value)}
@@ -501,9 +528,13 @@ export default function LessonPage() {
                       <p className="text-fl-label text-fl-muted-2 mb-2 font-mono tracking-widest uppercase">
                         {t('feedback')}
                       </p>
-                      <p className="text-fl-muted-1 font-mono text-xs leading-relaxed">
+                      <TargetLanguageText
+                        as="p"
+                        languageCode={targetLanguageCode}
+                        className="text-fl-muted-1"
+                      >
                         {exercise.feedback}
-                      </p>
+                      </TargetLanguageText>
                     </div>
                   )}
                   {exercise.explanation && (
@@ -511,9 +542,13 @@ export default function LessonPage() {
                       <p className="text-fl-label text-fl-muted-2 mb-2 font-mono tracking-widest uppercase">
                         {t('explanation')}
                       </p>
-                      <p className="text-fl-muted-1 font-mono text-xs leading-relaxed">
+                      <TargetLanguageText
+                        as="p"
+                        languageCode={targetLanguageCode}
+                        className="text-fl-muted-1"
+                      >
                         {exercise.explanation}
-                      </p>
+                      </TargetLanguageText>
                     </div>
                   )}
                   <div className="flex items-center gap-4">
@@ -563,18 +598,30 @@ export default function LessonPage() {
               <div className="space-y-3">
                 {vocabItems.map((item, idx) => (
                   <div key={idx} className="border-fl-border border px-4 py-3">
-                    <p className="text-fl-fg mb-1 font-mono text-xs font-semibold tracking-wide">
+                    <TargetLanguageText
+                      as="p"
+                      languageCode={targetLanguageCode}
+                      className="text-fl-fg mb-1 font-semibold"
+                    >
                       {item.word}
-                    </p>
+                    </TargetLanguageText>
                     {item.definition && (
-                      <p className="text-fl-muted-1 font-mono text-xs leading-relaxed">
+                      <TargetLanguageText
+                        as="p"
+                        languageCode={targetLanguageCode}
+                        className="text-fl-muted-1"
+                      >
                         {item.definition}
-                      </p>
+                      </TargetLanguageText>
                     )}
                     {item.example && (
-                      <p className="text-fl-muted-2 mt-1 font-mono text-xs italic">
+                      <TargetLanguageText
+                        as="p"
+                        languageCode={targetLanguageCode}
+                        className="text-fl-muted-2 mt-1 italic"
+                      >
                         {item.example}
-                      </p>
+                      </TargetLanguageText>
                     )}
                   </div>
                 ))}

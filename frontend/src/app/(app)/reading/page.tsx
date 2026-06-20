@@ -9,6 +9,7 @@ import { MaintenanceGate } from '@/components/billing/MaintenanceBanner'
 import { type ReadingExercise } from '@/types/api'
 import { WordTooltip, useWordSave } from '@/components/ui/WordTooltip'
 import { PageLoading } from '@/components/ui/page-loading'
+import { TargetLanguageText } from '@/components/TargetLanguageText'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -226,6 +227,7 @@ function ReadingPage() {
   const allAnswered = exercise
     ? Object.keys(answers).length === exercise.questions.length
     : false
+  const targetLanguageCode = activeLanguage?.code ?? 'en-GB'
 
   // ── Loading ──────────────────────────────────────────────────────────────
   if (pageState === 'loading') {
@@ -294,9 +296,13 @@ function ReadingPage() {
                     </p>
                   </div>
                 </div>
-                <p className="text-fl-label text-fl-muted-2 border-fl-border mb-3 line-clamp-3 border-t pt-3 font-mono leading-relaxed">
+                <TargetLanguageText
+                  as="p"
+                  languageCode={item.exercise.target_language}
+                  className="text-fl-muted-2 border-fl-border mb-3 line-clamp-3 border-t pt-3"
+                >
                   {item.exercise.text}
-                </p>
+                </TargetLanguageText>
                 <button
                   onClick={() => {
                     setExercise(item.exercise)
@@ -374,14 +380,18 @@ function ReadingPage() {
                     : 'border-red-600/50 bg-red-950/30'
                 }`}
               >
-                <p className="text-fl-fg mb-3 font-mono text-xs leading-relaxed">
+                <TargetLanguageText
+                  as="p"
+                  languageCode={targetLanguageCode}
+                  className="text-fl-fg mb-3"
+                >
                   {q.index + 1}. {q.question}
-                </p>
+                </TargetLanguageText>
                 <div className="space-y-1">
                   {Object.entries(q.options).map(([k, v]) => (
                     <div
                       key={k}
-                      className={`text-fl-label px-3 py-1.5 font-mono ${
+                      className={`px-3 py-1.5 ${
                         k === correctKey
                           ? 'font-bold text-green-400'
                           : k === userAnswer && !isCorrect
@@ -389,7 +399,12 @@ function ReadingPage() {
                             : 'text-fl-muted-3'
                       }`}
                     >
-                      <span className="font-bold">{k}.</span> {v}
+                      <span className="text-fl-label font-mono font-bold">
+                        {k}.
+                      </span>{' '}
+                      <TargetLanguageText languageCode={targetLanguageCode}>
+                        {v}
+                      </TargetLanguageText>
                     </div>
                   ))}
                 </div>
@@ -489,9 +504,13 @@ function ReadingPage() {
                 handleTextMouseUp(exercise?.text ?? '', exercise?.level ?? 'B1')
               }
             >
-              <p className="reading-text text-fl-fg word-selectable cursor-text font-mono text-xs leading-relaxed whitespace-pre-wrap select-text">
+              <TargetLanguageText
+                as="p"
+                languageCode={exercise.target_language}
+                className="reading-text text-fl-fg word-selectable cursor-text whitespace-pre-wrap select-text"
+              >
                 {exercise.text}
-              </p>
+              </TargetLanguageText>
             </div>
           </div>
           <p className="text-fl-label text-fl-muted-4 mt-2 text-center font-mono tracking-widest uppercase">
@@ -510,9 +529,13 @@ function ReadingPage() {
                 key={q.index}
                 className="border-fl-border bg-fl-surface border p-4"
               >
-                <p className="text-fl-fg mb-3 font-mono text-xs leading-relaxed">
+                <TargetLanguageText
+                  as="p"
+                  languageCode={exercise.target_language}
+                  className="text-fl-fg mb-3"
+                >
                   {q.index + 1}. {q.question}
-                </p>
+                </TargetLanguageText>
                 <div className="space-y-2">
                   {Object.entries(q.options).map(([k, v]) => {
                     const selected = answers[String(q.index)] === k
@@ -525,13 +548,20 @@ function ReadingPage() {
                             [String(q.index)]: k,
                           }))
                         }
-                        className={`text-fl-label w-full border px-3 py-2 text-left font-mono transition-colors ${
+                        className={`w-full border px-3 py-2 text-left transition-colors ${
                           selected
                             ? 'border-fl-accent text-fl-fg bg-fl-surface-2'
                             : 'border-fl-border text-fl-muted-2 hover:border-fl-muted-2 hover:text-fl-fg'
                         }`}
                       >
-                        <span className="font-bold">{k}.</span> {v}
+                        <span className="text-fl-label font-mono font-bold">
+                          {k}.
+                        </span>{' '}
+                        <TargetLanguageText
+                          languageCode={exercise.target_language}
+                        >
+                          {v}
+                        </TargetLanguageText>
                       </button>
                     )
                   })}

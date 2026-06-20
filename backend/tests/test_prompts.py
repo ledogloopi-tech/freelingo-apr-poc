@@ -3,7 +3,16 @@ from __future__ import annotations
 from app.routers.chat import _build_tutor_system_prompt
 from app.services.conversation_pipeline import _build_conversation_system_prompt
 from app.services.flashcard_sm2 import _get_lang_hint
-from app.services.language_helpers import get_language_name, get_native_language_name
+from app.services.language_helpers import (
+    get_comprehension_length_guidance,
+    get_iso639,
+    get_language_name,
+    get_language_romanization,
+    get_language_script,
+    get_native_language_name,
+    get_reading_length_unit,
+    uses_word_spacing,
+)
 from app.services.memory_service import parse_memory_marker
 from app.services.prompts.assessment import (
     build_end_of_level_test_prompt,
@@ -70,8 +79,31 @@ def test_conversation_prompt_wrapper_matches_central_builder() -> None:
 def test_regional_language_names_and_hints_are_prompt_ready() -> None:
     assert get_language_name("es-ES") == "Spanish (Spain)"
     assert get_language_name("pt-PT") == "European Portuguese"
+    assert get_language_name("ja-JP") == "Japanese"
+    assert get_language_name("ko-KR") == "Korean (South Korea)"
+    assert get_language_name("zh-CN") == "Chinese (Mainland China)"
     assert _get_lang_hint("es-ES") == get_language_prompt_overlay("es-ES")
     assert _get_lang_hint("pt-PT") == get_language_prompt_overlay("pt-PT")
+
+
+def test_cjk_language_metadata_is_prompt_ready() -> None:
+    assert get_iso639("ja-JP") == "ja"
+    assert get_iso639("ko-KR") == "ko"
+    assert get_iso639("zh-CN") == "zh"
+    assert get_language_script("ja-JP") == "hiragana-katakana-kanji"
+    assert get_language_script("ko-KR") == "hangul"
+    assert get_language_script("zh-CN") == "simplified-hanzi"
+    assert get_language_romanization("ja-JP") == "romaji"
+    assert get_language_romanization("ko-KR") == "revised-romanization"
+    assert get_language_romanization("zh-CN") == "pinyin"
+    assert uses_word_spacing("ja-JP") is False
+    assert uses_word_spacing("ko-KR") is True
+    assert uses_word_spacing("zh-CN") is False
+    assert get_reading_length_unit("ja") == "characters"
+    assert get_reading_length_unit("ko") == "words"
+    assert get_reading_length_unit("zh") == "characters"
+    assert get_comprehension_length_guidance("zh-CN", 120) == "240–360 characters"
+    assert get_comprehension_length_guidance("ko-KR", 120) == "120 words"
 
 
 def test_native_language_names_are_prompt_ready() -> None:
@@ -89,6 +121,9 @@ def test_language_prompt_overlays_cover_supported_learning_languages() -> None:
         "pt-PT": "European Portuguese",
         "fr-FR": "standard French",
         "de-DE": "standard German",
+        "ja-JP": "standard Japanese",
+        "ko-KR": "standard Korean",
+        "zh-CN": "Mainland China Standard Mandarin",
     }
 
     for target_language, marker in expected_markers.items():
@@ -100,6 +135,12 @@ def test_language_prompt_overlays_cover_supported_learning_languages() -> None:
 
 def test_language_prompt_overlay_falls_back_to_empty_string() -> None:
     assert get_language_prompt_overlay("unknown") == ""
+
+
+def test_language_prompt_overlay_aliases_cover_cjk_iso_codes() -> None:
+    assert get_language_prompt_overlay("ja") == get_language_prompt_overlay("ja-JP")
+    assert get_language_prompt_overlay("ko") == get_language_prompt_overlay("ko-KR")
+    assert get_language_prompt_overlay("zh") == get_language_prompt_overlay("zh-CN")
 
 
 def test_tutor_prompts_include_shared_memory_instruction() -> None:
@@ -327,6 +368,35 @@ def test_comprehension_prompts_use_target_language() -> None:
     assert "Topic area: daily life" in reading
     assert "Use German vocabulary" in reading
     assert "standard German spelling and vocabulary as used in Germany" in reading
+
+
+def test_comprehension_prompts_accept_language_aware_length_guidance() -> None:
+    listening = build_listening_generation_prompt(
+        target_language_name="Chinese (Mainland China)",
+        level="A1",
+        exercise_type="monologue",
+        exercise_type_desc="a short personal account",
+        word_count=80,
+        length_guidance=get_comprehension_length_guidance("zh-CN", 80),
+        language_prompt_overlay=get_language_prompt_overlay("zh-CN"),
+    )
+    reading = build_reading_generation_prompt(
+        target_language_name="Japanese",
+        level="A1",
+        exercise_type="notice",
+        exercise_type_desc="a short public notice",
+        topic="daily routine",
+        word_count=80,
+        length_guidance=get_comprehension_length_guidance("ja-JP", 80),
+        language_prompt_overlay=get_language_prompt_overlay("ja-JP"),
+    )
+
+    assert "Length: approximately 160–240 characters" in listening
+    assert "Use simplified Chinese characters" in listening
+    assert "pinyin with tone marks" in listening
+    assert "Length: approximately 160–240 characters" in reading
+    assert "hiragana, katakana, and level-appropriate kanji" in reading
+    assert "Use romaji only as a short support aid" in reading
 
 
 def test_assessment_prompts_use_language_schema_and_delimiters() -> None:

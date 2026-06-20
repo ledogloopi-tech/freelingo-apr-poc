@@ -53,12 +53,19 @@ Full SM-2 spaced repetition algorithm:
 
 ## Language Helpers (`language_helpers.py`)
 
-Shared BCP-47 conversion utilities used across the service layer:
+Shared BCP-47 conversion utilities and language capability metadata used across the service layer:
 
 - `get_language_name(target_language)` — converts BCP-47 target-language codes to prompt-ready display names such as `English (UK)`, `Spanish (Spain)`, and `European Portuguese`
 - `get_native_language_name(native_language)` — converts stored native-language profile codes such as `es` and `fr` to prompt-ready names such as `Spanish` and `French`
 - `get_iso639(target_language)` — strips region subtag: `"en-US"` → `"en"` for Whisper
+- `get_language_script(target_language)` — returns writing-system metadata, including `hiragana-katakana-kanji`, `hangul`, and `simplified-hanzi` for CJK targets
+- `get_language_romanization(target_language)` — returns learner-support romanization metadata (`romaji`, `revised-romanization`, `pinyin`) or an empty string for Latin-script targets
+- `uses_word_spacing(target_language)` — records whether ordinary text uses visible word spacing; Japanese and Mainland Chinese return `False`
+- `get_reading_length_unit(target_language)` — returns `words` or `characters` for generated comprehension guidance
+- `get_comprehension_length_guidance(target_language, base_word_count)` — returns language-aware length strings such as `160–240 characters` for Japanese/Chinese and `80 words` for word-spaced targets
 - `voice_session_title(native_language)` — localised "Voice session — date" strings for all 9 supported languages
+
+Japanese (`ja-JP`), Korean (`ko-KR`), and Mainland Chinese (`zh-CN`) metadata are present in this helper layer for backend prompt readiness. This does not change registration schemas, `AVAILABLE_TARGET_LANGUAGES`, or static content dispatchers.
 
 ## Memory Service (`memory_service.py`)
 
@@ -124,7 +131,7 @@ Email template rendering escapes every interpolated value by default (`html.esca
 Manages AI-generated listening exercises end-to-end (Phase 6):
 
 - `get_available_exercise(level, target_language, user_id, db)` — returns the oldest unplayed exercise for the user's level/language, excluding already-attempted ones. Returns `None` if pool is empty.
-- `generate_and_save_exercise(level, target_language, db, tts_service, storage_path)` — calls LLM (with one retry on malformed JSON), extracts topic + text + 5 questions, synthesises MP3 via TTS service, flushes to DB to get the ID, writes audio to `{storage_path}/listening/{id}.mp3`, then commits.
+- `generate_and_save_exercise(level, target_language, db, tts_service, storage_path)` — calls LLM through `structured_output()`, extracts topic + text + 5 questions, synthesises MP3 via TTS service, flushes to DB to get the ID, writes audio to `{storage_path}/listening/{id}.mp3`, then commits. Prompt length guidance is generated through `get_comprehension_length_guidance()` so Japanese and Mainland Chinese use character ranges instead of word counts.
 - `calculate_score(questions, answers) → (score, xp_earned)` — pure function, case-insensitive comparison, 10 XP per correct answer.
 - `submit_attempt(exercise_id, user_id, answers, db)` — checks for duplicate (raises 409), calculates score, awards XP via Progress service, increments `play_count`.
 - `get_user_history(user_id, db, skip, limit)` — JOIN query returning `(list[tuple[ListeningAttempt, ListeningExercise]], total)`.
@@ -142,7 +149,7 @@ Manages AI-generated listening exercises end-to-end (Phase 6):
 Manages AI-generated reading comprehension exercises end-to-end (Phase 7):
 
 - `get_available_exercise(level, target_language, user_id, db)` — returns the oldest unread exercise for the user's level/language, excluding already-attempted ones. Returns `None` if pool is empty.
-- `generate_and_save_exercise(level, target_language, db)` — calls LLM (with one retry on malformed JSON), extracts topic + text + 5 questions. No audio — text is served directly to the client.
+- `generate_and_save_exercise(level, target_language, db)` — calls LLM through `structured_output()`, extracts topic + text + 5 questions. No audio — text is served directly to the client. Prompt length guidance is generated through `get_comprehension_length_guidance()` so Japanese and Mainland Chinese use character ranges instead of word counts.
 - `calculate_score(questions, answers) → (score, xp_earned)` — pure function, case-insensitive option comparison, 10 XP per correct answer.
 - `submit_attempt(exercise_id, user_id, answers, db)` — checks for duplicate (raises 409), calculates score, awards XP via Progress service, increments `view_count`.
 - `get_user_history(user_id, db, skip, limit)` — JOIN query returning `(list[tuple[ReadingAttempt, ReadingExercise]], total)`.

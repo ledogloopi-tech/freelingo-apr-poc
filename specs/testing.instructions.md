@@ -1,5 +1,5 @@
 ---
-description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 846 tests, 84.23% coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (29 test files, 394 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
+description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 851 tests, 84.23% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (30 test files, 399 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
 applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 ---
 
@@ -7,13 +7,13 @@ applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 
 ## Overview
 
-| Layer                      | Framework               | Scope                                                   | Coverage             | Status      |
-| -------------------------- | ----------------------- | ------------------------------------------------------- | -------------------- | ----------- |
-| Backend unit + integration | pytest + pytest-asyncio | API endpoints, services, SM-2 algorithm, data integrity | 84.23% (target: 70%) | Implemented |
-| Frontend unit              | Vitest                  | Stores, components, hooks, lib, middleware              | Not configured       | Implemented |
-| E2E                        | Playwright              | Critical user flows                                     | Smoke                | Pending     |
+| Layer                      | Framework               | Scope                                                   | Coverage                           | Status      |
+| -------------------------- | ----------------------- | ------------------------------------------------------- | ---------------------------------- | ----------- |
+| Backend unit + integration | pytest + pytest-asyncio | API endpoints, services, SM-2 algorithm, data integrity | 84.23% last measured (target: 70%) | Implemented |
+| Frontend unit              | Vitest                  | Stores, components, hooks, lib, middleware              | Not configured                     | Implemented |
+| E2E                        | Playwright              | Critical user flows                                     | Smoke                              | Pending     |
 
-All tests pass on every push. Backend coverage threshold configured at 70%, currently at 84.23%. Frontend tests cover stores, critical components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher, TargetLanguageSelector, review UI), app pages, hooks, lib modules, i18n, and middleware. Frontend coverage is not currently reported because Vitest coverage is not configured and `@vitest/coverage-v8` is not installed.
+All tests pass on every push. Backend coverage threshold configured at 70%, last measured at 84.23%. Frontend tests cover stores, critical components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher, TargetLanguageSelector, review UI, LanguageBubbles), app pages, hooks, lib modules, i18n, and middleware. Frontend coverage is not currently reported because Vitest coverage is not configured and `@vitest/coverage-v8` is not installed.
 
 ---
 
@@ -55,7 +55,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, curr
 - **`test_frontend_data_integrity.py`** — Lines: 168. What it covers: Cross-reference validation: curriculum.ts vs grammar.ts, all 4 languages' curriculum vs backend vocabulary — ensures all referenced slugs and IDs exist
 - **`test_listening.py`** — Lines: 503. What it covers: Exercise pool (next / generate), generation lock, audio serving, answer evaluation (score + XP), attempt deduplication, history
 - **`test_listening_extra.py`** — Lines: 208. What it covers: Additional listening exercise scenarios
-- **`test_reading.py`** — Lines: 400+. What it covers: Reading exercise generation with `structured_output()`, comprehension questions, answer evaluation, XP calculation
+- **`test_reading.py`** — Lines: 400+. What it covers: Reading exercise generation with `structured_output()`, language-aware CJK length guidance, comprehension questions, answer evaluation, XP calculation
 - **`test_reading_extra.py`** — Lines: 255. What it covers: Additional reading exercise scenarios
 - **`test_vocabulary.py`** — Lines: 175. What it covers: Vocabulary API: list sets, by-level, set detail, language switching, auth, error cases (14 tests)
 - **`test_feedback.py`** — Lines: 1261. What it covers: Feedback board: feature requests, bug reports, default exclusion of done entries, voting, comments, admin moderation
@@ -64,7 +64,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, curr
 - **`test_memories.py`** — Lines: 362. What it covers: LLM memory (Phase 9): memory creation, retrieval, update, deletion
 - **`test_multi_language.py`** — Lines: —. What it covers: Multi-language isolation, active language switching, language API, onboarding language creation, curriculum dispatch
 - **`test_llm_adapter.py`** — Lines: —. What it covers: LLM adapter: JSON parsing, streaming, 5 exception classes, 4 provider init paths, chat (streaming + non-streaming), Anthropic error mapping, structured output with retry, DeepSeek provider, edge cases (63 tests, 38%→100% coverage)
-- **`test_prompts.py`** — Lines: —. What it covers: Centralized prompt builders, regional/native language names, memory instructions, JSON-only block reuse, language overlays
+- **`test_prompts.py`** — Lines: —. What it covers: Centralized prompt builders, regional/native language names, language capability metadata, memory instructions, JSON-only block reuse, language overlays including CJK readiness overlays and aliases
 - **`test_reviews.py`** — Lines: —. What it covers: User reviews: creation, editing, rating validation, duplicate guard, public filtering, admin moderation, permissions, admin email notification on creation
 - **`test_phrasebook.py`** — Lines: 185. What it covers: Phrasebook API: list categories, by-level filtering, category detail, language switching, auth, error cases (14 tests)
 - **`test_quota_service.py`** — Lines: —. What it covers: Quota service: key helpers, quota status, session tracking, daily/weekly minute checks, monthly token tracking, combined quota validation, full session lifecycle (71 tests, 37%→100% coverage)
@@ -72,13 +72,13 @@ All tests pass on every push. Backend coverage threshold configured at 70%, curr
 - **`test_assessment_bank.py`** — Lines: —. What it covers: Assessment bank dispatcher: all 7 languages, unknown fallback to en-GB, ISO prefix fallback, cache reuse (12 tests, 0%→100% coverage)
 - **`test_limiter.py`** — Lines: —. What it covers: Rate limiter: `_get_real_ip` (X-Real-IP, X-Forwarded-For single/multiple, client host fallback, unknown), limiter construction (9 tests, 42%→100% coverage)
 - **`test_lesson_generator.py`** — Lines: —. What it covers: Lesson generator service: `get_valid_grammar_slugs`, `generate_lesson`, fill-blank sanitization, grammar refs filtering, `evaluate_free_write`, `evaluate_pronunciation`, `evaluate_fill_blank` (12 tests, 51%→100% coverage)
-- **`test_listening_service.py`** — Lines: —. What it covers: Listening service DB layer and generation: `structured_output()` generation persistence, `get_available_exercise`, `submit_attempt` (correct/partial/duplicate/replay/not-found), `get_user_history` (empty/attempts/limit/language filter)
+- **`test_listening_service.py`** — Lines: —. What it covers: Listening service DB layer and generation: `structured_output()` generation persistence, language-aware CJK length guidance, `get_available_exercise`, `submit_attempt` (correct/partial/duplicate/replay/not-found), `get_user_history` (empty/attempts/limit/language filter)
 
-**Total: 43 test files, 846 tests.**
+**Total: 43 test files, 851 tests.**
 
 ### Coverage
 
-- **Current coverage**: 84.23% (above 70% target)
+- **Current coverage**: 84.23% last measured (above 70% target)
 - **Configured threshold**: 70% (enforced via `pytest --cov-fail-under=70`)
 
 ### Test patterns
@@ -174,7 +174,7 @@ pytest --cov-report=html
 - **`tests/middleware.test.ts`** — Tests: 12. What it covers: Route protection: redirect to `/login` without `refresh_token`, allow with token, public routes pass through. Locale detection: cookie > Accept-Language > default `en`, cookie persistence, header injection
 - **`tests/store/config.test.ts`** — Tests: 5. What it covers: `load()`: fetches `/api/config`, idempotency (no double-fetch), keeps defaults on network error, keeps defaults on non-ok response, uses defaults for missing fields
 - **`tests/lib/mappers.test.ts`** — Tests: 9. What it covers: `mapUser`: snake_case→camelCase mapping, fallback to `current` user for PATCH responses, safe defaults when no current user, API data preferred over current
-- **`tests/lib/target-languages.test.ts`** — Tests: 24. What it covers: `getLanguageByCode`: case-insensitive lookup, undefined for unknown codes. `formatLanguageName`: capitalization rules per locale
+- **`tests/lib/target-languages.test.ts`** — Tests: 27. What it covers: target-language metadata, supported language invariants, `getLanguageByCode` lookup, default target language, and CJK readiness capabilities/text classes
 - **`tests/store/language.test.ts`** — Tests: 29. What it covers: Language store: fetchLanguages, switchLanguage, addLanguage, removeLanguage, active language tracking
 - **`tests/lib/utils.test.ts`** — Tests: 10. What it covers: `cn()`: single/multiple/conditional classes, Tailwind conflict resolution (twMerge), array/object inputs, falsy values, empty/null handling
 - **`tests/lib/logger.test.ts`** — Tests: 10. What it covers: `getLogger()`: debug/info/warn/error console calls with namespace, string/object/Error payload serialization, undefined/unserializable payload, `silentLogger` no-ops
@@ -182,6 +182,7 @@ pytest --cov-report=html
 - **`tests/store/theme.test.ts`** — Tests: 5. What it covers: Theme store: default `system`, `setTheme` transitions (light/dark/system), localStorage persistence (`fl-theme` key)
 - **`tests/store/loading.test.ts`** — Tests: 9. What it covers: Loading store: `inc`/`dec`/`finishComplete` state machine, count never below 0, auto `complete` flag when count reaches 0, reset on next `inc`
 - **`tests/components/LanguageSwitcher.test.tsx`** — Tests: 10. What it covers: LanguageSwitcher: rendering, dropdown open/close, CEFR badges, active checkmark, language switch, toast, router refresh
+- **`tests/components/LanguageBubbles.test.tsx`** — Tests: 2. What it covers: LanguageBubbles renders one bubble per supported target language and positions bubbles from the supported-language count
 - **`tests/components/TargetLanguageSelector.test.tsx`** — Tests: 8. What it covers: TargetLanguageSelector: grid rendering, active/inactive states, onChange callback, flag images
 - **`tests/components/VoiceRecorder.test.tsx`** — Tests: 24. What it covers: VoiceRecorder: idle/recording/transcribing/error states, getUserMedia mock, AudioContext lifecycle, STT API call, auto-stop, mic denied error, resampling
 - **`tests/components/AudioPlayer.test.tsx`** — Tests: 36. What it covers: AudioPlayer: idle/loading/playing/error states, TTS API call, play/pause/stop, voice resolution (prop > localStorage > default), audio queue, unmount safety
@@ -197,7 +198,7 @@ pytest --cov-report=html
 - **`tests/app/admin-reviews.test.tsx`** — Tests: 3. What it covers: Admin review moderation list, approval action, delete confirmation
 - **`tests/i18n/admin-messages.test.ts`** — Tests: 1. What it covers: Admin message bundle integrity
 
-**Total: 394 tests across 29 files. Frontend coverage is not configured/reported.**
+**Total: 399 tests across 30 files. Frontend coverage is not configured/reported.**
 
 ### Running tests
 
@@ -257,7 +258,7 @@ CI runs on GitHub Actions, triggered on pushes and pull requests. The project is
 | Frontend lint      | `eslint src/ --ext .ts,.tsx` | Zero errors        |
 | Frontend format    | `prettier --check src/`      | Clean diff         |
 | Frontend typecheck | `npx tsc --noEmit`           | Clean output       |
-| Frontend tests     | `npm run test:run`           | All 394 tests pass |
+| Frontend tests     | `npm run test:run`           | All 399 tests pass |
 
 **Note**: The backend test job uses SQLite (same as local tests), not PostgreSQL. No Docker services are required for the backend test job.
 

@@ -13,6 +13,7 @@ import { PaywallGate } from '@/components/billing/PaywallBanner'
 import { MaintenanceGate } from '@/components/billing/MaintenanceBanner'
 import { WordTooltip, useWordSave } from '@/components/ui/WordTooltip'
 import { PageLoading } from '@/components/ui/page-loading'
+import { TargetLanguageText } from '@/components/TargetLanguageText'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -58,6 +59,7 @@ export default function ChatPage() {
   const [memoryToast, setMemoryToast] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const targetLanguageCode = activeLanguage?.code ?? 'en-GB'
 
   const scrollBottom = useCallback(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -457,8 +459,10 @@ export default function ChatPage() {
                       )}
                     </div>
                     <div className={`max-w-[75%] min-w-[10rem] text-left`}>
-                      <div
-                        className={`word-selectable border px-4 py-3 text-left font-mono text-sm leading-relaxed ${
+                      <TargetLanguageText
+                        as="div"
+                        languageCode={targetLanguageCode}
+                        className={`word-selectable border px-4 py-3 text-left ${
                           msg.role === 'user'
                             ? 'bg-fl-accent text-fl-accent-fg border-fl-accent'
                             : 'bg-fl-surface text-fl-fg-2 border-fl-border'
@@ -475,7 +479,7 @@ export default function ChatPage() {
                               ▌
                             </span>
                           ) : null)}
-                      </div>
+                      </TargetLanguageText>
                       {msg.role === 'assistant' &&
                         msg.content &&
                         !(sending && i === messages.length - 1) && (

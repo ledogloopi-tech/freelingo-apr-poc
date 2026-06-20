@@ -8,6 +8,7 @@ import { PageLoading } from '@/components/ui/page-loading'
 import type { VocabularySet } from '@/data/types'
 import { useLanguageStore } from '@/store/language'
 import { apiFetch } from '@/lib/api'
+import { TargetLanguageText } from '@/components/TargetLanguageText'
 
 const POS_LABELS: Record<string, string> = {
   noun: 'n.',
@@ -54,6 +55,8 @@ export default function VocabularySetPage({
   }
 
   if (!vocabSet) notFound()
+
+  const targetLanguageCode = activeLanguage?.code ?? 'en-GB'
 
   async function handleAddAll() {
     if (!vocabSet) return
@@ -166,9 +169,12 @@ export default function VocabularySetPage({
         {vocabSet.words.map((word, i) => (
           <div key={i} className="space-y-1.5 px-5 py-4">
             <div className="flex items-baseline gap-3">
-              <span className="text-fl-fg font-mono text-sm font-bold">
+              <TargetLanguageText
+                languageCode={targetLanguageCode}
+                className="text-fl-fg font-bold"
+              >
                 {word.word}
-              </span>
+              </TargetLanguageText>
               <span className="text-fl-label text-fl-muted-3 font-mono italic">
                 {POS_LABELS[word.pos] ?? word.pos}
               </span>
@@ -183,12 +189,20 @@ export default function VocabularySetPage({
                 </span>
               )}
             </div>
-            <p className="text-fl-muted-2 font-mono text-xs leading-relaxed">
+            <TargetLanguageText
+              as="p"
+              languageCode={targetLanguageCode}
+              className="text-fl-muted-2"
+            >
               {word.definition}
-            </p>
-            <p className="text-fl-muted-3 font-mono text-xs leading-relaxed italic">
+            </TargetLanguageText>
+            <TargetLanguageText
+              as="p"
+              languageCode={targetLanguageCode}
+              className="text-fl-muted-3 italic"
+            >
               &ldquo;{word.example}&rdquo;
-            </p>
+            </TargetLanguageText>
           </div>
         ))}
       </div>

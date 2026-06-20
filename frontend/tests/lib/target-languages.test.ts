@@ -3,6 +3,9 @@ import {
   SUPPORTED_TARGET_LANGUAGES,
   getLanguageByCode,
   DEFAULT_TARGET_LANGUAGE,
+  TARGET_LANGUAGE_CAPABILITIES,
+  getTargetLanguageCapability,
+  getTargetLanguageTextClass,
 } from '@/lib/target-languages'
 
 describe('SUPPORTED_TARGET_LANGUAGES', () => {
@@ -28,6 +31,9 @@ describe('SUPPORTED_TARGET_LANGUAGES', () => {
     expect(lang!.nameEn).toBeTypeOf('string')
     expect(lang!.flagPath).toMatch(/^\/flags\/[a-zA-Z]+\./)
     expect(lang!.iso639).toMatch(/^[a-z]{2}$/)
+    expect(lang!.script).toBe('latin')
+    expect(lang!.fontClass).toBe('font-target-latin')
+    expect(lang!.usesWordSpacing).toBe(true)
   })
 
   it('every code is unique', () => {
@@ -148,5 +154,44 @@ describe('TargetLanguage interface compliance', () => {
     SUPPORTED_TARGET_LANGUAGES.forEach((lang) => {
       expect(lang.name.length).toBeGreaterThan(0)
     })
+  })
+})
+
+describe('target language capabilities', () => {
+  it('keeps CJK capabilities ready without enabling the languages yet', () => {
+    expect(TARGET_LANGUAGE_CAPABILITIES['ja-JP']).toMatchObject({
+      script: 'hiragana-katakana-kanji',
+      fontClass: 'font-target-ja',
+      usesWordSpacing: false,
+      romanization: 'romaji',
+    })
+    expect(TARGET_LANGUAGE_CAPABILITIES['ko-KR']).toMatchObject({
+      script: 'hangul',
+      fontClass: 'font-target-ko',
+      usesWordSpacing: true,
+      romanization: 'revised-romanization',
+    })
+    expect(TARGET_LANGUAGE_CAPABILITIES['zh-CN']).toMatchObject({
+      script: 'simplified-hanzi',
+      fontClass: 'font-target-zh',
+      usesWordSpacing: false,
+      romanization: 'pinyin',
+    })
+    expect(getLanguageByCode('ja-JP')).toBeUndefined()
+  })
+
+  it('returns safe Latin defaults for unknown codes', () => {
+    expect(getTargetLanguageCapability('xx-XX')).toMatchObject({
+      script: 'latin',
+      fontClass: 'font-target-latin',
+      usesWordSpacing: true,
+    })
+  })
+
+  it('uses CJK-friendly text classes for future CJK languages', () => {
+    expect(getTargetLanguageTextClass('zh-CN')).toContain('font-target-zh')
+    expect(getTargetLanguageTextClass('zh-CN')).toContain('leading-loose')
+    expect(getTargetLanguageTextClass('zh-CN')).not.toContain('font-mono')
+    expect(getTargetLanguageTextClass('en-GB')).toContain('font-target-latin')
   })
 })

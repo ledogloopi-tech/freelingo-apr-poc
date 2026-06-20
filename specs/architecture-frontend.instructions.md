@@ -56,7 +56,7 @@ frontend/
 │   │       ├── stt/route.ts     # STT proxy
 │   │       └── tts/route.ts     # TTS proxy
 │   │
-│   ├── components/              # 12 directories + 4 standalone files
+│   ├── components/              # 12 directories + 5 standalone files
 │   │   ├── assessment/          # AdaptiveQuizCard, BeginnerGate, DurationSelector
 │   │   ├── admin/               # AdminNav + AdminShell primitives shared across admin pages
 │   │   ├── billing/             # Stripe subscription UI components
@@ -72,6 +72,7 @@ frontend/
 │   │   ├── whats-new/           # What's New changelog modal
 │   │   ├── CookieBanner.tsx
 │   │   ├── LanguageSwitcher.tsx
+│   │   ├── TargetLanguageText.tsx # Language-aware typography wrapper for learned-language content
 │   │   ├── TargetLanguageSelector.tsx
 │   │   └── ThemeProvider.tsx
 │   │
@@ -110,10 +111,11 @@ frontend/
 │   │
 │   └── middleware.ts            # Auth guard (redirect to /login) + locale detection
 │
-├── tests/                       # Vitest suite (29 test files, 394 tests; coverage not configured)
+├── tests/                       # Vitest suite (30 test files, 399 tests; coverage not configured)
 │   ├── setup.ts                 # Global mocks: localStorage, next/navigation, next-intl
 │   ├── middleware.test.ts
 │   ├── components/
+│   │   ├── LanguageBubbles.test.tsx
 │   │   ├── LanguageSwitcher.test.tsx
 │   │   └── TargetLanguageSelector.test.tsx
 │   ├── data/
@@ -228,7 +230,7 @@ Six Zustand stores hold all client-side state. No React Context is used for glob
 - **`landing-subscription.ts`** — Shared landing-page subscription check used by `LandingNav` and `PricingSection`; deduplicates refresh + `/api/auth/me` so the nav hides `Pricing` whenever the pricing section is hidden for active/trialing subscribers
 - **`locales.ts`** — next-intl locale detection and routing utilities
 - **`mappers.ts`** — Data transformation helpers between API responses and frontend models
-- **`target-languages.ts`** — Target language definitions: BCP-47 codes, display names, flag mappings, voice settings per language
+- **`target-languages.ts`** — Target language definitions: BCP-47 codes, display names, flag mappings, ISO codes, script/romanisation metadata, word-spacing capability, and language-specific font class helpers. The public `SUPPORTED_TARGET_LANGUAGES` list controls which languages are selectable; CJK capabilities may be defined ahead of activation.
 - **`utils.ts`** — General-purpose utilities: formatting, date helpers, class name merging
 
 ## Components overview
@@ -253,6 +255,7 @@ Six Zustand stores hold all client-side state. No React Context is used for glob
 
 - **`ThemeProvider.tsx`** — Dark/light/system theme via `next-themes`
 - **`TargetLanguageSelector.tsx`** — Language picker dropdown with flags
+- **`TargetLanguageText.tsx`** — Reusable wrapper for content in the learner's target language. It applies `lang`, language-aware typography classes from `target-languages.ts`, and optional secondary reading/translation lines for future romanisation/pinyin support.
 - **`LanguageSwitcher.tsx`** — UI locale switcher
 - **`CookieBanner.tsx`** — GDPR cookie consent banner
 - **`ui/`** — shadcn/ui primitives (`button`, `card`, `input`, `progress`, `badge`, `separator`, `sheet`, `tabs`) + custom: `AudioPlayer`, `VoiceRecorder`, `confirm-dialog`
@@ -282,6 +285,19 @@ Every page wrapper uses `mx-auto` plus one of three canonical widths. Do not use
 | `max-w-2xl` | 672 px  | Detail pages, forms, long-form content (lesson, grammar detail, settings, feedback, flashcards, faq, plan) |
 
 Full-screen interactive experiences (conversation, chat, listening, reading, assessment) are exempt — they manage their own layout internally.
+
+### Target-language typography
+
+The global FreeLingo visual language remains mono-heavy: `Geist`/`Geist_Mono` are loaded in `src/app/layout.tsx`, and `globals.css` maps the default theme fonts to the mono variable. Do not change this globally when adding non-Latin target languages.
+
+Content that is part of the language being learned must use the language-aware rendering path instead of raw `font-mono` text:
+
+- `frontend/src/lib/target-languages.ts` stores `script`, `fontClass`, `usesWordSpacing`, and optional `romanization` metadata.
+- `getTargetLanguageTextClass(code)` returns Latin-compatible mono styling for current Latin-script languages and CJK-friendly `font-target-ja`, `font-target-ko`, or `font-target-zh` classes for future `ja-JP`, `ko-KR`, and `zh-CN`.
+- `frontend/src/components/TargetLanguageText.tsx` applies the correct class and `lang` attribute. Use it for lesson content, exercise prompts/options, flashcards, reading/listening transcripts, phrasebook entries, vocabulary examples, assessment questions, and chat/conversation transcript text.
+- `globals.css` defines `font-target-latin`, `font-target-ja`, `font-target-ko`, and `font-target-zh`. CJK classes use Noto variables when available plus platform fallbacks (`Hiragino Sans`/`Yu Gothic`/`Meiryo`, `Apple SD Gothic Neo`/`Malgun Gothic`, `PingFang SC`/`Microsoft YaHei`/`Noto Sans CJK SC`).
+
+UI labels, levels, controls, navigation, and admin chrome may continue using `font-mono`, `uppercase`, and wide tracking. Do not apply `uppercase`, `tracking-widest`, or small mono text to learned-language CJK content.
 
 ---
 
@@ -349,7 +365,7 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 **Summary:**
 
 - **Framework**: Vitest with jsdom environment
-- **Test files**: 28 (plus setup.ts) covering critical logic only
+- **Test files**: 30 (plus setup.ts) covering critical logic only
 - **Setup**: Global mocks for `localStorage`, `next/navigation`, `next-intl`
 - **Coverage areas**: API fetch interceptor, auth store, audio queue, conversation WebSocket, target language utilities, mapper functions, middleware, component rendering
 - **Coverage**: Not configured/reported (`@vitest/coverage-v8` is not installed)

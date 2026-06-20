@@ -931,6 +931,7 @@ export default function ConversationMode({
               }
               userAvatar={user?.avatar}
               userInitial={(user?.displayName || user?.username || '?')[0]}
+              languageCode={targetLanguage}
             />
           ))
         })()}
@@ -942,6 +943,7 @@ export default function ConversationMode({
             speaking={assistantSpeaking}
             userAvatar={user?.avatar}
             userInitial={(user?.displayName || user?.username || '?')[0]}
+            languageCode={targetLanguage}
           />
         )}
         <div ref={transcriptEndRef} />

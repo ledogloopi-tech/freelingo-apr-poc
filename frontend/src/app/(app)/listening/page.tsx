@@ -10,6 +10,7 @@ import { type ListeningExercise } from '@/types/api'
 import { WordTooltip, useWordSave } from '@/components/ui/WordTooltip'
 import { PageLoading } from '@/components/ui/page-loading'
 import { ExerciseAudioPlayer } from '@/components/ui/exercise-audio-player'
+import { TargetLanguageText } from '@/components/TargetLanguageText'
 
 // ---------------------------------------------------------------------------
 // Main page logic
@@ -230,6 +231,7 @@ function ListeningPage() {
   const allAnswered = exercise
     ? Object.keys(answers).length === exercise.questions.length
     : false
+  const targetLanguageCode = activeLanguage?.code ?? 'en-GB'
 
   // ── Loading ──────────────────────────────────────────────────────────────
   if (pageState === 'loading') {
@@ -298,14 +300,16 @@ function ListeningPage() {
                     </p>
                   </div>
                 </div>
-                <p
-                  className="text-fl-label text-fl-muted-2 border-fl-border word-selectable mb-3 cursor-text border-t pt-3 font-mono leading-relaxed select-text"
+                <TargetLanguageText
+                  as="p"
+                  languageCode={item.exercise.target_language}
+                  className="text-fl-muted-2 border-fl-border word-selectable mb-3 cursor-text border-t pt-3 select-text"
                   onMouseUp={() =>
                     handleTextMouseUp(item.text, item.exercise.level ?? 'B1')
                   }
                 >
                   {item.text}
-                </p>
+                </TargetLanguageText>
                 <button
                   onClick={() => {
                     setExercise(item.exercise)
@@ -385,14 +389,16 @@ function ListeningPage() {
             {t('transcript')}
           </p>
           <div className="border-fl-border bg-fl-surface border p-4">
-            <p
-              className="text-fl-fg word-selectable cursor-text font-mono text-xs leading-relaxed select-text"
+            <TargetLanguageText
+              as="p"
+              languageCode={exercise.target_language}
+              className="text-fl-fg word-selectable cursor-text select-text"
               onMouseUp={() =>
                 handleTextMouseUp(result.text, exercise?.level ?? 'B1')
               }
             >
               {result.text}
-            </p>
+            </TargetLanguageText>
           </div>
         </div>
 
@@ -416,14 +422,18 @@ function ListeningPage() {
                     : 'border-red-600/50 bg-red-950/30'
                 }`}
               >
-                <p className="text-fl-fg mb-3 font-mono text-xs leading-relaxed">
+                <TargetLanguageText
+                  as="p"
+                  languageCode={targetLanguageCode}
+                  className="text-fl-fg mb-3"
+                >
                   {q.index + 1}. {q.question}
-                </p>
+                </TargetLanguageText>
                 <div className="space-y-1">
                   {Object.entries(q.options).map(([k, v]) => (
                     <div
                       key={k}
-                      className={`text-fl-label px-3 py-1.5 font-mono ${
+                      className={`px-3 py-1.5 ${
                         k === correctKey
                           ? 'font-bold text-green-400'
                           : k === userAnswer && !isCorrect
@@ -431,7 +441,12 @@ function ListeningPage() {
                             : 'text-fl-muted-3'
                       }`}
                     >
-                      <span className="font-bold">{k}.</span> {v}
+                      <span className="text-fl-label font-mono font-bold">
+                        {k}.
+                      </span>{' '}
+                      <TargetLanguageText languageCode={targetLanguageCode}>
+                        {v}
+                      </TargetLanguageText>
                     </div>
                   ))}
                 </div>
@@ -562,9 +577,13 @@ function ListeningPage() {
               key={q.index}
               className="border-fl-border bg-fl-surface border p-4"
             >
-              <p className="text-fl-fg mb-3 font-mono text-xs leading-relaxed">
+              <TargetLanguageText
+                as="p"
+                languageCode={exercise.target_language}
+                className="text-fl-fg mb-3"
+              >
                 {q.index + 1}. {q.question}
-              </p>
+              </TargetLanguageText>
               <div className="space-y-2">
                 {Object.entries(q.options).map(([k, v]) => {
                   const selected = answers[String(q.index)] === k
@@ -577,13 +596,20 @@ function ListeningPage() {
                           [String(q.index)]: k,
                         }))
                       }
-                      className={`text-fl-label w-full border px-3 py-2 text-left font-mono transition-colors ${
+                      className={`w-full border px-3 py-2 text-left transition-colors ${
                         selected
                           ? 'border-fl-accent bg-fl-surface-2 text-fl-fg'
                           : 'border-fl-border text-fl-muted-2 hover:border-fl-border-2 hover:text-fl-fg hover:bg-fl-surface-2'
                       }`}
                     >
-                      <span className="font-bold">{k}.</span> {v}
+                      <span className="text-fl-label font-mono font-bold">
+                        {k}.
+                      </span>{' '}
+                      <TargetLanguageText
+                        languageCode={exercise.target_language}
+                      >
+                        {v}
+                      </TargetLanguageText>
                     </button>
                   )
                 })}

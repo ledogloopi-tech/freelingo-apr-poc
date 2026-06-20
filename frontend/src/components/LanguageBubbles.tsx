@@ -15,7 +15,10 @@ function circlePosition(index: number, total: number, radius: number) {
 export function LanguageBubbles() {
   const t = useTranslations('landing')
   const positions = useMemo(
-    () => SUPPORTED_TARGET_LANGUAGES.map((_, i) => circlePosition(i, 7, 110)),
+    () =>
+      SUPPORTED_TARGET_LANGUAGES.map((_, i) =>
+        circlePosition(i, SUPPORTED_TARGET_LANGUAGES.length, 110)
+      ),
     []
   )
 
