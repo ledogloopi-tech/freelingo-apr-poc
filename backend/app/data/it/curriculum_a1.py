@@ -11,7 +11,7 @@ A1_UNITS: list[CurriculumUnit] = [
         unit_number=1,
         title="Saluti e presentazioni",
         grammar_points=["essere", "avere", "pronomi-soggetto", "articoli-determinativi"],
-        vocabulary_set_ids=["alfabeto_a1", "saluti_a1", "presentazioni_a1"],
+        vocabulary_set_ids=["alfabeto_a1", "numeri_a1", "saluti_a1", "presentazioni_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Si presenta usando essere e avere: nome, età, nazionalità — Sono Marco, ho 25 anni, sono italiano",
