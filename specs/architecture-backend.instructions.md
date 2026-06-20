@@ -127,7 +127,7 @@ backend/
 ├── alembic/
 │   └── versions/                # DB migrations (42 migrations)
 │
-└── tests/                       # pytest suite (43 test files, 845 tests)
+└── tests/                       # pytest suite (43 test files, 846 tests)
 ```
 
 ## Database models
@@ -168,7 +168,7 @@ Key architectural decisions:
 - **LLM Adapter** is a singleton with provider-agnostic interface (Ollama, OpenAI, Anthropic, DeepSeek)
 - **Study Plan Generator** and **Lesson Generator** are deterministic within curriculum constraints
 - **TTS/STT services** abstract local (Kokoro/Whisper) and cloud (OpenAI) providers behind common interfaces
-- **Conversation Pipeline** orchestrates real-time voice: cancellable greeting, STT → LLM streaming → sentence splitting → TTS, serialized WebSocket sends, empty-STT guard, and barge-in support
+- **Conversation Pipeline** orchestrates real-time voice: cancellable greeting, STT → full LLM response → sentence-level TTS chunks, serialized WebSocket sends, empty-STT guard, and backend barge-in support with frontend automatic interruption disabled
 
 For complete service details, APIs, and implementation notes, see [services.instructions.md](services.instructions.md).
 
@@ -193,9 +193,9 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 **Summary:**
 
 - **Framework**: pytest + pytest-asyncio + httpx AsyncClient
-- **Test files**: 41 (plus conftest.py for shared fixtures)
-- **Tests**: 836
-- **Coverage**: 84.11% (target: ≥70%)
+- **Test files**: 43 (plus conftest.py for shared fixtures)
+- **Tests**: 846
+- **Coverage**: 84.23% (target: ≥70%)
 - **Key fixtures**: async database session, test client with auth headers, Redis mock, user_language fixture
 
 ---

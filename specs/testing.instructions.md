@@ -1,5 +1,5 @@
 ---
-description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 845 tests, 84.28% coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (29 test files, 394 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
+description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 846 tests, 84.23% coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (29 test files, 394 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
 applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 ---
 
@@ -9,11 +9,11 @@ applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 
 | Layer                      | Framework               | Scope                                                   | Coverage             | Status      |
 | -------------------------- | ----------------------- | ------------------------------------------------------- | -------------------- | ----------- |
-| Backend unit + integration | pytest + pytest-asyncio | API endpoints, services, SM-2 algorithm, data integrity | 84.11% (target: 70%) | Implemented |
+| Backend unit + integration | pytest + pytest-asyncio | API endpoints, services, SM-2 algorithm, data integrity | 84.23% (target: 70%) | Implemented |
 | Frontend unit              | Vitest                  | Stores, components, hooks, lib, middleware              | Not configured       | Implemented |
 | E2E                        | Playwright              | Critical user flows                                     | Smoke                | Pending     |
 
-All tests pass on every push. Backend coverage threshold configured at 70%, currently at 84.28%. Frontend tests cover stores, critical components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher, TargetLanguageSelector, review UI), app pages, hooks, lib modules, i18n, and middleware. Frontend coverage is not currently reported because Vitest coverage is not configured and `@vitest/coverage-v8` is not installed.
+All tests pass on every push. Backend coverage threshold configured at 70%, currently at 84.23%. Frontend tests cover stores, critical components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher, TargetLanguageSelector, review UI), app pages, hooks, lib modules, i18n, and middleware. Frontend coverage is not currently reported because Vitest coverage is not configured and `@vitest/coverage-v8` is not installed.
 
 ---
 
@@ -74,11 +74,11 @@ All tests pass on every push. Backend coverage threshold configured at 70%, curr
 - **`test_lesson_generator.py`** — Lines: —. What it covers: Lesson generator service: `get_valid_grammar_slugs`, `generate_lesson`, fill-blank sanitization, grammar refs filtering, `evaluate_free_write`, `evaluate_pronunciation`, `evaluate_fill_blank` (12 tests, 51%→100% coverage)
 - **`test_listening_service.py`** — Lines: —. What it covers: Listening service DB layer and generation: `structured_output()` generation persistence, `get_available_exercise`, `submit_attempt` (correct/partial/duplicate/replay/not-found), `get_user_history` (empty/attempts/limit/language filter)
 
-**Total: 43 test files, 845 tests.**
+**Total: 43 test files, 846 tests.**
 
 ### Coverage
 
-- **Current coverage**: 84.28% (above 70% target)
+- **Current coverage**: 84.23% (above 70% target)
 - **Configured threshold**: 70% (enforced via `pytest --cov-fail-under=70`)
 
 ### Test patterns

@@ -179,7 +179,7 @@ Full-duplex voice conversation pipeline.
 
 **Authentication**: After the WebSocket handshake is accepted, the client must send a JSON message `{"type": "auth", "token": "<access_token>"}` within 10 seconds. If missing, malformed, or invalid, the server closes the connection with code 1008.
 
-**Message flow**: Client sends audio chunks → STT transcription → LLM generates response (streamed) → sentence-level TTS → MP3 audio chunks returned. The server starts the greeting as a cancellable task and immediately enters the receive loop, so user speech can barge in during the initial greeting.
+**Message flow**: Client sends audio chunks → STT transcription → LLM generates full response → sentence-level TTS → MP3 audio chunks returned. The server starts the greeting as a cancellable task and immediately enters the receive loop; backend barge-in protocol remains available, while the current frontend ignores user speech during active tutor turns for stability.
 
 **Client → Server message types:**
 
@@ -200,7 +200,7 @@ Full-duplex voice conversation pipeline.
 
 **Features:**
 
-- **Barge-in**: new audio input cancels the initial greeting or any ongoing LLM/TTS response
+- **Barge-in protocol**: explicit interrupts or new audio input can cancel the initial greeting or any ongoing LLM/TTS response server-side; the current frontend disables automatic interruption during active tutor turns
 - **Empty STT guard**: empty/whitespace transcriptions are ignored and do not trigger an assistant reply
 - **Serialized server sends**: JSON frames, binary audio chunks, timeout warnings, and close frames are written through one send lock to avoid concurrent WebSocket writes
 - **VAD**: browser-level voice activity detection (`@ricky0123/vad-react` + onnxruntime-web threaded WASM)

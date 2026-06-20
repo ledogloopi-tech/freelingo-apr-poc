@@ -27,7 +27,7 @@ freelingo/
 │   │       └── pt/              # Portuguese curriculum (A1–C2)
 │   ├── alembic/
 │   │   └── versions/            # DB migrations (31)
-│   └── tests/                   # pytest suite (43 test files, 845 tests)
+│   └── tests/                   # pytest suite (43 test files, 846 tests)
 │
 ├── frontend/                    # Next.js 16 App Router
 │   ├── src/
@@ -124,13 +124,13 @@ User speaks → VAD detects speech → sends WAV chunks via WS
     ↓
 ConversationPipeline:
   STT Service: WAV → text
-  LLM Adapter: text → streaming response (sentence-by-sentence)
+  LLM Adapter: text → full response
   TTS Service: each sentence → MP3
     ↓
 MP3 chunks sent back via WebSocket
   Frontend: AudioQueue schedules gapless playback
     ↓
-Barge-in: user speaks again → cancel current greeting/generation, stop client playback, process new audio
+Stable turn guard: frontend ignores user speech while the tutor turn is active
 ```
 
 ## Auth design
@@ -173,6 +173,6 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 
 **Summary:**
 
-- **Backend**: pytest + pytest-asyncio, 43 test files, 845 tests, 84.28% coverage (target: 70%)
+- **Backend**: pytest + pytest-asyncio, 43 test files, 846 tests, 84.23% coverage (target: 70%)
 - **Frontend**: Vitest, 29 test files, 394 tests covering stores, components, hooks, lib, i18n, app pages, and middleware; coverage is not configured/reported
 - **E2E**: Playwright (planned, not yet implemented)
