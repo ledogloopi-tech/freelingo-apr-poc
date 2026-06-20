@@ -50,6 +50,7 @@ These describe what was built — they are the reference documentation:
 - `specs/architecture.instructions.md` — Repository structure, data flows, auth design, test summary
 - `specs/architecture-backend.instructions.md` — Backend architecture: models (20), services (18), routers (23), schemas (15), env vars (51), Python code standards
 - `specs/architecture-frontend.instructions.md` — Frontend architecture: pages, components, stores (6), lib modules (9), TypeScript code standards
+- `specs/add-target-language.instructions.md` — Canonical checklist for adding new target languages, based on the British English (`en-GB`) data package structure and current dispatchers
 - `specs/database-models.instructions.md` — **20 SQLAlchemy ORM models**: full schema details, relationships, constraints, business rules
 - `specs/services.instructions.md` — **18 backend services**: LLM, TTS/STT, study plan, lessons, flashcards, listening, reading, reviews, memory, progress, quotas, subscriptions, voice conversation pipeline
 - `specs/prompts.instructions.md` — LLM prompt architecture: centralized builders, shared prompt blocks, active prompt inventory, dynamic variables, and maintenance rules
