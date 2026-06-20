@@ -26,7 +26,7 @@ if TYPE_CHECKING:
 
 logger = get_logger(__name__)
 
-TTS_MAX_RETRIES = 2
+TTS_MAX_RETRIES = 1
 TTS_RETRY_DELAY_SECONDS = 0.2
 
 WARNING_ADVANCE_SECONDS = 60  # How many seconds before timeout to send the warning
@@ -261,6 +261,79 @@ class ConversationPipeline:
                 await asyncio.sleep(TTS_RETRY_DELAY_SECONDS * attempt)
 
     @staticmethod
+    def _split_tts_sentences(text: str) -> list[str]:
+        """Split assistant text into ordered TTS chunks using full stops."""
+        chunks: list[str] = []
+        start = 0
+        for idx, char in enumerate(text):
+            if char != ".":
+                continue
+            sentence = text[start : idx + 1].strip()
+            if sentence:
+                chunks.append(sentence)
+            start = idx + 1
+
+        tail = text[start:].strip()
+        if tail:
+            chunks.append(tail)
+
+        return chunks or ([text.strip()] if text.strip() else [])
+
+    async def _synthesize_and_send_response(
+        self,
+        ws: WebSocket,
+        *,
+        text: str,
+        turn_id: int,
+        transcript_payload: dict,
+    ) -> tuple[int, int, bool, bool]:
+        """Synthesize ordered sentence chunks and send the transcript after first audio."""
+        chunks_sent = 0
+        audio_bytes_sent = 0
+        transcript_sent = False
+        send_aborted = False
+
+        for idx, sentence in enumerate(self._split_tts_sentences(text), start=1):
+            try:
+                audio = await self._synthesize_chunk(sentence)
+            except asyncio.CancelledError:
+                raise
+            except Exception as exc:
+                logger.warning(
+                    "[pipeline] TTS sentence failed after retry: turn_id=%s sentence=%s error=%s",
+                    turn_id,
+                    idx,
+                    self._fmt_exc(exc),
+                )
+                continue
+
+            send_ok = await self._safe_send_bytes(ws, audio)
+            if not send_ok:
+                logger.warning(
+                    "[pipeline] Audio send failed and remaining chunks are being aborted: turn_id=%s",
+                    turn_id,
+                )
+                send_aborted = True
+                break
+
+            chunks_sent += 1
+            audio_bytes_sent += len(audio)
+
+            if not transcript_sent:
+                await self._send_json(ws, transcript_payload)
+                transcript_sent = True
+
+        if chunks_sent == 0 and not transcript_sent and not send_aborted:
+            logger.warning(
+                "[pipeline] All TTS sentence chunks failed; publishing text-only transcript: turn_id=%s",
+                turn_id,
+            )
+            await self._send_json(ws, transcript_payload)
+            transcript_sent = True
+
+        return chunks_sent, audio_bytes_sent, transcript_sent, send_aborted
+
+    @staticmethod
     def _clean_sentence(raw_sentence: str) -> str:
         """Strip memory markers from a sentence buffer using pure string ops."""
         raw = raw_sentence
@@ -312,24 +385,29 @@ class ConversationPipeline:
                 return
             await self._send_status(ws, turn_id, "thinking")
 
-            audio = await self._synthesize_chunk(clean_full_response)
-            send_ok = await self._safe_send_bytes(ws, audio)
-            if not send_ok:
-                return
-
-            self.history.append({"role": "assistant", "content": clean_full_response})
-            self._pending_saves.append(
-                asyncio.create_task(self._save_message("assistant", clean_full_response))
-            )
-            await self._send_json(
+            (
+                chunks_sent,
+                _audio_bytes,
+                transcript_sent,
+                send_aborted,
+            ) = await self._synthesize_and_send_response(
                 ws,
-                {
+                text=clean_full_response,
+                turn_id=turn_id,
+                transcript_payload={
                     "type": "transcript",
                     "role": "assistant",
                     "text": clean_full_response,
                     "final": True,
                     "turn_id": turn_id,
                 },
+            )
+            if send_aborted or not transcript_sent:
+                return
+
+            self.history.append({"role": "assistant", "content": clean_full_response})
+            self._pending_saves.append(
+                asyncio.create_task(self._save_message("assistant", clean_full_response))
             )
             await self._send_status(ws, turn_id, "listening")
             await self._send_json(ws, {"type": "turn_complete", "turn_id": turn_id})
@@ -419,6 +497,9 @@ class ConversationPipeline:
         llm_ms: float | None = None
         tts_send_ms: float | None = None
         tts_bytes: int = 0
+        tts_chunks_sent = 0
+        assistant_transcript_sent = False
+        send_aborted = False
 
         # 1. STT
         try:
@@ -491,22 +572,48 @@ class ConversationPipeline:
             clean_full_response = self._extract_speech_text(full_response)
             if clean_full_response:
                 tts_send_t0 = time.perf_counter()
-                audio = await self._synthesize_chunk(clean_full_response)
-                tts_bytes = len(audio)
+                (
+                    tts_chunks_sent,
+                    tts_bytes,
+                    assistant_transcript_sent,
+                    send_aborted,
+                ) = await self._synthesize_and_send_response(
+                    ws,
+                    text=clean_full_response,
+                    turn_id=turn_id,
+                    transcript_payload={
+                        "type": "transcript",
+                        "role": "assistant",
+                        "text": clean_full_response,
+                        "final": True,
+                        "turn_id": turn_id,
+                    },
+                )
                 tts_send_ms = (time.perf_counter() - tts_send_t0) * 1000
-                # keep UI contract: assistant playback is inferred from assistant transcript + binary audio
-                send_ok = await self._safe_send_bytes(ws, audio)
-                if not send_ok:
+                if send_aborted or not assistant_transcript_sent:
                     logger.warning(
-                        "[pipeline] Audio send failed and turn is being aborted: turn_id=%s",
+                        "[pipeline] No assistant audio was sent and turn is being aborted: turn_id=%s",
                         turn_id,
                     )
                     self.history.pop()
+                    await self._send_json(
+                        ws,
+                        {
+                            "type": "error",
+                            "code": "tts_failed",
+                            "message": "Failed to synthesize assistant audio.",
+                            "turn_id": turn_id,
+                        },
+                    )
                     return
             else:
                 logger.warning(
                     "[pipeline] Skipping TTS synthesis because assistant text is empty after cleaning"
                 )
+                self.history.pop()
+                await self._send_status(ws, turn_id, "listening")
+                await self._send_json(ws, {"type": "turn_complete", "turn_id": turn_id})
+                return
 
             # Persist token usage best-effort (never blocks the response)
             self._pending_saves.append(asyncio.create_task(self._save_usage(llm_stream)))
@@ -525,8 +632,8 @@ class ConversationPipeline:
                 stt_ms=round(stt_ms, 1) if stt_ms is not None else None,
                 llm_ms=round(llm_ms, 1) if llm_ms is not None else None,
                 tts_send_ms=round(tts_send_ms, 1) if tts_send_ms is not None else None,
-                tts_chunks_sent=1 if clean_full_response else 0,
-                tts_audio_bytes=tts_bytes if clean_full_response else 0,
+                tts_chunks_sent=tts_chunks_sent,
+                tts_audio_bytes=tts_bytes,
                 turn_total_ms=round((time.perf_counter() - turn_t0) * 1000, 1),
             )
             await self._send_json(
@@ -549,7 +656,7 @@ class ConversationPipeline:
                 stt_ms=round(stt_ms, 1) if stt_ms is not None else None,
                 llm_ms=round(llm_ms, 1) if llm_ms is not None else None,
                 tts_send_ms=round(tts_send_ms, 1) if tts_send_ms is not None else None,
-                tts_chunks_sent=1 if clean_full_response else 0,
+                tts_chunks_sent=tts_chunks_sent,
                 tts_audio_bytes=tts_bytes,
                 turn_total_ms=round((time.perf_counter() - turn_t0) * 1000, 1),
             )
@@ -598,19 +705,9 @@ class ConversationPipeline:
             stt_ms=round(stt_ms, 1) if stt_ms is not None else None,
             llm_ms=round(llm_ms, 1) if llm_ms is not None else None,
             tts_send_ms=round(tts_send_ms, 1) if tts_send_ms is not None else None,
-            tts_chunks_sent=1 if clean_full_response else 0,
-            tts_audio_bytes=tts_bytes if clean_full_response else 0,
+            tts_chunks_sent=tts_chunks_sent,
+            tts_audio_bytes=tts_bytes,
             turn_total_ms=round((time.perf_counter() - turn_t0) * 1000, 1),
-        )
-        await self._send_json(
-            ws,
-            {
-                "type": "transcript",
-                "role": "assistant",
-                "text": clean_full_response,
-                "final": True,
-                "turn_id": turn_id,
-            },
         )
         await self._send_status(ws, turn_id, "listening")
 

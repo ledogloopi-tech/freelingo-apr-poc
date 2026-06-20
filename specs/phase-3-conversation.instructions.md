@@ -68,7 +68,7 @@ These are set globally in `next.config.ts` via the `headers()` function.
 
 ### Barge-in support
 
-Automatic barge-in is disabled by default in the frontend (`ENABLE_CONVERSATION_BARGE_IN=false`) to prioritise stable turn completion. When assistant audio is active, accepted VAD speech is ignored instead of cancelling the tutor turn. The backend still supports explicit `interrupt` messages and `barge_in` handling for future/manual interruption flows.
+Automatic barge-in is disabled by default in the frontend (`ENABLE_CONVERSATION_BARGE_IN=false`) to prioritise stable turn completion. When an assistant turn is active — including gaps while the backend is generating chunked TTS audio — accepted VAD speech is ignored instead of cancelling the tutor turn. The backend still supports explicit `interrupt` messages and `barge_in` handling for future/manual interruption flows.
 
 ### Transcript bubbles
 
@@ -130,20 +130,20 @@ On WebSocket connect:
 
 1. **Start greeting task**: generate the initial assistant greeting as a cancellable background task while the receive loop starts immediately
 2. **Receive audio**: read binary frame from WebSocket, reset inactivity timer
-3. **Barge-in check**: if an explicit interrupt/new audio arrives while a backend task is active, cancel it and send `barge_in` so the client can stop playback. The current frontend disables automatic barge-in during assistant playback.
+3. **Barge-in check**: if an explicit interrupt/new audio arrives while a backend task is active, cancel it and send `barge_in` so the client can stop playback. The current frontend ignores VAD detections during active assistant turns.
 4. **STT**: send WAV bytes to STT service → get transcribed text; empty/whitespace STT results are ignored and do not trigger LLM/TTS
 5. **Context building**: prepend system prompt + last 20 messages (in-memory)
 6. **LLM response**: collect the assistant response from the LLM stream
-7. **TTS synthesis**: synthesize the complete assistant response into MP3 bytes
-8. **Send audio first**: send the MP3 binary frame to the browser before publishing the assistant transcript
-9. **Send transcript**: send the complete AI text as final `transcript` only after audio has been generated and sent, avoiding visible text without associated audio
+7. **TTS synthesis**: split the complete assistant response on full stops and synthesize ordered sentence chunks sequentially
+8. **Send audio first**: send each MP3 binary frame to the browser as soon as that sentence audio is ready
+9. **Send transcript**: send the complete AI text as final `transcript` immediately after the first audio chunk is generated and sent, avoiding visible text without associated audio
 10. **Append to history/persist**: store the user+assistant exchange in memory and persist successful turns to `chat_history`
 
 All server writes to the WebSocket are serialized through a single send lock. This prevents timeout watchers, TTS sender tasks, transcript events, and close frames from writing concurrently to the same connection.
 
 ### Assistant text/audio ordering
 
-Assistant text is not sent to the frontend before TTS succeeds. The backend first generates the LLM response, synthesizes MP3 audio, sends the binary audio frame, and only then emits the final assistant `transcript`. This avoids the broken state where a tutor text appears in the transcript but no audio frame is available for playback.
+Assistant text is not sent to the frontend before at least one TTS audio chunk succeeds unless all sentence-level TTS attempts fail. The backend first generates the full LLM response, splits it into sentence chunks using full stops, synthesizes each chunk in order, sends the first successful binary audio frame, and only then emits the complete final assistant `transcript`. If every TTS chunk fails after its retry, the backend publishes the complete assistant transcript as a text-only fallback and completes the tutor turn. This avoids showing text ahead of available audio in the normal path, while still surfacing the tutor response if voice synthesis is unavailable for that turn.
 
 ### Timeout watchers
 
@@ -172,7 +172,7 @@ Log level is controlled by the `LOG_LEVEL` environment variable (default `INFO`)
 - STT failures: send error message to client, do not disconnect
 - Empty STT results: ignore the audio chunk and return to listening without generating an assistant reply
 - LLM failures: send error message, continue loop
-- TTS failures: send error message and do not publish an assistant transcript for that failed turn
+- TTS failures: each sentence chunk has one retry; failed chunks are skipped so later chunks can still play. If every sentence chunk fails, the complete assistant transcript is published as a text-only fallback and the turn completes normally.
 - Total STT → response latency target: < 2 s on GPU, < 4 s on CPU
 
 ### Conversation history
@@ -221,7 +221,7 @@ Settings are stored in the User model (`conversation_max_duration`, `conversatio
 - [x] Full STT → LLM → TTS pipeline works end-to-end
 - [x] VAD automatically detects speech start/end (no push-to-talk)
 - [x] Barge-in protocol supported; automatic frontend barge-in is disabled by default for stability
-- [x] Assistant transcript is emitted only after TTS audio has been generated and sent
+- [x] Assistant transcript is emitted only after the first successful TTS audio chunk has been generated and sent
 - [x] Audio playback via `AudioQueue` tracks real queue idle state before clearing speaking UI
 - [x] COOP + COEP headers enable `SharedArrayBuffer` for threaded ONNX WASM
 - [x] Session timeout watchers (max duration + inactivity) with 60 s warnings

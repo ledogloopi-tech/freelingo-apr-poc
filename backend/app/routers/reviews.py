@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 from typing import Literal
 
 from fastapi import APIRouter, Depends, Query, Request, Response, status
@@ -20,6 +21,7 @@ from app.schemas.review import (
     ReviewPublicOut,
     ReviewUpdate,
 )
+from app.services import email_service
 from app.services.review_service import (
     create_review,
     delete_review,
@@ -52,7 +54,21 @@ async def create_my_review(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ) -> Review:
-    return await create_review(db, current_user, rating=data.rating, comment=data.comment)
+    review = await create_review(db, current_user, rating=data.rating, comment=data.comment)
+    admin_locale = await db.scalar(
+        select(User.native_language).where(User.role == "admin").order_by(User.id.asc()).limit(1)
+    )
+    asyncio.create_task(
+        email_service.send_review_notification(
+            user_display_name=review.user_display_name,
+            rating=review.rating,
+            comment=review.comment,
+            target_language=review.target_language,
+            review_id=review.id,
+            locale=admin_locale or "en",
+        )
+    )
+    return review
 
 
 @router.patch("/api/reviews/me", response_model=ReviewAdminOut)

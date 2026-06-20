@@ -236,6 +236,7 @@ export default function ConversationMode({
   const mountedRef = useRef(true)
   const startAttemptRef = useRef(0)
   const assistantSpeakingRef = useRef(false)
+  const assistantTurnActiveRef = useRef(false)
   const speechStartedAtRef = useRef<number | null>(null)
   const sessionActiveRef = useRef(false)
   const ttsChunkIndexRef = useRef(0)
@@ -305,7 +306,7 @@ export default function ConversationMode({
       setUserSpeaking(true)
     },
     onSpeechEnd: (audio: Float32Array) => {
-      const minUtteranceMs = assistantSpeakingRef.current
+      const minUtteranceMs = assistantTurnActiveRef.current
         ? INTERRUPTION_MIN_UTTERANCE_MS
         : MIN_UTTERANCE_MS
       const speech = isLikelySpeech(audio, minUtteranceMs)
@@ -316,6 +317,7 @@ export default function ConversationMode({
         durationMs: Math.round(speech.durationMs),
         sessionActive: sessionActiveRef.current,
         assistantSpeaking: assistantSpeakingRef.current,
+        assistantTurnActive: assistantTurnActiveRef.current,
       })
       speechStartedAtRef.current = null
       if (!isSpeech) {
@@ -329,9 +331,21 @@ export default function ConversationMode({
         return
       }
 
+      // Never interrupt the tutor turn. While the backend is generating or
+      // sending chunked audio, any detected speech is ignored to avoid lost
+      // responses from VAD false positives or accidental overlap.
+      if (assistantTurnActiveRef.current) {
+        convLogger.warn('ignored user speech while assistant turn is active', {
+          rms: speech.rms,
+          durationMs: Math.round(speech.durationMs),
+          assistantSpeaking: assistantSpeakingRef.current,
+        })
+        return
+      }
+
       // If the assistant is speaking, avoid false positive interruptions
-      // from playback leakage / room noise. Only treat it as interrupt when
-      // the signal is clearly strong enough to be real speech.
+      // from playback leakage / room noise. Kept as a defensive guard for any
+      // state race before assistantTurnActiveRef is updated.
       if (
         assistantSpeakingRef.current &&
         speech.rms < INTERRUPTION_RMS_THRESHOLD
@@ -427,6 +441,7 @@ export default function ConversationMode({
       closeReasonRef.current = reason
       if (!mountedRef.current) return
       activeTurnIdRef.current = null
+      assistantTurnActiveRef.current = false
       if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
         wsRef.current.send(
           JSON.stringify({
@@ -516,6 +531,7 @@ export default function ConversationMode({
           bytes: arrayBuffer.byteLength,
         })
         lastAssistantAudioAtRef.current = performance.now()
+        assistantTurnActiveRef.current = true
         if (!audioQueueRef.current) {
           convLogger.warn('audio queue missing for playback')
           setAssistantSpeaking(false)
@@ -566,6 +582,7 @@ export default function ConversationMode({
                   },
                 ])
               } else {
+                assistantTurnActiveRef.current = true
                 // LLM token stream
                 if (msg.final) {
                   setStreamingText(null)
@@ -584,6 +601,7 @@ export default function ConversationMode({
               break
 
             case 'turn_complete':
+              assistantTurnActiveRef.current = false
               break
 
             case 'barge_in':
@@ -607,11 +625,16 @@ export default function ConversationMode({
                 setAssistantSpeaking(false)
               } else if (msg.value === 'speaking') {
                 setAssistantSpeaking(true)
+              } else if (msg.value === 'thinking') {
+                assistantTurnActiveRef.current = true
+              } else if (msg.value === 'listening') {
+                assistantTurnActiveRef.current = false
               }
               break
 
             case 'session_end':
               cleanEndRef.current = true
+              assistantTurnActiveRef.current = false
               finalizeSession()
               convLogger.info('session end received', { reason: msg.reason })
               setStatus('ended')
@@ -637,6 +660,7 @@ export default function ConversationMode({
                           : (msg.message ?? t('errorConnection'))
               )
               setStatus('error')
+              assistantTurnActiveRef.current = false
               ws.close()
               break
 
@@ -719,6 +743,7 @@ export default function ConversationMode({
     setUserSpeaking(false)
     setAssistantSpeaking(false)
     activeTurnIdRef.current = null
+    assistantTurnActiveRef.current = false
     sessionStartedAtRef.current = null
     refreshQuota()
 
@@ -827,6 +852,7 @@ export default function ConversationMode({
       mountedRef.current = false
       startAttemptRef.current++
       cleanEndRef.current = true
+      assistantTurnActiveRef.current = false
       closeReasonRef.current = 'route_unload'
       if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
         wsRef.current.send(

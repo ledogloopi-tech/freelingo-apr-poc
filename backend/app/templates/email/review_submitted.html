@@ -33,29 +33,6 @@
       color: #1a1a18;
     }
 
-    .badge {
-      display: inline-block;
-      margin-top: 10px;
-      font-size: 10px;
-      font-weight: bold;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 2px;
-    }
-
-    .badge-feature {
-      background: #e8f4e8;
-      color: #2d7a2d;
-      border: 1px solid #b8d8b8;
-    }
-
-    .badge-bug {
-      background: #fce8e8;
-      color: #c0392b;
-      border: 1px solid #f0c0c0;
-    }
-
     .body {
       padding: 32px;
     }
@@ -75,13 +52,13 @@
       margin: 0 0 20px;
     }
 
-    .description-block {
+    .comment-block {
       border-left: 2px solid #d4d4cc;
       padding: 12px 16px;
       margin-top: 4px;
     }
 
-    .description-text {
+    .comment-text {
       font-size: 12px;
       color: #6b6b64;
       line-height: 1.7;
@@ -117,17 +94,18 @@
 <body>
   <div class="wrapper">
     <div class="header">
-      <span class="logo">● {{logo}}</span><br />
-      <span class="badge badge-{{type}}">{{type_label}}</span>
+      <span class="logo">● {{logo}}</span>
     </div>
     <div class="body">
       <p class="label">{{author_label}}</p>
-      <p class="value">{{author_username}}</p>
-      <p class="label">{{title_label}}</p>
-      <p class="value">{{title}}</p>
-      <p class="label">{{description_label}}</p>
-      <div class="description-block">
-        <p class="description-text">{{description}}</p>
+      <p class="value">{{user_display_name}}</p>
+      <p class="label">{{rating_label}}</p>
+      <p class="value">{{rating}}</p>
+      <p class="label">{{language_label}}</p>
+      <p class="value">{{target_language}}</p>
+      <p class="label">{{comment_label}}</p>
+      <div class="comment-block">
+        <p class="comment-text">{{comment}}</p>
       </div>
       <div class="cta">
         <a href="{{admin_url}}">{{cta}} &rarr;</a>

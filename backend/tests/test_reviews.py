@@ -59,6 +59,34 @@ async def test_create_review_valid(client, test_user_with_plan):
 
 
 @pytest.mark.asyncio
+async def test_create_review_sends_admin_email(client, test_user_with_plan, admin_user):
+    from unittest.mock import AsyncMock, patch
+
+    _, headers = test_user_with_plan
+    admin, _ = admin_user
+    admin.native_language = "es"
+
+    with patch(
+        "app.routers.reviews.email_service.send_review_notification",
+        new_callable=AsyncMock,
+    ) as mock_notify:
+        response = await client.post(
+            "/api/reviews",
+            json={"rating": 5, "comment": "Excellent tutor."},
+            headers=headers,
+        )
+
+    assert response.status_code == 201
+    mock_notify.assert_awaited_once()
+    call_kwargs = mock_notify.call_args.kwargs
+    assert call_kwargs["user_display_name"] == "Test User"
+    assert call_kwargs["rating"] == 5
+    assert call_kwargs["comment"] == "Excellent tutor."
+    assert call_kwargs["target_language"] == "en-US"
+    assert call_kwargs["locale"] == "es"
+
+
+@pytest.mark.asyncio
 async def test_create_review_requires_rating(client, test_user_with_plan):
     _, headers = test_user_with_plan
 
@@ -169,6 +197,34 @@ async def test_update_my_review(client, test_user, db_session):
     assert data["rating"] == 4
     assert data["comment"] == "Updated review"
     assert data["is_approved"] is False
+
+
+@pytest.mark.asyncio
+async def test_update_my_review_does_not_send_admin_email(client, test_user, db_session):
+    from unittest.mock import AsyncMock, patch
+
+    user, headers = test_user
+    await _add_review(
+        db_session,
+        user_id=user.id,
+        display_name=user.display_name,
+        rating=5,
+        comment="Original",
+        is_approved=True,
+    )
+
+    with patch(
+        "app.routers.reviews.email_service.send_review_notification",
+        new_callable=AsyncMock,
+    ) as mock_notify:
+        response = await client.patch(
+            "/api/reviews/me",
+            json={"rating": 4, "comment": "Updated review"},
+            headers=headers,
+        )
+
+    assert response.status_code == 200
+    mock_notify.assert_not_awaited()
 
 
 @pytest.mark.asyncio

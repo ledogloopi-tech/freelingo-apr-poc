@@ -1,6 +1,11 @@
 """A2 vocabulary sets."""
 
-from app.data._types import VocabularyEntry, VocabularySet
+from app.data._types import PartOfSpeech, VocabularyEntry, VocabularySet
+
+
+def _entry(word: str, pos: PartOfSpeech, definition: str, example: str) -> VocabularyEntry:
+    return VocabularyEntry(word=word, pos=pos, definition=definition, example=example)
+
 
 A2_SETS: list[VocabularySet] = [
     VocabularySet(
@@ -1457,6 +1462,63 @@ A2_SETS: list[VocabularySet] = [
                 example="Recuerdo aquella anécdota con cariño.",
                 ipa="/rekoɾˈðaɾ/",
             ),
+        ],
+    ),
+    VocabularySet(
+        id="dinero_precios_a2",
+        level="A2",
+        topic="Dinero y precios",
+        unit_ref="a2-unit-3",
+        words=[
+            _entry(
+                "dinero", "noun", "Medio usado para comprar cosas.", "No llevo dinero en efectivo."
+            ),
+            _entry(
+                "precio", "noun", "Cantidad que cuesta algo.", "¿Cuál es el precio de esta camisa?"
+            ),
+            _entry(
+                "euro",
+                "noun",
+                "Moneda usada en España y otros países europeos.",
+                "Cuesta diez euros.",
+            ),
+            _entry("pagar", "verb", "Dar dinero por algo.", "Voy a pagar con tarjeta."),
+            _entry("costar", "verb", "Tener un precio.", "¿Cuánto cuesta?"),
+            _entry("barato", "adjective", "Que cuesta poco dinero.", "Este restaurante es barato."),
+            _entry("caro", "adjective", "Que cuesta mucho dinero.", "El hotel es caro."),
+            _entry("tarjeta", "noun", "Tarjeta bancaria para pagar.", "Pago con tarjeta."),
+            _entry(
+                "efectivo", "noun", "Dinero en monedas o billetes.", "Prefiero pagar en efectivo."
+            ),
+            _entry(
+                "cambio",
+                "noun",
+                "Dinero que se devuelve después de pagar.",
+                "Aquí tiene su cambio.",
+            ),
+        ],
+    ),
+    VocabularySet(
+        id="animales_naturaleza_a2",
+        level="A2",
+        topic="Animales y naturaleza",
+        unit_ref="a2-unit-4",
+        words=[
+            _entry("perro", "noun", "Animal doméstico común.", "Mi perro es muy tranquilo."),
+            _entry(
+                "gato",
+                "noun",
+                "Animal doméstico que suele vivir en casa.",
+                "El gato duerme en el sofá.",
+            ),
+            _entry("pájaro", "noun", "Animal con alas y plumas.", "Hay un pájaro en el árbol."),
+            _entry("árbol", "noun", "Planta grande con tronco y ramas.", "El árbol da sombra."),
+            _entry("flor", "noun", "Parte colorida de muchas plantas.", "La flor es amarilla."),
+            _entry("río", "noun", "Corriente natural de agua.", "El río pasa por la ciudad."),
+            _entry("montaña", "noun", "Elevación grande de terreno.", "La montaña está nevada."),
+            _entry("playa", "noun", "Lugar con arena junto al mar.", "Vamos a la playa en verano."),
+            _entry("bosque", "noun", "Lugar con muchos árboles.", "Caminamos por el bosque."),
+            _entry("mar", "noun", "Gran masa de agua salada.", "El mar está tranquilo."),
         ],
     ),
     VocabularySet(

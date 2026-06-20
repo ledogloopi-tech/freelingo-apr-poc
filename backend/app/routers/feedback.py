@@ -281,6 +281,9 @@ async def create_feedback(
     db.add(entry)
     await db.commit()
     await db.refresh(entry)
+    admin_locale = await db.scalar(
+        select(User.native_language).where(User.role == "admin").order_by(User.id.asc()).limit(1)
+    )
     asyncio.create_task(
         email_service.send_feedback_notification(
             entry_type=entry.type,
@@ -288,6 +291,7 @@ async def create_feedback(
             description=entry.description,
             author_username=current_user.username,
             entry_id=entry.id,
+            locale=admin_locale or "en",
         )
     )
     return await _build_entry_out(entry, current_user, db)

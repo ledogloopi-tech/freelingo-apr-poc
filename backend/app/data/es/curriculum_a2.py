@@ -51,7 +51,7 @@ A2_UNITS: list[CurriculumUnit] = [
         unit_number=3,
         title="Pronombres de objeto directo e indirecto",
         grammar_points=["pronombres-objeto-directo", "pronombres-objeto-indirecto", "doble-objeto"],
-        vocabulary_set_ids=["compras_a2", "regalos_a2"],
+        vocabulary_set_ids=["compras_a2", "regalos_a2", "dinero_precios_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Sustituye complementos directos por lo/la/los/las en la posición correcta: ¿El libro? Lo tengo en casa",
@@ -68,7 +68,7 @@ A2_UNITS: list[CurriculumUnit] = [
         unit_number=4,
         title="Comparaciones y superlativos",
         grammar_points=["comparativos", "superlativos", "tan-como"],
-        vocabulary_set_ids=["ciudades_a2", "cultura_a2"],
+        vocabulary_set_ids=["ciudades_a2", "cultura_a2", "animales_naturaleza_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Compara con más/menos + adjetivo/adverbio + que y distingue esta estructura de más de + número: Es más caro que el otro, Cuesta más de 10 euros",

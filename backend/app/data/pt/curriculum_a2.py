@@ -54,7 +54,7 @@ A2_UNITS: list[CurriculumUnit] = [
             "colocacao-pronominal",
             "combinacao-pronominal",
         ],
-        vocabulary_set_ids=["compras_a2", "presentes_a2"],
+        vocabulary_set_ids=["compras_a2", "presentes_a2", "dinheiro_precos_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Usa os pronomes de complemento direto o/a/os/as e os pronomes de complemento indireto me/te/lhe/nos/vos/lhes",
@@ -71,7 +71,7 @@ A2_UNITS: list[CurriculumUnit] = [
         unit_number=4,
         title="Comparações e superlativos",
         grammar_points=["comparativos", "superlativos", "tao-como"],
-        vocabulary_set_ids=["cidades_a2", "cultura_a2"],
+        vocabulary_set_ids=["cidades_a2", "cultura_a2", "animais_natureza_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Compara com mais/menos + adjetivo/advérbio + do que (antes de nome/pronome) ou que (noutros contextos): Lisboa é mais cara do que o Porto",
