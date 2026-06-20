@@ -16,7 +16,13 @@ A1_UNITS: list[CurriculumUnit] = [
             "personalpronomen",
             "ja-nein-doch",
         ],
-        vocabulary_set_ids=["begruessung_de_a1", "vorstellung_de_a1"],
+        vocabulary_set_ids=[
+            "alphabet_de_a1",
+            "zahlen_de_a1",
+            "klassenzimmer_de_a1",
+            "begruessung_de_a1",
+            "vorstellung_de_a1",
+        ],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Stellt sich vor mit sein und heißen: Name, Alter, Herkunft (Ich heiße Anna, ich bin 25, ich bin aus Spanien)",
@@ -61,7 +67,13 @@ A1_UNITS: list[CurriculumUnit] = [
             "verb-haben",
             "akkusativ",
         ],
-        vocabulary_set_ids=["familie_de_a1", "beschreibungen_de_a1"],
+        vocabulary_set_ids=[
+            "familie_de_a1",
+            "beschreibungen_de_a1",
+            "farben_de_a1",
+            "koerper_de_a1",
+            "kleidung_de_a1",
+        ],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Benennt Familienmitglieder und verwendet haben für Beziehungen: Ich habe zwei Brüder, Meine Mutter ist 50 Jahre alt",
@@ -130,7 +142,7 @@ A1_UNITS: list[CurriculumUnit] = [
             "dativ-basic",
             "imperativ",
         ],
-        vocabulary_set_ids=["orte_de_a1", "richtungen_de_a1"],
+        vocabulary_set_ids=["orte_de_a1", "richtungen_de_a1", "zuhause_de_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Verwendet es gibt, um Existenz auszudrücken: Es gibt einen Supermarkt in der Nähe, Gibt es hier eine Apotheke?",
@@ -153,7 +165,7 @@ A1_UNITS: list[CurriculumUnit] = [
             "wochentage",
             "imperativ",
         ],
-        vocabulary_set_ids=["verkehr_de_a1", "wetter_de_a1"],
+        vocabulary_set_ids=["verkehr_de_a1", "wetter_de_a1", "daten_de_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Bildet das Futur mit werden + Infinitiv: Ich werde morgen lernen, Was wirst du am Wochenende machen?",

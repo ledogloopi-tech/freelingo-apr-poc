@@ -273,7 +273,7 @@ async def test_greet_handles_llm_error() -> None:
 
 
 @pytest.mark.asyncio
-async def test_greet_synthesizes_full_text_once() -> None:
+async def test_greet_synthesizes_text_by_sentence() -> None:
     pipeline = _make_pipeline()
     pipeline.tts.synthesize = AsyncMock(return_value=b"audio")
 
@@ -293,8 +293,7 @@ async def test_greet_synthesizes_full_text_once() -> None:
     ws = FakeWS()
     await pipeline._greet(ws)
 
-    assert len(tts_texts) == 1
-    assert tts_texts[0] == "Hello. How are you? I hope you're well."
+    assert tts_texts == ["Hello.", "How are you? I hope you're well."]
 
 
 @pytest.mark.asyncio
@@ -603,12 +602,12 @@ async def test_process_multiple_sentences_from_llm() -> None:
     ws = FakeWS()
     await pipeline._process(b"audio", ws)
 
-    assert len(tts_texts) == 1
-    assert tts_texts[0] == "Once upon a time. There was a cat. The cat was happy."
+    assert tts_texts == ["Once upon a time.", "There was a cat.", "The cat was happy."]
+    assert [kind for kind, _ in ws.sent].count("bytes") == 3
 
 
 @pytest.mark.asyncio
-async def test_process_tts_failure_sends_error_frame() -> None:
+async def test_process_all_tts_failures_publish_text_transcript() -> None:
     pipeline = _make_pipeline()
     pipeline.stt.transcribe = AsyncMock(return_value="Tell me a story")
     pipeline.tts.synthesize = AsyncMock(side_effect=RuntimeError("TTS unavailable"))
@@ -621,9 +620,51 @@ async def test_process_tts_failure_sends_error_frame() -> None:
     ws = FakeWS()
     await pipeline._process(b"audio", ws)
 
+    assert [kind for kind, _ in ws.sent].count("bytes") == 0
     errors = [m for m in ws.json_messages() if m.get("type") == "error"]
-    assert any(e["code"] == "tts_failed" for e in errors)
-    assert not pipeline.history or pipeline.history[-1]["role"] != "user"
+    assert errors == []
+    assistant_transcripts = [
+        m
+        for m in ws.json_messages()
+        if m.get("type") == "transcript" and m.get("role") == "assistant"
+    ]
+    assert assistant_transcripts[0]["text"] == "Response with one full sentence."
+    assert "turn_complete" in ws.types()
+    assert pipeline.history[-1] == {
+        "role": "assistant",
+        "content": "Response with one full sentence.",
+    }
+
+
+@pytest.mark.asyncio
+async def test_process_tts_sentence_failure_continues_with_remaining_audio() -> None:
+    pipeline = _make_pipeline()
+    pipeline.stt.transcribe = AsyncMock(return_value="Tell me a story")
+
+    async def synth(text, voice, lang):
+        if text == "Broken sentence.":
+            raise RuntimeError("TTS unavailable")
+        return b"audio"
+
+    pipeline.tts.synthesize = synth
+
+    async def fake_stream():
+        yield _make_chunk("Broken sentence. Working sentence.")
+
+    pipeline.llm.chat = AsyncMock(return_value=fake_stream())
+
+    ws = FakeWS()
+    await pipeline._process(b"audio", ws)
+
+    assert [kind for kind, _ in ws.sent].count("bytes") == 1
+    errors = [m for m in ws.json_messages() if m.get("type") == "error"]
+    assert errors == []
+    assistant_transcripts = [
+        m
+        for m in ws.json_messages()
+        if m.get("type") == "transcript" and m.get("role") == "assistant"
+    ]
+    assert assistant_transcripts[0]["text"] == "Broken sentence. Working sentence."
 
 
 @pytest.mark.asyncio

@@ -1,8 +1,231 @@
 """A1 vocabulary sets — French (fr-FR)."""
 
-from app.data._types import VocabularyEntry, VocabularySet
+from app.data._types import PartOfSpeech, VocabularyEntry, VocabularySet
+
+
+def _entry(word: str, pos: PartOfSpeech, definition: str, example: str) -> VocabularyEntry:
+    return VocabularyEntry(word=word, pos=pos, definition=definition, example=example)
+
 
 A1_SETS: list[VocabularySet] = [
+    VocabularySet(
+        id="alphabet_fr_a1",
+        level="A1",
+        topic="L'alphabet",
+        unit_ref="a1-unit-1",
+        words=[
+            VocabularyEntry(
+                word="A",
+                pos="noun",
+                definition="La lettre A; elle se prononce a.",
+                example="A est la première lettre d'Anne.",
+                ipa="/a/",
+            ),
+            VocabularyEntry(
+                word="B",
+                pos="noun",
+                definition="La lettre B; elle se prononce bé.",
+                example="B est la première lettre de bonjour.",
+                ipa="/be/",
+            ),
+            VocabularyEntry(
+                word="C",
+                pos="noun",
+                definition="La lettre C; elle se prononce cé.",
+                example="C est la première lettre de café.",
+                ipa="/se/",
+            ),
+            VocabularyEntry(
+                word="D",
+                pos="noun",
+                definition="La lettre D; elle se prononce dé.",
+                example="D est la première lettre de dimanche.",
+                ipa="/de/",
+            ),
+            VocabularyEntry(
+                word="E",
+                pos="noun",
+                definition="La lettre E; elle se prononce e.",
+                example="E est la première lettre d'école.",
+                ipa="/ə/",
+            ),
+            VocabularyEntry(
+                word="F",
+                pos="noun",
+                definition="La lettre F; elle se prononce effe.",
+                example="F est la première lettre de famille.",
+                ipa="/ɛf/",
+            ),
+            VocabularyEntry(
+                word="G",
+                pos="noun",
+                definition="La lettre G; elle se prononce gé.",
+                example="G est la première lettre de gare.",
+                ipa="/ʒe/",
+            ),
+            VocabularyEntry(
+                word="H",
+                pos="noun",
+                definition="La lettre H; elle se prononce ache et peut être muette ou aspirée.",
+                example="H est la première lettre de hôtel.",
+                ipa="/aʃ/",
+            ),
+            VocabularyEntry(
+                word="I",
+                pos="noun",
+                definition="La lettre I; elle se prononce i.",
+                example="I est la première lettre d'ici.",
+                ipa="/i/",
+            ),
+            VocabularyEntry(
+                word="J",
+                pos="noun",
+                definition="La lettre J; elle se prononce ji.",
+                example="J est la première lettre de jeudi.",
+                ipa="/ʒi/",
+            ),
+            VocabularyEntry(
+                word="K",
+                pos="noun",
+                definition="La lettre K; elle se prononce ka.",
+                example="K apparaît dans le mot kilo.",
+                ipa="/ka/",
+            ),
+            VocabularyEntry(
+                word="L",
+                pos="noun",
+                definition="La lettre L; elle se prononce elle.",
+                example="L est la première lettre de lundi.",
+                ipa="/ɛl/",
+            ),
+            VocabularyEntry(
+                word="M",
+                pos="noun",
+                definition="La lettre M; elle se prononce emme.",
+                example="M est la première lettre de merci.",
+                ipa="/ɛm/",
+            ),
+            VocabularyEntry(
+                word="N",
+                pos="noun",
+                definition="La lettre N; elle se prononce enne.",
+                example="N est la première lettre de nom.",
+                ipa="/ɛn/",
+            ),
+            VocabularyEntry(
+                word="O",
+                pos="noun",
+                definition="La lettre O; elle se prononce o.",
+                example="O est la première lettre de oui.",
+                ipa="/o/",
+            ),
+            VocabularyEntry(
+                word="P",
+                pos="noun",
+                definition="La lettre P; elle se prononce pé.",
+                example="P est la première lettre de personne.",
+                ipa="/pe/",
+            ),
+            VocabularyEntry(
+                word="Q",
+                pos="noun",
+                definition="La lettre Q; elle se prononce ku.",
+                example="Q est la première lettre de question.",
+                ipa="/ky/",
+            ),
+            VocabularyEntry(
+                word="R",
+                pos="noun",
+                definition="La lettre R; elle se prononce erre.",
+                example="R est la première lettre de rouge.",
+                ipa="/ɛʁ/",
+            ),
+            VocabularyEntry(
+                word="S",
+                pos="noun",
+                definition="La lettre S; elle se prononce esse.",
+                example="S est la première lettre de salut.",
+                ipa="/ɛs/",
+            ),
+            VocabularyEntry(
+                word="T",
+                pos="noun",
+                definition="La lettre T; elle se prononce té.",
+                example="T est la première lettre de table.",
+                ipa="/te/",
+            ),
+            VocabularyEntry(
+                word="U",
+                pos="noun",
+                definition="La lettre U; elle se prononce u.",
+                example="U est la première lettre de une.",
+                ipa="/y/",
+            ),
+            VocabularyEntry(
+                word="V",
+                pos="noun",
+                definition="La lettre V; elle se prononce vé.",
+                example="V est la première lettre de vendredi.",
+                ipa="/ve/",
+            ),
+            VocabularyEntry(
+                word="W",
+                pos="noun",
+                definition="La lettre W; elle se prononce double vé.",
+                example="W apparaît dans le mot wagon.",
+                ipa="/dublə ve/",
+            ),
+            VocabularyEntry(
+                word="X",
+                pos="noun",
+                definition="La lettre X; elle se prononce iks.",
+                example="X apparaît dans le mot taxi.",
+                ipa="/iks/",
+            ),
+            VocabularyEntry(
+                word="Y",
+                pos="noun",
+                definition="La lettre Y; elle se prononce i grec.",
+                example="Y apparaît dans le mot yoga.",
+                ipa="/i ɡʁɛk/",
+            ),
+            VocabularyEntry(
+                word="Z",
+                pos="noun",
+                definition="La lettre Z; elle se prononce zède.",
+                example="Z est la première lettre de zéro.",
+                ipa="/zɛd/",
+            ),
+            VocabularyEntry(
+                word="É",
+                pos="noun",
+                definition="E accent aigu; il indique souvent le son é fermé.",
+                example="É apparaît dans le mot été.",
+                ipa="/e/",
+            ),
+            VocabularyEntry(
+                word="È",
+                pos="noun",
+                definition="E accent grave; il indique souvent le son è ouvert.",
+                example="È apparaît dans le mot très.",
+                ipa="/ɛ/",
+            ),
+            VocabularyEntry(
+                word="Ê",
+                pos="noun",
+                definition="E accent circonflexe; il indique souvent le son è ouvert.",
+                example="Ê apparaît dans le mot fête.",
+                ipa="/ɛ/",
+            ),
+            VocabularyEntry(
+                word="Ç",
+                pos="noun",
+                definition="C cédille; il donne le son s devant a, o ou u.",
+                example="Ç apparaît dans le mot français.",
+                ipa="/se sedij/",
+            ),
+        ],
+    ),
     VocabularySet(
         id="salutations_fr_a1",
         level="A1",
@@ -128,6 +351,161 @@ A1_SETS: list[VocabularySet] = [
                 definition="formule de politesse pour un homme",
                 example="Enchanté de faire votre connaissance.",
                 ipa="/ɑ̃ʃɑ̃te/",
+            ),
+        ],
+    ),
+    VocabularySet(
+        id="nombres_fr_a1",
+        level="A1",
+        topic="Nombres 0-20",
+        unit_ref="a1-unit-1",
+        words=[
+            VocabularyEntry(
+                word="zéro",
+                pos="numeral",
+                definition="Le nombre 0.",
+                example="J'ai zéro erreur.",
+                ipa="/zeʁo/",
+            ),
+            VocabularyEntry(
+                word="un",
+                pos="numeral",
+                definition="Le nombre 1.",
+                example="J'ai un frère.",
+                ipa="/œ̃/",
+            ),
+            VocabularyEntry(
+                word="deux",
+                pos="numeral",
+                definition="Le nombre 2.",
+                example="J'ai deux livres.",
+                ipa="/dø/",
+            ),
+            VocabularyEntry(
+                word="trois",
+                pos="numeral",
+                definition="Le nombre 3.",
+                example="Il y a trois personnes.",
+                ipa="/tʁwa/",
+            ),
+            VocabularyEntry(
+                word="quatre",
+                pos="numeral",
+                definition="Le nombre 4.",
+                example="Il est quatre heures.",
+                ipa="/katʁ/",
+            ),
+            VocabularyEntry(
+                word="cinq",
+                pos="numeral",
+                definition="Le nombre 5.",
+                example="J'ai cinq euros.",
+                ipa="/sɛ̃k/",
+            ),
+            VocabularyEntry(
+                word="six",
+                pos="numeral",
+                definition="Le nombre 6.",
+                example="Le cours commence à six heures.",
+                ipa="/sis/",
+            ),
+            VocabularyEntry(
+                word="sept",
+                pos="numeral",
+                definition="Le nombre 7.",
+                example="J'habite au septième étage.",
+                ipa="/sɛt/",
+            ),
+            VocabularyEntry(
+                word="huit",
+                pos="numeral",
+                definition="Le nombre 8.",
+                example="Il est huit heures.",
+                ipa="/ɥit/",
+            ),
+            VocabularyEntry(
+                word="neuf",
+                pos="numeral",
+                definition="Le nombre 9.",
+                example="J'ai neuf ans.",
+                ipa="/nœf/",
+            ),
+            VocabularyEntry(
+                word="dix",
+                pos="numeral",
+                definition="Le nombre 10.",
+                example="L'exercice a dix questions.",
+                ipa="/dis/",
+            ),
+            VocabularyEntry(
+                word="onze",
+                pos="numeral",
+                definition="Le nombre 11.",
+                example="Nous arrivons à onze heures.",
+                ipa="/ɔ̃z/",
+            ),
+            VocabularyEntry(
+                word="douze",
+                pos="numeral",
+                definition="Le nombre 12.",
+                example="L'année a douze mois.",
+                ipa="/duz/",
+            ),
+            VocabularyEntry(
+                word="treize",
+                pos="numeral",
+                definition="Le nombre 13.",
+                example="Elle a treize ans.",
+                ipa="/tʁɛz/",
+            ),
+            VocabularyEntry(
+                word="quatorze",
+                pos="numeral",
+                definition="Le nombre 14.",
+                example="Il y a quatorze élèves.",
+                ipa="/katɔʁz/",
+            ),
+            VocabularyEntry(
+                word="quinze",
+                pos="numeral",
+                definition="Le nombre 15.",
+                example="J'ai besoin de quinze minutes.",
+                ipa="/kɛ̃z/",
+            ),
+            VocabularyEntry(
+                word="seize",
+                pos="numeral",
+                definition="Le nombre 16.",
+                example="J'ai seize ans.",
+                ipa="/sɛz/",
+            ),
+            VocabularyEntry(
+                word="dix-sept",
+                pos="numeral",
+                definition="Le nombre 17.",
+                example="Cela coûte dix-sept euros.",
+                ipa="/dis sɛt/",
+            ),
+            VocabularyEntry(
+                word="dix-huit",
+                pos="numeral",
+                definition="Le nombre 18.",
+                example="Il a dix-huit ans.",
+                ipa="/diz ɥit/",
+            ),
+            VocabularyEntry(
+                word="dix-neuf",
+                pos="numeral",
+                definition="Le nombre 19.",
+                example="Il y a dix-neuf chaises.",
+                ipa="/diz nœf/",
+            ),
+            VocabularyEntry(
+                word="vingt",
+                pos="numeral",
+                definition="Le nombre 20.",
+                example="J'ai vingt ans.",
+                ipa="/vɛ̃/",
             ),
         ],
     ),
@@ -1673,6 +2051,230 @@ A1_SETS: list[VocabularySet] = [
                 example="Un orage est prévu ce soir.",
                 ipa="/lɔʁaʒ/",
             ),
+        ],
+    ),
+    VocabularySet(
+        id="couleurs_fr_a1",
+        level="A1",
+        topic="Couleurs",
+        unit_ref="a1-unit-3",
+        words=[
+            _entry(
+                "rouge", "adjective", "Couleur comme une tomate mûre.", "J'ai un t-shirt rouge."
+            ),
+            _entry("bleu", "adjective", "Couleur comme le ciel clair.", "La voiture est bleue."),
+            _entry("vert", "adjective", "Couleur comme l'herbe.", "La porte est verte."),
+            _entry(
+                "jaune",
+                "adjective",
+                "Couleur comme le soleil ou le citron.",
+                "Le crayon jaune est ici.",
+            ),
+            _entry("noir", "adjective", "Couleur très sombre.", "Je porte des chaussures noires."),
+            _entry("blanc", "adjective", "Couleur comme la neige.", "La chemise est blanche."),
+            _entry("gris", "adjective", "Couleur entre blanc et noir.", "Le ciel est gris."),
+            _entry(
+                "marron",
+                "adjective",
+                "Couleur comme le bois ou le chocolat.",
+                "La table est marron.",
+            ),
+            _entry("orange", "adjective", "Couleur comme le fruit orange.", "J'ai un sac orange."),
+            _entry(
+                "rose", "adjective", "Couleur claire entre rouge et blanc.", "La robe est rose."
+            ),
+        ],
+    ),
+    VocabularySet(
+        id="corps_fr_a1",
+        level="A1",
+        topic="Parties du corps",
+        unit_ref="a1-unit-3",
+        words=[
+            _entry("la tête", "noun", "Partie supérieure du corps.", "J'ai mal à la tête."),
+            _entry("le visage", "noun", "Partie avant de la tête.", "Elle a le visage rond."),
+            _entry("l'œil", "noun", "Organe pour voir.", "Il a les yeux verts."),
+            _entry("l'oreille", "noun", "Partie du corps pour entendre.", "J'ai mal à l'oreille."),
+            _entry("le nez", "noun", "Partie du visage pour sentir.", "Elle a un petit nez."),
+            _entry(
+                "la bouche",
+                "noun",
+                "Partie du visage pour parler et manger.",
+                "Ouvre la bouche, s'il te plaît.",
+            ),
+            _entry("la main", "noun", "Partie au bout du bras.", "Lève la main."),
+            _entry(
+                "le bras", "noun", "Partie du corps de l'épaule à la main.", "J'ai mal au bras."
+            ),
+            _entry("la jambe", "noun", "Partie du corps pour marcher.", "Il a de longues jambes."),
+            _entry("le pied", "noun", "Partie au bout de la jambe.", "J'ai mal au pied."),
+        ],
+    ),
+    VocabularySet(
+        id="vetements_fr_a1",
+        level="A1",
+        topic="Vêtements",
+        unit_ref="a1-unit-3",
+        words=[
+            _entry(
+                "la chemise", "noun", "Vêtement pour le haut du corps.", "La chemise est blanche."
+            ),
+            _entry(
+                "le t-shirt",
+                "noun",
+                "Vêtement informel à manches courtes ou longues.",
+                "Je porte un t-shirt bleu.",
+            ),
+            _entry(
+                "le pantalon", "noun", "Vêtement qui couvre les jambes.", "Le pantalon est noir."
+            ),
+            _entry("la robe", "noun", "Vêtement d'une seule pièce.", "La robe est rouge."),
+            _entry("la jupe", "noun", "Vêtement de la taille vers le bas.", "La jupe est verte."),
+            _entry(
+                "les chaussures",
+                "noun",
+                "Vêtements pour les pieds.",
+                "J'ai besoin de nouvelles chaussures.",
+            ),
+            _entry(
+                "le manteau",
+                "noun",
+                "Vêtement chaud pour l'extérieur.",
+                "Je porte un manteau en hiver.",
+            ),
+            _entry(
+                "la veste",
+                "noun",
+                "Vêtement léger pour l'extérieur.",
+                "La veste est sur la chaise.",
+            ),
+            _entry(
+                "le chapeau",
+                "noun",
+                "Vêtement pour couvrir la tête.",
+                "Il porte un chapeau marron.",
+            ),
+            _entry(
+                "les chaussettes",
+                "noun",
+                "Vêtements pour les pieds dans les chaussures.",
+                "Mes chaussettes sont grises.",
+            ),
+        ],
+    ),
+    VocabularySet(
+        id="maison_fr_a1",
+        level="A1",
+        topic="Maison et pièces",
+        unit_ref="a1-unit-6",
+        words=[
+            _entry(
+                "la maison",
+                "noun",
+                "Lieu où vit une personne ou une famille.",
+                "Ma maison est près du centre.",
+            ),
+            _entry(
+                "l'appartement",
+                "noun",
+                "Logement dans un immeuble.",
+                "J'habite dans un petit appartement.",
+            ),
+            _entry("la pièce", "noun", "Espace dans une maison.", "Cette pièce est grande."),
+            _entry(
+                "la cuisine", "noun", "Lieu où l'on prépare les repas.", "La cuisine est propre."
+            ),
+            _entry(
+                "la salle de bain", "noun", "Pièce pour se laver.", "La salle de bain est au fond."
+            ),
+            _entry(
+                "le salon",
+                "noun",
+                "Pièce pour se reposer ou recevoir des invités.",
+                "Nous regardons la télé dans le salon.",
+            ),
+            _entry("la chambre", "noun", "Pièce pour dormir.", "La chambre a un lit."),
+            _entry(
+                "la table",
+                "noun",
+                "Meuble avec une surface plate.",
+                "La table est dans la cuisine.",
+            ),
+            _entry("la chaise", "noun", "Meuble pour s'asseoir.", "Il y a quatre chaises."),
+            _entry("le lit", "noun", "Meuble pour dormir.", "Le lit est confortable."),
+        ],
+    ),
+    VocabularySet(
+        id="dates_fr_a1",
+        level="A1",
+        topic="Jours, mois et dates",
+        unit_ref="a1-unit-7",
+        words=[
+            _entry("lundi", "noun", "Premier jour ouvrable de la semaine.", "Lundi, j'ai cours."),
+            _entry("mardi", "noun", "Jour après lundi.", "Mardi, je travaille."),
+            _entry("mercredi", "noun", "Jour entre mardi et jeudi.", "Mercredi, j'étudie."),
+            _entry("jeudi", "noun", "Jour après mercredi.", "Jeudi, je vais au cinéma."),
+            _entry("vendredi", "noun", "Jour avant samedi.", "Vendredi, je sors."),
+            _entry("samedi", "noun", "Jour du week-end.", "Samedi, je me repose."),
+            _entry(
+                "dimanche", "noun", "Dernier jour de la semaine.", "Dimanche, je visite ma famille."
+            ),
+            _entry(
+                "janvier", "noun", "Premier mois de l'année.", "Mon anniversaire est en janvier."
+            ),
+            _entry("février", "noun", "Deuxième mois de l'année.", "Février est court."),
+            _entry("mars", "noun", "Troisième mois de l'année.", "En mars, le printemps commence."),
+            _entry("avril", "noun", "Quatrième mois de l'année.", "Je voyage en avril."),
+            _entry("mai", "noun", "Cinquième mois de l'année.", "Il fait beau en mai."),
+            _entry("juin", "noun", "Sixième mois de l'année.", "Je termine le cours en juin."),
+            _entry("juillet", "noun", "Septième mois de l'année.", "Il fait chaud en juillet."),
+            _entry("août", "noun", "Huitième mois de l'année.", "Je suis en vacances en août."),
+            _entry("septembre", "noun", "Neuvième mois de l'année.", "Septembre commence bientôt."),
+            _entry(
+                "octobre", "noun", "Dixième mois de l'année.", "Je travaille beaucoup en octobre."
+            ),
+            _entry("novembre", "noun", "Onzième mois de l'année.", "Novembre est frais."),
+            _entry(
+                "décembre", "noun", "Douzième mois de l'année.", "Décembre est le dernier mois."
+            ),
+            _entry("aujourd'hui", "adverb", "Le jour actuel.", "Aujourd'hui, j'ai cours."),
+            _entry("demain", "adverb", "Le jour après aujourd'hui.", "Demain, je travaille."),
+            _entry("hier", "adverb", "Le jour avant aujourd'hui.", "Hier, j'ai étudié."),
+            _entry(
+                "la date",
+                "noun",
+                "Jour, mois et année d'un événement.",
+                "Quelle est la date d'aujourd'hui ?",
+            ),
+        ],
+    ),
+    VocabularySet(
+        id="objets_classe_fr_a1",
+        level="A1",
+        topic="Objets de classe et apprentissage",
+        unit_ref="a1-unit-1",
+        words=[
+            _entry(
+                "le livre", "noun", "Ensemble de pages à lire.", "Ouvre le livre, s'il te plaît."
+            ),
+            _entry(
+                "le cahier",
+                "noun",
+                "Objet pour écrire des notes.",
+                "J'écris les mots nouveaux dans mon cahier.",
+            ),
+            _entry("le stylo", "noun", "Objet pour écrire avec de l'encre.", "Tu as un stylo ?"),
+            _entry(
+                "le crayon", "noun", "Objet pour écrire ou dessiner.", "Écris la réponse au crayon."
+            ),
+            _entry("la page", "noun", "Un côté d'une feuille dans un livre.", "Lis la page dix."),
+            _entry(
+                "le mot", "noun", "Unité de langue avec un sens.", "Ce mot est nouveau pour moi."
+            ),
+            _entry("la phrase", "noun", "Groupe de mots avec un sens.", "Écris une phrase."),
+            _entry("la question", "noun", "Quelque chose que l'on demande.", "J'ai une question."),
+            _entry("la réponse", "noun", "Réponse à une question.", "Écris la réponse ici."),
+            _entry("l'exercice", "noun", "Activité pour pratiquer.", "Cet exercice est facile."),
         ],
     ),
     VocabularySet(

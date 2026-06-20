@@ -306,6 +306,19 @@ Admin should not edit review content. If content is not acceptable, the review s
 
 ---
 
+## Admin email notifications
+
+When a user creates a new product review with `POST /api/reviews`, an email is sent to `CONTACT_EMAIL` (if `EMAIL_ENABLED=true` and `CONTACT_EMAIL` is configured).
+
+- **Triggered by:** `POST /api/reviews` only. Editing an existing review with `PATCH /api/reviews/me` does not send a notification.
+- **Language:** native language of the first admin user by ascending `id`, with English fallback for unsupported locales.
+- **Subject:** localized equivalent of `[New Review] <rating>/5 — <display name>`.
+- **Template:** `backend/app/templates/email/review_submitted.html` — shows reviewer display name, rating, learning language, optional comment, and a link to the admin review moderation queue at `APP_BASE_URL/admin/reviews`.
+- **Implementation:** `email_service.send_review_notification()`. Called via `asyncio.create_task()` after the review is committed to avoid blocking the HTTP response. Errors are logged but never re-raised — the review is already persisted.
+- **Config:** reuses existing `EMAIL_ENABLED` and `CONTACT_EMAIL` settings; no new env vars required.
+
+---
+
 ## Backend tests
 
 - Create a valid review.
@@ -314,6 +327,8 @@ Admin should not edit review content. If content is not acceptable, the review s
 - Reject `rating > 5`.
 - Allow missing or empty comment.
 - Reject a second review for the same user with HTTP 409.
+- Creating a review sends one admin email notification in the first admin's native language.
+- Updating an existing review does not send a review-created admin email notification.
 - `GET /api/reviews/me` returns no-review state when absent.
 - `GET /api/reviews/me` returns the user's review when present.
 - Public endpoint excludes unapproved reviews.

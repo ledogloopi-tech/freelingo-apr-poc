@@ -179,7 +179,7 @@ Full-duplex voice conversation pipeline.
 
 **Authentication**: After the WebSocket handshake is accepted, the client must send a JSON message `{"type": "auth", "token": "<access_token>"}` within 10 seconds. If missing, malformed, or invalid, the server closes the connection with code 1008.
 
-**Message flow**: Client sends audio chunks → STT transcription → LLM generates response (streamed) → sentence-level TTS → MP3 audio chunks returned. The server starts the greeting as a cancellable task and immediately enters the receive loop, so user speech can barge in during the initial greeting.
+**Message flow**: Client sends audio chunks → STT transcription → LLM generates full response → sentence-level TTS → MP3 audio chunks returned. The server starts the greeting as a cancellable task and immediately enters the receive loop; backend barge-in protocol remains available, while the current frontend ignores user speech during active tutor turns for stability.
 
 **Client → Server message types:**
 
@@ -200,7 +200,7 @@ Full-duplex voice conversation pipeline.
 
 **Features:**
 
-- **Barge-in**: new audio input cancels the initial greeting or any ongoing LLM/TTS response
+- **Barge-in protocol**: explicit interrupts or new audio input can cancel the initial greeting or any ongoing LLM/TTS response server-side; the current frontend disables automatic interruption during active tutor turns
 - **Empty STT guard**: empty/whitespace transcriptions are ignored and do not trigger an assistant reply
 - **Serialized server sends**: JSON frames, binary audio chunks, timeout warnings, and close frames are written through one send lock to avoid concurrent WebSocket writes
 - **VAD**: browser-level voice activity detection (`@ricky0123/vad-react` + onnxruntime-web threaded WASM)
@@ -251,7 +251,7 @@ All endpoints require `get_current_user`. Status update requires `require_admin`
 User review endpoints. Admin moderation endpoints live under `/api/admin/reviews`.
 
 - **GET `/me`** — Rate limit: 60/min. Auth: get_current_user. Returns `{has_review, review}` for the authenticated user. `review` is `null` when the user has not submitted one.
-- **POST ``** — Rate limit: 5/hour. Auth: get_current_user. Creates the authenticated user's single review. Body: `{rating: 1-5, comment?: string}`. Stores display-name and active-learning-language snapshots server-side, creates with `is_approved=false`, returns HTTP 201, and returns HTTP 409 with `review_already_exists` if the user already has a review.
+- **POST ``** — Rate limit: 5/hour. Auth: get_current_user. Creates the authenticated user's single review and queues an admin email notification to `CONTACT_EMAIL` when email is configured. Body: `{rating: 1-5, comment?: string}`. Stores display-name and active-learning-language snapshots server-side, creates with `is_approved=false`, returns HTTP 201, and returns HTTP 409 with `review_already_exists` if the user already has a review.
 - **PATCH `/me`** — Rate limit: 10/hour. Auth: get_current_user. Updates the authenticated user's existing review. Body: `{rating: 1-5, comment?: string}`. Refreshes display-name and active-learning-language snapshots, resets `is_approved=false`, returns the updated review, and returns HTTP 404 with `review_not_found` if the user has not submitted one yet.
 - **DELETE `/me`** — Rate limit: 10/hour. Auth: get_current_user. Deletes the authenticated user's existing review and returns HTTP 204. Returns HTTP 404 with `review_not_found` if the user has not submitted one yet.
 - **GET `/public`** — Rate limit: 60/min. Public. Returns approved landing reviews only (`is_approved=true` and `rating >= 4`), ordered newest-first. Query param: `limit` (default 20, max 100). Response omits `user_id` and `is_approved`.

@@ -11,7 +11,13 @@ A1_UNITS: list[CurriculumUnit] = [
         unit_number=1,
         title="Saudações e apresentações",
         grammar_points=["ser", "estar", "pronomes-sujeito", "artigos-definidos"],
-        vocabulary_set_ids=["saudações_a1", "apresentações_a1"],
+        vocabulary_set_ids=[
+            "alfabeto_a1",
+            "números_a1",
+            "objetos_aula_a1",
+            "saudações_a1",
+            "apresentações_a1",
+        ],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Apresenta-se usando ser e estar: Chamo-me Inês, sou portuguesa, tenho 28 anos, estou bem; e trata corretamente por tu/você no pt-PT (tu no informal, o senhor/a senhora no formal)",
@@ -45,7 +51,7 @@ A1_UNITS: list[CurriculumUnit] = [
         unit_number=3,
         title="A família e descrições",
         grammar_points=["ter", "adjetivos-possessivos", "adjetivos-descritivos", "demonstrativos"],
-        vocabulary_set_ids=["família_a1", "descrições_a1"],
+        vocabulary_set_ids=["família_a1", "descrições_a1", "cores_a1", "corpo_a1", "roupa_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Nomeia membros da família e usa ter para posse e idade: Tenho dois irmãos, A minha mãe tem 55 anos",
@@ -96,7 +102,7 @@ A1_UNITS: list[CurriculumUnit] = [
         unit_number=6,
         title="Lugares e direções",
         grammar_points=["estar", "haver", "preposicoes-lugar", "contracoes-preposicionais"],
-        vocabulary_set_ids=["lugares_a1", "direções_a1"],
+        vocabulary_set_ids=["lugares_a1", "direções_a1", "casa_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Usa as contrações preposicionais obrigatórias: de+o=do, de+a=da, de+os=dos, de+as=das; em+o=no, em+a=na; a+o=ao, a+a=à; por+o=pelo, por+a=pela",
@@ -113,7 +119,7 @@ A1_UNITS: list[CurriculumUnit] = [
         unit_number=7,
         title="Planos e futuro próximo",
         grammar_points=["ir-futuro", "querer-poder", "dias-semana", "estar-a-infinitivo"],
-        vocabulary_set_ids=["transporte_a1", "clima_a1"],
+        vocabulary_set_ids=["transporte_a1", "clima_a1", "datas_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Forma ir + infinitivo para ações planeadas (Vou estudar amanhã, O que vais fazer?) e reconhece este padrão como muito frequente no uso informal",

@@ -62,7 +62,7 @@ A2_UNITS: list[CurriculumUnit] = [
             "personalpronomen-akk-dat",
             "indirekte-fragen",
         ],
-        vocabulary_set_ids=["einkaufen_de_a2", "geschenke_de_a2"],
+        vocabulary_set_ids=["einkaufen_de_a2", "geschenke_de_a2", "geld_preise_de_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Verwendet den Dativ als indirektes Objekt mit häufigen Verben: geben, schenken, helfen, danken, gehören, gefallen (Ich gebe dem Mann das Buch, Sie hilft ihrer Mutter)",
@@ -84,7 +84,7 @@ A2_UNITS: list[CurriculumUnit] = [
             "superlativ",
             "vergleich-als-wie",
         ],
-        vocabulary_set_ids=["staedte_de_a2", "kultur_de_a2"],
+        vocabulary_set_ids=["staedte_de_a2", "kultur_de_a2", "tiere_natur_de_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Bildet den Komparativ mit Adjektiv + -er: Berlin ist größer als München, Dieser Film ist interessanter",

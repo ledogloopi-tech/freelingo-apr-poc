@@ -1,6 +1,11 @@
 """A2 vocabulary sets — French (fr-FR)."""
 
-from app.data._types import VocabularyEntry, VocabularySet
+from app.data._types import PartOfSpeech, VocabularyEntry, VocabularySet
+
+
+def _entry(word: str, pos: PartOfSpeech, definition: str, example: str) -> VocabularyEntry:
+    return VocabularyEntry(word=word, pos=pos, definition=definition, example=example)
+
 
 A2_SETS: list[VocabularySet] = [
     VocabularySet(
@@ -1577,6 +1582,92 @@ A2_SETS: list[VocabularySet] = [
                 example="C'est juste une blague !",
                 ipa="/la blaɡ/",
             ),
+        ],
+    ),
+    VocabularySet(
+        id="argent_prix_fr_a2",
+        level="A2",
+        topic="Argent et prix",
+        unit_ref="a2-unit-3",
+        words=[
+            _entry(
+                "l'argent",
+                "noun",
+                "Moyen utilisé pour acheter des choses.",
+                "Je n'ai pas d'argent liquide.",
+            ),
+            _entry(
+                "le prix",
+                "noun",
+                "Somme que coûte quelque chose.",
+                "Quel est le prix de cette chemise ?",
+            ),
+            _entry(
+                "l'euro",
+                "noun",
+                "Monnaie utilisée en France et dans d'autres pays européens.",
+                "Cela coûte dix euros.",
+            ),
+            _entry(
+                "payer",
+                "verb",
+                "Donner de l'argent pour quelque chose.",
+                "Je vais payer par carte.",
+            ),
+            _entry("coûter", "verb", "Avoir un prix.", "Combien ça coûte ?"),
+            _entry(
+                "bon marché", "adjective", "Qui ne coûte pas cher.", "Ce restaurant est bon marché."
+            ),
+            _entry("cher", "adjective", "Qui coûte beaucoup d'argent.", "L'hôtel est cher."),
+            _entry("la carte", "noun", "Carte bancaire pour payer.", "Je paie par carte."),
+            _entry(
+                "le liquide", "noun", "Argent en pièces ou billets.", "Je préfère payer en liquide."
+            ),
+            _entry("la monnaie", "noun", "Argent rendu après un paiement.", "Voici votre monnaie."),
+        ],
+    ),
+    VocabularySet(
+        id="animaux_nature_fr_a2",
+        level="A2",
+        topic="Animaux et nature",
+        unit_ref="a2-unit-4",
+        words=[
+            _entry("le chien", "noun", "Animal domestique courant.", "Mon chien est calme."),
+            _entry(
+                "le chat",
+                "noun",
+                "Animal domestique qui vit souvent à la maison.",
+                "Le chat dort sur le canapé.",
+            ),
+            _entry(
+                "l'oiseau",
+                "noun",
+                "Animal avec des ailes et des plumes.",
+                "Il y a un oiseau dans l'arbre.",
+            ),
+            _entry(
+                "l'arbre",
+                "noun",
+                "Grande plante avec un tronc et des branches.",
+                "L'arbre donne de l'ombre.",
+            ),
+            _entry(
+                "la fleur", "noun", "Partie colorée de nombreuses plantes.", "La fleur est jaune."
+            ),
+            _entry("la rivière", "noun", "Cours d'eau naturel.", "La rivière traverse la ville."),
+            _entry(
+                "la montagne", "noun", "Grande élévation de terrain.", "La montagne est enneigée."
+            ),
+            _entry(
+                "la plage",
+                "noun",
+                "Lieu avec du sable au bord de la mer.",
+                "Nous allons à la plage en été.",
+            ),
+            _entry(
+                "la forêt", "noun", "Lieu avec beaucoup d'arbres.", "Nous marchons dans la forêt."
+            ),
+            _entry("la mer", "noun", "Grande masse d'eau salée.", "La mer est calme."),
         ],
     ),
     VocabularySet(

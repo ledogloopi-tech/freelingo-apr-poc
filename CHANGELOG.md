@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.9] - 2026-06-20
+
+### Changed
+
+- **Admin email localization**: admin-facing contact-form and feedback-board notification emails now use the native language of the first admin user (`id ASC`), with English as fallback if the locale is unsupported. The What's New marker was bumped to `v1.8.9` while keeping the existing What's New entry text unchanged.
+- **Review moderation emails**: creating a product review now sends a localized admin notification to `CONTACT_EMAIL`, linking to `/admin/reviews` for approval.
+- **Voice conversation audio latency**: tutor replies are now synthesized and streamed to the browser sentence by sentence, so playback can start after the first sentence is ready instead of waiting for the full response audio. The frontend still ignores user speech while the tutor turn is active, keeping stable non-interrupting voice sessions. If every sentence-level TTS attempt fails, the tutor response is shown as text and the turn completes normally.
+
 ## [1.8.8] - 2026-06-19
 
 ### Added

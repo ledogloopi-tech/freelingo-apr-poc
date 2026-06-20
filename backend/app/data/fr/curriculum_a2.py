@@ -52,7 +52,7 @@ A2_UNITS: list[CurriculumUnit] = [
         unit_number=3,
         title="Les pronoms compléments",
         grammar_points=["pronoms-cod", "pronoms-coi", "pronoms-y-en", "ordre-pronoms"],
-        vocabulary_set_ids=["achats_fr_a2", "cadeaux_fr_a2"],
+        vocabulary_set_ids=["achats_fr_a2", "cadeaux_fr_a2", "argent_prix_fr_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Remplace les compléments d'objet direct par le/la/l'/les : Tu vois le film ? Oui, je le vois",
@@ -70,7 +70,7 @@ A2_UNITS: list[CurriculumUnit] = [
         unit_number=4,
         title="Comparaisons et superlatifs",
         grammar_points=["comparatifs", "superlatifs", "meilleur-mieux"],
-        vocabulary_set_ids=["villes_fr_a2", "culture_fr_a2"],
+        vocabulary_set_ids=["villes_fr_a2", "culture_fr_a2", "animaux_nature_fr_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Compare avec plus/moins/aussi + adjectif/adverbe + que : Paris est plus grand que Lyon",

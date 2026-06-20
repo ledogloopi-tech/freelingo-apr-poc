@@ -11,7 +11,13 @@ A1_UNITS: list[CurriculumUnit] = [
         unit_number=1,
         title="Saluti e presentazioni",
         grammar_points=["essere", "avere", "pronomi-soggetto", "articoli-determinativi"],
-        vocabulary_set_ids=["saluti_a1", "presentazioni_a1"],
+        vocabulary_set_ids=[
+            "alfabeto_a1",
+            "numeri_a1",
+            "oggetti_classe_a1",
+            "saluti_a1",
+            "presentazioni_a1",
+        ],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Si presenta usando essere e avere: nome, età, nazionalità — Sono Marco, ho 25 anni, sono italiano",
@@ -54,7 +60,7 @@ A1_UNITS: list[CurriculumUnit] = [
             "dimostrativi",
             "ce-ci-sono",
         ],
-        vocabulary_set_ids=["famiglia_a1", "descrizioni_a1"],
+        vocabulary_set_ids=["famiglia_a1", "descrizioni_a1", "colori_a1", "corpo_a1", "vestiti_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Usa gli aggettivi possessivi (mio, tuo, suo, nostro, vostro, loro) con l'articolo nella maggior parte dei casi: la mia famiglia, il mio cane — ma omette l'articolo con i nomi di famiglia singolari non modificati: mia madre, tuo fratello, sua sorella",
@@ -105,7 +111,7 @@ A1_UNITS: list[CurriculumUnit] = [
         unit_number=6,
         title="Luoghi e indicazioni",
         grammar_points=["preposizioni-luogo", "imperativo-informale", "numeri-ordinali"],
-        vocabulary_set_ids=["luoghi_a1", "indicazioni_a1"],
+        vocabulary_set_ids=["luoghi_a1", "indicazioni_a1", "casa_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Usa correttamente le preposizioni articolate: nel, nello, nella, nei, negli, nelle; al, allo, alla, ai, agli, alle",
@@ -122,7 +128,7 @@ A1_UNITS: list[CurriculumUnit] = [
         unit_number=7,
         title="Piani e futuro",
         grammar_points=["futuro-semplice", "stare-per", "giorni-settimana"],
-        vocabulary_set_ids=["trasporti_a1", "meteo_a1"],
+        vocabulary_set_ids=["trasporti_a1", "meteo_a1", "date_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Coniuga il futuro semplice dei verbi regolari: parlerò, leggerai, partirà — e le radici irregolari più comuni: sar-, avrò, farò, andrò, verrò, dovrò, potrò, vorrò",

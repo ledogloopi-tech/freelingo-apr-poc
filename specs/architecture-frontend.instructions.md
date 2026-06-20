@@ -331,16 +331,16 @@ Client sends first JSON auth frame with access token, voice preference, target l
     ↓
 VAD detects speech → send WAV chunks via WS
     ↓
-Server: STT → LLM response → TTS
+Server: STT → full LLM response → sentence-level TTS chunks
     ↓
-Receive MP3 binary frame via WS → AudioQueue schedules playback
+Receive MP3 binary frames via WS → AudioQueue schedules playback in order
     ↓
 AudioQueue drains → clear assistant speaking state from playback `onIdle`
 ```
 
 `ConversationMode` guards the session lifecycle with a per-start attempt id. If microphone startup fails, the user stops the session, or the component unmounts while the warmup request is still pending, the pending attempt is invalidated so it cannot open a stale WebSocket afterwards.
 
-The voice UI does not clear `assistantSpeaking` from `turn_complete` or `status=listening`; it waits for the audio queue idle callback so the visible speaking state follows actual playback. The backend `barge_in` protocol remains supported, but automatic frontend barge-in during assistant playback is disabled by default for stable turn completion.
+The voice UI does not clear `assistantSpeaking` from `turn_complete` or `status=listening`; it waits for the audio queue idle callback so the visible speaking state follows actual playback. A separate assistant-turn guard ignores VAD detections while the tutor is generating or sending chunked audio, so automatic frontend barge-in remains disabled for stable turn completion while the backend `barge_in` protocol stays available.
 
 ## Tests
 
