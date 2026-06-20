@@ -290,11 +290,11 @@ All configuration is environment-driven. Variables are defined in `app/core/conf
 
 ### Other
 
-| Variable                   | Default                                   | Purpose                                              |
-| -------------------------- | ----------------------------------------- | ---------------------------------------------------- |
-| RATE_LIMIT_ENABLED         | true                                      | Enable slowapi rate limiting                         |
-| AUDIO_STORAGE_PATH         | /data/audio                               | Docker volume path for generated listening MP3 files |
-| AVAILABLE_TARGET_LANGUAGES | ["en-US","en-GB","es-ES","it-IT","pt-PT"] | BCP-47 codes of supported target languages           |
+| Variable                   | Default                                                                           | Purpose                                                                                                                       |
+| -------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| RATE_LIMIT_ENABLED         | true                                                                              | Enable slowapi rate limiting                                                                                                  |
+| AUDIO_STORAGE_PATH         | /data/audio                                                                       | Docker volume path for generated listening MP3 files                                                                          |
+| AVAILABLE_TARGET_LANGUAGES | ["de-DE","en-US","en-GB","es-ES","fr-FR","it-IT","pt-PT","ja-JP","ko-KR","zh-CN"] | Operator-configured BCP-47 target-language list; entries not present in backend `SUPPORTED_TARGET_LANGUAGES` are filtered out |
 
 ### Docker-level variables (not consumed by Python backend)
 

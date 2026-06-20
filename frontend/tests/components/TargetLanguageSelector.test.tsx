@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import React from 'react'
 import TargetLanguageSelector from '@/components/TargetLanguageSelector'
+import { TARGET_LANGUAGE_CATALOG } from '@/lib/target-languages'
 
 vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
@@ -35,6 +36,7 @@ describe('TargetLanguageSelector', () => {
     'fr-FR',
     'de-DE',
   ]
+  const catalogCodes = TARGET_LANGUAGE_CATALOG.map((lang) => lang.code)
 
   it('renders only languages matching availableCodes', () => {
     render(
@@ -54,12 +56,12 @@ describe('TargetLanguageSelector', () => {
       <TargetLanguageSelector
         value="en-GB"
         onChange={() => {}}
-        availableCodes={allCodes}
+        availableCodes={catalogCodes}
       />
     )
 
     const buttons = screen.getAllByRole('button')
-    expect(buttons).toHaveLength(7)
+    expect(buttons).toHaveLength(10)
   })
 
   it('renders nothing when availableCodes is empty', () => {
@@ -76,8 +78,8 @@ describe('TargetLanguageSelector', () => {
     expect(div.children).toHaveLength(0)
   })
 
-  it('renders nothing when no supported language matches availableCodes', () => {
-    const { container } = render(
+  it('renders CJK catalog languages when availableCodes includes them', () => {
+    render(
       <TargetLanguageSelector
         value="en-GB"
         onChange={() => {}}
@@ -85,9 +87,14 @@ describe('TargetLanguageSelector', () => {
       />
     )
 
-    expect(screen.queryByRole('button')).toBeNull()
-    const div = container.firstChild as HTMLElement
-    expect(div.children).toHaveLength(0)
+    const buttons = screen.getAllByRole('button')
+    expect(buttons).toHaveLength(2)
+    expect(buttons.map((button) => button.textContent).join(' ')).toContain(
+      'ja-JP'
+    )
+    expect(buttons.map((button) => button.textContent).join(' ')).toContain(
+      'ko-KR'
+    )
   })
 
   it('shows active state for the selected language', () => {
@@ -156,7 +163,7 @@ describe('TargetLanguageSelector', () => {
       <TargetLanguageSelector
         value="en-US"
         onChange={() => {}}
-        availableCodes={allCodes}
+        availableCodes={catalogCodes}
       />
     )
 
@@ -170,6 +177,9 @@ describe('TargetLanguageSelector', () => {
     expect(srcs).toContain('/flags/portugal.jpg')
     expect(srcs).toContain('/flags/france.jpg')
     expect(srcs).toContain('/flags/germany.jpg')
+    expect(srcs).toContain('/flags/japan.jpg')
+    expect(srcs).toContain('/flags/south_korea.jpg')
+    expect(srcs).toContain('/flags/china.jpg')
   })
 
   it('displays translated names from targetLanguages namespace', () => {

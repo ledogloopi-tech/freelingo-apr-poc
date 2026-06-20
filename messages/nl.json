@@ -37,7 +37,10 @@
       "es-ES": "¡Hola!",
       "fr-FR": "Bonjour !",
       "it-IT": "Ciao!",
-      "pt-PT": "Olá!"
+      "pt-PT": "Olá!",
+      "ja-JP": "こんにちは！",
+      "ko-KR": "안녕하세요!",
+      "zh-CN": "你好！"
     }
   },
   "common": {
@@ -1082,19 +1085,28 @@
     "pt-PT": "Portugees",
     "fr-FR": "Frans",
     "de-DE": "Duits",
+    "ja-JP": "Japans",
+    "ko-KR": "Koreaans",
+    "zh-CN": "Chinees (vasteland China)",
     "en": "Engels",
     "es": "Spaans",
     "it": "Italiaans",
     "pt": "Portugees",
     "fr": "Frans",
     "de": "Duits",
+    "ja": "Japans",
+    "ko": "Koreaans",
+    "zh": "Chinees",
     "es-ES-description": "Spaans zoals gesproken in Spanje.",
     "it-IT-description": "Italiaans zoals gesproken in Italië.",
     "pt-PT-description": "Portugees zoals gesproken in Portugal.",
     "en-US-description": "Engels zoals gesproken in de Verenigde Staten.",
     "en-GB-description": "Engels zoals gesproken in het Verenigd Koninkrijk.",
     "fr-FR-description": "Frans zoals gesproken in Frankrijk.",
-    "de-DE-description": "Duits zoals gesproken in Duitsland."
+    "de-DE-description": "Duits zoals gesproken in Duitsland.",
+    "ja-JP-description": "Japans zoals gesproken in Japan.",
+    "ko-KR-description": "Koreaans zoals gesproken in Zuid-Korea.",
+    "zh-CN-description": "Mandarijn-Chinees van het Chinese vasteland, met vereenvoudigde karakters."
   },
   "onboarding": {
     "title": "Kies jouw taal",

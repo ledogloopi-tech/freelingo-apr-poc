@@ -37,7 +37,10 @@
       "es-ES": "¡Hola!",
       "fr-FR": "Bonjour !",
       "it-IT": "Ciao!",
-      "pt-PT": "Olá!"
+      "pt-PT": "Olá!",
+      "ja-JP": "こんにちは！",
+      "ko-KR": "안녕하세요!",
+      "zh-CN": "你好！"
     }
   },
   "common": {
@@ -1082,19 +1085,28 @@
     "pt-PT": "Portoghese",
     "fr-FR": "Francese",
     "de-DE": "Tedesco",
+    "ja-JP": "Giapponese",
+    "ko-KR": "Coreano",
+    "zh-CN": "Cinese continentale",
     "en": "inglese",
     "es": "spagnolo",
     "it": "italiano",
     "pt": "portoghese",
     "fr": "francese",
     "de": "tedesco",
+    "ja": "giapponese",
+    "ko": "coreano",
+    "zh": "cinese",
     "es-ES-description": "Spagnolo parlato in Spagna.",
     "it-IT-description": "Italiano parlato in Italia.",
     "pt-PT-description": "Portoghese parlato in Portogallo.",
     "en-US-description": "Inglese parlato negli Stati Uniti.",
     "en-GB-description": "Inglese parlato nel Regno Unito.",
     "fr-FR-description": "Francese parlato in Francia.",
-    "de-DE-description": "Tedesco parlato in Germania."
+    "de-DE-description": "Tedesco parlato in Germania.",
+    "ja-JP-description": "Giapponese parlato in Giappone.",
+    "ko-KR-description": "Coreano parlato in Corea del Sud.",
+    "zh-CN-description": "Cinese mandarino della Cina continentale, con caratteri semplificati."
   },
   "onboarding": {
     "title": "Scegli la tua lingua",

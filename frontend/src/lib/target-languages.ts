@@ -75,7 +75,7 @@ function withCapabilities(
   }
 }
 
-export const SUPPORTED_TARGET_LANGUAGES: TargetLanguage[] = [
+export const TARGET_LANGUAGE_CATALOG: TargetLanguage[] = [
   withCapabilities({
     code: 'en-US',
     name: 'English (US)',
@@ -125,11 +125,39 @@ export const SUPPORTED_TARGET_LANGUAGES: TargetLanguage[] = [
     flagPath: '/flags/germany.jpg',
     iso639: 'de',
   }),
+  withCapabilities({
+    code: 'ja-JP',
+    name: '日本語',
+    nameEn: 'Japanese',
+    flagPath: '/flags/japan.jpg',
+    iso639: 'ja',
+  }),
+  withCapabilities({
+    code: 'ko-KR',
+    name: '한국어',
+    nameEn: 'Korean',
+    flagPath: '/flags/south_korea.jpg',
+    iso639: 'ko',
+  }),
+  withCapabilities({
+    code: 'zh-CN',
+    name: '中文（中国）',
+    nameEn: 'Chinese (Mainland China)',
+    flagPath: '/flags/china.jpg',
+    iso639: 'zh',
+  }),
 ]
+
+export const SUPPORTED_TARGET_LANGUAGES: TargetLanguage[] =
+  TARGET_LANGUAGE_CATALOG.filter((language) =>
+    ['en-US', 'en-GB', 'es-ES', 'it-IT', 'pt-PT', 'fr-FR', 'de-DE'].includes(
+      language.code
+    )
+  )
 
 export function getLanguageByCode(code: string): TargetLanguage | undefined {
   const upper = code.toUpperCase()
-  return SUPPORTED_TARGET_LANGUAGES.find((l) => l.code.toUpperCase() === upper)
+  return TARGET_LANGUAGE_CATALOG.find((l) => l.code.toUpperCase() === upper)
 }
 
 export function getTargetLanguageCapability(

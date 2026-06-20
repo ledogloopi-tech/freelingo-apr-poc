@@ -36,23 +36,27 @@ FreeLingo moves from "one user = one language = one study plan" to an architectu
 | `it-IT`     | Italian — **new**               |
 | `pt-PT`     | Portuguese (Portugal) — **new** |
 
-### CJK frontend readiness
+### CJK frontend catalog readiness
 
-The frontend is prepared for future Japanese, Korean, and Mainland Chinese support without making those languages selectable yet. The selectable language list remains controlled by `SUPPORTED_TARGET_LANGUAGES`.
+The frontend catalog includes Japanese, Korean, and Mainland Chinese metadata. Static/default surfaces still use the current `SUPPORTED_TARGET_LANGUAGES` list, while selectable surfaces use `TARGET_LANGUAGE_CATALOG` filtered by backend-provided `availableCodes` / `availableLanguageCodes`.
 
-Prepared capabilities live in `frontend/src/lib/target-languages.ts`:
+Prepared capabilities and catalog entries live in `frontend/src/lib/target-languages.ts`:
 
-| Future code | Capability metadata                                                                 |
-| ----------- | ----------------------------------------------------------------------------------- |
-| `ja-JP`     | `script=hiragana-katakana-kanji`, `fontClass=font-target-ja`, `romanization=romaji` |
-| `ko-KR`     | `script=hangul`, `fontClass=font-target-ko`, `romanization=revised-romanization`    |
-| `zh-CN`     | `script=simplified-hanzi`, `fontClass=font-target-zh`, `romanization=pinyin`        |
+| Code    | Catalog metadata                                                                                                                      |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `ja-JP` | `name=日本語`, `nameEn=Japanese`, `flagPath=/flags/japan.jpg`, `script=hiragana-katakana-kanji`, `romanization=romaji`                |
+| `ko-KR` | `name=한국어`, `nameEn=Korean`, `flagPath=/flags/south_korea.jpg`, `script=hangul`, `romanization=revised-romanization`               |
+| `zh-CN` | `name=中文（中国）`, `nameEn=Chinese (Mainland China)`, `flagPath=/flags/china.jpg`, `script=simplified-hanzi`, `romanization=pinyin` |
 
 Learned-language content should render through `TargetLanguageText` rather than direct `font-mono` text. Current Latin-script languages keep the existing mono visual style via `font-target-latin`; future CJK content receives larger, looser, non-uppercase typography with Noto/system CJK font fallbacks.
+
+All 10 `messages/*.json` locale files include `targetLanguages` names, ISO aliases, descriptions, and landing greetings for `ja-JP`, `ko-KR`, and `zh-CN`.
 
 ### CJK backend readiness
 
 The backend service layer is prepared with prompt and metadata support for Japanese, Korean, and Mainland Chinese without changing registration schemas, environment allow-lists, or static content dispatchers.
+
+`.env.example` and `.env.dev` include `ja-JP`, `ko-KR`, and `zh-CN` in `AVAILABLE_TARGET_LANGUAGES` as operator-ready configuration. Backend `get_available_languages()` still filters that list through `SUPPORTED_TARGET_LANGUAGES`, so codes without backend curriculum support are ignored until the corresponding language phase expands the backend support set.
 
 Prepared capabilities live in `backend/app/services/language_helpers.py`:
 
@@ -103,84 +107,91 @@ Prompt overlays live in `backend/app/services/prompts/common.py` and include ali
 | `frontend/public/flags/spain.jpg`                    | 10.6 (already exists ✅) |
 | `frontend/public/flags/italy.jpg`                    | 10.6 (already exists ✅) |
 | `frontend/public/flags/portugal.jpg`                 | 10.6 (already exists ✅) |
+| `frontend/public/flags/japan.jpg`                    | CJK frontend catalog     |
+| `frontend/public/flags/south_korea.jpg`              | CJK frontend catalog     |
+| `frontend/public/flags/china.jpg`                    | CJK frontend catalog     |
 
 ---
 
 ## Modified files summary
 
-| File                                                        | Phase(s)                    |
-| ----------------------------------------------------------- | --------------------------- |
-| `backend/app/models/__init__.py`                            | 10.1                        |
-| `backend/alembic/env.py`                                    | 10.1                        |
-| `backend/app/models/study_plan.py`                          | 10.1                        |
-| `backend/app/models/progress.py`                            | 10.1                        |
-| `backend/app/models/flashcard.py`                           | 10.1                        |
-| `backend/app/models/conversation.py`                        | 10.1                        |
-| `backend/app/models/chat_history.py`                        | 10.1                        |
-| `backend/app/models/competency.py`                          | 10.1                        |
-| `backend/app/models/memory.py`                              | 10.1                        |
-| `backend/app/models/llm_usage.py`                           | 10.1                        |
-| `backend/app/services/llm_service.py`                       | 10.2                        |
-| `backend/app/services/progress_service.py`                  | 10.2                        |
-| `backend/app/services/memory_service.py`                    | 10.2                        |
-| `backend/app/services/language_helpers.py`                  | 10.2                        |
-| `backend/app/services/prompts/common.py`                    | CJK backend readiness       |
-| `backend/app/services/prompts/comprehension.py`             | CJK backend readiness       |
-| `backend/app/services/listening_service.py`                 | CJK backend readiness       |
-| `backend/app/services/reading_service.py`                   | CJK backend readiness       |
-| `backend/app/routers/assessment.py`                         | 10.3                        |
-| `backend/app/routers/study_plan.py`                         | 10.3                        |
-| `backend/app/schemas/study_plan.py`                         | 10.3                        |
-| `backend/app/schemas/auth.py`                               | 10.3                        |
-| `backend/app/main.py`                                       | 10.3                        |
-| `frontend/src/data/curriculum.ts`                           | 10.6                        |
-| `frontend/src/app/(app)/layout.tsx`                         | 10.4                        |
-| `frontend/src/app/(auth)/onboarding/page.tsx`               | 10.5                        |
-| `frontend/src/app/(app)/plan/page.tsx`                      | 10.5                        |
-| `frontend/src/app/(app)/dashboard/page.tsx`                 | 10.5                        |
-| `frontend/src/app/(app)/chat/page.tsx`                      | 10.5                        |
-| `frontend/src/app/(app)/flashcards/page.tsx`                | 10.5                        |
-| `frontend/src/app/(app)/lesson/[id]/page.tsx`               | CJK readiness               |
-| `frontend/src/app/(app)/listening/page.tsx`                 | CJK readiness               |
-| `frontend/src/app/(app)/reading/page.tsx`                   | CJK readiness               |
-| `frontend/src/app/(app)/vocabulary/[setId]/page.tsx`        | CJK readiness               |
-| `frontend/src/app/(app)/phrasebook/page.tsx`                | CJK readiness               |
-| `frontend/src/app/(app)/assessment/page.tsx`                | CJK readiness               |
-| `frontend/src/components/LanguageBubbles.tsx`               | CJK readiness               |
-| `frontend/src/components/assessment/AdaptiveQuizCard.tsx`   | CJK readiness               |
-| `frontend/src/components/conversation/TranscriptBubble.tsx` | CJK readiness               |
-| `frontend/src/components/conversation/ConversationMode.tsx` | CJK readiness               |
-| `frontend/src/app/layout.tsx`                               | CJK readiness               |
-| `frontend/src/app/globals.css`                              | CJK readiness               |
-| `frontend/src/lib/target-languages.ts`                      | 10.4, CJK readiness         |
-| `frontend/src/app/(app)/progress/page.tsx`                  | 10.5                        |
-| `messages/*.json` (all 10 locale files)                     | 10.4, 10.5, 10.6            |
-| `backend/tests/conftest.py`                                 | 10.1                        |
-| `backend/tests/test_auth.py`                                | 10.3                        |
-| `backend/tests/test_study_plan.py`                          | 10.1, 10.3                  |
-| `backend/tests/test_flashcards.py`                          | 10.3                        |
-| `backend/tests/test_lessons.py`                             | 10.3                        |
-| `backend/tests/test_chat.py`                                | 10.3                        |
-| `backend/tests/test_conversation.py`                        | 10.3                        |
-| `backend/tests/test_listening.py`                           | 10.3                        |
-| `backend/tests/test_reading.py`                             | 10.3, CJK backend readiness |
-| `backend/tests/test_progress.py`                            | 10.3                        |
-| `backend/tests/test_memories.py`                            | 10.3                        |
-| `backend/tests/test_assessment.py`                          | 10.3                        |
-| `backend/tests/test_multi_language.py`                      | 10.1, 10.2, 10.3, 10.6      |
-| `backend/tests/test_prompts.py`                             | CJK backend readiness       |
-| `backend/tests/test_listening_service.py`                   | CJK backend readiness       |
-| `frontend/tests/lib/target-languages.test.ts`               | 10.4                        |
-| `frontend/tests/components/LanguageBubbles.test.tsx`        | CJK readiness               |
-| `frontend/tests/store/language.test.ts`                     | 10.4                        |
-| `frontend/tests/components/LanguageSwitcher.test.tsx`       | 10.5                        |
-| `frontend/tests/store/language.test.ts`                     | 10.5 (My Languages page)    |
-| `specs/database-models.instructions.md`                     | 10.1                        |
-| `specs/api-endpoints.instructions.md`                       | 10.3                        |
-| `specs/services.instructions.md`                            | 10.2                        |
-| `specs/architecture-backend.instructions.md`                | 10.2                        |
-| `specs/study-plan.instructions.md`                          | 10.1                        |
-| `specs/phase-4-target-language.instructions.md`             | 10.2                        |
-| `specs/version.md`                                          | completion                  |
-| `CHANGELOG.md`                                              | completion                  |
-| `AGENTS.md`                                                 | completion                  |
+| File                                                        | Phase(s)                                  |
+| ----------------------------------------------------------- | ----------------------------------------- |
+| `backend/app/models/__init__.py`                            | 10.1                                      |
+| `backend/alembic/env.py`                                    | 10.1                                      |
+| `backend/app/models/study_plan.py`                          | 10.1                                      |
+| `backend/app/models/progress.py`                            | 10.1                                      |
+| `backend/app/models/flashcard.py`                           | 10.1                                      |
+| `backend/app/models/conversation.py`                        | 10.1                                      |
+| `backend/app/models/chat_history.py`                        | 10.1                                      |
+| `backend/app/models/competency.py`                          | 10.1                                      |
+| `backend/app/models/memory.py`                              | 10.1                                      |
+| `backend/app/models/llm_usage.py`                           | 10.1                                      |
+| `backend/app/services/llm_service.py`                       | 10.2                                      |
+| `backend/app/services/progress_service.py`                  | 10.2                                      |
+| `backend/app/services/memory_service.py`                    | 10.2                                      |
+| `backend/app/services/language_helpers.py`                  | 10.2                                      |
+| `backend/app/services/prompts/common.py`                    | CJK backend readiness                     |
+| `backend/app/services/prompts/comprehension.py`             | CJK backend readiness                     |
+| `backend/app/services/listening_service.py`                 | CJK backend readiness                     |
+| `backend/app/services/reading_service.py`                   | CJK backend readiness                     |
+| `backend/app/routers/assessment.py`                         | 10.3                                      |
+| `backend/app/routers/study_plan.py`                         | 10.3                                      |
+| `backend/app/schemas/study_plan.py`                         | 10.3                                      |
+| `backend/app/schemas/auth.py`                               | 10.3                                      |
+| `backend/app/main.py`                                       | 10.3                                      |
+| `frontend/src/data/curriculum.ts`                           | 10.6                                      |
+| `frontend/src/app/(app)/layout.tsx`                         | 10.4                                      |
+| `frontend/src/app/(auth)/onboarding/page.tsx`               | 10.5                                      |
+| `frontend/src/app/(app)/admin/users/page.tsx`               | CJK frontend catalog                      |
+| `frontend/src/app/(app)/settings/languages/page.tsx`        | CJK frontend catalog                      |
+| `frontend/src/app/(app)/plan/page.tsx`                      | 10.5                                      |
+| `frontend/src/app/(app)/dashboard/page.tsx`                 | 10.5                                      |
+| `frontend/src/app/(app)/chat/page.tsx`                      | 10.5                                      |
+| `frontend/src/app/(app)/flashcards/page.tsx`                | 10.5                                      |
+| `frontend/src/app/(app)/lesson/[id]/page.tsx`               | CJK readiness                             |
+| `frontend/src/app/(app)/listening/page.tsx`                 | CJK readiness                             |
+| `frontend/src/app/(app)/reading/page.tsx`                   | CJK readiness                             |
+| `frontend/src/app/(app)/vocabulary/[setId]/page.tsx`        | CJK readiness                             |
+| `frontend/src/app/(app)/phrasebook/page.tsx`                | CJK readiness                             |
+| `frontend/src/app/(app)/assessment/page.tsx`                | CJK readiness                             |
+| `frontend/src/components/LanguageBubbles.tsx`               | CJK readiness                             |
+| `frontend/src/components/TargetLanguageSelector.tsx`        | CJK frontend catalog                      |
+| `frontend/src/components/assessment/AdaptiveQuizCard.tsx`   | CJK readiness                             |
+| `frontend/src/components/conversation/TranscriptBubble.tsx` | CJK readiness                             |
+| `frontend/src/components/conversation/ConversationMode.tsx` | CJK readiness                             |
+| `frontend/src/app/layout.tsx`                               | CJK readiness                             |
+| `frontend/src/app/globals.css`                              | CJK readiness                             |
+| `frontend/src/lib/target-languages.ts`                      | 10.4, CJK readiness, CJK frontend catalog |
+| `frontend/src/app/(app)/progress/page.tsx`                  | 10.5                                      |
+| `messages/*.json` (all 10 locale files)                     | 10.4, 10.5, 10.6, CJK frontend catalog    |
+| `backend/tests/conftest.py`                                 | 10.1                                      |
+| `backend/tests/test_auth.py`                                | 10.3                                      |
+| `backend/tests/test_study_plan.py`                          | 10.1, 10.3                                |
+| `backend/tests/test_flashcards.py`                          | 10.3                                      |
+| `backend/tests/test_lessons.py`                             | 10.3                                      |
+| `backend/tests/test_chat.py`                                | 10.3                                      |
+| `backend/tests/test_conversation.py`                        | 10.3                                      |
+| `backend/tests/test_listening.py`                           | 10.3                                      |
+| `backend/tests/test_reading.py`                             | 10.3, CJK backend readiness               |
+| `backend/tests/test_progress.py`                            | 10.3                                      |
+| `backend/tests/test_memories.py`                            | 10.3                                      |
+| `backend/tests/test_assessment.py`                          | 10.3                                      |
+| `backend/tests/test_multi_language.py`                      | 10.1, 10.2, 10.3, 10.6                    |
+| `backend/tests/test_prompts.py`                             | CJK backend readiness                     |
+| `backend/tests/test_listening_service.py`                   | CJK backend readiness                     |
+| `frontend/tests/lib/target-languages.test.ts`               | 10.4                                      |
+| `frontend/tests/components/LanguageBubbles.test.tsx`        | CJK readiness                             |
+| `frontend/tests/components/TargetLanguageSelector.test.tsx` | CJK frontend catalog                      |
+| `frontend/tests/store/language.test.ts`                     | 10.4                                      |
+| `frontend/tests/components/LanguageSwitcher.test.tsx`       | 10.5                                      |
+| `frontend/tests/store/language.test.ts`                     | 10.5 (My Languages page)                  |
+| `specs/database-models.instructions.md`                     | 10.1                                      |
+| `specs/api-endpoints.instructions.md`                       | 10.3                                      |
+| `specs/services.instructions.md`                            | 10.2                                      |
+| `specs/architecture-backend.instructions.md`                | 10.2                                      |
+| `specs/study-plan.instructions.md`                          | 10.1                                      |
+| `specs/phase-4-target-language.instructions.md`             | 10.2                                      |
+| `specs/version.md`                                          | completion                                |
+| `CHANGELOG.md`                                              | completion                                |
+| `AGENTS.md`                                                 | completion                                |

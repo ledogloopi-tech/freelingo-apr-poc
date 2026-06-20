@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { SUPPORTED_TARGET_LANGUAGES } from '@/lib/target-languages'
+import { TARGET_LANGUAGE_CATALOG } from '@/lib/target-languages'
 
 interface Props {
   value: string
@@ -17,7 +17,7 @@ export default function TargetLanguageSelector({
 }: Props) {
   const t = useTranslations('targetLanguages')
 
-  const filtered = SUPPORTED_TARGET_LANGUAGES.filter((lang) =>
+  const filtered = TARGET_LANGUAGE_CATALOG.filter((lang) =>
     availableCodes.includes(lang.code)
   ).sort((a, b) => t(a.code).localeCompare(t(b.code)))
 

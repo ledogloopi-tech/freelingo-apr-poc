@@ -37,7 +37,10 @@
       "es-ES": "¡Hola!",
       "fr-FR": "Bonjour !",
       "it-IT": "Ciao!",
-      "pt-PT": "Olá!"
+      "pt-PT": "Olá!",
+      "ja-JP": "こんにちは！",
+      "ko-KR": "안녕하세요!",
+      "zh-CN": "你好！"
     }
   },
   "common": {
@@ -1082,19 +1085,28 @@
     "pt-PT": "Portugalski",
     "fr-FR": "Francuski",
     "de-DE": "Niemiecki",
+    "ja-JP": "Japoński",
+    "ko-KR": "Koreański",
+    "zh-CN": "Chiński kontynentalny",
     "en": "angielski",
     "es": "hiszpański",
     "it": "włoski",
     "pt": "portugalski",
     "fr": "francuski",
     "de": "niemiecki",
+    "ja": "japoński",
+    "ko": "koreański",
+    "zh": "chiński",
     "es-ES-description": "Hiszpański używany w Hiszpanii.",
     "it-IT-description": "Włoski używany we Włoszech.",
     "pt-PT-description": "Portugalski używany w Portugalii.",
     "en-US-description": "Angielski używany w Stanach Zjednoczonych.",
     "en-GB-description": "Angielski używany w Wielkiej Brytanii.",
     "fr-FR-description": "Francuski używany we Francji.",
-    "de-DE-description": "Niemiecki używany w Niemczech."
+    "de-DE-description": "Niemiecki używany w Niemczech.",
+    "ja-JP-description": "Japoński używany w Japonii.",
+    "ko-KR-description": "Koreański używany w Korei Południowej.",
+    "zh-CN-description": "Mandaryński chiński z Chin kontynentalnych, z uproszczonymi znakami."
   },
   "onboarding": {
     "title": "Wybierz swój język",

@@ -37,7 +37,10 @@
       "es-ES": "¡Hola!",
       "fr-FR": "Bonjour !",
       "it-IT": "Ciao!",
-      "pt-PT": "Olá!"
+      "pt-PT": "Olá!",
+      "ja-JP": "こんにちは！",
+      "ko-KR": "안녕하세요!",
+      "zh-CN": "你好！"
     }
   },
   "common": {
@@ -1082,19 +1085,28 @@
     "pt-PT": "Portuguese",
     "fr-FR": "French",
     "de-DE": "German",
+    "ja-JP": "Japanese",
+    "ko-KR": "Korean",
+    "zh-CN": "Chinese (Mainland China)",
     "en": "English",
     "es": "Spanish",
     "it": "Italian",
     "pt": "Portuguese",
     "fr": "French",
     "de": "German",
+    "ja": "Japanese",
+    "ko": "Korean",
+    "zh": "Chinese",
     "es-ES-description": "Spanish as spoken in Spain.",
     "it-IT-description": "Italian as spoken in Italy.",
     "pt-PT-description": "Portuguese as spoken in Portugal.",
     "en-US-description": "English as spoken in the United States.",
     "en-GB-description": "English as spoken in the United Kingdom.",
     "fr-FR-description": "French as spoken in France.",
-    "de-DE-description": "German as spoken in Germany."
+    "de-DE-description": "German as spoken in Germany.",
+    "ja-JP-description": "Japanese as spoken in Japan.",
+    "ko-KR-description": "Korean as spoken in South Korea.",
+    "zh-CN-description": "Mandarin Chinese as spoken in Mainland China, using simplified characters."
   },
   "onboarding": {
     "title": "Choose your language",

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   SUPPORTED_TARGET_LANGUAGES,
+  TARGET_LANGUAGE_CATALOG,
   getLanguageByCode,
   DEFAULT_TARGET_LANGUAGE,
   TARGET_LANGUAGE_CAPABILITIES,
@@ -68,6 +69,48 @@ describe('SUPPORTED_TARGET_LANGUAGES', () => {
   })
 })
 
+describe('TARGET_LANGUAGE_CATALOG', () => {
+  it('contains the current supported languages plus CJK catalog entries', () => {
+    expect(TARGET_LANGUAGE_CATALOG).toHaveLength(10)
+    expect(TARGET_LANGUAGE_CATALOG.map((l) => l.code)).toEqual([
+      'en-US',
+      'en-GB',
+      'es-ES',
+      'it-IT',
+      'pt-PT',
+      'fr-FR',
+      'de-DE',
+      'ja-JP',
+      'ko-KR',
+      'zh-CN',
+    ])
+  })
+
+  it('contains complete CJK display metadata', () => {
+    expect(getLanguageByCode('ja-JP')).toMatchObject({
+      name: '日本語',
+      nameEn: 'Japanese',
+      flagPath: '/flags/japan.jpg',
+      iso639: 'ja',
+      fontClass: 'font-target-ja',
+    })
+    expect(getLanguageByCode('ko-KR')).toMatchObject({
+      name: '한국어',
+      nameEn: 'Korean',
+      flagPath: '/flags/south_korea.jpg',
+      iso639: 'ko',
+      fontClass: 'font-target-ko',
+    })
+    expect(getLanguageByCode('zh-CN')).toMatchObject({
+      name: '中文（中国）',
+      nameEn: 'Chinese (Mainland China)',
+      flagPath: '/flags/china.jpg',
+      iso639: 'zh',
+      fontClass: 'font-target-zh',
+    })
+  })
+})
+
 describe('getLanguageByCode', () => {
   it('returns the correct language for a valid code', () => {
     const lang = getLanguageByCode('es-ES')
@@ -121,7 +164,6 @@ describe('getLanguageByCode', () => {
   })
 
   it('returns undefined for an unknown code', () => {
-    expect(getLanguageByCode('ja-JP')).toBeUndefined()
     expect(getLanguageByCode('')).toBeUndefined()
   })
 
@@ -177,7 +219,9 @@ describe('target language capabilities', () => {
       usesWordSpacing: false,
       romanization: 'pinyin',
     })
-    expect(getLanguageByCode('ja-JP')).toBeUndefined()
+    expect(SUPPORTED_TARGET_LANGUAGES.some((l) => l.code === 'ja-JP')).toBe(
+      false
+    )
   })
 
   it('returns safe Latin defaults for unknown codes', () => {
