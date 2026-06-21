@@ -22,7 +22,12 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
             _p("予約を確認したいです。", "ホテルや店で予約を確認する", "formal", "a2-unit-1"),
             _p("駅までどう行けばいいですか。", "道順を尋ねる", "neutral", "a2-unit-1"),
             _p("写真を撮ってもいいですか。", "許可を求める", "neutral", "a2-unit-2"),
-            _p("おすすめは何ですか。", "おすすめを尋ねる", "neutral", "a2-unit-4"),
+            _p(
+                "どちらがおすすめですか。",
+                "二つの選択肢からおすすめを尋ねる",
+                "neutral",
+                "a2-unit-4",
+            ),
         ],
     ),
     PhrasebookCategory(

@@ -1,6 +1,6 @@
 """C2 grammar topics — Korean (ko-KR)."""
 
-from app.data._types import GrammarExample, GrammarTopic
+from app.data._types import GrammarExample, GrammarMistake, GrammarTopic
 
 C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
     GrammarTopic(
@@ -8,8 +8,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="의미 정밀성",
         level="C2",
         category="정밀 표현",
-        summary="의미 정밀성을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="의미 정밀성은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="의미 정밀성을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="의미 정밀성은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="의미 차이 + 맥락 선택",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -23,7 +23,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -31,8 +37,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="조사 뉘앙스",
         level="C2",
         category="조사",
-        summary="조사 뉘앙스을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="조사 뉘앙스은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="조사 뉘앙스을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="조사 뉘앙스은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="은/는, 이/가, 을/를의 미세한 차이",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -46,7 +52,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -54,8 +66,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="어휘와 문체 선택",
         level="C2",
         category="문체",
-        summary="어휘와 문체 선택을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="어휘와 문체 선택은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="어휘와 문체 선택을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="어휘와 문체 선택은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="어휘 + 격식 + 분야",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -69,7 +81,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -77,8 +95,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="전문 내용 중재",
         level="C2",
         category="중재",
-        summary="전문 내용 중재을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="전문 내용 중재은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="전문 내용 중재을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="전문 내용 중재은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="전문 개념 + 쉬운 설명",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -92,7 +110,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -100,8 +124,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="재표현",
         level="C2",
         category="중재",
-        summary="재표현을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="재표현은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="재표현을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="재표현은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="원문 의미 + 새로운 표현",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -115,7 +139,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -123,8 +153,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="청중 맞춤 설명",
         level="C2",
         category="담화 전략",
-        summary="청중 맞춤 설명을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="청중 맞춤 설명은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="청중 맞춤 설명을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="청중 맞춤 설명은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="청중 지식 + 설명 깊이",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -138,7 +168,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -146,8 +182,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="비판적 평가",
         level="C2",
         category="비평",
-        summary="비판적 평가을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="비판적 평가은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="비판적 평가을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="비판적 평가은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="근거 + 전제 + 반증",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -161,7 +197,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -169,8 +211,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="전제 분석",
         level="C2",
         category="비평",
-        summary="전제 분석을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="전제 분석은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="전제 분석을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="전제 분석은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="숨은 전제 + 영향",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -184,7 +226,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -192,8 +240,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="반박 구조",
         level="C2",
         category="비평",
-        summary="반박 구조을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="반박 구조은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="반박 구조을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="반박 구조은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="상대 주장 + 반증 + 대안",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -207,7 +255,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -215,8 +269,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="번역 등가성",
         level="C2",
         category="번역",
-        summary="번역 등가성을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="번역 등가성은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="번역 등가성을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="번역 등가성은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="의미 + 문체 + 기능",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -230,7 +284,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -238,8 +298,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="화용적 의미",
         level="C2",
         category="화용",
-        summary="화용적 의미을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="화용적 의미은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="화용적 의미을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="화용적 의미은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="말의 의도 + 관계 + 상황",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -253,7 +313,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -261,8 +327,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="문화적 전환",
         level="C2",
         category="번역",
-        summary="문화적 전환을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="문화적 전환은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="문화적 전환을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="문화적 전환은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="문화 차이 + 설명 전략",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -276,7 +342,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -284,8 +356,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="수사 전략",
         level="C2",
         category="수사",
-        summary="수사 전략을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="수사 전략은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="수사 전략을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="수사 전략은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="강조 + 대조 + 배열",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -299,7 +371,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -307,8 +385,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="강조 조절",
         level="C2",
         category="수사",
-        summary="강조 조절을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="강조 조절은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="강조 조절을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="강조 조절은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="강조 표현 + 균형",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -322,7 +400,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -330,8 +414,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="독자 위치 설정",
         level="C2",
         category="수사",
-        summary="독자 위치 설정을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="독자 위치 설정은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="독자 위치 설정을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="독자 위치 설정은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="독자 역할 + 관점 유도",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -345,7 +429,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -353,8 +443,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="한국어사의 맥락",
         level="C2",
         category="언어사",
-        summary="한국어사의 맥락을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="한국어사의 맥락은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="한국어사의 맥락을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="한국어사의 맥락은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="역사 + 사회 + 표현 변화",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -368,7 +458,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -376,8 +472,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="외래어와 문체",
         level="C2",
         category="어휘",
-        summary="외래어와 문체을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="외래어와 문체은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="외래어와 문체을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="외래어와 문체은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="외래어 + 한자어 + 고유어 비교",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -391,7 +487,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -399,8 +501,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="통시적 변화",
         level="C2",
         category="언어 변화",
-        summary="통시적 변화을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="통시적 변화은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="통시적 변화을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="통시적 변화은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="시간에 따른 의미와 형태 변화",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -414,7 +516,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -422,8 +530,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="고급 편집",
         level="C2",
         category="편집",
-        summary="고급 편집을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="고급 편집은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="고급 편집을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="고급 편집은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="문장 수정 + 구조 조정",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -437,7 +545,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -445,8 +559,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="응집성과 일관성",
         level="C2",
         category="편집",
-        summary="응집성과 일관성을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="응집성과 일관성은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="응집성과 일관성을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="응집성과 일관성은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="연결 표현 + 정보 흐름",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -460,7 +574,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -468,8 +588,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="문체 재작성",
         level="C2",
         category="편집",
-        summary="문체 재작성을/를 사용해 C2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="문체 재작성은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="문체 재작성을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="문체 재작성은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="목적 + 독자 + 문체",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -483,7 +603,13 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
 ]

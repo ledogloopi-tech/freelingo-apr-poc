@@ -12,7 +12,7 @@ B2_UNITS: list[CurriculumUnit] = [
         title="敬語の基礎",
         grammar_points=["sonkeigo-basics", "kenjougo-basics", "teineigo-control"],
         vocabulary_set_ids=["keigo_b2", "business_basics_b2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "予測しやすい場面で基本的な尊敬語・謙譲語の型を認識し、使える",
             "社会的な役割に応じて、丁寧語・尊敬語・謙譲語を選べる",
@@ -29,7 +29,7 @@ B2_UNITS: list[CurriculumUnit] = [
         title="使役形と使役受身",
         grammar_points=["causative-form", "causative-passive", "permission-causative"],
         vocabulary_set_ids=["workplace_b2", "responsibilities_b2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "使役形を作り、許可や人に何かをさせる・させておく意味で使える",
             "不満や義務を表す文脈で使役受身を理解できる",
@@ -46,7 +46,7 @@ B2_UNITS: list[CurriculumUnit] = [
         title="名詞化と抽象表現",
         grammar_points=["no-koto-nominalization", "wake-da", "hazu-da"],
         vocabulary_set_ids=["abstract_ideas_b2", "education_b2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "好まれる表現や文脈に注意して、の・ことによる名詞化を使える",
             "わけだ・はずだを使って結論や予想を説明できる",
@@ -63,7 +63,7 @@ B2_UNITS: list[CurriculumUnit] = [
         title="条件表現の使い分け",
         grammar_points=["ba-conditional", "nara-conditional", "to-conditional"],
         vocabulary_set_ids=["problem_solving_b2", "planning_b2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "自然な条件表現の文脈で、と・ば・たら・ならを使い分けられる",
             "条件表現を使って規則、助言、仮定、計画について話せる",
@@ -80,7 +80,7 @@ B2_UNITS: list[CurriculumUnit] = [
         title="複文と接続表現",
         grammar_points=["tokoro-ga", "ni-kanshite", "ni-tsuite", "ue-de"],
         vocabulary_set_ids=["society_b2", "current_affairs_b2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "中級の接続表現を使って、長めの説明文や発話を整理できる",
             "やや改まった文脈で、に関して・についてを使って話題を導入できる",
@@ -97,7 +97,7 @@ B2_UNITS: list[CurriculumUnit] = [
         title="推量・評価・ニュアンス",
         grammar_points=["ni-chigai-nai", "kamoshirenai", "beki-da", "mono-da"],
         vocabulary_set_ids=["evaluation_b2", "ethics_b2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "確信、可能性、義務、一般的な真理を自然なニュアンスで表現できる",
             "評価や提案をするとき、率直さと丁寧さのバランスを取れる",
@@ -114,7 +114,7 @@ B2_UNITS: list[CurriculumUnit] = [
         title="読み書きのアカデミック基礎",
         grammar_points=["written-style-da-de-aru", "formal-connectors", "citation-to"],
         vocabulary_set_ids=["academic_b2", "research_b2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "エッセイ、レポート、説明文でだ・である体を認識できる",
             "改まった接続表現を使って、主張、例、結論を整理できる",
@@ -140,7 +140,7 @@ B2_UNITS: list[CurriculumUnit] = [
             "written-style-da-de-aru",
         ],
         vocabulary_set_ids=["review_b2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "仕事、社会、学習、抽象的な話題についてB2レベルの議論を続けられる",
             "丁寧な会話からやや改まった書き言葉まで文体を調整できる",

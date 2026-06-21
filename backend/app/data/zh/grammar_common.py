@@ -1,6 +1,6 @@
 """Shared helpers for Mainland Chinese grammar topics."""
 
-from app.data._types import CEFRLevel, GrammarExample, GrammarTopic
+from app.data._types import CEFRLevel, GrammarExample, GrammarMistake, GrammarTopic
 
 TopicSpec = tuple[str, str, str, str, str]
 
@@ -24,6 +24,12 @@ def build_topic(level: CEFRLevel, spec: TopicSpec) -> GrammarTopic:
             "先用短句练习，再扩展到对话和段落。",
         ],
         examples=[GrammarExample(text=example, note="自然用法示例")],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="只记形式，不注意语序、搭配或语气。",
+                correct="把语法点放进完整句子里，检查语序、搭配和上下文。",
+                note="现代汉语的语法常依靠词序、虚词和语境共同表达意思。",
+            )
+        ],
         related=[],
     )

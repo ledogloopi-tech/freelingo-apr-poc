@@ -12,7 +12,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="高度な敬語と場面適応",
         grammar_points=["advanced-keigo", "honorific-humble-contrast", "business-register"],
         vocabulary_set_ids=["advanced_keigo_c1", "business_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "高度な尊敬語・謙譲語を、社会的な視点を正確に保って使える",
             "顧客、同僚、上司、公共の場に応じて話し方と書き方を調整できる",
@@ -29,7 +29,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="論説文の読解",
         grammar_points=["argument-structure", "contrastive-connectors", "implicit-subjects"],
         vocabulary_set_ids=["editorials_c1", "policy_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "論説コラムを読み、主張、根拠、譲歩、結論を見分けられる",
             "密度の高い書き言葉で、暗示された主語や省略された情報を追える",
@@ -46,7 +46,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="高度な接続と文体",
         grammar_points=["ni-okeru", "ni-totte", "to-shite", "formal-nominal-style"],
         vocabulary_set_ids=["formal_style_c1", "institutions_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "における、にとって、としてなどの改まった構文を正確に使える",
             "レポート、記事、公的文書でよく使われる名詞中心の文体を扱える",
@@ -63,7 +63,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="婉曲表現と含意",
         grammar_points=["hedging-expressions", "indirect-refusal", "pragmatic-implicature"],
         vocabulary_set_ids=["nuance_c1", "negotiation_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "日本語のやり取りにおける間接的な断り、ためらい、柔らかい反対を理解できる",
             "職業的な場面で、直接的すぎる表現を避けるために婉曲表現を使える",
@@ -80,7 +80,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="社会・文化・メディア",
         grammar_points=["media-discourse", "quotation-framing", "stance-markers"],
         vocabulary_set_ids=["media_c1", "culture_c1", "society_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "メディア文章の枠組み、立場、情報源の示し方を分析できる",
             "過度に一般化せずに、日本の文化的・社会的話題について議論できる",
@@ -97,7 +97,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="発表とディスカッション",
         grammar_points=["presentation-structure", "turn-taking", "counterargument"],
         vocabulary_set_ids=["presentations_c1", "discussion_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "導入、根拠、展開、結論を備えた改まった発表を構成できる",
             "長めのディスカッションで発言順の調整や確認を行える",
@@ -114,7 +114,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="文学・随筆・比喩",
         grammar_points=["literary-style", "metaphor-idiom", "ellipsis-in-prose"],
         vocabulary_set_ids=["literature_c1", "idioms_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "短い文学的・随筆的な文章を読み、語調やイメージを解釈できる",
             "文脈の中で慣用的・比喩的な表現を理解できる",
@@ -139,7 +139,7 @@ C1_UNITS: list[CurriculumUnit] = [
             "literary-style",
         ],
         vocabulary_set_ids=["review_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "社会、職業、文化に関する複雑な文章を読み、議論できる",
             "改まった文章、討論、発表の間で文体を柔軟に調整できる",

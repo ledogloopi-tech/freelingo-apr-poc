@@ -88,6 +88,24 @@ _CULTURAL_TOPICS: dict[str, list[str]] = {
         "daily life and customs in Portuguese cities",
         "Portuguese history, the Age of Discoveries, and heritage",
     ],
+    "ja": [
+        "daily life, etiquette, and seasonal customs in Japan",
+        "Japanese food culture, festivals, and regional traditions",
+        "Japanese cities, transport, schools, and workplace routines",
+        "Japanese literature, media, history, and cultural heritage",
+    ],
+    "ko": [
+        "daily life, etiquette, and social customs in South Korea",
+        "Korean food culture, festivals, music, and contemporary media",
+        "South Korean cities, transport, education, and workplace routines",
+        "Korean history, language culture, and cultural heritage",
+    ],
+    "zh": [
+        "daily life, etiquette, and social customs in Mainland China",
+        "Chinese food culture, festivals, family traditions, and regional customs",
+        "Mainland Chinese cities, transport, education, and workplace routines",
+        "Chinese history, literature, arts, and cultural heritage",
+    ],
     "en-GB": [
         "British traditions, monarchy, and cultural life",
         "daily life and customs in UK cities and countryside",

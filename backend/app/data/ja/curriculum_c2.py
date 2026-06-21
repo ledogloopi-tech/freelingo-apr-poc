@@ -12,7 +12,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="精密な文法運用",
         grammar_points=["precision-grammar", "register-integration", "advanced-clause-linking"],
         vocabulary_set_ids=["precision_c2", "advanced_register_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "即興性や重要度の高い場面でも高度な文法を正確に使える",
             "節の接続、モダリティ、文体を体系的な誤りなく統合できる",
@@ -29,7 +29,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="専門的読解と要約",
         grammar_points=["specialized-discourse", "dense-nominalization", "summary-technique"],
         vocabulary_set_ids=["specialized_reading_c2", "summarizing_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "密度の高い専門的な文章を読み、前提、含意、限界を把握できる",
             "複雑な議論を、専門外の読者にも分かる正確な要約にまとめられる",
@@ -46,7 +46,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="翻訳とメディエーション",
         grammar_points=["translation-equivalence", "cultural-mediation", "reformulation"],
         vocabulary_set_ids=["translation_c2", "mediation_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "ニュアンスを歪めずに、日本語と他言語の間を仲介できる",
             "文化に根ざした表現や語用論的な選択を明確に説明できる",
@@ -63,7 +63,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="レトリックと説得",
         grammar_points=["rhetorical-strategy", "persuasive-style", "audience-design"],
         vocabulary_set_ids=["rhetoric_c2", "public_speech_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "説得、問題提起、立場の調整のために修辞的構成を使える",
             "聞き手、媒体、制度的文脈に合わせて表現を設計できる",
@@ -80,7 +80,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="日本語史と変化",
         grammar_points=["language-history", "kanji-kana-development", "modern-language-change"],
         vocabulary_set_ids=["language_history_c2", "kanji_culture_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "日本語の表記と文法の歴史的発展における主要段階を説明できる",
             "漢字・かなの使用、文字選択、表記慣習について批判的に議論できる",
@@ -97,7 +97,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="創作と編集",
         grammar_points=["creative-style", "editing-technique", "voice-and-tone"],
         vocabulary_set_ids=["creative_writing_c2", "editing_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "声や語調を制御した、洗練された創作的または随筆的な日本語を書ける",
             "結束性、リズム、文体、冗長性、精密さの観点から下書きを編集できる",
@@ -114,7 +114,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="現代社会と専門議論",
         grammar_points=["expert-discussion", "policy-analysis", "critical-evaluation"],
         vocabulary_set_ids=["contemporary_japan_c2", "expert_discussion_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "現代の社会的・技術的課題について専門的な議論に参加できる",
             "政策上の主張、データに基づく主張、暗黙の価値判断を評価できる",
@@ -139,7 +139,7 @@ C2_UNITS: list[CurriculumUnit] = [
             "expert-discussion",
         ],
         vocabulary_set_ids=["review_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "理解、産出、仲介、やり取りのすべてでC2レベルの運用ができる",
             "高度な文章を批判的に読み、論理、語調、含意を再構成できる",

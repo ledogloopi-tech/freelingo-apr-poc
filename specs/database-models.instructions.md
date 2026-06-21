@@ -107,7 +107,7 @@ One lesson per day slot in the study plan.
 | id            | integer           | Primary key                                             |
 | study_plan_id | integer           | FK → study_plans                                        |
 | title         | string            | Lesson title                                            |
-| lesson_type   | string            | `grammar`, `vocabulary`, `reading`, `writing`, `review` |
+| lesson_type   | string            | `grammar`, `vocabulary`, `reading`, `writing`, `listening`, `review` |
 | cefr_level    | string            | CEFR level                                              |
 | week_number   | integer           | Week in the plan                                        |
 | day_number    | integer           | Day in the week                                         |

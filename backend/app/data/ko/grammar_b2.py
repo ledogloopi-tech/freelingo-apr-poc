@@ -1,6 +1,6 @@
 """B2 grammar topics — Korean (ko-KR)."""
 
-from app.data._types import GrammarExample, GrammarTopic
+from app.data._types import GrammarExample, GrammarMistake, GrammarTopic
 
 B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
     GrammarTopic(
@@ -8,8 +8,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="는 것이 바람직하다",
         level="B2",
         category="논증",
-        summary="는 것이 바람직하다을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="는 것이 바람직하다은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="는 것이 바람직하다을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="는 것이 바람직하다은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동사 어간 + 는 것이 바람직하다",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -23,7 +23,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -31,8 +37,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="에 따르면 근거",
         level="B2",
         category="근거",
-        summary="에 따르면 근거을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="에 따르면 근거은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="에 따르면 근거을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="에 따르면 근거은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="자료/출처 + 에 따르면",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -46,7 +52,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -54,8 +66,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="기는 하지만 양보",
         level="B2",
         category="양보",
-        summary="기는 하지만 양보을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="기는 하지만 양보은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="기는 하지만 양보을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="기는 하지만 양보은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="어간 + 기는 하지만",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -69,7 +81,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -77,8 +95,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="습니다체",
         level="B2",
         category="격식체",
-        summary="습니다체을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="습니다체은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="습니다체을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="습니다체은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="어간 + 습니다/ㅂ니다",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -92,7 +110,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -100,8 +124,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="시 높임",
         level="B2",
         category="높임",
-        summary="시 높임을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="시 높임은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="시 높임을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="시 높임은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="어간 + 시",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -115,7 +139,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -123,8 +153,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="드리다 겸양",
         level="B2",
         category="높임",
-        summary="드리다 겸양을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="드리다 겸양은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="드리다 겸양을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="드리다 겸양은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="명사/동작 + 드리다",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -138,7 +168,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -146,8 +182,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="을 것 같다 추측",
         level="B2",
         category="추측",
-        summary="을 것 같다 추측을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="을 것 같다 추측은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="을 것 같다 추측을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="을 것 같다 추측은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="어간 + 을/ㄹ 것 같다",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -161,7 +197,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -169,8 +211,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="을 테다 예상",
         level="B2",
         category="추측",
-        summary="을 테다 예상을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="을 테다 예상은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="을 테다 예상을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="을 테다 예상은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="어간 + 을/ㄹ 테다",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -184,7 +226,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -192,8 +240,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="나 보다 관찰 추정",
         level="B2",
         category="추측",
-        summary="나 보다 관찰 추정을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="나 보다 관찰 추정은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="나 보다 관찰 추정을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="나 보다 관찰 추정은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="어간 + 나 보다",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -207,7 +255,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -215,8 +269,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="으로 인해 원인",
         level="B2",
         category="원인",
-        summary="으로 인해 원인을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="으로 인해 원인은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="으로 인해 원인을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="으로 인해 원인은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="명사 + 으로 인해",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -230,7 +284,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -238,8 +298,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="는 것이다 설명",
         level="B2",
         category="설명",
-        summary="는 것이다 설명을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="는 것이다 설명은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="는 것이다 설명을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="는 것이다 설명은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="문장 + 는 것이다",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -253,7 +313,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -261,8 +327,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="뿐만 아니라 추가",
         level="B2",
         category="추가",
-        summary="뿐만 아니라 추가을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="뿐만 아니라 추가은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="뿐만 아니라 추가을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="뿐만 아니라 추가은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="명사/문장 + 뿐만 아니라",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -276,7 +342,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -284,8 +356,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="을 수밖에 없다",
         level="B2",
         category="불가피성",
-        summary="을 수밖에 없다을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="을 수밖에 없다은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="을 수밖에 없다을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="을 수밖에 없다은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동사 어간 + 을/ㄹ 수밖에 없다",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -299,7 +371,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -307,8 +385,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="을 걸 그랬다 후회",
         level="B2",
         category="후회",
-        summary="을 걸 그랬다 후회을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="을 걸 그랬다 후회은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="을 걸 그랬다 후회을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="을 걸 그랬다 후회은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동사 어간 + 을/ㄹ 걸 그랬다",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -322,7 +400,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -330,8 +414,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="기는 한데 완곡 대조",
         level="B2",
         category="대조",
-        summary="기는 한데 완곡 대조을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="기는 한데 완곡 대조은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="기는 한데 완곡 대조을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="기는 한데 완곡 대조은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="어간 + 기는 한데",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -345,7 +429,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -353,8 +443,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="란 정의",
         level="B2",
         category="정의",
-        summary="란 정의을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="란 정의은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="란 정의을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="란 정의은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="명사 + 란",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -368,7 +458,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -376,8 +472,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="에 따라 분류",
         level="B2",
         category="분류",
-        summary="에 따라 분류을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="에 따라 분류은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="에 따라 분류을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="에 따라 분류은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="기준 + 에 따라",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -391,7 +487,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -399,8 +501,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="학술적 명사화",
         level="B2",
         category="학술 문체",
-        summary="학술적 명사화을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="학술적 명사화은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="학술적 명사화을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="학술적 명사화은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동작/상태 + 명사형",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -414,7 +516,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -422,8 +530,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="보도에 따르면",
         level="B2",
         category="출처",
-        summary="보도에 따르면을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="보도에 따르면은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="보도에 따르면을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="보도에 따르면은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="보도/자료 + 에 따르면",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -437,7 +545,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -445,8 +559,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="그럼에도 불구하고",
         level="B2",
         category="대조",
-        summary="그럼에도 불구하고을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="그럼에도 불구하고은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="그럼에도 불구하고을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="그럼에도 불구하고은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="문장 + 그럼에도 불구하고",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -460,7 +574,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -468,8 +588,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="입장을 보이다",
         level="B2",
         category="태도",
-        summary="입장을 보이다을/를 사용해 B2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="입장을 보이다은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="입장을 보이다을 실제 담화 안에서 자연스럽게 사용할 수 있다.",
+        explanation="입장을 보이다은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="입장/태도 + 을/를 보이다",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -483,7 +603,13 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태는 맞지만 글의 흐름, 격식, 담화 기능과 맞지 않게 쓰는 경우",
+                correct="문법 기능, 연결 관계, 높임 정도, 글의 목적을 함께 맞춰 자연스럽게 쓴다.",
+                note="중급 이상에서는 형태 정확성뿐 아니라 담화 흐름과 레지스터를 함께 확인합니다.",
+            )
+        ],
         related=[],
     ),
 ]

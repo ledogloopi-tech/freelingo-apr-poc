@@ -47,7 +47,7 @@ Japanese (`ja-JP`) is enabled in backend schemas, `AVAILABLE_TARGET_LANGUAGES` d
 
 | Data area | Current Japanese coverage |
 | --------- | ------------------------- |
-| Curriculum | 48 units across A1-C2, with Japanese unit titles and competency checklists |
+| Curriculum | 48 units across A1-C2, with Japanese unit titles, competency checklists, and listening lesson slots from A2-C2 |
 | Grammar | 130 topics matching all curriculum `grammar_points` slugs |
 | Vocabulary | 152 sets matching all curriculum `vocabulary_set_ids`, with 1,112 words across A1-C2 |
 | Phrasebook | 44 A1-C2 categories with 318 Japanese phrases, contexts, registers, and unit references, split by CEFR level modules |
@@ -59,7 +59,7 @@ Korean (`ko-KR`) is enabled in backend schemas, `AVAILABLE_TARGET_LANGUAGES` def
 
 | Data area | Current Korean coverage |
 | --------- | ----------------------- |
-| Curriculum | 48 units across A1-C2, with Korean unit titles and competency checklists |
+| Curriculum | 48 units across A1-C2, with Korean unit titles, competency checklists, and listening lesson slots from A2-C2 |
 | Grammar | 126 topics matching all curriculum `grammar_points` slugs |
 | Vocabulary | 155 sets matching all curriculum `vocabulary_set_ids`, with 1,226 words across A1-C2 |
 | Phrasebook | 34 A1-C2 categories with 318 Korean phrases, contexts, registers, and unit references |
@@ -71,7 +71,7 @@ Mainland Chinese (`zh-CN`) is enabled in backend schemas, `AVAILABLE_TARGET_LANG
 
 | Data area | Current Mainland Chinese coverage |
 | --------- | --------------------------------- |
-| Curriculum | 48 units across A1-C2, with Simplified Chinese unit titles and competency checklists |
+| Curriculum | 48 units across A1-C2, with Simplified Chinese unit titles, competency checklists, and listening lesson slots from A2-C2 |
 | Grammar | 126 topics matching all curriculum `grammar_points` slugs |
 | Vocabulary | 155 sets matching all curriculum `vocabulary_set_ids`, with 1,226 words across A1-C2 |
 | Phrasebook | 24 A1-C2 categories with 318 Chinese phrases, contexts, registers, and unit references |
@@ -107,7 +107,7 @@ Prepared capabilities live in `backend/app/services/language_helpers.py`:
 | `ko-KR`     | `name=Korean (South Korea)`, `iso639=ko`, `script=hangul`, `romanization=revised-romanization`, length unit `words`      |
 | `zh-CN`     | `name=Chinese (Mainland China)`, `iso639=zh`, `script=simplified-hanzi`, `romanization=pinyin`, length unit `characters` |
 
-Prompt overlays live in `backend/app/services/prompts/common.py` and include aliases for `ja`, `ko`, and `zh`. Reading and listening generation use `get_comprehension_length_guidance()` so Japanese and Mainland Chinese prompts request character ranges while word-spaced languages keep word-count guidance.
+Prompt overlays live in `backend/app/services/prompts/common.py` and include aliases for `ja`, `ko`, and `zh`. Reading and listening generation use `get_comprehension_length_guidance()` so Japanese and Mainland Chinese prompts request character ranges while word-spaced languages keep word-count guidance. Reading generation also has dedicated cultural topic pools for Japanese, Korean, and Mainland Chinese.
 
 ---
 
@@ -138,7 +138,7 @@ Prompt overlays live in `backend/app/services/prompts/common.py` and include ali
 | `backend/app/data/it/` (8 files)                     | 10.6                     |
 | `backend/app/data/pt/` (8 files)                     | 10.6                     |
 | `backend/app/data/ja/` (30 files)                    | Japanese data phase      |
-| `backend/app/data/ko/` (26 files)                    | Korean data phase        |
+| `backend/app/data/ko/` (30 files)                    | Korean data phase        |
 | `backend/app/data/zh/` (33 files)                    | Mainland Chinese data phase |
 | `frontend/src/config/target-languages.ts`            | 10.4                     |
 | `frontend/src/store/language.ts`                     | 10.4                     |

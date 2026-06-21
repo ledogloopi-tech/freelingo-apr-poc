@@ -82,7 +82,7 @@ One row per lesson slot per day. Lessons are created lazily the first time the u
 | id            | integer             | Primary key                                                    |
 | study_plan_id | integer             | FK → study_plans                                               |
 | title         | string              | Lesson title (matches the slot title in `generated_plan`)      |
-| lesson_type   | string              | `grammar` / `vocabulary` / `reading` / `writing` / `review`    |
+| lesson_type   | string              | `grammar` / `vocabulary` / `reading` / `writing` / `listening` / `review` |
 | cefr_level    | string              |                                                                |
 | week_number   | integer             | Week in the plan (1-based)                                     |
 | day_number    | integer             | Day in the week (1-based)                                      |
@@ -123,7 +123,7 @@ Plan generation is **fully deterministic** — no LLM call. The service:
 3. Builds a list of `WeekPlan` objects, each containing a list of `DayPlan` objects.
 4. Returns a `GeneratedPlan` Pydantic model, which is stored as JSON in `study_plans.generated_plan`.
 
-Current backend curriculum modules cover `en-GB`, `en-US`, `de-DE`, `es-ES`, `fr-FR`, `it-IT`, `pt-PT`, `ja-JP`, `ko-KR`, and `zh-CN`. Japanese plans use Japanese unit titles and templates such as `文字とあいさつ - レッスン 1`; Korean plans use Korean unit titles and templates such as `한글과 기본 인사 - 레슨 1`; Mainland Chinese plans use Simplified Chinese unit titles and templates such as `拼音、声调和问候 - 第 1 课`.
+Current backend curriculum modules cover `en-GB`, `en-US`, `de-DE`, `es-ES`, `fr-FR`, `it-IT`, `pt-PT`, `ja-JP`, `ko-KR`, and `zh-CN`. Japanese plans use Japanese unit titles and templates such as `文字とあいさつ - レッスン 1`; Korean plans use Korean unit titles and templates such as `한글과 기본 인사 - 레슨 1`; Mainland Chinese plans use Simplified Chinese unit titles and templates such as `拼音、声调和问候 - 第 1 课`. Japanese, Korean, and Mainland Chinese curricula include `listening` lesson slots from A2 through C2, matching the platform's voice/listening practice model while keeping A1 focused on fundamentals.
 
 ### Plan JSON structure (`generated_plan`)
 

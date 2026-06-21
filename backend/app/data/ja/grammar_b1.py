@@ -1,6 +1,6 @@
 """B1 grammar topics — Japanese (ja-JP)."""
 
-from app.data._types import GrammarExample, GrammarTopic
+from app.data._types import GrammarExample, GrammarMistake, GrammarTopic
 
 B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
     GrammarTopic(
@@ -28,7 +28,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -56,7 +62,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -84,7 +96,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -112,7 +130,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -140,7 +164,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -168,7 +198,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -196,7 +232,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -224,7 +266,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -252,7 +300,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -280,7 +334,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -308,7 +368,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -336,7 +402,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -364,7 +436,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -392,7 +470,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -420,7 +504,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -448,7 +538,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -476,7 +572,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -504,7 +606,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -532,7 +640,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -560,7 +674,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -588,7 +708,13 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="授受・視点",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文法形式だけを合わせ、文体・論理関係・場面に合わない文を作る。",
+                correct="文型の機能、接続関係、文体、読み手・聞き手との距離を合わせる。",
+                note="中級以上では正しい形だけでなく、自然な談話の流れとレジスターを確認します。",
+            )
+        ],
         related=[],
     ),
 ]

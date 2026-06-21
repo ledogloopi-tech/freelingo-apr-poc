@@ -1,6 +1,6 @@
 """A1 grammar topics — Japanese (ja-JP)."""
 
-from app.data._types import GrammarExample, GrammarTopic
+from app.data._types import GrammarExample, GrammarMistake, GrammarTopic
 
 A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
     GrammarTopic(
@@ -18,17 +18,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「ひらがな」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「ひらがな」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -46,17 +52,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「カタカナ」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「カタカナ」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -74,17 +86,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「ですの基本」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「ですの基本」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -102,17 +120,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「終助詞の基礎」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「終助詞の基礎」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -130,17 +154,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「トピックのは」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「トピックのは」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -158,17 +188,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「所有・所属のの」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「所有・所属のの」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -186,17 +222,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「疑問のか」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「疑問のか」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -214,17 +256,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「数字と基本助数詞」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「数字と基本助数詞」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -242,17 +290,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「時の表現」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「時の表現」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -270,17 +324,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「時を表すに」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「時を表すに」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -298,17 +358,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「ここ・そこ・あそこ」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「ここ・そこ・あそこ」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -326,17 +392,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「あります・います」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「あります・います」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -354,17 +426,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「場所の助詞」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「場所の助詞」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -382,17 +460,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「ます形」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「ます形」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -410,17 +494,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「目的語のを」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「目的語のを」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -438,17 +528,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「日課の動詞」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「日課の動詞」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -466,17 +562,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「い形容詞」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「い形容詞」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -494,17 +596,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「な形容詞」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「な形容詞」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -522,17 +630,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「好き・嫌いとが」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「好き・嫌いとが」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -550,17 +664,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「て形入門」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「て形入門」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -578,17 +698,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「くださいの依頼」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「くださいの依頼」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -606,17 +732,23 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="これは本です。",
+                text="「で・へ・との基礎」を使って短い文を作ります。",
                 translation=None,
-                note="基本的な名詞文",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="毎朝、コーヒーを飲みます。",
+                text="会話の中で「で・へ・との基礎」を確認します。",
                 translation=None,
-                note="丁寧形の日常文",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
 ]

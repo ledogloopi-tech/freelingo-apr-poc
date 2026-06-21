@@ -10,7 +10,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="정밀한 의미 조절",
         grammar_points=["semantic-precision", "particle-nuance", "lexical-choice-register"],
         vocabulary_set_ids=["semantic_precision_c2", "advanced_particles_c2", "nuance_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "조사와 어휘 선택이 의미와 태도에 주는 미세한 차이를 설명할 수 있다",
             "맥락에 맞춰 비슷한 표현들 사이에서 가장 적절한 표현을 고를 수 있다",
@@ -27,7 +27,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="전문 담화와 중재",
         grammar_points=["expert-mediation", "reformulation", "audience-adaptation"],
         vocabulary_set_ids=["expert_discourse_c2", "mediation_c2", "specialized_fields_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "전문적인 내용을 대상에 맞게 다시 설명할 수 있다",
             "복잡한 개념을 의미를 잃지 않고 더 쉬운 표현으로 바꿀 수 있다",
@@ -44,7 +44,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="비판적 평가와 반박",
         grammar_points=["critical-evaluation", "assumption-analysis", "rebuttal-structure"],
         vocabulary_set_ids=["critical_thinking_c2", "assumptions_c2", "counterevidence_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "글의 전제, 근거, 결론의 타당성을 비판적으로 평가할 수 있다",
             "숨은 가정과 논리적 약점을 찾아 설명할 수 있다",
@@ -61,7 +61,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="번역과 등가성",
         grammar_points=["translation-equivalence", "pragmatic-meaning", "cultural-transfer"],
         vocabulary_set_ids=["translation_c2", "pragmatics_c2", "cross_cultural_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "직역과 의역의 효과를 비교하고 목적에 맞게 선택할 수 있다",
             "의미뿐 아니라 문체, 함의, 공손성까지 고려해 표현을 옮길 수 있다",
@@ -78,7 +78,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="수사 전략과 설득력",
         grammar_points=["rhetorical-strategy", "emphasis-control", "reader-positioning"],
         vocabulary_set_ids=["rhetoric_c2", "persuasive_writing_c2", "editorial_style_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "독자의 기대와 반응을 고려해 수사 전략을 선택할 수 있다",
             "강조, 반복, 대조를 과하지 않게 조절할 수 있다",
@@ -95,7 +95,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="언어 변화와 역사적 맥락",
         grammar_points=["language-history-korean", "loanword-register", "diachronic-change"],
         vocabulary_set_ids=["language_history_c2", "loanwords_c2", "sociolinguistics_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "한국어의 변화와 사회적 맥락이 표현 선택에 미치는 영향을 설명할 수 있다",
             "한자어, 고유어, 외래어의 뉘앙스와 사용 영역을 비교할 수 있다",
@@ -112,7 +112,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="고급 편집과 재작성",
         grammar_points=["advanced-editing", "cohesion-coherence", "style-revision"],
         vocabulary_set_ids=["editing_c2", "cohesion_c2", "professional_revision_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "긴 글의 응집성과 통일성을 점검하고 개선할 수 있다",
             "문장 간 연결, 정보 배열, 문체의 일관성을 세밀하게 조정할 수 있다",
@@ -137,7 +137,7 @@ C2_UNITS: list[CurriculumUnit] = [
             "advanced-editing",
         ],
         vocabulary_set_ids=["review_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "전문적이고 추상적인 주제를 정확하고 유연하게 다룰 수 있다",
             "텍스트의 논리, 문체, 함의, 문화적 배경을 종합적으로 분석할 수 있다",

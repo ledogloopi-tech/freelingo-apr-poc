@@ -7,7 +7,7 @@ applyTo: "backend/**, frontend/**, messages/**"
 
 ## Objective
 
-Add a dedicated Reading section where users practice English reading comprehension.
+Add a dedicated Reading section where users practice reading comprehension in their active target language.
 The backend generates a text via LLM and stores it in the database so subsequent users
 at the same level receive the cached version at zero extra cost. Unlike Listening, no
 TTS synthesis is performed — the text is shown directly to the user. The user reads
@@ -71,21 +71,22 @@ Topics available per level (`_TOPICS_BY_LEVEL` in `reading_service.py`):
 
 One topic is selected at random from the level-appropriate subset at generation time.
 The selected topic is passed to the LLM prompt as `{topic}` and stored in `ReadingExercise.topic`.
+The service also injects language-aware cultural topic guidance. Japanese, Korean, and Mainland Chinese have dedicated cultural topic pools so generated readings avoid falling back to British cultural contexts.
 
 ---
 
 ## Text length by CEFR level
 
-| Level | Target word count |
-| ----- | ----------------- |
-| A1    | ~80 words         |
-| A2    | ~120 words        |
-| B1    | ~200 words        |
-| B2    | ~280 words        |
-| C1    | ~380 words        |
-| C2    | ~480 words        |
+| Level | Base target length |
+| ----- | ------------------ |
+| A1    | ~80 words          |
+| A2    | ~120 words         |
+| B1    | ~200 words         |
+| B2    | ~280 words         |
+| C1    | ~380 words         |
+| C2    | ~480 words         |
 
-Slightly longer than listening equivalents since reading is faster to process than audio.
+Slightly longer than listening equivalents since reading is faster to process than audio. Japanese and Mainland Chinese convert these base word counts into character ranges through `get_comprehension_length_guidance()`; word-spaced languages such as Korean keep word-count guidance.
 
 ---
 

@@ -131,25 +131,26 @@ Email template rendering escapes every interpolated value by default (`html.esca
 Manages AI-generated listening exercises end-to-end (Phase 6):
 
 - `get_available_exercise(level, target_language, user_id, db)` — returns the oldest unplayed exercise for the user's level/language, excluding already-attempted ones. Returns `None` if pool is empty.
-- `generate_and_save_exercise(level, target_language, db, tts_service, storage_path)` — calls LLM through `structured_output()`, extracts topic + text + 5 questions, synthesises MP3 via TTS service, flushes to DB to get the ID, writes audio to `{storage_path}/listening/{id}.mp3`, then commits. Prompt length guidance is generated through `get_comprehension_length_guidance()` so Japanese and Mainland Chinese use character ranges instead of word counts.
+- `generate_and_save_exercise(level, target_language, db, tts_service, storage_path)` — calls LLM through `structured_output()`, extracts topic + text + 5 questions, synthesises MP3 via TTS service, flushes to DB to get the ID, writes audio to `{storage_path}/listening/{id}.mp3`, then commits. Prompt length guidance is generated through `get_comprehension_length_guidance()` so Japanese and Mainland Chinese use character ranges instead of word counts. Current Japanese, Korean, and Mainland Chinese study plans include listening slots from A2-C2.
 - `calculate_score(questions, answers) → (score, xp_earned)` — pure function, case-insensitive comparison, 10 XP per correct answer.
 - `submit_attempt(exercise_id, user_id, answers, db)` — checks for duplicate (raises 409), calculates score, awards XP via Progress service, increments `play_count`.
 - `get_user_history(user_id, db, skip, limit)` — JOIN query returning `(list[tuple[ListeningAttempt, ListeningExercise]], total)`.
 
 **Exercise types by CEFR level** (`_TYPES_BY_LEVEL`):
 
-| Level  | Types                              |
-| ------ | ---------------------------------- |
-| A1, A2 | `story`, `conversation`            |
-| B1, B2 | `story`, `dialogue`, `interview`   |
-| C1, C2 | `news_report`, `lecture`, `debate` |
+| Level  | Types                                                   |
+| ------ | ------------------------------------------------------- |
+| A1, A2 | `monologue`, `announcement`, `voicemail`, `dialogue`, `story` |
+| B1     | `announcement`, `voicemail`, `story`, `dialogue`, `podcast` |
+| B2     | `voicemail`, `story`, `podcast`, `interview`, `news`   |
+| C1, C2 | `story`, `podcast`, `interview`, `news`, `monologue`   |
 
 ## Reading Service (`reading_service.py`)
 
 Manages AI-generated reading comprehension exercises end-to-end (Phase 7):
 
 - `get_available_exercise(level, target_language, user_id, db)` — returns the oldest unread exercise for the user's level/language, excluding already-attempted ones. Returns `None` if pool is empty.
-- `generate_and_save_exercise(level, target_language, db)` — calls LLM through `structured_output()`, extracts topic + text + 5 questions. No audio — text is served directly to the client. Prompt length guidance is generated through `get_comprehension_length_guidance()` so Japanese and Mainland Chinese use character ranges instead of word counts.
+- `generate_and_save_exercise(level, target_language, db)` — calls LLM through `structured_output()`, extracts topic + text + 5 questions. No audio — text is served directly to the client. Prompt length guidance is generated through `get_comprehension_length_guidance()` so Japanese and Mainland Chinese use character ranges instead of word counts. Cultural-topic guidance is language-aware, with dedicated topic pools for Japanese, Korean, Mainland Chinese, and the existing European/American language variants.
 - `calculate_score(questions, answers) → (score, xp_earned)` — pure function, case-insensitive option comparison, 10 XP per correct answer.
 - `submit_attempt(exercise_id, user_id, answers, db)` — checks for duplicate (raises 409), calculates score, awards XP via Progress service, increments `view_count`.
 - `get_user_history(user_id, db, skip, limit)` — JOIN query returning `(list[tuple[ReadingAttempt, ReadingExercise]], total)`.

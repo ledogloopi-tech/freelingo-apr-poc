@@ -10,7 +10,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="复杂论证和含义推断",
         grammar_points=["lunzheng-structure", "jishi-ye-concession", "han-yi-implication"],
         vocabulary_set_ids=["advanced_argument_c1", "logic_c1", "abstract_nouns_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能分析复杂文本中的前提、论据和结论",
             "能用即使……也……表达强让步",
@@ -27,7 +27,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="语体、礼貌和关系调节",
         grammar_points=["register-control-zh", "weiwan-requests", "keqi-politeness"],
         vocabulary_set_ids=["honorifics_c1", "institutional_interaction_c1", "social_hierarchy_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能根据对象和场合调整正式程度",
             "能使用委婉表达降低请求压力",
@@ -44,7 +44,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="学术阅读和资料整合",
         grammar_points=["academic-connectors-zh", "yinwen-source", "gaikuo-summary"],
         vocabulary_set_ids=["academic_reading_c1", "sources_c1", "methodology_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能理解学术文本中的连接和转折关系",
             "能用引文和资料说明信息来源",
@@ -61,7 +61,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="公共话语和社会议题",
         grammar_points=["gonggong-huayu", "taidu-biaoji", "liucheng-framing"],
         vocabulary_set_ids=["public_discourse_c1", "politics_society_c1", "opinion_polling_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能分析公共话语如何建构问题",
             "能识别文本中的态度标记和评价词",
@@ -78,7 +78,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="文体、体裁和正式写作",
         grammar_points=["genre-conventions-zh", "written-style-formal", "nominalization-zh"],
         vocabulary_set_ids=["style_genre_c1", "formal_writing_c1", "literary_language_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能区分说明文、议论文、报告和随笔的体裁特点",
             "能使用书面语表达增强正式感",
@@ -95,7 +95,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="协商、说服和替代方案",
         grammar_points=["xieshang-framing", "rangbu-counterpoint", "tichu-fangan"],
         vocabulary_set_ids=["negotiation_c1", "persuasion_c1", "professional_email_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能在协商中明确目标、条件和底线",
             "能先承认对方观点再提出不同意见",
@@ -112,7 +112,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="文学、文化和隐含信息",
         grammar_points=["xiuci-biyu", "sheng-lue-subject", "wenhua-allusion"],
         vocabulary_set_ids=["literature_c1", "culture_history_c1", "interpretation_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能解释比喻、象征和修辞效果",
             "能根据上下文补足省略的主语或信息",
@@ -138,7 +138,7 @@ C1_UNITS: list[CurriculumUnit] = [
             "wenhua-allusion",
         ],
         vocabulary_set_ids=["review_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能理解复杂文本中的逻辑、态度和隐含意义",
             "能在正式和专业场景中调整语体",

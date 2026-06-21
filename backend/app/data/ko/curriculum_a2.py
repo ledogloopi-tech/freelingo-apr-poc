@@ -10,7 +10,7 @@ A2_UNITS: list[CurriculumUnit] = [
         title="과거 경험 말하기",
         grammar_points=["past-asseoyo-eosseoyo", "before-after", "experience-jeok-i-isseoyo"],
         vocabulary_set_ids=["past_events_a2", "travel_a2", "weekend_a2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "았어요/었어요를 사용해 지난 일을 말할 수 있다",
             "전과 후를 사용해 사건의 순서를 설명할 수 있다",
@@ -27,7 +27,7 @@ A2_UNITS: list[CurriculumUnit] = [
         title="계획과 약속",
         grammar_points=["future-eul-geoyeyo", "intention-euryeogo-haeyo", "promise-eulgeyo"],
         vocabulary_set_ids=["plans_a2", "appointments_a2", "calendar_a2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "을 거예요로 가까운 미래 계획을 말할 수 있다",
             "으려고 해요를 사용해 의도와 준비를 설명할 수 있다",
@@ -44,7 +44,7 @@ A2_UNITS: list[CurriculumUnit] = [
         title="이유와 연결",
         grammar_points=["because-aseo-eoseo", "because-eunikka", "but-jiman"],
         vocabulary_set_ids=["reasons_a2", "feelings_a2", "health_a2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "아서/어서로 자연스러운 이유를 연결할 수 있다",
             "으니까를 사용해 판단이나 제안의 근거를 말할 수 있다",
@@ -61,7 +61,7 @@ A2_UNITS: list[CurriculumUnit] = [
         title="허락과 금지",
         grammar_points=["may-ado-dwaeyo", "must-not-eumyeon-an-dwaeyo", "must-aya-haeyo"],
         vocabulary_set_ids=["rules_a2", "public_places_a2", "work_school_a2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "아도/어도 돼요로 허락을 구하거나 줄 수 있다",
             "으면 안 돼요로 금지 사항을 공손하게 말할 수 있다",
@@ -78,7 +78,7 @@ A2_UNITS: list[CurriculumUnit] = [
         title="비교와 선택",
         grammar_points=["comparative-boda", "more-deo", "among-jungeseo"],
         vocabulary_set_ids=["comparisons_a2", "shopping_choices_a2", "food_review_a2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "보다와 더를 사용해 두 대상을 비교할 수 있다",
             "중에서를 사용해 여러 선택지 중 하나를 고를 수 있다",
@@ -95,7 +95,7 @@ A2_UNITS: list[CurriculumUnit] = [
         title="진행과 상태 변화",
         grammar_points=["progressive-go-isseoyo", "state-a-eo-isseoyo", "become-ge-dwaeyo"],
         vocabulary_set_ids=["activities_a2", "home_tasks_a2", "technology_a2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "고 있어요로 현재 진행 중인 행동을 말할 수 있다",
             "아/어 있어요로 결과 상태를 설명할 수 있다",
@@ -112,7 +112,7 @@ A2_UNITS: list[CurriculumUnit] = [
         title="길 찾기와 서비스 이용",
         grammar_points=["direction-euro", "try-a-eo-boseyo", "polite-can-eul-su-isseoyo"],
         vocabulary_set_ids=["directions_a2", "services_a2", "transport_detail_a2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "으로를 사용해 방향과 수단을 나타낼 수 있다",
             "아/어 보세요로 부드럽게 제안할 수 있다",
@@ -137,7 +137,7 @@ A2_UNITS: list[CurriculumUnit] = [
             "polite-can-eul-su-isseoyo",
         ],
         vocabulary_set_ids=["review_a2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "과거 경험, 계획, 이유, 허락을 연결해 짧은 대화를 할 수 있다",
             "생활 안내문과 쉬운 후기에서 필요한 정보를 찾을 수 있다",

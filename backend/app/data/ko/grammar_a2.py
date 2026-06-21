@@ -1,6 +1,6 @@
 """A2 grammar topics — Korean (ko-KR)."""
 
-from app.data._types import GrammarExample, GrammarTopic
+from app.data._types import GrammarExample, GrammarMistake, GrammarTopic
 
 A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
     GrammarTopic(
@@ -8,8 +8,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="았어요/었어요 과거형",
         level="A2",
         category="시제",
-        summary="았어요/었어요 과거형을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="았어요/었어요 과거형은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="았어요/었어요 과거형을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="았어요/었어요 과거형은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동사 어간 + 았어요/었어요",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -23,7 +23,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -31,8 +37,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="전과 후",
         level="A2",
         category="시간",
-        summary="전과 후을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="전과 후은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="전과 후을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="전과 후은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="명사/동사기 + 전/후",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -46,7 +52,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -54,8 +66,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="적이 있어요",
         level="A2",
         category="경험",
-        summary="적이 있어요을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="적이 있어요은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="적이 있어요을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="적이 있어요은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동사 어간 + 은/ㄴ 적이 있어요",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -69,7 +81,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -77,8 +95,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="을 거예요 미래형",
         level="A2",
         category="시제",
-        summary="을 거예요 미래형을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="을 거예요 미래형은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="을 거예요 미래형을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="을 거예요 미래형은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동사 어간 + 을/ㄹ 거예요",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -92,7 +110,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -100,8 +124,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="으려고 해요",
         level="A2",
         category="의도",
-        summary="으려고 해요을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="으려고 해요은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="으려고 해요을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="으려고 해요은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동사 어간 + 으려고/려고 해요",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -115,7 +139,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -123,8 +153,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="을게요 약속",
         level="A2",
         category="약속",
-        summary="을게요 약속을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="을게요 약속은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="을게요 약속을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="을게요 약속은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동사 어간 + 을게요/ㄹ게요",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -138,7 +168,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -146,8 +182,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="아서/어서 이유",
         level="A2",
         category="이유",
-        summary="아서/어서 이유을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="아서/어서 이유은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="아서/어서 이유을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="아서/어서 이유은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="어간 + 아서/어서",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -161,7 +197,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -169,8 +211,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="으니까 이유",
         level="A2",
         category="이유",
-        summary="으니까 이유을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="으니까 이유은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="으니까 이유을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="으니까 이유은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="어간 + 으니까/니까",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -184,7 +226,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -192,8 +240,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="지만 대조",
         level="A2",
         category="대조",
-        summary="지만 대조을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="지만 대조은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="지만 대조을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="지만 대조은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="어간 + 지만",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -207,7 +255,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -215,8 +269,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="아도/어도 돼요 허락",
         level="A2",
         category="허락",
-        summary="아도/어도 돼요 허락을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="아도/어도 돼요 허락은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="아도/어도 돼요 허락을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="아도/어도 돼요 허락은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동사 어간 + 아도/어도 돼요",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -230,7 +284,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -238,8 +298,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="으면 안 돼요 금지",
         level="A2",
         category="금지",
-        summary="으면 안 돼요 금지을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="으면 안 돼요 금지은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="으면 안 돼요 금지을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="으면 안 돼요 금지은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동사 어간 + 으면/면 안 돼요",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -253,7 +313,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -261,8 +327,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="아야/어야 해요 의무",
         level="A2",
         category="의무",
-        summary="아야/어야 해요 의무을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="아야/어야 해요 의무은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="아야/어야 해요 의무을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="아야/어야 해요 의무은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동사 어간 + 아야/어야 해요",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -276,7 +342,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -284,8 +356,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="보다 비교",
         level="A2",
         category="비교",
-        summary="보다 비교을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="보다 비교은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="보다 비교을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="보다 비교은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="명사 + 보다",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -299,7 +371,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -307,8 +385,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="더 강조 비교",
         level="A2",
         category="비교",
-        summary="더 강조 비교을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="더 강조 비교은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="더 강조 비교을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="더 강조 비교은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="더 + 형용사/부사",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -322,7 +400,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -330,8 +414,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="중에서 선택",
         level="A2",
         category="선택",
-        summary="중에서 선택을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="중에서 선택은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="중에서 선택을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="중에서 선택은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="명사들 + 중에서",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -345,7 +429,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -353,8 +443,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="고 있어요 진행",
         level="A2",
         category="진행",
-        summary="고 있어요 진행을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="고 있어요 진행은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="고 있어요 진행을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="고 있어요 진행은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동사 어간 + 고 있어요",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -368,7 +458,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -376,8 +472,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="아/어 있어요 상태",
         level="A2",
         category="상태",
-        summary="아/어 있어요 상태을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="아/어 있어요 상태은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="아/어 있어요 상태을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="아/어 있어요 상태은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동사 어간 + 아/어 있어요",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -391,7 +487,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -399,8 +501,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="게 돼요 변화",
         level="A2",
         category="변화",
-        summary="게 돼요 변화을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="게 돼요 변화은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="게 돼요 변화을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="게 돼요 변화은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동사/형용사 어간 + 게 돼요",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -414,7 +516,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -422,8 +530,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="으로 방향",
         level="A2",
         category="방향",
-        summary="으로 방향을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="으로 방향은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="으로 방향을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="으로 방향은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="명사 + 으로/로",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -437,7 +545,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -445,8 +559,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="아/어 보세요 제안",
         level="A2",
         category="제안",
-        summary="아/어 보세요 제안을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="아/어 보세요 제안은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="아/어 보세요 제안을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="아/어 보세요 제안은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동사 어간 + 아/어 보세요",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -460,7 +574,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -468,8 +588,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         title="을 수 있어요 가능",
         level="A2",
         category="가능",
-        summary="을 수 있어요 가능을/를 사용해 A2 수준의 한국어 문장을 더 정확하게 만들 수 있다.",
-        explanation="을 수 있어요 가능은/는 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
+        summary="을 수 있어요 가능을 실제 문장 안에서 자연스럽게 사용할 수 있다.",
+        explanation="을 수 있어요 가능은 실제 의사소통에서 자주 쓰이는 문법 항목이다. 형태만 외우기보다 앞뒤 맥락, 말투, 조사와 함께 익히면 자연스럽게 사용할 수 있다.",
         structure="동사 어간 + 을/ㄹ 수 있어요",
         rules=[
             "문장의 상황과 상대에 맞는 말투를 선택한다.",
@@ -483,7 +603,13 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="자연스러운 사용 예",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="문법 형태만 붙여서 어색하게 말하는 경우",
+                correct="문장 상황, 조사, 어미, 말투를 함께 확인해서 자연스럽게 쓴다.",
+                note="형태 암기보다 실제 문장 안에서의 연결과 높임 정도를 함께 연습합니다.",
+            )
+        ],
         related=[],
     ),
 ]

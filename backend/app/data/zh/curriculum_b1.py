@@ -10,7 +10,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="表达观点和理由",
         grammar_points=["wo-renwei-opinion", "dui-topic", "reason-erqie"],
         vocabulary_set_ids=["opinions_b1", "arguments_b1", "media_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能用我认为清楚表达个人观点",
             "能用对……来说限定讨论角度",
@@ -27,7 +27,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="叙述经历和连接事件",
         grammar_points=["yi-bian-yi-bian", "xian-ranhou", "de-shihou"],
         vocabulary_set_ids=["stories_b1", "life_events_b1", "relationships_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能用一边……一边……描述同时进行的动作",
             "能用先……然后……组织事件顺序",
@@ -44,7 +44,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="建议、劝告和选择",
         grammar_points=["yinggai-advice", "zuihao-suggestion", "huozhe-choice"],
         vocabulary_set_ids=["advice_b1", "study_work_b1", "wellbeing_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能用应该提出建议和义务",
             "能用最好表达更合适的做法",
@@ -61,7 +61,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="条件和可能性",
         grammar_points=["ruguo-jiu", "yaoshi-condition", "keneng-maybe"],
         vocabulary_set_ids=["conditions_b1", "plans_problems_b1", "weather_events_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能用如果……就……说明条件和结果",
             "能用要是表达较口语的假设",
@@ -78,7 +78,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="礼貌请求和委婉拒绝",
         grammar_points=["neng-buneng-request", "mafan-ni", "kongpa-refusal"],
         vocabulary_set_ids=["politeness_b1", "requests_refusals_b1", "customer_service_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能用能不能提出礼貌请求",
             "能用麻烦你使请求更自然",
@@ -95,7 +95,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="文化、习惯和社会生活",
         grammar_points=["suiran-danshi", "yue-lai-yue", "ba-sentence-intro"],
         vocabulary_set_ids=["culture_b1", "customs_b1", "social_life_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能用虽然……但是……表达让步和转折",
             "能用越来越描述变化趋势",
@@ -112,7 +112,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="问题解决和说明过程",
         grammar_points=["bei-passive-intro", "ba-result", "weile-purpose"],
         vocabulary_set_ids=["problems_solutions_b1", "housing_b1", "technology_support_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能初步用被说明受到影响的情况",
             "能用把字句说明处理后的结果",
@@ -138,7 +138,7 @@ B1_UNITS: list[CurriculumUnit] = [
             "weile-purpose",
         ],
         vocabulary_set_ids=["review_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能围绕熟悉话题表达观点、理由和建议",
             "能叙述经历并解释问题的原因和结果",

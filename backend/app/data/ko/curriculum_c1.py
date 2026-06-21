@@ -10,7 +10,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="정교한 논리 전개",
         grammar_points=["argument-structure", "concession-despite", "implication-hamui"],
         vocabulary_set_ids=["advanced_argument_c1", "logic_c1", "abstract_nouns_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "복잡한 주장 안에서 전제, 근거, 결론을 명확히 구분할 수 있다",
             "양보와 반론을 포함해 균형 잡힌 논증을 구성할 수 있다",
@@ -27,7 +27,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="높임말과 관계 조절",
         grammar_points=["advanced-honorifics", "speech-level-shifts", "deference-strategies"],
         vocabulary_set_ids=["honorifics_c1", "institutional_interaction_c1", "social_hierarchy_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "상대, 상황, 목적에 따라 높임 표현의 정도를 조절할 수 있다",
             "대화 중 말투 변화를 인식하고 관계 변화를 해석할 수 있다",
@@ -44,7 +44,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="학술적 읽기와 요약",
         grammar_points=["academic-connectors", "source-integration", "summary-compression"],
         vocabulary_set_ids=["academic_reading_c1", "sources_c1", "methodology_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "학술적 연결 표현을 사용해 논문의 흐름을 따라갈 수 있다",
             "자료, 주장, 해석을 구분하며 출처를 자연스럽게 통합할 수 있다",
@@ -61,7 +61,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="사회적 담화와 여론",
         grammar_points=["public-discourse-framing", "stance-markers", "nuance-evaluation"],
         vocabulary_set_ids=["public_discourse_c1", "politics_society_c1", "opinion_polling_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "공적 담화에서 쟁점이 구성되는 방식을 분석할 수 있다",
             "입장 표지와 평가 표현을 통해 글쓴이의 태도를 파악할 수 있다",
@@ -78,7 +78,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="문체와 장르",
         grammar_points=["register-control", "genre-conventions", "nominal-style-formal"],
         vocabulary_set_ids=["style_genre_c1", "formal_writing_c1", "literary_language_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "격식체, 설명문, 논설문, 수필의 문체 차이를 인식할 수 있다",
             "장르에 맞는 표현과 구성 방식을 선택할 수 있다",
@@ -95,7 +95,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="협상과 설득",
         grammar_points=["hedging-requests", "negotiation-framing", "counterproposal"],
         vocabulary_set_ids=["negotiation_c1", "persuasion_c1", "professional_email_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "완곡 표현으로 부담을 줄이며 요청할 수 있다",
             "상대의 입장을 인정하면서 대안을 제시할 수 있다",
@@ -112,7 +112,7 @@ C1_UNITS: list[CurriculumUnit] = [
         title="문학과 문화 해석",
         grammar_points=["figurative-language", "implicit-subjects-korean", "cultural-allusion"],
         vocabulary_set_ids=["literature_c1", "culture_history_c1", "interpretation_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "비유와 상징 표현이 만드는 의미를 해석할 수 있다",
             "생략된 주체와 배경 지식을 문맥에서 보완할 수 있다",
@@ -137,7 +137,7 @@ C1_UNITS: list[CurriculumUnit] = [
             "figurative-language",
         ],
         vocabulary_set_ids=["review_c1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "복잡한 글과 발화에서 논리, 태도, 함의를 파악할 수 있다",
             "공식적이고 전문적인 상황에서 말투와 문체를 조절할 수 있다",

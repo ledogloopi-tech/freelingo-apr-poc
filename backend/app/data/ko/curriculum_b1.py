@@ -10,7 +10,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="의견과 근거",
         grammar_points=["opinion-think-go-saenggakhaeyo", "reason-gi-ttaemune", "quote-dago-haeyo"],
         vocabulary_set_ids=["opinions_b1", "arguments_b1", "media_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "다고 생각해요를 사용해 의견을 분명히 말할 수 있다",
             "기 때문에로 이유와 근거를 연결할 수 있다",
@@ -27,7 +27,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="경험 서술과 이야기 전개",
         grammar_points=["while-myeonseo", "sequence-go-naseo", "background-neunde"],
         vocabulary_set_ids=["stories_b1", "life_events_b1", "relationships_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "면서로 동시에 일어난 행동을 설명할 수 있다",
             "고 나서로 사건의 순서를 자연스럽게 전개할 수 있다",
@@ -44,7 +44,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="조언과 제안",
         grammar_points=["advice-neun-ge-eottaeyo", "better-neun-ge-joayo", "should-aya-getseoyo"],
         vocabulary_set_ids=["advice_b1", "study_work_b1", "wellbeing_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "는 게 어때요로 부드럽게 제안할 수 있다",
             "는 게 좋아요로 권장 사항을 설명할 수 있다",
@@ -61,7 +61,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="조건과 가능성",
         grammar_points=["conditional-eumyeon", "if-geodeun", "maybe-euljido-mollayo"],
         vocabulary_set_ids=["conditions_b1", "plans_problems_b1", "weather_events_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "으면을 사용해 실제적인 조건을 말할 수 있다",
             "거든요로 이유나 배경을 자연스럽게 덧붙일 수 있다",
@@ -82,7 +82,7 @@ B1_UNITS: list[CurriculumUnit] = [
             "apology-expressions",
         ],
         vocabulary_set_ids=["politeness_b1", "requests_refusals_b1", "customer_service_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "아/어 주실 수 있어요로 정중하게 도움을 요청할 수 있다",
             "좀 어려울 것 같아요처럼 부드럽게 거절할 수 있다",
@@ -99,7 +99,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="문화와 사회생활",
         grammar_points=["contrast-neun-banmyeon", "as-mankeum", "nominalizer-gi"],
         vocabulary_set_ids=["culture_b1", "customs_b1", "social_life_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "는 반면에로 두 문화나 상황을 비교할 수 있다",
             "만큼을 사용해 정도와 비교를 표현할 수 있다",
@@ -116,7 +116,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="문제 해결과 설명",
         grammar_points=["cause-neun-baram-e", "result-ge-dwaesseoyo", "solution-dorok"],
         vocabulary_set_ids=["problems_solutions_b1", "housing_b1", "technology_support_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "는 바람에로 예상하지 못한 원인을 설명할 수 있다",
             "게 됐어요로 결과나 변화된 상황을 말할 수 있다",
@@ -141,7 +141,7 @@ B1_UNITS: list[CurriculumUnit] = [
             "result-ge-dwaesseoyo",
         ],
         vocabulary_set_ids=["review_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "일상적인 주제에 대해 의견, 이유, 예를 연결해 말할 수 있다",
             "짧은 설명문과 경험담에서 핵심 흐름을 파악할 수 있다",

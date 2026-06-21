@@ -14,7 +14,7 @@ B2_UNITS: list[CurriculumUnit] = [
             "counterpoint-gineun-hajiman",
         ],
         vocabulary_set_ids=["debate_b2", "evidence_b2", "society_b2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "주장과 근거를 구분해 논리적인 발화를 구성할 수 있다",
             "에 따르면으로 자료나 출처를 제시할 수 있다",
@@ -31,7 +31,7 @@ B2_UNITS: list[CurriculumUnit] = [
         title="격식 있는 말하기",
         grammar_points=["formal-seumnida-style", "honorific-si", "humble-deurida"],
         vocabulary_set_ids=["formal_speech_b2", "workplace_b2", "meetings_b2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "습니다체를 사용해 발표나 회의에서 격식 있게 말할 수 있다",
             "시를 사용해 상대나 제삼자를 높여 표현할 수 있다",
@@ -48,7 +48,7 @@ B2_UNITS: list[CurriculumUnit] = [
         title="추측과 판단",
         grammar_points=["supposition-eul-geot-gatda", "must-eul-teida", "apparently-na-boda"],
         vocabulary_set_ids=["judgement_b2", "news_analysis_b2", "data_trends_b2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "을 것 같다로 근거가 있는 추측을 표현할 수 있다",
             "을 테다로 예상이나 판단을 맥락에 맞게 사용할 수 있다",
@@ -65,7 +65,7 @@ B2_UNITS: list[CurriculumUnit] = [
         title="원인과 결과 분석",
         grammar_points=["due-to-euro-inhae", "result-neun-geoya", "not-only-eul-ppunman-anira"],
         vocabulary_set_ids=["cause_effect_b2", "policy_b2", "environment_b2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "으로 인해를 사용해 공식적인 원인을 제시할 수 있다",
             "는 것이다로 설명의 결론을 정리할 수 있다",
@@ -86,7 +86,7 @@ B2_UNITS: list[CurriculumUnit] = [
             "while-kin-hande",
         ],
         vocabulary_set_ids=["relationships_b2", "emotions_b2", "conflict_resolution_b2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "을 수밖에 없다로 불가피한 감정이나 선택을 설명할 수 있다",
             "을 걸 그랬다로 후회와 아쉬움을 표현할 수 있다",
@@ -103,7 +103,7 @@ B2_UNITS: list[CurriculumUnit] = [
         title="학업과 전문 주제",
         grammar_points=["definition-ran", "classification-e-ttara", "academic-nominalization"],
         vocabulary_set_ids=["academic_b2", "research_b2", "education_b2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "란을 사용해 개념을 정의할 수 있다",
             "에 따라로 분류 기준이나 조건을 제시할 수 있다",
@@ -120,7 +120,7 @@ B2_UNITS: list[CurriculumUnit] = [
         title="매체 이해와 비판",
         grammar_points=["reported-according-to", "contrast-nevertheless", "stance-eul-boida"],
         vocabulary_set_ids=["media_literacy_b2", "online_discourse_b2", "bias_b2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "보도에 따르면 같은 표현으로 정보 출처를 분명히 할 수 있다",
             "그럼에도 불구하고로 예상과 다른 결과를 연결할 수 있다",
@@ -145,7 +145,7 @@ B2_UNITS: list[CurriculumUnit] = [
             "contrast-nevertheless",
         ],
         vocabulary_set_ids=["review_b2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "추상적 주제에 대해 근거를 들어 자신의 입장을 설명할 수 있다",
             "격식 있는 상황에서 발표, 보고, 토론을 수행할 수 있다",

@@ -1,6 +1,6 @@
 """A2 grammar topics — Japanese (ja-JP)."""
 
-from app.data._types import GrammarExample, GrammarTopic
+from app.data._types import GrammarExample, GrammarMistake, GrammarTopic
 
 A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
     GrammarTopic(
@@ -18,17 +18,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「普通形の過去」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「普通形の過去」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -46,17 +52,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「丁寧形の過去」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「丁寧形の過去」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -74,17 +86,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「たことがあります」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「たことがあります」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -102,17 +120,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「て形による順序」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「て形による順序」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -130,17 +154,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「ています」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「ています」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -158,17 +188,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「てもいいです」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「てもいいです」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -186,17 +222,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「たい形」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「たい形」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -214,17 +256,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「つもりです」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「つもりです」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -242,17 +290,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「予定です」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「予定です」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -270,17 +324,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「よりの比較」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「よりの比較」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -298,17 +358,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「ほうが」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「ほうが」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -326,17 +392,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「いちばん」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「いちばん」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -354,17 +426,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「から・ので」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「から・ので」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -382,17 +460,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「んです」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「んです」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -410,17 +494,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「形容詞の名詞修飾」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「形容詞の名詞修飾」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -438,17 +528,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「可能形」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「可能形」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -466,17 +562,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「できる」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「できる」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -494,17 +596,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「可能表現のが」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「可能表現のが」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -522,17 +630,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「ほうがいい」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「ほうがいい」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -550,17 +664,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「なければなりません」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「なければなりません」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
     GrammarTopic(
@@ -578,17 +698,23 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="昨日、友だちと映画を見ました。",
+                text="「てはいけません」を使って経験や予定を説明します。",
                 translation=None,
-                note="過去の出来事",
+                note="この項目の基本練習",
             ),
             GrammarExample(
-                text="週末に日本語を勉強するつもりです。",
+                text="会話の中で「てはいけません」の形を確認します。",
                 translation=None,
-                note="予定・意図",
+                note="場面に合わせた練習",
             ),
         ],
-        common_mistakes=[],
+        common_mistakes=[
+            GrammarMistake(
+                wrong="文型・助詞・活用を混ぜて使う。",
+                correct="この項目の文型に合わせて助詞・活用・語順を確認する。",
+                note="形だけでなく、場面・文体・前後の語とのつながりを一緒に確認します。",
+            )
+        ],
         related=[],
     ),
 ]

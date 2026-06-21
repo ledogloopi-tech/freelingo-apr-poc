@@ -64,8 +64,8 @@ def _expanded_sets(
                 VocabularyEntry(
                     word=word,
                     pos=pos,
-                    definition=f"{level}阶段描述具体情况时使用的{topic}词汇。",
-                    example=f"请用{word}说明情况。",
+                    definition=f"{level}阶段在{topic}话题中描述具体情况的词汇。",
+                    example=f"请在真实场景中使用{word}说明情况。",
                     ipa=None,
                     frequency_rank=None,
                 )

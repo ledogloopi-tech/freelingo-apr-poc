@@ -12,7 +12,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="普通形と会話の基礎",
         grammar_points=["plain-form-system", "da-copula", "to-iu-quotation"],
         vocabulary_set_ids=["conversation_b1", "opinions_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "埋め込み節やくだけた会話で普通形を正確に使える",
             "身近な文脈でだ・ですと文体の切り替えをコントロールできる",
@@ -29,7 +29,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="理由・目的・条件",
         grammar_points=["tame-ni-purpose", "you-ni-purpose", "tara-conditional"],
         vocabulary_set_ids=["study_work_b1", "goals_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "意志性やコントロールの有無に応じて、ためにとようにを使い分けられる",
             "たらを使って一般的な条件や時間的な意味を表せる",
@@ -46,7 +46,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="経験・変化・習慣",
         grammar_points=["you-ni-naru", "koto-ni-suru", "te-aru-te-oku"],
         vocabulary_set_ids=["habits_b1", "life_changes_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "能力や習慣の変化をようになるで表現できる",
             "ことにする・ことになるを使って決定や取り決めを説明できる",
@@ -63,7 +63,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="授受表現",
         grammar_points=["ageru-kureru-morau", "te-ageru-kureru-morau", "benefactive-perspective"],
         vocabulary_set_ids=["relationships_b1", "helping_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "視点に注意して、あげる・くれる・もらうを正しく使える",
             "てあげる・てくれる・てもらうを使って親切や手助けを説明できる",
@@ -80,7 +80,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="受身形",
         grammar_points=["passive-form", "indirect-passive", "ni-yotte-agent"],
         vocabulary_set_ids=["news_b1", "society_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "受身形を作り、直接受身の文を理解できる",
             "日常的な語りの中で間接受身・迷惑受身を認識できる",
@@ -97,7 +97,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="可能・推量・様子",
         grammar_points=["sou-appearance", "rashii-hearsay", "darou-probability"],
         vocabulary_set_ids=["media_b1", "impressions_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "様態と伝聞のそうですを形の違いに注意して使い分けられる",
             "らしい、だろう・でしょうを使って可能性や伝聞に基づく印象を表せる",
@@ -114,7 +114,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="意見と対比",
         grammar_points=["keredomo-contrast", "noni-although", "node-formal-cause"],
         vocabulary_set_ids=["debate_b1", "community_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "ニュアンスと文体に応じて、けれども・のに・のでで考えをつなげられる",
             "対比、理由、結論を含む短い意見文を組み立てられる",
@@ -139,7 +139,7 @@ B1_UNITS: list[CurriculumUnit] = [
             "noni-although",
         ],
         vocabulary_set_ids=["review_b1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "旅行、仕事、交流などの一般的な場面で、つながりのあるB1レベルの発話ができる",
             "普通形、埋め込み節、授受表現、受身形を徐々に安定して使える",
