@@ -10,7 +10,7 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=1,
         title="의견과 근거",
-        grammar_points=["opinion-eun-geon-gatayo", "because-gi-ttaemune", "quotation-dago-hada"],
+        grammar_points=["opinion-eun-geon-gataya", "because-gi-ttaemune", "quotation-dago-hada"],
         vocabulary_set_ids=["opinions_b1", "arguments_b1", "media_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -138,7 +138,7 @@ B1_UNITS: list[CurriculumUnit] = [
         unit_number=8,
         title="B1 종합 복습",
         grammar_points=[
-            "opinion-eun-geon-gatayo",
+            "opinion-eun-geon-gataya",
             "background-neunde",
             "suggestion-neun-ge-eottaeyo",
             "conditional-eumyeon",

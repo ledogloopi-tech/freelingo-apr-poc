@@ -46,7 +46,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "저는 학생입니까?",
         ],
         correct="저는 학생입니다.",
-        grammar_slug="imnida-copula",
+        grammar_slug="ibnida-copula",
     ),
     AssessmentQuestion(
         id="ko-g-a1-004",
@@ -102,7 +102,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "사과 이 개와 물 일 병을 사요.",
         ],
         correct="사과 두 개와 물 한 병을 사요.",
-        grammar_slug="native-sino-numbers",
+        grammar_slug="numbers-sino",
     ),
     AssessmentQuestion(
         id="ko-g-a1-008",
@@ -325,7 +325,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "한국 음식을 먹고 있어요.",
         ],
         correct="한국 음식을 먹어 본 적이 있어요.",
-        grammar_slug="experience-jeok-i-isseoyo",
+        grammar_slug="experience-eun-jeogi-isseoyo",
     ),
     AssessmentQuestion(
         id="ko-g-a2-004",
@@ -353,7 +353,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "한국어를 더 공부하지만 해요.",
         ],
         correct="한국어를 더 공부하려고 해요.",
-        grammar_slug="intention-euryeogo-haeyo",
+        grammar_slug="intention-eullyeo",
     ),
     AssessmentQuestion(
         id="ko-g-a2-006",
@@ -395,7 +395,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "늦으면 택시를 타요.",
         ],
         correct="늦었으니까 택시를 타요.",
-        grammar_slug="because-eunikka",
+        grammar_slug="because-nikka",
     ),
     AssessmentQuestion(
         id="ko-g-a2-009",
@@ -409,7 +409,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "비싸면 맛있어요.",
         ],
         correct="비싸지만 맛있어요.",
-        grammar_slug="but-jiman",
+        grammar_slug="contrast-jiman",
     ),
     AssessmentQuestion(
         id="ko-g-a2-010",
@@ -423,7 +423,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "여기 앉지만 돼요?",
         ],
         correct="여기 앉아도 돼요?",
-        grammar_slug="may-ado-dwaeyo",
+        grammar_slug="permission-ado-dwaeyo",
     ),
     # ============================================================
     # A2 VOCABULARY (6 questions)
@@ -576,7 +576,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "이 방법이 좋으니까 생각해요.",
         ],
         correct="이 방법이 좋다고 생각해요.",
-        grammar_slug="opinion-think-go-saenggakhaeyo",
+        grammar_slug="opinion-eun-geon-gataya",
     ),
     AssessmentQuestion(
         id="ko-g-b1-002",
@@ -590,7 +590,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "시간이 없지만 때문에 먼저 갈게요.",
         ],
         correct="시간이 없기 때문에 먼저 갈게요.",
-        grammar_slug="reason-gi-ttaemune",
+        grammar_slug="because-gi-ttaemune",
     ),
     AssessmentQuestion(
         id="ko-g-b1-003",
@@ -604,7 +604,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "내일 비가 오면 해요.",
         ],
         correct="내일 비가 온다고 해요.",
-        grammar_slug="quote-dago-haeyo",
+        grammar_slug="quotation-dago-hada",
     ),
     AssessmentQuestion(
         id="ko-g-b1-004",
@@ -660,7 +660,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "조금 쉬면 어때요?",
         ],
         correct="조금 쉬는 게 어때요?",
-        grammar_slug="advice-neun-ge-eottaeyo",
+        grammar_slug="suggestion-neun-ge-eottaeyo",
     ),
     AssessmentQuestion(
         id="ko-g-b1-008",
@@ -688,7 +688,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "운동을 더 해요.",
         ],
         correct="운동을 더 해야겠어요.",
-        grammar_slug="should-aya-getseoyo",
+        grammar_slug="necessity-aya-dwaeyo",
     ),
     AssessmentQuestion(
         id="ko-g-b1-010",
@@ -855,7 +855,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "단계적으로 도입하면 바람직합니다.",
         ],
         correct="단계적으로 도입하는 것이 바람직합니다.",
-        grammar_slug="claim-neun-baramjikhada",
+        grammar_slug="debate-eun-geon-munje",
     ),
     AssessmentQuestion(
         id="ko-g-b2-002",
@@ -897,7 +897,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "오늘 결과를 발표한다.",
         ],
         correct="오늘 결과를 발표하겠습니다.",
-        grammar_slug="formal-seumnida-style",
+        grammar_slug="formal-seumnida-che",
     ),
     AssessmentQuestion(
         id="ko-g-b2-005",
@@ -939,7 +939,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "회의가 길어지면 같습니다.",
         ],
         correct="회의가 길어질 것 같습니다.",
-        grammar_slug="supposition-eul-geot-gatda",
+        grammar_slug="supposition-eun-ji-moreuda",
     ),
     AssessmentQuestion(
         id="ko-g-b2-008",
@@ -981,7 +981,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "폭우와 인해 행사가 취소되었습니다.",
         ],
         correct="폭우로 인해 행사가 취소되었습니다.",
-        grammar_slug="due-to-euro-inhae",
+        grammar_slug="cause-eul-tonghae",
     ),
     # ============================================================
     # B2 VOCABULARY (6 questions)
@@ -1186,7 +1186,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "결론을 전혀 내리지 않고 끝냅니다.",
         ],
         correct="먼저 배경을 제시하고 마지막에 결론을 정리합니다.",
-        grammar_slug="argument-structure",
+        grammar_slug="logical-structure",
     ),
     AssessmentQuestion(
         id="ko-g-c1-002",
@@ -1214,7 +1214,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "우려를 농담으로 가볍게 넘깁니다.",
         ],
         correct="직접 말하지 않아도 우려가 드러납니다.",
-        grammar_slug="implication-hamui",
+        grammar_slug="implicature",
     ),
     AssessmentQuestion(
         id="ko-g-c1-004",
@@ -1228,7 +1228,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "자료 검토 부탁해.",
         ],
         correct="자료를 검토해 주시면 감사하겠습니다.",
-        grammar_slug="advanced-honorifics",
+        grammar_slug="formal-honorifics",
     ),
     AssessmentQuestion(
         id="ko-g-c1-005",
@@ -1270,7 +1270,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "이 결과는 그냥 다른 해석도 돼요.",
         ],
         correct="한편, 이 결과는 다른 해석도 가능하게 합니다.",
-        grammar_slug="academic-connectors",
+        grammar_slug="academic-reading",
     ),
     AssessmentQuestion(
         id="ko-g-c1-008",
@@ -1312,7 +1312,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "이 문제는 너무 복잡해서 논의할 가치가 없어요.",
         ],
         correct="이 문제는 개인 선택보다 사회 구조와 관련됩니다.",
-        grammar_slug="public-discourse-framing",
+        grammar_slug="public-discourse",
     ),
     # ============================================================
     # C1 VOCABULARY (6 questions)
@@ -1525,12 +1525,12 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
         difficulty="C2",
         question="조사 뉘앙스의 자연스러운 예는 어느 것입니까?",
         options=[
-            "저는은 대비를 만들고 제가는 초점을 만듭니다.",
+            "저는 대비를 만들고 제가 초점을 만듭니다.",
             "저는과 제가는 항상 같은 뜻입니다.",
             "조사는 문장에서 전혀 중요하지 않습니다.",
             "한국어에는 조사라는 것이 없습니다.",
         ],
-        correct="저는은 대비를 만들고 제가는 초점을 만듭니다.",
+        correct="저는 대비를 만들고 제가 초점을 만듭니다.",
         grammar_slug="particle-nuance",
     ),
     AssessmentQuestion(
