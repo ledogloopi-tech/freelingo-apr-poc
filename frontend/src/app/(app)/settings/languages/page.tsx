@@ -8,7 +8,7 @@ import { useTranslations } from 'next-intl'
 import { useLanguageStore } from '@/store/language'
 import {
   getLanguageByCode,
-  SUPPORTED_TARGET_LANGUAGES,
+  TARGET_LANGUAGE_CATALOG,
 } from '@/lib/target-languages'
 import TargetLanguageSelector from '@/components/TargetLanguageSelector'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
@@ -94,7 +94,7 @@ export default function MyLanguagesPage() {
   )
   const addedCodes = userLanguages.map((ul) => ul.target_language)
   // Only show operator-enabled languages that the user hasn't added yet
-  const unusedCodes = SUPPORTED_TARGET_LANGUAGES.filter(
+  const unusedCodes = TARGET_LANGUAGE_CATALOG.filter(
     (l) =>
       availableLanguageCodes.includes(l.code) && !addedCodes.includes(l.code)
   ).map((l) => l.code)

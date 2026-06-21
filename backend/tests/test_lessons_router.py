@@ -10,7 +10,12 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from app.schemas.lessons import FillBlankEvaluation, FreeWriteEvaluation, PronunciationEvaluation
+from app.schemas.lessons import (
+    FillBlankEvaluation,
+    FreeWriteEvaluation,
+    NativeExplanationResponse,
+    PronunciationEvaluation,
+)
 from app.services.llm_adapter import LLMError, LLMTimeoutError, LLMUnavailableError
 
 # ── helpers ──────────────────────────────────────────────────────────────────
@@ -201,6 +206,89 @@ async def test_get_lesson_no_exercises(client, test_user, db_session):
     data = response.json()
     assert data["lesson"]["title"] == "Test Lesson"
     assert data["exercises"] == []
+
+
+@pytest.mark.asyncio
+async def test_generate_native_explanation_persists_content(client, test_user, db_session):
+    """POST /native-explanation translates an A1/A2 lesson explanation and stores it."""
+    user, headers = test_user
+    lesson = await _create_lesson_with_plan(
+        db_session,
+        user.id,
+        content={
+            "explanation": {
+                "text": "German nouns have gender.",
+                "key_points": ["Use der, die, das."],
+                "examples": [{"sentence": "Das ist ein Haus.", "note": "Neuter noun."}],
+            }
+        },
+    )
+
+    translated = NativeExplanationResponse(
+        text="Los sustantivos alemanes tienen genero.",
+        key_points=["Usa der, die, das."],
+        examples=[{"sentence": "Das ist ein Haus.", "note": "Sustantivo neutro."}],
+    )
+    with patch(
+        "app.routers.lessons.llm_adapter.structured_output",
+        new=AsyncMock(return_value=translated),
+    ) as mock_structured:
+        response = await client.post(
+            f"/api/lessons/{lesson.id}/native-explanation", headers=headers
+        )
+
+    assert response.status_code == 200
+    assert response.json()["native_explanation"]["text"] == translated.text
+    prompt = mock_structured.await_args.args[0][0]["content"]
+    assert "<<<EXPLANATION_JSON" in prompt
+    assert "German nouns have gender." in prompt
+
+    await db_session.refresh(lesson)
+    assert lesson.content["native_explanation"]["text"] == translated.text
+
+
+@pytest.mark.asyncio
+async def test_generate_native_explanation_returns_existing(client, test_user, db_session):
+    """POST /native-explanation is idempotent when the translation already exists."""
+    user, headers = test_user
+    existing = {
+        "text": "Ya traducido.",
+        "key_points": ["Punto clave."],
+        "examples": [],
+    }
+    lesson = await _create_lesson_with_plan(
+        db_session,
+        user.id,
+        content={"explanation": {"text": "Source"}, "native_explanation": existing},
+    )
+
+    with patch(
+        "app.routers.lessons.llm_adapter.structured_output",
+        new=AsyncMock(),
+    ) as mock_structured:
+        response = await client.post(
+            f"/api/lessons/{lesson.id}/native-explanation", headers=headers
+        )
+
+    assert response.status_code == 200
+    assert response.json()["native_explanation"] == existing
+    mock_structured.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_generate_native_explanation_rejects_b1_plus(client, test_user, db_session):
+    """Native explanations are only available for A1/A2 lessons."""
+    user, headers = test_user
+    lesson = await _create_lesson_with_plan(
+        db_session,
+        user.id,
+        cefr_level="B1",
+        content={"explanation": {"text": "Source"}},
+    )
+
+    response = await client.post(f"/api/lessons/{lesson.id}/native-explanation", headers=headers)
+
+    assert response.status_code == 400
 
 
 @pytest.mark.asyncio

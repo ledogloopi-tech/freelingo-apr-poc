@@ -11,6 +11,7 @@ import type { CEFRLevel } from '@/data/types'
 import { useLanguageStore } from '@/store/language'
 import { AudioPlayer } from '@/components/ui/AudioPlayer'
 import { PageLoading } from '@/components/ui/page-loading'
+import { TargetLanguageText } from '@/components/TargetLanguageText'
 
 const CEFR_LEVELS: CEFRLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
 const REGISTERS: Register[] = ['formal', 'neutral', 'informal']
@@ -61,9 +62,13 @@ function CategoryCard({
         {phrases.map((phrase, i) => (
           <li key={i} className="group space-y-1 px-5 py-3">
             <div className="flex items-start justify-between gap-3">
-              <p className="text-fl-fg flex-1 font-mono text-xs leading-relaxed">
+              <TargetLanguageText
+                as="p"
+                languageCode={language}
+                className="text-fl-fg flex-1"
+              >
                 {phrase.text}
-              </p>
+              </TargetLanguageText>
               <div className="flex shrink-0 items-center gap-1">
                 <span
                   className={`text-fl-label font-mono tracking-widest uppercase ${REGISTER_COLORS[phrase.register]}`}
@@ -79,9 +84,13 @@ function CategoryCard({
               </div>
             </div>
             {phrase.context && (
-              <p className="text-fl-label text-fl-muted-3 font-mono italic">
+              <TargetLanguageText
+                as="p"
+                languageCode={language}
+                className="text-fl-muted-3 italic"
+              >
                 {phrase.context}
-              </p>
+              </TargetLanguageText>
             )}
           </li>
         ))}

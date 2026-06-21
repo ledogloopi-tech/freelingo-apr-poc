@@ -5,7 +5,7 @@ from app.schemas.lessons import (
     LessonContent,
     PronunciationEvaluation,
 )
-from app.services.language_helpers import get_language_name
+from app.services.language_helpers import get_language_name, get_native_language_name
 from app.services.llm_adapter import llm_adapter
 from app.services.prompts import lesson as lesson_prompts
 from app.services.prompts.common import get_language_prompt_overlay
@@ -38,16 +38,19 @@ async def generate_lesson(
     grammar_points: list[str] | None = None,
     vocabulary_set_ids: list[str] | None = None,
     target_language: str = "en-GB",
+    native_language: str | None = None,
 ) -> LessonContent:
     gp_str = ", ".join(grammar_points) if grammar_points else "none specified"
     vs_str = ", ".join(vocabulary_set_ids) if vocabulary_set_ids else "general"
     target_language_name = get_language_name(target_language)
+    native_language_name = get_native_language_name(native_language) if native_language else "none"
     language_prompt_overlay = get_language_prompt_overlay(target_language)
     valid_slugs = get_valid_grammar_slugs(target_language)
     valid_slugs_str = ", ".join(sorted(valid_slugs))
     prompt = build_lesson_generation_prompt(
         cefr_level=cefr_level,
         target_language_name=target_language_name,
+        native_language_name=native_language_name,
         lesson_type=lesson_type,
         topic=topic,
         unit_id=unit_id or "—",

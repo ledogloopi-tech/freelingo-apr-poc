@@ -18,6 +18,7 @@ class LessonContent(BaseModel):
     title: str
     cefr_level: str
     explanation: dict
+    native_explanation: dict | None = None
     exercises: list[ExerciseContent]
     vocabulary: list[dict] | None = None
     grammar_refs: list[str] = []
@@ -95,3 +96,9 @@ class PronunciationEvaluation(BaseModel):
     score: float
     feedback: str
     is_correct: bool
+
+
+class NativeExplanationResponse(BaseModel):
+    text: str
+    key_points: list[str]
+    examples: list[dict]

@@ -183,9 +183,51 @@ async def test_unknown_language_falls_back_to_english(client, test_user):
     _, headers = test_user
 
     en_res = await client.get("/api/phrasebook?language=en-GB", headers=headers)
-    unknown_res = await client.get("/api/phrasebook?language=ja-JP", headers=headers)
+    unknown_res = await client.get("/api/phrasebook?language=xx-XX", headers=headers)
 
     en_ids = {c["id"] for c in en_res.json()["categories"]}
     unknown_ids = {c["id"] for c in unknown_res.json()["categories"]}
 
     assert en_ids == unknown_ids, "Unknown language should fall back to English"
+
+
+@pytest.mark.asyncio
+async def test_japanese_language_returns_japanese_categories(client, test_user):
+    """ja-JP returns Japanese phrasebook categories and does not fall back to English."""
+    _, headers = test_user
+
+    response = await client.get("/api/phrasebook?language=ja-JP", headers=headers)
+
+    assert response.status_code == 200
+    categories = response.json()["categories"]
+    assert len(categories) > 0
+    assert any(c["id"] == "greetings_ja_a1" for c in categories)
+    assert any(c["situation"] == "あいさつと自己紹介" for c in categories)
+
+
+@pytest.mark.asyncio
+async def test_korean_language_returns_korean_categories(client, test_user):
+    """ko-KR returns Korean phrasebook categories and does not fall back to English."""
+    _, headers = test_user
+
+    response = await client.get("/api/phrasebook?language=ko-KR", headers=headers)
+
+    assert response.status_code == 200
+    categories = response.json()["categories"]
+    assert len(categories) > 0
+    assert any(c["id"] == "greetings_a1" for c in categories)
+    assert any(c["situation"] == "인사와 소개" for c in categories)
+
+
+@pytest.mark.asyncio
+async def test_chinese_language_returns_chinese_categories(client, test_user):
+    """zh-CN returns Chinese phrasebook categories and does not fall back to English."""
+    _, headers = test_user
+
+    response = await client.get("/api/phrasebook?language=zh-CN", headers=headers)
+
+    assert response.status_code == 200
+    categories = response.json()["categories"]
+    assert len(categories) > 0
+    assert any(c["id"] == "greetings_a1" for c in categories)
+    assert any(c["situation"] == "问候和介绍" for c in categories)

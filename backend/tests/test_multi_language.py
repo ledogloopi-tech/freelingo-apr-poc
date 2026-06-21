@@ -395,6 +395,9 @@ class TestLanguageAPI:
         assert len(data["languages"]) >= 1
         assert any(lang["target_language"] == "en-US" for lang in data["languages"])
         assert "all_supported_languages" in data
+        assert "ja-JP" in data["all_supported_languages"]
+        assert "ko-KR" in data["all_supported_languages"]
+        assert "zh-CN" in data["all_supported_languages"]
 
     @pytest.mark.asyncio
     async def test_remove_language_cascades(self, client, db_session):
@@ -449,6 +452,42 @@ class TestLanguageAPI:
             json={"target_language": "xx-XX"},
         )
         assert res.status_code == 422
+
+    @pytest.mark.asyncio
+    async def test_japanese_language_can_be_added(self, client, db_session):
+        """ja-JP is accepted by the backend language allow-list."""
+        user, headers = await _make_user(db_session)
+
+        res = await client.post(
+            "/api/languages", headers=headers, json={"target_language": "ja-JP"}
+        )
+
+        assert res.status_code == 201
+        assert res.json()["target_language"] == "ja-JP"
+
+    @pytest.mark.asyncio
+    async def test_korean_language_can_be_added(self, client, db_session):
+        """ko-KR is accepted by the backend language allow-list."""
+        user, headers = await _make_user(db_session)
+
+        res = await client.post(
+            "/api/languages", headers=headers, json={"target_language": "ko-KR"}
+        )
+
+        assert res.status_code == 201
+        assert res.json()["target_language"] == "ko-KR"
+
+    @pytest.mark.asyncio
+    async def test_chinese_language_can_be_added(self, client, db_session):
+        """zh-CN is accepted by the backend language allow-list."""
+        user, headers = await _make_user(db_session)
+
+        res = await client.post(
+            "/api/languages", headers=headers, json={"target_language": "zh-CN"}
+        )
+
+        assert res.status_code == 201
+        assert res.json()["target_language"] == "zh-CN"
 
     @pytest.mark.asyncio
     async def test_plan_deactivation_scoped_by_language(self, client, db_session):
@@ -732,10 +771,43 @@ class TestCurriculumPerLanguage:
         """Unsupported language falls back to English."""
         from app.data.curriculum import get_curriculum
 
-        c = get_curriculum("ja-JP")
+        c = get_curriculum("xx-XX")
         assert "A1" in c
         # Should be English content
         assert c["A1"][0].title == "Identity & Greetings"
+
+    @pytest.mark.asyncio
+    async def test_curriculum_japanese(self, client):
+        """get_curriculum('ja-JP') returns Japanese curriculum."""
+        from app.data.curriculum import get_curriculum
+
+        c = get_curriculum("ja-JP")
+        assert list(c.keys()) == ["A1", "A2", "B1", "B2", "C1", "C2"]
+        assert len(c["A1"]) == 8
+        assert c["A1"][0].title == "文字とあいさつ"
+        assert c["C2"][-1].title == "C2総復習と最終統合"
+
+    @pytest.mark.asyncio
+    async def test_curriculum_korean(self, client):
+        """get_curriculum('ko-KR') returns Korean curriculum."""
+        from app.data.curriculum import get_curriculum
+
+        c = get_curriculum("ko-KR")
+        assert list(c.keys()) == ["A1", "A2", "B1", "B2", "C1", "C2"]
+        assert len(c["A1"]) == 8
+        assert c["A1"][0].title == "한글과 기본 인사"
+        assert c["C2"][-1].title == "C2 종합 복습"
+
+    @pytest.mark.asyncio
+    async def test_curriculum_chinese(self, client):
+        """get_curriculum('zh-CN') returns Mainland Chinese curriculum."""
+        from app.data.curriculum import get_curriculum
+
+        c = get_curriculum("zh-CN")
+        assert list(c.keys()) == ["A1", "A2", "B1", "B2", "C1", "C2"]
+        assert len(c["A1"]) == 8
+        assert c["A1"][0].title == "拼音、声调和问候"
+        assert c["C2"][-1].title == "C2综合复习"
 
     @pytest.mark.asyncio
     async def test_get_curriculum_units_with_language(self, client):

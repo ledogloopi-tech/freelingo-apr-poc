@@ -1,0 +1,1 @@
+"""Japanese language data package."""

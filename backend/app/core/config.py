@@ -65,13 +65,16 @@ class Settings(BaseSettings):
 
     # Multi-language — operator-configured subset of supported target languages.
     AVAILABLE_TARGET_LANGUAGES: list[str] = [
-        "en-US",
-        "en-GB",
         "de-DE",
+        "en-GB",
+        "en-US",
         "es-ES",
         "fr-FR",
         "it-IT",
+        "ja-JP",
+        "ko-KR",
         "pt-PT",
+        "zh-CN",
     ]
 
     model_config = {"env_file": ".env"}

@@ -37,7 +37,10 @@
       "es-ES": "¡Hola!",
       "fr-FR": "Bonjour !",
       "it-IT": "Ciao!",
-      "pt-PT": "Olá!"
+      "pt-PT": "Olá!",
+      "ja-JP": "こんにちは！",
+      "ko-KR": "안녕하세요!",
+      "zh-CN": "你好！"
     }
   },
   "common": {
@@ -557,6 +560,7 @@
     "submitAnswer": "Antwort einreichen",
     "lessonDone": "Lektion abgeschlossen",
     "score": "Punktzahl",
+    "showNativeExplanation": "Auf",
     "examples": "Beispiele",
     "pronunciationExercise": "Aussprache",
     "exerciseTypeMultipleChoice": "Mehrfachauswahl",
@@ -1082,19 +1086,28 @@
     "pt-PT": "Portugiesisch",
     "fr-FR": "Französisch",
     "de-DE": "Deutsch",
+    "ja-JP": "Japanisch",
+    "ko-KR": "Koreanisch",
+    "zh-CN": "Chinesisch (Festlandchina)",
     "en": "Englisch",
     "es": "Spanisch",
     "it": "Italienisch",
     "pt": "Portugiesisch",
     "fr": "Französisch",
     "de": "Deutsch",
+    "ja": "Japanisch",
+    "ko": "Koreanisch",
+    "zh": "Chinesisch",
     "es-ES-description": "Spanisch, wie es in Spanien gesprochen wird.",
     "it-IT-description": "Italienisch, wie es in Italien gesprochen wird.",
     "pt-PT-description": "Portugiesisch, wie es in Portugal gesprochen wird.",
     "en-US-description": "Englisch, wie es in den USA gesprochen wird.",
     "en-GB-description": "Englisch, wie es im Vereinigten Königreich gesprochen wird.",
     "fr-FR-description": "Französisch, wie es in Frankreich gesprochen wird.",
-    "de-DE-description": "Deutsch, wie es in Deutschland gesprochen wird."
+    "de-DE-description": "Deutsch, wie es in Deutschland gesprochen wird.",
+    "ja-JP-description": "Japanisch, wie es in Japan gesprochen wird.",
+    "ko-KR-description": "Koreanisch, wie es in Südkorea gesprochen wird.",
+    "zh-CN-description": "Mandarin-Chinesisch aus Festlandchina mit vereinfachten Schriftzeichen."
   },
   "onboarding": {
     "title": "Wähle deine Sprache",
@@ -1239,21 +1252,25 @@
   },
   "whatsNew": {
     "title": "Neuigkeiten",
-    "version": "v1.8.9",
+    "version": "v1.8.10",
     "cta": "Verstanden",
     "entry1": {
-      "label": "Fünf neue Lernsprachen",
-      "desc": "Deutsch, Französisch, Italienisch, Portugiesisch und Spanisch sind jetzt verfügbar — jede mit einem vollständigen Lehrplan von Anfänger bis Fortgeschritten (A1–C2), Grammatik, Wortschatz, Redewendungen, Reading, Listening und mehr. Füge sie unter Einstellungen → Meine Sprachen hinzu."
+      "label": "Mehr Sprachen zum Lernen",
+      "desc": "<bold>Deutsch, Französisch, Italienisch, Japanisch, Koreanisch, Portugiesisch, Spanisch und Chinesisch (Festland)</bold> sind jetzt verfügbar — mit vollständigen Lernpfaden von Anfänger bis Fortgeschritten, Grammatik, Wortschatz, Redewendungen, Reading, Listening und mehr. Füge sie unter Einstellungen → Meine Sprachen hinzu."
     },
     "entry2": {
+      "label": "Lektionserklärungen in deiner Sprache",
+      "desc": "Anfängerlektionen können die wichtigsten Ideen jetzt in deiner eigenen Sprache erklären, damit du jede Lektion vor dem Üben leichter verstehst."
+    },
+    "entry3": {
       "label": "Bewertung im Profil hinzufügen",
       "desc": "Du kannst deine Meinung zu FreeLingo jetzt direkt unter Einstellungen → Profil teilen. Deine Bewertung hilft anderen Lernenden, die Plattform zu entdecken."
     },
-    "entry3": {
+    "entry4": {
       "label": "Verbesserte Lernressourcen",
       "desc": "Alle Lernressourcen wurden mit neuen Inhalten erweitert."
     },
-    "entry4": {
+    "entry5": {
       "label": "Fehlerbehebungen",
       "desc": "Verschiedene kleinere Fehlerbehebungen und Stabilitätsverbesserungen in der gesamten Plattform."
     }

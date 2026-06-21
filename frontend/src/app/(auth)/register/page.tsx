@@ -138,8 +138,8 @@ function RegisterForm() {
           <Image
             src="/logo.png"
             alt="FreeLingo"
-            width={80}
-            height={80}
+            width={100}
+            height={100}
             className="mb-4"
           />
           <h1 className="text-fl-fg font-mono text-xl font-bold tracking-widest uppercase">

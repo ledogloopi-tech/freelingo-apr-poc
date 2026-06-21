@@ -142,7 +142,7 @@ A2_UNITS: list[CurriculumUnit] = [
             "transport_a2",
             "body_health_a2",
         ],
-        lesson_types=["grammar", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "Reads and understands a text (150–200 words) on a familiar topic",
             "Writes a short email or message (80–100 words) using past and future tenses",

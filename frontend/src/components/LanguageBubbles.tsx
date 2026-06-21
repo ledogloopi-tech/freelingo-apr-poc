@@ -15,14 +15,17 @@ function circlePosition(index: number, total: number, radius: number) {
 export function LanguageBubbles() {
   const t = useTranslations('landing')
   const positions = useMemo(
-    () => SUPPORTED_TARGET_LANGUAGES.map((_, i) => circlePosition(i, 7, 110)),
+    () =>
+      SUPPORTED_TARGET_LANGUAGES.map((_, i) =>
+        circlePosition(i, SUPPORTED_TARGET_LANGUAGES.length, 135)
+      ),
     []
   )
 
   return (
     <div className="relative h-[360px] w-full sm:h-[380px]">
       <div
-        className="absolute top-1/2 left-1/2 z-[1] h-[95px] w-[95px] -translate-x-1/2 -translate-y-1/2 bg-contain bg-center bg-no-repeat"
+        className="absolute top-1/2 left-1/2 z-[1] h-[140px] w-[140px] -translate-x-1/2 -translate-y-1/2 bg-contain bg-center bg-no-repeat"
         style={{ backgroundImage: 'url(/logo.png)' }}
         aria-label="FreeLingo"
       />

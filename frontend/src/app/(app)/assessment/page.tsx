@@ -399,6 +399,7 @@ export default function AssessmentPage() {
         questionNumber={questionNumber}
         totalQuestions={MAX_QUESTIONS}
         onAnswer={handleAnswer}
+        languageCode={activeLanguage?.code}
       />
     )
   }

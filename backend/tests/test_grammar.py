@@ -130,9 +130,51 @@ async def test_unknown_language_falls_back_to_english(client, test_user):
     _, headers = test_user
 
     en_res = await client.get("/api/grammar?language=en-GB", headers=headers)
-    unknown_res = await client.get("/api/grammar?language=ja-JP", headers=headers)
+    unknown_res = await client.get("/api/grammar?language=xx-XX", headers=headers)
 
     en_slugs = {t["slug"] for t in en_res.json()["topics"]}
     unknown_slugs = {t["slug"] for t in unknown_res.json()["topics"]}
 
     assert en_slugs == unknown_slugs, "Unknown language should fall back to English"
+
+
+@pytest.mark.asyncio
+async def test_japanese_language_returns_japanese_topics(client, test_user):
+    """ja-JP returns Japanese grammar topics and does not fall back to English."""
+    _, headers = test_user
+
+    response = await client.get("/api/grammar?language=ja-JP", headers=headers)
+
+    assert response.status_code == 200
+    topics = response.json()["topics"]
+    assert len(topics) > 0
+    assert any(t["slug"] == "hiragana" for t in topics)
+    assert any(t["title"] == "ひらがな" for t in topics)
+
+
+@pytest.mark.asyncio
+async def test_korean_language_returns_korean_topics(client, test_user):
+    """ko-KR returns Korean grammar topics and does not fall back to English."""
+    _, headers = test_user
+
+    response = await client.get("/api/grammar?language=ko-KR", headers=headers)
+
+    assert response.status_code == 200
+    topics = response.json()["topics"]
+    assert len(topics) > 0
+    assert any(t["slug"] == "hangul-basics" for t in topics)
+    assert any(t["title"] == "한글 기본" for t in topics)
+
+
+@pytest.mark.asyncio
+async def test_chinese_language_returns_chinese_topics(client, test_user):
+    """zh-CN returns Chinese grammar topics and does not fall back to English."""
+    _, headers = test_user
+
+    response = await client.get("/api/grammar?language=zh-CN", headers=headers)
+
+    assert response.status_code == 200
+    topics = response.json()["topics"]
+    assert len(topics) > 0
+    assert any(t["slug"] == "pinyin-tones" for t in topics)
+    assert any(t["title"] == "拼音和声调" for t in topics)

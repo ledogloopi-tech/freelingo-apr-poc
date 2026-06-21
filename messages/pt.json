@@ -37,7 +37,10 @@
       "es-ES": "¡Hola!",
       "fr-FR": "Bonjour !",
       "it-IT": "Ciao!",
-      "pt-PT": "Olá!"
+      "pt-PT": "Olá!",
+      "ja-JP": "こんにちは！",
+      "ko-KR": "안녕하세요!",
+      "zh-CN": "你好！"
     }
   },
   "common": {
@@ -557,6 +560,7 @@
     "submitAnswer": "Enviar resposta",
     "lessonDone": "Lição concluída",
     "score": "Pontuação",
+    "showNativeExplanation": "Ver em",
     "examples": "Exemplos",
     "pronunciationExercise": "Pronúncia",
     "exerciseTypeMultipleChoice": "Múltipla escolha",
@@ -1082,19 +1086,28 @@
     "pt-PT": "Português",
     "fr-FR": "Francês",
     "de-DE": "Alemão",
+    "ja-JP": "Japonês",
+    "ko-KR": "Coreano",
+    "zh-CN": "Chinês continental",
     "en": "inglês",
     "es": "espanhol",
     "it": "italiano",
     "pt": "português",
     "fr": "francês",
     "de": "alemão",
+    "ja": "japonês",
+    "ko": "coreano",
+    "zh": "chinês",
     "es-ES-description": "Espanhol falado na Espanha.",
     "it-IT-description": "Italiano falado na Itália.",
     "pt-PT-description": "Português falado em Portugal.",
     "en-US-description": "Inglês falado nos Estados Unidos.",
     "en-GB-description": "Inglês falado no Reino Unido.",
     "fr-FR-description": "Francês falado na França.",
-    "de-DE-description": "Alemão falado na Alemanha."
+    "de-DE-description": "Alemão falado na Alemanha.",
+    "ja-JP-description": "Japonês falado no Japão.",
+    "ko-KR-description": "Coreano falado na Coreia do Sul.",
+    "zh-CN-description": "Chinês mandarim da China continental, com caracteres simplificados."
   },
   "onboarding": {
     "title": "Escolha o seu idioma",
@@ -1239,21 +1252,25 @@
   },
   "whatsNew": {
     "title": "Novidades",
-    "version": "v1.8.9",
+    "version": "v1.8.10",
     "cta": "Entendido",
     "entry1": {
-      "label": "Cinco novos idiomas para aprender",
-      "desc": "Alemão, espanhol, francês, italiano e português já estão disponíveis — cada um com um plano de estudos completo do iniciante ao avançado (A1–C2), gramática, vocabulário, frases, Reading, Listening e mais. Adiciona-os em Definições → Os meus idiomas."
+      "label": "Mais idiomas para aprender",
+      "desc": "<bold>Alemão, chinês continental, coreano, espanhol, francês, italiano, japonês e português</bold> já estão disponíveis, com percursos completos do iniciante ao avançado, gramática, vocabulário, frases, Reading, Listening e mais. Adiciona-os em Definições → Os meus idiomas."
     },
     "entry2": {
+      "label": "Explicações das lições no teu idioma",
+      "desc": "As lições para iniciantes agora podem explicar as ideias principais no teu próprio idioma, para ser mais fácil compreender cada lição antes de praticar."
+    },
+    "entry3": {
       "label": "Adiciona uma avaliação no teu perfil",
       "desc": "Agora podes partilhar a tua opinião sobre o FreeLingo diretamente em Definições → Perfil. A tua avaliação ajuda outros estudantes a descobrir a plataforma."
     },
-    "entry3": {
+    "entry4": {
       "label": "Recursos didáticos melhorados",
       "desc": "Todas as seções de recursos didáticos foram ampliadas com novo conteúdo."
     },
-    "entry4": {
+    "entry5": {
       "label": "Correções de bugs",
       "desc": "Várias correções de bugs menores e melhorias de estabilidade em toda a plataforma."
     }

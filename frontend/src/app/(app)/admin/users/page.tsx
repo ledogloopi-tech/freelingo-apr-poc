@@ -32,6 +32,7 @@ import {
 import { apiFetch } from '@/lib/api'
 import {
   DEFAULT_TARGET_LANGUAGE,
+  TARGET_LANGUAGE_CATALOG,
   SUPPORTED_TARGET_LANGUAGES,
 } from '@/lib/target-languages'
 import { useAuthStore } from '@/store/auth'
@@ -145,7 +146,7 @@ export default function AdminUsersPage() {
 
   const visibleTargetLanguages = useMemo(() => {
     if (availableLanguageCodes.length === 0) return SUPPORTED_TARGET_LANGUAGES
-    return SUPPORTED_TARGET_LANGUAGES.filter((l) =>
+    return TARGET_LANGUAGE_CATALOG.filter((l) =>
       availableLanguageCodes.includes(l.code)
     )
   }, [availableLanguageCodes])

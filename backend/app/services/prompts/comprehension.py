@@ -6,7 +6,7 @@ for a {level} learner. Target language: {target_language_name}.
 
 Requirements:
 - Exercise type: {exercise_type} ({exercise_type_desc})
-- Length: approximately {word_count} words
+- Length: approximately {length_guidance}
 - Use {target_language_name} vocabulary and spelling conventions
 {language_prompt_overlay}
 - Write naturally, as if it will be read aloud
@@ -38,7 +38,7 @@ for a {level} learner. Target language: {target_language_name}.
 Requirements:
 - Exercise type: {exercise_type} ({exercise_type_desc})
 - Topic area: {topic}
-- Length: approximately {word_count} words
+- Length: approximately {length_guidance}
 - Use {target_language_name} vocabulary and spelling conventions
 {language_prompt_overlay}
 - Write in the natural register appropriate for the exercise type
@@ -72,6 +72,7 @@ def build_listening_generation_prompt(
     exercise_type: str,
     exercise_type_desc: str,
     word_count: int,
+    length_guidance: str | None = None,
     language_prompt_overlay: str = "",
 ) -> str:
     return LISTENING_GENERATION_PROMPT.format(
@@ -80,6 +81,7 @@ def build_listening_generation_prompt(
         exercise_type=exercise_type,
         exercise_type_desc=exercise_type_desc,
         word_count=word_count,
+        length_guidance=length_guidance or f"{word_count} words",
         language_prompt_overlay=language_prompt_overlay,
     )
 
@@ -92,6 +94,7 @@ def build_reading_generation_prompt(
     exercise_type_desc: str,
     topic: str,
     word_count: int,
+    length_guidance: str | None = None,
     language_prompt_overlay: str = "",
 ) -> str:
     return READING_GENERATION_PROMPT.format(
@@ -101,5 +104,6 @@ def build_reading_generation_prompt(
         exercise_type_desc=exercise_type_desc,
         topic=topic,
         word_count=word_count,
+        length_guidance=length_guidance or f"{word_count} words",
         language_prompt_overlay=language_prompt_overlay,
     )
