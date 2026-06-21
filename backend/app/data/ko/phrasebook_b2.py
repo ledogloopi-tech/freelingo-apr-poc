@@ -2,6 +2,23 @@
 
 from app.data._types import PhrasebookCategory, PhrasebookEntry
 
+
+def _p(
+    text: str,
+    context: str,
+    register: str,
+    unit_ref: str | None = None,
+    romanization: str | None = None,
+) -> PhrasebookEntry:
+    return PhrasebookEntry(
+        text=text,
+        context=context,
+        register=register,  # type: ignore[arg-type]
+        unit_ref=unit_ref,
+        romanization=romanization,
+    )
+
+
 B2_CATEGORIES: list[PhrasebookCategory] = [
     PhrasebookCategory(
         id="debate_b2",
@@ -9,23 +26,26 @@ B2_CATEGORIES: list[PhrasebookCategory] = [
         situation="토론과 근거",
         icon="🗣️",
         phrases=[
-            PhrasebookEntry(
-                text="자료에 따르면 이용자가 늘었습니다.",
-                context="근거를 제시할 때",
-                register="formal",
-                unit_ref="b2-unit-1",
+            _p(
+                "자료에 따르면 이용자가 늘었습니다.",
+                "근거를 제시할 때",
+                "formal",
+                "b2-unit-1",
+                romanization="jaryoe ttaireumyeon iyongjaga neureotseumnida.",
             ),
-            PhrasebookEntry(
-                text="효과가 있기는 하지만 비용도 고려해야 합니다.",
-                context="양보 후 반론할 때",
-                register="formal",
-                unit_ref="b2-unit-1",
+            _p(
+                "효과가 있기는 하지만 비용도 고려해야 합니다.",
+                "양보 후 반론할 때",
+                "formal",
+                "b2-unit-1",
+                romanization="hyogwaga itgineun hajiman biyongdo goryeohaeya hamnida.",
             ),
-            PhrasebookEntry(
-                text="저는 단계적 도입이 바람직하다고 봅니다.",
-                context="입장을 정리할 때",
-                register="formal",
-                unit_ref="b2-unit-1",
+            _p(
+                "저는 단계적 도입이 바람직하다고 봅니다.",
+                "입장을 정리할 때",
+                "formal",
+                "b2-unit-1",
+                romanization="jeoneun dangyejeok doibi baramjikadago bomnida.",
             ),
         ],
     ),
@@ -35,23 +55,26 @@ B2_CATEGORIES: list[PhrasebookCategory] = [
         situation="회의와 업무",
         icon="🏢",
         phrases=[
-            PhrasebookEntry(
-                text="오늘 안건을 말씀드리겠습니다.",
-                context="회의를 시작할 때",
-                register="formal",
-                unit_ref="b2-unit-2",
+            _p(
+                "오늘 안건을 말씀드리겠습니다.",
+                "회의를 시작할 때",
+                "formal",
+                "b2-unit-2",
+                romanization="oneul aneoneul malsseumdeurigesseumnida.",
             ),
-            PhrasebookEntry(
-                text="자료를 보내 드리겠습니다.",
-                context="업무상 약속할 때",
-                register="formal",
-                unit_ref="b2-unit-2",
+            _p(
+                "자료를 보내 드리겠습니다.",
+                "업무상 약속할 때",
+                "formal",
+                "b2-unit-2",
+                romanization="jaryoreul bonae deurigesseumnida.",
             ),
-            PhrasebookEntry(
-                text="확인 후 다시 연락드리겠습니다.",
-                context="후속 조치를 말할 때",
-                register="formal",
-                unit_ref="b2-unit-2",
+            _p(
+                "확인 후 다시 연락드리겠습니다.",
+                "후속 조치를 말할 때",
+                "formal",
+                "b2-unit-2",
+                romanization="hwagin hu dasi yeollakdeurigesseumnida.",
             ),
         ],
     ),
@@ -61,23 +84,26 @@ B2_CATEGORIES: list[PhrasebookCategory] = [
         situation="분석과 추측",
         icon="📊",
         phrases=[
-            PhrasebookEntry(
-                text="이 결과는 의미가 있을 것 같습니다.",
-                context="조심스럽게 판단할 때",
-                register="formal",
-                unit_ref="b2-unit-3",
+            _p(
+                "이 결과는 의미가 있을 것 같습니다.",
+                "조심스럽게 판단할 때",
+                "formal",
+                "b2-unit-3",
+                romanization="i gyeolgwaneun uimiga isseul geot gatseumnida.",
             ),
-            PhrasebookEntry(
-                text="수요가 더 늘어날 것으로 보입니다.",
-                context="추세를 말할 때",
-                register="formal",
-                unit_ref="b2-unit-3",
+            _p(
+                "수요가 더 늘어날 것으로 보입니다.",
+                "추세를 말할 때",
+                "formal",
+                "b2-unit-3",
+                romanization="suyoga deo neureonal geoseuro boimnida.",
             ),
-            PhrasebookEntry(
-                text="몇 가지 원인을 생각해 볼 수 있습니다.",
-                context="분석을 시작할 때",
-                register="formal",
-                unit_ref="b2-unit-3",
+            _p(
+                "몇 가지 원인을 생각해 볼 수 있습니다.",
+                "분석을 시작할 때",
+                "formal",
+                "b2-unit-3",
+                romanization="myeot gaji wonineul saenggakae bol su itseumnida.",
             ),
         ],
     ),
@@ -87,23 +113,26 @@ B2_CATEGORIES: list[PhrasebookCategory] = [
         situation="관계와 감정",
         icon="🤝",
         phrases=[
-            PhrasebookEntry(
-                text="그렇게 느낄 수밖에 없었어요.",
-                context="불가피한 감정을 설명할 때",
-                register="neutral",
-                unit_ref="b2-unit-5",
+            _p(
+                "그렇게 느낄 수밖에 없었어요.",
+                "불가피한 감정을 설명할 때",
+                "neutral",
+                "b2-unit-5",
+                romanization="geureoke neukkil subakke eopseosseoyo.",
             ),
-            PhrasebookEntry(
-                text="미리 말할 걸 그랬어요.",
-                context="후회를 표현할 때",
-                register="neutral",
-                unit_ref="b2-unit-5",
+            _p(
+                "미리 말할 걸 그랬어요.",
+                "후회를 표현할 때",
+                "neutral",
+                "b2-unit-5",
+                romanization="miri malhal geol geuraesseoyo.",
             ),
-            PhrasebookEntry(
-                text="좋기는 한데 조금 걱정돼요.",
-                context="완곡하게 반대할 때",
-                register="neutral",
-                unit_ref="b2-unit-5",
+            _p(
+                "좋기는 한데 조금 걱정돼요.",
+                "완곡하게 반대할 때",
+                "neutral",
+                "b2-unit-5",
+                romanization="jokineun hande jogeum geokjeongdwaeyo.",
             ),
         ],
     ),
@@ -113,32 +142,30 @@ B2_CATEGORIES: list[PhrasebookCategory] = [
         situation="매체와 비판",
         icon="📰",
         phrases=[
-            PhrasebookEntry(
-                text="보도에 따르면 상황이 달라졌습니다.",
-                context="뉴스 출처를 언급할 때",
-                register="formal",
-                unit_ref="b2-unit-7",
+            _p(
+                "보도에 따르면 상황이 달라졌습니다.",
+                "뉴스 출처를 언급할 때",
+                "formal",
+                "b2-unit-7",
+                romanization="bodo-e ttaireumyeon sanghwangi dallajyeotseumnida.",
             ),
-            PhrasebookEntry(
-                text="필자의 입장은 신중해 보입니다.",
-                context="글쓴이 태도를 말할 때",
-                register="formal",
-                unit_ref="b2-unit-7",
+            _p(
+                "필자의 입장은 신중해 보입니다.",
+                "글쓴이 태도를 말할 때",
+                "formal",
+                "b2-unit-7",
+                romanization="piljaui ipjangeun sinjunghae boimnida.",
             ),
-            PhrasebookEntry(
-                text="사실과 의견을 구분해야 합니다.",
-                context="비판적으로 읽을 때",
-                register="formal",
-                unit_ref="b2-unit-7",
+            _p(
+                "사실과 의견을 구분해야 합니다.",
+                "비판적으로 읽을 때",
+                "formal",
+                "b2-unit-7",
+                romanization="sasilgwa uigyeoneul gubunhaeya hamnida.",
             ),
         ],
     ),
 ]
-
-
-def _extra_phrase(text: str, context: str, unit_ref: str) -> PhrasebookEntry:
-    return PhrasebookEntry(text=text, context=context, register="formal", unit_ref=unit_ref)
-
 
 B2_CATEGORIES.append(
     PhrasebookCategory(
@@ -147,227 +174,264 @@ B2_CATEGORIES.append(
         situation="업무 분석과 논의",
         icon="📊",
         phrases=[
-            PhrasebookEntry(
-                text="현재 상황을 기준으로 판단해야 합니다.",
-                context="판단 기준을 말할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "현재 상황을 기준으로 판단해야 합니다.",
+                "판단 기준을 말할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="hyeonjae sanghwangeul gijuneuro pandanhaeya hamnida.",
             ),
-            PhrasebookEntry(
-                text="이 자료는 중요한 근거가 됩니다.",
-                context="자료의 가치를 말할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "이 자료는 중요한 근거가 됩니다.",
+                "자료의 가치를 말할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="i jaryoneun jungyohan geungeoga doemnida.",
             ),
-            PhrasebookEntry(
-                text="통계를 해석할 때 주의가 필요합니다.",
-                context="통계 해석 시 주의를 환기할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "통계를 해석할 때 주의가 필요합니다.",
+                "통계 해석 시 주의를 환기할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="tonggyereul haeseokhal ttae juuiga piryohamnida.",
             ),
-            PhrasebookEntry(
-                text="다른 관점에서도 검토해 보겠습니다.",
-                context="다각도 검토를 약속할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "다른 관점에서도 검토해 보겠습니다.",
+                "다각도 검토를 약속할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="dareun gwanjeomeseodo geomtohae bogesseumnida.",
             ),
-            PhrasebookEntry(
-                text="이 주장에는 설득력이 있습니다.",
-                context="상대 주장을 인정할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "이 주장에는 설득력이 있습니다.",
+                "상대 주장을 인정할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="i jujangeneun seoldeungnyeogi itseumnida.",
             ),
-            PhrasebookEntry(
-                text="다만 전제가 조금 약합니다.",
-                context="약점을 지적할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "다만 전제가 조금 약합니다.",
+                "약점을 지적할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="daman jeonjega jogeum yakhamnida.",
             ),
-            PhrasebookEntry(
-                text="구체적인 사례를 추가하면 좋겠습니다.",
-                context="보완을 제안할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "구체적인 사례를 추가하면 좋겠습니다.",
+                "보완을 제안할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="guchejeogin saryereul chugahamyeon jokesseumnida.",
             ),
-            PhrasebookEntry(
-                text="비용 대비 효과를 확인해야 합니다.",
-                context="비용 효과 분석이 필요할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "비용 대비 효과를 확인해야 합니다.",
+                "비용 효과 분석이 필요할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="biyong daebi hyogwareul hwaginhaeya hamnida.",
             ),
-            PhrasebookEntry(
-                text="고객에게 미치는 영향이 큽니다.",
-                context="영향도를 평가할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "고객에게 미치는 영향이 큽니다.",
+                "영향도를 평가할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="gogaegege michineun yeonghyangi keumnida.",
             ),
-            PhrasebookEntry(
-                text="운영 부담도 함께 고려해야 합니다.",
-                context="운영 측면을 고려할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "운영 부담도 함께 고려해야 합니다.",
+                "운영 측면을 고려할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="unyeong budamdo hamkke goryeohaeya hamnida.",
             ),
-            PhrasebookEntry(
-                text="우선순위를 다시 정리하겠습니다.",
-                context="우선순위 조정을 약속할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "우선순위를 다시 정리하겠습니다.",
+                "우선순위 조정을 약속할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="useonsunwireul dasi jeongnihagesseumnida.",
             ),
-            PhrasebookEntry(
-                text="관련 부서와 조율하겠습니다.",
-                context="부서 간 조율을 약속할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "관련 부서와 조율하겠습니다.",
+                "부서 간 조율을 약속할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="gwallyeon buseowa joyulhagesseumnida.",
             ),
-            PhrasebookEntry(
-                text="일정 조정이 필요해 보입니다.",
-                context="일정 변경 필요를 말할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "일정 조정이 필요해 보입니다.",
+                "일정 변경 필요를 말할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="iljeong jojeongi piryohae boimnida.",
             ),
-            PhrasebookEntry(
-                text="위험 요소를 미리 공유해야 합니다.",
-                context="리스크 공유를 말할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "위험 요소를 미리 공유해야 합니다.",
+                "리스크 공유를 말할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="wiheom yosoreul miri gongyuhaeya hamnida.",
             ),
-            PhrasebookEntry(
-                text="대안을 세 가지로 정리했습니다.",
-                context="대안 목록을 제시할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "대안을 세 가지로 정리했습니다.",
+                "대안 목록을 제시할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="daeaneul se gajiro jeongnihaetseumnida.",
             ),
-            PhrasebookEntry(
-                text="이 선택지는 현실적입니다.",
-                context="선택지를 평가할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "이 선택지는 현실적입니다.",
+                "선택지를 평가할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="i seontaekjineun hyeonsiljeogimnida.",
             ),
-            PhrasebookEntry(
-                text="하지만 장기적인 효과는 불확실합니다.",
-                context="장기 효과의 불확실성을 말할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "하지만 장기적인 효과는 불확실합니다.",
+                "장기 효과의 불확실성을 말할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="hajiman janggijeogin hyogwaneun bulhwaksilhamnida.",
             ),
-            PhrasebookEntry(
-                text="계약 조건을 다시 확인하겠습니다.",
-                context="계약 검토를 약속할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "계약 조건을 다시 확인하겠습니다.",
+                "계약 검토를 약속할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="gyeyak jogeoneul dasi hwaginhagesseumnida.",
             ),
-            PhrasebookEntry(
-                text="예산 범위 안에서 진행해야 합니다.",
-                context="예산 제약을 말할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "예산 범위 안에서 진행해야 합니다.",
+                "예산 제약을 말할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="yesan beomwi aneseo jinhaenghaeya hamnida.",
             ),
-            PhrasebookEntry(
-                text="결정 전에 추가 검토가 필요합니다.",
-                context="결정 보류를 말할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "결정 전에 추가 검토가 필요합니다.",
+                "결정 보류를 말할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="gyeoljeong jeone chuga geomtoga piryohamnida.",
             ),
-            PhrasebookEntry(
-                text="회의록에 합의 내용을 남기겠습니다.",
-                context="회의록 작성을 말할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "회의록에 합의 내용을 남기겠습니다.",
+                "회의록 작성을 말할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="hoeuiroge habui naeyongeul namgigesseumnida.",
             ),
-            PhrasebookEntry(
-                text="다음 단계는 자료 검토입니다.",
-                context="다음 단계를 안내할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "다음 단계는 자료 검토입니다.",
+                "다음 단계를 안내할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="daeum dangyeneun jaryo geomtoimnida.",
             ),
-            PhrasebookEntry(
-                text="이 문장은 조금 강하게 들립니다.",
-                context="표현 강도를 평가할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "이 문장은 조금 강하게 들립니다.",
+                "표현 강도를 평가할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="i munjangeun jogeum ganghage deullimnida.",
             ),
-            PhrasebookEntry(
-                text="더 중립적인 표현으로 바꾸겠습니다.",
-                context="표현 수정을 약속할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "더 중립적인 표현으로 바꾸겠습니다.",
+                "표현 수정을 약속할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="deo jungnipjeogin pyohyeoneuro bakkugesseumnida.",
             ),
-            PhrasebookEntry(
-                text="핵심 메시지를 앞에 두는 것이 좋습니다.",
-                context="글 구조 조언을 할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "핵심 메시지를 앞에 두는 것이 좋습니다.",
+                "글 구조 조언을 할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="haeksim mesijireul ape duneun geosi joseumnida.",
             ),
-            PhrasebookEntry(
-                text="결론을 더 명확하게 써야 합니다.",
-                context="글 명확성 조언을 할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "결론을 더 명확하게 써야 합니다.",
+                "글 명확성 조언을 할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="gyeolloneul deo myeonghwakhage sseoya hamnida.",
             ),
-            PhrasebookEntry(
-                text="독자의 반응도 고려해야 합니다.",
-                context="독자 관점을 강조할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "독자의 반응도 고려해야 합니다.",
+                "독자 관점을 강조할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="dokjaui baneungdo goryeohaeya hamnida.",
             ),
-            PhrasebookEntry(
-                text="이 보도는 배경 설명이 부족합니다.",
-                context="보도 내용을 평가할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "이 보도는 배경 설명이 부족합니다.",
+                "보도 내용을 평가할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="i bodoneun baegyeong seolmyeongi bujokhamnida.",
             ),
-            PhrasebookEntry(
-                text="전문가 의견을 추가로 확인하겠습니다.",
-                context="전문가 확인을 약속할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "전문가 의견을 추가로 확인하겠습니다.",
+                "전문가 확인을 약속할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="jeonmunga uigyeoneul chugaro hwaginhagesseumnida.",
             ),
-            PhrasebookEntry(
-                text="근거와 의견을 구분해야 합니다.",
-                context="사실과 의견 구분을 말할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "근거와 의견을 구분해야 합니다.",
+                "사실과 의견 구분을 말할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="geungeowa uigyeoneul gubunhaeya hamnida.",
             ),
-            PhrasebookEntry(
-                text="이 문제는 경제와도 연결됩니다.",
-                context="경제적 연관성을 말할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "이 문제는 경제와도 연결됩니다.",
+                "경제적 연관성을 말할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="i munjeneun gyeongjewado yeongyeoldoemnida.",
             ),
-            PhrasebookEntry(
-                text="단기 효과와 장기 효과를 나누어 보겠습니다.",
-                context="기간별 분석을 제안할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "단기 효과와 장기 효과를 나누어 보겠습니다.",
+                "기간별 분석을 제안할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="dangi hyogwawa janggi hyogwareul nanueo bogesseumnida.",
             ),
-            PhrasebookEntry(
-                text="이 부분은 반론이 예상됩니다.",
-                context="예상 반론을 언급할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "이 부분은 반론이 예상됩니다.",
+                "예상 반론을 언급할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="i bubuneun balloni yesangdoemnida.",
             ),
-            PhrasebookEntry(
-                text="반론에 대한 답변도 준비하겠습니다.",
-                context="반론 대비를 약속할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "반론에 대한 답변도 준비하겠습니다.",
+                "반론 대비를 약속할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="ballone daehan dapbyeondo junbihagesseumnida.",
             ),
-            PhrasebookEntry(
-                text="최종 판단은 다음 회의에서 하겠습니다.",
-                context="판단 시기를 정할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "최종 판단은 다음 회의에서 하겠습니다.",
+                "판단 시기를 정할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="choejong pandaneun daeum hoeuieseo hagesseumnida.",
             ),
-            PhrasebookEntry(
-                text="오늘 논의한 내용을 정리해 공유하겠습니다.",
-                context="회의 후속 조치를 말할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "오늘 논의한 내용을 정리해 공유하겠습니다.",
+                "회의 후속 조치를 말할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="oneul nonuihan naeyongeul jeongnihae gongyuhagesseumnida.",
             ),
-            PhrasebookEntry(
-                text="추가 자료가 있으면 보내 주세요.",
-                context="자료 요청을 할 때",
-                register="formal",
-                unit_ref="b2-unit-8",
+            _p(
+                "추가 자료가 있으면 보내 주세요.",
+                "자료 요청을 할 때",
+                "formal",
+                "b2-unit-8",
+                romanization="chuga jaryoga isseumyeon bonae juseyo.",
             ),
         ],
     )

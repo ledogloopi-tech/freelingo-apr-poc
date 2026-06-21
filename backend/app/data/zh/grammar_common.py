@@ -7,13 +7,17 @@ TopicSpec = tuple[str, str, str, str, str] | tuple[str, str, str, str, str, list
 
 def build_topic(level: CEFRLevel, spec: TopicSpec) -> GrammarTopic:
     slug, title, category, structure, example = spec[:5]
-    common_mistakes = spec[5] if len(spec) > 5 else [
-        GrammarMistake(
-            wrong="只记形式，不注意语序、搭配或语气。",
-            correct="把语法点放进完整句子里，检查语序、搭配和上下文。",
-            note="现代汉语的语法常依靠词序、虚词和语境共同表达意思。",
-        )
-    ]
+    common_mistakes = (
+        spec[5]
+        if len(spec) > 5
+        else [
+            GrammarMistake(
+                wrong="只记形式，不注意语序、搭配或语气。",
+                correct="把语法点放进完整句子里，检查语序、搭配和上下文。",
+                note="现代汉语的语法常依靠词序、虚词和语境共同表达意思。",
+            )
+        ]
+    )
     return GrammarTopic(
         slug=slug,
         title=title,

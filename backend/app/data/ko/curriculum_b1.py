@@ -46,7 +46,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="조언과 제안",
         grammar_points=[
             "suggestion-neun-ge-eottaeyo",
-            "refusal-neun-ge-joayo",
+            "better-neun-ge-joayo",
             "necessity-aya-dwaeyo",
         ],
         vocabulary_set_ids=["advice_b1", "study_work_b1", "wellbeing_b1"],
@@ -84,7 +84,7 @@ B1_UNITS: list[CurriculumUnit] = [
         title="공손한 요청과 거절",
         grammar_points=[
             "request-eul-juseyo",
-            "refusal-neun-ge-joayo",
+            "polite-refusal-b1",
             "apology-expressions",
         ],
         vocabulary_set_ids=["politeness_b1", "requests_refusals_b1", "customer_service_b1"],
