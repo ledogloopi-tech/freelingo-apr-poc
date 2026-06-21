@@ -1414,9 +1414,9 @@
     "submit": "Trimite"
   },
   "landingReviews": {
-    "eyebrow": "Recenzii de la cursanți",
-    "title": "Progres real, evaluat de cursanți",
-    "subtitle": "Recenzii verificate pe FreeLingo de la studenți care folosesc platforma pentru a învăța cu Lingu.",
+    "eyebrow": "Povești de la cursanți",
+    "title": "Învățarea se vede mai bine când o povestești tu",
+    "subtitle": "Recenzii de la studenți care exersează deja cu Lingu pe FreeLingo.",
     "learningLanguage": "Învață {language}",
     "starsLabel": "{rating} din 5 stele",
     "ratingOnly": "Rating FreeLingo verificat."

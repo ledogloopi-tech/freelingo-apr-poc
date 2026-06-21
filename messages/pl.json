@@ -1414,9 +1414,9 @@
     "submit": "Wyślij"
   },
   "landingReviews": {
-    "eyebrow": "Recenzje uczących się",
-    "title": "Prawdziwe postępy ocenione przez uczących się",
-    "subtitle": "Zweryfikowane recenzje FreeLingo od uczniów korzystających z platformy do nauki z Lingu.",
+    "eyebrow": "Historie uczących się",
+    "title": "Naukę widać lepiej, gdy opowiadasz o niej samodzielnie",
+    "subtitle": "Recenzje uczniów, którzy już ćwiczą z Lingu na FreeLingo.",
     "learningLanguage": "Nauka: {language}",
     "starsLabel": "{rating} z 5 gwiazdek",
     "ratingOnly": "Zweryfikowana ocena FreeLingo."

@@ -1414,9 +1414,9 @@
     "submit": "Verzenden"
   },
   "landingReviews": {
-    "eyebrow": "Beoordelingen van cursisten",
-    "title": "Echte vooruitgang, beoordeeld door cursisten",
-    "subtitle": "Geverifieerde FreeLingo-beoordelingen van studenten die het platform gebruiken om met Lingu te leren.",
+    "eyebrow": "Verhalen van cursisten",
+    "title": "Leren voelt echter wanneer je het zelf vertelt",
+    "subtitle": "Beoordelingen van studenten die al met Lingu oefenen op FreeLingo.",
     "learningLanguage": "Leert {language}",
     "starsLabel": "{rating} van 5 sterren",
     "ratingOnly": "Geverifieerde FreeLingo-beoordeling."

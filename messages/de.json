@@ -1414,9 +1414,9 @@
     "submit": "Absenden"
   },
   "landingReviews": {
-    "eyebrow": "Bewertungen von Lernenden",
-    "title": "Echter Fortschritt, bewertet von Lernenden",
-    "subtitle": "Verifizierte FreeLingo-Bewertungen von Lernenden, die mit Lingu auf der Plattform lernen.",
+    "eyebrow": "Geschichten von Lernenden",
+    "title": "Lernen wirkt echter, wenn du selbst davon erzählst",
+    "subtitle": "Bewertungen von Lernenden, die bereits mit Lingu auf FreeLingo üben.",
     "learningLanguage": "Lernt {language}",
     "starsLabel": "{rating} von 5 Sternen",
     "ratingOnly": "Verifizierte FreeLingo-Bewertung."

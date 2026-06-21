@@ -1414,9 +1414,9 @@
     "submit": "Envoyer"
   },
   "landingReviews": {
-    "eyebrow": "Avis des apprenants",
-    "title": "De vrais progrès, notés par les apprenants",
-    "subtitle": "Avis vérifiés sur FreeLingo d'étudiants qui utilisent la plateforme pour apprendre avec Lingu.",
+    "eyebrow": "Histoires d'apprenants",
+    "title": "Apprendre se voit encore mieux quand vous le racontez",
+    "subtitle": "Avis d'étudiants qui s'entraînent déjà avec Lingu sur FreeLingo.",
     "learningLanguage": "Apprentissage : {language}",
     "starsLabel": "{rating} sur 5 étoiles",
     "ratingOnly": "Note FreeLingo vérifiée."

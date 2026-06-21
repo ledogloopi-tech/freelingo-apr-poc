@@ -73,12 +73,12 @@ export function LandingReviewsCarousel({
 
       <div
         ref={scrollerRef}
-        className="scrollbar-thumb-fl-border flex snap-x scrollbar-thin scrollbar-track-transparent gap-4 overflow-x-auto pb-3"
+        className={`scrollbar-thumb-fl-border flex snap-x scrollbar-thin scrollbar-track-transparent gap-4 overflow-x-auto pb-3 ${reviews.length === 1 ? 'justify-center' : ''}`}
       >
         {reviews.map((review) => (
           <article
             key={review.id}
-            className="border-fl-border bg-fl-surface flex min-h-52 min-w-[280px] snap-start flex-col border p-5 sm:min-w-[340px]"
+            className="border-fl-border bg-fl-surface flex min-h-52 w-[280px] flex-none snap-start flex-col border p-5 sm:w-[340px]"
           >
             <div className="mb-4 flex items-start justify-between gap-4">
               <div>
