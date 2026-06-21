@@ -20,7 +20,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="단계적으로 도입하는 것이 바람직합니다.",
                 translation="It is advisable to introduce it in stages.",
-                note="자연스러운 사용 예",
+                note="'도입하는 것이 바람직합니다'로 공식적인 의견을 제시합니다. '-는 것이 바람직하다'는 공식적 주장 표현입니다.",
             ),
         ],
         common_mistakes=[
@@ -49,7 +49,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="조사에 따르면 이용자가 늘었습니다.",
                 translation="According to the survey, users have increased.",
-                note="자연스러운 사용 예",
+                note="'조사에 따르면'으로 정보의 출처를 밝히며 객관성을 더합니다.",
             ),
         ],
         common_mistakes=[
@@ -78,7 +78,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="효과가 있기는 하지만 비용이 큽니다.",
                 translation="It is effective, but the cost is high.",
-                note="자연스러운 사용 예",
+                note="'있기는 하지만'으로 일부 인정하면서도 대안적 시각을 제시합니다.",
             ),
         ],
         common_mistakes=[
@@ -107,7 +107,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="오늘 결과를 발표하겠습니다.",
                 translation="I will present today's results.",
-                note="자연스러운 사용 예",
+                note="'발표하겠습니다'는 합쇼체의 공식적 종결 어미로, 발표나 보고에서 사용됩니다.",
             ),
         ],
         common_mistakes=[
@@ -136,7 +136,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="선생님께서 오십니다.",
                 translation="The teacher is coming.",
-                note="자연스러운 사용 예",
+                note="'오셨어요'에서 '-시-'는 주어를 높이는 존경 표현. 주어가 높여야 할 대상일 때 사용합니다.",
             ),
         ],
         common_mistakes=[
@@ -165,7 +165,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="제가 자료를 보내 드리겠습니다.",
                 translation="I will send you the materials.",
-                note="자연스러운 사용 예",
+                note="'보내 드리겠습니다'에서 '드리다'는 '주다'의 겸양어로, 화자가 자신을 낮춥니다.",
             ),
         ],
         common_mistakes=[
@@ -194,7 +194,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="회의가 길어질 것 같습니다.",
                 translation="It seems the meeting will run long.",
-                note="자연스러운 사용 예",
+                note="'길어질지 모릅니다'로 불확실한 가능성을 조심스럽게 추측합니다.",
             ),
         ],
         common_mistakes=[
@@ -223,7 +223,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="지금쯤 도착했을 테예요.",
                 translation="They must have arrived by now.",
-                note="자연스러운 사용 예",
+                note="'도착했을 테예요'로 강한 추측이나 예상을 표현합니다. '-을 테다'는 확신에 가까운 추측입니다.",
             ),
         ],
         common_mistakes=[
@@ -252,7 +252,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="밖에 비가 오나 봐요.",
                 translation="It looks like it's raining outside.",
-                note="자연스러운 사용 예",
+                note="'오나 봐요'로 관찰을 바탕으로 한 추정을 표현합니다. '-나 보다'는 간접 증거에 기반한 추측입니다.",
             ),
         ],
         common_mistakes=[
@@ -281,7 +281,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="폭우로 인해 행사가 취소되었습니다.",
                 translation="The event was canceled due to heavy rain.",
-                note="자연스러운 사용 예",
+                note="'폭우로 인해'로 원인과 그로 인한 공식적 결과를 나타냅니다. '-로 인해'는 문어체에서 자주 사용됩니다.",
             ),
         ],
         common_mistakes=[
@@ -310,7 +310,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="이 변화는 수요가 늘었다는 것입니다.",
                 translation="What this change means is that demand has increased.",
-                note="자연스러운 사용 예",
+                note="원인-결과 관계를 강조하며 귀결을 명확히 제시하는 표현입니다.",
             ),
         ],
         common_mistakes=[
@@ -339,7 +339,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="시간뿐만 아니라 비용도 줄었습니다.",
                 translation="Not only time but also costs decreased.",
-                note="자연스러운 사용 예",
+                note="'뿐만 아니라 추가'의 자연스러운 한국어 예문입니다.",
             ),
         ],
         common_mistakes=[
@@ -368,7 +368,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="기다릴 수밖에 없었어요.",
                 translation="I had no choice but to wait.",
-                note="자연스러운 사용 예",
+                note="'을 수밖에 없다'의 자연스러운 한국어 예문입니다.",
             ),
         ],
         common_mistakes=[
@@ -397,7 +397,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="미리 예약할 걸 그랬어요.",
                 translation="I should have made a reservation in advance.",
-                note="자연스러운 사용 예",
+                note="'을 걸 그랬다 후회'의 자연스러운 한국어 예문입니다.",
             ),
         ],
         common_mistakes=[
@@ -426,7 +426,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="좋기는 한데 조금 비싸요.",
                 translation="It is good, but it's a bit expensive.",
-                note="자연스러운 사용 예",
+                note="'기는 한데 완곡 대조'의 자연스러운 한국어 예문입니다.",
             ),
         ],
         common_mistakes=[
@@ -455,7 +455,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="문화란 함께 살아가는 방식입니다.",
                 translation="Culture is a way of living together.",
-                note="자연스러운 사용 예",
+                note="개념 정의를 통해 논의의 범위와 초점을 명확히 하는 학술적 글쓰기의 기본기입니다.",
             ),
         ],
         common_mistakes=[
@@ -484,7 +484,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="목적에 따라 표현이 달라집니다.",
                 translation="Expressions vary depending on the purpose.",
-                note="자연스러운 사용 예",
+                note="기준에 따른 체계적 분류와 범주화 능력을 보여줍니다.",
             ),
         ],
         common_mistakes=[
@@ -513,7 +513,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="자료의 분석이 필요합니다.",
                 translation="Analysis of the data is necessary.",
-                note="자연스러운 사용 예",
+                note="'학술적 명사화'의 자연스러운 한국어 예문입니다.",
             ),
         ],
         common_mistakes=[
@@ -542,7 +542,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="보도에 따르면 정책이 바뀔 예정입니다.",
                 translation="According to reports, the policy is set to change.",
-                note="자연스러운 사용 예",
+                note="미디어 텍스트의 수사적 전략과 숨은 전제를 비판적으로 분석하는 능력입니다.",
             ),
         ],
         common_mistakes=[
@@ -571,7 +571,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="위험이 있습니다. 그럼에도 불구하고 필요합니다.",
                 translation="There are risks. Nevertheless, it is necessary.",
-                note="자연스러운 사용 예",
+                note="'그럼에도 불구하고'의 자연스러운 한국어 예문입니다.",
             ),
         ],
         common_mistakes=[
@@ -600,7 +600,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="필자는 신중한 입장을 보입니다.",
                 translation="The author takes a cautious stance.",
-                note="자연스러운 사용 예",
+                note="'입장을 보이다'의 자연스러운 한국어 예문입니다.",
             ),
         ],
         common_mistakes=[

@@ -20,7 +20,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="먼저 배경을 제시하고 마지막에 결론을 정리합니다.",
                 translation="First present the background, then summarize the conclusion at the end.",
-                note="자연스러운 사용 예",
+                note="배경 제시→결론 정리의 표준 논증 흐름을 보여줍니다.",
             ),
         ],
         common_mistakes=[
@@ -49,7 +49,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="장점은 인정하지만 장기적 검토가 필요합니다.",
                 translation="I acknowledge the advantages, but a long-term review is needed.",
-                note="자연스러운 사용 예",
+                note="장점 인정과 장기적 검토 필요성을 결합한 균형 잡힌 논증 태도입니다.",
             ),
         ],
         common_mistakes=[
@@ -78,7 +78,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="직접 말하지 않아도 우려가 드러납니다.",
                 translation="The concern is evident even though it is not stated directly.",
-                note="자연스러운 사용 예",
+                note="표현되지 않은 우려를 청자가 추론할 수 있게 하는 함축적 의사소통입니다.",
             ),
         ],
         common_mistakes=[
@@ -107,7 +107,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="자료를 검토해 주시면 감사하겠습니다.",
                 translation="I would appreciate it if you could review the materials.",
-                note="자연스러운 사용 예",
+                note="'검토해 주시면 감사하겠습니다'에서 '-시-' 존대, '감사하겠습니다'로 공식적 감사를 표현합니다.",
             ),
         ],
         common_mistakes=[
@@ -136,7 +136,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="발표에서는 격식체를 쓰고 질의응답에서는 부드럽게 말합니다.",
                 translation="Use formal style in presentations and soften your tone during Q&A.",
-                note="자연스러운 사용 예",
+                note="발표(격식체)와 질의응답(부드러운 말투) 간 말투 전환으로 상황별 언어 조절 능력을 보여줍니다.",
             ),
         ],
         common_mistakes=[
@@ -165,7 +165,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="가능하시다면 다음 주로 조정 부탁드립니다.",
                 translation="If possible, I would kindly request rescheduling for next week.",
-                note="자연스러운 사용 예",
+                note="가능성을 열어두고('가능하시다면') 부드럽게 조정을 요청하여 체면을 지키는 공손 전략입니다.",
             ),
         ],
         common_mistakes=[
@@ -194,7 +194,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="한편, 이 결과는 다른 해석도 가능하게 합니다.",
                 translation="Meanwhile, this result also allows for alternative interpretations.",
-                note="자연스러운 사용 예",
+                note="학술 텍스트에서 대안적 해석을 도입할 때 사용하는 전문적 연결 표현입니다.",
             ),
         ],
         common_mistakes=[
@@ -223,7 +223,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="연구 결과에 따르면 이러한 경향이 확인됩니다.",
                 translation="According to the research findings, this tendency has been confirmed.",
-                note="자연스러운 사용 예",
+                note="연구 결과를 명시적으로 인용하여 주장의 객관성과 신뢰성을 높입니다.",
             ),
         ],
         common_mistakes=[
@@ -252,7 +252,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="필자는 제도의 필요성과 위험을 함께 지적합니다.",
                 translation="The author points out both the necessity and the risks of the system.",
-                note="자연스러운 사용 예",
+                note="핵심 주장을 한 문장으로 압축하여 정보 밀도를 높이는 요약 능력입니다.",
             ),
         ],
         common_mistakes=[
@@ -281,7 +281,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="이 문제는 개인 선택보다 사회 구조와 관련됩니다.",
                 translation="This issue relates more to social structures than to individual choices.",
-                note="자연스러운 사용 예",
+                note="개인 선택의 문제를 사회 구조적 차원으로 연결하는 공적 담화 구성 능력입니다.",
             ),
         ],
         common_mistakes=[
@@ -310,7 +310,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="필자는 다소 비판적인 태도를 보입니다.",
                 translation="The author takes a somewhat critical stance.",
-                note="자연스러운 사용 예",
+                note="'확실히', '아마도' 등 화자의 태도와 확신 정도를 나타내는 표현의 사용을 보여줍니다.",
             ),
         ],
         common_mistakes=[
@@ -339,7 +339,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="그 표현은 중립적이라기보다 조심스러운 느낌을 줍니다.",
                 translation="That expression conveys a cautious feeling rather than a neutral one.",
-                note="자연스러운 사용 예",
+                note="의미의 미세한 차이를 포착하여 더 정확한 해석과 평가를 수행하는 능력입니다.",
             ),
         ],
         common_mistakes=[
@@ -368,7 +368,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="보고서에서는 구어체보다 격식 있는 표현을 씁니다.",
                 translation="In reports, use formal expressions rather than colloquial ones.",
-                note="자연스러운 사용 예",
+                note="공식 문서, 학술 논문, 일상 대화 등 장르에 따른 문체 선택의 차이를 보여줍니다.",
             ),
         ],
         common_mistakes=[
@@ -402,7 +402,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="논설문은 주장과 근거가 분명해야 합니다.",
                 translation="An argumentative essay must have a clear claim and evidence.",
-                note="자연스러운 사용 예",
+                note="각 장르의 관습과 기대를 이해하고 이에 맞춰 텍스트를 구성하는 능력입니다.",
             ),
         ],
         common_mistakes=[
@@ -431,7 +431,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="제도의 개선이 필요합니다.",
                 translation="Improvement of the system is needed.",
-                note="자연스러운 사용 예",
+                note="명사형 종결로 간결하고 객관적인 문어체 문장을 구성합니다.",
             ),
         ],
         common_mistakes=[
@@ -460,7 +460,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="번거로우시겠지만 확인 부탁드립니다.",
                 translation="I'm sorry to bother you, but I would kindly ask for your confirmation.",
-                note="자연스러운 사용 예",
+                note="불확실성을 완곡하게 표현하여 주장의 강도를 조절하는 학술적 전략입니다.",
             ),
         ],
         common_mistakes=[
@@ -489,7 +489,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="일정을 조정하되 마감은 유지하고 싶습니다.",
                 translation="I'd like to adjust the schedule while keeping the deadline.",
-                note="자연스러운 사용 예",
+                note="상대의 입장을 고려한 프레이밍으로 협상의 여지를 만드는 표현 전략입니다.",
             ),
         ],
         common_mistakes=[
@@ -518,7 +518,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="그 방법도 좋지만 다른 방안을 검토해 보면 어떨까요?",
                 translation="That approach is also good, but how about we consider another option?",
-                note="자연스러운 사용 예",
+                note="반대 의견 제시를 넘어 건설적인 대안까지 제시하는 논증 능력입니다.",
             ),
         ],
         common_mistakes=[
@@ -547,7 +547,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="그 말은 마음에 오래 남는 그림자 같았습니다.",
                 translation="Those words were like a lingering shadow in the heart.",
-                note="자연스러운 사용 예",
+                note="은유, 직유 등 비유적 표현의 의미와 효과를 분석하는 능력입니다.",
             ),
         ],
         common_mistakes=[
@@ -576,7 +576,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="문맥상 행동한 사람은 앞 문장의 화자입니다.",
                 translation="Contextually, the person who acted is the speaker from the previous sentence.",
-                note="자연스러운 사용 예",
+                note="한국어의 주어 생략 현상과 문맥을 통한 주어 복원 능력을 보여줍니다.",
             ),
         ],
         common_mistakes=[
@@ -605,7 +605,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="전통 명절의 이미지를 빌려 공동체성을 강조합니다.",
                 translation="Emphasize community spirit by evoking imagery of traditional holidays.",
-                note="자연스러운 사용 예",
+                note="문화적 배경지식을 바탕으로 한 암시와 인용의 이해 및 활용 능력입니다.",
             ),
         ],
         common_mistakes=[

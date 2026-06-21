@@ -20,7 +20,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="이 방법이 좋다고 생각해요.",
                 translation="I think this method is good.",
-                note="자연스러운 사용 예",
+                note="'좋다고 생각해요'로 자신의 의견을 표현합니다. '-다고 생각하다'는 주관적 판단을 나타냅니다.",
             ),
         ],
         common_mistakes=[
@@ -49,7 +49,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="시간이 없기 때문에 먼저 갈게요.",
                 translation="Because I don't have time, I'll go first.",
-                note="자연스러운 사용 예",
+                note="'없기 때문에'로 객관적 이유를 제시합니다. '-기 때문에'는 공식적·논리적 이유에 적합합니다.",
             ),
         ],
         common_mistakes=[
@@ -78,7 +78,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="내일 비가 온다고 해요.",
                 translation="They say it will rain tomorrow.",
-                note="자연스러운 사용 예",
+                note="'온다고 해요'로 들은 정보를 간접 인용하여 전달합니다. '-다고 하다'는 간접 화법의 기본 형태입니다.",
             ),
         ],
         common_mistakes=[
@@ -107,7 +107,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="음악을 들으면서 공부해요.",
                 translation="I study while listening to music.",
-                note="자연스러운 사용 예",
+                note="'들으면서'로 두 동작이 동시에 일어남을 나타냅니다. '-으면서'는 동시 동작의 연결 어미입니다.",
             ),
         ],
         common_mistakes=[
@@ -136,7 +136,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="밥을 먹고 나서 산책했어요.",
                 translation="I took a walk after eating.",
-                note="자연스러운 사용 예",
+                note="'먹고 나서'로 한 동작이 완료된 후 다음 동작이 순차적으로 일어남을 명확히 합니다.",
             ),
         ],
         common_mistakes=[
@@ -165,7 +165,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="길을 찾고 있는데 도와주실 수 있어요?",
                 translation="I'm looking for the way — could you help me?",
-                note="자연스러운 사용 예",
+                note="'찾고 있는데'로 배경 상황을 제시하고 도움을 요청합니다. '-는데'는 배경 설명이나 완곡한 전환에 사용됩니다.",
             ),
         ],
         common_mistakes=[
@@ -194,7 +194,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="조금 쉬는 게 어때요?",
                 translation="How about taking a little rest?",
-                note="자연스러운 사용 예",
+                note="'쉬는 게 어때요?'로 부드러운 제안을 합니다. '-는 게 어때요'는 상대방의 의견을 존중하는 제안 표현입니다.",
             ),
         ],
         common_mistakes=[
@@ -223,7 +223,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="비가 오니까 우산을 가져가는 게 좋아요.",
                 translation="Since it's raining, you'd better bring an umbrella.",
-                note="자연스러운 사용 예",
+                note="'가져가는 게 좋아요'로 권장 사항을 표현합니다. '-는 게 좋다'는 일반적인 조언에 사용됩니다.",
             ),
         ],
         common_mistakes=[
@@ -252,7 +252,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="운동을 더 해야겠어요.",
                 translation="I should exercise more.",
-                note="자연스러운 사용 예",
+                note="'해야겠어요'로 화자의 결심이나 필요성을 표현합니다. '-아야/어야겠다'는 주관적 의지를 강조합니다.",
             ),
         ],
         common_mistakes=[
@@ -281,7 +281,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="시간이 있으면 같이 가요.",
                 translation="If you have time, let's go together.",
-                note="자연스러운 사용 예",
+                note="'있으면'으로 현실적인 조건을 제시하고 '같이 가요'로 결과를 말합니다. '-으면'은 일반적 조건에 사용됩니다.",
             ),
         ],
         common_mistakes=[
@@ -310,7 +310,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="오늘은 바쁘거든요.",
                 translation="The thing is, I'm busy today.",
-                note="자연스러운 사용 예",
+                note="'좋아하거든요'로 이유나 배경을 친근하게 덧붙입니다. '-거든요'는 구어에서 자연스러운 설명 어미입니다.",
             ),
         ],
         common_mistakes=[
@@ -339,7 +339,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="길이 막힐지도 몰라요.",
                 translation="The road might be congested.",
-                note="자연스러운 사용 예",
+                note="'을지도 몰라요'로 불확실한 가능성을 조심스럽게 표현합니다.",
             ),
         ],
         common_mistakes=[
@@ -368,7 +368,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="문을 닫아 주실 수 있어요?",
                 translation="Could you close the door please?",
-                note="자연스러운 사용 예",
+                note="'찾고 계신가요'처럼 공손한 표현으로 상대의 상황을 확인하며 도움을 제공합니다.",
             ),
         ],
         common_mistakes=[
@@ -397,7 +397,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="오늘 만나는 게 좀 어려워요.",
                 translation="It's a bit difficult to meet today.",
-                note="자연스러운 사용 예",
+                note="'어려울 것 같아요'처럼 완곡한 표현으로 부담을 주지 않고 거절합니다.",
             ),
         ],
         common_mistakes=[
@@ -426,7 +426,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="죄송하지만 오늘은 시간이 없어요.",
                 translation="I'm sorry, but I don't have time today.",
-                note="자연스러운 사용 예",
+                note="'늦어서 죄송합니다'로 사과 이유를 밝히며 정중하게 사과합니다. '-아서/어서 죄송합니다'가 기본 패턴입니다.",
             ),
         ],
         common_mistakes=[
@@ -455,7 +455,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="도시는 편리한 반면에 복잡해요.",
                 translation="Cities are convenient, but on the other hand they're complicated.",
-                note="자연스러운 사용 예",
+                note="'노력하는데도'로 기대와 다른 결과를 대조합니다. '-는데도'는 양보의 대조를 나타냅니다.",
             ),
         ],
         common_mistakes=[
@@ -484,7 +484,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="연습한 만큼 좋아졌어요.",
                 translation="I improved as much as I practiced.",
-                note="자연스러운 사용 예",
+                note="'만큼'으로 앞의 내용과 동등한 정도나 비례 관계를 나타냅니다.",
             ),
         ],
         common_mistakes=[
@@ -513,7 +513,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="한국어를 배우기가 재미있어요.",
                 translation="Learning Korean is fun.",
-                note="자연스러운 사용 예",
+                note="'공부하기가'처럼 동사를 명사화하여 문장의 주어로 사용합니다. '-기'는 동작을 개념화합니다.",
             ),
         ],
         common_mistakes=[
@@ -542,7 +542,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="버스를 놓치는 바람에 늦었어요.",
                 translation="I was late because I missed the bus.",
-                note="자연스러운 사용 예",
+                note="'비가 오는 바람에'로 예상치 못한 원인과 그로 인한 부정적 결과를 표현합니다.",
             ),
         ],
         common_mistakes=[
@@ -571,7 +571,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="새 팀에서 일하게 됐어요.",
                 translation="I ended up working in a new team.",
-                note="자연스러운 사용 예",
+                note="'유학을 가게 됐어요'로 상황 변화의 결과를 표현합니다. '-게 되다'는 의도치 않은 변화에 사용됩니다.",
             ),
         ],
         common_mistakes=[
@@ -600,7 +600,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="모두 들을 수 있도록 크게 말해요.",
                 translation="Speak loudly so that everyone can hear.",
-                note="자연스러운 사용 예",
+                note="'다 할 수 있도록'으로 목표나 조치의 기준을 제시합니다. '-도록'은 목적이나 정도의 한계를 나타냅니다.",
             ),
         ],
         common_mistakes=[

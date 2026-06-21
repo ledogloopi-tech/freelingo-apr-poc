@@ -20,7 +20,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="가능성이 있다와 가능성이 높다는 강도가 다릅니다.",
                 translation="'There is a possibility' and 'there is a high probability' convey different degrees of certainty.",
-                note="자연스러운 사용 예",
+                note="'가능성이 있다'와 '가능성이 높다'의 강도 차이를 구분하는 정밀한 언어 감각을 보여줍니다.",
             ),
         ],
         common_mistakes=[
@@ -49,7 +49,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="'은/는'은 대조를 만들고 '이/가'는 초점을 만듭니다.",
                 translation="'은/는' creates contrast, while '이/가' creates focus.",
-                note="자연스러운 사용 예",
+                note="은/는과 이/가의 미세한 의미 차이가 문장 전체의 초점과 대조에 미치는 영향을 보여줍니다.",
             ),
         ],
         common_mistakes=[
@@ -78,7 +78,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="공식 문서에서는 '줄이다'보다 '절감하다'가 더 적절할 수 있습니다.",
                 translation="In formal documents, '절감하다' (reduce/cut) may be more appropriate than '줄이다' (reduce).",
-                note="자연스러운 사용 예",
+                note="문서의 격식에 따라 '줄이다'와 '절감하다' 중 적절한 어휘를 선택하는 능력입니다.",
             ),
         ],
         common_mistakes=[
@@ -107,7 +107,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="복잡한 절차를 단계별로 풀어 설명합니다.",
                 translation="Explain complex procedures by breaking them down step by step.",
-                note="자연스러운 사용 예",
+                note="복잡한 절차를 체계적으로 분해하여 설명하는 전문 지식 중재 능력입니다.",
             ),
         ],
         common_mistakes=[
@@ -136,7 +136,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="전문 용어를 일상적인 말로 바꾸어 설명합니다.",
                 translation="Explain technical terms by rephrasing them in everyday language.",
-                note="자연스러운 사용 예",
+                note="전문 용어를 풀어 설명하여 지식의 접근성을 높이는 재표현 전략입니다.",
             ),
         ],
         common_mistakes=[
@@ -165,7 +165,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="전문가에게는 근거를, 초보자에게는 예시를 먼저 제시합니다.",
                 translation="Present evidence first to experts, and examples first to beginners.",
-                note="자연스러운 사용 예",
+                note="청중 분석에 기반한 맞춤형 정보 제시 전략을 보여줍니다.",
             ),
         ],
         common_mistakes=[
@@ -194,7 +194,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="결론이 타당한지 자료와 전제를 함께 검토합니다.",
                 translation="Examine whether the conclusion is valid by reviewing the data and premises together.",
-                note="자연스러운 사용 예",
+                note="결론뿐 아니라 자료와 전제까지 함께 검토하는 종합적 비판 평가를 보여줍니다.",
             ),
         ],
         common_mistakes=[
@@ -223,7 +223,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="이 주장은 모든 사용자가 같은 조건이라는 전제를 깔고 있습니다.",
                 translation="This argument rests on the premise that all users are under the same conditions.",
-                note="자연스러운 사용 예",
+                note="숨은 전제('모든 사용자가 같은 조건')를 명시화하여 논증의 타당성을 평가합니다.",
             ),
         ],
         common_mistakes=[
@@ -252,7 +252,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="그 주장에는 근거가 있지만 반대 사례도 존재합니다.",
                 translation="That argument has some evidence, but counterexamples also exist.",
-                note="자연스러운 사용 예",
+                note="근거 인정과 반대 사례 제시를 통해 균형 잡힌 반박을 구성하는 방법을 보여줍니다.",
             ),
         ],
         common_mistakes=[
@@ -281,7 +281,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="직역보다 기능이 같은 표현을 선택합니다.",
                 translation="Choose expressions with equivalent function rather than literal translation.",
-                note="자연스러운 사용 예",
+                note="직역보다 기능적 등가성을 우선시하는 전문적 번역 태도를 보여줍니다.",
             ),
         ],
         common_mistakes=[
@@ -310,7 +310,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="'괜찮습니다'가 실제로는 거절일 수 있습니다.",
                 translation="'It's fine' can actually function as a refusal in context.",
-                note="자연스러운 사용 예",
+                note="문자적 의미를 넘어 화용론적 맥락에서 발화 의도를 추론하는 능력입니다.",
             ),
         ],
         common_mistakes=[
@@ -339,7 +339,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="직접 대응이 없을 때는 배경을 함께 설명합니다.",
                 translation="When there is no direct equivalent, explain the cultural background as well.",
-                note="자연스러운 사용 예",
+                note="언어 간 문화적 개념 전이 시 발생하는 의미 변화와 조정 능력입니다.",
             ),
         ],
         common_mistakes=[
@@ -368,7 +368,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="문제의 심각성을 먼저 제시해 독자의 관심을 끕니다.",
                 translation="First present the severity of the issue to capture the reader's attention.",
-                note="자연스러운 사용 예",
+                note="목적과 청중에 따라 수사적 장치를 전략적으로 선택·배치하는 능력입니다.",
             ),
         ],
         common_mistakes=[
@@ -397,7 +397,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="너무 강한 표현은 신뢰를 떨어뜨릴 수 있습니다.",
                 translation="Overly strong language can undermine credibility.",
-                note="자연스러운 사용 예",
+                note="강조 표현의 빈도와 강도를 조절하여 설득력을 최적화하는 수사적 전략입니다.",
             ),
         ],
         common_mistakes=[
@@ -426,7 +426,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="독자를 문제 해결의 참여자로 위치시킵니다.",
                 translation="Position the reader as a participant in solving the problem.",
-                note="자연스러운 사용 예",
+                note="독자의 기대와 배경지식을 고려하여 정보를 배치하는 글쓰기 전략입니다.",
             ),
         ],
         common_mistakes=[
@@ -455,7 +455,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="한자어와 고유어의 쓰임은 시대와 분야에 따라 달라졌습니다.",
                 translation="The usage of Sino-Korean and native Korean words has varied across eras and fields.",
-                note="자연스러운 사용 예",
+                note="한국어의 역사적 변천을 이해하고 언어 변화의 패턴을 인식합니다.",
             ),
         ],
         common_mistakes=[
@@ -484,7 +484,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="'미팅'과 '회의'는 비슷하지만 문체와 분야가 다릅니다.",
                 translation="'Meeting' and '회의' are similar but differ in register and domain.",
-                note="자연스러운 사용 예",
+                note="외래어의 사용이 문체와 상황에 미치는 영향을 고려한 어휘 선택을 보여줍니다.",
             ),
         ],
         common_mistakes=[
@@ -513,7 +513,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="일부 표현은 세대에 따라 자연스러움이 다르게 느껴집니다.",
                 translation="Some expressions feel more or less natural depending on the generation.",
-                note="자연스러운 사용 예",
+                note="언어의 역사적 변화를 이해하고 현대 언어 사용의 배경을 파악합니다.",
             ),
         ],
         common_mistakes=[
@@ -542,7 +542,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="중복을 줄이고 핵심 주장을 앞으로 옮깁니다.",
                 translation="Reduce redundancy and move the core argument to the front.",
-                note="자연스러운 사용 예",
+                note="텍스트의 구조, 논리, 표현을 종합적으로 검토하고 다듬는 고급 편집 능력입니다.",
             ),
         ],
         common_mistakes=[
@@ -571,7 +571,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="앞 문장의 정보가 다음 문장의 출발점이 됩니다.",
                 translation="The information from the previous sentence becomes the starting point of the next.",
-                note="자연스러운 사용 예",
+                note="문장 간 논리적 연결을 통해 글의 응집성과 일관성을 유지하는 방법을 보여줍니다.",
             ),
         ],
         common_mistakes=[
@@ -600,7 +600,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="친근한 글을 공식 안내문에 맞게 바꿉니다.",
                 translation="Transform an informal text to match the register of a formal notice.",
-                note="자연스러운 사용 예",
+                note="동일 내용을 다양한 문체로 재작성하여 문체적 감수성을 보여줍니다.",
             ),
         ],
         common_mistakes=[

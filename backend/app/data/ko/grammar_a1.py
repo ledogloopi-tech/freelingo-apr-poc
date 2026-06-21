@@ -20,7 +20,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="가, 나, 다를 읽고 쓸 수 있어요.",
                 translation="I can read and write ga, na, da.",
-                note="자연스러운 사용 예",
+                note="기본 자음 'ㄱ,ㄴ,ㄷ'과 모음 'ㅏ'를 조합해 '가, 나, 다' 같은 음절을 읽고 쓸 수 있음을 보여줍니다.",
             ),
         ],
         common_mistakes=[
@@ -49,7 +49,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="저는 물을 마셔요.",
                 translation="I drink water.",
-                note="자연스러운 사용 예",
+                note="주어(저는) + 목적어(물을) + 서술어(마셔요)의 SOV 어순을 따르는 자연스러운 문장입니다.",
             ),
         ],
         common_mistakes=[
@@ -78,7 +78,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="저는 학생입니다.",
                 translation="I am a student.",
-                note="자연스러운 사용 예",
+                note="명사 '학생'에 '입니다'를 붙여 정중하게 자신의 신분을 밝히는 공식적인 표현입니다.",
             ),
         ],
         common_mistakes=[
@@ -112,7 +112,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="저는 마리아예요.",
                 translation="I am Maria.",
-                note="자연스러운 사용 예",
+                note="'저는'으로 주제를 설정하고 '마리아예요'로 설명을 덧붙입니다. '은/는'은 이미 알려진 정보나 주제를 나타냅니다.",
             ),
         ],
         common_mistakes=[
@@ -146,7 +146,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="비가 와요.",
                 translation="It's raining.",
-                note="자연스러운 사용 예",
+                note="'비'에 주격 조사 '가'를 붙여 새로운 정보(비가 온다)를 전달합니다. '이/가'는 신정보 표시에 사용됩니다.",
             ),
         ],
         common_mistakes=[
@@ -175,7 +175,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="학생이에요?",
                 translation="Are you a student?",
-                note="자연스러운 사용 예",
+                note="평서문 '학생이에요.'와 같은 형태지만 끝을 올려(↗) 질문을 나타냅니다. 한국어 의문문은 억양으로만 구별됩니다.",
             ),
         ],
         common_mistakes=[
@@ -204,7 +204,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="사과 두 개와 물 한 병을 사요.",
                 translation="I buy two apples and one bottle of water.",
-                note="자연스러운 사용 예",
+                note="개수(두 개, 한 병)에는 고유어 수사를 쓰고, 단위 명사(개, 병)와 함께 사용함을 보여줍니다.",
             ),
         ],
         common_mistakes=[
@@ -233,7 +233,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="지금 세 시 십 분이에요.",
                 translation="It's 3:10 now.",
-                note="자연스러운 사용 예",
+                note="시(세 시)는 고유어, 분(십 분)은 한자어 수사를 사용하는 전형적인 시간 표현입니다.",
             ),
         ],
         common_mistakes=[
@@ -262,7 +262,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="아침 일곱 시에 일어나요.",
                 translation="I wake up at 7 a.m.",
-                note="자연스러운 사용 예",
+                note="시간 명사 '일곱 시' 뒤에 조사 '에'를 붙여 동작이 일어나는 특정 시점을 지정합니다.",
             ),
         ],
         common_mistakes=[
@@ -291,7 +291,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="책상 위에 책이 있어요.",
                 translation="There is a book on the desk.",
-                note="자연스러운 사용 예",
+                note="'책이 있어요'처럼 존재하는 대상에 주격 조사 '이/가'를 쓰고 '있다'로 존재를 나타냅니다.",
             ),
         ],
         common_mistakes=[
@@ -320,7 +320,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="학교에 친구가 있어요.",
                 translation="I have a friend at school.",
-                note="자연스러운 사용 예",
+                note="'학교에'처럼 장소 뒤에 '에'를 붙여 존재 위치를 나타내고, '있다'와 함께 씁니다.",
             ),
         ],
         common_mistakes=[
@@ -349,7 +349,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="이 가방은 작아요.",
                 translation="This bag is small.",
-                note="자연스러운 사용 예",
+                note="'이 가방'은 화자에게 가까운 대상을 가리킵니다. '이/그/저'는 거리에 따라 구분됩니다.",
             ),
         ],
         common_mistakes=[
@@ -378,7 +378,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="저는 매일 공부해요.",
                 translation="I study every day.",
-                note="자연스러운 사용 예",
+                note="'공부하다'가 '공부해요'로 활용되어 현재 습관을 나타냅니다. '하다'는 항상 '해요'가 됩니다.",
             ),
         ],
         common_mistakes=[
@@ -412,7 +412,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="커피를 마셔요.",
                 translation="I drink coffee.",
-                note="자연스러운 사용 예",
+                note="'커피를'처럼 받침 없는 명사에 목적격 조사 '를'을 붙여 동작의 대상을 표시합니다.",
             ),
         ],
         common_mistakes=[
@@ -446,7 +446,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="아침에 밥을 먹어요.",
                 translation="I eat breakfast in the morning.",
-                note="자연스러운 사용 예",
+                note="'먹다'가 '먹어요'로 활용되어 일상 동작을 해요체로 표현합니다. '아침에'로 시간을 함께 나타냅니다.",
             ),
         ],
         common_mistakes=[
@@ -475,7 +475,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="오늘 날씨가 좋아요.",
                 translation="The weather is nice today.",
-                note="자연스러운 사용 예",
+                note="'날씨가 좋아요'처럼 형용사는 현재형에서 '-아요/어요'로 활용하며, 형용사는 현재 시제에 '-ㄴ/는다'를 쓰지 않습니다.",
             ),
         ],
         common_mistakes=[
@@ -504,7 +504,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="저는 음악을 좋아해요.",
                 translation="I like music.",
-                note="자연스러운 사용 예",
+                note="'좋아해요'는 동사이므로 목적어에 '을/를'을 씁니다. 형용사 '좋다'(음악이 좋아요)와 조사 선택이 다릅니다.",
             ),
         ],
         common_mistakes=[
@@ -533,7 +533,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="날씨가 좋고 따뜻해요.",
                 translation="The weather is nice and warm.",
-                note="자연스러운 사용 예",
+                note="'-고'를 사용해 두 형용사 '좋다'와 '따뜻하다'를 단순 나열로 연결합니다.",
             ),
         ],
         common_mistakes=[
@@ -562,7 +562,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="물 한 잔 주세요.",
                 translation="Please give me a glass of water.",
-                note="자연스러운 사용 예",
+                note="'물 한 잔 주세요'처럼 '주세요'로 공손하게 요청합니다. 수량 표현과 함께 자주 사용됩니다.",
             ),
         ],
         common_mistakes=[
@@ -591,7 +591,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="사과 세 개에 삼천 원이에요.",
                 translation="Three apples cost 3,000 won.",
-                note="자연스러운 사용 예",
+                note="한자어 수사와 '원'을 붙여 금액을 표현합니다. 가격을 묻고 답할 때 필수적인 패턴입니다.",
             ),
         ],
         common_mistakes=[
@@ -620,7 +620,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="집에서 학교까지 걸어요.",
                 translation="I walk from home to school.",
-                note="자연스러운 사용 예",
+                note="'집에서 학교까지'로 공간적 범위의 시작점과 끝점을 명확히 지정합니다.",
             ),
         ],
         common_mistakes=[

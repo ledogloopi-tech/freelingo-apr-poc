@@ -20,7 +20,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="어제 영화를 봤어요.",
                 translation="I watched a movie yesterday.",
-                note="자연스러운 사용 예",
+                note="'보다'의 과거형 '봤어요'를 사용해 어제 일어난 일을 표현합니다. '보+았'이 축약되어 '봤'이 됩니다.",
             ),
         ],
         common_mistakes=[
@@ -54,7 +54,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="수업 후에 친구를 만났어요.",
                 translation="I met a friend after class.",
-                note="자연스러운 사용 예",
+                note="'수업 후에'처럼 시간 명사 뒤에 '에'를 붙여 과거 시점의 사건을 나타냅니다.",
             ),
         ],
         common_mistakes=[
@@ -83,7 +83,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="한국 음식을 먹어 본 적이 있어요.",
                 translation="I have tried Korean food.",
-                note="자연스러운 사용 예",
+                note="'먹어 본 적이 있어요'는 과거의 경험을 나타냅니다. '적'은 의존명사이므로 반드시 '이'를 붙입니다.",
             ),
         ],
         common_mistakes=[
@@ -112,7 +112,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="내일 도서관에 갈 거예요.",
                 translation="I will go to the library tomorrow.",
-                note="자연스러운 사용 예",
+                note="'갈 거예요'처럼 미래 계획을 표현합니다. '거예요'는 '것이에요'의 축약형입니다.",
             ),
         ],
         common_mistakes=[
@@ -141,7 +141,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="한국어를 더 공부하려고 해요.",
                 translation="I plan to study Korean more.",
-                note="자연스러운 사용 예",
+                note="'공부하려고 해요'는 아직 완전히 결정되진 않았지만 의도가 있음을 나타냅니다.",
             ),
         ],
         common_mistakes=[
@@ -170,7 +170,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="제가 전화할게요.",
                 translation="I'll call you.",
-                note="자연스러운 사용 예",
+                note="'전화할게요'는 청자를 위해 약속하는 표현입니다. 1인칭 주어와만 사용합니다.",
             ),
         ],
         common_mistakes=[
@@ -199,7 +199,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="비가 와서 집에 있어요.",
                 translation="It's raining, so I'm at home.",
-                note="자연스러운 사용 예",
+                note="'비가 와서'가 원인, '집에 있어요'가 결과입니다. '-아서/어서'는 주관적 이유에 사용됩니다.",
             ),
         ],
         common_mistakes=[
@@ -228,7 +228,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="늦었으니까 택시를 타요.",
                 translation="Since we're late, let's take a taxi.",
-                note="자연스러운 사용 예",
+                note="'늦었으니까'를 이유로 제시하고 '택시를 타요'라는 제안을 합니다. '-으니까'는 명령·청유문에 사용 가능합니다.",
             ),
         ],
         common_mistakes=[
@@ -257,7 +257,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="비싸지만 맛있어요.",
                 translation="It's expensive but delicious.",
-                note="자연스러운 사용 예",
+                note="'비싸지만'으로 단점을 인정하고 '맛있어요'로 장점을 대조합니다. '-지만'은 직접적인 대조에 사용됩니다.",
             ),
         ],
         common_mistakes=[
@@ -286,7 +286,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="여기 앉아도 돼요?",
                 translation="May I sit here?",
-                note="자연스러운 사용 예",
+                note="'앉아도 돼요?'로 허락을 요청합니다. '-아도/어도 돼요'는 상대방의 허가를 구할 때 씁니다.",
             ),
         ],
         common_mistakes=[
@@ -315,7 +315,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="여기에서 사진을 찍으면 안 돼요.",
                 translation="You must not take pictures here.",
-                note="자연스러운 사용 예",
+                note="'찍으면 안 돼요'로 금지를 나타냅니다. '안 돼요'는 반드시 띄어 씁니다.",
             ),
         ],
         common_mistakes=[
@@ -344,7 +344,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="오늘 숙제를 해야 해요.",
                 translation="I have to do my homework today.",
-                note="자연스러운 사용 예",
+                note="'해야 해요'로 의무를 표현합니다. '하다'는 '하여야'가 줄어 '해야'가 됩니다.",
             ),
         ],
         common_mistakes=[
@@ -373,7 +373,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="서울이 부산보다 커요.",
                 translation="Seoul is bigger than Busan.",
-                note="자연스러운 사용 예",
+                note="'부산보다'처럼 비교 대상에 '보다'를 붙여 '서울이 더 크다'는 차등 비교를 합니다.",
             ),
         ],
         common_mistakes=[
@@ -402,7 +402,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="이 길이 더 빨라요.",
                 translation="This way is faster.",
-                note="자연스러운 사용 예",
+                note="부사 '더'가 형용사 '빨라요' 앞에서 비교의 정도를 강조합니다.",
             ),
         ],
         common_mistakes=[
@@ -431,7 +431,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="이것들 중에서 이 옷이 제일 좋아요.",
                 translation="Among these, this outfit is the best.",
-                note="자연스러운 사용 예",
+                note="'이것들 중에서'로 여러 대상 중 하나를 선택하고, '제일'로 최상급을 나타냅니다.",
             ),
         ],
         common_mistakes=[
@@ -460,7 +460,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="지금 책을 읽고 있어요.",
                 translation="I am reading a book now.",
-                note="자연스러운 사용 예",
+                note="'읽고 있어요'는 현재 진행 중인 동작을 나타냅니다. '-고 있다'는 동작 동사에만 사용합니다.",
             ),
         ],
         common_mistakes=[
@@ -489,7 +489,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="문이 열려 있어요.",
                 translation="The door is open.",
-                note="자연스러운 사용 예",
+                note="'열려 있어요'는 문이 열린 상태가 지속됨을 나타냅니다. '-아/어 있다'는 결과 상태의 지속을 표현합니다.",
             ),
         ],
         common_mistakes=[
@@ -518,7 +518,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="새 회사에서 일하게 됐어요.",
                 translation="I came to work at a new company.",
-                note="자연스러운 사용 예",
+                note="'유학을 가게 됐어요'는 예상치 못한 계기로 인해 상황이 바뀌었음을 나타냅니다.",
             ),
         ],
         common_mistakes=[
@@ -547,7 +547,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="오른쪽으로 가세요.",
                 translation="Go to the right.",
-                note="자연스러운 사용 예",
+                note="'으로 방향'의 자연스러운 한국어 예문입니다.",
             ),
         ],
         common_mistakes=[
@@ -576,7 +576,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="이 음식을 먹어 보세요.",
                 translation="Please try this food.",
-                note="자연스러운 사용 예",
+                note="'먹어 보세요'는 상대에게 새로운 경험을 권유하는 부드러운 표현입니다.",
             ),
         ],
         common_mistakes=[
@@ -605,7 +605,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(
                 text="한국어로 주문할 수 있어요.",
                 translation="I can order in Korean.",
-                note="자연스러운 사용 예",
+                note="'만들 수 있어요'는 능력이나 가능성을 표현합니다. '-을 수 있다'로 실현 가능 여부를 나타냅니다.",
             ),
         ],
         common_mistakes=[
