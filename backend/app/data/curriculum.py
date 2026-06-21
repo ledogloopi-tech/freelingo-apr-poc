@@ -22,6 +22,7 @@ _LANG_MODULES: dict[str, str] = {
     "fr": "app.data.fr.curriculum",
     "it": "app.data.it.curriculum",
     "ja": "app.data.ja.curriculum",
+    "ko": "app.data.ko.curriculum",
     "pt": "app.data.pt.curriculum",
 }
 
@@ -98,6 +99,15 @@ _I18N = {
         "test_objectives": [
             "このレベルの文法項目を復習する",
             "評価を完了して次のレベルを解放する",
+        ],
+    },
+    "ko-KR": {
+        "lesson_title": "{title} - 레슨 {n}",
+        "test_unit_title": "{level} 레벨 완료 테스트",
+        "test_title": "{level} 레벨 완료 테스트",
+        "test_objectives": [
+            "이 레벨의 모든 문법 항목을 복습하기",
+            "평가를 완료하여 다음 레벨 잠금 해제하기",
         ],
     },
 }

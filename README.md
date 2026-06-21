@@ -162,7 +162,7 @@ The first registered user becomes admin automatically.
 - The backend acts as a proxy for Ollama/TTS/STT calls so the frontend never talks directly to those services.
 - The `LLM_PROVIDER` field controls the LLM provider: `ollama` (local, recommended), `openai`, `anthropic`, or `deepseek`.
 - `TTS_PROVIDER` and `STT_PROVIDER` are independent: `local` (Kokoro / faster-whisper) or `openai` (OpenAI API).
-- The target language is always **English** (`en-US` American English or `en-GB` British English). The variant is chosen on the `/onboarding` screen immediately after registration. The user's native language is asked during registration and is used only for flashcard translations and tutor feedback.
+- Supported study languages include English (`en-GB`, `en-US`), Spanish (`es-ES`), Italian (`it-IT`), Portuguese (`pt-PT`), German (`de-DE`), French (`fr-FR`), Japanese (`ja-JP`), and Korean (`ko-KR`). The study language is chosen on `/onboarding` and can be expanded later from Settings → My Languages. The user's native language is asked during registration and is used only for flashcard translations and tutor feedback.
 
 ## Linux host: Redis memory overcommit
 
@@ -231,7 +231,7 @@ whisper:
 
 All voices are for English only — Kokoro-82M does not ship multilingual voices. Grades reflect training data quality and quantity.
 
-> **Multilingual learners:** as FreeLingo adds target languages beyond English (Spanish, French, German, Italian, Japanese, Portuguese, etc.), Kokoro cannot produce audio for those languages. For non-English study languages, switch to `TTS_PROVIDER=openai` (see [Option B — OpenAI providers](#option-b--openai-providers-no-local-gpu-needed)).
+> **Multilingual learners:** as FreeLingo adds target languages beyond English (Spanish, French, German, Italian, Japanese, Korean, Portuguese, etc.), Kokoro cannot produce audio for those languages. For non-English study languages, switch to `TTS_PROVIDER=openai` (see [Option B — OpenAI providers](#option-b--openai-providers-no-local-gpu-needed)).
 
 | Voice        | Gender | Accent   | Grade |
 | ------------ | ------ | -------- | ----- |

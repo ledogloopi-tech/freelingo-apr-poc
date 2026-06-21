@@ -5,16 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.9.0] - 2026-06-20
+## [1.9.0] - 2026-06-21
 
 ### Added
 
 - **Japanese learning data**: `ja-JP` now has backend curriculum, grammar, vocabulary, phrasebook, and assessment data. The curriculum covers A1-C2 with 48 units, Japanese lesson/test titles, Japanese competency checklists, 130 grammar topics, 98 vocabulary sets, 14 phrasebook categories, and 120 assessment questions.
 - **Japanese data integrity coverage**: grammar, vocabulary, phrasebook, assessment, and cross-reference tests now assert that `ja-JP` resolves to explicit Japanese data rather than falling back to English.
+- **Korean learning data**: `ko-KR` now has backend curriculum, grammar, vocabulary, phrasebook, and assessment data. The curriculum covers A1-C2 with 48 units, Korean lesson/test titles, Korean competency checklists, 126 grammar topics, 132 vocabulary sets, 28 phrasebook categories, and 120 assessment questions.
+- **Korean data integrity coverage**: grammar, vocabulary, phrasebook, assessment, and cross-reference tests now assert that `ko-KR` resolves to explicit Korean data rather than falling back to English.
 
 ### Changed
 
 - **What's New language entry**: bumped to `v1.9.0` and expanded the main language entry to mention Japanese, Korean, and Mainland Chinese alongside the existing language set so the copy does not need another update when the remaining CJK language data lands.
+- **Target-language data organization**: Japanese and Korean grammar/vocabulary data now follow the British English package structure with level modules and assembler files; the add-language spec now requires that organization for future target languages.
 
 ## [1.8.9] - 2026-06-20
 

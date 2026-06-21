@@ -1,5 +1,5 @@
 ---
-description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 851 tests, 84.23% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (30 test files, 401 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
+description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 863 tests, 84.23% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (30 test files, 401 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
 applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 ---
 
@@ -52,12 +52,12 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_conversation.py`** — Lines: 555. What it covers: WebSocket authentication, TTS/STT disabled rejection, pipeline lifecycle, session management
 - **`test_conversation_pipeline_service.py`** — Lines: —. What it covers: Conversation pipeline service: system prompt, native-language name injection, sentence cleaning, TTS queue, greet, audio processing, barge-in, usage tracking, inactivity watcher, max-duration watcher, full lifecycle
 - **`test_email_service.py`** — Lines: —. What it covers: Email template rendering escapes user-controlled values by default while preserving explicitly trusted internal HTML, including contact/review templates (3 tests)
-- **`test_frontend_data_integrity.py`** — Lines: 168+. What it covers: Cross-reference validation for grammar, vocabulary, related grammar slugs, and vocabulary IDs across backend language data, including Japanese.
+- **`test_frontend_data_integrity.py`** — Lines: 168+. What it covers: Cross-reference validation for grammar, vocabulary, related grammar slugs, and vocabulary IDs across backend language data, including Japanese and Korean.
 - **`test_listening.py`** — Lines: 503. What it covers: Exercise pool (next / generate), generation lock, audio serving, answer evaluation (score + XP), attempt deduplication, history
 - **`test_listening_extra.py`** — Lines: 208. What it covers: Additional listening exercise scenarios
 - **`test_reading.py`** — Lines: 400+. What it covers: Reading exercise generation with `structured_output()`, language-aware CJK length guidance, comprehension questions, answer evaluation, XP calculation
 - **`test_reading_extra.py`** — Lines: 255. What it covers: Additional reading exercise scenarios
-- **`test_vocabulary.py`** — Lines: 175+. What it covers: Vocabulary API: list sets, by-level, set detail, language switching, auth, error cases, and Japanese data resolution.
+- **`test_vocabulary.py`** — Lines: 175+. What it covers: Vocabulary API: list sets, by-level, set detail, language switching, auth, error cases, and Japanese/Korean data resolution.
 - **`test_feedback.py`** — Lines: 1261. What it covers: Feedback board: feature requests, bug reports, default exclusion of done entries, voting, comments, admin moderation
 - **`test_billing.py`** — Lines: 381. What it covers: Stripe subscriptions, webhooks, payment status, subscription lifecycle
 - **`test_maintenance.py`** — Lines: 153. What it covers: Maintenance mode toggle, API behavior during maintenance
@@ -66,15 +66,15 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_llm_adapter.py`** — Lines: —. What it covers: LLM adapter: JSON parsing, streaming, 5 exception classes, 4 provider init paths, chat (streaming + non-streaming), Anthropic error mapping, structured output with retry, DeepSeek provider, edge cases (63 tests, 38%→100% coverage)
 - **`test_prompts.py`** — Lines: —. What it covers: Centralized prompt builders, regional/native language names, language capability metadata, memory instructions, JSON-only block reuse, language overlays including CJK readiness overlays and aliases
 - **`test_reviews.py`** — Lines: —. What it covers: User reviews: creation, editing, rating validation, duplicate guard, public filtering, admin moderation, permissions, admin email notification on creation
-- **`test_phrasebook.py`** — Lines: 185+. What it covers: Phrasebook API: list categories, by-level filtering, category detail, language switching, auth, error cases, and Japanese data resolution.
+- **`test_phrasebook.py`** — Lines: 185+. What it covers: Phrasebook API: list categories, by-level filtering, category detail, language switching, auth, error cases, and Japanese/Korean data resolution.
 - **`test_quota_service.py`** — Lines: —. What it covers: Quota service: key helpers, quota status, session tracking, daily/weekly minute checks, monthly token tracking, combined quota validation, full session lifecycle (71 tests, 37%→100% coverage)
 - **`test_flashcard_sm2.py`** — Lines: —. What it covers: Flashcard service: `_clean_generated_word`, `_get_lang_hint` (9 languages + fallbacks), native-language name injection, `generate_flashcards`, `lookup_word`
-- **`test_assessment_bank.py`** — Lines: —. What it covers: Assessment bank dispatcher: all 8 backend data languages including Japanese, unknown fallback to en-GB, ISO prefix fallback, cache reuse (12 tests, 0%→100% coverage)
+- **`test_assessment_bank.py`** — Lines: —. What it covers: Assessment bank dispatcher: all 9 backend data languages including Japanese and Korean, unknown fallback to en-GB, ISO prefix fallback, cache reuse (13 tests, 0%→100% coverage)
 - **`test_limiter.py`** — Lines: —. What it covers: Rate limiter: `_get_real_ip` (X-Real-IP, X-Forwarded-For single/multiple, client host fallback, unknown), limiter construction (9 tests, 42%→100% coverage)
 - **`test_lesson_generator.py`** — Lines: —. What it covers: Lesson generator service: `get_valid_grammar_slugs`, `generate_lesson`, fill-blank sanitization, grammar refs filtering, `evaluate_free_write`, `evaluate_pronunciation`, `evaluate_fill_blank` (12 tests, 51%→100% coverage)
 - **`test_listening_service.py`** — Lines: —. What it covers: Listening service DB layer and generation: `structured_output()` generation persistence, language-aware CJK length guidance, `get_available_exercise`, `submit_attempt` (correct/partial/duplicate/replay/not-found), `get_user_history` (empty/attempts/limit/language filter)
 
-**Total: 43 test files, 851 tests.**
+**Total: 43 test files, 863 tests.**
 
 ### Coverage
 
@@ -131,7 +131,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 **Data integrity**:
 
 - Every grammar_slug in curriculum.ts referenced by curriculum units exists in grammar.ts
-- Every vocabulary_set_id referenced by each language's curriculum exists in that language's backend vocabulary data, including Japanese.
+- Every vocabulary_set_id referenced by each language's curriculum exists in that language's backend vocabulary data, including Japanese and Korean.
 - Every related grammar slug in grammar topics points to an existing topic
 
 ### Running tests
@@ -286,7 +286,7 @@ The `pre-push` opencode skill mirrors the CI workflow locally. Run order:
 - **Each test file runs independently** — no shared state between files, fresh DB per test
 - **Coverage thresholds enforced** — backend >= 70% (enforced); frontend coverage is not configured
 - **No `docker compose` in test configs** — the development environment does not have Docker locally; E2E tests target a remote deployment
-- **Data integrity tests validate cross-file references** — ensures curriculum, grammar, and backend vocabulary data files stay consistent across backend language packages, including Japanese.
+- **Data integrity tests validate cross-file references** — ensures curriculum, grammar, and backend vocabulary data files stay consistent across backend language packages, including Japanese and Korean.
 - **Frontend: test critical logic + components** — test stores, utils, API client, middleware, and key components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher)
 - **Frontend: mock `localStorage` and `next/navigation` globally** in `tests/setup.ts` — individual test files should not re-mock these
 - **Frontend: tests live in `frontend/tests/`** — not co-located with source files, mirroring the backend `tests/` convention

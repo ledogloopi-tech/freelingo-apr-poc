@@ -207,3 +207,17 @@ async def test_japanese_language_returns_japanese_sets(client, test_user):
     assert len(sets) > 0
     assert any(s["id"] == "kana_a1" for s in sets)
     assert any(s["topic"] == "かな" for s in sets)
+
+
+@pytest.mark.asyncio
+async def test_korean_language_returns_korean_sets(client, test_user):
+    """ko-KR returns Korean vocabulary sets and does not fall back to English."""
+    _, headers = test_user
+
+    response = await client.get("/api/vocabulary?language=ko-KR", headers=headers)
+
+    assert response.status_code == 200
+    sets = response.json()["sets"]
+    assert len(sets) > 0
+    assert any(s["id"] == "hangul_a1" for s in sets)
+    assert any(s["topic"] == "한글" for s in sets)

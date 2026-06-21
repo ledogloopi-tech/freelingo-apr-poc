@@ -150,3 +150,17 @@ async def test_japanese_language_returns_japanese_topics(client, test_user):
     assert len(topics) > 0
     assert any(t["slug"] == "hiragana" for t in topics)
     assert any(t["title"] == "ひらがな" for t in topics)
+
+
+@pytest.mark.asyncio
+async def test_korean_language_returns_korean_topics(client, test_user):
+    """ko-KR returns Korean grammar topics and does not fall back to English."""
+    _, headers = test_user
+
+    response = await client.get("/api/grammar?language=ko-KR", headers=headers)
+
+    assert response.status_code == 200
+    topics = response.json()["topics"]
+    assert len(topics) > 0
+    assert any(t["slug"] == "hangul-basics" for t in topics)
+    assert any(t["title"] == "한글 기본" for t in topics)

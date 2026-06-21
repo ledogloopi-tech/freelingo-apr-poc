@@ -62,9 +62,9 @@ Required files:
 | `__init__.py` | Package marker |
 | `curriculum.py` | Assembles `curriculum_a1.py` ... `curriculum_c2.py` |
 | `curriculum_a1.py` ... `curriculum_c2.py` | Per-level curriculum units |
-| `grammar.py` | Assembles grammar modules or exports complete topic list |
-| `grammar_*` modules | Recommended for large packages; `en_GB` uses base/extras modules |
-| `vocabulary.py` | Assembles `vocabulary_a1.py` ... `vocabulary_c2.py` |
+| `grammar.py` | Assembler only; imports grammar modules and exports the flattened topic list |
+| `grammar_*` modules | Required; split by CEFR level or topic group, matching the `en_GB` modular pattern |
+| `vocabulary.py` | Assembler only; imports `vocabulary_a1.py` ... `vocabulary_c2.py` |
 | `vocabulary_a1.py` ... `vocabulary_c2.py` | Per-level vocabulary sets |
 | `phrasebook.py` | Assembles `phrasebook_a1.py` ... `phrasebook_c2.py` |
 | `phrasebook_a1.py` ... `phrasebook_c2.py` | Per-level phrasebook categories |
@@ -122,7 +122,7 @@ Rules:
 - Slugs must be unique within the language.
 - `title`, `category`, `summary`, `explanation`, `structure`, `rules`, examples, and mistake notes must be in the target language unless the field intentionally stores a translation.
 - `related` entries must point to existing slugs in the same language.
-- Structure can be split by level or by topic group, but `grammar.py` must export one flattened `GRAMMAR_TOPICS` list.
+- Structure must be split into grammar modules by CEFR level or topic group, matching `en_GB` (`grammar_base.py`, `grammar_extras_*`). `grammar.py` must be an assembler only and export one flattened `GRAMMAR_TOPICS` list.
 
 ## Vocabulary Standard
 
@@ -136,7 +136,7 @@ Rules:
 - `topic`, `definition`, and `example` must be in the target language.
 - `unit_ref` should point to the associated curriculum unit.
 - Each set must contain real entries; no empty sets.
-- Prefer per-level modules (`vocabulary_a1.py` ... `vocabulary_c2.py`) and an assembler `vocabulary.py`, matching `en_GB`.
+- Use per-level modules (`vocabulary_a1.py` ... `vocabulary_c2.py`) and an assembler-only `vocabulary.py`, matching `en_GB`.
 
 ## Phrasebook Standard
 

@@ -113,7 +113,7 @@ backend/
 │   │   ├── tts_service.py       # Text-to-speech abstraction (local Kokoro / OpenAI)
 │   │   └── user_language_service.py # Multi-language study plan management (phase 10)
 │   │
-│   └── data/                    # Static curriculum, assessment, vocabulary, and phrasebook content (8 language modules)
+│   └── data/                    # Static curriculum, assessment, vocabulary, and phrasebook content (9 language modules)
 │       ├── __init__.py
 │       ├── _types.py             # Shared types (CEFRLevel, CurriculumUnit, AssessmentQuestion, VocabularyEntry, VocabularySet, PhrasebookEntry, PhrasebookCategory)
 │       ├── curriculum.py         # Language-aware curriculum dispatcher
@@ -126,12 +126,13 @@ backend/
 │       ├── fr/                   # French — curriculum, assessment bank, vocabulary, phrasebook
 │       ├── it/                   # Italian — curriculum, assessment bank, vocabulary, phrasebook
 │       ├── ja/                   # Japanese — curriculum, assessment bank, vocabulary, phrasebook
+│       ├── ko/                   # Korean — curriculum, assessment bank, vocabulary, phrasebook
 │       └── pt/                   # Portuguese — curriculum, assessment bank, vocabulary, phrasebook
 │
 ├── alembic/
 │   └── versions/                # DB migrations (42 migrations)
 │
-└── tests/                       # pytest suite (43 test files, 851 tests)
+└── tests/                       # pytest suite (43 test files, 863 tests)
 ```
 
 ## Database models
@@ -173,7 +174,7 @@ Key architectural decisions:
 - **Study Plan Generator** and **Lesson Generator** are deterministic within curriculum constraints
 - **TTS/STT services** abstract local (Kokoro/Whisper) and cloud (OpenAI) providers behind common interfaces
 - **Conversation Pipeline** orchestrates real-time voice: cancellable greeting, STT → full LLM response → sentence-level TTS chunks, serialized WebSocket sends, empty-STT guard, and backend barge-in support with frontend automatic interruption disabled
-- **Language Helpers** centralize target-language display names, ISO codes, script metadata, romanization metadata, word-spacing metadata, and reading/listening length guidance. Japanese (`ja-JP`) is enabled in backend language allow-lists and static content dispatchers; South Korean Korean and Mainland Chinese metadata remain prepared for prompt/readiness work until their data phases are implemented.
+- **Language Helpers** centralize target-language display names, ISO codes, script metadata, romanization metadata, word-spacing metadata, and reading/listening length guidance. Japanese (`ja-JP`) and Korean (`ko-KR`) are enabled in backend language allow-lists and static content dispatchers; Mainland Chinese metadata remains prepared for prompt/readiness work until its data phase is implemented.
 
 For complete service details, APIs, and implementation notes, see [services.instructions.md](services.instructions.md).
 
@@ -199,7 +200,7 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 
 - **Framework**: pytest + pytest-asyncio + httpx AsyncClient
 - **Test files**: 43 (plus conftest.py for shared fixtures)
-- **Tests**: 851
+- **Tests**: 863
 - **Coverage**: 84.23% last measured (target: ≥70%)
 - **Key fixtures**: async database session, test client with auth headers, Redis mock, user_language fixture
 

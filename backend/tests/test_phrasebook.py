@@ -203,3 +203,17 @@ async def test_japanese_language_returns_japanese_categories(client, test_user):
     assert len(categories) > 0
     assert any(c["id"] == "greetings_ja_a1" for c in categories)
     assert any(c["situation"] == "あいさつと自己紹介" for c in categories)
+
+
+@pytest.mark.asyncio
+async def test_korean_language_returns_korean_categories(client, test_user):
+    """ko-KR returns Korean phrasebook categories and does not fall back to English."""
+    _, headers = test_user
+
+    response = await client.get("/api/phrasebook?language=ko-KR", headers=headers)
+
+    assert response.status_code == 200
+    categories = response.json()["categories"]
+    assert len(categories) > 0
+    assert any(c["id"] == "greetings_a1" for c in categories)
+    assert any(c["situation"] == "인사와 소개" for c in categories)
