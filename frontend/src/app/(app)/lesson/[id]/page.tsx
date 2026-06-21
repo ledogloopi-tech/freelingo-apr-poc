@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { apiFetch } from '@/lib/api'
 import { useProgressStore } from '@/store/progress'
 import { useLanguageStore } from '@/store/language'
@@ -21,7 +21,10 @@ import {
 } from '@/components/reviews/ReviewPrompt'
 import { shouldShowUnitReviewPrompt } from '@/lib/review-prompt-triggers'
 import { cn } from '@/lib/utils'
-import { getTargetLanguageTextClass } from '@/lib/target-languages'
+import {
+  formatLanguageName,
+  getTargetLanguageTextClass,
+} from '@/lib/target-languages'
 
 interface ExerciseItem {
   id: number
@@ -54,12 +57,16 @@ export default function LessonPage() {
   const tPlan = useTranslations('plan')
   const tError = useTranslations('error')
   const tLang = useTranslations('languages')
+  const locale = useLocale()
   const params = useParams()
   const router = useRouter()
   const id = params.id as string
   const completeLesson = useProgressStore((s) => s.completeLesson)
   const activeLanguage = useLanguageStore((s) => s.activeLanguage)
   const user = useAuthStore((s) => s.user)
+  const nativeLanguageName = user?.native_language
+    ? formatLanguageName(tLang(user.native_language), locale)
+    : ''
   const langAtLoad = useRef(activeLanguage?.code ?? null)
   const {
     selectedWord,
@@ -436,7 +443,7 @@ export default function LessonPage() {
                 >) ? (
                   <div className="space-y-3">
                     <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
-                      {user?.native_language ? tLang(user.native_language) : ''}
+                      {nativeLanguageName}
                     </p>
                     {String(
                       (
@@ -534,7 +541,7 @@ export default function LessonPage() {
                         ? '...'
                         : nativeExplanationError
                           ? tCommon('retry')
-                          : `${t('showNativeExplanation')} ${user?.native_language ? tLang(user.native_language) : ''}`}
+                          : `${t('showNativeExplanation')} ${nativeLanguageName}`}
                     </button>
                   </div>
                 )}
