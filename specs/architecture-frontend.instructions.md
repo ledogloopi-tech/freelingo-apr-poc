@@ -170,7 +170,7 @@ frontend/
 - `/dashboard` — Home: XP counter, streak, next lesson card, target language selector.
 - `/assessment` — Level placement test (`BeginnerGate` → `AdaptiveQuiz` → `DurationSelector`).
 - `/plan` — Study plan overview: unit cards, `LevelTestBanner`, `UnitDrawer`.
-- `/lesson/[id]` — Lesson player: content + interactive exercises. Completing a lesson may open the reusable review prompt when it advances the user out of the completed curriculum unit, subject to duplicate-review checks and local dismissal cooldown.
+- `/lesson/[id]` — Lesson player: content + interactive exercises. For A1/A2 lessons, if `content.native_explanation` exists it is shown below the target-language explanation; if it is missing, the page shows a native-language button that calls `POST /api/lessons/{id}/native-explanation` and stores the returned explanation in local lesson state. Completing a lesson may open the reusable review prompt when it advances the user out of the completed curriculum unit, subject to duplicate-review checks and local dismissal cooldown.
 - `/chat` — AI tutor text chat with SSE streaming.
 - `/conversation` — Real-time voice conversation with WebSocket + VAD. When the user manually stops a connected voice session after at least 5 minutes, the page may open the reusable review prompt, subject to duplicate-review checks and local dismissal cooldown.
 - `/flashcards` — Spaced-repetition flashcard review.

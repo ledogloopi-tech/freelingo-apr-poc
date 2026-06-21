@@ -1,3 +1,4 @@
+import json
 import re
 from datetime import UTC, datetime
 
@@ -17,7 +18,9 @@ from app.schemas.lessons import (
     ExerciseResponse,
     LessonDetailResponse,
     LessonResponse,
+    NativeExplanationResponse,
 )
+from app.services.language_helpers import get_language_name, get_native_language_name
 from app.services.lesson_generator import (
     evaluate_fill_blank,
     evaluate_free_write,
@@ -27,6 +30,7 @@ from app.services.llm_adapter import (
     LLMError,
     LLMTimeoutError,
     LLMUnavailableError,
+    llm_adapter,
 )
 from app.services.progress_service import update_daily_progress, upsert_unit_competency
 
@@ -297,3 +301,61 @@ async def answer_exercise(
         feedback=exercise.feedback,
         correct_answer=exercise.correct_answer,
     )
+
+
+@router.post("/{lesson_id}/native-explanation")
+@limiter.limit("10/minute")
+async def generate_native_explanation(
+    request: Request,
+    lesson_id: int,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    lesson = await _get_lesson_for_user(lesson_id, current_user.id, db)
+
+    if lesson.cefr_level not in ("A1", "A2"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Native explanations are only available for A1 and A2 levels",
+        )
+
+    content = dict(lesson.content or {})
+    if content.get("native_explanation"):
+        return {"native_explanation": content["native_explanation"]}
+
+    explanation = content.get("explanation")
+    if not explanation or not isinstance(explanation, dict):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Lesson has no explanation to translate",
+        )
+
+    plan = await db.get(StudyPlan, lesson.study_plan_id)
+    target_language = plan.target_language if plan else "en-GB"
+
+    from app.services.prompts.lesson import build_native_explanation_on_demand_prompt
+
+    prompt = build_native_explanation_on_demand_prompt(
+        target_language_name=get_language_name(target_language),
+        native_language_name=get_native_language_name(current_user.native_language),
+        source_explanation=json.dumps(explanation, ensure_ascii=False),
+    )
+
+    try:
+        result = await llm_adapter.structured_output(
+            [{"role": "user", "content": prompt}],
+            NativeExplanationResponse,
+        )
+        native_exp: dict = result.model_dump() if hasattr(result, "model_dump") else result
+    except LLMError, LLMTimeoutError, LLMUnavailableError:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Could not generate native explanation at this time",
+        )
+
+    content["native_explanation"] = native_exp
+    lesson.content = content
+    await db.commit()
+    await db.refresh(lesson)
+
+    return {"native_explanation": native_exp}

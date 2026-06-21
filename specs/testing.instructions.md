@@ -1,5 +1,5 @@
 ---
-description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 870 tests, 84.62% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (30 test files, 401 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
+description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 875 tests, 85.27% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (30 test files, 404 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
 applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 ---
 
@@ -13,7 +13,7 @@ applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 | Frontend unit              | Vitest                  | Stores, components, hooks, lib, middleware              | Not configured                     | Implemented |
 | E2E                        | Playwright              | Critical user flows                                     | Smoke                              | Pending     |
 
-All tests pass on every push. Backend coverage threshold configured at 70%, last measured at 84.62%. Frontend tests cover stores, critical components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher, TargetLanguageSelector, review UI, LanguageBubbles), app pages, hooks, lib modules, i18n, and middleware. Frontend coverage is not currently reported because Vitest coverage is not configured and `@vitest/coverage-v8` is not installed.
+All tests pass on every push. Backend coverage threshold configured at 70%, last measured at 85.27%. Frontend tests cover stores, critical components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher, TargetLanguageSelector, review UI, LanguageBubbles), app pages, hooks, lib modules, i18n, and middleware. Frontend coverage is not currently reported because Vitest coverage is not configured and `@vitest/coverage-v8` is not installed.
 
 ---
 
@@ -38,10 +38,10 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_avatar.py`** — Lines: 327. What it covers: Avatar upload, validation, storage, retrieval
 - **`test_assessment.py`** — Lines: 165. What it covers: Quiz start (mocked LLM), submit and deterministic evaluation, legacy endpoints, LLM error handling
 - **`test_assessment_router.py`** — Lines: —. What it covers: Full assessment router: start, submit, evaluate, free-write, complete, level-test questions/submit/result (54 tests, 51%→98% coverage)
-- **`test_study_plan.py`** — Lines: 376. What it covers: Plan generation, today's lessons, auto-generation on access, unit progression
+- **`test_study_plan.py`** — Lines: 459. What it covers: Plan generation, today's lessons, auto-generation on access, A1/A2 native-language lesson-generation context, unit progression
 - **`test_lessons.py`** — Lines: 235. What it covers: Lesson CRUD, exercise answering (multiple_choice, free_write, pronunciation), completion flow, progress update on complete
 - **`test_lessons_extra.py`** — Lines: 106. What it covers: Additional lesson scenarios and edge cases
-- **`test_lessons_router.py`** — Lines: —. What it covers: Lesson router: get lesson with exercises, complete lesson, answer exercises (all 4 types), lifecycle, fill-blank sanitization (36 tests, 58%→99% coverage)
+- **`test_lessons_router.py`** — Lines: —. What it covers: Lesson router: get lesson with exercises, complete lesson, native-language explanation generation/caching, answer exercises (all 4 types), lifecycle, fill-blank sanitization (39 tests, 58%→99% coverage)
 - **`test_flashcards.py`** — Lines: 136. What it covers: SM-2 algorithm (all quality levels 0–5, interval and ease_factor transitions, edge cases), card CRUD
 - **`test_flashcards_extra.py`** — Lines: 201. What it covers: Additional flashcard scenarios and SM-2 edge cases
 - **`test_chat.py`** — Lines: 54. What it covers: SSE streaming chunks, conversation creation and messaging
@@ -78,7 +78,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 
 ### Coverage
 
-- **Current coverage**: 84.62% last measured (above 70% target)
+- **Current coverage**: 85.27% last measured (above 70% target)
 - **Configured threshold**: 70% (enforced via `pytest --cov-fail-under=70`)
 
 ### Test patterns
@@ -198,7 +198,7 @@ pytest --cov-report=html
 - **`tests/app/admin-reviews.test.tsx`** — Tests: 3. What it covers: Admin review moderation list, approval action, delete confirmation
 - **`tests/i18n/admin-messages.test.ts`** — Tests: 1. What it covers: Admin message bundle integrity
 
-**Total: 401 tests across 30 files. Frontend coverage is not configured/reported.**
+**Total: 404 tests across 30 files. Frontend coverage is not configured/reported.**
 
 ### Running tests
 

@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl'
 import { apiFetch } from '@/lib/api'
 import { useProgressStore } from '@/store/progress'
 import { useLanguageStore } from '@/store/language'
+import { useAuthStore } from '@/store/auth'
 import { getGrammarTopics, type GrammarTopic } from '@/data/grammar'
 import { AudioPlayer } from '@/components/ui/AudioPlayer'
 import { VoiceRecorder } from '@/components/ui/VoiceRecorder'
@@ -52,11 +53,13 @@ export default function LessonPage() {
   const tCommon = useTranslations('common')
   const tPlan = useTranslations('plan')
   const tError = useTranslations('error')
+  const tLang = useTranslations('languages')
   const params = useParams()
   const router = useRouter()
   const id = params.id as string
   const completeLesson = useProgressStore((s) => s.completeLesson)
   const activeLanguage = useLanguageStore((s) => s.activeLanguage)
+  const user = useAuthStore((s) => s.user)
   const langAtLoad = useRef(activeLanguage?.code ?? null)
   const {
     selectedWord,
@@ -88,6 +91,9 @@ export default function LessonPage() {
   const [loadError, setLoadError] = useState(false)
   const [submitError, setSubmitError] = useState(false)
   const [showExitConfirm, setShowExitConfirm] = useState(false)
+  const [loadingNativeExplanation, setLoadingNativeExplanation] =
+    useState(false)
+  const [nativeExplanationError, setNativeExplanationError] = useState(false)
 
   const loadLesson = useCallback(async () => {
     setLoading(true)
@@ -106,6 +112,37 @@ export default function LessonPage() {
   useEffect(() => {
     loadLesson()
   }, [loadLesson])
+
+  const generateNativeExplanation = async () => {
+    setLoadingNativeExplanation(true)
+    setNativeExplanationError(false)
+    try {
+      const res = await apiFetch(`/api/lessons/${id}/native-explanation`, {
+        method: 'POST',
+      })
+      if (!res.ok) {
+        setNativeExplanationError(true)
+        return
+      }
+      const data = await res.json()
+      if (data.native_explanation) {
+        setLesson((prev) => {
+          if (!prev) return prev
+          return {
+            ...prev,
+            content: {
+              ...prev.content,
+              native_explanation: data.native_explanation,
+            },
+          }
+        })
+      }
+    } catch {
+      setNativeExplanationError(true)
+    } finally {
+      setLoadingNativeExplanation(false)
+    }
+  }
 
   // Capture progress_day at the time the lesson starts (for day-complete detection)
   useEffect(() => {
@@ -386,6 +423,119 @@ export default function LessonPage() {
                         </div>
                       </div>
                     ))}
+                  </div>
+                )}
+              </div>
+            )}
+            {/* Native explanation (A1/A2 only) */}
+            {(lesson?.cefr_level === 'A1' || lesson?.cefr_level === 'A2') && (
+              <div className="border-fl-border mt-4 border-t pt-4">
+                {(lesson?.content?.native_explanation as Record<
+                  string,
+                  unknown
+                >) ? (
+                  <div className="space-y-3">
+                    <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
+                      {user?.native_language ? tLang(user.native_language) : ''}
+                    </p>
+                    {String(
+                      (
+                        lesson?.content?.native_explanation as Record<
+                          string,
+                          unknown
+                        >
+                      )?.text ?? ''
+                    ) && (
+                      <p className="text-fl-muted-2 text-sm">
+                        {String(
+                          (
+                            lesson?.content?.native_explanation as Record<
+                              string,
+                              unknown
+                            >
+                          ).text
+                        )}
+                      </p>
+                    )}
+                    {(
+                      (
+                        lesson?.content?.native_explanation as Record<
+                          string,
+                          unknown
+                        >
+                      )?.key_points as string[]
+                    )?.length > 0 && (
+                      <ul className="space-y-1">
+                        {(
+                          (
+                            lesson?.content?.native_explanation as Record<
+                              string,
+                              unknown
+                            >
+                          )?.key_points as string[]
+                        ).map((kp, i) => (
+                          <li key={i} className="text-fl-muted-3 text-sm">
+                            <span className="text-fl-muted-2 mr-2">·</span>
+                            {kp}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {(
+                      (
+                        lesson?.content?.native_explanation as Record<
+                          string,
+                          unknown
+                        >
+                      )?.examples as { sentence: string; note: string }[]
+                    )?.length > 0 && (
+                      <div className="space-y-2">
+                        <p className="text-fl-label text-fl-muted-3 font-mono text-xs tracking-widest uppercase">
+                          {t('examples')}
+                        </p>
+                        {(
+                          (
+                            lesson?.content?.native_explanation as Record<
+                              string,
+                              unknown
+                            >
+                          )?.examples as { sentence: string; note: string }[]
+                        ).map((ex, i) => (
+                          <div key={i} className="flex items-start gap-3">
+                            <span className="text-fl-muted-3 mt-0.5 text-sm">
+                              ·
+                            </span>
+                            <div className="min-w-0 flex-1">
+                              <TargetLanguageText
+                                languageCode={targetLanguageCode}
+                                className="text-fl-muted-1 text-sm italic"
+                              >
+                                {ex.sentence}
+                              </TargetLanguageText>
+                              {ex.note && (
+                                <p className="text-fl-hint text-fl-muted-3 mt-0.5 text-sm">
+                                  {ex.note}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="text-center">
+                    <button
+                      onClick={generateNativeExplanation}
+                      disabled={loadingNativeExplanation}
+                      className="text-fl-hint text-fl-muted-3 hover:text-fl-fg font-mono text-sm transition-colors"
+                    >
+                      {loadingNativeExplanation
+                        ? '...'
+                        : nativeExplanationError
+                          ? tCommon('retry')
+                          : `${t('showNativeExplanation')} ${user?.native_language ? tLang(user.native_language) : ''}`}
+                    </button>
                   </div>
                 )}
               </div>

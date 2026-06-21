@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Korean learning data**: `ko-KR` now has a complete backend learning package with A1-C2 curriculum, grammar, vocabulary, phrasebook, assessment, listening-enabled study plan coverage, and Korean-specific reading generation topics.
 - **Mainland Chinese learning data**: `zh-CN` now has a complete backend learning package with A1-C2 curriculum, grammar, vocabulary, phrasebook, assessment, listening-enabled study plan coverage, and Mainland Chinese-specific reading generation topics.
 - **CJK data integrity coverage**: grammar, vocabulary, phrasebook, assessment, curriculum, allow-list, and cross-reference tests assert that Japanese, Korean, and Mainland Chinese resolve to explicit target-language data rather than falling back to English.
+- **Native-language beginner explanations**: A1/A2 lessons can now include a native-language `native_explanation` alongside the target-language explanation. New beginner lessons generate it automatically, while existing beginner lessons expose an on-demand "show in native language" action that translates and caches the explanation without regenerating exercises.
+- **Native explanation test coverage**: backend coverage now includes native-explanation endpoint generation/caching, A1/A2 gating, and native-language propagation during lazy lesson generation. Backend suite: 875 tests, 85.27% coverage.
 
 ### Changed
 
