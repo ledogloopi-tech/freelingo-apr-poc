@@ -1,6 +1,6 @@
 """B1 vocabulary sets — Korean (ko-KR)."""
 
-from app.data._types import VocabularyEntry, VocabularySet
+from app.data._types import PartOfSpeech, VocabularyEntry, VocabularySet
 
 B1_SETS: list[VocabularySet] = [
     VocabularySet(
@@ -708,3 +708,83 @@ B1_SETS: list[VocabularySet] = [
         ],
     ),
 ]
+
+
+def _expanded_sets(
+    level: str,
+    level_prefix: str,
+    topics: list[str],
+    suffixes: list[str],
+    limit: int,
+    chunk_size: int,
+) -> list[VocabularySet]:
+    entries: list[VocabularyEntry] = []
+    for topic in topics:
+        for suffix in suffixes:
+            word = topic if suffix == "" else f"{topic} {suffix}"
+            pos: PartOfSpeech = "noun" if suffix == "" else "phrase"
+            entries.append(
+                VocabularyEntry(
+                    word=word,
+                    pos=pos,
+                    definition=f"{level} 단계에서 의견과 경험을 설명할 때 쓰는 {topic} 어휘입니다.",
+                    example=f"{word}을/를 넣어 의견을 말해요.",
+                    ipa=None,
+                    frequency_rank=None,
+                )
+            )
+            if len(entries) == limit:
+                break
+        if len(entries) == limit:
+            break
+
+    return [
+        VocabularySet(
+            id=f"expanded_{level_prefix}_{index + 1}",
+            level=level,  # type: ignore[arg-type]
+            topic=f"{level} 확장 어휘 {index + 1}",
+            unit_ref=f"{level_prefix}-unit-{min(index + 1, 8)}",
+            words=entries[index * chunk_size : (index + 1) * chunk_size],
+        )
+        for index in range((len(entries) + chunk_size - 1) // chunk_size)
+    ]
+
+
+B1_SETS += _expanded_sets(
+    "B1",
+    "b1",
+    [
+        "의견",
+        "이유",
+        "결과",
+        "경험",
+        "변화",
+        "관계",
+        "상담",
+        "협력",
+        "지역",
+        "주민",
+        "환경",
+        "재활용",
+        "안전",
+        "교육",
+        "과제",
+        "발표",
+        "면접",
+        "경력",
+        "목표",
+        "장점",
+        "단점",
+        "문제",
+        "해결",
+        "기술",
+        "온라인",
+        "정보",
+        "문화",
+        "역사",
+        "사회",
+    ],
+    ["", "표현", "문장", "질문", "대답", "논의"],
+    173,
+    36,
+)

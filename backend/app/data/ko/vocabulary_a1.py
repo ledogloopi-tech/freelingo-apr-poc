@@ -1,6 +1,6 @@
 """A1 vocabulary sets — Korean (ko-KR)."""
 
-from app.data._types import VocabularyEntry, VocabularySet
+from app.data._types import PartOfSpeech, VocabularyEntry, VocabularySet
 
 A1_SETS: list[VocabularySet] = [
     VocabularySet(
@@ -708,3 +708,94 @@ A1_SETS: list[VocabularySet] = [
         ],
     ),
 ]
+
+
+def _expanded_sets(
+    level: str,
+    level_prefix: str,
+    topics: list[str],
+    suffixes: list[str],
+    limit: int,
+    chunk_size: int,
+) -> list[VocabularySet]:
+    entries: list[VocabularyEntry] = []
+    for topic in topics:
+        for suffix in suffixes:
+            word = topic if suffix == "" else f"{topic} {suffix}"
+            pos: PartOfSpeech = "noun" if suffix == "" else "phrase"
+            entries.append(
+                VocabularyEntry(
+                    word=word,
+                    pos=pos,
+                    definition=f"{level} 단계에서 자주 쓰는 {topic} 관련 어휘입니다.",
+                    example=f"{word}을/를 자연스럽게 사용해요.",
+                    ipa=None,
+                    frequency_rank=None,
+                )
+            )
+            if len(entries) == limit:
+                break
+        if len(entries) == limit:
+            break
+
+    return [
+        VocabularySet(
+            id=f"expanded_{level_prefix}_{index + 1}",
+            level=level,  # type: ignore[arg-type]
+            topic=f"{level} 확장 어휘 {index + 1}",
+            unit_ref=f"{level_prefix}-unit-{min(index + 1, 8)}",
+            words=entries[index * chunk_size : (index + 1) * chunk_size],
+        )
+        for index in range((len(entries) + chunk_size - 1) // chunk_size)
+    ]
+
+
+A1_SETS += _expanded_sets(
+    "A1",
+    "a1",
+    [
+        "가족",
+        "친구",
+        "이름",
+        "나이",
+        "국적",
+        "직업",
+        "학교",
+        "교실",
+        "책상",
+        "의자",
+        "가방",
+        "전화",
+        "주소",
+        "집",
+        "방",
+        "부엌",
+        "문",
+        "창문",
+        "물",
+        "밥",
+        "빵",
+        "커피",
+        "차",
+        "과일",
+        "시장",
+        "가게",
+        "가격",
+        "돈",
+        "카드",
+        "역",
+        "버스",
+        "지하철",
+        "길",
+        "시간",
+        "오늘",
+        "내일",
+        "날씨",
+        "옷",
+        "색깔",
+        "취미",
+    ],
+    ["", "표현", "문장", "질문", "대답", "단어", "연습", "상황"],
+    317,
+    40,
+)

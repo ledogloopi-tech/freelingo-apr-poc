@@ -78,7 +78,7 @@ Auth required (`get_current_user`). Returns static curriculum data for all suppo
 
 ## Vocabulary — `/api/vocabulary`
 
-Auth required (`get_current_user`). Serves static vocabulary data across the backend language modules, organized per CEFR level. `ja-JP` includes 152 vocabulary sets, while `ko-KR` and `zh-CN` include 132 vocabulary sets referenced by their curricula.
+Auth required (`get_current_user`). Serves static vocabulary data across the backend language modules, organized per CEFR level. `ja-JP` includes 152 vocabulary sets, while `ko-KR` and `zh-CN` each include 155 vocabulary sets referenced by their curricula.
 
 - **GET ``** — Auth: get_current_user. All vocabulary sets for the given language. Query param: `language` (BCP-47, default `en-GB`). Response: `{sets: [{id, level, topic, unit_ref, words: [{word, pos, definition, example, ipa?, frequency_rank?}]}]}`.
 - **GET `/level/{level}`** — Auth: get_current_user. Vocabulary sets filtered by CEFR level (A1–C2). Query param: `language` (BCP-47). Returns 400 for invalid levels.
@@ -272,7 +272,7 @@ All endpoints require `require_subscription`.
 
 All endpoints require `get_current_user`.
 
-- **GET ``** — Rate limit: 60/min. Auth: get_current_user. Returns all phrasebook categories for the given target language. Query param: `language` (BCP-47, default `en-GB`). Response: `{categories: [{id, level, situation, icon, phrases: [{text, context, register, unit_ref}]}]}`. `ja-JP` includes 38 A1-C2 phrasebook categories, while `ko-KR` and `zh-CN` include A1-C2 phrasebook categories in the target language.
+- **GET ``** — Rate limit: 60/min. Auth: get_current_user. Returns all phrasebook categories for the given target language. Query param: `language` (BCP-47, default `en-GB`). Response: `{categories: [{id, level, situation, icon, phrases: [{text, context, register, unit_ref}]}]}`. `ja-JP` includes 44 A1-C2 phrasebook categories, `ko-KR` includes 34 A1-C2 phrasebook categories, and `zh-CN` includes 24 A1-C2 phrasebook categories in the target language.
 - **GET `/level/{level}`** — Rate limit: 60/min. Auth: get_current_user. Returns phrasebook categories filtered by CEFR level (A1–C2). Returns 400 for invalid levels. Query param: `language`.
 - **GET `/{category_id}`** — Rate limit: 60/min. Auth: get_current_user. Returns a single phrasebook category by ID. Query param: `language`. Returns 404 if not found.
 - **GET `/audio/{category_id}/{phrase_index}`** — Rate limit: 30/min. Auth: get_current_user. Returns cached TTS audio (audio/mpeg) for a specific phrase. Generates and caches on first request; subsequent requests serve from disk. Query param: `language`. Returns 404 if category or phrase index not found, 503 if TTS service unavailable.

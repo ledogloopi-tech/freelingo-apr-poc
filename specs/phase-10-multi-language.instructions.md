@@ -61,8 +61,8 @@ Korean (`ko-KR`) is enabled in backend schemas, `AVAILABLE_TARGET_LANGUAGES` def
 | --------- | ----------------------- |
 | Curriculum | 48 units across A1-C2, with Korean unit titles and competency checklists |
 | Grammar | 126 topics matching all curriculum `grammar_points` slugs |
-| Vocabulary | 132 sets matching all curriculum `vocabulary_set_ids` |
-| Phrasebook | 28 A1-C2 categories with Korean phrases, contexts, registers, and unit references |
+| Vocabulary | 155 sets matching all curriculum `vocabulary_set_ids`, with 1,226 words across A1-C2 |
+| Phrasebook | 34 A1-C2 categories with 318 Korean phrases, contexts, registers, and unit references |
 | Assessment bank | 120 static questions across grammar, vocabulary, and reading |
 
 ### Mainland Chinese backend data
@@ -73,8 +73,8 @@ Mainland Chinese (`zh-CN`) is enabled in backend schemas, `AVAILABLE_TARGET_LANG
 | --------- | --------------------------------- |
 | Curriculum | 48 units across A1-C2, with Simplified Chinese unit titles and competency checklists |
 | Grammar | 126 topics matching all curriculum `grammar_points` slugs |
-| Vocabulary | 132 sets matching all curriculum `vocabulary_set_ids` |
-| Phrasebook | 18 A1-C2 categories with Chinese phrases, contexts, registers, and unit references |
+| Vocabulary | 155 sets matching all curriculum `vocabulary_set_ids`, with 1,226 words across A1-C2 |
+| Phrasebook | 24 A1-C2 categories with 318 Chinese phrases, contexts, registers, and unit references |
 | Assessment bank | 120 static questions across grammar, vocabulary, and reading |
 
 ### CJK frontend catalog readiness

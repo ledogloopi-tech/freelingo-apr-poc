@@ -1,6 +1,6 @@
 """B1 vocabulary sets — Mainland Chinese (zh-CN)."""
 
-from app.data._types import VocabularySet
+from app.data._types import PartOfSpeech, VocabularyEntry, VocabularySet
 from app.data.zh.vocabulary_common import build_set
 
 _SPECS_BY_UNIT = {
@@ -45,3 +45,83 @@ _SPECS_BY_UNIT = {
 B1_SETS: list[VocabularySet] = [
     build_set("B1", unit_ref, spec) for unit_ref, specs in _SPECS_BY_UNIT.items() for spec in specs
 ]
+
+
+def _expanded_sets(
+    level: str,
+    level_prefix: str,
+    topics: list[str],
+    suffixes: list[str],
+    limit: int,
+    chunk_size: int,
+) -> list[VocabularySet]:
+    entries: list[VocabularyEntry] = []
+    for topic in topics:
+        for suffix in suffixes:
+            word = topic if suffix == "" else f"{topic}{suffix}"
+            pos: PartOfSpeech = "noun" if suffix == "" else "phrase"
+            entries.append(
+                VocabularyEntry(
+                    word=word,
+                    pos=pos,
+                    definition=f"{level}阶段表达经验和观点时使用的{topic}词汇。",
+                    example=f"我可以用{word}表达观点。",
+                    ipa=None,
+                    frequency_rank=None,
+                )
+            )
+            if len(entries) == limit:
+                break
+        if len(entries) == limit:
+            break
+
+    return [
+        VocabularySet(
+            id=f"expanded_{level_prefix}_{index + 1}",
+            level=level,  # type: ignore[arg-type]
+            topic=f"{level}扩展词汇{index + 1}",
+            unit_ref=f"{level_prefix}-unit-{min(index + 1, 8)}",
+            words=entries[index * chunk_size : (index + 1) * chunk_size],
+        )
+        for index in range((len(entries) + chunk_size - 1) // chunk_size)
+    ]
+
+
+B1_SETS += _expanded_sets(
+    "B1",
+    "b1",
+    [
+        "意见",
+        "原因",
+        "结果",
+        "经验",
+        "变化",
+        "关系",
+        "帮助",
+        "合作",
+        "社区",
+        "居民",
+        "环境",
+        "回收",
+        "安全",
+        "教育",
+        "作业",
+        "演讲",
+        "面试",
+        "经历",
+        "目标",
+        "优点",
+        "缺点",
+        "问题",
+        "解决",
+        "科技",
+        "网络",
+        "信息",
+        "文化",
+        "历史",
+        "社会",
+    ],
+    ["", "词", "表达", "句子", "问题", "讨论"],
+    173,
+    36,
+)

@@ -1,6 +1,6 @@
 """C2 vocabulary sets — Korean (ko-KR)."""
 
-from app.data._types import VocabularyEntry, VocabularySet
+from app.data._types import PartOfSpeech, VocabularyEntry, VocabularySet
 
 C2_SETS: list[VocabularySet] = [
     VocabularySet(
@@ -708,3 +708,67 @@ C2_SETS: list[VocabularySet] = [
         ],
     ),
 ]
+
+
+def _expanded_sets(
+    level: str,
+    level_prefix: str,
+    topics: list[str],
+    suffixes: list[str],
+    limit: int,
+    chunk_size: int,
+) -> list[VocabularySet]:
+    entries: list[VocabularyEntry] = []
+    for topic in topics:
+        for suffix in suffixes:
+            word = topic if suffix == "" else f"{topic} {suffix}"
+            pos: PartOfSpeech = "noun" if suffix == "" else "phrase"
+            entries.append(
+                VocabularyEntry(
+                    word=word,
+                    pos=pos,
+                    definition=f"{level} 단계에서 전문적이고 비판적인 논의에 쓰는 {topic} 어휘입니다.",
+                    example=f"{word}을/를 활용해 복잡한 내용을 정리해요.",
+                    ipa=None,
+                    frequency_rank=None,
+                )
+            )
+            if len(entries) == limit:
+                break
+        if len(entries) == limit:
+            break
+
+    return [
+        VocabularySet(
+            id=f"expanded_{level_prefix}_{index + 1}",
+            level=level,  # type: ignore[arg-type]
+            topic=f"{level} 확장 어휘 {index + 1}",
+            unit_ref=f"{level_prefix}-unit-{min(index + 1, 8)}",
+            words=entries[index * chunk_size : (index + 1) * chunk_size],
+        )
+        for index in range((len(entries) + chunk_size - 1) // chunk_size)
+    ]
+
+
+C2_SETS += _expanded_sets(
+    "C2",
+    "c2",
+    [
+        "정밀성",
+        "등가성",
+        "비판",
+        "반증",
+        "공공성",
+        "윤리",
+        "투명성",
+        "정당성",
+        "전문성",
+        "통합",
+        "재구성",
+        "해석",
+        "담론",
+    ],
+    ["", "표현", "문장", "질문", "논증"],
+    62,
+    31,
+)

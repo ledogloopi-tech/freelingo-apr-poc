@@ -1,6 +1,6 @@
 """C2 vocabulary sets — Mainland Chinese (zh-CN)."""
 
-from app.data._types import VocabularySet
+from app.data._types import PartOfSpeech, VocabularyEntry, VocabularySet
 from app.data.zh.vocabulary_common import build_set
 
 _SPECS_BY_UNIT = {
@@ -45,3 +45,67 @@ _SPECS_BY_UNIT = {
 C2_SETS: list[VocabularySet] = [
     build_set("C2", unit_ref, spec) for unit_ref, specs in _SPECS_BY_UNIT.items() for spec in specs
 ]
+
+
+def _expanded_sets(
+    level: str,
+    level_prefix: str,
+    topics: list[str],
+    suffixes: list[str],
+    limit: int,
+    chunk_size: int,
+) -> list[VocabularySet]:
+    entries: list[VocabularyEntry] = []
+    for topic in topics:
+        for suffix in suffixes:
+            word = topic if suffix == "" else f"{topic}{suffix}"
+            pos: PartOfSpeech = "noun" if suffix == "" else "phrase"
+            entries.append(
+                VocabularyEntry(
+                    word=word,
+                    pos=pos,
+                    definition=f"{level}阶段专业和批判性讨论中的{topic}词汇。",
+                    example=f"我们可以用{word}整合复杂信息。",
+                    ipa=None,
+                    frequency_rank=None,
+                )
+            )
+            if len(entries) == limit:
+                break
+        if len(entries) == limit:
+            break
+
+    return [
+        VocabularySet(
+            id=f"expanded_{level_prefix}_{index + 1}",
+            level=level,  # type: ignore[arg-type]
+            topic=f"{level}扩展词汇{index + 1}",
+            unit_ref=f"{level_prefix}-unit-{min(index + 1, 8)}",
+            words=entries[index * chunk_size : (index + 1) * chunk_size],
+        )
+        for index in range((len(entries) + chunk_size - 1) // chunk_size)
+    ]
+
+
+C2_SETS += _expanded_sets(
+    "C2",
+    "c2",
+    [
+        "精确性",
+        "对等",
+        "批判",
+        "反证",
+        "公共性",
+        "伦理",
+        "透明度",
+        "正当性",
+        "专业性",
+        "整合",
+        "重构",
+        "解释",
+        "话语",
+    ],
+    ["", "词", "表达", "句子", "论证"],
+    62,
+    31,
+)

@@ -1,6 +1,6 @@
 """B2 vocabulary sets — Mainland Chinese (zh-CN)."""
 
-from app.data._types import VocabularySet
+from app.data._types import PartOfSpeech, VocabularyEntry, VocabularySet
 from app.data.zh.vocabulary_common import build_set
 
 _SPECS_BY_UNIT = {
@@ -45,3 +45,68 @@ _SPECS_BY_UNIT = {
 B2_SETS: list[VocabularySet] = [
     build_set("B2", unit_ref, spec) for unit_ref, specs in _SPECS_BY_UNIT.items() for spec in specs
 ]
+
+
+def _expanded_sets(
+    level: str,
+    level_prefix: str,
+    topics: list[str],
+    suffixes: list[str],
+    limit: int,
+    chunk_size: int,
+) -> list[VocabularySet]:
+    entries: list[VocabularyEntry] = []
+    for topic in topics:
+        for suffix in suffixes:
+            word = topic if suffix == "" else f"{topic}{suffix}"
+            pos: PartOfSpeech = "noun" if suffix == "" else "phrase"
+            entries.append(
+                VocabularyEntry(
+                    word=word,
+                    pos=pos,
+                    definition=f"{level}阶段分析和论证时使用的{topic}词汇。",
+                    example=f"请结合{word}进行分析。",
+                    ipa=None,
+                    frequency_rank=None,
+                )
+            )
+            if len(entries) == limit:
+                break
+        if len(entries) == limit:
+            break
+
+    return [
+        VocabularySet(
+            id=f"expanded_{level_prefix}_{index + 1}",
+            level=level,  # type: ignore[arg-type]
+            topic=f"{level}扩展词汇{index + 1}",
+            unit_ref=f"{level_prefix}-unit-{min(index + 1, 8)}",
+            words=entries[index * chunk_size : (index + 1) * chunk_size],
+        )
+        for index in range((len(entries) + chunk_size - 1) // chunk_size)
+    ]
+
+
+B2_SETS += _expanded_sets(
+    "B2",
+    "b2",
+    [
+        "论点",
+        "证据",
+        "反驳",
+        "资料",
+        "统计",
+        "政策",
+        "经济",
+        "就业",
+        "组织",
+        "合同",
+        "预算",
+        "策略",
+        "风险",
+        "方案",
+    ],
+    ["", "词", "表达", "句子", "分析"],
+    69,
+    35,
+)

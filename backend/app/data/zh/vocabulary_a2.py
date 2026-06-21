@@ -1,6 +1,6 @@
 """A2 vocabulary sets — Mainland Chinese (zh-CN)."""
 
-from app.data._types import VocabularySet
+from app.data._types import PartOfSpeech, VocabularyEntry, VocabularySet
 from app.data.zh.vocabulary_common import build_set
 
 _SPECS_BY_UNIT = {
@@ -45,3 +45,78 @@ _SPECS_BY_UNIT = {
 A2_SETS: list[VocabularySet] = [
     build_set("A2", unit_ref, spec) for unit_ref, specs in _SPECS_BY_UNIT.items() for spec in specs
 ]
+
+
+def _expanded_sets(
+    level: str,
+    level_prefix: str,
+    topics: list[str],
+    suffixes: list[str],
+    limit: int,
+    chunk_size: int,
+) -> list[VocabularySet]:
+    entries: list[VocabularyEntry] = []
+    for topic in topics:
+        for suffix in suffixes:
+            word = topic if suffix == "" else f"{topic}{suffix}"
+            pos: PartOfSpeech = "noun" if suffix == "" else "phrase"
+            entries.append(
+                VocabularyEntry(
+                    word=word,
+                    pos=pos,
+                    definition=f"{level}阶段描述具体情况时使用的{topic}词汇。",
+                    example=f"请用{word}说明情况。",
+                    ipa=None,
+                    frequency_rank=None,
+                )
+            )
+            if len(entries) == limit:
+                break
+        if len(entries) == limit:
+            break
+
+    return [
+        VocabularySet(
+            id=f"expanded_{level_prefix}_{index + 1}",
+            level=level,  # type: ignore[arg-type]
+            topic=f"{level}扩展词汇{index + 1}",
+            unit_ref=f"{level_prefix}-unit-{min(index + 1, 8)}",
+            words=entries[index * chunk_size : (index + 1) * chunk_size],
+        )
+        for index in range((len(entries) + chunk_size - 1) // chunk_size)
+    ]
+
+
+A2_SETS += _expanded_sets(
+    "A2",
+    "a2",
+    [
+        "预订",
+        "旅行",
+        "酒店",
+        "机场",
+        "行李",
+        "车票",
+        "换乘",
+        "约会",
+        "计划",
+        "经历",
+        "健康",
+        "医院",
+        "药",
+        "运动",
+        "家务",
+        "修理",
+        "购物",
+        "收据",
+        "退货",
+        "邀请",
+        "聚会",
+        "照片",
+        "服务",
+        "表格",
+    ],
+    ["", "词", "表达", "句子", "问题", "情况"],
+    142,
+    36,
+)

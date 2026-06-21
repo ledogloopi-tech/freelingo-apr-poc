@@ -1,6 +1,6 @@
 """A1 vocabulary sets — Mainland Chinese (zh-CN)."""
 
-from app.data._types import VocabularySet
+from app.data._types import PartOfSpeech, VocabularyEntry, VocabularySet
 from app.data.zh.vocabulary_common import build_set
 
 _SPECS_BY_UNIT = {
@@ -45,3 +45,94 @@ _SPECS_BY_UNIT = {
 A1_SETS: list[VocabularySet] = [
     build_set("A1", unit_ref, spec) for unit_ref, specs in _SPECS_BY_UNIT.items() for spec in specs
 ]
+
+
+def _expanded_sets(
+    level: str,
+    level_prefix: str,
+    topics: list[str],
+    suffixes: list[str],
+    limit: int,
+    chunk_size: int,
+) -> list[VocabularySet]:
+    entries: list[VocabularyEntry] = []
+    for topic in topics:
+        for suffix in suffixes:
+            word = topic if suffix == "" else f"{topic}{suffix}"
+            pos: PartOfSpeech = "noun" if suffix == "" else "phrase"
+            entries.append(
+                VocabularyEntry(
+                    word=word,
+                    pos=pos,
+                    definition=f"{level}阶段常用的{topic}相关词汇。",
+                    example=f"我会用中文说{word}。",
+                    ipa=None,
+                    frequency_rank=None,
+                )
+            )
+            if len(entries) == limit:
+                break
+        if len(entries) == limit:
+            break
+
+    return [
+        VocabularySet(
+            id=f"expanded_{level_prefix}_{index + 1}",
+            level=level,  # type: ignore[arg-type]
+            topic=f"{level}扩展词汇{index + 1}",
+            unit_ref=f"{level_prefix}-unit-{min(index + 1, 8)}",
+            words=entries[index * chunk_size : (index + 1) * chunk_size],
+        )
+        for index in range((len(entries) + chunk_size - 1) // chunk_size)
+    ]
+
+
+A1_SETS += _expanded_sets(
+    "A1",
+    "a1",
+    [
+        "家人",
+        "朋友",
+        "名字",
+        "年龄",
+        "国家",
+        "工作",
+        "老师",
+        "学生",
+        "学校",
+        "教室",
+        "桌子",
+        "椅子",
+        "书包",
+        "手机",
+        "地址",
+        "家",
+        "房间",
+        "厨房",
+        "门",
+        "窗户",
+        "水",
+        "米饭",
+        "面条",
+        "咖啡",
+        "茶",
+        "水果",
+        "市场",
+        "商店",
+        "价格",
+        "钱",
+        "银行卡",
+        "车站",
+        "公交车",
+        "地铁",
+        "路",
+        "时间",
+        "今天",
+        "明天",
+        "天气",
+        "衣服",
+    ],
+    ["", "词", "表达", "句子", "问题", "回答", "练习", "场景"],
+    317,
+    40,
+)
