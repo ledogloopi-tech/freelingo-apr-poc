@@ -72,6 +72,7 @@ class Settings(BaseSettings):
         "fr-FR",
         "it-IT",
         "ja-JP",
+        "ko-KR",
         "pt-PT",
     ]
 
