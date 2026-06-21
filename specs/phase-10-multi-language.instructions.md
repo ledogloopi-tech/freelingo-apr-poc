@@ -49,8 +49,8 @@ Japanese (`ja-JP`) is enabled in backend schemas, `AVAILABLE_TARGET_LANGUAGES` d
 | --------- | ------------------------- |
 | Curriculum | 48 units across A1-C2, with Japanese unit titles and competency checklists |
 | Grammar | 130 topics matching all curriculum `grammar_points` slugs |
-| Vocabulary | 98 sets matching all curriculum `vocabulary_set_ids` |
-| Phrasebook | 14 A1-C2 categories with Japanese phrases, contexts, registers, and unit references |
+| Vocabulary | 152 sets matching all curriculum `vocabulary_set_ids`, with 1,112 words across A1-C2 |
+| Phrasebook | 44 A1-C2 categories with 318 Japanese phrases, contexts, registers, and unit references, split by CEFR level modules |
 | Assessment bank | 120 static questions across grammar, vocabulary, and reading |
 
 ### Korean backend data
@@ -137,7 +137,7 @@ Prompt overlays live in `backend/app/services/prompts/common.py` and include ali
 | `backend/app/data/es/` (8 files)                     | 10.6                     |
 | `backend/app/data/it/` (8 files)                     | 10.6                     |
 | `backend/app/data/pt/` (8 files)                     | 10.6                     |
-| `backend/app/data/ja/` (23 files)                    | Japanese data phase      |
+| `backend/app/data/ja/` (30 files)                    | Japanese data phase      |
 | `backend/app/data/ko/` (26 files)                    | Korean data phase        |
 | `backend/app/data/zh/` (33 files)                    | Mainland Chinese data phase |
 | `frontend/src/config/target-languages.ts`            | 10.4                     |

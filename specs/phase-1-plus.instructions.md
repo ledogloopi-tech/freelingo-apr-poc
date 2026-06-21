@@ -132,15 +132,15 @@ The vocabulary hub and flashcard system are connected:
 
 ## Milestone 3 — Phrasebook
 
-### Data model (`frontend/src/data/phrasebook.ts`)
+### Data model (`backend/app/data/_types.py` + per-language `phrasebook.py`)
 
-Static TypeScript file containing approximately 20 phrasebook categories from A1 to B2/C1, organized by real-world situations.
+> **Migrated to backend.** Phrasebook content is served via `GET /api/phrasebook` from Python dataclasses organized per CEFR level (A1-C2) across backend language modules, including Japanese (`ja-JP`), Korean (`ko-KR`), and Mainland Chinese (`zh-CN`). Japanese currently includes 44 categories and 318 phrases across A1-C2.
 
 **Phrase** (per entry):
 
 | Field      | Type              | Description                              |
 | ---------- | ----------------- | ---------------------------------------- |
-| `english`  | string            | The English phrase                       |
+| `text`     | string            | The phrase in the target language        |
 | `context`  | string            | When/where to use the phrase             |
 | `register` | Register          | `"formal"`, `"neutral"`, or `"informal"` |
 | `unit_ref` | string (optional) | Curriculum unit this phrase relates to   |
