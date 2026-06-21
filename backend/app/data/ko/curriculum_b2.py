@@ -19,8 +19,8 @@ B2_UNITS: list[CurriculumUnit] = [
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "주장과 근거를 구분해 논리적인 발화를 구성할 수 있다",
-            "에 따르면으로 자료나 출처를 제시할 수 있다",
-            "기는 하지만으로 반론을 인정하면서 자기 입장을 유지할 수 있다",
+            "에 따르면 자료나 출처를 제시할 수 있다",
+            "기는 하지만 반론을 인정하면서 자기 입장을 유지할 수 있다",
             "사회적 주제에 대한 짧은 토론문을 이해할 수 있다",
         ],
         default_weeks=2,
@@ -108,7 +108,7 @@ B2_UNITS: list[CurriculumUnit] = [
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "란을 사용해 개념을 정의할 수 있다",
-            "에 따라로 분류 기준이나 조건을 제시할 수 있다",
+            "에 따라 분류 기준이나 조건을 제시할 수 있다",
             "명사화 표현으로 학업 문장을 더 압축해 쓸 수 있다",
             "전문 주제의 쉬운 설명문을 요약할 수 있다",
         ],

@@ -20,7 +20,7 @@ A1_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="자음",
                 pos="noun",
-                definition="닿소리 글자. ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ.",
+                definition="자음 글자. ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ.",
                 example="한글 자음은 열네 개입니다.",
                 ipa="jaeum",
                 frequency_rank=133,
@@ -28,7 +28,7 @@ A1_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="모음",
                 pos="noun",
-                definition="홀소리 글자. ㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ.",
+                definition="모음 글자. ㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ.",
                 example="한글 모음은 열 개입니다.",
                 ipa="moeum",
                 frequency_rank=50,
@@ -36,7 +36,7 @@ A1_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="글자",
                 pos="noun",
-                definition="문자를 이루는 낱낱의 기호.",
+                definition="문자를 이루는 개별 기호.",
                 example="한글 글자를 따라 써 보세요.",
                 ipa="geulja",
                 frequency_rank=22,

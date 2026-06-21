@@ -15,7 +15,7 @@ B1_UNITS: list[CurriculumUnit] = [
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "다고 생각해요를 사용해 의견을 분명히 말할 수 있다",
-            "기 때문에로 이유와 근거를 연결할 수 있다",
+            "기 때문에 이유와 근거를 연결할 수 있다",
             "다고 해요로 들은 정보를 간단히 전달할 수 있다",
             "짧은 기사나 게시글에서 주장과 이유를 구별할 수 있다",
         ],
@@ -31,8 +31,8 @@ B1_UNITS: list[CurriculumUnit] = [
         vocabulary_set_ids=["stories_b1", "life_events_b1", "relationships_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
-            "면서로 동시에 일어난 행동을 설명할 수 있다",
-            "고 나서로 사건의 순서를 자연스럽게 전개할 수 있다",
+            "면서 동시에 일어난 행동을 설명할 수 있다",
+            "고 나서 사건의 순서를 자연스럽게 전개할 수 있다",
             "는데를 사용해 배경 정보나 전환을 제시할 수 있다",
             "개인 경험을 시간 순서대로 한 단락으로 쓸 수 있다",
         ],
@@ -124,7 +124,7 @@ B1_UNITS: list[CurriculumUnit] = [
         vocabulary_set_ids=["problems_solutions_b1", "housing_b1", "technology_support_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
-            "는 바람에로 예상하지 못한 원인을 설명할 수 있다",
+            "는 바람에 예상하지 못한 원인을 설명할 수 있다",
             "게 됐어요로 결과나 변화된 상황을 말할 수 있다",
             "도록을 사용해 목적이나 조치를 설명할 수 있다",
             "생활 문제를 정리하고 해결 방법을 제안할 수 있다",
