@@ -10,7 +10,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="精确表达和细微差别",
         grammar_points=["semantic-precision-zh", "xuci-nuance", "word-choice-register-zh"],
         vocabulary_set_ids=["difference_c2", "tone_c2", "terminology_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "speaking", "reading", "writing", "review"],
         competency_checklist=[
             "能解释近义表达在语气、立场和强度上的差异",
             "能根据语境选择最准确的虚词和词语",
@@ -27,7 +27,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="专业话语和中介表达",
         grammar_points=["expert-mediation-zh", "reformulation-zh", "audience-adaptation-zh"],
         vocabulary_set_ids=["explain_c2", "domain_c2", "evaluate_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "speaking", "reading", "writing", "review"],
         competency_checklist=[
             "能把专业内容转换成适合不同听众的表达",
             "能在不改变核心意义的情况下重新表述复杂概念",
@@ -44,7 +44,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="批判评价和反驳结构",
         grammar_points=["critical-evaluation-zh", "qian-ti-analysis", "fanbo-structure"],
         vocabulary_set_ids=["hypothesis_c2", "evidence_c2", "translation_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "speaking", "reading", "writing", "review"],
         competency_checklist=[
             "能评估论证中的证据、前提和推理是否成立",
             "能发现隐含前提和逻辑漏洞",
@@ -65,7 +65,7 @@ C2_UNITS: list[CurriculumUnit] = [
             "cultural-transfer-zh",
         ],
         vocabulary_set_ids=["intent_c2", "background_c2", "metaphor_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "speaking", "reading", "writing", "review"],
         competency_checklist=[
             "能比较直译和意译的效果",
             "能在翻译中保留语气、功能和礼貌程度",
@@ -82,7 +82,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="修辞策略和说服力",
         grammar_points=["rhetorical-strategy-zh", "emphasis-control-zh", "reader-positioning-zh"],
         vocabulary_set_ids=["argument_c2", "editorial_c2", "evolve_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "speaking", "reading", "writing", "review"],
         competency_checklist=[
             "能根据读者预期选择合适的修辞策略",
             "能控制强调、重复和对比的力度",
@@ -99,7 +99,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="语言变化和历史语境",
         grammar_points=["language-history-zh", "chengyu-register", "diachronic-change-zh"],
         vocabulary_set_ids=["loanword_c2", "variant_c2", "revision_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "speaking", "reading", "writing", "review"],
         competency_checklist=[
             "能解释汉语表达随历史和社会语境发生的变化",
             "能判断成语、书面语和口语表达的使用场合",
@@ -116,7 +116,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="高级编辑和重写",
         grammar_points=["advanced-editing-zh", "cohesion-coherence-zh", "style-revision-zh"],
         vocabulary_set_ids=["transition_c2", "polish_c2", "coherence_c2"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "speaking", "reading", "writing", "review"],
         competency_checklist=[
             "能检查并改善长文的衔接和连贯性",
             "能调整信息顺序、连接方式和文体一致性",
@@ -155,7 +155,7 @@ C2_UNITS: list[CurriculumUnit] = [
             "xuci-nuance",
         ],
         vocabulary_set_ids=["review_c2", "expanded_c2_1", "expanded_c2_2", "expanded_c2_3"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "speaking", "reading", "writing", "review"],
         competency_checklist=[
             "能准确、灵活地处理专业和抽象话题",
             "能综合分析文本的逻辑、文体、含义和文化背景",
