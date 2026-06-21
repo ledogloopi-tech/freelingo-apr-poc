@@ -10,8 +10,8 @@ import {
 } from '@/lib/target-languages'
 
 describe('SUPPORTED_TARGET_LANGUAGES', () => {
-  it('contains exactly 7 languages', () => {
-    expect(SUPPORTED_TARGET_LANGUAGES).toHaveLength(7)
+  it('contains exactly 10 languages', () => {
+    expect(SUPPORTED_TARGET_LANGUAGES).toHaveLength(10)
   })
 
   const expectedCodes = [
@@ -22,19 +22,24 @@ describe('SUPPORTED_TARGET_LANGUAGES', () => {
     'pt-PT',
     'fr-FR',
     'de-DE',
+    'ja-JP',
+    'ko-KR',
+    'zh-CN',
   ]
 
   it.each(expectedCodes)('%s has all required fields', (code) => {
     const lang = SUPPORTED_TARGET_LANGUAGES.find((l) => l.code === code)
+    const catalogLang = TARGET_LANGUAGE_CATALOG.find((l) => l.code === code)
     expect(lang).toBeDefined()
+    expect(catalogLang).toBeDefined()
     expect(lang!.code).toBeTypeOf('string')
     expect(lang!.name).toBeTypeOf('string')
     expect(lang!.nameEn).toBeTypeOf('string')
-    expect(lang!.flagPath).toMatch(/^\/flags\/[a-zA-Z]+\./)
+    expect(lang!.flagPath).toMatch(/^\/flags\/[a-zA-Z_]+\./)
     expect(lang!.iso639).toMatch(/^[a-z]{2}$/)
-    expect(lang!.script).toBe('latin')
-    expect(lang!.fontClass).toBe('font-target-latin')
-    expect(lang!.usesWordSpacing).toBe(true)
+    expect(lang!.script).toBe(catalogLang!.script)
+    expect(lang!.fontClass).toBe(catalogLang!.fontClass)
+    expect(lang!.usesWordSpacing).toBe(catalogLang!.usesWordSpacing)
   })
 
   it('every code is unique', () => {
@@ -51,6 +56,9 @@ describe('SUPPORTED_TARGET_LANGUAGES', () => {
     expect(paths).toContain('/flags/portugal.jpg')
     expect(paths).toContain('/flags/france.jpg')
     expect(paths).toContain('/flags/germany.jpg')
+    expect(paths).toContain('/flags/japan.jpg')
+    expect(paths).toContain('/flags/south_korea.jpg')
+    expect(paths).toContain('/flags/china.jpg')
   })
 
   it('iso639 codes map to correct languages', () => {
@@ -60,12 +68,18 @@ describe('SUPPORTED_TARGET_LANGUAGES', () => {
     const ptLangs = SUPPORTED_TARGET_LANGUAGES.filter((l) => l.iso639 === 'pt')
     const frLangs = SUPPORTED_TARGET_LANGUAGES.filter((l) => l.iso639 === 'fr')
     const deLangs = SUPPORTED_TARGET_LANGUAGES.filter((l) => l.iso639 === 'de')
+    const jaLangs = SUPPORTED_TARGET_LANGUAGES.filter((l) => l.iso639 === 'ja')
+    const koLangs = SUPPORTED_TARGET_LANGUAGES.filter((l) => l.iso639 === 'ko')
+    const zhLangs = SUPPORTED_TARGET_LANGUAGES.filter((l) => l.iso639 === 'zh')
     expect(enLangs).toHaveLength(2)
     expect(esLangs).toHaveLength(1)
     expect(itLangs).toHaveLength(1)
     expect(ptLangs).toHaveLength(1)
     expect(frLangs).toHaveLength(1)
     expect(deLangs).toHaveLength(1)
+    expect(jaLangs).toHaveLength(1)
+    expect(koLangs).toHaveLength(1)
+    expect(zhLangs).toHaveLength(1)
   })
 })
 
@@ -200,7 +214,7 @@ describe('TargetLanguage interface compliance', () => {
 })
 
 describe('target language capabilities', () => {
-  it('keeps CJK capabilities ready without enabling the languages yet', () => {
+  it('keeps CJK capabilities enabled in the supported catalog', () => {
     expect(TARGET_LANGUAGE_CAPABILITIES['ja-JP']).toMatchObject({
       script: 'hiragana-katakana-kanji',
       fontClass: 'font-target-ja',
@@ -219,8 +233,8 @@ describe('target language capabilities', () => {
       usesWordSpacing: false,
       romanization: 'pinyin',
     })
-    expect(SUPPORTED_TARGET_LANGUAGES.some((l) => l.code === 'ja-JP')).toBe(
-      false
+    expect(SUPPORTED_TARGET_LANGUAGES.map((l) => l.code)).toEqual(
+      TARGET_LANGUAGE_CATALOG.map((l) => l.code)
     )
   })
 

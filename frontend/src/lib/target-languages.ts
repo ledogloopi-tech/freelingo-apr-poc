@@ -149,11 +149,7 @@ export const TARGET_LANGUAGE_CATALOG: TargetLanguage[] = [
 ]
 
 export const SUPPORTED_TARGET_LANGUAGES: TargetLanguage[] =
-  TARGET_LANGUAGE_CATALOG.filter((language) =>
-    ['en-US', 'en-GB', 'es-ES', 'it-IT', 'pt-PT', 'fr-FR', 'de-DE'].includes(
-      language.code
-    )
-  )
+  TARGET_LANGUAGE_CATALOG
 
 export function getLanguageByCode(code: string): TargetLanguage | undefined {
   const upper = code.toUpperCase()
