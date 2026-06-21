@@ -13,11 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Japanese data integrity coverage**: grammar, vocabulary, phrasebook, assessment, and cross-reference tests now assert that `ja-JP` resolves to explicit Japanese data rather than falling back to English.
 - **Korean learning data**: `ko-KR` now has backend curriculum, grammar, vocabulary, phrasebook, and assessment data. The curriculum covers A1-C2 with 48 units, Korean lesson/test titles, Korean competency checklists, 126 grammar topics, 132 vocabulary sets, 28 phrasebook categories, and 120 assessment questions.
 - **Korean data integrity coverage**: grammar, vocabulary, phrasebook, assessment, and cross-reference tests now assert that `ko-KR` resolves to explicit Korean data rather than falling back to English.
+- **Mainland Chinese learning data**: `zh-CN` now has backend curriculum, grammar, vocabulary, phrasebook, and assessment data. The curriculum covers A1-C2 with 48 units, Simplified Chinese lesson/test titles, Chinese competency checklists, 126 grammar topics, 132 vocabulary sets, 18 phrasebook categories, and 120 assessment questions.
+- **Mainland Chinese data integrity coverage**: grammar, vocabulary, phrasebook, assessment, curriculum, allow-list, and cross-reference tests now assert that `zh-CN` resolves to explicit Chinese data rather than falling back to English.
 
 ### Changed
 
 - **What's New language entry**: bumped to `v1.9.0` and expanded the main language entry to mention Japanese, Korean, and Mainland Chinese alongside the existing language set so the copy does not need another update when the remaining CJK language data lands.
-- **Target-language data organization**: Japanese and Korean grammar/vocabulary data now follow the British English package structure with level modules and assembler files; the add-language spec now requires that organization for future target languages.
+- **Target-language data organization**: Japanese, Korean, and Mainland Chinese grammar/vocabulary data now follow the British English package structure with level modules and assembler files; the add-language spec now requires that organization for future target languages.
 
 ## [1.8.9] - 2026-06-20
 

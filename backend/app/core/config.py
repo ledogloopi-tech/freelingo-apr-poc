@@ -74,6 +74,7 @@ class Settings(BaseSettings):
         "ja-JP",
         "ko-KR",
         "pt-PT",
+        "zh-CN",
     ]
 
     model_config = {"env_file": ".env"}

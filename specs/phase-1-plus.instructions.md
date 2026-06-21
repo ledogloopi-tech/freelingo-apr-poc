@@ -79,7 +79,7 @@ Dynamic route rendering a single grammar topic. The `[slug]` parameter maps dire
 
 ### Data model (`backend/app/data/_types.py` + per-language `vocabulary.py`)
 
-> **Migrated to backend in v1.7.4.** Originally static TypeScript (`frontend/src/data/vocabulary.ts`); now served via `GET /api/vocabulary` from Python dataclasses organized per CEFR level (A1–C2) across backend language modules, including Japanese (`ja-JP`) and Korean (`ko-KR`). The frontend vocabulary hub and set detail pages consume the API instead of importing static data.
+> **Migrated to backend in v1.7.4.** Originally static TypeScript (`frontend/src/data/vocabulary.ts`); now served via `GET /api/vocabulary` from Python dataclasses organized per CEFR level (A1–C2) across backend language modules, including Japanese (`ja-JP`), Korean (`ko-KR`), and Mainland Chinese (`zh-CN`). The frontend vocabulary hub and set detail pages consume the API instead of importing static data.
 
 **VocabularyEntry** (per word):
 
@@ -330,7 +330,7 @@ Reasons for the mixed approach:
 A data integrity test (`test_frontend_data_integrity.py`) validates that:
 
 - Every `grammar_slug` referenced in curriculum units exists in `grammar.ts`
-- Every `vocabulary_set_id` referenced in each language's curriculum exists in that language's backend vocabulary data, including Japanese and Korean
+- Every `vocabulary_set_id` referenced in each language's curriculum exists in that language's backend vocabulary data, including Japanese, Korean, and Mainland Chinese
 - Every `related` slug in grammar topics points to an existing topic
 
 ### Dual data files (frontend + backend)

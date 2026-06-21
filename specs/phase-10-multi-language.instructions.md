@@ -24,7 +24,7 @@ FreeLingo moves from "one user = one language = one study plan" to an architectu
 7. **Language-isolated data**: each language has its own progress, flashcards, conversations, memories, and competencies.
 8. **Language-specific curriculum**: curriculum for each language is different and adapted to that language.
 9. **Adapted prompts**: system prompts use the target language name and never hardcode "English".
-10. **Supported languages**: Spanish, Italian, Portuguese, French, German, Japanese, and Korean have backend learning data in addition to the existing English variants. Mainland Chinese frontend/backend metadata is prepared for an upcoming data phase.
+10. **Supported languages**: Spanish, Italian, Portuguese, French, German, Japanese, Korean, and Mainland Chinese have backend learning data in addition to the existing English variants.
 
 ### Current backend learning-data languages
 
@@ -39,6 +39,7 @@ FreeLingo moves from "one user = one language = one study plan" to an architectu
 | `ja-JP`     | Japanese                        |
 | `ko-KR`     | Korean (South Korea)            |
 | `pt-PT`     | Portuguese (Portugal)           |
+| `zh-CN`     | Chinese (Mainland China)        |
 
 ### Japanese backend data
 
@@ -64,9 +65,21 @@ Korean (`ko-KR`) is enabled in backend schemas, `AVAILABLE_TARGET_LANGUAGES` def
 | Phrasebook | 28 A1-C2 categories with Korean phrases, contexts, registers, and unit references |
 | Assessment bank | 120 static questions across grammar, vocabulary, and reading |
 
+### Mainland Chinese backend data
+
+Mainland Chinese (`zh-CN`) is enabled in backend schemas, `AVAILABLE_TARGET_LANGUAGES` defaults, language dispatchers, and static learning data. The `backend/app/data/zh/` package contains A1-C2 curriculum, grammar, vocabulary, phrasebook, and assessment content in Simplified Chinese with pinyin-aware metadata:
+
+| Data area | Current Mainland Chinese coverage |
+| --------- | --------------------------------- |
+| Curriculum | 48 units across A1-C2, with Simplified Chinese unit titles and competency checklists |
+| Grammar | 126 topics matching all curriculum `grammar_points` slugs |
+| Vocabulary | 132 sets matching all curriculum `vocabulary_set_ids` |
+| Phrasebook | 18 A1-C2 categories with Chinese phrases, contexts, registers, and unit references |
+| Assessment bank | 120 static questions across grammar, vocabulary, and reading |
+
 ### CJK frontend catalog readiness
 
-The frontend catalog includes Japanese, Korean, and Mainland Chinese metadata. Japanese and Korean now have backend learning data; Mainland Chinese remains catalog-ready until its backend data package is implemented. Static/default surfaces still use the current `SUPPORTED_TARGET_LANGUAGES` list, while selectable surfaces use `TARGET_LANGUAGE_CATALOG` filtered by backend-provided `availableCodes` / `availableLanguageCodes`.
+The frontend catalog includes Japanese, Korean, and Mainland Chinese metadata. All three CJK languages now have backend learning data, and selectable surfaces use `TARGET_LANGUAGE_CATALOG` filtered by backend-provided `availableCodes` / `availableLanguageCodes`.
 
 Prepared capabilities and catalog entries live in `frontend/src/lib/target-languages.ts`:
 
@@ -82,9 +95,9 @@ All 10 `messages/*.json` locale files include `targetLanguages` names, ISO alias
 
 ### CJK backend readiness
 
-The backend service layer is prepared with prompt and metadata support for Japanese, Korean, and Mainland Chinese. Japanese and Korean now also have registration-schema, environment default, dispatcher, and static-content support.
+The backend service layer includes prompt, metadata, registration-schema, environment default, dispatcher, and static-content support for Japanese, Korean, and Mainland Chinese.
 
-`.env.example` and `.env.dev` include `ja-JP`, `ko-KR`, and `zh-CN` in `AVAILABLE_TARGET_LANGUAGES` as operator-ready configuration. Backend `get_available_languages()` filters that list through `SUPPORTED_TARGET_LANGUAGES`; `ja-JP` and `ko-KR` are now accepted, while `zh-CN` remains ignored until its backend data phase expands the support set.
+`.env.example`, `.env.dev`, and backend defaults include `ja-JP`, `ko-KR`, and `zh-CN` in `AVAILABLE_TARGET_LANGUAGES`. Backend `get_available_languages()` filters that list through `SUPPORTED_TARGET_LANGUAGES`; all three CJK codes are now accepted.
 
 Prepared capabilities live in `backend/app/services/language_helpers.py`:
 
@@ -126,6 +139,7 @@ Prompt overlays live in `backend/app/services/prompts/common.py` and include ali
 | `backend/app/data/pt/` (8 files)                     | 10.6                     |
 | `backend/app/data/ja/` (23 files)                    | Japanese data phase      |
 | `backend/app/data/ko/` (26 files)                    | Korean data phase        |
+| `backend/app/data/zh/` (33 files)                    | Mainland Chinese data phase |
 | `frontend/src/config/target-languages.ts`            | 10.4                     |
 | `frontend/src/store/language.ts`                     | 10.4                     |
 | `frontend/src/components/LanguageSwitcher.tsx`       | 10.4                     |

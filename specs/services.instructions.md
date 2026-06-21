@@ -39,7 +39,7 @@ Fully deterministic — no LLM. Uses static curriculum data from `curriculum.py`
 
 LLM-powered lesson content generation with strict constraints:
 
-- Grammar constrained to the target language's validated curriculum grammar slugs; Japanese currently contributes 130 validated slugs and Korean contributes 126 validated slugs across A1-C2.
+- Grammar constrained to the target language's validated curriculum grammar slugs; Japanese currently contributes 130 validated slugs, while Korean and Mainland Chinese each contribute 126 validated slugs across A1-C2.
 - CEFR level and target language adherence using BCP-47 `target_language`, human-readable language names, and centralized prompt overlays.
 - Generates 3-5 exercises per lesson (multiple_choice, fill_blank, free_write)
 - Separately evaluates free_write answers and pronunciation (scored 0.0–1.0 with feedback)
@@ -63,9 +63,9 @@ Shared BCP-47 conversion utilities and language capability metadata used across 
 - `uses_word_spacing(target_language)` — records whether ordinary text uses visible word spacing; Japanese and Mainland Chinese return `False`
 - `get_reading_length_unit(target_language)` — returns `words` or `characters` for generated comprehension guidance
 - `get_comprehension_length_guidance(target_language, base_word_count)` — returns language-aware length strings such as `160–240 characters` for Japanese/Chinese and `80 words` for word-spaced targets
-- `voice_session_title(native_language)` — localised "Voice session — date" strings for all 9 supported languages
+- `voice_session_title(native_language)` — localised "Voice session — date" strings for all 10 supported languages
 
-Japanese (`ja-JP`) and Korean (`ko-KR`) are now enabled in registration schemas, `AVAILABLE_TARGET_LANGUAGES` defaults, and static content dispatchers. Mainland Chinese (`zh-CN`) metadata remains present in this helper layer for backend prompt readiness until its data package is implemented.
+Japanese (`ja-JP`), Korean (`ko-KR`), and Mainland Chinese (`zh-CN`) are now enabled in registration schemas, `AVAILABLE_TARGET_LANGUAGES` defaults, static content dispatchers, and target-language prompt metadata.
 
 ## Memory Service (`memory_service.py`)
 

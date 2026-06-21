@@ -69,6 +69,14 @@ class TestGetAssessmentBank:
         assert len(bank) == 120
         assert any(q.id == "ko-g-a1-001" for q in bank)
 
+    def test_chinese_returns_non_empty(self):
+        from app.data.assessment_bank import get_assessment_bank
+
+        bank = get_assessment_bank("zh-CN")
+        assert isinstance(bank, list)
+        assert len(bank) == 120
+        assert any(q.id == "zh-g-a1-001" for q in bank)
+
     def test_unknown_language_falls_back_to_en_gb(self):
         from app.data.assessment_bank import get_assessment_bank
 

@@ -71,6 +71,7 @@ def test_curriculum_grammar_refs_all_defined() -> None:
         "de-DE",
         "ja-JP",
         "ko-KR",
+        "zh-CN",
     ):
         defined.update(_get_grammar_slugs(lang))
 
@@ -114,6 +115,8 @@ def test_curriculum_vocab_refs_all_defined() -> None:
     import app.data.ko.vocabulary as ko_vocabulary
     import app.data.pt.curriculum as pt_curriculum
     import app.data.pt.vocabulary as pt_vocabulary
+    import app.data.zh.curriculum as zh_curriculum
+    import app.data.zh.vocabulary as zh_vocabulary
 
     _check_language_vocab_refs("English", en_curriculum.CURRICULUM, en_vocabulary.VOCABULARY_SETS)
     _check_language_vocab_refs("Spanish", es_curriculum.CURRICULUM, es_vocabulary.VOCABULARY_SETS)
@@ -124,6 +127,7 @@ def test_curriculum_vocab_refs_all_defined() -> None:
     _check_language_vocab_refs(
         "Portuguese", pt_curriculum.CURRICULUM, pt_vocabulary.VOCABULARY_SETS
     )
+    _check_language_vocab_refs("Chinese", zh_curriculum.CURRICULUM, zh_vocabulary.VOCABULARY_SETS)
 
 
 def test_grammar_related_refs_all_defined() -> None:
@@ -138,6 +142,7 @@ def test_grammar_related_refs_all_defined() -> None:
         "de-DE",
         "ja-JP",
         "ko-KR",
+        "zh-CN",
     ):
         defined = _get_grammar_slugs(lang_code)
         related = _get_grammar_related_refs(lang_code)
@@ -157,6 +162,7 @@ def test_vocabulary_export_completeness() -> None:
     from app.data.ja.vocabulary import VOCABULARY_SETS as ja_sets
     from app.data.ko.vocabulary import VOCABULARY_SETS as ko_sets
     from app.data.pt.vocabulary import VOCABULARY_SETS as pt_sets
+    from app.data.zh.vocabulary import VOCABULARY_SETS as zh_sets
 
     for lang, sets in [
         ("en", en_sets),
@@ -165,6 +171,7 @@ def test_vocabulary_export_completeness() -> None:
         ("ja", ja_sets),
         ("ko", ko_sets),
         ("pt", pt_sets),
+        ("zh", zh_sets),
     ]:
         for s in sets:
             assert s.level in (
@@ -193,6 +200,7 @@ def test_grammar_slug_uniqueness() -> None:
         "de-DE",
         "ja-JP",
         "ko-KR",
+        "zh-CN",
     ):
         from app.data.grammar import get_grammar_topics
 
@@ -217,6 +225,7 @@ def test_vocabulary_id_uniqueness() -> None:
     from app.data.ja.vocabulary import VOCABULARY_SETS as ja_sets
     from app.data.ko.vocabulary import VOCABULARY_SETS as ko_sets
     from app.data.pt.vocabulary import VOCABULARY_SETS as pt_sets
+    from app.data.zh.vocabulary import VOCABULARY_SETS as zh_sets
 
     for lang, sets in [
         ("en", en_sets),
@@ -225,6 +234,7 @@ def test_vocabulary_id_uniqueness() -> None:
         ("ja", ja_sets),
         ("ko", ko_sets),
         ("pt", pt_sets),
+        ("zh", zh_sets),
     ]:
         seen: set[str] = set()
         duplicates: list[str] = []

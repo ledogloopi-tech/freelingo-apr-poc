@@ -230,7 +230,7 @@ Six Zustand stores hold all client-side state. No React Context is used for glob
 - **`landing-subscription.ts`** — Shared landing-page subscription check used by `LandingNav` and `PricingSection`; deduplicates refresh + `/api/auth/me` so the nav hides `Pricing` whenever the pricing section is hidden for active/trialing subscribers
 - **`locales.ts`** — next-intl locale detection and routing utilities
 - **`mappers.ts`** — Data transformation helpers between API responses and frontend models
-- **`target-languages.ts`** — Target language definitions: BCP-47 codes, display names, flag mappings, ISO codes, script/romanisation metadata, word-spacing capability, and language-specific font class helpers. `TARGET_LANGUAGE_CATALOG` contains all frontend-known target languages, including Japanese, Korean, and Mainland Chinese. `SUPPORTED_TARGET_LANGUAGES` remains the initial/default 7-language list used by static surfaces; user-selectable options are still constrained by backend `availableLanguageCodes`.
+- **`target-languages.ts`** — Target language definitions: BCP-47 codes, display names, flag mappings, ISO codes, script/romanisation metadata, word-spacing capability, and language-specific font class helpers. `TARGET_LANGUAGE_CATALOG` contains all frontend-known target languages, including Japanese, Korean, and Mainland Chinese. User-selectable options are constrained by backend `availableLanguageCodes`.
 - **`utils.ts`** — General-purpose utilities: formatting, date helpers, class name merging
 
 ## Components overview
@@ -293,7 +293,7 @@ The global FreeLingo visual language remains mono-heavy: `Geist`/`Geist_Mono` ar
 Content that is part of the language being learned must use the language-aware rendering path instead of raw `font-mono` text:
 
 - `frontend/src/lib/target-languages.ts` stores `script`, `fontClass`, `usesWordSpacing`, and optional `romanization` metadata.
-- `getTargetLanguageTextClass(code)` returns Latin-compatible mono styling for current Latin-script languages and CJK-friendly `font-target-ja`, `font-target-ko`, or `font-target-zh` classes for `ja-JP`, `ko-KR`, and future `zh-CN` content.
+- `getTargetLanguageTextClass(code)` returns Latin-compatible mono styling for current Latin-script languages and CJK-friendly `font-target-ja`, `font-target-ko`, or `font-target-zh` classes for `ja-JP`, `ko-KR`, and `zh-CN` content.
 - `TARGET_LANGUAGE_CATALOG` includes display metadata and flag paths for `ja-JP`, `ko-KR`, and `zh-CN`. `TargetLanguageSelector`, Settings → My Languages, and Admin → Create User use the catalog only after filtering through operator-provided `availableCodes` / `availableLanguageCodes`.
 - `frontend/src/components/TargetLanguageText.tsx` applies the correct class and `lang` attribute. Use it for lesson content, exercise prompts/options, flashcards, reading/listening transcripts, phrasebook entries, vocabulary examples, assessment questions, and chat/conversation transcript text.
 - `globals.css` defines `font-target-latin`, `font-target-ja`, `font-target-ko`, and `font-target-zh`. CJK classes use Noto variables when available plus platform fallbacks (`Hiragino Sans`/`Yu Gothic`/`Meiryo`, `Apple SD Gothic Neo`/`Malgun Gothic`, `PingFang SC`/`Microsoft YaHei`/`Noto Sans CJK SC`).

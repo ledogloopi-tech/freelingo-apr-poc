@@ -21,6 +21,7 @@ _LANG_MODULES: dict[str, str] = {
     "ja": "app.data.ja.vocabulary",
     "ko": "app.data.ko.vocabulary",
     "pt": "app.data.pt.vocabulary",
+    "zh": "app.data.zh.vocabulary",
 }
 
 _CACHE: dict[str, list[VocabularySet]] = {}
