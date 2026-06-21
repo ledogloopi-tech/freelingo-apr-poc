@@ -15,7 +15,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="한국어를 표기하는 고유 문자.",
                 example="한글을 읽고 쓸 수 있어요.",
                 ipa="hangeul",
-                frequency_rank=34,
+                frequency_rank=176,
             ),
             VocabularyEntry(
                 word="자음",
@@ -23,7 +23,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="닿소리 글자. ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ.",
                 example="한글 자음은 열네 개입니다.",
                 ipa="jaeum",
-                frequency_rank=142,
+                frequency_rank=133,
             ),
             VocabularyEntry(
                 word="모음",
@@ -31,7 +31,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="홀소리 글자. ㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ.",
                 example="한글 모음은 열 개입니다.",
                 ipa="moeum",
-                frequency_rank=46,
+                frequency_rank=50,
             ),
             VocabularyEntry(
                 word="글자",
@@ -39,7 +39,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="문자를 이루는 낱낱의 기호.",
                 example="한글 글자를 따라 써 보세요.",
                 ipa="geulja",
-                frequency_rank=37,
+                frequency_rank=22,
             ),
             VocabularyEntry(
                 word="받침",
@@ -47,7 +47,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="음절 끝에 오는 자음.",
                 example="받침이 있는 글자를 읽어 보세요.",
                 ipa="batchim",
-                frequency_rank=73,
+                frequency_rank=57,
             ),
             VocabularyEntry(
                 word="음절",
@@ -55,7 +55,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="한 글자로 묶어 쓰는 소리의 단위.",
                 example="한 음절씩 또박또박 읽으세요.",
                 ipa="eumjeol",
-                frequency_rank=7,
+                frequency_rank=124,
             ),
         ],
     ),
@@ -71,7 +71,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="만나거나 헤어질 때 하는 가장 기본적인 인사.",
                 example="안녕하세요, 처음 뵙겠습니다.",
                 ipa="annyeonghaseyo",
-                frequency_rank=135,
+                frequency_rank=92,
             ),
             VocabularyEntry(
                 word="감사합니다",
@@ -79,7 +79,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="고마움을 나타내는 인사.",
                 example="도와주셔서 감사합니다.",
                 ipa="gamsahamnida",
-                frequency_rank=33,
+                frequency_rank=7,
             ),
             VocabularyEntry(
                 word="죄송합니다",
@@ -87,7 +87,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="미안함을 나타내는 말.",
                 example="늦어서 죄송합니다.",
                 ipa="joesonghamnida",
-                frequency_rank=125,
+                frequency_rank=142,
             ),
             VocabularyEntry(
                 word="안녕히 가세요",
@@ -95,7 +95,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="떠나는 사람에게 하는 인사.",
                 example="안녕히 가세요, 내일 또 만나요.",
                 ipa="annyeonghi gaseyo",
-                frequency_rank=82,
+                frequency_rank=93,
             ),
             VocabularyEntry(
                 word="안녕히 계세요",
@@ -103,7 +103,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="남는 사람이 떠나는 사람에게 하는 인사.",
                 example="안녕히 계세요, 다음에 또 올게요.",
                 ipa="annyeonghi gyeseyo",
-                frequency_rank=54,
+                frequency_rank=94,
             ),
             VocabularyEntry(
                 word="처음 뵙겠습니다",
@@ -111,7 +111,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="처음 만나는 사람에게 하는 격식 있는 인사.",
                 example="안녕하세요, 처음 뵙겠습니다.",
                 ipa="cheoeum boepgetseumnida",
-                frequency_rank=139,
+                frequency_rank=155,
             ),
             VocabularyEntry(
                 word="반갑습니다",
@@ -119,7 +119,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="만나서 기쁘다는 뜻의 인사.",
                 example="만나서 정말 반갑습니다.",
                 ipa="bangapseumnida",
-                frequency_rank=52,
+                frequency_rank=56,
             ),
         ],
     ),
@@ -135,7 +135,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="학교에서 학생을 가르치는 사람.",
                 example="선생님, 질문이 있어요.",
                 ipa="seonsaengnim",
-                frequency_rank=55,
+                frequency_rank=78,
             ),
             VocabularyEntry(
                 word="학생",
@@ -143,7 +143,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="학교에서 공부하는 사람.",
                 example="학생들이 교실에서 공부해요.",
                 ipa="haksaeng",
-                frequency_rank=74,
+                frequency_rank=174,
             ),
             VocabularyEntry(
                 word="책",
@@ -151,7 +151,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="읽거나 공부하는 내용을 담은 것.",
                 example="책을 펴고 10쪽을 보세요.",
                 ipa="chaek",
-                frequency_rank=5,
+                frequency_rank=153,
             ),
             VocabularyEntry(
                 word="공책",
@@ -159,7 +159,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="글씨를 쓰는 데 쓰는 묶은 종이.",
                 example="공책에 글씨를 써 보세요.",
                 ipa="gongchaek",
-                frequency_rank=78,
+                frequency_rank=17,
             ),
             VocabularyEntry(
                 word="연필",
@@ -167,7 +167,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="글씨를 쓰거나 그림을 그리는 도구.",
                 example="연필로 이름을 쓰세요.",
                 ipa="yeonpil",
-                frequency_rank=4,
+                frequency_rank=104,
             ),
             VocabularyEntry(
                 word="칠판",
@@ -175,7 +175,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="분필로 글씨를 쓰는 판.",
                 example="칠판에 쓰여 있는 문장을 읽으세요.",
                 ipa="chilpan",
-                frequency_rank=115,
+                frequency_rank=161,
             ),
             VocabularyEntry(
                 word="질문",
@@ -183,7 +183,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="알고 싶은 것을 물어보는 말.",
                 example="질문이 있으면 손을 드세요.",
                 ipa="jilmun",
-                frequency_rank=75,
+                frequency_rank=149,
             ),
             VocabularyEntry(
                 word="대답",
@@ -191,7 +191,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="질문에 답하는 말.",
                 example="질문에 대답해 보세요.",
                 ipa="daedap",
-                frequency_rank=82,
+                frequency_rank=36,
             ),
         ],
     ),
@@ -207,7 +207,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="사람이나 사물을 부를 때 쓰는 말.",
                 example="이름이 뭐예요?",
                 ipa="ireum",
-                frequency_rank=124,
+                frequency_rank=127,
             ),
             VocabularyEntry(
                 word="나이",
@@ -215,7 +215,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="살아온 햇수.",
                 example="나이가 어떻게 되세요?",
                 ipa="nai",
-                frequency_rank=8,
+                frequency_rank=27,
             ),
             VocabularyEntry(
                 word="국적",
@@ -223,7 +223,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="한 나라의 구성원이 되는 자격.",
                 example="국적이 어디예요?",
                 ipa="gukjeok",
-                frequency_rank=8,
+                frequency_rank=21,
             ),
             VocabularyEntry(
                 word="살다",
@@ -231,7 +231,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="어떤 곳에서 생활하다.",
                 example="저는 서울에 살아요.",
                 ipa="salda",
-                frequency_rank=100,
+                frequency_rank=74,
             ),
             VocabularyEntry(
                 word="출신",
@@ -239,7 +239,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="태어나고 자란 곳.",
                 example="출신이 어디예요?",
                 ipa="chulsin",
-                frequency_rank=47,
+                frequency_rank=159,
             ),
             VocabularyEntry(
                 word="소개",
@@ -247,7 +247,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="서로 모르는 사이를 알게 함.",
                 example="자기소개를 해 보세요.",
                 ipa="sogae",
-                frequency_rank=83,
+                frequency_rank=80,
             ),
             VocabularyEntry(
                 word="생일",
@@ -255,7 +255,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="태어난 날.",
                 example="생일이 언제예요?",
                 ipa="saengil",
-                frequency_rank=114,
+                frequency_rank=76,
             ),
         ],
     ),
@@ -271,7 +271,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="동아시아에 있는 나라. 대한민국.",
                 example="저는 한국 사람이에요.",
                 ipa="hanguk",
-                frequency_rank=133,
+                frequency_rank=175,
             ),
             VocabularyEntry(
                 word="중국",
@@ -279,7 +279,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="한국의 서쪽에 있는 큰 나라.",
                 example="중국 음식을 좋아해요.",
                 ipa="jungguk",
-                frequency_rank=44,
+                frequency_rank=146,
             ),
             VocabularyEntry(
                 word="일본",
@@ -287,7 +287,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="한국의 동쪽에 있는 섬나라.",
                 example="일본에 여행 가고 싶어요.",
                 ipa="ilbon",
-                frequency_rank=12,
+                frequency_rank=129,
             ),
             VocabularyEntry(
                 word="미국",
@@ -295,7 +295,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="북아메리카에 있는 나라.",
                 example="미국에서 영어를 배웠어요.",
                 ipa="miguk",
-                frequency_rank=46,
+                frequency_rank=55,
             ),
             VocabularyEntry(
                 word="영국",
@@ -303,7 +303,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="유럽의 서쪽에 있는 섬나라.",
                 example="영국은 런던이 수도예요.",
                 ipa="yeongguk",
-                frequency_rank=53,
+                frequency_rank=105,
             ),
             VocabularyEntry(
                 word="프랑스",
@@ -311,7 +311,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="유럽 서부에 있는 나라.",
                 example="프랑스 파리에 가 봤어요.",
                 ipa="peurangseu",
-                frequency_rank=115,
+                frequency_rank=170,
             ),
             VocabularyEntry(
                 word="독일",
@@ -319,7 +319,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="유럽 중부에 있는 나라.",
                 example="독일 자동차가 유명해요.",
                 ipa="dogil",
-                frequency_rank=140,
+                frequency_rank=41,
             ),
             VocabularyEntry(
                 word="호주",
@@ -327,7 +327,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="오세아니아에 있는 큰 나라.",
                 example="호주에는 캥거루가 살아요.",
                 ipa="hoju",
-                frequency_rank=27,
+                frequency_rank=180,
             ),
         ],
     ),
@@ -343,7 +343,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="회사에 다니며 일하는 사람.",
                 example="아버지는 회사원이에요.",
                 ipa="hoesawon",
-                frequency_rank=120,
+                frequency_rank=184,
             ),
             VocabularyEntry(
                 word="의사",
@@ -351,7 +351,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="병원에서 환자를 치료하는 사람.",
                 example="의사 선생님이 친절하세요.",
                 ipa="uisa",
-                frequency_rank=21,
+                frequency_rank=125,
             ),
             VocabularyEntry(
                 word="요리사",
@@ -359,7 +359,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="음식을 전문적으로 만드는 사람.",
                 example="그 식당 요리사는 한국 분이에요.",
                 ipa="yorisa",
-                frequency_rank=131,
+                frequency_rank=116,
             ),
             VocabularyEntry(
                 word="경찰관",
@@ -367,7 +367,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="시민의 안전을 지키는 사람.",
                 example="경찰관에게 길을 물어봤어요.",
                 ipa="gyeongchalgwan",
-                frequency_rank=104,
+                frequency_rank=12,
             ),
             VocabularyEntry(
                 word="소방관",
@@ -375,7 +375,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="불을 끄고 사람을 구하는 사람.",
                 example="소방관이 불을 빨리 껐어요.",
                 ipa="sobanggwan",
-                frequency_rank=126,
+                frequency_rank=81,
             ),
             VocabularyEntry(
                 word="가수",
@@ -383,7 +383,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="노래를 직업으로 하는 사람.",
                 example="그 가수의 노래를 좋아해요.",
                 ipa="gasu",
-                frequency_rank=124,
+                frequency_rank=4,
             ),
             VocabularyEntry(
                 word="배우",
@@ -391,7 +391,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="영화나 드라마에 나오는 사람.",
                 example="한국 배우가 나오는 영화를 봤어요.",
                 ipa="baeu",
-                frequency_rank=87,
+                frequency_rank=60,
             ),
             VocabularyEntry(
                 word="간호사",
@@ -399,7 +399,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="병원에서 의사를 돕는 사람.",
                 example="간호사가 환자를 돌봐요.",
                 ipa="ganhosa",
-                frequency_rank=95,
+                frequency_rank=6,
             ),
         ],
     ),
@@ -415,7 +415,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="수를 셀 때 처음에 오는 수. 1.",
                 example="사과 하나 주세요.",
                 ipa="hana",
-                frequency_rank=65,
+                frequency_rank=171,
             ),
             VocabularyEntry(
                 word="둘",
@@ -423,7 +423,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="하나보다 하나 더 많은 수. 2.",
                 example="친구 둘이 같이 왔어요.",
                 ipa="dul",
-                frequency_rank=32,
+                frequency_rank=44,
             ),
             VocabularyEntry(
                 word="셋",
@@ -431,7 +431,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="둘보다 하나 더 많은 수. 3.",
                 example="가족이 셋이에요.",
                 ipa="set",
-                frequency_rank=17,
+                frequency_rank=79,
             ),
             VocabularyEntry(
                 word="넷",
@@ -439,7 +439,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="셋보다 하나 더 많은 수. 4.",
                 example="의자가 넷 있어요.",
                 ipa="net",
-                frequency_rank=111,
+                frequency_rank=30,
             ),
             VocabularyEntry(
                 word="다섯",
@@ -447,7 +447,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="넷보다 하나 더 많은 수. 5.",
                 example="연필 다섯 자루를 샀어요.",
                 ipa="daseot",
-                frequency_rank=40,
+                frequency_rank=34,
             ),
             VocabularyEntry(
                 word="여섯",
@@ -455,7 +455,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="다섯보다 하나 더 많은 수. 6.",
                 example="하루에 여섯 시간 자요.",
                 ipa="yeoseot",
-                frequency_rank=44,
+                frequency_rank=100,
             ),
             VocabularyEntry(
                 word="일곱",
@@ -463,7 +463,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="여섯보다 하나 더 많은 수. 7.",
                 example="일곱 시에 일어나요.",
                 ipa="ilgop",
-                frequency_rank=50,
+                frequency_rank=128,
             ),
             VocabularyEntry(
                 word="여덟",
@@ -471,7 +471,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="일곱보다 하나 더 많은 수. 8.",
                 example="교실에 학생이 여덟 명 있어요.",
                 ipa="yeodeol",
-                frequency_rank=134,
+                frequency_rank=99,
             ),
         ],
     ),
@@ -487,7 +487,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="시간을 나타내는 단위.",
                 example="지금은 세 시예요.",
                 ipa="si",
-                frequency_rank=145,
+                frequency_rank=84,
             ),
             VocabularyEntry(
                 word="분",
@@ -495,7 +495,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="한 시간의 60분의 1.",
                 example="열 시 삼십 분이에요.",
                 ipa="bun",
-                frequency_rank=102,
+                frequency_rank=67,
             ),
             VocabularyEntry(
                 word="초",
@@ -503,7 +503,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="일 분의 60분의 1.",
                 example="십 초만 기다려 주세요.",
                 ipa="cho",
-                frequency_rank=67,
+                frequency_rank=157,
             ),
             VocabularyEntry(
                 word="오전",
@@ -511,7 +511,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="자정부터 정오까지의 시간.",
                 example="오전 아홉 시에 수업이 시작돼요.",
                 ipa="ojeon",
-                frequency_rank=58,
+                frequency_rank=113,
             ),
             VocabularyEntry(
                 word="오후",
@@ -519,7 +519,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="정오부터 자정까지의 시간.",
                 example="오후에 친구를 만나요.",
                 ipa="ohu",
-                frequency_rank=85,
+                frequency_rank=114,
             ),
             VocabularyEntry(
                 word="아침",
@@ -527,7 +527,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="해가 뜰 무렵부터 오전까지의 시간.",
                 example="아침에 일찍 일어나요.",
                 ipa="achim",
-                frequency_rank=29,
+                frequency_rank=91,
             ),
             VocabularyEntry(
                 word="점심",
@@ -535,7 +535,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="한낮 무렵의 시간.",
                 example="점심에 뭐 먹을까요?",
                 ipa="jeomsim",
-                frequency_rank=69,
+                frequency_rank=139,
             ),
             VocabularyEntry(
                 word="저녁",
@@ -543,7 +543,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="해가 진 뒤부터 밤까지의 시간.",
                 example="저녁에 가족과 함께 식사해요.",
                 ipa="jeonyeok",
-                frequency_rank=53,
+                frequency_rank=138,
             ),
         ],
     ),
@@ -559,7 +559,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="한 주의 첫째 날.",
                 example="월요일부터 학교에 가요.",
                 ipa="woryoil",
-                frequency_rank=26,
+                frequency_rank=121,
             ),
             VocabularyEntry(
                 word="화요일",
@@ -567,7 +567,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="한 주의 둘째 날.",
                 example="화요일에 한국어 수업이 있어요.",
                 ipa="hwayoil",
-                frequency_rank=93,
+                frequency_rank=181,
             ),
             VocabularyEntry(
                 word="수요일",
@@ -575,7 +575,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="한 주의 셋째 날.",
                 example="수요일은 제일 바빠요.",
                 ipa="suyoil",
-                frequency_rank=64,
+                frequency_rank=82,
             ),
             VocabularyEntry(
                 word="목요일",
@@ -583,7 +583,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="한 주의 넷째 날.",
                 example="목요일에 시험이 있어요.",
                 ipa="mogyoil",
-                frequency_rank=26,
+                frequency_rank=52,
             ),
             VocabularyEntry(
                 word="금요일",
@@ -591,7 +591,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="한 주의 다섯째 날.",
                 example="금요일 저녁에 영화 볼까요?",
                 ipa="geumyoil",
-                frequency_rank=59,
+                frequency_rank=23,
             ),
             VocabularyEntry(
                 word="토요일",
@@ -599,7 +599,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="한 주의 여섯째 날. 주말.",
                 example="토요일에 친구들을 만나요.",
                 ipa="toyoil",
-                frequency_rank=136,
+                frequency_rank=167,
             ),
             VocabularyEntry(
                 word="일요일",
@@ -607,7 +607,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="한 주의 마지막 날. 주말.",
                 example="일요일에는 집에서 쉬어요.",
                 ipa="iryoil",
-                frequency_rank=34,
+                frequency_rank=131,
             ),
             VocabularyEntry(
                 word="오늘",
@@ -615,7 +615,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="지금 지나가고 있는 이 날.",
                 example="오늘 날씨가 정말 좋아요.",
                 ipa="oneul",
-                frequency_rank=129,
+                frequency_rank=109,
             ),
             VocabularyEntry(
                 word="내일",
@@ -623,7 +623,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="오늘의 바로 다음 날.",
                 example="내일 다시 만나요.",
                 ipa="naeil",
-                frequency_rank=89,
+                frequency_rank=29,
             ),
         ],
     ),
@@ -639,7 +639,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="학생들이 공부하는 곳.",
                 example="학교에 가는 길이에요.",
                 ipa="hakgyo",
-                frequency_rank=35,
+                frequency_rank=173,
             ),
             VocabularyEntry(
                 word="병원",
@@ -647,7 +647,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="아픈 사람을 치료하는 곳.",
                 example="감기에 걸려서 병원에 갔어요.",
                 ipa="byeongwon",
-                frequency_rank=92,
+                frequency_rank=62,
             ),
             VocabularyEntry(
                 word="공원",
@@ -655,7 +655,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="사람들이 쉬거나 운동하는 넓은 터.",
                 example="주말에 공원에서 산책해요.",
                 ipa="gongwon",
-                frequency_rank=125,
+                frequency_rank=16,
             ),
             VocabularyEntry(
                 word="식당",
@@ -663,7 +663,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="음식을 사서 먹을 수 있는 곳.",
                 example="이 식당 음식이 정말 맛있어요.",
                 ipa="sikdang",
-                frequency_rank=110,
+                frequency_rank=87,
             ),
             VocabularyEntry(
                 word="도서관",
@@ -671,7 +671,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="책을 빌려 읽거나 공부하는 곳.",
                 example="도서관에서 책을 빌렸어요.",
                 ipa="doseogwan",
-                frequency_rank=89,
+                frequency_rank=38,
             ),
             VocabularyEntry(
                 word="우체국",
@@ -679,7 +679,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="편지나 소포를 보내는 곳.",
                 example="우체국에 가서 편지를 보냈어요.",
                 ipa="ucheguk",
-                frequency_rank=132,
+                frequency_rank=118,
             ),
             VocabularyEntry(
                 word="은행",
@@ -687,7 +687,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="돈을 맡기거나 찾는 곳.",
                 example="은행에서 돈을 찾았어요.",
                 ipa="eunhaeng",
-                frequency_rank=125,
+                frequency_rank=122,
             ),
             VocabularyEntry(
                 word="영화관",
@@ -695,7 +695,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="영화를 보는 곳.",
                 example="영화관에서 새 영화를 봤어요.",
                 ipa="yeonghwagwan",
-                frequency_rank=63,
+                frequency_rank=107,
             ),
         ],
     ),
@@ -711,7 +711,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="벽으로 둘러싸인 집 안의 공간.",
                 example="제 방은 이 층에 있어요.",
                 ipa="bang",
-                frequency_rank=24,
+                frequency_rank=59,
             ),
             VocabularyEntry(
                 word="거실",
@@ -719,7 +719,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="가족이 함께 모여 쉬는 방.",
                 example="거실에서 텔레비전을 봐요.",
                 ipa="geosil",
-                frequency_rank=47,
+                frequency_rank=8,
             ),
             VocabularyEntry(
                 word="부엌",
@@ -727,7 +727,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="음식을 만드는 곳.",
                 example="어머니가 부엌에서 요리하세요.",
                 ipa="bueok",
-                frequency_rank=70,
+                frequency_rank=66,
             ),
             VocabularyEntry(
                 word="화장실",
@@ -735,7 +735,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="세수나 목욕을 하고 용변을 보는 곳.",
                 example="화장실이 어디예요?",
                 ipa="hwajangsil",
-                frequency_rank=148,
+                frequency_rank=182,
             ),
             VocabularyEntry(
                 word="침대",
@@ -743,7 +743,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="잠을 자는 가구.",
                 example="침대에 누워서 책을 읽어요.",
                 ipa="chimdae",
-                frequency_rank=95,
+                frequency_rank=162,
             ),
             VocabularyEntry(
                 word="책상",
@@ -751,7 +751,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="공부하거나 일할 때 쓰는 탁자.",
                 example="책상 위에 컴퓨터가 있어요.",
                 ipa="chaeksang",
-                frequency_rank=97,
+                frequency_rank=154,
             ),
             VocabularyEntry(
                 word="의자",
@@ -759,7 +759,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="앉을 때 쓰는 가구.",
                 example="의자에 앉으세요.",
                 ipa="uija",
-                frequency_rank=43,
+                frequency_rank=126,
             ),
             VocabularyEntry(
                 word="창문",
@@ -767,7 +767,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="빛과 공기가 통하게 하는 문.",
                 example="창문을 열고 환기하세요.",
                 ipa="changmun",
-                frequency_rank=146,
+                frequency_rank=151,
             ),
         ],
     ),
@@ -783,7 +783,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="한국의 수도.",
                 example="서울은 정말 큰 도시예요.",
                 ipa="seoul",
-                frequency_rank=98,
+                frequency_rank=77,
             ),
             VocabularyEntry(
                 word="도시",
@@ -791,7 +791,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="사람이 많이 모여 사는 큰 지역.",
                 example="도시에는 높은 건물이 많아요.",
                 ipa="dosi",
-                frequency_rank=75,
+                frequency_rank=39,
             ),
             VocabularyEntry(
                 word="시골",
@@ -799,7 +799,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="도시에서 멀리 떨어진 한적한 곳.",
                 example="할머니는 시골에 사세요.",
                 ipa="sigol",
-                frequency_rank=21,
+                frequency_rank=85,
             ),
             VocabularyEntry(
                 word="길",
@@ -807,7 +807,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="사람이나 차가 다니는 곳.",
                 example="이 길로 쭉 가세요.",
                 ipa="gil",
-                frequency_rank=47,
+                frequency_rank=24,
             ),
             VocabularyEntry(
                 word="건물",
@@ -815,7 +815,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="사람이 살거나 일하려고 지은 것.",
                 example="저 건물이 시청이에요.",
                 ipa="geonmul",
-                frequency_rank=66,
+                frequency_rank=9,
             ),
             VocabularyEntry(
                 word="시장",
@@ -823,7 +823,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="물건을 사고파는 곳.",
                 example="시장에서 과일을 샀어요.",
                 ipa="sijang",
-                frequency_rank=5,
+                frequency_rank=86,
             ),
             VocabularyEntry(
                 word="공항",
@@ -831,7 +831,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="비행기가 뜨고 내리는 곳.",
                 example="공항까지 버스로 한 시간 걸려요.",
                 ipa="gonghang",
-                frequency_rank=61,
+                frequency_rank=18,
             ),
             VocabularyEntry(
                 word="역",
@@ -839,7 +839,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="기차나 지하철이 서는 곳.",
                 example="서울역에서 내리세요.",
                 ipa="yeok",
-                frequency_rank=54,
+                frequency_rank=102,
             ),
         ],
     ),
@@ -855,7 +855,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="잠에서 깨다.",
                 example="아침 일곱 시에 일어나요.",
                 ipa="ireonada",
-                frequency_rank=31,
+                frequency_rank=130,
             ),
             VocabularyEntry(
                 word="자다",
@@ -863,7 +863,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="눈을 감고 쉬는 상태가 되다.",
                 example="밤 열한 시에 자요.",
                 ipa="jada",
-                frequency_rank=1,
+                frequency_rank=132,
             ),
             VocabularyEntry(
                 word="먹다",
@@ -871,7 +871,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="음식을 입으로 섭취하다.",
                 example="아침을 꼭 먹어요.",
                 ipa="meokda",
-                frequency_rank=52,
+                frequency_rank=49,
             ),
             VocabularyEntry(
                 word="마시다",
@@ -879,7 +879,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="물이나 음료를 입으로 들이키다.",
                 example="물을 많이 마시는 게 좋아요.",
                 ipa="masida",
-                frequency_rank=129,
+                frequency_rank=45,
             ),
             VocabularyEntry(
                 word="가다",
@@ -887,7 +887,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="한 곳에서 다른 곳으로 이동하다.",
                 example="학교에 버스로 가요.",
                 ipa="gada",
-                frequency_rank=143,
+                frequency_rank=3,
             ),
             VocabularyEntry(
                 word="오다",
@@ -895,7 +895,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="다른 곳에서 이곳으로 이동하다.",
                 example="친구가 우리 집에 와요.",
                 ipa="oda",
-                frequency_rank=75,
+                frequency_rank=110,
             ),
             VocabularyEntry(
                 word="보다",
@@ -903,7 +903,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="눈으로 대상을 느끼다.",
                 example="매일 한국 드라마를 봐요.",
                 ipa="boda",
-                frequency_rank=33,
+                frequency_rank=63,
             ),
             VocabularyEntry(
                 word="공부하다",
@@ -911,7 +911,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="지식을 배우고 익히다.",
                 example="도서관에서 한국어를 공부해요.",
                 ipa="gongbuhada",
-                frequency_rank=41,
+                frequency_rank=15,
             ),
             VocabularyEntry(
                 word="운동하다",
@@ -919,7 +919,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="몸을 움직여 건강을 지키다.",
                 example="아침마다 공원에서 운동해요.",
                 ipa="undonghada",
-                frequency_rank=50,
+                frequency_rank=120,
             ),
         ],
     ),
@@ -935,7 +935,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="쌀로 지은 한국의 주식.",
                 example="밥과 김치를 같이 먹어요.",
                 ipa="bap",
-                frequency_rank=139,
+                frequency_rank=58,
             ),
             VocabularyEntry(
                 word="빵",
@@ -943,7 +943,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="밀가루를 구워 만든 음식.",
                 example="아침에 빵과 우유를 먹어요.",
                 ipa="ppang",
-                frequency_rank=51,
+                frequency_rank=71,
             ),
             VocabularyEntry(
                 word="고기",
@@ -951,7 +951,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="동물의 살로 만든 음식.",
                 example="한국 사람들은 고기를 좋아해요.",
                 ipa="gogi",
-                frequency_rank=99,
+                frequency_rank=14,
             ),
             VocabularyEntry(
                 word="생선",
@@ -959,7 +959,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="먹을 수 있는 물고기.",
                 example="생선구이가 정말 맛있어요.",
                 ipa="saengseon",
-                frequency_rank=64,
+                frequency_rank=75,
             ),
             VocabularyEntry(
                 word="과일",
@@ -967,7 +967,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="나무나 풀에서 나는 먹을 수 있는 열매.",
                 example="과일을 많이 먹으면 건강에 좋아요.",
                 ipa="gwail",
-                frequency_rank=40,
+                frequency_rank=19,
             ),
             VocabularyEntry(
                 word="채소",
@@ -975,7 +975,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="밭에서 나는 푸른 식물.",
                 example="신선한 채소로 샐러드를 만들었어요.",
                 ipa="chaeso",
-                frequency_rank=33,
+                frequency_rank=152,
             ),
             VocabularyEntry(
                 word="계란",
@@ -983,7 +983,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="닭이 낳은 알.",
                 example="아침에 계란 프라이를 먹어요.",
                 ipa="gyeran",
-                frequency_rank=130,
+                frequency_rank=13,
             ),
             VocabularyEntry(
                 word="김치",
@@ -991,7 +991,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="배추나 무를 양념에 버무려 발효시킨 한국 음식.",
                 example="한국 사람은 매일 김치를 먹어요.",
                 ipa="gimchi",
-                frequency_rank=56,
+                frequency_rank=25,
             ),
         ],
     ),
@@ -1007,7 +1007,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="마시거나 씻는 데 쓰는 액체.",
                 example="물 한 잔 주세요.",
                 ipa="mul",
-                frequency_rank=27,
+                frequency_rank=54,
             ),
             VocabularyEntry(
                 word="커피",
@@ -1015,7 +1015,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="커피콩으로 만든 음료.",
                 example="아침마다 커피를 마셔요.",
                 ipa="keopi",
-                frequency_rank=110,
+                frequency_rank=163,
             ),
             VocabularyEntry(
                 word="차",
@@ -1023,7 +1023,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="식물의 잎을 우려 만든 음료.",
                 example="녹차를 좋아하세요?",
                 ipa="cha",
-                frequency_rank=69,
+                frequency_rank=150,
             ),
             VocabularyEntry(
                 word="주스",
@@ -1031,7 +1031,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="과일이나 채소를 짜서 만든 음료.",
                 example="오렌지 주스를 주문했어요.",
                 ipa="juseu",
-                frequency_rank=139,
+                frequency_rank=144,
             ),
             VocabularyEntry(
                 word="우유",
@@ -1039,7 +1039,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="소에서 짜낸 흰 액체.",
                 example="우유를 마시면 키가 커요.",
                 ipa="uyu",
-                frequency_rank=30,
+                frequency_rank=117,
             ),
             VocabularyEntry(
                 word="맥주",
@@ -1047,7 +1047,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="보리로 만든 술.",
                 example="한국 맥주를 마셔 봤어요?",
                 ipa="maekju",
-                frequency_rank=114,
+                frequency_rank=48,
             ),
             VocabularyEntry(
                 word="콜라",
@@ -1055,7 +1055,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="탄산이 들어간 달콤한 음료.",
                 example="콜라 대신 물을 드세요.",
                 ipa="kolla",
-                frequency_rank=80,
+                frequency_rank=164,
             ),
         ],
     ),
@@ -1071,7 +1071,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="규모나 크기가 보통보다 더하다.",
                 example="우리 집은 생각보다 커요.",
                 ipa="keuda",
-                frequency_rank=95,
+                frequency_rank=165,
             ),
             VocabularyEntry(
                 word="작다",
@@ -1079,7 +1079,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="규모나 크기가 보통보다 덜하다.",
                 example="이 방은 좀 작아요.",
                 ipa="jakda",
-                frequency_rank=59,
+                frequency_rank=135,
             ),
             VocabularyEntry(
                 word="좋다",
@@ -1087,7 +1087,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="마음에 들거나 바람직하다.",
                 example="오늘 날씨가 정말 좋아요.",
                 ipa="jota",
-                frequency_rank=13,
+                frequency_rank=141,
             ),
             VocabularyEntry(
                 word="나쁘다",
@@ -1095,7 +1095,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="좋지 않다.",
                 example="담배는 건강에 나빠요.",
                 ipa="nappeuda",
-                frequency_rank=63,
+                frequency_rank=26,
             ),
             VocabularyEntry(
                 word="예쁘다",
@@ -1103,7 +1103,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="보기에 아름답다.",
                 example="꽃이 정말 예뻐요.",
                 ipa="yeppeuda",
-                frequency_rank=83,
+                frequency_rank=108,
             ),
             VocabularyEntry(
                 word="맛있다",
@@ -1111,7 +1111,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="음식의 맛이 좋다.",
                 example="이 김치찌개가 아주 맛있어요.",
                 ipa="masitda",
-                frequency_rank=108,
+                frequency_rank=47,
             ),
             VocabularyEntry(
                 word="재미있다",
@@ -1119,7 +1119,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="흥미롭고 즐겁다.",
                 example="한국어 공부가 정말 재미있어요.",
                 ipa="jaemiitda",
-                frequency_rank=96,
+                frequency_rank=137,
             ),
             VocabularyEntry(
                 word="어렵다",
@@ -1127,7 +1127,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="하기가 쉽지 않다.",
                 example="한글은 읽기는 쉬워도 쓰기는 어려워요.",
                 ipa="eoryeopda",
-                frequency_rank=11,
+                frequency_rank=95,
             ),
             VocabularyEntry(
                 word="쉽다",
@@ -1135,7 +1135,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="하기가 힘들지 않다.",
                 example="이 문제는 아주 쉬워요.",
                 ipa="swipda",
-                frequency_rank=1,
+                frequency_rank=83,
             ),
         ],
     ),
@@ -1151,7 +1151,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="피나 장미 같은 색.",
                 example="빨간색 가방이 예뻐요.",
                 ipa="ppalgansaek",
-                frequency_rank=56,
+                frequency_rank=70,
             ),
             VocabularyEntry(
                 word="파란색",
@@ -1159,7 +1159,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="맑은 하늘이나 바다 같은 색.",
                 example="파란색 하늘이 정말 예뻐요.",
                 ipa="paransaek",
-                frequency_rank=20,
+                frequency_rank=168,
             ),
             VocabularyEntry(
                 word="노란색",
@@ -1167,7 +1167,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="바나나나 레몬 같은 색.",
                 example="노란색 옷을 입었어요.",
                 ipa="noransaek",
-                frequency_rank=15,
+                frequency_rank=31,
             ),
             VocabularyEntry(
                 word="초록색",
@@ -1175,7 +1175,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="풀이나 나뭇잎 같은 색.",
                 example="초록색 나무가 많아요.",
                 ipa="choroksaek",
-                frequency_rank=67,
+                frequency_rank=158,
             ),
             VocabularyEntry(
                 word="검은색",
@@ -1183,7 +1183,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="빛이 없을 때 보이는 가장 어두운 색.",
                 example="검은색 신발을 신었어요.",
                 ipa="geomeunsaek",
-                frequency_rank=68,
+                frequency_rank=11,
             ),
             VocabularyEntry(
                 word="하얀색",
@@ -1191,7 +1191,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="눈이나 우유 같은 가장 밝은 색.",
                 example="하얀색 셔츠가 깨끗해요.",
                 ipa="hayansaek",
-                frequency_rank=26,
+                frequency_rank=172,
             ),
             VocabularyEntry(
                 word="보라색",
@@ -1199,7 +1199,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="빨강과 파랑을 섞은 색.",
                 example="보라색 포도가 맛있어요.",
                 ipa="borasaek",
-                frequency_rank=85,
+                frequency_rank=64,
             ),
             VocabularyEntry(
                 word="주황색",
@@ -1207,7 +1207,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="빨강과 노랑을 섞은 색.",
                 example="주황색 당근을 좋아해요.",
                 ipa="juhwangsaek",
-                frequency_rank=99,
+                frequency_rank=145,
             ),
         ],
     ),
@@ -1223,7 +1223,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="물건을 파는 곳.",
                 example="저 가게에 가서 우유를 사요.",
                 ipa="gage",
-                frequency_rank=26,
+                frequency_rank=1,
             ),
             VocabularyEntry(
                 word="시장",
@@ -1231,7 +1231,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="물건을 사고파는 곳.",
                 example="시장에서 값이 싸요.",
                 ipa="sijang",
-                frequency_rank=20,
+                frequency_rank=86,
             ),
             VocabularyEntry(
                 word="돈",
@@ -1239,7 +1239,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="물건을 사고팔 때 쓰는 수단.",
                 example="돈이 충분히 있어요?",
                 ipa="don",
-                frequency_rank=102,
+                frequency_rank=42,
             ),
             VocabularyEntry(
                 word="가격",
@@ -1247,7 +1247,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="물건의 값.",
                 example="이거 가격이 얼마예요?",
                 ipa="gagyeok",
-                frequency_rank=73,
+                frequency_rank=2,
             ),
             VocabularyEntry(
                 word="사다",
@@ -1255,7 +1255,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="돈을 주고 물건을 얻다.",
                 example="시장에서 과일을 샀어요.",
                 ipa="sada",
-                frequency_rank=139,
+                frequency_rank=72,
             ),
             VocabularyEntry(
                 word="팔다",
@@ -1263,7 +1263,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="돈을 받고 물건을 주다.",
                 example="그 가게는 한국 음식을 팔아요.",
                 ipa="palda",
-                frequency_rank=56,
+                frequency_rank=169,
             ),
             VocabularyEntry(
                 word="비싸다",
@@ -1271,7 +1271,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="가격이 높다.",
                 example="이 가방은 너무 비싸요.",
                 ipa="bissada",
-                frequency_rank=79,
+                frequency_rank=69,
             ),
             VocabularyEntry(
                 word="싸다",
@@ -1279,7 +1279,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="가격이 낮다.",
                 example="이 신발은 아주 싸요.",
                 ipa="ssada",
-                frequency_rank=131,
+                frequency_rank=88,
             ),
         ],
     ),
@@ -1295,7 +1295,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="무엇을 달라고 부탁하는 말.",
                 example="물 한 잔 주세요.",
                 ipa="juseyo",
-                frequency_rank=130,
+                frequency_rank=143,
             ),
             VocabularyEntry(
                 word="도와주세요",
@@ -1303,7 +1303,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="어려울 때 남에게 도움을 청하는 말.",
                 example="길을 잃었어요. 도와주세요.",
                 ipa="dowajuseyo",
-                frequency_rank=98,
+                frequency_rank=40,
             ),
             VocabularyEntry(
                 word="다시 말해 주세요",
@@ -1311,7 +1311,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="상대방이 한 말을 다시 듣고 싶을 때 쓰는 표현.",
                 example="죄송하지만 다시 말해 주세요.",
                 ipa="dasi malhae juseyo",
-                frequency_rank=63,
+                frequency_rank=35,
             ),
             VocabularyEntry(
                 word="천천히 말해 주세요",
@@ -1319,7 +1319,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="상대방이 말을 빨리 해서 천천히 해 달라고 할 때 쓰는 표현.",
                 example="한국어를 잘 못해서 천천히 말해 주세요.",
                 ipa="cheoncheonhi malhae juseyo",
-                frequency_rank=123,
+                frequency_rank=156,
             ),
             VocabularyEntry(
                 word="잠깐만요",
@@ -1327,7 +1327,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="상대방에게 잠시 기다려 달라고 하는 말.",
                 example="잠깐만요, 지금 갈게요.",
                 ipa="jamkkanmanyo",
-                frequency_rank=13,
+                frequency_rank=136,
             ),
             VocabularyEntry(
                 word="괜찮아요",
@@ -1335,7 +1335,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="걱정하지 않아도 된다고 말할 때 쓰는 표현.",
                 example="괜찮아요, 제가 도와드릴게요.",
                 ipa="gwaenchanayo",
-                frequency_rank=124,
+                frequency_rank=20,
             ),
             VocabularyEntry(
                 word="여기요",
@@ -1343,7 +1343,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="식당 등에서 직원을 부를 때 쓰는 말.",
                 example="여기요, 메뉴 좀 주세요.",
                 ipa="yeogiyo",
-                frequency_rank=39,
+                frequency_rank=98,
             ),
         ],
     ),
@@ -1359,7 +1359,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="부부와 그 자녀로 이루어진 집단.",
                 example="우리 가족은 모두 네 명이에요.",
                 ipa="gajok",
-                frequency_rank=117,
+                frequency_rank=5,
             ),
             VocabularyEntry(
                 word="아버지",
@@ -1367,7 +1367,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="자식을 둔 남자. 아빠의 높임말.",
                 example="아버지는 회사원이세요.",
                 ipa="abeoji",
-                frequency_rank=75,
+                frequency_rank=90,
             ),
             VocabularyEntry(
                 word="어머니",
@@ -1375,7 +1375,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="자식을 둔 여자. 엄마의 높임말.",
                 example="어머니가 맛있는 저녁을 만드셨어요.",
                 ipa="eomeoni",
-                frequency_rank=58,
+                frequency_rank=96,
             ),
             VocabularyEntry(
                 word="형",
@@ -1383,7 +1383,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="남자가 손위 남자 형제를 부르는 말.",
                 example="형은 대학생이에요.",
                 ipa="hyeong",
-                frequency_rank=80,
+                frequency_rank=179,
             ),
             VocabularyEntry(
                 word="오빠",
@@ -1391,7 +1391,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="여자가 손위 남자 형제를 부르는 말.",
                 example="오빠가 나보다 키가 커요.",
                 ipa="oppa",
-                frequency_rank=121,
+                frequency_rank=112,
             ),
             VocabularyEntry(
                 word="누나",
@@ -1399,7 +1399,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="남자가 손위 여자 형제를 부르는 말.",
                 example="누나는 의사예요.",
                 ipa="nuna",
-                frequency_rank=117,
+                frequency_rank=32,
             ),
             VocabularyEntry(
                 word="언니",
@@ -1407,7 +1407,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="여자가 손위 여자 형제를 부르는 말.",
                 example="언니랑 같이 쇼핑했어요.",
                 ipa="eonni",
-                frequency_rank=91,
+                frequency_rank=97,
             ),
             VocabularyEntry(
                 word="동생",
@@ -1415,7 +1415,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="손아래 형제. 남녀 모두에게 쓸 수 있는 말.",
                 example="동생이 아직 초등학생이에요.",
                 ipa="dongsaeng",
-                frequency_rank=42,
+                frequency_rank=43,
             ),
             VocabularyEntry(
                 word="할아버지",
@@ -1423,7 +1423,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="아버지의 아버지.",
                 example="할아버지는 시골에 사세요.",
                 ipa="harabeoji",
-                frequency_rank=68,
+                frequency_rank=178,
             ),
             VocabularyEntry(
                 word="할머니",
@@ -1431,7 +1431,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="아버지의 어머니.",
                 example="할머니가 김치를 잘 만드세요.",
                 ipa="halmeoni",
-                frequency_rank=68,
+                frequency_rank=177,
             ),
         ],
     ),
@@ -1447,7 +1447,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="잠에서 깨어나다.",
                 example="아침 일곱 시에 일어나요.",
                 ipa="ireonada",
-                frequency_rank=146,
+                frequency_rank=130,
             ),
             VocabularyEntry(
                 word="자다",
@@ -1455,7 +1455,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="눈을 감고 휴식 상태가 되다.",
                 example="밤 열한 시에 자요.",
                 ipa="jada",
-                frequency_rank=88,
+                frequency_rank=132,
             ),
             VocabularyEntry(
                 word="먹다",
@@ -1463,7 +1463,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="음식을 입으로 섭취하다.",
                 example="아침을 꼭 먹어요.",
                 ipa="meokda",
-                frequency_rank=14,
+                frequency_rank=49,
             ),
             VocabularyEntry(
                 word="씻다",
@@ -1471,7 +1471,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="물로 몸을 깨끗이 하다.",
                 example="아침에 일어나서 세수하고 이를 닦아요.",
                 ipa="ssitda",
-                frequency_rank=14,
+                frequency_rank=89,
             ),
             VocabularyEntry(
                 word="운동하다",
@@ -1479,7 +1479,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="몸을 움직여 건강을 유지하다.",
                 example="매일 아침 공원에서 운동해요.",
                 ipa="undonghada",
-                frequency_rank=6,
+                frequency_rank=120,
             ),
         ],
     ),
@@ -1495,7 +1495,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="많은 사람을 태워 정해진 길을 다니는 큰 차.",
                 example="학교까지 버스로 가요.",
                 ipa="beoseu",
-                frequency_rank=12,
+                frequency_rank=61,
             ),
             VocabularyEntry(
                 word="지하철",
@@ -1503,7 +1503,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="땅속이나 지상을 달리는 전철.",
                 example="지하철이 버스보다 빨라요.",
                 ipa="jihacheol",
-                frequency_rank=24,
+                frequency_rank=147,
             ),
             VocabularyEntry(
                 word="택시",
@@ -1511,7 +1511,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="돈을 받고 사람을 태워 주는 승용차.",
                 example="늦어서 택시를 탔어요.",
                 ipa="taeksi",
-                frequency_rank=70,
+                frequency_rank=166,
             ),
             VocabularyEntry(
                 word="자전거",
@@ -1519,7 +1519,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="사람이 발로 페달을 밟아 타는 탈것.",
                 example="자전거로 공원에 가요.",
                 ipa="jajeongeo",
-                frequency_rank=121,
+                frequency_rank=134,
             ),
             VocabularyEntry(
                 word="걷다",
@@ -1527,7 +1527,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="발로 걸어서 이동하다.",
                 example="학교까지 걸어서 십 분 걸려요.",
                 ipa="geotda",
-                frequency_rank=124,
+                frequency_rank=10,
             ),
         ],
     ),
@@ -1543,7 +1543,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="건강을 위해 몸을 움직이는 활동.",
                 example="제 취미는 운동이에요.",
                 ipa="undong",
-                frequency_rank=47,
+                frequency_rank=119,
             ),
             VocabularyEntry(
                 word="음악",
@@ -1551,7 +1551,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="소리로 감정을 표현하는 예술.",
                 example="한국 음악을 자주 들어요.",
                 ipa="eumak",
-                frequency_rank=22,
+                frequency_rank=123,
             ),
             VocabularyEntry(
                 word="영화",
@@ -1559,7 +1559,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="연기와 영상으로 만든 이야기.",
                 example="주말에 친구랑 영화를 봐요.",
                 ipa="yeonghwa",
-                frequency_rank=4,
+                frequency_rank=106,
             ),
             VocabularyEntry(
                 word="여행",
@@ -1567,7 +1567,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="다른 곳으로 가서 구경하고 쉬는 일.",
                 example="방학 때 여행 가고 싶어요.",
                 ipa="yeohaeng",
-                frequency_rank=23,
+                frequency_rank=101,
             ),
             VocabularyEntry(
                 word="사진",
@@ -1575,7 +1575,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="카메라로 찍은 정지된 이미지.",
                 example="사진 찍는 것을 좋아해요.",
                 ipa="sajin",
-                frequency_rank=37,
+                frequency_rank=73,
             ),
         ],
     ),
@@ -1591,7 +1591,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="어떤 날의 기온과 기상 상태.",
                 example="오늘 날씨가 정말 좋아요.",
                 ipa="nalssi",
-                frequency_rank=125,
+                frequency_rank=28,
             ),
             VocabularyEntry(
                 word="맑다",
@@ -1599,7 +1599,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="구름이 없고 해가 나는 상태.",
                 example="하늘이 맑고 파래요.",
                 ipa="makda",
-                frequency_rank=108,
+                frequency_rank=46,
             ),
             VocabularyEntry(
                 word="비",
@@ -1607,7 +1607,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="구름에서 떨어지는 물방울.",
                 example="내일 비가 올 거예요.",
                 ipa="bi",
-                frequency_rank=136,
+                frequency_rank=68,
             ),
             VocabularyEntry(
                 word="눈",
@@ -1615,7 +1615,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="겨울에 하늘에서 내리는 하얀 결정.",
                 example="겨울에 눈이 많이 와요.",
                 ipa="nun",
-                frequency_rank=70,
+                frequency_rank=33,
             ),
             VocabularyEntry(
                 word="덥다",
@@ -1623,7 +1623,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="기온이 높아 뜨거운 느낌이 들다.",
                 example="여름은 정말 더워요.",
                 ipa="deopda",
-                frequency_rank=60,
+                frequency_rank=37,
             ),
             VocabularyEntry(
                 word="춥다",
@@ -1631,7 +1631,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="기온이 낮아 차가운 느낌이 들다.",
                 example="겨울에는 너무 추워요.",
                 ipa="chupda",
-                frequency_rank=145,
+                frequency_rank=160,
             ),
         ],
     ),
@@ -1647,7 +1647,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="동쪽을 바라볼 때 남쪽 방향.",
                 example="오른쪽으로 가세요.",
                 ipa="oreunjjok",
-                frequency_rank=116,
+                frequency_rank=111,
             ),
             VocabularyEntry(
                 word="왼쪽",
@@ -1655,7 +1655,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="동쪽을 바라볼 때 북쪽 방향.",
                 example="왼쪽에 은행이 있어요.",
                 ipa="oenjjok",
-                frequency_rank=110,
+                frequency_rank=115,
             ),
             VocabularyEntry(
                 word="직진",
@@ -1663,7 +1663,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="곧게 앞으로 나아감.",
                 example="이 길로 쭉 직진하세요.",
                 ipa="jikjin",
-                frequency_rank=134,
+                frequency_rank=148,
             ),
             VocabularyEntry(
                 word="횡단보도",
@@ -1671,7 +1671,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="사람이 길을 건너도록 표시한 곳.",
                 example="횡단보도를 건너서 오른쪽으로 가세요.",
                 ipa="hoengdanbodo",
-                frequency_rank=49,
+                frequency_rank=185,
             ),
             VocabularyEntry(
                 word="모퉁이",
@@ -1679,7 +1679,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="길이 구부러지는 곳.",
                 example="저 모퉁이를 돌면 보여요.",
                 ipa="motungi",
-                frequency_rank=133,
+                frequency_rank=51,
             ),
         ],
     ),
@@ -1695,7 +1695,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="배운 것을 다시 공부하는 것.",
                 example="주말에 한 주 동안 배운 내용을 복습해요.",
                 ipa="bokseup",
-                frequency_rank=63,
+                frequency_rank=65,
             ),
             VocabularyEntry(
                 word="연습",
@@ -1703,7 +1703,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="능숙해지도록 반복하여 익히는 일.",
                 example="매일 발음 연습을 해요.",
                 ipa="yeonseup",
-                frequency_rank=30,
+                frequency_rank=103,
             ),
             VocabularyEntry(
                 word="문제",
@@ -1711,7 +1711,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="해결하거나 풀어야 할 것.",
                 example="이 문제가 조금 어려워요.",
                 ipa="munje",
-                frequency_rank=138,
+                frequency_rank=53,
             ),
             VocabularyEntry(
                 word="정답",
@@ -1719,7 +1719,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="문제에 대한 올바른 답.",
                 example="정답을 확인해 보세요.",
                 ipa="jeongdap",
-                frequency_rank=10,
+                frequency_rank=140,
             ),
             VocabularyEntry(
                 word="확인",
@@ -1727,7 +1727,7 @@ A1_SETS: list[VocabularySet] = [
                 definition="틀림없이 그러한지를 살피는 일.",
                 example="숙제를 다 했는지 확인하세요.",
                 ipa="hwagin",
-                frequency_rank=89,
+                frequency_rank=183,
             ),
         ],
     ),

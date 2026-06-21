@@ -17,7 +17,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 일이나 주제에 대한 생각이나 판단.",
                 example="이 문제에 대한 여러분의 의견을 듣고 싶습니다.",
                 ipa="uigyeon",
-                frequency_rank=231,
+                frequency_rank=686,
             ),
             VocabularyEntry(
                 word="주장하다",
@@ -25,7 +25,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="자기의 생각을 굳게 내세우다.",
                 example="그는 환경 보호가 가장 시급하다고 주장했습니다.",
                 ipa="jujanghada",
-                frequency_rank=208,
+                frequency_rank=704,
             ),
             VocabularyEntry(
                 word="반대하다",
@@ -33,7 +33,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 의견이나 행동에 찬성하지 않다.",
                 example="회사 직원들은 새로운 규정에 반대했어요.",
                 ipa="bandaehada",
-                frequency_rank=284,
+                frequency_rank=639,
             ),
             VocabularyEntry(
                 word="찬성하다",
@@ -41,7 +41,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 의견에 뜻이 같음을 나타내다.",
                 example="저는 그 제안에 찬성합니다.",
                 ipa="chanseonghada",
-                frequency_rank=341,
+                frequency_rank=707,
             ),
             VocabularyEntry(
                 word="입장",
@@ -49,7 +49,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 일에 대한 태도나 관점.",
                 example="회사의 입장을 먼저 설명해 주시겠어요?",
                 ipa="ipjang",
-                frequency_rank=277,
+                frequency_rank=690,
             ),
             VocabularyEntry(
                 word="동의하다",
@@ -57,7 +57,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="다른 사람의 말이나 의견을 옳게 여기다.",
                 example="저도 그 의견에 동의해요.",
                 ipa="donguihada",
-                frequency_rank=212,
+                frequency_rank=630,
             ),
             VocabularyEntry(
                 word="비판하다",
@@ -65,7 +65,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="잘못된 점을 지적하여 나무라다.",
                 example="언론이 정부 정책을 강하게 비판했어요.",
                 ipa="bipanhada",
-                frequency_rank=224,
+                frequency_rank=650,
             ),
         ],
     ),
@@ -81,7 +81,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 주장의 바탕이 되는 사실이나 이유.",
                 example="주장을 뒷받침할 근거를 제시해야 합니다.",
                 ipa="geungeo",
-                frequency_rank=241,
+                frequency_rank=618,
             ),
             VocabularyEntry(
                 word="이유",
@@ -89,7 +89,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 일이나 행동이 일어나게 된 까닭.",
                 example="지각한 이유를 설명해 보세요.",
                 ipa="iyu",
-                frequency_rank=359,
+                frequency_rank=399,
             ),
             VocabularyEntry(
                 word="때문에",
@@ -97,7 +97,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 일의 원인이나 이유를 나타내는 연결 표현.",
                 example="비 때문에 소풍이 취소됐어요.",
                 ipa="ttaemune",
-                frequency_rank=292,
+                frequency_rank=340,
             ),
             VocabularyEntry(
                 word="설명하다",
@@ -105,7 +105,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="이해할 수 있도록 풀어서 말하다.",
                 example="선생님이 새로운 문법을 자세히 설명했어요.",
                 ipa="seolmyeonghada",
-                frequency_rank=233,
+                frequency_rank=658,
             ),
             VocabularyEntry(
                 word="증거",
@@ -113,7 +113,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="주장을 증명할 수 있는 사실이나 자료.",
                 example="경찰은 범죄의 증거를 찾고 있습니다.",
                 ipa="jeunggeo",
-                frequency_rank=371,
+                frequency_rank=705,
             ),
             VocabularyEntry(
                 word="논리적",
@@ -121,7 +121,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="사고 과정이 이치에 맞는 모양.",
                 example="그의 주장은 매우 논리적이에요.",
                 ipa="nonrijeok",
-                frequency_rank=230,
+                frequency_rank=623,
             ),
             VocabularyEntry(
                 word="결국",
@@ -129,7 +129,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="일의 마지막에 이르러서.",
                 example="오랫동안 고민했지만 결국 포기했어요.",
                 ipa="gyeolguk",
-                frequency_rank=305,
+                frequency_rank=604,
             ),
         ],
     ),
@@ -145,7 +145,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="신문, 방송 등의 매체를 통해 정보를 전달하는 조직.",
                 example="언론의 자유는 민주주의의 기본입니다.",
                 ipa="eonron",
-                frequency_rank=392,
+                frequency_rank=672,
             ),
             VocabularyEntry(
                 word="기사",
@@ -153,7 +153,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="신문이나 잡지에 실리는 글.",
                 example="오늘 신문에 흥미로운 기사가 실렸어요.",
                 ipa="gisa",
-                frequency_rank=329,
+                frequency_rank=620,
             ),
             VocabularyEntry(
                 word="보도하다",
@@ -161,7 +161,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="사실이나 소식을 알리다.",
                 example="뉴스에서 사고 소식을 보도했어요.",
                 ipa="bodohada",
-                frequency_rank=261,
+                frequency_rank=642,
             ),
             VocabularyEntry(
                 word="인터넷",
@@ -169,7 +169,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="전 세계 컴퓨터를 연결하는 통신망.",
                 example="요즘은 인터넷으로 모든 정보를 찾아요.",
                 ipa="inteonet",
-                frequency_rank=238,
+                frequency_rank=401,
             ),
             VocabularyEntry(
                 word="영향",
@@ -177,7 +177,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 것이 다른 것에 작용하는 힘.",
                 example="소셜 미디어가 젊은이들에게 큰 영향을 줘요.",
                 ipa="yeonghyang",
-                frequency_rank=212,
+                frequency_rank=675,
             ),
             VocabularyEntry(
                 word="전달하다",
@@ -185,7 +185,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="소식이나 뜻을 다른 사람에게 보내다.",
                 example="중요한 공지를 모든 직원에게 전달해 주세요.",
                 ipa="jeondalhada",
-                frequency_rank=239,
+                frequency_rank=696,
             ),
         ],
     ),
@@ -201,7 +201,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="실제로 해 보거나 겪은 일.",
                 example="외국에서 산 경험이 정말 값졌어요.",
                 ipa="gyeongheom",
-                frequency_rank=330,
+                frequency_rank=306,
             ),
             VocabularyEntry(
                 word="사건",
@@ -209,7 +209,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="특별히 문제가 되거나 주목받는 일.",
                 example="그 사건은 모든 신문에 실렸어요.",
                 ipa="sageon",
-                frequency_rank=286,
+                frequency_rank=651,
             ),
             VocabularyEntry(
                 word="묘사하다",
@@ -217,7 +217,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="눈에 보이듯이 자세히 표현하다.",
                 example="소설 속 풍경을 아름답게 묘사했어요.",
                 ipa="myosahada",
-                frequency_rank=263,
+                frequency_rank=636,
             ),
             VocabularyEntry(
                 word="전개되다",
@@ -225,7 +225,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="일이 진행되어 펼쳐지다.",
                 example="이야기가 흥미진진하게 전개됐어요.",
                 ipa="jeongaedoeda",
-                frequency_rank=340,
+                frequency_rank=695,
             ),
             VocabularyEntry(
                 word="인상적",
@@ -233,7 +233,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="마음에 깊이 남는 모양.",
                 example="영화의 마지막 장면이 정말 인상적이었어요.",
                 ipa="insangjeok",
-                frequency_rank=330,
+                frequency_rank=687,
             ),
             VocabularyEntry(
                 word="기억",
@@ -241,7 +241,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="지난 일을 잊지 않고 간직함.",
                 example="어릴 적 기억이 아직도 생생해요.",
                 ipa="gieok",
-                frequency_rank=298,
+                frequency_rank=323,
             ),
         ],
     ),
@@ -257,7 +257,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="살던 집을 옮김.",
                 example="다음 달에 새 집으로 이사해요.",
                 ipa="isa",
-                frequency_rank=214,
+                frequency_rank=398,
             ),
             VocabularyEntry(
                 word="결혼",
@@ -265,7 +265,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="남녀가 법적으로 부부가 되는 일.",
                 example="친한 친구의 결혼식에 다녀왔어요.",
                 ipa="gyeolhon",
-                frequency_rank=329,
+                frequency_rank=606,
             ),
             VocabularyEntry(
                 word="입학",
@@ -273,7 +273,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="학교에 들어가서 학생이 됨.",
                 example="동생이 대학 입학을 축하받았어요.",
                 ipa="iphak",
-                frequency_rank=378,
+                frequency_rank=691,
             ),
             VocabularyEntry(
                 word="취직하다",
@@ -281,7 +281,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="일자리를 얻다.",
                 example="졸업하고 큰 회사에 취직했어요.",
                 ipa="chwijikhada",
-                frequency_rank=360,
+                frequency_rank=712,
             ),
             VocabularyEntry(
                 word="사고",
@@ -289,7 +289,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="예상하지 못한 불행한 일.",
                 example="어제 큰 교통사고가 일어났어요.",
                 ipa="sago",
-                frequency_rank=366,
+                frequency_rank=652,
             ),
             VocabularyEntry(
                 word="당황하다",
@@ -297,7 +297,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="뜻밖의 일에 놀라 어쩔 줄 몰라 하다.",
                 example="면접에서 어려운 질문을 받고 당황했어요.",
                 ipa="danghwanghada",
-                frequency_rank=210,
+                frequency_rank=626,
             ),
             VocabularyEntry(
                 word="인생",
@@ -305,7 +305,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="사람이 태어나서 죽을 때까지의 삶.",
                 example="여행은 제 인생을 바꿨어요.",
                 ipa="insaeng",
-                frequency_rank=332,
+                frequency_rank=688,
             ),
         ],
     ),
@@ -321,7 +321,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="사람과 사람 사이의 관련.",
                 example="두 나라의 관계가 점점 좋아지고 있어요.",
                 ipa="gwangye",
-                frequency_rank=257,
+                frequency_rank=612,
             ),
             VocabularyEntry(
                 word="친하다",
@@ -329,7 +329,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="서로 가깝고 정다운 사이이다.",
                 example="우리는 중학교 때부터 친했어요.",
                 ipa="chinhada",
-                frequency_rank=359,
+                frequency_rank=713,
             ),
             VocabularyEntry(
                 word="다투다",
@@ -337,7 +337,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="의견이 맞지 않아 싸우다.",
                 example="사소한 일로 친구와 다퉜어요.",
                 ipa="datuda",
-                frequency_rank=288,
+                frequency_rank=625,
             ),
             VocabularyEntry(
                 word="화해하다",
@@ -345,7 +345,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="다툼을 풀고 다시 좋은 관계가 되다.",
                 example="일주일 만에 화해하고 다시 친해졌어요.",
                 ipa="hwahaehada",
-                frequency_rank=320,
+                frequency_rank=721,
             ),
             VocabularyEntry(
                 word="신뢰",
@@ -353,7 +353,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="굳게 믿고 의지함.",
                 example="서로 신뢰가 있어야 팀워크가 잘 돼요.",
                 ipa="sinroe",
-                frequency_rank=237,
+                frequency_rank=667,
             ),
             VocabularyEntry(
                 word="존중하다",
@@ -361,7 +361,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="남의 인격이나 의견을 소중히 여기다.",
                 example="다른 문화를 존중하는 자세가 중요해요.",
                 ipa="jonjunghada",
-                frequency_rank=211,
+                frequency_rank=702,
             ),
             VocabularyEntry(
                 word="사귀다",
@@ -369,7 +369,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="친구나 애인 관계를 맺다.",
                 example="대학교 때부터 사귀다가 결혼했어요.",
                 ipa="sagwida",
-                frequency_rank=364,
+                frequency_rank=654,
             ),
         ],
     ),
@@ -385,7 +385,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="도움이 되도록 말로 충고함.",
                 example="선배님의 조언이 큰 도움이 됐어요.",
                 ipa="joeon",
-                frequency_rank=278,
+                frequency_rank=411,
             ),
             VocabularyEntry(
                 word="충고하다",
@@ -393,7 +393,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="잘못을 깨우쳐 주거나 도움이 될 말을 하다.",
                 example="경험이 많은 분이 진심으로 충고해 주셨어요.",
                 ipa="chunggohada",
-                frequency_rank=267,
+                frequency_rank=710,
             ),
             VocabularyEntry(
                 word="제안하다",
@@ -401,7 +401,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 안을 내놓거나 권하다.",
                 example="회의에서 새로운 아이디어를 제안했어요.",
                 ipa="jeanhada",
-                frequency_rank=253,
+                frequency_rank=700,
             ),
             VocabularyEntry(
                 word="추천하다",
@@ -409,7 +409,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 대상을 좋다고 소개하다.",
                 example="이 책을 친구에게 추천했어요.",
                 ipa="chucheonhada",
-                frequency_rank=280,
+                frequency_rank=424,
             ),
             VocabularyEntry(
                 word="고민",
@@ -417,7 +417,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="마음속으로 깊이 생각하며 괴로워함.",
                 example="진로 문제로 요즘 고민이 많아요.",
                 ipa="gomin",
-                frequency_rank=264,
+                frequency_rank=610,
             ),
             VocabularyEntry(
                 word="결심하다",
@@ -425,7 +425,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="마음속으로 무엇을 하기로 굳게 정하다.",
                 example="담배를 끊기로 결심했어요.",
                 ipa="gyeolsimhada",
-                frequency_rank=295,
+                frequency_rank=605,
             ),
             VocabularyEntry(
                 word="해결책",
@@ -433,7 +433,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="문제를 푸는 방법.",
                 example="좋은 해결책을 찾으면 알려 주세요.",
                 ipa="haegyeolchaek",
-                frequency_rank=349,
+                frequency_rank=719,
             ),
         ],
     ),
@@ -449,7 +449,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="돈을 받고 일하는 곳.",
                 example="새 직장에 적응하는 데 시간이 좀 걸려요.",
                 ipa="jikjang",
-                frequency_rank=319,
+                frequency_rank=706,
             ),
             VocabularyEntry(
                 word="동료",
@@ -457,7 +457,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="같은 직장에서 함께 일하는 사람.",
                 example="회사 동료들과 점심을 같이 먹었어요.",
                 ipa="dongryo",
-                frequency_rank=239,
+                frequency_rank=629,
             ),
             VocabularyEntry(
                 word="퇴근하다",
@@ -465,7 +465,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="일터에서 일을 마치고 집으로 돌아가다.",
                 example="보통 저녁 일곱 시에 퇴근해요.",
                 ipa="toegeunhada",
-                frequency_rank=320,
+                frequency_rank=715,
             ),
             VocabularyEntry(
                 word="업무",
@@ -473,7 +473,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="직장에서 맡아서 하는 일.",
                 example="오늘 업무가 너무 많아서 야근했어요.",
                 ipa="eopmu",
-                frequency_rank=293,
+                frequency_rank=673,
             ),
             VocabularyEntry(
                 word="휴가",
@@ -481,7 +481,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="일정 기간 일을 쉬는 것.",
                 example="여름 휴가 때 제주도에 갈 계획이에요.",
                 ipa="hyuga",
-                frequency_rank=261,
+                frequency_rank=722,
             ),
             VocabularyEntry(
                 word="과제",
@@ -489,7 +489,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="학교나 직장에서 맡은 임무.",
                 example="이번 주까지 제출해야 하는 과제가 세 개예요.",
                 ipa="gwaje",
-                frequency_rank=317,
+                frequency_rank=309,
             ),
             VocabularyEntry(
                 word="능력",
@@ -497,7 +497,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="일을 잘 해낼 수 있는 힘이나 재주.",
                 example="외국어 능력을 키우는 것이 중요해요.",
                 ipa="neungryeok",
-                frequency_rank=214,
+                frequency_rank=330,
             ),
         ],
     ),
@@ -513,7 +513,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="몸과 마음이 튼튼하고 아프지 않은 상태.",
                 example="운동은 건강에 정말 좋아요.",
                 ipa="geongang",
-                frequency_rank=388,
+                frequency_rank=302,
             ),
             VocabularyEntry(
                 word="스트레스",
@@ -521,7 +521,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="정신적·신체적 긴장이나 부담.",
                 example="요즘 스트레스 때문에 잠을 잘 못 자요.",
                 ipa="seuteureseu",
-                frequency_rank=398,
+                frequency_rank=663,
             ),
             VocabularyEntry(
                 word="습관",
@@ -529,7 +529,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="오래 되풀이하여 굳어진 행동.",
                 example="좋은 습관을 들이면 인생이 달라져요.",
                 ipa="seupgwan",
-                frequency_rank=353,
+                frequency_rank=664,
             ),
             VocabularyEntry(
                 word="피곤하다",
@@ -537,7 +537,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="몸이나 마음이 지치고 힘들다.",
                 example="밤새 일해서 정말 피곤해요.",
                 ipa="pigonhada",
-                frequency_rank=251,
+                frequency_rank=436,
             ),
             VocabularyEntry(
                 word="관리하다",
@@ -545,7 +545,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="잘 돌보거나 통제하다.",
                 example="건강을 잘 관리하는 게 제일 중요해요.",
                 ipa="gwanrihada",
-                frequency_rank=368,
+                frequency_rank=613,
             ),
             VocabularyEntry(
                 word="불면증",
@@ -553,7 +553,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="잠을 잘 이루지 못하는 증상.",
                 example="시험 전에는 항상 불면증에 시달려요.",
                 ipa="bulmyeonjeung",
-                frequency_rank=360,
+                frequency_rank=649,
             ),
             VocabularyEntry(
                 word="식단",
@@ -561,7 +561,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="끼니로 먹을 음식의 계획.",
                 example="균형 잡힌 식단이 건강의 기본이에요.",
                 ipa="sikdan",
-                frequency_rank=327,
+                frequency_rank=666,
             ),
         ],
     ),
@@ -577,7 +577,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 일이 이루어지는 데 필요한 규정.",
                 example="지원 조건을 먼저 확인해 보세요.",
                 ipa="jogeon",
-                frequency_rank=270,
+                frequency_rank=701,
             ),
             VocabularyEntry(
                 word="만약",
@@ -585,7 +585,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="가정의 뜻을 나타내는 말.",
                 example="만약 비가 오면 행사가 취소됩니다.",
                 ipa="manyak",
-                frequency_rank=327,
+                frequency_rank=632,
             ),
             VocabularyEntry(
                 word="경우",
@@ -593,7 +593,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 상황이나 사정.",
                 example="긴급한 경우에는 이 번호로 전화하세요.",
                 ipa="gyeongu",
-                frequency_rank=265,
+                frequency_rank=607,
             ),
             VocabularyEntry(
                 word="가능성",
@@ -601,7 +601,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 일이 이루어질 수 있는 성질.",
                 example="성공할 가능성이 충분히 있어요.",
                 ipa="ganeungseong",
-                frequency_rank=207,
+                frequency_rank=600,
             ),
             VocabularyEntry(
                 word="반드시",
@@ -609,7 +609,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="꼭. 틀림없이.",
                 example="내일까지 보고서를 반드시 제출하세요.",
                 ipa="bandeusi",
-                frequency_rank=377,
+                frequency_rank=640,
             ),
             VocabularyEntry(
                 word="예상하다",
@@ -617,7 +617,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="앞일을 미리 짐작하다.",
                 example="생각보다 많은 사람이 와서 예상하지 못했어요.",
                 ipa="yesanghada",
-                frequency_rank=373,
+                frequency_rank=677,
             ),
         ],
     ),
@@ -633,7 +633,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="앞으로 할 일을 미리 정함.",
                 example="주말 계획이 뭐예요?",
                 ipa="gyehoek",
-                frequency_rank=226,
+                frequency_rank=308,
             ),
             VocabularyEntry(
                 word="준비하다",
@@ -641,7 +641,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="필요한 것을 미리 갖추어 두다.",
                 example="발표를 위해 열심히 준비했어요.",
                 ipa="junbihada",
-                frequency_rank=331,
+                frequency_rank=415,
             ),
             VocabularyEntry(
                 word="예정",
@@ -649,7 +649,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="앞으로 할 일을 계획함.",
                 example="회의는 오후 세 시에 시작될 예정이에요.",
                 ipa="yejeong",
-                frequency_rank=211,
+                frequency_rank=680,
             ),
             VocabularyEntry(
                 word="취소되다",
@@ -657,7 +657,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="계획했던 일이 없어지다.",
                 example="악천후로 인해 비행기 편이 취소됐어요.",
                 ipa="chwisodoeda",
-                frequency_rank=330,
+                frequency_rank=711,
             ),
             VocabularyEntry(
                 word="문제",
@@ -665,7 +665,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="해결이 필요한 어려운 일.",
                 example="돈 문제 때문에 많이 싸웠어요.",
                 ipa="munje",
-                frequency_rank=240,
+                frequency_rank=53,
             ),
             VocabularyEntry(
                 word="연기하다",
@@ -673,7 +673,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="정해진 날짜를 뒤로 미루다.",
                 example="시험을 일주일 연기하기로 했어요.",
                 ipa="yeongihada",
-                frequency_rank=383,
+                frequency_rank=674,
             ),
             VocabularyEntry(
                 word="실패하다",
@@ -681,7 +681,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="일이 뜻대로 이루어지지 않다.",
                 example="첫 번째 시도에서는 실패했어요.",
                 ipa="silpaehada",
-                frequency_rank=371,
+                frequency_rank=669,
             ),
         ],
     ),
@@ -697,7 +697,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="앞으로의 날씨를 미리 알림.",
                 example="오늘 일기예보에서 비가 온다고 했어요.",
                 ipa="yebo",
-                frequency_rank=308,
+                frequency_rank=676,
             ),
             VocabularyEntry(
                 word="기온",
@@ -705,7 +705,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="공기의 온도.",
                 example="내일 기온이 갑자기 떨어진대요.",
                 ipa="gion",
-                frequency_rank=323,
+                frequency_rank=324,
             ),
             VocabularyEntry(
                 word="장마",
@@ -713,7 +713,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="여름철에 비가 계속 오는 기간.",
                 example="장마철에는 우산을 꼭 챙기세요.",
                 ipa="jangma",
-                frequency_rank=208,
+                frequency_rank=693,
             ),
             VocabularyEntry(
                 word="습하다",
@@ -721,7 +721,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="공기 중에 물기가 많다.",
                 example="한국 여름은 아주 덥고 습해요.",
                 ipa="seuphada",
-                frequency_rank=260,
+                frequency_rank=665,
             ),
             VocabularyEntry(
                 word="태풍",
@@ -729,7 +729,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="열대 지방에서 발생하는 강한 바람.",
                 example="태풍 때문에 학교가 하루 쉬었어요.",
                 ipa="taepung",
-                frequency_rank=235,
+                frequency_rank=714,
             ),
             VocabularyEntry(
                 word="맑다",
@@ -737,7 +737,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="구름이 없고 날씨가 깨끗하다.",
                 example="오늘은 하늘이 정말 맑아요.",
                 ipa="makda",
-                frequency_rank=339,
+                frequency_rank=46,
             ),
             VocabularyEntry(
                 word="자연재해",
@@ -745,7 +745,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="자연 현상으로 생기는 큰 피해.",
                 example="지진 같은 자연재해는 예측하기 어려워요.",
                 ipa="jayeonjaehae",
-                frequency_rank=358,
+                frequency_rank=692,
             ),
         ],
     ),
@@ -761,7 +761,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="무례를 범했을 때 사과하거나 상대의 주의를 끌 때 쓰는 정중한 말.",
                 example="실례합니다만, 길을 좀 여쭤 봐도 될까요?",
                 ipa="silryehapnida",
-                frequency_rank=332,
+                frequency_rank=668,
             ),
             VocabularyEntry(
                 word="수고하셨습니다",
@@ -769,7 +769,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="애쓴 상대를 위로하거나 칭찬할 때 쓰는 인사.",
                 example="오늘 정말 수고하셨습니다.",
                 ipa="sugohasyeotseupnida",
-                frequency_rank=276,
+                frequency_rank=662,
             ),
             VocabularyEntry(
                 word="부탁드리다",
@@ -777,7 +777,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="정중하게 무엇을 해 달라고 청하다.",
                 example="죄송하지만 한 가지만 부탁드려도 될까요?",
                 ipa="butakdeurida",
-                frequency_rank=262,
+                frequency_rank=646,
             ),
             VocabularyEntry(
                 word="양해",
@@ -785,7 +785,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="남의 사정을 헤아려 이해하고 용서함.",
                 example="불편을 끼쳐 드려 양해를 구합니다.",
                 ipa="yanghae",
-                frequency_rank=357,
+                frequency_rank=670,
             ),
             VocabularyEntry(
                 word="사과드리다",
@@ -793,7 +793,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="잘못을 인정하고 정중하게 미안함을 표현하다.",
                 example="잘못된 정보를 드려서 진심으로 사과드립니다.",
                 ipa="sagwadeurida",
-                frequency_rank=286,
+                frequency_rank=653,
             ),
             VocabularyEntry(
                 word="말씀",
@@ -801,7 +801,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="말의 높임말.",
                 example="선생님께 드릴 말씀이 있습니다.",
                 ipa="malsseum",
-                frequency_rank=211,
+                frequency_rank=633,
             ),
             VocabularyEntry(
                 word="괜찮으시다면",
@@ -809,7 +809,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="상대방의 허락을 공손히 구하는 표현.",
                 example="괜찮으시다면 창문을 좀 열어도 될까요?",
                 ipa="gwaenchaneusidamyeon",
-                frequency_rank=303,
+                frequency_rank=615,
             ),
         ],
     ),
@@ -825,7 +825,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="필요한 일이 이루어지도록 공손히 부탁하다.",
                 example="추가 정보를 담당자에게 요청했어요.",
                 ipa="yocheonghada",
-                frequency_rank=254,
+                frequency_rank=682,
             ),
             VocabularyEntry(
                 word="거절하다",
@@ -833,7 +833,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="부탁이나 제안을 받아들이지 않다.",
                 example="바쁜 일정 때문에 초대를 정중히 거절했어요.",
                 ipa="geojeolhada",
-                frequency_rank=242,
+                frequency_rank=602,
             ),
             VocabularyEntry(
                 word="어려울 것 같습니다",
@@ -841,7 +841,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="부탁을 받아들이기 힘들 때 쓰는 공손한 거절 표현.",
                 example="죄송하지만 그 날은 좀 어려울 것 같습니다.",
                 ipa="eoryeoul geot gatseupnida",
-                frequency_rank=228,
+                frequency_rank=671,
             ),
             VocabularyEntry(
                 word="혹시",
@@ -849,7 +849,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="공손하게 묻거나 제안할 때 쓰는 말.",
                 example="혹시 내일 시간이 좀 있으세요?",
                 ipa="hoksi",
-                frequency_rank=203,
+                frequency_rank=720,
             ),
             VocabularyEntry(
                 word="사양하다",
@@ -857,7 +857,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="겸손하게 받지 않거나 하지 않겠다고 하다.",
                 example="한 번 더 권했지만 친구가 사양했어요.",
                 ipa="sayanghada",
-                frequency_rank=203,
+                frequency_rank=655,
             ),
             VocabularyEntry(
                 word="가능하다",
@@ -865,7 +865,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 일을 할 수 있다.",
                 example="내일 오전에 만나는 게 가능하세요?",
                 ipa="ganeunghada",
-                frequency_rank=294,
+                frequency_rank=601,
             ),
         ],
     ),
@@ -881,7 +881,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="물어서 알아보거나 상담을 요청하다.",
                 example="제품에 대해 고객 센터에 문의했어요.",
                 ipa="munuihada",
-                frequency_rank=347,
+                frequency_rank=637,
             ),
             VocabularyEntry(
                 word="불만",
@@ -889,7 +889,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="마음에 들지 않아 못마땅하게 여기는 감정.",
                 example="음식에 대한 불만을 직원에게 말씀드렸어요.",
                 ipa="bulman",
-                frequency_rank=232,
+                frequency_rank=648,
             ),
             VocabularyEntry(
                 word="처리하다",
@@ -897,7 +897,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="일이나 사건을 적절히 해결하다.",
                 example="접수된 민원을 신속히 처리하겠습니다.",
                 ipa="cheorihada",
-                frequency_rank=348,
+                frequency_rank=708,
             ),
             VocabularyEntry(
                 word="환불",
@@ -905,7 +905,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="이미 지불한 돈을 되돌려 줌.",
                 example="고장 난 제품은 환불이 가능합니다.",
                 ipa="hwanbul",
-                frequency_rank=254,
+                frequency_rank=445,
             ),
             VocabularyEntry(
                 word="교환",
@@ -913,7 +913,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="상품을 다른 것으로 바꿈.",
                 example="사이즈가 안 맞으면 교환 가능해요.",
                 ipa="gyohwan",
-                frequency_rank=325,
+                frequency_rank=314,
             ),
             VocabularyEntry(
                 word="보상",
@@ -921,7 +921,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="손해나 불편을 메워 줌.",
                 example="지연된 배송에 대한 보상을 요청했어요.",
                 ipa="bosang",
-                frequency_rank=290,
+                frequency_rank=643,
             ),
         ],
     ),
@@ -937,7 +937,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="오랜 세월 동안 내려오는 풍습이나 문화.",
                 example="한국의 전통 문화를 배우는 게 재미있어요.",
                 ipa="jeontong",
-                frequency_rank=202,
+                frequency_rank=699,
             ),
             VocabularyEntry(
                 word="예술",
@@ -945,7 +945,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="아름다움을 표현하는 창작 활동.",
                 example="그 박물관에는 현대 예술 작품이 전시되어 있어요.",
                 ipa="yesul",
-                frequency_rank=319,
+                frequency_rank=678,
             ),
             VocabularyEntry(
                 word="공연",
@@ -953,7 +953,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="무대에서 음악, 춤, 연극을 보여 주는 일.",
                 example="주말에 한국 전통 공연을 보러 갔어요.",
                 ipa="gongyeon",
-                frequency_rank=209,
+                frequency_rank=611,
             ),
             VocabularyEntry(
                 word="전시회",
@@ -961,7 +961,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="작품이나 물건을 모아서 보여 주는 행사.",
                 example="유명한 화가의 전시회에 다녀왔어요.",
                 ipa="jeonsihoe",
-                frequency_rank=242,
+                frequency_rank=698,
             ),
             VocabularyEntry(
                 word="축제",
@@ -969,7 +969,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="기쁜 일을 기념하여 벌이는 큰 행사.",
                 example="서울에서 열린 등불 축제가 정말 아름다웠어요.",
                 ipa="chukje",
-                frequency_rank=350,
+                frequency_rank=709,
             ),
             VocabularyEntry(
                 word="유적지",
@@ -977,7 +977,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="역사적으로 가치가 있는 건물이나 장소.",
                 example="경주는 한국의 오래된 유적지로 유명해요.",
                 ipa="yujeokji",
-                frequency_rank=217,
+                frequency_rank=685,
             ),
             VocabularyEntry(
                 word="문화 차이",
@@ -985,7 +985,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="서로 다른 문화 사이에 존재하는 차이.",
                 example="한국과 서양 사이에는 재미있는 문화 차이가 많아요.",
                 ipa="munhwa chai",
-                frequency_rank=231,
+                frequency_rank=638,
             ),
         ],
     ),
@@ -1001,7 +1001,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="한 사회에서 오랫동안 굳어진 행동 방식.",
                 example="한국에는 어른을 공경하는 관습이 있어요.",
                 ipa="gwanseup",
-                frequency_rank=259,
+                frequency_rank=614,
             ),
             VocabularyEntry(
                 word="예의",
@@ -1009,7 +1009,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="사회생활에서 지켜야 할 마음가짐과 행동.",
                 example="어른 앞에서는 예의를 갖춰야 해요.",
                 ipa="yeui",
-                frequency_rank=289,
+                frequency_rank=679,
             ),
             VocabularyEntry(
                 word="두 손으로 드리다",
@@ -1017,7 +1017,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="존경을 표할 때 두 손을 사용해 물건을 주는 한국식 예절.",
                 example="어른께는 항상 두 손으로 드리는 게 예의예요.",
                 ipa="du soneuro deurida",
-                frequency_rank=334,
+                frequency_rank=631,
             ),
             VocabularyEntry(
                 word="고개 숙이다",
@@ -1025,7 +1025,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="인사나 사과할 때 머리를 숙이는 동작.",
                 example="한국에서는 만날 때 고개 숙여 인사해요.",
                 ipa="gogae sukida",
-                frequency_rank=259,
+                frequency_rank=609,
             ),
             VocabularyEntry(
                 word="새해",
@@ -1033,7 +1033,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="새로 시작되는 해.",
                 example="한국에서는 새해에 세배를 해요.",
                 ipa="saehae",
-                frequency_rank=226,
+                frequency_rank=657,
             ),
             VocabularyEntry(
                 word="명절",
@@ -1041,7 +1041,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="해마다 일정하게 지내는 전통적인 기념일.",
                 example="설날과 추석은 한국의 가장 큰 명절이에요.",
                 ipa="myeongjeol",
-                frequency_rank=383,
+                frequency_rank=634,
             ),
             VocabularyEntry(
                 word="성묘",
@@ -1049,7 +1049,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="조상의 무덤을 찾아가 인사하는 풍습.",
                 example="추석에는 가족과 함께 성묘를 갑니다.",
                 ipa="seongmyo",
-                frequency_rank=203,
+                frequency_rank=660,
             ),
         ],
     ),
@@ -1065,7 +1065,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="사람들이 모여 이루는 공동체.",
                 example="현대 사회는 빠르게 변화하고 있어요.",
                 ipa="sahoe",
-                frequency_rank=274,
+                frequency_rank=656,
             ),
             VocabularyEntry(
                 word="봉사",
@@ -1073,7 +1073,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="돈을 받지 않고 남을 위해 애씀.",
                 example="주말마다 복지관에서 봉사 활동을 해요.",
                 ipa="bongsa",
-                frequency_rank=214,
+                frequency_rank=645,
             ),
             VocabularyEntry(
                 word="기부하다",
@@ -1081,7 +1081,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="남을 돕기 위해 돈이나 물건을 내다.",
                 example="월급의 일부를 매월 기부하고 있어요.",
                 ipa="gibuhada",
-                frequency_rank=310,
+                frequency_rank=619,
             ),
             VocabularyEntry(
                 word="모임",
@@ -1089,7 +1089,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="공통 관심사로 사람들이 만나는 일.",
                 example="한국어 스터디 모임에 가입했어요.",
                 ipa="moim",
-                frequency_rank=305,
+                frequency_rank=635,
             ),
             VocabularyEntry(
                 word="소속",
@@ -1097,7 +1097,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어느 단체에 들어 있음.",
                 example="저는 마케팅 부서에 소속되어 있어요.",
                 ipa="sosok",
-                frequency_rank=318,
+                frequency_rank=661,
             ),
             VocabularyEntry(
                 word="교류",
@@ -1105,7 +1105,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="서로 오가며 관계를 맺음.",
                 example="다른 나라 사람들과의 문화 교류가 중요해요.",
                 ipa="gyoryu",
-                frequency_rank=286,
+                frequency_rank=616,
             ),
         ],
     ),
@@ -1121,7 +1121,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 일을 일어나게 한 까닭.",
                 example="사고의 원인을 조사하고 있어요.",
                 ipa="wonin",
-                frequency_rank=291,
+                frequency_rank=683,
             ),
             VocabularyEntry(
                 word="결과",
@@ -1129,7 +1129,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 원인으로 생긴 결말.",
                 example="노력한 결과가 좋게 나왔어요.",
                 ipa="gyeolgwa",
-                frequency_rank=335,
+                frequency_rank=603,
             ),
             VocabularyEntry(
                 word="해결되다",
@@ -1137,7 +1137,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="문제가 풀려서 없어지다.",
                 example="드디어 인터넷 문제가 해결됐어요.",
                 ipa="haegyeoldoeda",
-                frequency_rank=295,
+                frequency_rank=718,
             ),
             VocabularyEntry(
                 word="대책",
@@ -1145,7 +1145,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어려운 일에 대처할 방안.",
                 example="정부는 물가 상승에 대한 대책을 내놓았어요.",
                 ipa="daechaek",
-                frequency_rank=216,
+                frequency_rank=627,
             ),
             VocabularyEntry(
                 word="노력하다",
@@ -1153,7 +1153,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="목표를 위해 힘을 들여 애쓰다.",
                 example="문제를 해결하기 위해 최선을 다해 노력했어요.",
                 ipa="noryeokhada",
-                frequency_rank=251,
+                frequency_rank=622,
             ),
             VocabularyEntry(
                 word="극복하다",
@@ -1161,7 +1161,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어려움을 이겨 내다.",
                 example="많은 어려움을 극복하고 성공했어요.",
                 ipa="geukbokhada",
-                frequency_rank=270,
+                frequency_rank=617,
             ),
             VocabularyEntry(
                 word="분석하다",
@@ -1169,7 +1169,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="복잡한 내용을 낱낱이 나누어 살피다.",
                 example="문제의 원인을 꼼꼼히 분석해 봤어요.",
                 ipa="bunseokhada",
-                frequency_rank=231,
+                frequency_rank=647,
             ),
         ],
     ),
@@ -1185,7 +1185,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="보증금을 맡기고 일정 기간 동안 집을 빌리는 한국 주거 방식.",
                 example="한국에서는 전세로 집을 구하는 경우가 많아요.",
                 ipa="jeonse",
-                frequency_rank=204,
+                frequency_rank=697,
             ),
             VocabularyEntry(
                 word="월세",
@@ -1193,7 +1193,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="매월 돈을 내고 집을 빌리는 방식.",
                 example="월세가 비싸서 더 싼 곳을 찾고 있어요.",
                 ipa="wolse",
-                frequency_rank=270,
+                frequency_rank=684,
             ),
             VocabularyEntry(
                 word="계약서",
@@ -1201,7 +1201,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="약속한 내용을 적은 문서.",
                 example="집 계약서를 꼼꼼히 읽어 보세요.",
                 ipa="gyeyakseo",
-                frequency_rank=344,
+                frequency_rank=608,
             ),
             VocabularyEntry(
                 word="주거 환경",
@@ -1209,7 +1209,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="살고 있는 집과 그 주변의 조건.",
                 example="이 동네는 주거 환경이 아주 좋아요.",
                 ipa="jugeo hwangyeong",
-                frequency_rank=313,
+                frequency_rank=703,
             ),
             VocabularyEntry(
                 word="관리비",
@@ -1217,7 +1217,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="건물을 유지하는 데 드는 비용.",
                 example="월세 외에 관리비도 따로 내야 해요.",
                 ipa="gwanribi",
-                frequency_rank=322,
+                frequency_rank=311,
             ),
             VocabularyEntry(
                 word="인테리어",
@@ -1225,7 +1225,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="집 안을 꾸미고 장식하는 것.",
                 example="새 집으로 이사해서 인테리어를 바꿨어요.",
                 ipa="interieo",
-                frequency_rank=230,
+                frequency_rank=689,
             ),
         ],
     ),
@@ -1241,7 +1241,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="과학을 실생활에 이용하는 방법.",
                 example="요즘 기술이 너무 빨리 발전하고 있어요.",
                 ipa="gisul",
-                frequency_rank=278,
+                frequency_rank=621,
             ),
             VocabularyEntry(
                 word="앱",
@@ -1249,7 +1249,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="스마트폰에서 사용하는 응용 프로그램.",
                 example="한국어 공부에 좋은 앱을 찾았어요.",
                 ipa="aep",
-                frequency_rank=214,
+                frequency_rank=384,
             ),
             VocabularyEntry(
                 word="설치하다",
@@ -1257,7 +1257,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="기계나 프로그램을 사용할 수 있게 하다.",
                 example="컴퓨터에 새 프로그램을 설치했어요.",
                 ipa="seolchihada",
-                frequency_rank=254,
+                frequency_rank=659,
             ),
             VocabularyEntry(
                 word="발전",
@@ -1265,7 +1265,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="더 나은 상태로 나아감.",
                 example="한국의 IT 기술 발전이 정말 놀라워요.",
                 ipa="baljeon",
-                frequency_rank=380,
+                frequency_rank=641,
             ),
             VocabularyEntry(
                 word="저장하다",
@@ -1273,7 +1273,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="데이터를 기억 장치에 보관하다.",
                 example="작업한 파일을 꼭 저장하는 걸 잊지 마세요.",
                 ipa="jeojanghada",
-                frequency_rank=374,
+                frequency_rank=694,
             ),
             VocabularyEntry(
                 word="편리하다",
@@ -1281,7 +1281,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="사용하기 쉽고 편하다.",
                 example="스마트폰 덕분에 생활이 훨씬 편리해졌어요.",
                 ipa="pyeonrihada",
-                frequency_rank=222,
+                frequency_rank=716,
             ),
             VocabularyEntry(
                 word="보안",
@@ -1289,7 +1289,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="위험으로부터 정보를 지키는 일.",
                 example="개인 정보 보안에 조심해야 해요.",
                 ipa="boan",
-                frequency_rank=354,
+                frequency_rank=644,
             ),
         ],
     ),
@@ -1305,7 +1305,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 문제에 대해 의견을 주고받다.",
                 example="팀원들과 프로젝트 방향에 대해 논의했어요.",
                 ipa="nonuihada",
-                frequency_rank=210,
+                frequency_rank=624,
             ),
             VocabularyEntry(
                 word="정리하다",
@@ -1313,7 +1313,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="흩어진 것을 가지런하게 하다.",
                 example="배운 내용을 노트에 정리했어요.",
                 ipa="jeongrihada",
-                frequency_rank=216,
+                frequency_rank=409,
             ),
             VocabularyEntry(
                 word="요약하다",
@@ -1321,7 +1321,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="전체 내용을 간추리다.",
                 example="기사의 주요 내용을 한 문장으로 요약해 보세요.",
                 ipa="yoyakhada",
-                frequency_rank=301,
+                frequency_rank=681,
             ),
             VocabularyEntry(
                 word="비교하다",
@@ -1329,7 +1329,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="둘 이상을 맞대어 비슷함과 다름을 살피다.",
                 example="한국어와 일본어 문법을 비교해 봤어요.",
                 ipa="bigyohada",
-                frequency_rank=207,
+                frequency_rank=361,
             ),
             VocabularyEntry(
                 word="표현력",
@@ -1337,7 +1337,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="생각이나 느낌을 나타내는 능력.",
                 example="글쓰기 연습을 하면 표현력이 늘어요.",
                 ipa="pyohyeonryeok",
-                frequency_rank=343,
+                frequency_rank=717,
             ),
             VocabularyEntry(
                 word="대화하다",
@@ -1345,7 +1345,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="서로 마주하여 말을 주고받다.",
                 example="한국어로 자연스럽게 대화하는 게 목표예요.",
                 ipa="daehwahada",
-                frequency_rank=223,
+                frequency_rank=628,
             ),
             VocabularyEntry(
                 word="실력",
@@ -1353,7 +1353,7 @@ B1_SETS: list[VocabularySet] = [
                 definition="어떤 일을 해내는 능력.",
                 example="지난 학기보다 한국어 실력이 많이 늘었어요.",
                 ipa="silryeok",
-                frequency_rank=295,
+                frequency_rank=378,
             ),
         ],
     ),

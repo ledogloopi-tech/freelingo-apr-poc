@@ -17,7 +17,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="단어가 사전적 의미 외에 암시적으로 지니는 부가적 의미나 느낌",
                 example="이 표현은 긍정적 사전 의미에도 불구하고 부정적 내포를 지니고 있습니다.",
                 ipa="naepo",
-                frequency_rank=513,
+                frequency_rank=1526,
             ),
             VocabularyEntry(
                 word="외연",
@@ -25,7 +25,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="단어가 지칭하는 대상들의 객관적 범위나 집합",
                 example="이 용어의 외연은 시대에 따라 확장되어 왔습니다.",
                 ipa="oeyeon",
-                frequency_rank=584,
+                frequency_rank=1610,
             ),
             VocabularyEntry(
                 word="중의성",
@@ -33,7 +33,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="하나의 표현이 둘 이상의 의미로 해석될 수 있는 언어적 특성",
                 example="법률 문서에서는 중의성을 철저히 배제해야 합니다.",
                 ipa="junguiseong",
-                frequency_rank=559,
+                frequency_rank=1639,
             ),
             VocabularyEntry(
                 word="모호성",
@@ -41,7 +41,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="의미가 분명하지 않거나 경계가 불분명한 상태",
                 example="계약서에 모호성이 있으면 분쟁의 소지가 될 수 있습니다.",
                 ipa="mohoseong",
-                frequency_rank=503,
+                frequency_rank=1544,
             ),
             VocabularyEntry(
                 word="함의",
@@ -49,7 +49,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="직접 표현되지는 않았으나 논리적으로 추론되는 숨은 의미",
                 example="그의 발언에는 퇴진을 시사하는 함의가 담겨 있었습니다.",
                 ipa="hamui",
-                frequency_rank=492,
+                frequency_rank=1354,
             ),
             VocabularyEntry(
                 word="의미장",
@@ -57,7 +57,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="의미상 관련된 단어들이 모여 이루는 개념적 영역",
                 example="'기쁨'은 '희열', '환희', '만족' 등과 동일한 의미장에 속합니다.",
                 ipa="uimijang",
-                frequency_rank=519,
+                frequency_rank=1620,
             ),
             VocabularyEntry(
                 word="미세한 뉘앙스",
@@ -65,7 +65,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="의미나 표현상의 아주 작고 섬세한 차이",
                 example="원어민 수준의 표현력을 갖추려면 미세한 뉘앙스를 포착할 수 있어야 합니다.",
                 ipa="misehan nwiangseu",
-                frequency_rank=512,
+                frequency_rank=1554,
             ),
         ],
     ),
@@ -81,7 +81,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="연구자들이 모여 논문을 발표하고 학술적 토론을 하는 공식 회의",
                 example="국제 학술 대회에서 그의 연구가 주목할 만한 성과로 인정받았습니다.",
                 ipa="haksul daehoe",
-                frequency_rank=570,
+                frequency_rank=1663,
             ),
             VocabularyEntry(
                 word="기조연설",
@@ -89,7 +89,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="학회나 회의의 서두에서 전체 주제 방향을 제시하는 주요 연설",
                 example="노벨상 수상자의 기조연설은 청중들에게 깊은 영감을 주었습니다.",
                 ipa="gijoyeonseol",
-                frequency_rank=516,
+                frequency_rank=1525,
             ),
             VocabularyEntry(
                 word="패널 토론",
@@ -97,7 +97,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="전문가들이 특정 주제에 대해 청중 앞에서 견해를 교환하는 공개 토론",
                 example="기후 위기 대응을 주제로 한 패널 토론이 생중계되었습니다.",
                 ipa="paeneol toron",
-                frequency_rank=559,
+                frequency_rank=1658,
             ),
             VocabularyEntry(
                 word="동료 심사",
@@ -105,7 +105,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="학술 논문의 게재 적합성을 동일 분야 전문가가 평가하는 과정",
                 example="이 논문은 엄격한 동료 심사를 거쳐 저명한 학술지에 게재되었습니다.",
                 ipa="dongryo simsa",
-                frequency_rank=576,
+                frequency_rank=1537,
             ),
             VocabularyEntry(
                 word="학제간 연구",
@@ -113,7 +113,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="둘 이상의 학문 분야가 융합되어 공동으로 수행하는 연구",
                 example="뇌과학과 인공지능의 학제간 연구가 새로운 패러다임을 열고 있습니다.",
                 ipa="hakjegan yeongu",
-                frequency_rank=545,
+                frequency_rank=1664,
             ),
             VocabularyEntry(
                 word="심포지엄",
@@ -121,7 +121,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="특정 주제에 대해 여러 전문가들이 연구 결과를 발표하는 학술 모임",
                 example="이번 심포지엄의 주제는 '포스트휴먼 시대의 윤리'입니다.",
                 ipa="simpojieom",
-                frequency_rank=480,
+                frequency_rank=1587,
             ),
             VocabularyEntry(
                 word="논평",
@@ -129,7 +129,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="발표된 연구나 주장에 대해 비판적으로 평가하고 의견을 제시하는 글",
                 example="저널 최신호에 그의 연구 방법론을 비판하는 논평이 실렸습니다.",
                 ipa="nonpyeong",
-                frequency_rank=561,
+                frequency_rank=920,
             ),
         ],
     ),
@@ -145,7 +145,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="판단이나 평가의 기준이 되는 근거나 표준",
                 example="객관적 준거 없이는 연구의 타당성을 검증할 수 없습니다.",
                 ipa="jungeo",
-                frequency_rank=496,
+                frequency_rank=1638,
             ),
             VocabularyEntry(
                 word="반증 가능성",
@@ -153,7 +153,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="어떤 주장이 경험적 증거에 의해 거짓으로 입증될 수 있는 가능성",
                 example="과학적 가설은 반증 가능성을 내포해야 한다고 포퍼는 주장했습니다.",
                 ipa="banjeung ganeungseong",
-                frequency_rank=481,
+                frequency_rank=1558,
             ),
             VocabularyEntry(
                 word="타당성",
@@ -161,7 +161,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="논증의 결론이 전제로부터 논리적으로 필연적으로 도출되는 성질",
                 example="이 주장은 겉보기에 설득력 있으나 논리적 타당성이 결여되어 있습니다.",
                 ipa="tadangseong",
-                frequency_rank=536,
+                frequency_rank=1004,
             ),
             VocabularyEntry(
                 word="신뢰도",
@@ -169,7 +169,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="측정이나 연구 결과의 일관성과 재현 가능성의 정도",
                 example="측정 도구의 신뢰도가 낮으면 연구 결과의 해석에 한계가 생깁니다.",
                 ipa="sinroedo",
-                frequency_rank=497,
+                frequency_rank=1272,
             ),
             VocabularyEntry(
                 word="전제",
@@ -177,7 +177,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="논증에서 결론을 도출하기 위해 미리 참으로 가정하는 명제",
                 example="이 논증은 암묵적 전제에 대한 검토 없이는 수용하기 어렵습니다.",
                 ipa="jeonje",
-                frequency_rank=521,
+                frequency_rank=1629,
             ),
             VocabularyEntry(
                 word="논리적 비약",
@@ -185,7 +185,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="전제에서 결론으로 이어지는 추론 과정에 논리적 건너뜀이 있는 오류",
                 example="이 통계에서 그런 인과 관계를 도출하는 것은 논리적 비약입니다.",
                 ipa="nonrijeok biyak",
-                frequency_rank=536,
+                frequency_rank=1527,
             ),
             VocabularyEntry(
                 word="반례",
@@ -193,7 +193,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="일반적인 주장이 성립하지 않음을 보여 주는 구체적 사례",
                 example="그가 제시한 반례 하나만으로도 이 이론은 전면 수정이 불가피합니다.",
                 ipa="banrye",
-                frequency_rank=510,
+                frequency_rank=1555,
             ),
         ],
     ),
@@ -209,7 +209,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="원문과 번역문 사이에서 의미와 효과가 동등한 상태",
                 example="문학 번역에서 완전한 등가를 달성하는 것은 극히 어렵습니다.",
                 ipa="deungga",
-                frequency_rank=486,
+                frequency_rank=1538,
             ),
             VocabularyEntry(
                 word="직역",
@@ -217,7 +217,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="원문의 단어와 구조를 문자 그대로 충실히 옮기는 번역 방식",
                 example="직역만으로는 원문 특유의 미묘한 뉘앙스를 전달할 수 없습니다.",
                 ipa="jikyeok",
-                frequency_rank=490,
+                frequency_rank=1642,
             ),
             VocabularyEntry(
                 word="의역",
@@ -225,7 +225,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="원문의 의미를 전달하는 데 중점을 두고 자유롭게 풀어 옮기는 번역",
                 example="이 시는 문화적 간극을 메우기 위해 의역이 불가피했습니다.",
                 ipa="uiyeok",
-                frequency_rank=577,
+                frequency_rank=1621,
             ),
             VocabularyEntry(
                 word="번역투",
@@ -233,7 +233,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="원문의 언어 구조가 그대로 묻어나 부자연스럽게 읽히는 번역 문체",
                 example="전문 번역가는 번역투를 피하고 자연스러운 한국어로 옮겨야 합니다.",
                 ipa="beonyeoktu",
-                frequency_rank=580,
+                frequency_rank=1562,
             ),
             VocabularyEntry(
                 word="현지화",
@@ -241,7 +241,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="문화적·언어적 차이를 고려하여 대상 청중에게 적합하게 내용을 수정하는 것",
                 example="게임의 성공적인 해외 진출을 위해 철저한 현지화가 이루어졌습니다.",
                 ipa="hyeonjihwa",
-                frequency_rank=558,
+                frequency_rank=1671,
             ),
             VocabularyEntry(
                 word="문화소",
@@ -249,7 +249,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="번역 과정에서 문화 차이로 인해 발생하는 어휘적·개념적 간극",
                 example="'한'이나 '정' 같은 문화소는 타 언어로 번역하기가 매우 까다롭습니다.",
                 ipa="munhwaso",
-                frequency_rank=588,
+                frequency_rank=1549,
             ),
             VocabularyEntry(
                 word="번역 이론",
@@ -257,7 +257,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="번역의 원칙, 방법, 평가 기준을 체계적으로 연구하는 학문 분야",
                 example="스코포스 이론은 번역의 목적이 전략을 결정한다고 봅니다.",
                 ipa="beonyeok iron",
-                frequency_rank=548,
+                frequency_rank=1561,
             ),
         ],
     ),
@@ -273,7 +273,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="말이나 글을 효과적으로 표현하기 위한 언어적 기법",
                 example="연설문에는 청중의 공감을 불러일으키는 여러 수사법이 동원되었습니다.",
                 ipa="susabeop",
-                frequency_rank=561,
+                frequency_rank=1579,
             ),
             VocabularyEntry(
                 word="설득의 3요소",
@@ -281,7 +281,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="아리스토텔레스가 제시한 로고스, 파토스, 에토스의 설득 전략",
                 example="효과적인 광고는 설득의 3요소를 적절히 배합합니다.",
                 ipa="seoldeukui 3yoso",
-                frequency_rank=550,
+                frequency_rank=1574,
             ),
             VocabularyEntry(
                 word="수사적 질문",
@@ -289,7 +289,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="실제 답변을 구하기보다는 청중의 생각을 유도하기 위해 던지는 질문",
                 example="그의 수사적 질문은 오히려 깊은 반성을 불러일으켰습니다.",
                 ipa="susajeok jilmun",
-                frequency_rank=570,
+                frequency_rank=1580,
             ),
             VocabularyEntry(
                 word="반어법",
@@ -297,7 +297,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="표현된 말과 실제 의도가 반대인 표현 기법",
                 example="그의 반어법 섞인 비판은 대상자를 더욱 곤혹스럽게 만들었습니다.",
                 ipa="baneobeop",
-                frequency_rank=529,
+                frequency_rank=1556,
             ),
             VocabularyEntry(
                 word="완곡어법",
@@ -305,7 +305,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="직접적인 표현을 피하고 부드럽게 돌려 말하는 화법",
                 example="해고 통보에서도 최소한의 완곡어법은 인간에 대한 예의입니다.",
                 ipa="wangokeobeop",
-                frequency_rank=486,
+                frequency_rank=1606,
             ),
             VocabularyEntry(
                 word="강조법",
@@ -313,7 +313,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="특정 표현을 두드러지게 하여 청자의 주의를 집중시키는 기법",
                 example="핵심 문장을 반복하는 강조법으로 연설의 주제를 부각했습니다.",
                 ipa="gangjobeop",
-                frequency_rank=582,
+                frequency_rank=1506,
             ),
             VocabularyEntry(
                 word="직유법",
@@ -321,7 +321,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="'~처럼', '~같이' 등을 사용하여 두 대상을 직접 비교하는 비유법",
                 example="'눈처럼 흰 옷'은 가장 오래된 직유법의 예 중 하나입니다.",
                 ipa="jikyubeop",
-                frequency_rank=480,
+                frequency_rank=1643,
             ),
         ],
     ),
@@ -337,7 +337,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="어떤 단어가 형성된 근원과 역사적 변천 과정",
                 example="'마음'의 어원은 중세 한국어 'ᄆᆞᅀᆞᆷ'까지 거슬러 올라갑니다.",
                 ipa="eowon",
-                frequency_rank=493,
+                frequency_rank=1593,
             ),
             VocabularyEntry(
                 word="훈민정음",
@@ -345,7 +345,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="1443년 세종대왕이 창제한 한국 고유 문자의 원래 명칭",
                 example="훈민정음 해례본은 한글 창제의 과학적 원리를 상세히 기록하고 있습니다.",
                 ipa="hunminjeongeum",
-                frequency_rank=535,
+                frequency_rank=1676,
             ),
             VocabularyEntry(
                 word="이두",
@@ -353,7 +353,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="한자의 음과 훈을 빌려 한국어를 표기하던 차자 표기법의 하나",
                 example="이두는 신라 시대부터 조선 초기까지 공문서 작성에 사용되었습니다.",
                 ipa="idu",
-                frequency_rank=533,
+                frequency_rank=1622,
             ),
             VocabularyEntry(
                 word="어휘 변천",
@@ -361,7 +361,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="시대에 따라 단어의 의미나 사용 빈도가 변화하는 현상",
                 example="'어여쁘다'에서 '예쁘다'로의 변화는 자연스러운 어휘 변천의 사례입니다.",
                 ipa="eohwi byeoncheon",
-                frequency_rank=515,
+                frequency_rank=1596,
             ),
             VocabularyEntry(
                 word="음운 변화",
@@ -369,7 +369,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="언어의 시간적 흐름에 따라 소리 체계가 달라지는 현상",
                 example="중세 한국어의 'ㅿ'과 'ㆁ'은 근대에 이르러 소멸하는 음운 변화를 겪었습니다.",
                 ipa="eumun byeonhwa",
-                frequency_rank=497,
+                frequency_rank=1617,
             ),
             VocabularyEntry(
                 word="차용어",
@@ -377,7 +377,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="외국어에서 들여와 자국어의 일부로 정착된 단어",
                 example="'컴퓨터'는 영어에서 온 차용어지만 이제 완전한 한국어 단어로 자리 잡았습니다.",
                 ipa="chayongeo",
-                frequency_rank=567,
+                frequency_rank=1645,
             ),
             VocabularyEntry(
                 word="방언학",
@@ -385,7 +385,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="지역에 따른 언어의 분화와 지리적 분포를 연구하는 언어학 분야",
                 example="방언학 연구는 언어 지도를 통해 방언의 분포와 변화 양상을 시각화합니다.",
                 ipa="bangeonhak",
-                frequency_rank=569,
+                frequency_rank=1560,
             ),
         ],
     ),
@@ -401,7 +401,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="원고의 오류를 바로잡고 문장을 다듬어 읽기 좋게 고치는 작업",
                 example="출판 전에 반드시 원어민 교열자의 검토를 거쳤습니다.",
                 ipa="gyoyeol",
-                frequency_rank=589,
+                frequency_rank=1516,
             ),
             VocabularyEntry(
                 word="윤문",
@@ -409,7 +409,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="글의 표현을 매끄럽고 아름답게 다듬는 작업",
                 example="초고를 완성한 후 수차례 윤문을 거쳐 비로소 완성된 느낌이 들었습니다.",
                 ipa="yunmun",
-                frequency_rank=533,
+                frequency_rank=1615,
             ),
             VocabularyEntry(
                 word="일관성",
@@ -417,7 +417,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="글 전체의 어조, 용어, 서술 태도가 처음부터 끝까지 통일되어 있는 성질",
                 example="공동 집필의 경우 용어 선택의 일관성을 유지하는 것이 특히 어렵습니다.",
                 ipa="ilgwanseong",
-                frequency_rank=493,
+                frequency_rank=1624,
             ),
             VocabularyEntry(
                 word="응집성",
@@ -425,7 +425,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="글의 문장과 단락이 의미적·논리적으로 긴밀하게 연결되어 있는 성질",
                 example="전환어를 적절히 사용하면 문단 간 응집성을 높일 수 있습니다.",
                 ipa="eungjipseong",
-                frequency_rank=495,
+                frequency_rank=1618,
             ),
             VocabularyEntry(
                 word="간결성",
@@ -433,7 +433,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="불필요한 요소를 배제하고 꼭 필요한 말로만 표현된 명료한 문체",
                 example="법률 문서의 간결성은 독해의 효율성과 직결됩니다.",
                 ipa="gangyeolseong",
-                frequency_rank=567,
+                frequency_rank=1504,
             ),
             VocabularyEntry(
                 word="퇴고",
@@ -441,7 +441,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="초고를 반복하여 읽고 고쳐 다듬는 글쓰기의 마지막 단계",
                 example="명작의 비결은 수많은 퇴고 끝에 완성된 섬세한 문장에 있습니다.",
                 ipa="toego",
-                frequency_rank=506,
+                frequency_rank=1656,
             ),
             VocabularyEntry(
                 word="교정",
@@ -449,7 +449,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="맞춤법, 띄어쓰기, 문장 부호 등 표면적 오류를 바로잡는 편집 작업",
                 example="최종 교정 단계에서 발견된 오타가 세 군데 있었습니다.",
                 ipa="gyojeong",
-                frequency_rank=480,
+                frequency_rank=1517,
             ),
         ],
     ),
@@ -465,7 +465,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="국가 원수가 조약을 최종적으로 확인하고 승인하는 절차",
                 example="양국 정상은 협정 비준을 위한 국내 절차를 신속히 진행하기로 했습니다.",
                 ipa="bijun",
-                frequency_rank=480,
+                frequency_rank=1565,
             ),
             VocabularyEntry(
                 word="주권",
@@ -473,7 +473,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="국가가 자국의 영토와 국민에 대해 가지는 배타적이고 최고의 통치권",
                 example="주권 침해 논란은 양국 간 외교 마찰의 주된 원인이었습니다.",
                 ipa="jugwon",
-                frequency_rank=521,
+                frequency_rank=1327,
             ),
             VocabularyEntry(
                 word="국제법",
@@ -481,7 +481,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="국가 간의 관계를 규율하는 조약과 국제 관습으로 구성된 법 체계",
                 example="이번 군사 작전이 국제법에 부합하는지 국제사회의 검증이 필요합니다.",
                 ipa="gukjebeop",
-                frequency_rank=515,
+                frequency_rank=1518,
             ),
             VocabularyEntry(
                 word="외교적 수사",
@@ -489,7 +489,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="국제 관계에서 갈등을 완화하고 협상을 촉진하기 위해 쓰는 절제된 언어",
                 example="그의 발언은 날카로운 비판을 외교적 수사로 포장한 것입니다.",
                 ipa="oegyojeok susa",
-                frequency_rank=502,
+                frequency_rank=1608,
             ),
             VocabularyEntry(
                 word="공동 성명",
@@ -497,7 +497,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="복수의 국가나 기구가 합의된 의견을 공식적으로 발표하는 문서",
                 example="정상회담 종료 후 양국은 공동 성명을 통해 협력 강화 의지를 밝혔습니다.",
                 ipa="gongdong seongmyeong",
-                frequency_rank=589,
+                frequency_rank=1511,
             ),
             VocabularyEntry(
                 word="제재",
@@ -505,7 +505,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="국제 규범 위반에 대해 가해지는 경제적·외교적 불이익",
                 example="유엔 안전보장이사회는 추가 제재 결의안을 만장일치로 채택했습니다.",
                 ipa="jejae",
-                frequency_rank=517,
+                frequency_rank=1633,
             ),
             VocabularyEntry(
                 word="수교",
@@ -513,7 +513,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="두 나라 사이에 공식적인 외교 관계를 맺는 것",
                 example="양국이 수교 60주년을 맞아 다양한 문화 교류 행사를 개최했습니다.",
                 ipa="sugyo",
-                frequency_rank=581,
+                frequency_rank=1578,
             ),
         ],
     ),
@@ -529,7 +529,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="인간이 구체적인 현실 속에서 자신의 존재를 자각하며 살아가는 양태",
                 example="사르트르는 실존이 본질에 앞선다고 주장했습니다.",
                 ipa="siljon",
-                frequency_rank=554,
+                frequency_rank=1586,
             ),
             VocabularyEntry(
                 word="현상",
@@ -537,7 +537,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="인간의 의식에 현현하는 사물의 모습이나 사건",
                 example="칸트는 우리가 사물 자체가 아닌 현상만을 인식할 수 있다고 보았습니다.",
                 ipa="hyeonsang",
-                frequency_rank=575,
+                frequency_rank=1357,
             ),
             VocabularyEntry(
                 word="선험적",
@@ -545,7 +545,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="경험에 의존하지 않고 이성 자체로부터 독립적으로 주어지는",
                 example="칸트 철학에서 시간과 공간은 선험적 직관 형식입니다.",
                 ipa="seonheomjeok",
-                frequency_rank=491,
+                frequency_rank=1573,
             ),
             VocabularyEntry(
                 word="당위",
@@ -553,7 +553,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="마땅히 그러해야 한다는 이상적이고 규범적인 원리",
                 example="사실과 당위를 혼동하는 것은 윤리적 논증에서 흔한 오류입니다.",
                 ipa="dangwi",
-                frequency_rank=506,
+                frequency_rank=1533,
             ),
             VocabularyEntry(
                 word="양태",
@@ -561,7 +561,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="존재나 사물이 나타나는 방식이나 존재의 양상",
                 example="스피노자에게 유한한 존재자는 실체의 일시적 양태에 불과합니다.",
                 ipa="yangtae",
-                frequency_rank=555,
+                frequency_rank=1591,
             ),
             VocabularyEntry(
                 word="이율배반",
@@ -569,7 +569,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="똑같이 타당하게 보이는 두 명제가 서로 모순되는 철학적 난제",
                 example="칸트가 제시한 이율배반은 순수 이성의 한계를 드러내는 사고 실험입니다.",
                 ipa="iyulbaeban",
-                frequency_rank=549,
+                frequency_rank=1623,
             ),
             VocabularyEntry(
                 word="물자체",
@@ -577,7 +577,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="인식 주관과 독립하여 존재하는 사물의 본래적 실재",
                 example="인간은 결코 물자체를 직접 인식할 수 없으며 현상만을 알 수 있습니다.",
                 ipa="muljache",
-                frequency_rank=572,
+                frequency_rank=1552,
             ),
         ],
     ),
@@ -593,7 +593,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="이야기의 사건과 인물 관계를 시간적·인과적으로 배열한 틀",
                 example="이 소설의 비선형적 서사 구조는 영화적 몽타주 기법을 연상시킵니다.",
                 ipa="seosa gujo",
-                frequency_rank=501,
+                frequency_rank=1569,
             ),
             VocabularyEntry(
                 word="서술자",
@@ -601,7 +601,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="소설에서 이야기를 전달하는 화자나 관점의 주체",
                 example="신뢰할 수 없는 서술자를 통해 독자는 진실을 스스로 추론해야 합니다.",
                 ipa="seosulja",
-                frequency_rank=548,
+                frequency_rank=1570,
             ),
             VocabularyEntry(
                 word="알레고리",
@@ -609,7 +609,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="표면적 이야기 뒤에 추상적 의미나 교훈을 은폐한 서사 기법",
                 example="이 우화는 단순한 동물 이야기가 아닌 정치적 알레고리로 해석됩니다.",
                 ipa="alregori",
-                frequency_rank=481,
+                frequency_rank=1588,
             ),
             VocabularyEntry(
                 word="모티프",
@@ -617,7 +617,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="작품에서 반복적으로 등장하여 주제를 강화하는 이미지나 상징적 요소",
                 example="이 소설 전반에 흐르는 '거울' 모티프는 정체성의 분열을 암시합니다.",
                 ipa="motipeu",
-                frequency_rank=588,
+                frequency_rank=1543,
             ),
             VocabularyEntry(
                 word="서정성",
@@ -625,7 +625,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="시나 소설에서 작가의 주관적 감정이 두드러지게 드러나는 미적 특성",
                 example="그의 후기 작품에서는 초기의 날카로움 대신 깊은 서정성이 돋보입니다.",
                 ipa="seojeongseong",
-                frequency_rank=498,
+                frequency_rank=1571,
             ),
             VocabularyEntry(
                 word="해체주의",
@@ -633,7 +633,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="텍스트의 확정된 의미를 부정하고 이면의 모순을 드러내는 비평 이론",
                 example="데리다의 해체주의는 기존 문학 비평의 패러다임을 근본적으로 뒤흔들었습니다.",
                 ipa="haechejuui",
-                frequency_rank=514,
+                frequency_rank=1669,
             ),
             VocabularyEntry(
                 word="카타르시스",
@@ -641,7 +641,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="비극을 통해 관객이 두려움과 연민의 감정을 정화하는 심리적 효과",
                 example="이 소설의 결말은 독자에게 강렬한 카타르시스를 선사합니다.",
                 ipa="katareusiseu",
-                frequency_rank=520,
+                frequency_rank=1650,
             ),
         ],
     ),
@@ -657,7 +657,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="논문의 서두에 위치하는 연구 목적, 방법, 결과, 결론의 요약문",
                 example="초록은 독자가 논문 전문을 읽을지 판단하는 첫 관문입니다.",
                 ipa="chorok",
-                frequency_rank=551,
+                frequency_rank=1647,
             ),
             VocabularyEntry(
                 word="서론",
@@ -665,7 +665,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="논문의 서두에서 연구 배경과 문제 제기를 하는 부분",
                 example="서론에서 연구의 필요성과 기존 연구의 한계를 명확히 제시해야 합니다.",
                 ipa="seoron",
-                frequency_rank=526,
+                frequency_rank=1568,
             ),
             VocabularyEntry(
                 word="문헌 검토",
@@ -673,7 +673,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="연구 주제에 관한 기존 학술 문헌을 체계적으로 분석하고 평가하는 과정",
                 example="철저한 문헌 검토를 통해 연구 격차를 파악한 후 가설을 수립했습니다.",
                 ipa="munheon geomto",
-                frequency_rank=510,
+                frequency_rank=1547,
             ),
             VocabularyEntry(
                 word="각주",
@@ -681,7 +681,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="본문 내용에 대한 보충 설명이나 출처를 페이지 하단에 표시하는 주석",
                 example="각주 번호는 인용한 문장의 끝에 위첨자로 표기합니다.",
                 ipa="gakju",
-                frequency_rank=572,
+                frequency_rank=1503,
             ),
             VocabularyEntry(
                 word="참고 문헌",
@@ -689,7 +689,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="논문 작성에 인용하거나 참조한 모든 자료의 목록",
                 example="참고 문헌은 해당 학술지가 요구하는 인용 양식에 맞춰 정리해야 합니다.",
                 ipa="chamgo munheon",
-                frequency_rank=567,
+                frequency_rank=1646,
             ),
             VocabularyEntry(
                 word="표절",
@@ -697,7 +697,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="타인의 연구 성과나 창작물을 허가 없이 자신의 것으로 제시하는 행위",
                 example="의도치 않은 표절을 피하려면 모든 인용 출처를 정확히 기록해야 합니다.",
                 ipa="pyojeol",
-                frequency_rank=568,
+                frequency_rank=1660,
             ),
             VocabularyEntry(
                 word="기여도",
@@ -705,7 +705,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="해당 연구가 기존 학문 분야에 새롭게 더하는 학술적 가치의 정도",
                 example="심사위원들은 이 연구의 학계 기여도가 미미하다고 평가했습니다.",
                 ipa="giyeodo",
-                frequency_rank=549,
+                frequency_rank=1524,
             ),
         ],
     ),
@@ -721,7 +721,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="동일한 대상을 장기간 반복적으로 관찰하고 측정하는 연구 설계",
                 example="이 종단 연구는 아동의 언어 발달을 10년에 걸쳐 추적했습니다.",
                 ipa="jongdan yeongu",
-                frequency_rank=486,
+                frequency_rank=1636,
             ),
             VocabularyEntry(
                 word="횡단 연구",
@@ -729,7 +729,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="특정 시점에서 여러 대상을 동시에 조사하는 연구 설계",
                 example="횡단 연구로는 인과 관계를 확정할 수 없으며 상관관계만 파악 가능합니다.",
                 ipa="hoengdan yeongu",
-                frequency_rank=534,
+                frequency_rank=1674,
             ),
             VocabularyEntry(
                 word="무작위 대조 시험",
@@ -737,7 +737,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="대상을 무작위로 실험군과 대조군에 배정하는 가장 엄격한 연구 방법",
                 example="신약의 효능을 입증하기 위해 이중 맹검 무작위 대조 시험이 시행되었습니다.",
                 ipa="mujakwi daejo siheom",
-                frequency_rank=483,
+                frequency_rank=1545,
             ),
             VocabularyEntry(
                 word="메타 분석",
@@ -745,7 +745,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="다수의 기존 연구 결과를 통계적으로 통합하여 종합 결론을 도출하는 방법",
                 example="메타 분석 결과 두 치료법 간의 유의미한 차이는 발견되지 않았습니다.",
                 ipa="meta bunseok",
-                frequency_rank=567,
+                frequency_rank=1542,
             ),
             VocabularyEntry(
                 word="혼입 변수",
@@ -753,7 +753,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="연구에서 독립 변수와 종속 변수 모두에 영향을 미쳐 결과를 왜곡하는 외부 요인",
                 example="연령이 혼입 변수로 작용하지 않도록 연구 설계 단계에서 통제했습니다.",
                 ipa="honip byeonsu",
-                frequency_rank=560,
+                frequency_rank=1672,
             ),
             VocabularyEntry(
                 word="외적 타당도",
@@ -761,7 +761,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="연구 결과를 다른 집단이나 환경에 일반화할 수 있는 정도",
                 example="표본이 지나치게 동질적이면 외적 타당도가 낮아질 위험이 있습니다.",
                 ipa="oejeok tadangdo",
-                frequency_rank=556,
+                frequency_rank=1611,
             ),
             VocabularyEntry(
                 word="통계적 유의성",
@@ -769,7 +769,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="관찰된 결과가 우연에 의해 발생한 것이 아닐 확률을 나타내는 척도",
                 example="p값이 0.001 미만으로 두 집단 간 차이는 통계적 유의성이 매우 높았습니다.",
                 ipa="tonggyejeok yuuiseong",
-                frequency_rank=551,
+                frequency_rank=1654,
             ),
         ],
     ),
@@ -785,7 +785,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="정부가 법령이나 행정 조치를 통해 개인과 기업의 활동을 제한하는 것",
                 example="과도한 규제는 오히려 시장의 혁신 동기를 저해할 수 있습니다.",
                 ipa="gyuje",
-                frequency_rank=517,
+                frequency_rank=913,
             ),
             VocabularyEntry(
                 word="재정 정책",
@@ -793,7 +793,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="정부 지출과 조세를 통해 경제를 조정하는 거시 경제 정책",
                 example="경기 침체기에 정부는 확장적 재정 정책을 통해 총수요를 부양합니다.",
                 ipa="jaejeong jeongchaek",
-                frequency_rank=497,
+                frequency_rank=1626,
             ),
             VocabularyEntry(
                 word="복지",
@@ -801,7 +801,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="국민의 최저 생활 보장과 삶의 질 향상을 위한 제도적 장치",
                 example="고령화 시대에 연금과 의료 복지 재원 마련이 시급한 과제입니다.",
                 ipa="bokji",
-                frequency_rank=530,
+                frequency_rank=939,
             ),
             VocabularyEntry(
                 word="공공재",
@@ -809,7 +809,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="모든 사람이 공동으로 사용할 수 있고 소비 경합이 없는 재화",
                 example="깨끗한 공기나 국방은 대표적인 공공재에 속합니다.",
                 ipa="gonggongjae",
-                frequency_rank=551,
+                frequency_rank=1510,
             ),
             VocabularyEntry(
                 word="정책 효과",
@@ -817,7 +817,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="정책 시행으로 발생한 의도된 결과와 의도치 않은 부수적 결과",
                 example="최저임금 인상의 정책 효과에 대해서는 여전히 학계의 논쟁이 지속됩니다.",
                 ipa="jeongchaek hyogwa",
-                frequency_rank=574,
+                frequency_rank=1632,
             ),
             VocabularyEntry(
                 word="조세",
@@ -825,7 +825,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="정부가 공공 서비스 재원 마련을 위해 국민과 기업에 부과하는 금전적 의무",
                 example="누진 조세 체계는 소득 재분배 기능을 수행합니다.",
                 ipa="jose",
-                frequency_rank=549,
+                frequency_rank=1634,
             ),
             VocabularyEntry(
                 word="규제 완화",
@@ -833,7 +833,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="경제 활성화를 위해 정부의 규제 수준을 낮추는 정책 방향",
                 example="핀테크 산업 육성을 위한 획기적인 규제 완화 방안이 발표되었습니다.",
                 ipa="gyuje wanhwa",
-                frequency_rank=504,
+                frequency_rank=1520,
             ),
         ],
     ),
@@ -849,7 +849,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="최대 다수의 최대 행복을 도덕의 기준으로 삼는 윤리 이론",
                 example="공리주의적 관점에서 이 정책은 의료 자원의 효율적 배분에 기여합니다.",
                 ipa="gongrijuui",
-                frequency_rank=505,
+                frequency_rank=1513,
             ),
             VocabularyEntry(
                 word="의무론",
@@ -857,7 +857,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="결과보다는 도덕적 의무 자체를 중시하는 칸트의 윤리 체계",
                 example="의무론에 따르면 거짓말은 그 결과가 좋더라도 도덕적으로 정당화될 수 없습니다.",
                 ipa="uimuron",
-                frequency_rank=574,
+                frequency_rank=1619,
             ),
             VocabularyEntry(
                 word="덕 윤리",
@@ -865,7 +865,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="행위의 옳고 그름보다 행위자의 성품과 미덕을 중심으로 하는 윤리 이론",
                 example="아리스토텔레스의 덕 윤리는 용기나 절제 같은 미덕의 함양을 강조합니다.",
                 ipa="deok yunri",
-                frequency_rank=536,
+                frequency_rank=1535,
             ),
             VocabularyEntry(
                 word="도덕적 딜레마",
@@ -873,7 +873,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="어떤 선택을 하더라도 도덕적 가치를 저버리게 되는 난감한 상황",
                 example="무고한 한 명을 희생하여 다수를 구하는 것은 전형적인 도덕적 딜레마입니다.",
                 ipa="dodeokjeok dilrema",
-                frequency_rank=511,
+                frequency_rank=1536,
             ),
             VocabularyEntry(
                 word="연구 윤리",
@@ -881,7 +881,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="학술 연구 과정에서 지켜야 할 도덕적 기준과 원칙",
                 example="인간 대상 연구는 반드시 기관 연구 윤리 위원회의 승인을 받아야 합니다.",
                 ipa="yeongu yunri",
-                frequency_rank=581,
+                frequency_rank=1605,
             ),
             VocabularyEntry(
                 word="정보 동의",
@@ -889,7 +889,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="연구 참여자가 충분한 정보를 받은 후 자발적으로 동의하는 절차",
                 example="모든 피험자로부터 서면 정보 동의를 취득한 후 연구를 진행했습니다.",
                 ipa="jeongbo dongui",
-                frequency_rank=506,
+                frequency_rank=1630,
             ),
             VocabularyEntry(
                 word="규범 윤리학",
@@ -897,7 +897,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="어떤 행위가 옳고 그른지에 대한 일반 원칙을 정립하는 윤리학의 이론 분야",
                 example="규범 윤리학의 세 주요 흐름은 공리주의, 의무론, 덕 윤리입니다.",
                 ipa="gyubeom yunrihak",
-                frequency_rank=480,
+                frequency_rank=1519,
             ),
         ],
     ),
@@ -913,7 +913,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="특정 시대에 학문 공동체가 공유하는 지배적인 사고의 틀",
                 example="탈식민주의는 서구 중심의 문화 패러다임에 근본적 의문을 제기합니다.",
                 ipa="paereodaim",
-                frequency_rank=580,
+                frequency_rank=1659,
             ),
             VocabularyEntry(
                 word="헤게모니",
@@ -921,7 +921,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="직접적 강제 없이도 사회 구성원이 지배적 가치를 자발적으로 수용하는 권력 형태",
                 example="그람시의 문화적 헤게모니 개념은 대중문화 분석에 널리 적용됩니다.",
                 ipa="hegemoni",
-                frequency_rank=574,
+                frequency_rank=1670,
             ),
             VocabularyEntry(
                 word="상호텍스트성",
@@ -929,7 +929,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="모든 텍스트가 기존 다른 텍스트들과의 관계 속에서 의미를 생성하는 성질",
                 example="이 영화는 여러 고전 영화와의 상호텍스트성을 의도적으로 드러냅니다.",
                 ipa="sanghotekseuteuseong",
-                frequency_rank=528,
+                frequency_rank=1567,
             ),
             VocabularyEntry(
                 word="탈식민주의",
@@ -937,7 +937,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="식민 지배의 문화적 유산을 비판적으로 분석하는 이론적 흐름",
                 example="탈식민주의 비평은 제국주의적 서사의 해체를 시도합니다.",
                 ipa="talsikminjuui",
-                frequency_rank=526,
+                frequency_rank=1653,
             ),
             VocabularyEntry(
                 word="문화적 정체성",
@@ -945,7 +945,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="개인이나 집단이 특정 문화에 소속되어 있다고 느끼는 자의식과 귀속감",
                 example="이민 2세대의 문화적 정체성은 종종 두 문화 사이의 경계에 위치합니다.",
                 ipa="munhwajeok jeongcheseong",
-                frequency_rank=564,
+                frequency_rank=1550,
             ),
             VocabularyEntry(
                 word="에스노그라피",
@@ -953,7 +953,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="연구자가 특정 집단의 생활을 장기간 관찰하고 기술하는 질적 연구 방법",
                 example="이 도시 빈곤층 연구는 2년간의 에스노그라피에 기반하고 있습니다.",
                 ipa="eseunogeurapi",
-                frequency_rank=532,
+                frequency_rank=1600,
             ),
             VocabularyEntry(
                 word="글로컬리즘",
@@ -961,7 +961,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="세계화와 지역적 특수성이 동시에 추구되는 문화 현상",
                 example="K-팝의 성공은 글로컬리즘 전략의 대표적 사례입니다.",
                 ipa="geulrokeolrijeum",
-                frequency_rank=569,
+                frequency_rank=1521,
             ),
         ],
     ),
@@ -977,7 +977,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="언론이 사건을 특정 관점에서 보도함으로써 수용자의 해석 틀에 영향을 주는 현상",
                 example="동일한 시위 보도에서도 언론사에 따라 프레이밍이 극명하게 달라집니다.",
                 ipa="peureiming",
-                frequency_rank=511,
+                frequency_rank=1661,
             ),
             VocabularyEntry(
                 word="어젠다 세팅",
@@ -985,7 +985,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="미디어가 특정 의제를 집중 보도함으로써 대중의 중요성 인식에 영향을 미치는 현상",
                 example="환경 이슈에 대한 미디어의 어젠다 세팅이 정부 정책 변화를 견인했습니다.",
                 ipa="eojenda seting",
-                frequency_rank=493,
+                frequency_rank=1594,
             ),
             VocabularyEntry(
                 word="게이트키핑",
@@ -993,7 +993,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="뉴스 생산 과정에서 특정 정보를 취사선택하는 편집자의 역할과 기능",
                 example="디지털 시대의 게이트키핑은 알고리즘에 의해 상당 부분 대체되고 있습니다.",
                 ipa="geiteukiping",
-                frequency_rank=532,
+                frequency_rank=1508,
             ),
             VocabularyEntry(
                 word="수용자",
@@ -1001,7 +1001,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="미디어 콘텐츠를 소비하고 해석하는 독자, 시청자, 청취자",
                 example="능동적 수용자 이론은 대중이 미디어 메시지를 일방적으로 수용하지 않는다고 봅니다.",
                 ipa="suyongja",
-                frequency_rank=523,
+                frequency_rank=1582,
             ),
             VocabularyEntry(
                 word="가짜 뉴스",
@@ -1009,7 +1009,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="정치적·경제적 목적으로 의도적으로 유포되는 허위 정보 콘텐츠",
                 example="가짜 뉴스 확산을 막기 위한 미디어 리터러시 교육이 강화되고 있습니다.",
                 ipa="gajja nyuseu",
-                frequency_rank=571,
+                frequency_rank=1502,
             ),
             VocabularyEntry(
                 word="여론 조작",
@@ -1017,7 +1017,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="특정 세력이 은밀하게 정보를 통제하거나 왜곡하여 대중의 인식을 유도하는 행위",
                 example="SNS를 통한 여론 조작이 민주주의의 근간을 위협하고 있습니다.",
                 ipa="yeoron jojak",
-                frequency_rank=534,
+                frequency_rank=1604,
             ),
             VocabularyEntry(
                 word="미디어 리터러시",
@@ -1025,7 +1025,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="미디어 콘텐츠를 비판적으로 분석하고 평가할 수 있는 능력",
                 example="학교에서 미디어 리터러시 교육을 의무화해야 한다는 목소리가 커지고 있습니다.",
                 ipa="midieo riteoreosi",
-                frequency_rank=493,
+                frequency_rank=1553,
             ),
         ],
     ),
@@ -1041,7 +1041,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="첫 번째 판결에 불복하여 상급 법원에 다시 재판을 청구하는 절차",
                 example="피고 측은 1심 판결에 불복하여 즉시 항소했습니다.",
                 ipa="hangso",
-                frequency_rank=539,
+                frequency_rank=1668,
             ),
             VocabularyEntry(
                 word="소멸 시효",
@@ -1049,7 +1049,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="법률이 정한 기간 내에 권리를 행사하지 않으면 그 권리가 소멸되는 제도",
                 example="채권은 민법상 소멸 시효로 인해 10년 후 소멸할 수 있습니다.",
                 ipa="somyeol sihyo",
-                frequency_rank=515,
+                frequency_rank=1577,
             ),
             VocabularyEntry(
                 word="법적 구속력",
@@ -1057,7 +1057,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="당사자를 법적으로 따르도록 강제하는 효력",
                 example="중재 판정은 법원의 판결과 동일한 법적 구속력을 가집니다.",
                 ipa="beopjeok gusokryeok",
-                frequency_rank=587,
+                frequency_rank=1564,
             ),
             VocabularyEntry(
                 word="묵시적 동의",
@@ -1065,7 +1065,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="명시적 의사 표시 없이 행동이나 상황으로 추정되는 동의",
                 example="장기간 이의 없이 계약을 이행한 것은 묵시적 동의로 해석될 수 있습니다.",
                 ipa="muksijeok dongui",
-                frequency_rank=557,
+                frequency_rank=1546,
             ),
             VocabularyEntry(
                 word="위법성 조각",
@@ -1073,7 +1073,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="형식적으로 법률에 위반되는 행위라도 특정 사유로 인해 불법으로 간주되지 않는 것",
                 example="정당방위는 위법성 조각 사유로서 형사 처벌을 면하게 합니다.",
                 ipa="wibeopseong jogak",
-                frequency_rank=546,
+                frequency_rank=1612,
             ),
             VocabularyEntry(
                 word="강제 집행",
@@ -1081,7 +1081,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="의무를 이행하지 않는 자에 대해 국가 공권력으로 의무를 실현하는 절차",
                 example="임차인이 퇴거를 거부하자 법원에 강제 집행을 신청했습니다.",
                 ipa="gangje jiphaeng",
-                frequency_rank=550,
+                frequency_rank=1505,
             ),
             VocabularyEntry(
                 word="법률 해석",
@@ -1089,7 +1089,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="법조문의 의미와 적용 범위를 논리적으로 밝히는 작업",
                 example="이 사건의 쟁점은 해당 조항의 법률 해석을 둘러싼 견해 차이에 있습니다.",
                 ipa="beopryul haeseok",
-                frequency_rank=512,
+                frequency_rank=1563,
             ),
         ],
     ),
@@ -1105,7 +1105,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="미시 세계의 물리 현상을 확률적으로 기술하는 현대 물리학의 기본 이론",
                 example="양자역학의 중첩 원리는 거시 세계의 직관과 근본적으로 배치됩니다.",
                 ipa="yangjayeokhak",
-                frequency_rank=540,
+                frequency_rank=1590,
             ),
             VocabularyEntry(
                 word="유전체",
@@ -1113,7 +1113,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="한 생물이 가지는 모든 유전 정보의 총체",
                 example="인간 유전체 프로젝트는 2003년에 인간 DNA 전체 지도를 완성했습니다.",
                 ipa="yujeonche",
-                frequency_rank=515,
+                frequency_rank=1614,
             ),
             VocabularyEntry(
                 word="신경가소성",
@@ -1121,7 +1121,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="경험과 학습에 따라 뇌의 신경 회로가 구조적으로 변하는 능력",
                 example="신경가소성 연구는 성인의 뇌도 지속적으로 변화할 수 있음을 입증했습니다.",
                 ipa="singyeonggasoseong",
-                frequency_rank=569,
+                frequency_rank=1584,
             ),
             VocabularyEntry(
                 word="엔트로피",
@@ -1129,7 +1129,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="열역학적 계의 무질서도를 측정하는 물리량",
                 example="열역학 제2법칙에 따르면 폐쇄계의 엔트로피는 항상 증가합니다.",
                 ipa="enteuropi",
-                frequency_rank=543,
+                frequency_rank=1603,
             ),
             VocabularyEntry(
                 word="암흑 물질",
@@ -1137,7 +1137,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="전자기파로 검출되지 않지만 중력 효과를 통해 존재가 추정되는 미지의 물질",
                 example="은하의 회전 속도 관측은 암흑 물질의 존재를 강력히 시사합니다.",
                 ipa="amheuk muljil",
-                frequency_rank=541,
+                frequency_rank=1589,
             ),
             VocabularyEntry(
                 word="유도 만능 줄기세포",
@@ -1145,7 +1145,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="체세포를 역분화시켜 다능성을 부여한 인공 줄기세포",
                 example="유도 만능 줄기세포 기술은 재생 의학의 판도를 바꾸고 있습니다.",
                 ipa="yudo manneung julgisepo",
-                frequency_rank=499,
+                frequency_rank=1613,
             ),
             VocabularyEntry(
                 word="후성유전학",
@@ -1153,7 +1153,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="DNA 염기 서열 변화 없이 유전자 발현이 조절되는 기전을 연구하는 학문",
                 example="후성유전학은 환경이 유전자 발현에 미치는 영향을 설명합니다.",
                 ipa="huseongyujeonhak",
-                frequency_rank=569,
+                frequency_rank=1675,
             ),
         ],
     ),
@@ -1169,7 +1169,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="앞의 명사에 비해 기대와 다름을 나타내는 조사",
                 example="초보자치고는 한국어를 정말 잘하시네요.",
                 ipa="chigoneun",
-                frequency_rank=538,
+                frequency_rank=1649,
             ),
             VocabularyEntry(
                 word="마저",
@@ -1177,7 +1177,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="마지막 남은 것까지 모두 포함함을 나타내는 조사",
                 example="그마저 빼앗기고 그는 절망에 빠졌다.",
                 ipa="majeo",
-                frequency_rank=518,
+                frequency_rank=1540,
             ),
             VocabularyEntry(
                 word="조차",
@@ -1185,7 +1185,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="극단적인 경우까지 포함함을 나타내는 조사",
                 example="그는 물 한 모금조차 마실 수 없었다.",
                 ipa="jocha",
-                frequency_rank=557,
+                frequency_rank=1635,
             ),
             VocabularyEntry(
                 word="커녕",
@@ -1193,7 +1193,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="앞말은 말할 것도 없이 뒷말도 그러함을 나타내는 조사",
                 example="밥커녕 물도 못 마셨어요.",
                 ipa="keonyeong",
-                frequency_rank=500,
+                frequency_rank=1651,
             ),
             VocabularyEntry(
                 word="에야",
@@ -1201,7 +1201,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="어떤 조건이 충족되어야 함을 강조하는 조사",
                 example="지금에야 진실이 밝혀졌습니다.",
                 ipa="eya",
-                frequency_rank=532,
+                frequency_rank=1601,
             ),
         ],
     ),
@@ -1217,7 +1217,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="말이나 글의 미세한 의미 차이.",
                 example="동의어 간에도 뉘앙스 차이가 존재합니다.",
                 ipa="nwiangseu",
-                frequency_rank=551,
+                frequency_rank=1531,
             ),
             VocabularyEntry(
                 word="함축",
@@ -1225,7 +1225,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="직접 표현되지 않고 암시되는 의미.",
                 example="이 문장은 깊은 철학적 함축을 담고 있습니다.",
                 ipa="hamchuk",
-                frequency_rank=566,
+                frequency_rank=1667,
             ),
             VocabularyEntry(
                 word="어감",
@@ -1233,7 +1233,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="말이 주는 느낌.",
                 example="이 표현은 다소 부정적 어감을 가집니다.",
                 ipa="eogam",
-                frequency_rank=568,
+                frequency_rank=1592,
             ),
             VocabularyEntry(
                 word="중의성",
@@ -1241,7 +1241,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="두 가지 이상의 의미로 해석될 수 있는 성질.",
                 example="이 문장은 중의성 때문에 오해의 소지가 있습니다.",
                 ipa="junguiseong",
-                frequency_rank=498,
+                frequency_rank=1639,
             ),
             VocabularyEntry(
                 word="어조",
@@ -1249,7 +1249,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="말하는 태도나 가락.",
                 example="글의 어조가 전체 분위기를 결정합니다.",
                 ipa="eojo",
-                frequency_rank=580,
+                frequency_rank=1595,
             ),
         ],
     ),
@@ -1265,7 +1265,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="분쟁 당사자 사이에서 조정하는 것.",
                 example="전문 지식의 중재가 이번 프로젝트의 핵심입니다.",
                 ipa="jungjae",
-                frequency_rank=549,
+                frequency_rank=993,
             ),
             VocabularyEntry(
                 word="환언",
@@ -1273,7 +1273,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="앞의 말을 바꾸어 말하는 것.",
                 example="환언하면, 이 데이터는 유의미한 차이를 보여 주지 않습니다.",
                 ipa="hwaneon",
-                frequency_rank=575,
+                frequency_rank=1673,
             ),
             VocabularyEntry(
                 word="전문용어",
@@ -1281,7 +1281,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="특정 분야에서만 쓰이는 특수한 말.",
                 example="전문용어를 청자 수준에 맞게 풀어 설명해야 합니다.",
                 ipa="jeonmunyongeo",
-                frequency_rank=501,
+                frequency_rank=1628,
             ),
             VocabularyEntry(
                 word="개념화",
@@ -1289,7 +1289,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="추상적인 생각을 명확한 개념으로 만드는 것.",
                 example="이 현상을 개념화하는 데는 여러 접근이 가능합니다.",
                 ipa="gaenyeomhwa",
-                frequency_rank=508,
+                frequency_rank=1507,
             ),
             VocabularyEntry(
                 word="상호이해",
@@ -1297,7 +1297,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="서로 간에 이해가 이루어지는 것.",
                 example="상호이해를 바탕으로 한 소통이 중요합니다.",
                 ipa="sanghoihae",
-                frequency_rank=558,
+                frequency_rank=1566,
             ),
         ],
     ),
@@ -1313,7 +1313,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="여러 학문 분야에 걸쳐 있는 것.",
                 example="학제적 연구가 혁신의 원동력이 됩니다.",
                 ipa="hakjejeok",
-                frequency_rank=488,
+                frequency_rank=1665,
             ),
             VocabularyEntry(
                 word="전공",
@@ -1321,7 +1321,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="전문적으로 연구하는 분야.",
                 example="제 전공은 한국어 언어학입니다.",
                 ipa="jeongong",
-                frequency_rank=502,
+                frequency_rank=1627,
             ),
             VocabularyEntry(
                 word="담론",
@@ -1329,7 +1329,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="특정 주제에 대한 체계적 논의.",
                 example="학계의 담론을 따라가는 것이 쉽지 않습니다.",
                 ipa="damron",
-                frequency_rank=577,
+                frequency_rank=1532,
             ),
             VocabularyEntry(
                 word="지견",
@@ -1337,7 +1337,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="어떤 분야에 대한 전문적 식견.",
                 example="선생님의 지견을 듣고 큰 도움을 받았습니다.",
                 ipa="jigyeon",
-                frequency_rank=569,
+                frequency_rank=1640,
             ),
             VocabularyEntry(
                 word="업계",
@@ -1345,7 +1345,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="같은 사업이나 직종에 종사하는 사람들의 사회.",
                 example="업계 동향을 파악하는 것이 중요합니다.",
                 ipa="eopgye",
-                frequency_rank=502,
+                frequency_rank=1599,
             ),
         ],
     ),
@@ -1361,7 +1361,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="어떤 주장을 하기 위해 미리 받아들이는 조건.",
                 example="이 논증은 암묵적 전제에 의존하고 있습니다.",
                 ipa="jeonje",
-                frequency_rank=581,
+                frequency_rank=1629,
             ),
             VocabularyEntry(
                 word="가정",
@@ -1369,7 +1369,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="사실이 아니지만 사실로 임시로 받아들이는 것.",
                 example="모든 인간은 이기적이라는 가정에서 출발합시다.",
                 ipa="gajeong",
-                frequency_rank=509,
+                frequency_rank=1501,
             ),
             VocabularyEntry(
                 word="공리",
@@ -1377,7 +1377,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="증명 없이 참으로 받아들이는 기본 명제.",
                 example="이는 수학적 공리에 가까운 진술입니다.",
                 ipa="gongri",
-                frequency_rank=566,
+                frequency_rank=1512,
             ),
             VocabularyEntry(
                 word="선입견",
@@ -1385,7 +1385,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="미리 가지고 있는 고정된 생각.",
                 example="선입견을 배제하고 데이터를 분석해야 합니다.",
                 ipa="seonipgyeon",
-                frequency_rank=499,
+                frequency_rank=1572,
             ),
             VocabularyEntry(
                 word="패러다임",
@@ -1393,7 +1393,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="한 시대의 보편적 사고 방식.",
                 example="새로운 패러다임이 기존의 틀을 대체하고 있습니다.",
                 ipa="paereodaim",
-                frequency_rank=486,
+                frequency_rank=1659,
             ),
         ],
     ),
@@ -1409,7 +1409,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="어떤 주장을 부정하는 증거.",
                 example="이 데이터는 기존 가설에 대한 반증이 될 수 있습니다.",
                 ipa="banjeung",
-                frequency_rank=575,
+                frequency_rank=1557,
             ),
             VocabularyEntry(
                 word="반례",
@@ -1417,7 +1417,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="일반적 명제에 맞지 않는 예.",
                 example="이 반례 하나만으로도 주장은 무효화됩니다.",
                 ipa="banrye",
-                frequency_rank=574,
+                frequency_rank=1555,
             ),
             VocabularyEntry(
                 word="논박",
@@ -1425,7 +1425,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="상대의 논리를 비판하여 물리침.",
                 example="철저한 논박을 통해 오류를 지적했습니다.",
                 ipa="nonbak",
-                frequency_rank=496,
+                frequency_rank=1528,
             ),
             VocabularyEntry(
                 word="기각",
@@ -1433,7 +1433,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="받아들이지 않고 물리침.",
                 example="법원은 이 주장을 증거 부족으로 기각했습니다.",
                 ipa="gigak",
-                frequency_rank=578,
+                frequency_rank=1522,
             ),
             VocabularyEntry(
                 word="재검토",
@@ -1441,7 +1441,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="다시 한 번 검토하는 것.",
                 example="반증이 제시됨에 따라 재검토가 불가피합니다.",
                 ipa="jaegeomto",
-                frequency_rank=568,
+                frequency_rank=1625,
             ),
         ],
     ),
@@ -1457,7 +1457,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="맥락 속에서 언어 사용을 연구하는 학문.",
                 example="화용론적 관점에서 이 발화를 분석해 봅시다.",
                 ipa="hwayongron",
-                frequency_rank=540,
+                frequency_rank=1362,
             ),
             VocabularyEntry(
                 word="발화",
@@ -1465,7 +1465,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="말을 실제로 하는 행위.",
                 example="발화의 의도는 문자적 의미와 다를 수 있습니다.",
                 ipa="balhwa",
-                frequency_rank=578,
+                frequency_rank=1559,
             ),
             VocabularyEntry(
                 word="공손성",
@@ -1473,7 +1473,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="상대방을 존중하는 언어적 태도.",
                 example="한국어는 공손성의 언어적 표지가 매우 발달되어 있습니다.",
                 ipa="gongsonseong",
-                frequency_rank=551,
+                frequency_rank=1514,
             ),
             VocabularyEntry(
                 word="맥락의존성",
@@ -1481,7 +1481,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="의미가 상황 맥락에 의존하는 성질.",
                 example="이 표현은 맥락의존성이 높아 상황에 따라 다르게 해석됩니다.",
                 ipa="maekrakuijonseong",
-                frequency_rank=586,
+                frequency_rank=1541,
             ),
             VocabularyEntry(
                 word="함의추론",
@@ -1489,7 +1489,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="숨은 의미를 맥락을 통해 추론하는 과정.",
                 example="문화적 함의추론 없이는 진정한 이해가 불가능합니다.",
                 ipa="hamuichuron",
-                frequency_rank=500,
+                frequency_rank=1666,
             ),
         ],
     ),
@@ -1505,7 +1505,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="번역 시 원문과 같은 문화적 효과를 내는 표현",
                 example="문화적등가를 찾는 것이 번역의 핵심 과제입니다.",
                 ipa="munhwajeokdeungga",
-                frequency_rank=518,
+                frequency_rank=1551,
             ),
             VocabularyEntry(
                 word="가독성",
@@ -1513,7 +1513,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="쉽게 읽히는 정도.",
                 example="의역을 통해 가독성을 높였습니다.",
                 ipa="gadokseong",
-                frequency_rank=488,
+                frequency_rank=1500,
             ),
             VocabularyEntry(
                 word="관용구",
@@ -1521,7 +1521,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="둘 이상의 낱말이 결합하여 특별한 의미를 만드는 표현.",
                 example="관용구를 직역하면 전혀 다른 의미가 될 수 있습니다.",
                 ipa="gwanyonggu",
-                frequency_rank=506,
+                frequency_rank=1515,
             ),
             VocabularyEntry(
                 word="현지화",
@@ -1529,7 +1529,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="외국 콘텐츠를 현지 문화에 맞게 바꾸는 것.",
                 example="이 게임은 한국 시장에 맞춰 현지화되었습니다.",
                 ipa="hyeonjihwa",
-                frequency_rank=579,
+                frequency_rank=1671,
             ),
             VocabularyEntry(
                 word="문화감수성",
@@ -1537,7 +1537,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="문화적 차이를 인식하고 존중하는 능력.",
                 example="번역가에게 문화감수성은 필수 요건입니다.",
                 ipa="munhwagamsuseong",
-                frequency_rank=548,
+                frequency_rank=1548,
             ),
         ],
     ),
@@ -1553,7 +1553,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="효과적으로 설득하는 언어 기술.",
                 example="고전 수사학의 원리가 현대에도 적용됩니다.",
                 ipa="susahak",
-                frequency_rank=560,
+                frequency_rank=1581,
             ),
             VocabularyEntry(
                 word="에토스",
@@ -1561,7 +1561,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="화자의 인격과 신뢰에 호소하는 수사 전략.",
                 example="에토스는 글쓴이의 신뢰성을 구축하는 장치입니다.",
                 ipa="etoseu",
-                frequency_rank=524,
+                frequency_rank=1602,
             ),
             VocabularyEntry(
                 word="파토스",
@@ -1569,7 +1569,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="청중의 감정에 호소하는 수사 전략.",
                 example="파토스에 과도하게 의존하면 논리적 설득력이 약화됩니다.",
                 ipa="patoseu",
-                frequency_rank=499,
+                frequency_rank=1657,
             ),
             VocabularyEntry(
                 word="로고스",
@@ -1577,7 +1577,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="논리와 증거에 호소하는 수사 전략.",
                 example="로고스는 학술적 글쓰기의 가장 중요한 축입니다.",
                 ipa="rogoseu",
-                frequency_rank=542,
+                frequency_rank=1539,
             ),
             VocabularyEntry(
                 word="논증",
@@ -1585,7 +1585,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="근거를 들어 자신의 주장을 펴는 것.",
                 example="설득력 있는 논증을 구성하는 것이 핵심입니다.",
                 ipa="nonjeung",
-                frequency_rank=502,
+                frequency_rank=1530,
             ),
         ],
     ),
@@ -1601,7 +1601,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="신문 등에서 매체의 입장을 밝히는 글.",
                 example="오늘 사설은 교육 개혁의 필요성을 다루고 있습니다.",
                 ipa="saseol",
-                frequency_rank=516,
+                frequency_rank=1257,
             ),
             VocabularyEntry(
                 word="칼럼",
@@ -1609,7 +1609,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="개인이 특정 주제에 대해 쓰는 정기적 기고문.",
                 example="그의 칼럼은 항상 날카로운 분석을 제공합니다.",
                 ipa="kalreom",
-                frequency_rank=569,
+                frequency_rank=1343,
             ),
             VocabularyEntry(
                 word="논조",
@@ -1617,7 +1617,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="글에서 드러나는 주장의 어조.",
                 example="이 기사는 객관적 논조를 유지하고 있습니다.",
                 ipa="nonjo",
-                frequency_rank=578,
+                frequency_rank=1529,
             ),
             VocabularyEntry(
                 word="기고",
@@ -1625,7 +1625,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="신문 등에 글을 써서 보내는 것.",
                 example="전문가 기고를 통해 다양한 시각을 제공합니다.",
                 ipa="gigo",
-                frequency_rank=549,
+                frequency_rank=1523,
             ),
             VocabularyEntry(
                 word="필력",
@@ -1633,7 +1633,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="글을 쓰는 능력.",
                 example="그의 필력은 독자를 단숨에 사로잡습니다.",
                 ipa="pilryeok",
-                frequency_rank=553,
+                frequency_rank=1662,
             ),
         ],
     ),
@@ -1649,7 +1649,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="외국에서 들어와 한국어처럼 쓰이는 말.",
                 example="한국어에는 영어 외래어가 많이 유입되었습니다.",
                 ipa="oeraeeo",
-                frequency_rank=533,
+                frequency_rank=1609,
             ),
             VocabularyEntry(
                 word="차용",
@@ -1657,7 +1657,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="다른 나라 말을 빌려 쓰는 것.",
                 example="언어 간 차용은 자연스러운 현상입니다.",
                 ipa="chayong",
-                frequency_rank=571,
+                frequency_rank=1644,
             ),
             VocabularyEntry(
                 word="고유어",
@@ -1665,7 +1665,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="원래부터 한국어에 있던 말.",
                 example="고유어와 한자어의 문체적 차이를 이해해야 합니다.",
                 ipa="goyueo",
-                frequency_rank=531,
+                frequency_rank=1509,
             ),
             VocabularyEntry(
                 word="신조어",
@@ -1673,7 +1673,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="새로 생긴 말.",
                 example="인터넷에서 신조어가 빠르게 확산됩니다.",
                 ipa="sinjoeo",
-                frequency_rank=572,
+                frequency_rank=1585,
             ),
             VocabularyEntry(
                 word="언어순화",
@@ -1681,7 +1681,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="외국어를 토박이말로 바꾸는 일.",
                 example="정부의 언어순화 정책이 논란이 되고 있습니다.",
                 ipa="eoneosunhwa",
-                frequency_rank=576,
+                frequency_rank=1598,
             ),
         ],
     ),
@@ -1697,7 +1697,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="특정 지역에서만 쓰이는 언어 변종.",
                 example="경상도 방언은 독특한 억양으로 유명합니다.",
                 ipa="bangeon",
-                frequency_rank=509,
+                frequency_rank=1243,
             ),
             VocabularyEntry(
                 word="세대차이",
@@ -1705,7 +1705,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="연령대에 따른 언어 사용의 차이.",
                 example="세대차이는 언어 변화의 주요 동인입니다.",
                 ipa="sedaechai",
-                frequency_rank=531,
+                frequency_rank=1576,
             ),
             VocabularyEntry(
                 word="성별어",
@@ -1713,7 +1713,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="성별에 따라 다르게 쓰이는 언어 표현.",
                 example="한국어 성별어 사용은 점차 변화하고 있습니다.",
                 ipa="seongbyeoleo",
-                frequency_rank=498,
+                frequency_rank=1575,
             ),
             VocabularyEntry(
                 word="언어변화",
@@ -1721,7 +1721,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="언어의 소리, 어휘, 문법이 시간에 따라 변하는 현상.",
                 example="언어변화는 사회 변화의 거울입니다.",
                 ipa="eoneobyeonhwa",
-                frequency_rank=553,
+                frequency_rank=1597,
             ),
             VocabularyEntry(
                 word="코드스위칭",
@@ -1729,7 +1729,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="상황에 따라 다른 언어나 말투로 전환하는 것.",
                 example="격식체와 비격식체의 코드스위칭이 자연스럽습니다.",
                 ipa="kodeuseuwiching",
-                frequency_rank=493,
+                frequency_rank=1652,
             ),
         ],
     ),
@@ -1745,7 +1745,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="글의 요소들이 서로 연결되어 있는 성질.",
                 example="문장 간 응집성을 높이기 위해 접속사를 조정했습니다.",
                 ipa="eungjipseong",
-                frequency_rank=570,
+                frequency_rank=1618,
             ),
             VocabularyEntry(
                 word="대용어",
@@ -1753,7 +1753,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="앞에 나온 말을 대신하는 표현.",
                 example="대용어 사용으로 불필요한 반복을 피할 수 있습니다.",
                 ipa="daeyongeo",
-                frequency_rank=578,
+                frequency_rank=1534,
             ),
             VocabularyEntry(
                 word="지시어",
@@ -1761,7 +1761,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="대상을 가리키는 말.",
                 example="지시어의 사용을 일관되게 유지해야 합니다.",
                 ipa="jisieo",
-                frequency_rank=573,
+                frequency_rank=1641,
             ),
             VocabularyEntry(
                 word="정보흐름",
@@ -1769,7 +1769,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="글에서 정보가 배열되는 순서와 방식.",
                 example="정보흐름이 자연스러워야 독자가 이해하기 쉽습니다.",
                 ipa="jeongboheureum",
-                frequency_rank=579,
+                frequency_rank=1631,
             ),
             VocabularyEntry(
                 word="주제문",
@@ -1777,7 +1777,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="단락의 중심 내용을 요약한 문장.",
                 example="각 단락은 주제문으로 시작하는 것이 효과적입니다.",
                 ipa="jujemun",
-                frequency_rank=574,
+                frequency_rank=1637,
             ),
         ],
     ),
@@ -1793,7 +1793,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="글의 잘못을 고치는 일.",
                 example="출판 전에 교정을 여러 번 보았습니다.",
                 ipa="gyojeong",
-                frequency_rank=511,
+                frequency_rank=1517,
             ),
             VocabularyEntry(
                 word="윤문",
@@ -1801,7 +1801,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="글을 매끄럽게 다듬는 일.",
                 example="초고를 윤문하여 문장을 간결하게 만들었습니다.",
                 ipa="yunmun",
-                frequency_rank=493,
+                frequency_rank=1615,
             ),
             VocabularyEntry(
                 word="퇴고",
@@ -1809,7 +1809,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="글을 여러 번 고쳐 쓰는 일.",
                 example="좋은 글은 퇴고의 과정을 거쳐 탄생합니다.",
                 ipa="toego",
-                frequency_rank=538,
+                frequency_rank=1656,
             ),
             VocabularyEntry(
                 word="일관성",
@@ -1817,7 +1817,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="글이 처음부터 끝까지 조화롭게 통일된 성질.",
                 example="용어 사용의 일관성을 점검해 주세요.",
                 ipa="ilgwanseong",
-                frequency_rank=483,
+                frequency_rank=1624,
             ),
             VocabularyEntry(
                 word="교열",
@@ -1825,7 +1825,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="글의 오류를 바로잡아 내용을 검토하는 일.",
                 example="편집자의 교열을 거쳐 최종 원고가 완성되었습니다.",
                 ipa="gyoyeol",
-                frequency_rank=579,
+                frequency_rank=1516,
             ),
         ],
     ),
@@ -1841,7 +1841,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="전체를 하나로 모아 정리함.",
                 example="C2 과정을 총괄하는 복습 시간입니다.",
                 ipa="chonggwal",
-                frequency_rank=498,
+                frequency_rank=1648,
             ),
             VocabularyEntry(
                 word="숙달",
@@ -1849,7 +1849,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="충분히 익숙해지는 것.",
                 example="한국어 숙달의 최종 단계에 도달했습니다.",
                 ipa="sukdal",
-                frequency_rank=588,
+                frequency_rank=1583,
             ),
             VocabularyEntry(
                 word="융합",
@@ -1857,7 +1857,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="여러 요소가 하나로 합쳐지는 것.",
                 example="문법과 문화 이해의 융합이 진정한 언어 능력입니다.",
                 ipa="yunghap",
-                frequency_rank=563,
+                frequency_rank=1616,
             ),
             VocabularyEntry(
                 word="통찰",
@@ -1865,7 +1865,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="사물의 본질을 깊이 꿰뚫어 봄.",
                 example="언어에 대한 통찰이 길러졌습니다.",
                 ipa="tongchal",
-                frequency_rank=540,
+                frequency_rank=1655,
             ),
             VocabularyEntry(
                 word="완성",
@@ -1873,7 +1873,7 @@ C2_SETS: list[VocabularySet] = [
                 definition="완전하게 이루는 것.",
                 example="오랜 학습의 완성을 축하합니다.",
                 ipa="wanseong",
-                frequency_rank=524,
+                frequency_rank=1607,
             ),
         ],
     ),
