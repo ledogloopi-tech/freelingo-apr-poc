@@ -1256,17 +1256,21 @@
     "cta": "Begrepen",
     "entry1": {
       "label": "Meer talen om te leren",
-      "desc": "Duits, Frans, Italiaans, Japans, Koreaans, Portugees, Spaans en Chinees (vasteland) zijn nu beschikbaar — met volledige leerpaden van beginner tot gevorderd, grammatica, woordenschat, zinnen, Reading, Listening en meer. Voeg ze toe via Instellingen → Mijn talen."
+      "desc": "<bold>Duits, Frans, Italiaans, Japans, Koreaans, Portugees, Spaans en Chinees (vasteland)</bold> zijn nu beschikbaar — met volledige leerpaden van beginner tot gevorderd, grammatica, woordenschat, zinnen, Reading, Listening en meer. Voeg ze toe via Instellingen → Mijn talen."
     },
     "entry2": {
+      "label": "Lesuitleg in je eigen taal",
+      "desc": "Beginnerslessen kunnen de belangrijkste ideeën nu in je eigen taal uitleggen, zodat je elke les makkelijker begrijpt voordat je gaat oefenen."
+    },
+    "entry3": {
       "label": "Voeg een review toe vanuit je profiel",
       "desc": "Je kunt nu je mening over FreeLingo direct delen via Instellingen → Profiel. Je review helpt andere leerlingen het platform te ontdekken."
     },
-    "entry3": {
+    "entry4": {
       "label": "Verbeterde leermiddelen",
       "desc": "Alle leermiddelensecties zijn uitgebreid met nieuwe inhoud."
     },
-    "entry4": {
+    "entry5": {
       "label": "Bugfixes",
       "desc": "Diverse kleine bugfixes en stabiliteitsverbeteringen in het hele platform."
     }

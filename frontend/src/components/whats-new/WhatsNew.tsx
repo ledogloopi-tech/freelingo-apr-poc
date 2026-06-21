@@ -24,7 +24,7 @@ export default function WhatsNew() {
       .sort((a, b) => parseInt(a.slice(5)) - parseInt(b.slice(5)))
       .map((k) => {
         const entry = ns[k] as { label: string; desc: string }
-        return { label: entry.label, desc: entry.desc }
+        return { key: k, label: entry.label, desc: entry.desc }
       })
   }, [messages])
 
@@ -78,7 +78,13 @@ export default function WhatsNew() {
                   {entry.label}
                 </p>
                 <p className="text-fl-muted-1 font-mono text-xs leading-relaxed">
-                  {entry.desc}
+                  {t.rich(`${entry.key}.desc`, {
+                    bold: (chunks) => (
+                      <strong className="text-fl-muted-2 font-semibold">
+                        {chunks}
+                      </strong>
+                    ),
+                  })}
                 </p>
               </div>
             </div>

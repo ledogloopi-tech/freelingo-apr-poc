@@ -1256,17 +1256,21 @@
     "cta": "Verstanden",
     "entry1": {
       "label": "Mehr Sprachen zum Lernen",
-      "desc": "Deutsch, Französisch, Italienisch, Japanisch, Koreanisch, Portugiesisch, Spanisch und Chinesisch (Festland) sind jetzt verfügbar — mit vollständigen Lernpfaden von Anfänger bis Fortgeschritten, Grammatik, Wortschatz, Redewendungen, Reading, Listening und mehr. Füge sie unter Einstellungen → Meine Sprachen hinzu."
+      "desc": "<bold>Deutsch, Französisch, Italienisch, Japanisch, Koreanisch, Portugiesisch, Spanisch und Chinesisch (Festland)</bold> sind jetzt verfügbar — mit vollständigen Lernpfaden von Anfänger bis Fortgeschritten, Grammatik, Wortschatz, Redewendungen, Reading, Listening und mehr. Füge sie unter Einstellungen → Meine Sprachen hinzu."
     },
     "entry2": {
+      "label": "Lektionserklärungen in deiner Sprache",
+      "desc": "Anfängerlektionen können die wichtigsten Ideen jetzt in deiner eigenen Sprache erklären, damit du jede Lektion vor dem Üben leichter verstehst."
+    },
+    "entry3": {
       "label": "Bewertung im Profil hinzufügen",
       "desc": "Du kannst deine Meinung zu FreeLingo jetzt direkt unter Einstellungen → Profil teilen. Deine Bewertung hilft anderen Lernenden, die Plattform zu entdecken."
     },
-    "entry3": {
+    "entry4": {
       "label": "Verbesserte Lernressourcen",
       "desc": "Alle Lernressourcen wurden mit neuen Inhalten erweitert."
     },
-    "entry4": {
+    "entry5": {
       "label": "Fehlerbehebungen",
       "desc": "Verschiedene kleinere Fehlerbehebungen und Stabilitätsverbesserungen in der gesamten Plattform."
     }

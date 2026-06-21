@@ -1256,17 +1256,21 @@
     "cta": "Capito",
     "entry1": {
       "label": "Più lingue da imparare",
-      "desc": "Cinese continentale, coreano, francese, giapponese, italiano, portoghese, spagnolo e tedesco sono ora disponibili, con percorsi completi da principiante ad avanzato, grammatica, vocabolario, frasi, Reading, Listening e altro. Aggiungili da Impostazioni → Le mie lingue."
+      "desc": "<bold>Cinese continentale, coreano, francese, giapponese, italiano, portoghese, spagnolo e tedesco</bold> sono ora disponibili, con percorsi completi da principiante ad avanzato, grammatica, vocabolario, frasi, Reading, Listening e altro. Aggiungili da Impostazioni → Le mie lingue."
     },
     "entry2": {
+      "label": "Spiegazioni delle lezioni nella tua lingua",
+      "desc": "Le lezioni per principianti ora possono spiegare le idee principali nella tua lingua, così è più facile capire ogni lezione prima di esercitarti."
+    },
+    "entry3": {
       "label": "Aggiungi una recensione dal tuo profilo",
       "desc": "Ora puoi condividere la tua opinione su FreeLingo direttamente da Impostazioni → Profilo. La tua recensione aiuta altri studenti a scoprire la piattaforma."
     },
-    "entry3": {
+    "entry4": {
       "label": "Risorse didattiche migliorate",
       "desc": "Tutte le sezioni di risorse didattiche sono state ampliate con nuovi contenuti."
     },
-    "entry4": {
+    "entry5": {
       "label": "Correzioni di bug",
       "desc": "Varie correzioni di bug minori e miglioramenti della stabilità su tutta la piattaforma."
     }

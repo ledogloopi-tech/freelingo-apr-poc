@@ -1256,17 +1256,21 @@
     "cta": "Rozumiem",
     "entry1": {
       "label": "Więcej języków do nauki",
-      "desc": "Chiński kontynentalny, francuski, hiszpański, japoński, koreański, niemiecki, portugalski i włoski są już dostępne — z pełnymi ścieżkami nauki od początkującego do zaawansowanego, gramatyką, słownictwem, zwrotami, Reading, Listening i więcej. Dodaj je w Ustawienia → Moje języki."
+      "desc": "<bold>Chiński kontynentalny, francuski, hiszpański, japoński, koreański, niemiecki, portugalski i włoski</bold> są już dostępne — z pełnymi ścieżkami nauki od początkującego do zaawansowanego, gramatyką, słownictwem, zwrotami, Reading, Listening i więcej. Dodaj je w Ustawienia → Moje języki."
     },
     "entry2": {
+      "label": "Wyjaśnienia lekcji w Twoim języku",
+      "desc": "Lekcje dla początkujących mogą teraz wyjaśniać najważniejsze pomysły w Twoim języku, dzięki czemu łatwiej zrozumiesz każdą lekcję przed ćwiczeniami."
+    },
+    "entry3": {
       "label": "Dodaj recenzję ze swojego profilu",
       "desc": "Możesz teraz podzielić się opinią o FreeLingo bezpośrednio w Ustawienia → Profil. Twoja recenzja pomaga innym uczącym się odkryć platformę."
     },
-    "entry3": {
+    "entry4": {
       "label": "Ulepszone materiały dydaktyczne",
       "desc": "Wszystkie sekcje materiałów dydaktycznych zostały rozszerzone o nowe treści."
     },
-    "entry4": {
+    "entry5": {
       "label": "Poprawki błędów",
       "desc": "Różne drobne poprawki błędów i ulepszenia stabilności na całej platformie."
     }

@@ -1256,17 +1256,21 @@
     "cta": "Got it",
     "entry1": {
       "label": "More languages to learn",
-      "desc": "French, German, Italian, Japanese, Korean, Mainland Chinese, Portuguese, and Spanish are now available — with full learning paths from beginner to advanced, grammar, vocabulary, phrases, Reading, Listening, and more. Add them from Settings → My Languages."
+      "desc": "<bold>French, German, Italian, Japanese, Korean, Mainland Chinese, Portuguese, and Spanish</bold> are now available — with full learning paths from beginner to advanced, grammar, vocabulary, phrases, Reading, Listening, and more. Add them from Settings → My Languages."
     },
     "entry2": {
+      "label": "Lesson explanations in your language",
+      "desc": "Beginner lessons can now explain the key ideas in your own language, so it is easier to understand each lesson before you practise."
+    },
+    "entry3": {
       "label": "Add a review from your profile",
       "desc": "You can now share your thoughts about FreeLingo directly from Settings → Profile. Your review helps other learners discover the platform."
     },
-    "entry3": {
+    "entry4": {
       "label": "Expanded learning resources",
       "desc": "All learning resource sections have been expanded with new content."
     },
-    "entry4": {
+    "entry5": {
       "label": "Bug fixes",
       "desc": "Various minor bug fixes and stability improvements across the platform."
     }
