@@ -66,7 +66,7 @@ class TestGetAssessmentBank:
 
         bank = get_assessment_bank("ko-KR")
         assert isinstance(bank, list)
-        assert len(bank) == 120
+        assert len(bank) == 132
         assert any(q.id == "ko-g-a1-001" for q in bank)
 
     def test_chinese_returns_non_empty(self):

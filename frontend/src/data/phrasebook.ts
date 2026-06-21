@@ -7,6 +7,7 @@ export interface Phrase {
   context: string
   register: string
   unit_ref?: string
+  romanization?: string
 }
 
 export interface PhrasebookCategory {

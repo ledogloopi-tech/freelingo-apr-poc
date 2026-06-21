@@ -16,6 +16,7 @@ class PhrasebookEntryResponse(BaseModel):
     context: str
     register: str
     unit_ref: str | None = None
+    romanization: str | None = None
 
 
 class PhrasebookCategoryResponse(BaseModel):

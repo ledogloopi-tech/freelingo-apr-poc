@@ -14,7 +14,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="日本語の五十音の最初の文字。",
                 example="あいうえおを練習しましょう。",
-                ipa=None,
+                ipa="a",
                 frequency_rank=11,
             ),
             VocabularyEntry(
@@ -22,7 +22,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="日本語のカタカナの最初の文字。",
                 example="アメリカはカタカナで書きます。",
-                ipa=None,
+                ipa="a",
                 frequency_rank=12,
             ),
             VocabularyEntry(
@@ -30,7 +30,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="日本語を書くために使われる基本的な文字体系。",
                 example="ひらがなで名前を書いてください。",
-                ipa=None,
+                ipa="hiragana",
                 frequency_rank=13,
             ),
             VocabularyEntry(
@@ -38,7 +38,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="外来語や外国の名前を書くために使われる文字体系。",
                 example="カタカナでメニューを読みました。",
-                ipa=None,
+                ipa="katakana",
                 frequency_rank=14,
             ),
         ],
@@ -54,7 +54,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="phrase",
                 definition="昼間のあいさつの言葉。",
                 example="こんにちは、元気ですか。",
-                ipa=None,
+                ipa="konnichiwa",
                 frequency_rank=21,
             ),
             VocabularyEntry(
@@ -62,7 +62,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="phrase",
                 definition="朝の丁寧なあいさつ。",
                 example="おはようございます、今日はいい天気ですね。",
-                ipa=None,
+                ipa="ohayōgozaimasu",
                 frequency_rank=22,
             ),
             VocabularyEntry(
@@ -70,7 +70,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="phrase",
                 definition="夜のあいさつの言葉。",
                 example="こんばんは、お元気でしたか。",
-                ipa=None,
+                ipa="konbanwa",
                 frequency_rank=23,
             ),
             VocabularyEntry(
@@ -78,7 +78,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="phrase",
                 definition="別れるときのあいさつ。",
                 example="さようなら、また明日会いましょう。",
-                ipa=None,
+                ipa="sayōnara",
                 frequency_rank=24,
             ),
         ],
@@ -94,7 +94,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="学校で勉強を教える人。",
                 example="先生は教室で日本語を教えています。",
-                ipa="せんせい",
+                ipa="sensei",
                 frequency_rank=31,
             ),
             VocabularyEntry(
@@ -102,7 +102,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="学校で勉強している人。",
                 example="学生たちは図書館で勉強しています。",
-                ipa="がくせい",
+                ipa="gakusei",
                 frequency_rank=32,
             ),
             VocabularyEntry(
@@ -110,7 +110,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="授業で使う本。",
                 example="教科書の10ページを開いてください。",
-                ipa="きょうかしょ",
+                ipa="kyōkasho",
                 frequency_rank=33,
             ),
             VocabularyEntry(
@@ -118,7 +118,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="わからないことをたずねること。",
                 example="質問があったら手をあげてください。",
-                ipa="しつもん",
+                ipa="shitsumon",
                 frequency_rank=34,
             ),
         ],
@@ -134,7 +134,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="人や物につけられた呼び方。",
                 example="私の名前は田中です。",
-                ipa="なまえ",
+                ipa="namae",
                 frequency_rank=41,
             ),
             VocabularyEntry(
@@ -142,7 +142,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="その人が属している国。",
                 example="国籍は日本です。",
-                ipa="こくせき",
+                ipa="kokuseki",
                 frequency_rank=42,
             ),
             VocabularyEntry(
@@ -150,7 +150,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="生まれた場所や育った場所。",
                 example="出身は大阪です。",
-                ipa="しゅっしん",
+                ipa="shusshin",
                 frequency_rank=43,
             ),
             VocabularyEntry(
@@ -158,7 +158,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="生まれてから経った年数。",
                 example="年齢を教えてください。",
-                ipa="ねんれい",
+                ipa="nenrei",
                 frequency_rank=44,
             ),
         ],
@@ -174,7 +174,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="アジアの東にある島国。",
                 example="日本は四季が美しい国です。",
-                ipa="にほん",
+                ipa="nihon",
                 frequency_rank=51,
             ),
             VocabularyEntry(
@@ -182,7 +182,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="ヨーロッパ南西部の国。",
                 example="スペインはサッカーが強い国です。",
-                ipa=None,
+                ipa="supein",
                 frequency_rank=52,
             ),
             VocabularyEntry(
@@ -190,7 +190,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="ヨーロッパ北西部の島国。",
                 example="イギリスは紅茶で有名です。",
-                ipa=None,
+                ipa="igirisu",
                 frequency_rank=53,
             ),
             VocabularyEntry(
@@ -198,7 +198,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="北アメリカにある大きな国。",
                 example="アメリカは広い国です。",
-                ipa=None,
+                ipa="amerika",
                 frequency_rank=54,
             ),
         ],
@@ -214,7 +214,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="会社で働いている人。",
                 example="父は会社員です。",
-                ipa="かいしゃいん",
+                ipa="kaishain",
                 frequency_rank=61,
             ),
             VocabularyEntry(
@@ -222,7 +222,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="学校で勉強している人。",
                 example="私は日本語学校の学生です。",
-                ipa="がくせい",
+                ipa="gakusei",
                 frequency_rank=62,
             ),
             VocabularyEntry(
@@ -230,7 +230,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="病気やけがを治す仕事の人。",
                 example="医者になりたいです。",
-                ipa="いしゃ",
+                ipa="isha",
                 frequency_rank=63,
             ),
             VocabularyEntry(
@@ -238,7 +238,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="学校で教える仕事の人。",
                 example="母は高校の教師です。",
-                ipa="きょうし",
+                ipa="kyōshi",
                 frequency_rank=64,
             ),
         ],
@@ -254,7 +254,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="数字の1。",
                 example="りんごを一つください。",
-                ipa="いち",
+                ipa="ichi",
                 frequency_rank=71,
             ),
             VocabularyEntry(
@@ -262,7 +262,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="数字の2。",
                 example="猫が二匹います。",
-                ipa="に",
+                ipa="ni",
                 frequency_rank=72,
             ),
             VocabularyEntry(
@@ -270,7 +270,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="数字の3。",
                 example="三時に会いましょう。",
-                ipa="さん",
+                ipa="san",
                 frequency_rank=73,
             ),
             VocabularyEntry(
@@ -278,7 +278,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="数字の10。",
                 example="十まで数えてください。",
-                ipa="じゅう",
+                ipa="jū",
                 frequency_rank=74,
             ),
         ],
@@ -294,7 +294,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="現在の時点。",
                 example="今、何時ですか。",
-                ipa="いま",
+                ipa="ima",
                 frequency_rank=81,
             ),
             VocabularyEntry(
@@ -302,7 +302,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="太陽がのぼる時間帯。",
                 example="朝ごはんを食べました。",
-                ipa="あさ",
+                ipa="asa",
                 frequency_rank=82,
             ),
             VocabularyEntry(
@@ -310,7 +310,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="正午から夕方までの時間。",
                 example="午後3時に会議があります。",
-                ipa="ごご",
+                ipa="gogo",
                 frequency_rank=83,
             ),
             VocabularyEntry(
@@ -318,7 +318,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="時間をたずねる言葉。",
                 example="何時に起きますか。",
-                ipa="なんじ",
+                ipa="nanji",
                 frequency_rank=84,
             ),
         ],
@@ -334,7 +334,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="一週間の最初の日。",
                 example="月曜日にテストがあります。",
-                ipa="げつようび",
+                ipa="getsuyōbi",
                 frequency_rank=91,
             ),
             VocabularyEntry(
@@ -342,7 +342,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="今の日、この日。",
                 example="今日はいい天気ですね。",
-                ipa="きょう",
+                ipa="kyō",
                 frequency_rank=92,
             ),
             VocabularyEntry(
@@ -350,7 +350,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="今日の次の日。",
                 example="明日は休みです。",
-                ipa="あした",
+                ipa="ashita",
                 frequency_rank=93,
             ),
             VocabularyEntry(
@@ -358,7 +358,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="生まれた日。",
                 example="誕生日プレゼントをもらいました。",
-                ipa="たんじょうび",
+                ipa="tanjōbi",
                 frequency_rank=94,
             ),
         ],
@@ -374,7 +374,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="電車が止まる場所。",
                 example="駅まで歩いて十分です。",
-                ipa="えき",
+                ipa="eki",
                 frequency_rank=101,
             ),
             VocabularyEntry(
@@ -382,7 +382,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="勉強をする場所。",
                 example="学校は八時に始まります。",
-                ipa="がっこう",
+                ipa="gakkō",
                 frequency_rank=102,
             ),
             VocabularyEntry(
@@ -390,7 +390,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="物を売っている場所。",
                 example="この店のパンはおいしいです。",
-                ipa="みせ",
+                ipa="mise",
                 frequency_rank=103,
             ),
             VocabularyEntry(
@@ -398,7 +398,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="みんなが散歩したり遊んだりする場所。",
                 example="公園で子どもたちが遊んでいます。",
-                ipa="こうえん",
+                ipa="kōen",
                 frequency_rank=104,
             ),
         ],
@@ -414,7 +414,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="家の中の区切られた空間。",
                 example="私の部屋は二階にあります。",
-                ipa="へや",
+                ipa="heya",
                 frequency_rank=111,
             ),
             VocabularyEntry(
@@ -422,7 +422,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="料理をする部屋。",
                 example="母は台所で晩ご飯を作っています。",
-                ipa="だいどころ",
+                ipa="daidokoro",
                 frequency_rank=112,
             ),
             VocabularyEntry(
@@ -430,7 +430,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="勉強や仕事をするための台。",
                 example="机の上に本があります。",
-                ipa="つくえ",
+                ipa="tsukue",
                 frequency_rank=113,
             ),
             VocabularyEntry(
@@ -438,7 +438,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="座るための家具。",
                 example="いすに座ってください。",
-                ipa=None,
+                ipa="isu",
                 frequency_rank=114,
             ),
         ],
@@ -454,7 +454,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="人や車が通るための通り。",
                 example="この道をまっすぐ行ってください。",
-                ipa="みち",
+                ipa="michi",
                 frequency_rank=121,
             ),
             VocabularyEntry(
@@ -462,7 +462,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="二つ以上の道が交わる場所。",
                 example="交差点を右に曲がってください。",
-                ipa="こうさてん",
+                ipa="kōsaten",
                 frequency_rank=122,
             ),
             VocabularyEntry(
@@ -470,7 +470,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="お金を預けたり引き出したりする場所。",
                 example="銀行でお金をおろしました。",
-                ipa="ぎんこう",
+                ipa="ginkō",
                 frequency_rank=123,
             ),
             VocabularyEntry(
@@ -478,7 +478,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="本を借りたり読んだりできる場所。",
                 example="図書館は静かで勉強しやすいです。",
-                ipa="としょかん",
+                ipa="toshokan",
                 frequency_rank=124,
             ),
         ],
@@ -494,7 +494,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="verb",
                 definition="寝ていた状態から目を覚ます。",
                 example="毎朝六時に起きます。",
-                ipa="おきます",
+                ipa="okimasu",
                 frequency_rank=131,
             ),
             VocabularyEntry(
@@ -502,7 +502,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="verb",
                 definition="食物を口に入れて飲み込む。",
                 example="朝ごはんにパンを食べます。",
-                ipa="たべます",
+                ipa="tabemasu",
                 frequency_rank=132,
             ),
             VocabularyEntry(
@@ -510,7 +510,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="verb",
                 definition="ある場所に向かって移動する。",
                 example="電車で学校に行きます。",
-                ipa="いきます",
+                ipa="ikimasu",
                 frequency_rank=133,
             ),
             VocabularyEntry(
@@ -518,7 +518,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="verb",
                 definition="体を休めるために横になる。",
                 example="毎晩十時に寝ます。",
-                ipa="ねます",
+                ipa="nemasu",
                 frequency_rank=134,
             ),
         ],
@@ -534,7 +534,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="炊いた米、または食事全般。",
                 example="ご飯をもう一杯ください。",
-                ipa="ごはん",
+                ipa="gohan",
                 frequency_rank=141,
             ),
             VocabularyEntry(
@@ -542,7 +542,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="飲み物としての水。",
                 example="冷たい水を飲みたいです。",
-                ipa="みず",
+                ipa="mizu",
                 frequency_rank=142,
             ),
             VocabularyEntry(
@@ -550,7 +550,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="海や川に住む食用の生き物。",
                 example="日本では魚をよく食べます。",
-                ipa="さかな",
+                ipa="sakana",
                 frequency_rank=143,
             ),
             VocabularyEntry(
@@ -558,7 +558,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="食用の植物。",
                 example="毎日野菜を食べたほうがいいです。",
-                ipa="やさい",
+                ipa="yasai",
                 frequency_rank=144,
             ),
         ],
@@ -574,7 +574,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="電気で走る列車。",
                 example="電車は時間通りに来ました。",
-                ipa="でんしゃ",
+                ipa="densha",
                 frequency_rank=151,
             ),
             VocabularyEntry(
@@ -582,7 +582,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="道を走る大きな乗り物。",
                 example="バスで駅まで行きます。",
-                ipa=None,
+                ipa="basu",
                 frequency_rank=152,
             ),
             VocabularyEntry(
@@ -590,7 +590,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="ペダルをこいで動かす二輪の乗り物。",
                 example="自転車で公園に行きましょう。",
-                ipa="じてんしゃ",
+                ipa="jitensha",
                 frequency_rank=153,
             ),
             VocabularyEntry(
@@ -598,7 +598,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="電車やバスに乗るための券。",
                 example="切符を買ってから電車に乗ります。",
-                ipa="きっぷ",
+                ipa="kippu",
                 frequency_rank=154,
             ),
         ],
@@ -614,7 +614,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="adjective",
                 definition="物の形やサイズが普通より上回っている様子。",
                 example="東京は大きい都市です。",
-                ipa="おおきい",
+                ipa="ōkii",
                 frequency_rank=161,
             ),
             VocabularyEntry(
@@ -622,7 +622,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="adjective",
                 definition="物の形やサイズが普通より下回っている様子。",
                 example="この猫はとても小さいです。",
-                ipa="ちいさい",
+                ipa="chiisai",
                 frequency_rank=162,
             ),
             VocabularyEntry(
@@ -630,7 +630,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="adjective",
                 definition="音が少なく落ち着いている様子。",
                 example="図書館は静かです。",
-                ipa="しずか",
+                ipa="shizuka",
                 frequency_rank=163,
             ),
             VocabularyEntry(
@@ -638,7 +638,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="adjective",
                 definition="使いやすくて役に立つ様子。",
                 example="スマートフォンはとても便利です。",
-                ipa="べんり",
+                ipa="benri",
                 frequency_rank=164,
             ),
         ],
@@ -654,7 +654,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="スクリーンで見る映像作品。",
                 example="週末に映画を見に行きませんか。",
-                ipa="えいが",
+                ipa="eiga",
                 frequency_rank=171,
             ),
             VocabularyEntry(
@@ -662,7 +662,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="リズムやメロディーで構成された芸術。",
                 example="私は日本の音楽が好きです。",
-                ipa="おんがく",
+                ipa="ongaku",
                 frequency_rank=172,
             ),
             VocabularyEntry(
@@ -670,7 +670,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="本を読むこと。",
                 example="読書は私の趣味です。",
-                ipa="どくしょ",
+                ipa="dokusho",
                 frequency_rank=173,
             ),
             VocabularyEntry(
@@ -678,7 +678,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="体を動かす競技や運動。",
                 example="何かスポーツをしていますか。",
-                ipa=None,
+                ipa="supōtsu",
                 frequency_rank=174,
             ),
         ],
@@ -694,7 +694,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="空が青く、雲が少ない天気。",
                 example="今日は晴れで気持ちがいいです。",
-                ipa="はれ",
+                ipa="hare",
                 frequency_rank=181,
             ),
             VocabularyEntry(
@@ -702,7 +702,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="空から降る水滴。",
                 example="雨が降っているので傘を持って行きます。",
-                ipa="あめ",
+                ipa="ame",
                 frequency_rank=182,
             ),
             VocabularyEntry(
@@ -710,7 +710,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="adjective",
                 definition="気温が低くて冷たく感じる様子。",
                 example="冬は寒いのでコートを着ます。",
-                ipa="さむい",
+                ipa="samui",
                 frequency_rank=183,
             ),
             VocabularyEntry(
@@ -718,7 +718,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="adjective",
                 definition="気温が高くて熱く感じる様子。",
                 example="夏は暑いのでエアコンをつけます。",
-                ipa="あつい",
+                ipa="atsui",
                 frequency_rank=184,
             ),
         ],
@@ -734,7 +734,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="物の価格。",
                 example="このかばんの値段はいくらですか。",
-                ipa="ねだん",
+                ipa="nedan",
                 frequency_rank=191,
             ),
             VocabularyEntry(
@@ -742,7 +742,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="日本のお金の単位。",
                 example="これは五百円です。",
-                ipa="えん",
+                ipa="en",
                 frequency_rank=192,
             ),
             VocabularyEntry(
@@ -750,7 +750,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="pronoun",
                 definition="話し手の近くにあるものを指す言葉。",
                 example="これを見せてください。",
-                ipa=None,
+                ipa="kore",
                 frequency_rank=193,
             ),
             VocabularyEntry(
@@ -758,7 +758,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="expression",
                 definition="丁寧に物を頼むときの言葉。",
                 example="水をください。",
-                ipa=None,
+                ipa="kudasai",
                 frequency_rank=194,
             ),
         ],
@@ -774,7 +774,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="phrase",
                 definition="丁寧に何かを頼むときの表現。",
                 example="もう一度言ってください。お願いします。",
-                ipa=None,
+                ipa="onegaishimasu",
                 frequency_rank=201,
             ),
             VocabularyEntry(
@@ -782,7 +782,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="adverb",
                 definition="同じことを再びすることを表す。",
                 example="もう一度言ってください。",
-                ipa=None,
+                ipa="mōichido",
                 frequency_rank=202,
             ),
             VocabularyEntry(
@@ -790,7 +790,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="adverb",
                 definition="速くなく、落ち着いた速度で。",
                 example="ゆっくり話してください。",
-                ipa=None,
+                ipa="yukkuri",
                 frequency_rank=203,
             ),
             VocabularyEntry(
@@ -798,7 +798,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="phrase",
                 definition="助けを求める丁寧な表現。",
                 example="すみません、ちょっと手伝ってください。",
-                ipa="てつだってください",
+                ipa="tetsudattekudasai",
                 frequency_rank=204,
             ),
         ],
@@ -814,7 +814,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="体の方向の一つ、東を向いた時の南側。",
                 example="次の交差点を右に曲がってください。",
-                ipa="みぎ",
+                ipa="migi",
                 frequency_rank=211,
             ),
             VocabularyEntry(
@@ -822,7 +822,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="体の方向の一つ、東を向いた時の北側。",
                 example="銀行は左にあります。",
-                ipa="ひだり",
+                ipa="hidari",
                 frequency_rank=212,
             ),
             VocabularyEntry(
@@ -830,7 +830,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="adverb",
                 definition="曲がらずに一直線に進む様子。",
                 example="この道をまっすぐ行ってください。",
-                ipa=None,
+                ipa="massugu",
                 frequency_rank=213,
             ),
             VocabularyEntry(
@@ -838,7 +838,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="距離があまり離れていない場所。",
                 example="駅の近くにコンビニがあります。",
-                ipa="ちかく",
+                ipa="chikaku",
                 frequency_rank=214,
             ),
         ],
@@ -854,7 +854,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="人に会ったときや別れるときに交わす言葉。",
                 example="朝のあいさつは大切です。",
-                ipa=None,
+                ipa="aisatsu",
                 frequency_rank=221,
             ),
             VocabularyEntry(
@@ -862,7 +862,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="時刻や時間の長さを表す概念。",
                 example="時間を守ってください。",
-                ipa="じかん",
+                ipa="jikan",
                 frequency_rank=222,
             ),
             VocabularyEntry(
@@ -870,7 +870,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="物事が行われたり存在したりする所。",
                 example="待ち合わせの場所を教えてください。",
-                ipa="ばしょ",
+                ipa="basho",
                 frequency_rank=223,
             ),
             VocabularyEntry(
@@ -878,7 +878,7 @@ A1_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="毎日決まって行うこと。",
                 example="朝の散歩が私の日課です。",
-                ipa="にっか",
+                ipa="nikka",
                 frequency_rank=224,
             ),
         ],
@@ -898,7 +898,7 @@ A1_SETS += [
                 pos="noun",
                 definition="物を入れて持ち運ぶための入れ物。",
                 example="かばんに教科書を入れました。",
-                ipa=None,
+                ipa="kaban",
                 frequency_rank=1001,
             ),
             VocabularyEntry(
@@ -906,7 +906,7 @@ A1_SETS += [
                 pos="noun",
                 definition="お金やカードを入れて持ち歩く物。",
                 example="財布を家に忘れました。",
-                ipa="さいふ",
+                ipa="saifu",
                 frequency_rank=1002,
             ),
             VocabularyEntry(
@@ -914,7 +914,7 @@ A1_SETS += [
                 pos="noun",
                 definition="ドアやロッカーを開け閉めする道具。",
                 example="鍵をかけてから出かけます。",
-                ipa="かぎ",
+                ipa="kagi",
                 frequency_rank=1003,
             ),
             VocabularyEntry(
@@ -922,7 +922,7 @@ A1_SETS += [
                 pos="noun",
                 definition="時間を知るための道具。",
                 example="時計を見てください、もう九時です。",
-                ipa="とけい",
+                ipa="tokei",
                 frequency_rank=1004,
             ),
             VocabularyEntry(
@@ -930,7 +930,7 @@ A1_SETS += [
                 pos="noun",
                 definition="雨や日光を防ぐためにさす道具。",
                 example="雨が降りそうなので傘を持って行きます。",
-                ipa="かさ",
+                ipa="kasa",
                 frequency_rank=1005,
             ),
             VocabularyEntry(
@@ -938,7 +938,7 @@ A1_SETS += [
                 pos="noun",
                 definition="視力を矯正したり目を保護する道具。",
                 example="眼鏡をかけないと小さい字が読めません。",
-                ipa="めがね",
+                ipa="megane",
                 frequency_rank=1006,
             ),
             VocabularyEntry(
@@ -946,7 +946,7 @@ A1_SETS += [
                 pos="noun",
                 definition="持ち歩ける小型の電話。",
                 example="携帯電話で友だちにメッセージを送りました。",
-                ipa="けいたいでんわ",
+                ipa="keitaidenwa",
                 frequency_rank=1007,
             ),
             VocabularyEntry(
@@ -954,7 +954,7 @@ A1_SETS += [
                 pos="noun",
                 definition="電池に電気をためる機械。",
                 example="携帯の充電器を貸してください。",
-                ipa="じゅうでんき",
+                ipa="jūdenki",
                 frequency_rank=1008,
             ),
             VocabularyEntry(
@@ -962,7 +962,7 @@ A1_SETS += [
                 pos="noun",
                 definition="カメラで写した画像。",
                 example="旅行の写真を見せてください。",
-                ipa="しゃしん",
+                ipa="shashin",
                 frequency_rank=1009,
             ),
             VocabularyEntry(
@@ -970,7 +970,7 @@ A1_SETS += [
                 pos="noun",
                 definition="場所や道順を示した図。",
                 example="地図を見ながら目的地を探しました。",
-                ipa="ちず",
+                ipa="chizu",
                 frequency_rank=1010,
             ),
             VocabularyEntry(
@@ -978,7 +978,7 @@ A1_SETS += [
                 pos="noun",
                 definition="交通機関に乗るための券。",
                 example="駅の自動販売機で切符を買います。",
-                ipa="きっぷ",
+                ipa="kippu",
                 frequency_rank=1011,
             ),
             VocabularyEntry(
@@ -986,7 +986,7 @@ A1_SETS += [
                 pos="noun",
                 definition="相手に送る文章を書いた紙。",
                 example="友だちに手紙を書きました。",
-                ipa="てがみ",
+                ipa="tegami",
                 frequency_rank=1012,
             ),
             VocabularyEntry(
@@ -994,7 +994,7 @@ A1_SETS += [
                 pos="noun",
                 definition="物を置いたり書いたりする台。",
                 example="机の上をきれいに片付けます。",
-                ipa="つくえ",
+                ipa="tsukue",
                 frequency_rank=1013,
             ),
             VocabularyEntry(
@@ -1002,7 +1002,7 @@ A1_SETS += [
                 pos="noun",
                 definition="座るための家具。",
                 example="椅子に座って食事をします。",
-                ipa="いす",
+                ipa="isu",
                 frequency_rank=1014,
             ),
             VocabularyEntry(
@@ -1010,7 +1010,7 @@ A1_SETS += [
                 pos="noun",
                 definition="光や空気を通すために壁に開けられた部分。",
                 example="窓を開けて空気を入れ替えましょう。",
-                ipa="まど",
+                ipa="mado",
                 frequency_rank=1015,
             ),
         ],
@@ -1026,7 +1026,7 @@ A1_SETS += [
                 pos="verb",
                 definition="ある場所へ移動する。",
                 example="明日、東京に行きます。",
-                ipa="いく",
+                ipa="iku",
                 frequency_rank=1021,
             ),
             VocabularyEntry(
@@ -1034,7 +1034,7 @@ A1_SETS += [
                 pos="verb",
                 definition="話し手のいる場所へ移動する。",
                 example="友だちが家に来ます。",
-                ipa="くる",
+                ipa="kuru",
                 frequency_rank=1022,
             ),
             VocabularyEntry(
@@ -1042,7 +1042,7 @@ A1_SETS += [
                 pos="verb",
                 definition="元の場所に戻る。",
                 example="仕事が終わったら家に帰ります。",
-                ipa="かえる",
+                ipa="kaeru",
                 frequency_rank=1023,
             ),
             VocabularyEntry(
@@ -1050,7 +1050,7 @@ A1_SETS += [
                 pos="verb",
                 definition="目で物をとらえる。",
                 example="テレビを見ながらご飯を食べます。",
-                ipa="みる",
+                ipa="miru",
                 frequency_rank=1024,
             ),
             VocabularyEntry(
@@ -1058,7 +1058,7 @@ A1_SETS += [
                 pos="verb",
                 definition="耳で音を感じ取る。",
                 example="日本語のラジオを聞きます。",
-                ipa="きく",
+                ipa="kiku",
                 frequency_rank=1025,
             ),
             VocabularyEntry(
@@ -1066,7 +1066,7 @@ A1_SETS += [
                 pos="verb",
                 definition="言葉で情報を伝える。",
                 example="日本語で話す練習をしています。",
-                ipa="はなす",
+                ipa="hanasu",
                 frequency_rank=1026,
             ),
             VocabularyEntry(
@@ -1074,7 +1074,7 @@ A1_SETS += [
                 pos="verb",
                 definition="文字を見て内容を理解する。",
                 example="毎晩本を読みます。",
-                ipa="よむ",
+                ipa="yomu",
                 frequency_rank=1027,
             ),
             VocabularyEntry(
@@ -1082,7 +1082,7 @@ A1_SETS += [
                 pos="verb",
                 definition="文字や絵を描きつける。",
                 example="日記に今日の出来事を書きます。",
-                ipa="かく",
+                ipa="kaku",
                 frequency_rank=1028,
             ),
             VocabularyEntry(
@@ -1090,7 +1090,7 @@ A1_SETS += [
                 pos="verb",
                 definition="食物を口に入れて飲み込む。",
                 example="すしを食べるのが好きです。",
-                ipa="たべる",
+                ipa="taberu",
                 frequency_rank=1029,
             ),
             VocabularyEntry(
@@ -1098,7 +1098,7 @@ A1_SETS += [
                 pos="verb",
                 definition="液体を口から体内に入れる。",
                 example="朝コーヒーを飲みます。",
-                ipa="のむ",
+                ipa="nomu",
                 frequency_rank=1030,
             ),
             VocabularyEntry(
@@ -1106,7 +1106,7 @@ A1_SETS += [
                 pos="verb",
                 definition="お金を払って物を手に入れる。",
                 example="コンビニでおにぎりを買います。",
-                ipa="かう",
+                ipa="kau",
                 frequency_rank=1031,
             ),
             VocabularyEntry(
@@ -1114,7 +1114,7 @@ A1_SETS += [
                 pos="verb",
                 definition="道具や物を目的のために利用する。",
                 example="辞書を使って調べます。",
-                ipa="つかう",
+                ipa="tsukau",
                 frequency_rank=1032,
             ),
             VocabularyEntry(
@@ -1122,7 +1122,7 @@ A1_SETS += [
                 pos="verb",
                 definition="人が来たり物事が起こるのをその場でいる。",
                 example="駅で友だちを待っています。",
-                ipa="まつ",
+                ipa="matsu",
                 frequency_rank=1033,
             ),
             VocabularyEntry(
@@ -1130,7 +1130,7 @@ A1_SETS += [
                 pos="verb",
                 definition="仕事や活動を一時的にやめて体を楽にする。",
                 example="日曜日は家で休みます。",
-                ipa="やすむ",
+                ipa="yasumu",
                 frequency_rank=1034,
             ),
             VocabularyEntry(
@@ -1138,7 +1138,7 @@ A1_SETS += [
                 pos="verb",
                 definition="寝ていた状態から目を覚ます。",
                 example="毎朝七時に起きます。",
-                ipa="おきる",
+                ipa="okiru",
                 frequency_rank=1035,
             ),
         ],
@@ -1154,7 +1154,7 @@ A1_SETS += [
                 pos="noun",
                 definition="炊いた米。食事全般を指すこともある。",
                 example="朝ご飯はパンと卵です。",
-                ipa="ごはん",
+                ipa="gohan",
                 frequency_rank=1041,
             ),
             VocabularyEntry(
@@ -1162,7 +1162,7 @@ A1_SETS += [
                 pos="noun",
                 definition="小麦粉を焼いて作る食べ物。",
                 example="朝はパンを食べます。",
-                ipa=None,
+                ipa="pan",
                 frequency_rank=1042,
             ),
             VocabularyEntry(
@@ -1170,7 +1170,7 @@ A1_SETS += [
                 pos="noun",
                 definition="飲み物としての水分。",
                 example="冷たい水をください。",
-                ipa="みず",
+                ipa="mizu",
                 frequency_rank=1043,
             ),
             VocabularyEntry(
@@ -1178,7 +1178,7 @@ A1_SETS += [
                 pos="noun",
                 definition="茶の葉から作る飲み物。",
                 example="日本ではよくお茶を飲みます。",
-                ipa="おちゃ",
+                ipa="ocha",
                 frequency_rank=1044,
             ),
             VocabularyEntry(
@@ -1186,7 +1186,7 @@ A1_SETS += [
                 pos="noun",
                 definition="コーヒー豆から作る飲み物。",
                 example="毎朝コーヒーを一杯飲みます。",
-                ipa=None,
+                ipa="kōhii",
                 frequency_rank=1045,
             ),
             VocabularyEntry(
@@ -1194,7 +1194,7 @@ A1_SETS += [
                 pos="noun",
                 definition="牛からとれる白い飲み物。",
                 example="牛乳は体にいいです。",
-                ipa="ぎゅうにゅう",
+                ipa="gyūnyū",
                 frequency_rank=1046,
             ),
             VocabularyEntry(
@@ -1202,7 +1202,7 @@ A1_SETS += [
                 pos="noun",
                 definition="鳥が産む食用の殻に包まれたもの。",
                 example="卵を二つ買ってきてください。",
-                ipa="たまご",
+                ipa="tamago",
                 frequency_rank=1047,
             ),
             VocabularyEntry(
@@ -1210,7 +1210,7 @@ A1_SETS += [
                 pos="noun",
                 definition="動物の食用の部分。",
                 example="肉と野菜を炒めて料理します。",
-                ipa="にく",
+                ipa="niku",
                 frequency_rank=1048,
             ),
             VocabularyEntry(
@@ -1218,7 +1218,7 @@ A1_SETS += [
                 pos="noun",
                 definition="海や川にすむ食用の生き物。",
                 example="今日の晩ご飯は魚です。",
-                ipa="さかな",
+                ipa="sakana",
                 frequency_rank=1049,
             ),
             VocabularyEntry(
@@ -1226,7 +1226,7 @@ A1_SETS += [
                 pos="noun",
                 definition="食用の植物。",
                 example="スーパーで野菜を買いました。",
-                ipa="やさい",
+                ipa="yasai",
                 frequency_rank=1050,
             ),
             VocabularyEntry(
@@ -1234,7 +1234,7 @@ A1_SETS += [
                 pos="noun",
                 definition="木や草になる甘い実。",
                 example="果物はデザートにいいです。",
-                ipa="くだもの",
+                ipa="kudamono",
                 frequency_rank=1051,
             ),
             VocabularyEntry(
@@ -1242,7 +1242,7 @@ A1_SETS += [
                 pos="noun",
                 definition="赤くて丸い果物。",
                 example="りんごを一つ食べました。",
-                ipa=None,
+                ipa="ringo",
                 frequency_rank=1052,
             ),
             VocabularyEntry(
@@ -1250,7 +1250,7 @@ A1_SETS += [
                 pos="noun",
                 definition="黄色くて細長い果物。",
                 example="バナナは栄養があります。",
-                ipa=None,
+                ipa="banana",
                 frequency_rank=1053,
             ),
             VocabularyEntry(
@@ -1258,7 +1258,7 @@ A1_SETS += [
                 pos="noun",
                 definition="昼に食べる食事。",
                 example="昼ご飯はそばを食べました。",
-                ipa="ひるごはん",
+                ipa="hirugohan",
                 frequency_rank=1054,
             ),
             VocabularyEntry(
@@ -1266,7 +1266,7 @@ A1_SETS += [
                 pos="noun",
                 definition="夜に食べる食事。",
                 example="晩ご飯は家族といっしょに食べます。",
-                ipa="ばんごはん",
+                ipa="bangohan",
                 frequency_rank=1055,
             ),
         ],
@@ -1282,7 +1282,7 @@ A1_SETS += [
                 pos="noun",
                 definition="電車が到着し出発する場所。",
                 example="東京駅はとても大きいです。",
-                ipa="えき",
+                ipa="eki",
                 frequency_rank=1061,
             ),
             VocabularyEntry(
@@ -1290,7 +1290,7 @@ A1_SETS += [
                 pos="noun",
                 definition="教育を受けるための施設。",
                 example="学校まで歩いて十五分です。",
-                ipa="がっこう",
+                ipa="gakkō",
                 frequency_rank=1062,
             ),
             VocabularyEntry(
@@ -1298,7 +1298,7 @@ A1_SETS += [
                 pos="noun",
                 definition="高等教育を行う機関。",
                 example="大学で経済を勉強しています。",
-                ipa="だいがく",
+                ipa="daigaku",
                 frequency_rank=1063,
             ),
             VocabularyEntry(
@@ -1306,7 +1306,7 @@ A1_SETS += [
                 pos="noun",
                 definition="仕事をする組織やその建物。",
                 example="会社は九時に始まります。",
-                ipa="かいしゃ",
+                ipa="kaisha",
                 frequency_rank=1064,
             ),
             VocabularyEntry(
@@ -1314,7 +1314,7 @@ A1_SETS += [
                 pos="noun",
                 definition="商品を売る場所。",
                 example="この店は夜十一時まで開いています。",
-                ipa="みせ",
+                ipa="mise",
                 frequency_rank=1065,
             ),
             VocabularyEntry(
@@ -1322,7 +1322,7 @@ A1_SETS += [
                 pos="noun",
                 definition="お金を取り扱う機関。",
                 example="銀行で口座を開きました。",
-                ipa="ぎんこう",
+                ipa="ginkō",
                 frequency_rank=1066,
             ),
             VocabularyEntry(
@@ -1330,7 +1330,7 @@ A1_SETS += [
                 pos="noun",
                 definition="病気やけがの治療をする施設。",
                 example="病気のときは病院に行きます。",
-                ipa="びょういん",
+                ipa="byōin",
                 frequency_rank=1067,
             ),
             VocabularyEntry(
@@ -1338,7 +1338,7 @@ A1_SETS += [
                 pos="noun",
                 definition="手紙や荷物を送るための場所。",
                 example="郵便局で切手を買いました。",
-                ipa="ゆうびんきょく",
+                ipa="yūbinkyoku",
                 frequency_rank=1068,
             ),
             VocabularyEntry(
@@ -1346,7 +1346,7 @@ A1_SETS += [
                 pos="noun",
                 definition="本を借りたり読んだりできる施設。",
                 example="図書館で本を三冊借りました。",
-                ipa="としょかん",
+                ipa="toshokan",
                 frequency_rank=1069,
             ),
             VocabularyEntry(
@@ -1354,7 +1354,7 @@ A1_SETS += [
                 pos="noun",
                 definition="散歩や遊びのための公共の緑地。",
                 example="週末は公園でジョギングをします。",
-                ipa="こうえん",
+                ipa="kōen",
                 frequency_rank=1070,
             ),
             VocabularyEntry(
@@ -1362,7 +1362,7 @@ A1_SETS += [
                 pos="noun",
                 definition="料理を提供する飲食店。",
                 example="このレストランのラーメンはおいしいです。",
-                ipa=None,
+                ipa="resutoran",
                 frequency_rank=1071,
             ),
             VocabularyEntry(
@@ -1370,7 +1370,7 @@ A1_SETS += [
                 pos="noun",
                 definition="宿泊するための施設。",
                 example="空港の近くのホテルに泊まりました。",
-                ipa=None,
+                ipa="hoteru",
                 frequency_rank=1072,
             ),
             VocabularyEntry(
@@ -1378,7 +1378,7 @@ A1_SETS += [
                 pos="noun",
                 definition="飛行機が発着する場所。",
                 example="空港までバスで行きます。",
-                ipa="くうこう",
+                ipa="kūkō",
                 frequency_rank=1073,
             ),
             VocabularyEntry(
@@ -1386,7 +1386,7 @@ A1_SETS += [
                 pos="noun",
                 definition="人が住むための建物。",
                 example="家に帰って休みたいです。",
-                ipa="いえ",
+                ipa="ie",
                 frequency_rank=1074,
             ),
             VocabularyEntry(
@@ -1394,7 +1394,7 @@ A1_SETS += [
                 pos="noun",
                 definition="建物の中の区切られた空間。",
                 example="部屋を掃除しました。",
-                ipa="へや",
+                ipa="heya",
                 frequency_rank=1075,
             ),
         ],
@@ -1410,7 +1410,7 @@ A1_SETS += [
                 pos="adjective",
                 definition="サイズや規模が普通より上回っている。",
                 example="この荷物はとても大きいです。",
-                ipa="おおきい",
+                ipa="ōkii",
                 frequency_rank=1081,
             ),
             VocabularyEntry(
@@ -1418,7 +1418,7 @@ A1_SETS += [
                 pos="adjective",
                 definition="サイズや規模が普通より下回っている。",
                 example="小さい犬が道を歩いています。",
-                ipa="ちいさい",
+                ipa="chiisai",
                 frequency_rank=1082,
             ),
             VocabularyEntry(
@@ -1426,7 +1426,7 @@ A1_SETS += [
                 pos="adjective",
                 definition="作られてから時間が経っていない。",
                 example="新しいスマホを買いました。",
-                ipa="あたらしい",
+                ipa="atarashii",
                 frequency_rank=1083,
             ),
             VocabularyEntry(
@@ -1434,7 +1434,7 @@ A1_SETS += [
                 pos="adjective",
                 definition="作られてから長い時間が経っている。",
                 example="この寺はとても古いです。",
-                ipa="ふるい",
+                ipa="furui",
                 frequency_rank=1084,
             ),
             VocabularyEntry(
@@ -1442,7 +1442,7 @@ A1_SETS += [
                 pos="adjective",
                 definition="値段が普通より上回っている、または物の位置が上の方にある。",
                 example="東京の家賃は高いです。",
-                ipa="たかい",
+                ipa="takai",
                 frequency_rank=1085,
             ),
             VocabularyEntry(
@@ -1450,7 +1450,7 @@ A1_SETS += [
                 pos="adjective",
                 definition="値段が普通より下回っている。",
                 example="この店は安くておいしいです。",
-                ipa="やすい",
+                ipa="yasui",
                 frequency_rank=1086,
             ),
             VocabularyEntry(
@@ -1458,7 +1458,7 @@ A1_SETS += [
                 pos="adjective",
                 definition="気温が高く感じられる。",
                 example="今日はとても暑いですね。",
-                ipa="あつい",
+                ipa="atsui",
                 frequency_rank=1087,
             ),
             VocabularyEntry(
@@ -1466,7 +1466,7 @@ A1_SETS += [
                 pos="adjective",
                 definition="気温が低く感じられる。",
                 example="冬は寒いです。",
-                ipa="さむい",
+                ipa="samui",
                 frequency_rank=1088,
             ),
             VocabularyEntry(
@@ -1474,7 +1474,7 @@ A1_SETS += [
                 pos="adjective",
                 definition="食べ物や飲み物の味が良い。",
                 example="このケーキはとてもおいしいです。",
-                ipa=None,
+                ipa="oishii",
                 frequency_rank=1089,
             ),
             VocabularyEntry(
@@ -1482,7 +1482,7 @@ A1_SETS += [
                 pos="adjective",
                 definition="やることが多くて暇がない。",
                 example="今週は忙しいです。",
-                ipa="いそがしい",
+                ipa="isogashii",
                 frequency_rank=1090,
             ),
             VocabularyEntry(
@@ -1490,7 +1490,7 @@ A1_SETS += [
                 pos="adjective",
                 definition="音が少なく落ち着いている。",
                 example="この公園は静かでいいですね。",
-                ipa="しずか",
+                ipa="shizuka",
                 frequency_rank=1091,
             ),
             VocabularyEntry(
@@ -1498,7 +1498,7 @@ A1_SETS += [
                 pos="adjective",
                 definition="使いやすく役に立つ。",
                 example="駅の近くにあって便利です。",
-                ipa="べんり",
+                ipa="benri",
                 frequency_rank=1092,
             ),
             VocabularyEntry(
@@ -1506,7 +1506,7 @@ A1_SETS += [
                 pos="adjective",
                 definition="広く知られている。",
                 example="富士山は有名な山です。",
-                ipa="ゆうめい",
+                ipa="yūmei",
                 frequency_rank=1093,
             ),
             VocabularyEntry(
@@ -1514,7 +1514,7 @@ A1_SETS += [
                 pos="adjective",
                 definition="体の調子が良く活発な様子。",
                 example="お元気ですか。",
-                ipa="げんき",
+                ipa="genki",
                 frequency_rank=1094,
             ),
             VocabularyEntry(
@@ -1522,7 +1522,7 @@ A1_SETS += [
                 pos="adjective",
                 definition="気に入っている、好ましく思う。",
                 example="私は音楽が好きです。",
-                ipa="すき",
+                ipa="suki",
                 frequency_rank=1095,
             ),
         ],
@@ -1538,7 +1538,7 @@ A1_SETS += [
                 pos="noun",
                 definition="今の日、この日。",
                 example="今日は何曜日ですか。",
-                ipa="きょう",
+                ipa="kyō",
                 frequency_rank=1101,
             ),
             VocabularyEntry(
@@ -1546,7 +1546,7 @@ A1_SETS += [
                 pos="noun",
                 definition="今日の次の日。",
                 example="明日、映画を見に行きます。",
-                ipa="あした",
+                ipa="ashita",
                 frequency_rank=1102,
             ),
             VocabularyEntry(
@@ -1554,7 +1554,7 @@ A1_SETS += [
                 pos="noun",
                 definition="今日の前の日。",
                 example="昨日は雨でした。",
-                ipa="きのう",
+                ipa="kinō",
                 frequency_rank=1103,
             ),
             VocabularyEntry(
@@ -1562,7 +1562,7 @@ A1_SETS += [
                 pos="noun",
                 definition="現在の週。",
                 example="今週はとても忙しかったです。",
-                ipa="こんしゅう",
+                ipa="konshū",
                 frequency_rank=1104,
             ),
             VocabularyEntry(
@@ -1570,7 +1570,7 @@ A1_SETS += [
                 pos="noun",
                 definition="次の週。",
                 example="来週から夏休みが始まります。",
-                ipa="らいしゅう",
+                ipa="raishū",
                 frequency_rank=1105,
             ),
             VocabularyEntry(
@@ -1578,7 +1578,7 @@ A1_SETS += [
                 pos="noun",
                 definition="前の週。",
                 example="先週、京都に行きました。",
-                ipa="せんしゅう",
+                ipa="senshū",
                 frequency_rank=1106,
             ),
             VocabularyEntry(
@@ -1586,7 +1586,7 @@ A1_SETS += [
                 pos="noun",
                 definition="太陽がのぼる時間帯。",
                 example="朝はパンとコーヒーです。",
-                ipa="あさ",
+                ipa="asa",
                 frequency_rank=1107,
             ),
             VocabularyEntry(
@@ -1594,7 +1594,7 @@ A1_SETS += [
                 pos="noun",
                 definition="正午ごろの時間帯。",
                 example="昼に友だちと食事をしました。",
-                ipa="ひる",
+                ipa="hiru",
                 frequency_rank=1108,
             ),
             VocabularyEntry(
@@ -1602,7 +1602,7 @@ A1_SETS += [
                 pos="noun",
                 definition="日が沈んで暗くなっている時間帯。",
                 example="夜は早く寝たほうがいいです。",
-                ipa="よる",
+                ipa="yoru",
                 frequency_rank=1109,
             ),
             VocabularyEntry(
@@ -1610,7 +1610,7 @@ A1_SETS += [
                 pos="adverb",
                 definition="一日も欠かさずに。",
                 example="毎日日本語を勉強しています。",
-                ipa="まいにち",
+                ipa="mainichi",
                 frequency_rank=1110,
             ),
             VocabularyEntry(
@@ -1618,7 +1618,7 @@ A1_SETS += [
                 pos="adverb",
                 definition="たまに、ある程度の頻度で。",
                 example="時々映画館に行きます。",
-                ipa="ときどき",
+                ipa="tokidoki",
                 frequency_rank=1111,
             ),
             VocabularyEntry(
@@ -1626,7 +1626,7 @@ A1_SETS += [
                 pos="adverb",
                 definition="常に、決まって。",
                 example="彼はいつも遅刻します。",
-                ipa=None,
+                ipa="itsumo",
                 frequency_rank=1112,
             ),
             VocabularyEntry(
@@ -1634,7 +1634,7 @@ A1_SETS += [
                 pos="adverb",
                 definition="時間をおかずに、直ちに。",
                 example="すぐ戻りますので待っていてください。",
-                ipa=None,
+                ipa="sugu",
                 frequency_rank=1113,
             ),
             VocabularyEntry(
@@ -1642,7 +1642,7 @@ A1_SETS += [
                 pos="adverb",
                 definition="少し時間が経ってから。",
                 example="あとで電話します。",
-                ipa=None,
+                ipa="atode",
                 frequency_rank=1114,
             ),
             VocabularyEntry(
@@ -1650,7 +1650,7 @@ A1_SETS += [
                 pos="adverb",
                 definition="現在の時点で。",
                 example="今、何をしていますか。",
-                ipa="いま",
+                ipa="ima",
                 frequency_rank=1115,
             ),
         ],
@@ -1666,7 +1666,7 @@ A1_SETS += [
                 pos="noun",
                 definition="親子や兄弟など、血縁や結婚で結ばれた人々。",
                 example="家族は四人家族です。",
-                ipa="かぞく",
+                ipa="kazoku",
                 frequency_rank=2201,
             ),
             VocabularyEntry(
@@ -1674,7 +1674,7 @@ A1_SETS += [
                 pos="noun",
                 definition="男性の親。",
                 example="父は会社員です。",
-                ipa="ちち",
+                ipa="chichi",
                 frequency_rank=2202,
             ),
             VocabularyEntry(
@@ -1682,7 +1682,7 @@ A1_SETS += [
                 pos="noun",
                 definition="女性の親。",
                 example="母は料理が上手です。",
-                ipa="はは",
+                ipa="haha",
                 frequency_rank=2203,
             ),
             VocabularyEntry(
@@ -1690,7 +1690,7 @@ A1_SETS += [
                 pos="noun",
                 definition="年上の男性の兄弟。",
                 example="兄は大学生です。",
-                ipa="あに",
+                ipa="ani",
                 frequency_rank=2204,
             ),
             VocabularyEntry(
@@ -1698,7 +1698,7 @@ A1_SETS += [
                 pos="noun",
                 definition="年上の女性の兄弟。",
                 example="姉は看護師です。",
-                ipa="あね",
+                ipa="ane",
                 frequency_rank=2205,
             ),
             VocabularyEntry(
@@ -1706,7 +1706,7 @@ A1_SETS += [
                 pos="noun",
                 definition="年下の男性の兄弟。",
                 example="弟は中学生です。",
-                ipa="おとうと",
+                ipa="otōto",
                 frequency_rank=2206,
             ),
             VocabularyEntry(
@@ -1714,7 +1714,7 @@ A1_SETS += [
                 pos="noun",
                 definition="年下の女性の兄弟。",
                 example="妹は小学生です。",
-                ipa="いもうと",
+                ipa="imōto",
                 frequency_rank=2207,
             ),
             VocabularyEntry(
@@ -1722,7 +1722,7 @@ A1_SETS += [
                 pos="noun",
                 definition="幼い人、または息子や娘。",
                 example="子どもが公園で遊んでいます。",
-                ipa="こども",
+                ipa="kodomo",
                 frequency_rank=2208,
             ),
             VocabularyEntry(
@@ -1730,7 +1730,7 @@ A1_SETS += [
                 pos="noun",
                 definition="仲の良い関係の人。",
                 example="友だちと買い物に行きます。",
-                ipa="ともだち",
+                ipa="tomodachi",
                 frequency_rank=2209,
             ),
             VocabularyEntry(
@@ -1738,7 +1738,7 @@ A1_SETS += [
                 pos="noun",
                 definition="人間。",
                 example="あの人は親切です。",
-                ipa="ひと",
+                ipa="hito",
                 frequency_rank=2210,
             ),
         ],
@@ -1754,7 +1754,7 @@ A1_SETS += [
                 pos="numeral",
                 definition="数字の1。",
                 example="りんごが一つあります。",
-                ipa="いち",
+                ipa="ichi",
                 frequency_rank=2221,
             ),
             VocabularyEntry(
@@ -1762,7 +1762,7 @@ A1_SETS += [
                 pos="numeral",
                 definition="数字の2。",
                 example="机が二つあります。",
-                ipa="に",
+                ipa="ni",
                 frequency_rank=2222,
             ),
             VocabularyEntry(
@@ -1770,7 +1770,7 @@ A1_SETS += [
                 pos="numeral",
                 definition="数字の3。",
                 example="コーヒーを三つください。",
-                ipa="さん",
+                ipa="san",
                 frequency_rank=2223,
             ),
             VocabularyEntry(
@@ -1778,7 +1778,7 @@ A1_SETS += [
                 pos="numeral",
                 definition="数字の4。",
                 example="家族は四人です。",
-                ipa="よん",
+                ipa="yon",
                 frequency_rank=2224,
             ),
             VocabularyEntry(
@@ -1786,7 +1786,7 @@ A1_SETS += [
                 pos="numeral",
                 definition="数字の5。",
                 example="五時に終わります。",
-                ipa="ご",
+                ipa="go",
                 frequency_rank=2225,
             ),
             VocabularyEntry(
@@ -1794,7 +1794,7 @@ A1_SETS += [
                 pos="noun",
                 definition="一週間の最初の日。",
                 example="月曜日は休みです。",
-                ipa="げつようび",
+                ipa="getsuyōbi",
                 frequency_rank=2226,
             ),
             VocabularyEntry(
@@ -1802,7 +1802,7 @@ A1_SETS += [
                 pos="noun",
                 definition="一週間の二番目の日。",
                 example="火曜日に日本語のクラスがあります。",
-                ipa="かようび",
+                ipa="kayōbi",
                 frequency_rank=2227,
             ),
             VocabularyEntry(
@@ -1810,7 +1810,7 @@ A1_SETS += [
                 pos="noun",
                 definition="一週間の三番目の日。",
                 example="水曜日は忙しいです。",
-                ipa="すいようび",
+                ipa="suiyōbi",
                 frequency_rank=2228,
             ),
             VocabularyEntry(
@@ -1818,7 +1818,7 @@ A1_SETS += [
                 pos="noun",
                 definition="生まれた記念日。",
                 example="誕生日は12月です。",
-                ipa="たんじょうび",
+                ipa="tanjōbi",
                 frequency_rank=2229,
             ),
             VocabularyEntry(
@@ -1826,7 +1826,7 @@ A1_SETS += [
                 pos="noun",
                 definition="時刻や時間の長さ。",
                 example="時間を教えてくれませんか。",
-                ipa="じかん",
+                ipa="jikan",
                 frequency_rank=2230,
             ),
         ],
@@ -1842,7 +1842,7 @@ A1_SETS += [
                 pos="noun",
                 definition="身に着ける衣類。",
                 example="新しい服を買いました。",
-                ipa="ふく",
+                ipa="fuku",
                 frequency_rank=2241,
             ),
             VocabularyEntry(
@@ -1850,7 +1850,7 @@ A1_SETS += [
                 pos="noun",
                 definition="足にはく履物。",
                 example="靴をはいて出かけます。",
-                ipa="くつ",
+                ipa="kutsu",
                 frequency_rank=2242,
             ),
             VocabularyEntry(
@@ -1858,7 +1858,7 @@ A1_SETS += [
                 pos="noun",
                 definition="頭にかぶるもの。",
                 example="夏は帽子をかぶります。",
-                ipa="ぼうし",
+                ipa="bōshi",
                 frequency_rank=2243,
             ),
             VocabularyEntry(
@@ -1866,7 +1866,7 @@ A1_SETS += [
                 pos="noun",
                 definition="服の一番上に着るもの。",
                 example="寒いので上着を着ます。",
-                ipa="うわぎ",
+                ipa="uwagi",
                 frequency_rank=2244,
             ),
             VocabularyEntry(
@@ -1874,7 +1874,7 @@ A1_SETS += [
                 pos="noun",
                 definition="ある場所の気象状態。",
                 example="明日の天気はどうですか。",
-                ipa="てんき",
+                ipa="tenki",
                 frequency_rank=2245,
             ),
             VocabularyEntry(
@@ -1882,7 +1882,7 @@ A1_SETS += [
                 pos="noun",
                 definition="空から降る水滴。",
                 example="雨がやんだら出かけましょう。",
-                ipa="あめ",
+                ipa="ame",
                 frequency_rank=2246,
             ),
             VocabularyEntry(
@@ -1890,7 +1890,7 @@ A1_SETS += [
                 pos="noun",
                 definition="空から降る白い氷の結晶。",
                 example="冬になると雪が降ります。",
-                ipa="ゆき",
+                ipa="yuki",
                 frequency_rank=2247,
             ),
             VocabularyEntry(
@@ -1898,7 +1898,7 @@ A1_SETS += [
                 pos="noun",
                 definition="空気の動き。",
                 example="今日は風が強いです。",
-                ipa="かぜ",
+                ipa="kaze",
                 frequency_rank=2248,
             ),
             VocabularyEntry(
@@ -1906,7 +1906,7 @@ A1_SETS += [
                 pos="noun",
                 definition="雲が少なく日が照っている天気。",
                 example="明日は晴れでしょう。",
-                ipa="はれ",
+                ipa="hare",
                 frequency_rank=2249,
             ),
             VocabularyEntry(
@@ -1914,7 +1914,7 @@ A1_SETS += [
                 pos="noun",
                 definition="空が雲でおおわれている天気。",
                 example="今日は曇りで少し寒いです。",
-                ipa="くもり",
+                ipa="kumori",
                 frequency_rank=2250,
             ),
         ],

@@ -81,6 +81,7 @@ class PhrasebookEntry:
     context: str  # when/where to use it
     register: Register
     unit_ref: str | None = None
+    romanization: str | None = None  # pinyin / romaji / revised-romanization
 
 
 @dataclass

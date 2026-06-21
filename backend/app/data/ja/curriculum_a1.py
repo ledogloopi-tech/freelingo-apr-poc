@@ -12,7 +12,7 @@ A1_UNITS: list[CurriculumUnit] = [
         title="文字とあいさつ",
         grammar_points=["hiragana", "katakana", "basic-copula-desu", "sentence-final-particles"],
         vocabulary_set_ids=["kana_a1", "greetings_a1", "classroom_a1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "初級語彙で使う基本的なひらがな・カタカナを読み書きできる",
             "基本的なあいさつと自己紹介の定型表現を自然に使える",
@@ -29,7 +29,7 @@ A1_UNITS: list[CurriculumUnit] = [
         title="自己紹介とアイデンティティ",
         grammar_points=["wa-topic-particle", "no-possessive", "question-particle-ka"],
         vocabulary_set_ids=["identity_a1", "countries_a1", "occupations_a1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "名前、国籍、職業などの基本的なプロフィールを紹介できる",
             "短い文でトピックの「は」と所属・所有の「の」を使い分けられる",
@@ -46,7 +46,7 @@ A1_UNITS: list[CurriculumUnit] = [
         title="数字・時間・予定",
         grammar_points=["numbers-counters-basic", "time-expressions", "ni-time-particle"],
         vocabulary_set_ids=["numbers_a1", "time_a1", "days_dates_a1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "時間、日付、年齢、基本的な数え方を使って数量を表せる",
             "具体的な時を表す表現ではにを使い、相対的な時の表現では自然に省略できる",
@@ -63,7 +63,7 @@ A1_UNITS: list[CurriculumUnit] = [
         title="場所と存在",
         grammar_points=["koko-soko-asoko", "ni-arimasu-imasu", "location-particles"],
         vocabulary_set_ids=["places_a1", "home_a1", "city_a1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "あります・いますを使って物や人のいる場所を説明できる",
             "ここ・そこ・あそこ、前・中・上などの基本的な位置表現を使い分けられる",
@@ -80,7 +80,7 @@ A1_UNITS: list[CurriculumUnit] = [
         title="日常生活と動詞ます形",
         grammar_points=["masu-form", "o-object-particle", "daily-routine-verbs"],
         vocabulary_set_ids=["daily_routine_a1", "food_a1", "transport_a1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "食べます・食べませんのような現在／未来と否定の丁寧形を使える",
             "日常生活の簡単な文で直接目的語にをを付けられる",
@@ -97,7 +97,7 @@ A1_UNITS: list[CurriculumUnit] = [
         title="形容詞と好み",
         grammar_points=["i-adjectives", "na-adjectives", "ga-suki-kirai"],
         vocabulary_set_ids=["adjectives_a1", "hobbies_a1", "weather_a1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "い形容詞・な形容詞を使って人、物、食べ物、天気を説明できる",
             "好き・嫌いとがを使って好みを丁寧に表現できる",
@@ -114,7 +114,7 @@ A1_UNITS: list[CurriculumUnit] = [
         title="依頼と買い物",
         grammar_points=["te-form-introduction", "kudasai-requests", "particles-de-e-to"],
         vocabulary_set_ids=["shopping_a1", "requests_a1", "directions_a1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "店やサービスの場面で、て形＋くださいを使った基本的な依頼ができる",
             "手段・動作の場所ので、方向のへ、相手や列挙のとを使い分けられる",
@@ -141,7 +141,7 @@ A1_UNITS: list[CurriculumUnit] = [
             "te-form-introduction",
         ],
         vocabulary_set_ids=["review_a1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "自己紹介、日常生活、場所、好みについて簡単なやり取りを続けられる",
             "かなと基本漢字を含む短い文章を読み、明示された情報を取り出せる",

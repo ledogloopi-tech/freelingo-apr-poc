@@ -38,6 +38,7 @@ def _category_to_response(c: PhrasebookCategory) -> PhrasebookCategoryResponse:
                 context=p.context,
                 register=p.register,
                 unit_ref=p.unit_ref,
+                romanization=p.romanization,
             )
             for p in c.phrases
         ],

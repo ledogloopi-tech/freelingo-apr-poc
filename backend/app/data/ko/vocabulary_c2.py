@@ -585,7 +585,7 @@ C2_SETS: list[VocabularySet] = [
         id="literary_criticism_c2",
         level="C2",
         topic="문학 비평",
-        unit_ref="c2-unit-9",
+        unit_ref="c2-unit-8",
         words=[
             VocabularyEntry(
                 word="서사 구조",
@@ -649,7 +649,7 @@ C2_SETS: list[VocabularySet] = [
         id="academic_writing_c2",
         level="C2",
         topic="학술 작문",
-        unit_ref="c2-unit-9",
+        unit_ref="c2-unit-8",
         words=[
             VocabularyEntry(
                 word="초록",
@@ -713,7 +713,7 @@ C2_SETS: list[VocabularySet] = [
         id="research_c2",
         level="C2",
         topic="연구",
-        unit_ref="c2-unit-10",
+        unit_ref="c2-unit-8",
         words=[
             VocabularyEntry(
                 word="종단 연구",
@@ -777,7 +777,7 @@ C2_SETS: list[VocabularySet] = [
         id="policy_c2",
         level="C2",
         topic="정책",
-        unit_ref="c2-unit-10",
+        unit_ref="c2-unit-8",
         words=[
             VocabularyEntry(
                 word="규제",
@@ -841,7 +841,7 @@ C2_SETS: list[VocabularySet] = [
         id="ethics_c2",
         level="C2",
         topic="윤리",
-        unit_ref="c2-unit-11",
+        unit_ref="c2-unit-8",
         words=[
             VocabularyEntry(
                 word="공리주의",
@@ -905,7 +905,7 @@ C2_SETS: list[VocabularySet] = [
         id="culture_theory_c2",
         level="C2",
         topic="문화 이론",
-        unit_ref="c2-unit-11",
+        unit_ref="c2-unit-8",
         words=[
             VocabularyEntry(
                 word="패러다임",
@@ -969,7 +969,7 @@ C2_SETS: list[VocabularySet] = [
         id="media_analysis_c2",
         level="C2",
         topic="미디어 분석",
-        unit_ref="c2-unit-12",
+        unit_ref="c2-unit-8",
         words=[
             VocabularyEntry(
                 word="프레이밍",
@@ -1033,7 +1033,7 @@ C2_SETS: list[VocabularySet] = [
         id="law_c2",
         level="C2",
         topic="법률",
-        unit_ref="c2-unit-12",
+        unit_ref="c2-unit-8",
         words=[
             VocabularyEntry(
                 word="항소",
@@ -1097,7 +1097,7 @@ C2_SETS: list[VocabularySet] = [
         id="science_c2",
         level="C2",
         topic="과학",
-        unit_ref="c2-unit-13",
+        unit_ref="c2-unit-8",
         words=[
             VocabularyEntry(
                 word="양자역학",

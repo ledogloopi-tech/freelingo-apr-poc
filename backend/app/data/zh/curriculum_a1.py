@@ -10,7 +10,7 @@ A1_UNITS: list[CurriculumUnit] = [
         title="拼音、声调和问候",
         grammar_points=["pinyin-tones", "basic-word-order", "shi-copula"],
         vocabulary_set_ids=["pinyin_a1", "greetings_a1", "classroom_a1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "能读写基本拼音并区分四声和轻声",
             "能用简单问候语开始和结束日常对话",
@@ -27,7 +27,7 @@ A1_UNITS: list[CurriculumUnit] = [
         title="自我介绍和身份信息",
         grammar_points=["ma-questions", "pronouns-basic", "de-possession-basic"],
         vocabulary_set_ids=["identity_a1", "countries_a1", "occupations_a1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "能介绍姓名、国籍、职业和学习目的",
             "能用吗构成简单的是非问句",
@@ -44,7 +44,7 @@ A1_UNITS: list[CurriculumUnit] = [
         title="数字、时间和日期",
         grammar_points=["numbers-measure-words", "time-word-order", "date-expressions"],
         vocabulary_set_ids=["numbers_a1", "time_a1", "days_dates_a1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "能说出基本数字、价格、年龄和电话号码",
             "能按照中文习惯表达年月日和星期",
@@ -61,7 +61,7 @@ A1_UNITS: list[CurriculumUnit] = [
         title="地点、存在和方向",
         grammar_points=["zai-location", "you-existence", "zhe-na-demonstratives"],
         vocabulary_set_ids=["places_a1", "home_a1", "city_a1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "能用在说明人或物所在的位置",
             "能用有说明存在和拥有",
@@ -78,7 +78,7 @@ A1_UNITS: list[CurriculumUnit] = [
         title="日常活动和动词谓语句",
         grammar_points=["verb-predicate-basic", "negative-bu", "object-placement"],
         vocabulary_set_ids=["daily_routine_a1", "food_a1", "transport_a1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "能用基本动词描述每天做什么",
             "能用不表达简单否定",
@@ -95,7 +95,7 @@ A1_UNITS: list[CurriculumUnit] = [
         title="形容词、喜好和天气",
         grammar_points=["adjective-predicate", "hen-with-adjectives", "like-xihuan"],
         vocabulary_set_ids=["adjectives_a1", "hobbies_a1", "weather_a1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "能用形容词描述人、物和天气",
             "能理解很在形容词谓语句中的自然用法",
@@ -112,7 +112,7 @@ A1_UNITS: list[CurriculumUnit] = [
         title="购物、请求和数量",
         grammar_points=["qing-requests", "measure-word-ge", "duoshao-questions"],
         vocabulary_set_ids=["shopping_a1", "requests_a1", "directions_a1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "能用请提出礼貌请求",
             "能用个和常见量词表达数量",
@@ -138,7 +138,7 @@ A1_UNITS: list[CurriculumUnit] = [
             "qing-requests",
         ],
         vocabulary_set_ids=["review_a1"],
-        lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "能围绕身份、时间、地点和日常活动进行简单交流",
             "能读懂含拼音辅助的初级短句和提示",
