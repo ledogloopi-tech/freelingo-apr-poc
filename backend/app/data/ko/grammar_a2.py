@@ -62,7 +62,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="experience-jeok-i-isseoyo",
+        slug="experience-eun-jeogi-isseoyo",
         title="적이 있어요",
         level="A2",
         category="경험",
@@ -120,7 +120,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="intention-euryeogo-haeyo",
+        slug="intention-eullyeo",
         title="으려고 해요",
         level="A2",
         category="의도",
@@ -207,7 +207,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="because-eunikka",
+        slug="because-nikka",
         title="으니까 이유",
         level="A2",
         category="이유",
@@ -236,7 +236,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="but-jiman",
+        slug="contrast-jiman",
         title="지만 대조",
         level="A2",
         category="대조",
@@ -265,7 +265,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="may-ado-dwaeyo",
+        slug="permission-ado-dwaeyo",
         title="아도/어도 돼요 허락",
         level="A2",
         category="허락",
@@ -294,7 +294,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="must-not-eumyeon-an-dwaeyo",
+        slug="prohibition-myeon-andwaeyo",
         title="으면 안 돼요 금지",
         level="A2",
         category="금지",
@@ -323,7 +323,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="must-aya-haeyo",
+        slug="obligation-aya-dwaeyo",
         title="아야/어야 해요 의무",
         level="A2",
         category="의무",
@@ -468,7 +468,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="state-a-eo-isseoyo",
+        slug="state-change-ajyeo",
         title="아/어 있어요 상태",
         level="A2",
         category="상태",
@@ -497,7 +497,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="become-ge-dwaeyo",
+        slug="change-ge-dwaeyo",
         title="게 돼요 변화",
         level="A2",
         category="변화",
@@ -584,7 +584,7 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="polite-can-eul-su-isseoyo",
+        slug="ability-eul-su-isseoyo",
         title="을 수 있어요 가능",
         level="A2",
         category="가능",

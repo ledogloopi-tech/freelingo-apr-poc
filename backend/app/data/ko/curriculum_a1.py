@@ -1,5 +1,7 @@
 """A1 curriculum units — Korean (ko-KR)."""
 
+from __future__ import annotations
+
 from app.data._types import CurriculumUnit
 
 A1_UNITS: list[CurriculumUnit] = [
@@ -8,7 +10,7 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=1,
         title="한글과 기본 인사",
-        grammar_points=["hangul-basics", "basic-sentence-order", "imnida-copula"],
+        grammar_points=["hangul-basics", "basic-sentence-order", "ibnida-copula"],
         vocabulary_set_ids=["hangul_a1", "greetings_a1", "classroom_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -42,7 +44,7 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=3,
         title="숫자와 시간",
-        grammar_points=["native-sino-numbers", "time-expressions", "at-time-e"],
+        grammar_points=["numbers-sino", "time-expressions", "at-time-e"],
         vocabulary_set_ids=["numbers_a1", "time_a1", "days_dates_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -76,7 +78,7 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=5,
         title="일상생활과 동사 현재형",
-        grammar_points=["ayo-eoyo-present", "object-eul-reul", "daily-action-verbs"],
+        grammar_points=["present-tense-ayo-eoyo", "object-eul-reul", "daily-action-verbs"],
         vocabulary_set_ids=["daily_routine_a1", "food_a1", "transport_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -93,7 +95,7 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=6,
         title="형용사와 취향",
-        grammar_points=["adjective-present", "joahaeyo-silheohaeyo", "and-go-connector"],
+        grammar_points=["adjectives-descriptive", "joahaeyo-silheohaeyo", "connective-go"],
         vocabulary_set_ids=["adjectives_a1", "hobbies_a1", "weather_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -129,10 +131,10 @@ A1_UNITS: list[CurriculumUnit] = [
         title="A1 종합 복습",
         grammar_points=[
             "hangul-basics",
-            "imnida-copula",
+            "ibnida-copula",
             "eun-neun-topic",
             "i-ga-subject",
-            "ayo-eoyo-present",
+            "present-tense-ayo-eoyo",
             "object-eul-reul",
             "juseyo-requests",
         ],

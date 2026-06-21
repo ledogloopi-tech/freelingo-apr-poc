@@ -4,7 +4,7 @@ from app.data._types import GrammarExample, GrammarMistake, GrammarTopic
 
 B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
     GrammarTopic(
-        slug="opinion-think-go-saenggakhaeyo",
+        slug="opinion-eun-geon-gatayo",
         title="고 생각해요 의견",
         level="B1",
         category="의견",
@@ -33,7 +33,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="reason-gi-ttaemune",
+        slug="because-gi-ttaemune",
         title="기 때문에 이유",
         level="B1",
         category="이유",
@@ -62,7 +62,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="quote-dago-haeyo",
+        slug="quotation-dago-hada",
         title="다고 해요 전달",
         level="B1",
         category="인용",
@@ -178,7 +178,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="advice-neun-ge-eottaeyo",
+        slug="suggestion-neun-ge-eottaeyo",
         title="는 게 어때요 조언",
         level="B1",
         category="조언",
@@ -207,7 +207,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="better-neun-ge-joayo",
+        slug="refusal-neun-ge-joayo",
         title="는 게 좋아요 권장",
         level="B1",
         category="조언",
@@ -236,7 +236,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="should-aya-getseoyo",
+        slug="necessity-aya-dwaeyo",
         title="아야겠어요 결심",
         level="B1",
         category="필요",
@@ -294,7 +294,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="if-geodeun",
+        slug="geodeun-background",
         title="거든요 배경 설명",
         level="B1",
         category="배경",
@@ -352,7 +352,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="polite-request-a-eo-jusil-su-isseoyo",
+        slug="request-eul-juseyo",
         title="아/어 주실 수 있어요 요청",
         level="B1",
         category="요청",
@@ -381,7 +381,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="refusal-neun-ge-jom",
+        slug="polite-refusal-b1",
         title="완곡한 거절",
         level="B1",
         category="거절",
@@ -439,7 +439,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="contrast-neun-banmyeon",
+        slug="contrast-neundedo",
         title="는 반면에 대조",
         level="B1",
         category="대조",
@@ -468,7 +468,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="as-mankeum",
+        slug="degree-eul-jeongdo",
         title="만큼 정도",
         level="B1",
         category="정도",
@@ -497,7 +497,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="nominalizer-gi",
+        slug="nominalization-gi",
         title="기 명사화",
         level="B1",
         category="명사화",
@@ -526,7 +526,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="cause-neun-baram-e",
+        slug="cause-aseo",
         title="는 바람에 원인",
         level="B1",
         category="원인",
@@ -555,7 +555,7 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="result-ge-dwaesseoyo",
+        slug="change-ge-doeda",
         title="게 됐어요 결과",
         level="B1",
         category="변화",

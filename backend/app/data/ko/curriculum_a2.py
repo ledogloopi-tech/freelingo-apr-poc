@@ -1,5 +1,7 @@
 """A2 curriculum units — Korean (ko-KR)."""
 
+from __future__ import annotations
+
 from app.data._types import CurriculumUnit
 
 A2_UNITS: list[CurriculumUnit] = [
@@ -8,8 +10,8 @@ A2_UNITS: list[CurriculumUnit] = [
         level="A2",
         unit_number=1,
         title="과거 경험 말하기",
-        grammar_points=["past-asseoyo-eosseoyo", "before-after", "experience-jeok-i-isseoyo"],
-        vocabulary_set_ids=["past_events_a2", "travel_a2", "weekend_a2"],
+        grammar_points=["past-asseoyo-eosseoyo", "before-after", "experience-eun-jeogi-isseoyo"],
+        vocabulary_set_ids=["past_experiences_a2", "travel_a2", "weekend_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "았어요/었어요를 사용해 지난 일을 말할 수 있다",
@@ -25,7 +27,7 @@ A2_UNITS: list[CurriculumUnit] = [
         level="A2",
         unit_number=2,
         title="계획과 약속",
-        grammar_points=["future-eul-geoyeyo", "intention-euryeogo-haeyo", "promise-eulgeyo"],
+        grammar_points=["future-eul-geoyeyo", "intention-eullyeo", "promise-eulgeyo"],
         vocabulary_set_ids=["plans_a2", "appointments_a2", "calendar_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -42,8 +44,8 @@ A2_UNITS: list[CurriculumUnit] = [
         level="A2",
         unit_number=3,
         title="이유와 연결",
-        grammar_points=["because-aseo-eoseo", "because-eunikka", "but-jiman"],
-        vocabulary_set_ids=["reasons_a2", "feelings_a2", "health_a2"],
+        grammar_points=["because-aseo-eoseo", "because-nikka", "contrast-jiman"],
+        vocabulary_set_ids=["reasons_a2", "emotions_a2", "health_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "아서/어서로 자연스러운 이유를 연결할 수 있다",
@@ -59,7 +61,11 @@ A2_UNITS: list[CurriculumUnit] = [
         level="A2",
         unit_number=4,
         title="허락과 금지",
-        grammar_points=["may-ado-dwaeyo", "must-not-eumyeon-an-dwaeyo", "must-aya-haeyo"],
+        grammar_points=[
+            "permission-ado-dwaeyo",
+            "prohibition-myeon-andwaeyo",
+            "obligation-aya-dwaeyo",
+        ],
         vocabulary_set_ids=["rules_a2", "public_places_a2", "work_school_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -93,7 +99,7 @@ A2_UNITS: list[CurriculumUnit] = [
         level="A2",
         unit_number=6,
         title="진행과 상태 변화",
-        grammar_points=["progressive-go-isseoyo", "state-a-eo-isseoyo", "become-ge-dwaeyo"],
+        grammar_points=["progressive-go-isseoyo", "state-change-ajyeo", "change-ge-dwaeyo"],
         vocabulary_set_ids=["activities_a2", "home_tasks_a2", "technology_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -110,7 +116,7 @@ A2_UNITS: list[CurriculumUnit] = [
         level="A2",
         unit_number=7,
         title="길 찾기와 서비스 이용",
-        grammar_points=["direction-euro", "try-a-eo-boseyo", "polite-can-eul-su-isseoyo"],
+        grammar_points=["direction-euro", "try-a-eo-boseyo", "ability-eul-su-isseoyo"],
         vocabulary_set_ids=["directions_a2", "services_a2", "transport_detail_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -131,10 +137,10 @@ A2_UNITS: list[CurriculumUnit] = [
             "past-asseoyo-eosseoyo",
             "future-eul-geoyeyo",
             "because-aseo-eoseo",
-            "may-ado-dwaeyo",
+            "permission-ado-dwaeyo",
             "comparative-boda",
             "progressive-go-isseoyo",
-            "polite-can-eul-su-isseoyo",
+            "ability-eul-su-isseoyo",
         ],
         vocabulary_set_ids=["review_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],

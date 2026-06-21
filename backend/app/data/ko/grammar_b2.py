@@ -4,7 +4,7 @@ from app.data._types import GrammarExample, GrammarMistake, GrammarTopic
 
 B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
     GrammarTopic(
-        slug="claim-neun-baramjikhada",
+        slug="debate-eun-geon-munje",
         title="는 것이 바람직하다",
         level="B2",
         category="논증",
@@ -91,7 +91,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="formal-seumnida-style",
+        slug="formal-seumnida-che",
         title="습니다체",
         level="B2",
         category="격식체",
@@ -178,7 +178,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="supposition-eul-geot-gatda",
+        slug="supposition-eun-ji-moreuda",
         title="을 것 같다 추측",
         level="B2",
         category="추측",
@@ -265,7 +265,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="due-to-euro-inhae",
+        slug="cause-eul-tonghae",
         title="으로 인해 원인",
         level="B2",
         category="원인",
@@ -352,7 +352,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="emotion-eul-su-bakke-eopda",
+        slug="nuanced-feelings",
         title="을 수밖에 없다",
         level="B2",
         category="불가피성",
@@ -497,7 +497,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="academic-nominalization",
+        slug="academic-eun-bunseok",
         title="학술적 명사화",
         level="B2",
         category="학술 문체",
@@ -526,7 +526,7 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="reported-according-to",
+        slug="media-criticism",
         title="보도에 따르면",
         level="B2",
         category="출처",

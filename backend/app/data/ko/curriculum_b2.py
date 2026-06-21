@@ -1,5 +1,7 @@
 """B2 curriculum units — Korean (ko-KR)."""
 
+from __future__ import annotations
+
 from app.data._types import CurriculumUnit
 
 B2_UNITS: list[CurriculumUnit] = [
@@ -9,7 +11,7 @@ B2_UNITS: list[CurriculumUnit] = [
         unit_number=1,
         title="토론과 논증",
         grammar_points=[
-            "claim-neun-baramjikhada",
+            "debate-eun-geon-munje",
             "evidence-e-ttareumyeon",
             "counterpoint-gineun-hajiman",
         ],
@@ -29,7 +31,7 @@ B2_UNITS: list[CurriculumUnit] = [
         level="B2",
         unit_number=2,
         title="격식 있는 말하기",
-        grammar_points=["formal-seumnida-style", "honorific-si", "humble-deurida"],
+        grammar_points=["formal-seumnida-che", "honorific-si", "humble-deurida"],
         vocabulary_set_ids=["formal_speech_b2", "workplace_b2", "meetings_b2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -46,7 +48,7 @@ B2_UNITS: list[CurriculumUnit] = [
         level="B2",
         unit_number=3,
         title="추측과 판단",
-        grammar_points=["supposition-eul-geot-gatda", "must-eul-teida", "apparently-na-boda"],
+        grammar_points=["supposition-eun-ji-moreuda", "must-eul-teida", "apparently-na-boda"],
         vocabulary_set_ids=["judgement_b2", "news_analysis_b2", "data_trends_b2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -63,7 +65,7 @@ B2_UNITS: list[CurriculumUnit] = [
         level="B2",
         unit_number=4,
         title="원인과 결과 분석",
-        grammar_points=["due-to-euro-inhae", "result-neun-geoya", "not-only-eul-ppunman-anira"],
+        grammar_points=["cause-eul-tonghae", "result-neun-geoya", "not-only-eul-ppunman-anira"],
         vocabulary_set_ids=["cause_effect_b2", "policy_b2", "environment_b2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -81,7 +83,7 @@ B2_UNITS: list[CurriculumUnit] = [
         unit_number=5,
         title="관계와 미묘한 감정",
         grammar_points=[
-            "emotion-eul-su-bakke-eopda",
+            "nuanced-feelings",
             "regret-eul-geol-geuraetda",
             "while-kin-hande",
         ],
@@ -101,7 +103,7 @@ B2_UNITS: list[CurriculumUnit] = [
         level="B2",
         unit_number=6,
         title="학업과 전문 주제",
-        grammar_points=["definition-ran", "classification-e-ttara", "academic-nominalization"],
+        grammar_points=["definition-ran", "classification-e-ttara", "academic-eun-bunseok"],
         vocabulary_set_ids=["academic_b2", "research_b2", "education_b2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -118,7 +120,7 @@ B2_UNITS: list[CurriculumUnit] = [
         level="B2",
         unit_number=7,
         title="매체 이해와 비판",
-        grammar_points=["reported-according-to", "contrast-nevertheless", "stance-eul-boida"],
+        grammar_points=["media-criticism", "contrast-nevertheless", "stance-eul-boida"],
         vocabulary_set_ids=["media_literacy_b2", "online_discourse_b2", "bias_b2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -137,9 +139,9 @@ B2_UNITS: list[CurriculumUnit] = [
         title="B2 종합 복습",
         grammar_points=[
             "evidence-e-ttareumyeon",
-            "formal-seumnida-style",
-            "supposition-eul-geot-gatda",
-            "due-to-euro-inhae",
+            "formal-seumnida-che",
+            "supposition-eun-ji-moreuda",
+            "cause-eul-tonghae",
             "regret-eul-geol-geuraetda",
             "definition-ran",
             "contrast-nevertheless",

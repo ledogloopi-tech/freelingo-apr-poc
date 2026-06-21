@@ -1,5 +1,7 @@
 """C1 curriculum units — Korean (ko-KR)."""
 
+from __future__ import annotations
+
 from app.data._types import CurriculumUnit
 
 C1_UNITS: list[CurriculumUnit] = [
@@ -8,8 +10,8 @@ C1_UNITS: list[CurriculumUnit] = [
         level="C1",
         unit_number=1,
         title="정교한 논리 전개",
-        grammar_points=["argument-structure", "concession-despite", "implication-hamui"],
-        vocabulary_set_ids=["advanced_argument_c1", "logic_c1", "abstract_nouns_c1"],
+        grammar_points=["logical-structure", "concession-despite", "implicature"],
+        vocabulary_set_ids=["advanced_discourse_c1", "logic_c1", "abstract_nouns_c1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "복잡한 주장 안에서 전제, 근거, 결론을 명확히 구분할 수 있다",
@@ -25,7 +27,7 @@ C1_UNITS: list[CurriculumUnit] = [
         level="C1",
         unit_number=2,
         title="높임말과 관계 조절",
-        grammar_points=["advanced-honorifics", "speech-level-shifts", "deference-strategies"],
+        grammar_points=["formal-honorifics", "speech-level-shifts", "deference-strategies"],
         vocabulary_set_ids=["honorifics_c1", "institutional_interaction_c1", "social_hierarchy_c1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -42,7 +44,7 @@ C1_UNITS: list[CurriculumUnit] = [
         level="C1",
         unit_number=3,
         title="학술적 읽기와 요약",
-        grammar_points=["academic-connectors", "source-integration", "summary-compression"],
+        grammar_points=["academic-reading", "source-integration", "summary-compression"],
         vocabulary_set_ids=["academic_reading_c1", "sources_c1", "methodology_c1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -59,7 +61,7 @@ C1_UNITS: list[CurriculumUnit] = [
         level="C1",
         unit_number=4,
         title="사회적 담화와 여론",
-        grammar_points=["public-discourse-framing", "stance-markers", "nuance-evaluation"],
+        grammar_points=["public-discourse", "stance-markers", "nuance-evaluation"],
         vocabulary_set_ids=["public_discourse_c1", "politics_society_c1", "opinion_polling_c1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -76,8 +78,8 @@ C1_UNITS: list[CurriculumUnit] = [
         level="C1",
         unit_number=5,
         title="문체와 장르",
-        grammar_points=["register-control", "genre-conventions", "nominal-style-formal"],
-        vocabulary_set_ids=["style_genre_c1", "formal_writing_c1", "literary_language_c1"],
+        grammar_points=["register-genre", "genre-conventions", "register-genre"],
+        vocabulary_set_ids=["register_genre_c1", "formal_writing_c1", "literary_language_c1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "격식체, 설명문, 논설문, 수필의 문체 차이를 인식할 수 있다",
@@ -128,11 +130,11 @@ C1_UNITS: list[CurriculumUnit] = [
         unit_number=8,
         title="C1 종합 복습",
         grammar_points=[
-            "argument-structure",
-            "advanced-honorifics",
-            "academic-connectors",
-            "public-discourse-framing",
-            "register-control",
+            "logical-structure",
+            "formal-honorifics",
+            "academic-reading",
+            "public-discourse",
+            "register-genre",
             "hedging-requests",
             "figurative-language",
         ],

@@ -62,7 +62,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="imnida-copula",
+        slug="ibnida-copula",
         title="입니다 명사문",
         level="A1",
         category="명사문",
@@ -178,7 +178,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="native-sino-numbers",
+        slug="numbers-sino",
         title="고유어 숫자와 한자어 숫자",
         level="A1",
         category="숫자",
@@ -352,7 +352,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="ayo-eoyo-present",
+        slug="present-tense-ayo-eoyo",
         title="아요/어요 현재형",
         level="A1",
         category="동사 활용",
@@ -439,7 +439,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="adjective-present",
+        slug="adjectives-descriptive",
         title="형용사 현재형",
         level="A1",
         category="형용사",
@@ -497,7 +497,7 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="and-go-connector",
+        slug="connective-go",
         title="고 연결",
         level="A1",
         category="연결 어미",

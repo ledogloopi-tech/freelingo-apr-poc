@@ -1,5 +1,7 @@
 """C2 curriculum units — Korean (ko-KR)."""
 
+from __future__ import annotations
+
 from app.data._types import CurriculumUnit
 
 C2_UNITS: list[CurriculumUnit] = [
@@ -43,7 +45,7 @@ C2_UNITS: list[CurriculumUnit] = [
         unit_number=3,
         title="비판적 평가와 반박",
         grammar_points=["critical-evaluation", "assumption-analysis", "rebuttal-structure"],
-        vocabulary_set_ids=["critical_thinking_c2", "assumptions_c2", "counterevidence_c2"],
+        vocabulary_set_ids=["critical_evaluation_c2", "assumptions_c2", "counterevidence_c2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "글의 전제, 근거, 결론의 타당성을 비판적으로 평가할 수 있다",
@@ -93,7 +95,7 @@ C2_UNITS: list[CurriculumUnit] = [
         level="C2",
         unit_number=6,
         title="언어 변화와 역사적 맥락",
-        grammar_points=["language-history-korean", "loanword-register", "diachronic-change"],
+        grammar_points=["language-history", "loanword-register", "diachronic-change"],
         vocabulary_set_ids=["language_history_c2", "loanwords_c2", "sociolinguistics_c2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -133,7 +135,7 @@ C2_UNITS: list[CurriculumUnit] = [
             "critical-evaluation",
             "translation-equivalence",
             "rhetorical-strategy",
-            "language-history-korean",
+            "language-history",
             "advanced-editing",
         ],
         vocabulary_set_ids=["review_c2"],

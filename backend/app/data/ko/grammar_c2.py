@@ -439,7 +439,7 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="language-history-korean",
+        slug="language-history",
         title="한국어사의 맥락",
         level="C2",
         category="언어사",

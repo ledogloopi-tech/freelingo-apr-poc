@@ -1,5 +1,7 @@
 """B1 curriculum units — Korean (ko-KR)."""
 
+from __future__ import annotations
+
 from app.data._types import CurriculumUnit
 
 B1_UNITS: list[CurriculumUnit] = [
@@ -8,7 +10,7 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=1,
         title="의견과 근거",
-        grammar_points=["opinion-think-go-saenggakhaeyo", "reason-gi-ttaemune", "quote-dago-haeyo"],
+        grammar_points=["opinion-eun-geon-gatayo", "because-gi-ttaemune", "quotation-dago-hada"],
         vocabulary_set_ids=["opinions_b1", "arguments_b1", "media_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -42,7 +44,11 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=3,
         title="조언과 제안",
-        grammar_points=["advice-neun-ge-eottaeyo", "better-neun-ge-joayo", "should-aya-getseoyo"],
+        grammar_points=[
+            "suggestion-neun-ge-eottaeyo",
+            "refusal-neun-ge-joayo",
+            "necessity-aya-dwaeyo",
+        ],
         vocabulary_set_ids=["advice_b1", "study_work_b1", "wellbeing_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -59,7 +65,7 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=4,
         title="조건과 가능성",
-        grammar_points=["conditional-eumyeon", "if-geodeun", "maybe-euljido-mollayo"],
+        grammar_points=["conditional-eumyeon", "geodeun-background", "maybe-euljido-mollayo"],
         vocabulary_set_ids=["conditions_b1", "plans_problems_b1", "weather_events_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -77,8 +83,8 @@ B1_UNITS: list[CurriculumUnit] = [
         unit_number=5,
         title="공손한 요청과 거절",
         grammar_points=[
-            "polite-request-a-eo-jusil-su-isseoyo",
-            "refusal-neun-ge-jom",
+            "request-eul-juseyo",
+            "refusal-neun-ge-joayo",
             "apology-expressions",
         ],
         vocabulary_set_ids=["politeness_b1", "requests_refusals_b1", "customer_service_b1"],
@@ -97,7 +103,7 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=6,
         title="문화와 사회생활",
-        grammar_points=["contrast-neun-banmyeon", "as-mankeum", "nominalizer-gi"],
+        grammar_points=["contrast-neundedo", "degree-eul-jeongdo", "nominalization-gi"],
         vocabulary_set_ids=["culture_b1", "customs_b1", "social_life_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -114,7 +120,7 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=7,
         title="문제 해결과 설명",
-        grammar_points=["cause-neun-baram-e", "result-ge-dwaesseoyo", "solution-dorok"],
+        grammar_points=["cause-aseo", "change-ge-doeda", "solution-dorok"],
         vocabulary_set_ids=["problems_solutions_b1", "housing_b1", "technology_support_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -132,13 +138,13 @@ B1_UNITS: list[CurriculumUnit] = [
         unit_number=8,
         title="B1 종합 복습",
         grammar_points=[
-            "opinion-think-go-saenggakhaeyo",
+            "opinion-eun-geon-gatayo",
             "background-neunde",
-            "advice-neun-ge-eottaeyo",
+            "suggestion-neun-ge-eottaeyo",
             "conditional-eumyeon",
-            "polite-request-a-eo-jusil-su-isseoyo",
-            "contrast-neun-banmyeon",
-            "result-ge-dwaesseoyo",
+            "request-eul-juseyo",
+            "contrast-neundedo",
+            "change-ge-doeda",
         ],
         vocabulary_set_ids=["review_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],

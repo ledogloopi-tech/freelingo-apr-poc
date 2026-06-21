@@ -4,7 +4,7 @@ from app.data._types import GrammarExample, GrammarMistake, GrammarTopic
 
 C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
     GrammarTopic(
-        slug="argument-structure",
+        slug="logical-structure",
         title="논증 구조",
         level="C1",
         category="논리",
@@ -62,7 +62,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="implication-hamui",
+        slug="implicature",
         title="함의 파악",
         level="C1",
         category="해석",
@@ -91,7 +91,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="advanced-honorifics",
+        slug="formal-honorifics",
         title="고급 높임말",
         level="C1",
         category="높임",
@@ -178,7 +178,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="academic-connectors",
+        slug="academic-reading",
         title="학술 연결 표현",
         level="C1",
         category="학술 문체",
@@ -265,7 +265,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="public-discourse-framing",
+        slug="public-discourse",
         title="공적 담화 구성",
         level="C1",
         category="담화 분석",
@@ -352,7 +352,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="register-control",
+        slug="register-genre",
         title="문체 조절",
         level="C1",
         category="문체",
@@ -410,7 +410,7 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         related=[],
     ),
     GrammarTopic(
-        slug="nominal-style-formal",
+        slug="formal-nominal-style-c1",
         title="명사 중심 공식 문체",
         level="C1",
         category="문체",
