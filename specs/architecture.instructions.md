@@ -102,7 +102,7 @@ GET /api/study-plan/today → returns lessons for current day
     ↓ (auto-generates lesson content via LLM on first access)
 LessonGenerator → LLM Adapter → structured lesson content
     ↓
-Persists Lesson + Exercises in PostgreSQL
+Persists Lesson + Exercises in PostgreSQL; optional per-exercise native explanations remain in Lesson.content JSON
     ↓
 Frontend ← Lesson content + exercises
 ```

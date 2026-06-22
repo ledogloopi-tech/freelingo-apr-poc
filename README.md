@@ -3,7 +3,7 @@
 ![Next.js](https://img.shields.io/badge/next.js-16-black?style=flat-square)
 ![Python](https://img.shields.io/badge/python-3.14-blue?style=flat-square)
 ![Self-hosted](https://img.shields.io/badge/self--hosted-yes-orange?style=flat-square)
-![Version](https://img.shields.io/badge/version-1.8.10-brightgreen?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.8.11-brightgreen?style=flat-square)
 
 <p align="left">
   <img src="assets/logo_large.png" alt="FreeLingo logo" />
@@ -21,9 +21,10 @@ FreeLingo creates a weekly roadmap based on your selected intensity (4, 8, 12, o
 and review.
 
 The platform combines structure and adaptation: lessons are generated within
-curriculum boundaries, flashcards use SM-2 spaced repetition, and the AI tutor
-provides contextual streaming feedback in English (with optional brief support in
-the learner's native language). Listening exercises are generated on demand by the
+curriculum boundaries with native-language support for lesson and exercise explanations,
+flashcards use SM-2 spaced repetition, and the AI tutor provides contextual streaming
+feedback in English (with optional brief support in the learner's native language).
+Listening exercises are generated on demand by the
 LLM, synthesised to MP3 via TTS, and cached per CEFR level — the user listens,
 answers 5 comprehension questions, and earns XP before the transcript is revealed.
 Reading exercises follow the same caching model but without audio — the AI generates

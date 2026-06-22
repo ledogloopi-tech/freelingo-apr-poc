@@ -133,6 +133,8 @@ Exercises belong to a lesson (1 lesson → many exercises).
 | feedback       | text (nullable)  | LLM-generated feedback                                         |
 | answered_at    | datetime         |                                                                |
 
+Exercise rows do not have a dedicated native-language explanation column. New lesson-generation output may include per-exercise `native_explanation` values inside `lessons.content.exercises[*]`; `GET /api/lessons/{id}` merges that optional JSON text into each exercise response by exercise order. The on-demand endpoint `POST /api/lessons/exercises/{id}/native-explanation` writes missing exercise-level native explanations back into the same JSON array.
+
 ## Flashcard (`flashcards`)
 
 SM-2 spaced repetition cards, per user per language.

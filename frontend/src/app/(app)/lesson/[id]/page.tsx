@@ -33,6 +33,7 @@ interface ExerciseItem {
   options: string[] | null
   correct_answer: string
   explanation: string | null
+  native_explanation: string | null
   user_answer: string | null
   score: number | null
   feedback: string | null
@@ -102,6 +103,10 @@ export default function LessonPage() {
     useState(false)
   const [nativeExplanationError, setNativeExplanationError] = useState(false)
   const [nativeExplanationOpen, setNativeExplanationOpen] = useState(false)
+  const [loadingExerciseNativeExplanationId, setLoadingExerciseNativeExplanationId] =
+    useState<number | null>(null)
+  const [exerciseNativeExplanationErrorId, setExerciseNativeExplanationErrorId] =
+    useState<number | null>(null)
 
   const loadLesson = useCallback(async () => {
     setLoading(true)
@@ -152,6 +157,35 @@ export default function LessonPage() {
       setNativeExplanationError(true)
     } finally {
       setLoadingNativeExplanation(false)
+    }
+  }
+
+  const generateExerciseNativeExplanation = async (exerciseId: number) => {
+    setLoadingExerciseNativeExplanationId(exerciseId)
+    setExerciseNativeExplanationErrorId(null)
+    try {
+      const res = await apiFetch(
+        `/api/lessons/exercises/${exerciseId}/native-explanation`,
+        { method: 'POST' }
+      )
+      if (!res.ok) {
+        setExerciseNativeExplanationErrorId(exerciseId)
+        return
+      }
+      const data = await res.json()
+      if (data.native_explanation) {
+        setExercises((prev) =>
+          prev.map((item) =>
+            item.id === exerciseId
+              ? { ...item, native_explanation: data.native_explanation }
+              : item
+          )
+        )
+      }
+    } catch {
+      setExerciseNativeExplanationErrorId(exerciseId)
+    } finally {
+      setLoadingExerciseNativeExplanationId(null)
     }
   }
 
@@ -752,6 +786,36 @@ export default function LessonPage() {
                       >
                         {exercise.explanation}
                       </TargetLanguageText>
+                      {exercise.native_explanation && nativeLanguageName && (
+                        <div className="border-fl-border mt-4 border-t pt-4">
+                          <p className="text-fl-label text-fl-muted-3 mb-2 font-mono tracking-widest uppercase">
+                            {nativeLanguageName}
+                          </p>
+                          <p className="text-fl-muted-2 text-sm">
+                            {exercise.native_explanation}
+                          </p>
+                        </div>
+                      )}
+                      {!exercise.native_explanation && nativeLanguageName && (
+                        <div className="border-fl-border mt-4 border-t pt-4 text-center">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              generateExerciseNativeExplanation(exercise.id)
+                            }
+                            disabled={
+                              loadingExerciseNativeExplanationId === exercise.id
+                            }
+                            className="text-fl-hint text-fl-muted-3 hover:text-fl-fg font-mono text-sm transition-colors disabled:opacity-50"
+                          >
+                            {loadingExerciseNativeExplanationId === exercise.id
+                              ? '...'
+                              : exerciseNativeExplanationErrorId === exercise.id
+                                ? tCommon('retry')
+                                : `${t('showNativeExplanation')} ${nativeLanguageName}`}
+                          </button>
+                        </div>
+                      )}
                     </div>
                   )}
                   <div className="flex items-center gap-4">
