@@ -145,7 +145,7 @@ B2_UNITS: list[CurriculumUnit] = [
             "modal-perfects",
         ],
         vocabulary_set_ids=["academic_vocabulary_b2", "workplace_b2", "media_society_b2"],
-        lesson_types=["grammar", "reading", "writing", "review"],
+        lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
             "Writes a 200-word discursive essay with a clear thesis, concessions, and conclusion",
             "Demonstrates B2 grammar range: conditionals, passives, modal perfects, gerunds",

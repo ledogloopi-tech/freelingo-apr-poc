@@ -26,9 +26,9 @@ A unified resource centre delivering five complementary features: a grammar refe
 
 ## Milestone 1 — Grammar Reference
 
-### Data model (`frontend/src/data/grammar.ts`)
+### Data model (`backend/app/data/_types.py` + per-language `grammar.py`)
 
-A single static TypeScript file containing approximately 50+ grammar topics spanning A1 through C2. No backend endpoint needed — all content ships with the JS bundle and is tree-shakeable.
+Grammar content is served from backend Python dataclasses organized per target language and CEFR level. The frontend consumes `GET /api/grammar` and falls back to `en-GB` when no active learning language is available.
 
 Each grammar topic has:
 
@@ -63,7 +63,12 @@ Dynamic route rendering a single grammar topic. The `[slug]` parameter maps dire
 - Unknown slugs return a 404 page (Next.js `notFound()`)
 - Renders: title, level badge, explanation (formatted Markdown-lite), structure pattern, rules list, example sentences with optional translations, common mistakes table, and related topics links
 - Related topics are linked to their own detail pages
+- Renders native-language study support below the target-language explanation. A1/A2 opens by default and generates on page load; B1-C2 stays collapsed and generates only when opened. The generated support includes summary, explanation, key points, target-language examples with native notes, common traps, and a mini-glossary.
 - The AI tutor's system prompt references the current grammar slug to provide contextual corrections during chat
+
+### Native-language grammar help
+
+`POST /api/grammar/{slug}/native-help?language=<target>` generates grammar support in the authenticated user's native language. Results are cached globally in `resource_native_helps` by `resource_type="grammar"`, grammar slug, target language, native language, and source-content hash, so the same native-language help is generated only once per static topic version and reused for later users.
 
 ### Integration with other features
 
@@ -79,7 +84,7 @@ Dynamic route rendering a single grammar topic. The `[slug]` parameter maps dire
 
 ### Data model (`backend/app/data/_types.py` + per-language `vocabulary.py`)
 
-> **Migrated to backend in v1.7.4.** Originally static TypeScript (`frontend/src/data/vocabulary.ts`); now served via `GET /api/vocabulary` from Python dataclasses organized per CEFR level (A1–C2) across 4 languages (en, es, it, pt). The frontend vocabulary hub and set detail pages consume the API instead of importing static data.
+> **Migrated to backend in v1.7.4.** Originally static TypeScript (`frontend/src/data/vocabulary.ts`); now served via `GET /api/vocabulary` from Python dataclasses organized per CEFR level (A1–C2) across backend language modules, including Japanese (`ja-JP`), Korean (`ko-KR`), and Mainland Chinese (`zh-CN`). The CJK language packages follow the same per-level module and assembler organization as the other backend language packages. The frontend vocabulary hub and set detail pages consume the API instead of importing static data.
 
 **VocabularyEntry** (per word):
 
@@ -119,6 +124,11 @@ Dynamic route for a single vocabulary set. The `[setId]` parameter maps to a `Vo
 - Topic title, level badge, word count
 - Full word table: word, part of speech badge, definition, example, IPA pronunciation, frequency rank
 - "Add to flashcards" button: sends the word to the flashcards API for SM-2 review
+- A native-language helper panel that stays collapsed until requested. Generated support includes a topic summary, study tips, selected word notes, common traps, a mini-glossary, and practice prompts.
+
+### Native-language vocabulary help
+
+`POST /api/vocabulary/{set_id}/native-help?language=<target>` generates vocabulary study support in the authenticated user's native language. Results are cached globally in `resource_native_helps` by `resource_type="vocabulary"`, set ID, target language, native language, and source-content hash. The generated help keeps target-language words and examples unchanged while explaining memory tips, usage notes, common traps, glossary meanings, and practice prompts in the learner's native language.
 
 ### Integration with flashcards
 
@@ -132,15 +142,15 @@ The vocabulary hub and flashcard system are connected:
 
 ## Milestone 3 — Phrasebook
 
-### Data model (`frontend/src/data/phrasebook.ts`)
+### Data model (`backend/app/data/_types.py` + per-language `phrasebook.py`)
 
-Static TypeScript file containing approximately 20 phrasebook categories from A1 to B2/C1, organized by real-world situations.
+> **Migrated to backend.** Phrasebook content is served via `GET /api/phrasebook` from Python dataclasses organized per CEFR level (A1-C2) across backend language modules, including Japanese (`ja-JP`), Korean (`ko-KR`), and Mainland Chinese (`zh-CN`). Japanese, Korean, and Mainland Chinese phrasebooks each contain 318 target-language phrases across A1-C2.
 
 **Phrase** (per entry):
 
 | Field      | Type              | Description                              |
 | ---------- | ----------------- | ---------------------------------------- |
-| `english`  | string            | The English phrase                       |
+| `text`     | string            | The phrase in the target language        |
 | `context`  | string            | When/where to use the phrase             |
 | `register` | Register          | `"formal"`, `"neutral"`, or `"informal"` |
 | `unit_ref` | string (optional) | Curriculum unit this phrase relates to   |
@@ -169,6 +179,11 @@ Each category card shows:
 - Phrase count
 - Expand to see all phrases with context and register badges
 - Phrase entries are selectable (tap to copy to clipboard)
+- A native-language helper panel. A1/A2 panels open by default but generate only when the user clicks the helper button; B1-C2 panels stay collapsed until requested. Generated support includes usage tips, register notes, phrase notes, common traps, and a mini-glossary.
+
+### Native-language phrasebook help
+
+`POST /api/phrasebook/{category_id}/native-help?language=<target>` generates practical usage support in the authenticated user's native language. Results are cached globally in `resource_native_helps` by `resource_type="phrasebook"`, category ID, target language, native language, and source-content hash. The generated help keeps target-language phrases unchanged and explains when to use them, register/formality, common traps, and useful expressions in the learner's native language.
 
 ### Usage
 
@@ -315,41 +330,40 @@ Next.js middleware at `src/middleware.ts`:
 
 ## Technical design decisions
 
-### Static content
+### Static reference content
 
-Grammar topics and phrasebook entries remain static TypeScript constants in the frontend. **Vocabulary and assessment data were migrated to the backend in v1.7.4** — they are now served via API endpoints (`/api/vocabulary`, `/api/assessment/bank`) from Python dataclasses. Curriculum data (unit definitions, grammar points, vocabulary set IDs) lives in both backend Python files and a lightweight frontend `curriculum.ts` that fetches units via the `/api/curriculum` endpoint.
+Grammar, vocabulary, phrasebook, and assessment reference content is served from backend Python dataclasses via API endpoints (`/api/grammar`, `/api/vocabulary`, `/api/phrasebook`, `/api/assessment/bank`). Curriculum data (unit definitions, grammar points, vocabulary set IDs) lives in backend Python files for plan generation and in frontend data/API consumers for roadmap rendering.
 
-Reasons for the mixed approach:
+Reasons for the current approach:
 
-1. **Grammar/phrasebook (frontend static)**: zero latency, offline-capable, tree-shakeable, no DB migrations
-2. **Vocabulary/assessment (backend API)**: large datasets (~330 sets, ~3,940 words across 4 languages; ~400 questions across 4 languages) benefit from server-side serving and language-aware dispatching without bloating the client bundle
-3. **Curriculum (both)**: lightweight unit definitions in frontend for quick rendering; full data in backend for plan generation
+1. **Reference data (backend API)**: large multi-language datasets benefit from server-side serving, per-language dispatching, and shared integrity checks without bloating the client bundle
+2. **Curriculum (backend + frontend consumers)**: backend data drives plan generation and lesson constraints; frontend surfaces fetch/render the current curriculum state for the roadmap UI
 
 ### Cross-referencing
 
 A data integrity test (`test_frontend_data_integrity.py`) validates that:
 
-- Every `grammar_slug` referenced in curriculum units exists in `grammar.ts`
-- Every `vocabulary_set_id` referenced in each language's curriculum exists in that language's backend vocabulary data (validated for all 4 languages: en, es, it, pt)
+- Every `grammar_slug` referenced in curriculum units exists in the target language's backend grammar data
+- Every `vocabulary_set_id` referenced in each language's curriculum exists in that language's backend vocabulary data, including Japanese, Korean, and Mainland Chinese
 - Every `related` slug in grammar topics points to an existing topic
 
-### Dual data files (frontend + backend)
+### Curriculum data flow
 
-Some data exists in both frontend and backend:
+Curriculum state is exposed to both backend and frontend:
 
-- `frontend/src/data/curriculum.ts` — full curriculum with all metadata for the roadmap UI
-- `backend/app/data/curriculum.py` — canonical curriculum data for plan generation and lesson constraints
+- `frontend/src/data/curriculum.ts` and curriculum API consumers — roadmap UI rendering
+- `backend/app/data/curriculum.py` and language packages — canonical curriculum data for plan generation and lesson constraints
 
-This duplication is intentional: the frontend needs the data for instant rendering of the roadmap, and the backend needs it for plan generation and LLM constraint validation. Both are kept in sync, validated by the data integrity test.
+This split is intentional: the frontend needs fast roadmap rendering, and the backend needs authoritative curriculum data for plan generation and LLM constraint validation. Cross-file references are validated by data integrity tests.
 
 ---
 
 ## Phase 1+ completion criteria (all met in v1.1.0)
 
-- [x] `/grammar` renders all topics with no API calls (static TypeScript data)
+- [x] `/grammar` renders all topics from backend grammar data
 - [x] `/grammar/[slug]` renders full detail; unknown slugs return 404
 - [x] `/vocabulary` lists all sets grouped by level with flashcard-progress badges (fetches via `/api/vocabulary`)
-- [x] `/vocabulary/[setId]` shows words + "Add to flashcards" button that integrates with the flashcard API
+- [x] `/vocabulary/[setId]` shows words + "Add to flashcards" button that integrates with the flashcard API and on-demand native-language study help
 - [x] `/phrasebook` lists situations with level and register filters
 - [x] `/progress` shows per-unit competency checklist with scores
 - [x] `/progress` shows vocabulary progress bars per set (fetches via `/api/vocabulary`)

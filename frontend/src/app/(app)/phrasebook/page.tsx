@@ -4,6 +4,8 @@ import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
 import {
   getPhrasebookCategories,
+  getPhrasebookNativeHelp,
+  type PhrasebookNativeHelp,
   type PhrasebookCategory,
   type Register,
 } from '@/data/phrasebook'
@@ -11,6 +13,8 @@ import type { CEFRLevel } from '@/data/types'
 import { useLanguageStore } from '@/store/language'
 import { AudioPlayer } from '@/components/ui/AudioPlayer'
 import { PageLoading } from '@/components/ui/page-loading'
+import { TargetLanguageText } from '@/components/TargetLanguageText'
+import { useAuthStore } from '@/store/auth'
 
 const CEFR_LEVELS: CEFRLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
 const REGISTERS: Register[] = ['formal', 'neutral', 'informal']
@@ -33,6 +37,20 @@ function CategoryCard({
   language: string
 }) {
   const t = useTranslations('phrasebook')
+  const tCommon = useTranslations('common')
+  const tTargetLang = useTranslations('targetLanguages')
+  const user = useAuthStore((s) => s.user)
+  const nativeLanguageName = user?.native_language
+    ? tTargetLang(user.native_language)
+    : ''
+  const [nativeHelpOpen, setNativeHelpOpen] = useState(
+    cat.level === 'A1' || cat.level === 'A2'
+  )
+  const [nativeHelp, setNativeHelp] = useState<PhrasebookNativeHelp | null>(
+    null
+  )
+  const [loadingNativeHelp, setLoadingNativeHelp] = useState(false)
+  const [nativeHelpError, setNativeHelpError] = useState(false)
   const phrases = cat.phrases.filter((p) => {
     const matchesRegister =
       registerFilter === 'All' || p.register === registerFilter
@@ -42,6 +60,24 @@ function CategoryCard({
   })
 
   if (!phrases.length) return null
+
+  async function generateNativeHelp() {
+    if (loadingNativeHelp) return
+    setLoadingNativeHelp(true)
+    setNativeHelpError(false)
+    try {
+      const help = await getPhrasebookNativeHelp(cat.id, language)
+      if (help) {
+        setNativeHelp(help)
+      } else {
+        setNativeHelpError(true)
+      }
+    } catch {
+      setNativeHelpError(true)
+    } finally {
+      setLoadingNativeHelp(false)
+    }
+  }
 
   return (
     <div className="border-fl-border bg-fl-surface border">
@@ -57,13 +93,152 @@ function CategoryCard({
         </span>
       </div>
 
+      {nativeLanguageName && (
+        <div className="border-fl-border border-b px-5 py-3">
+          <button
+            type="button"
+            onClick={() => setNativeHelpOpen((open) => !open)}
+            className="text-fl-label text-fl-muted-3 hover:text-fl-fg flex w-full items-center justify-between font-mono tracking-widest uppercase transition-colors"
+            aria-expanded={nativeHelpOpen}
+          >
+            <span>
+              {tCommon('nativeHelpTitle', { language: nativeLanguageName })}
+            </span>
+            <span>{nativeHelpOpen ? '−' : '+'}</span>
+          </button>
+          {nativeHelpOpen && (
+            <div className="mt-3 space-y-3">
+              {loadingNativeHelp ? (
+                <p className="text-fl-muted-3 font-mono text-xs">
+                  {tCommon('nativeHelpLoading', {
+                    language: nativeLanguageName,
+                  })}
+                </p>
+              ) : nativeHelp ? (
+                <>
+                  <p className="text-fl-muted-2 text-sm leading-relaxed">
+                    {nativeHelp.summary}
+                  </p>
+
+                  {nativeHelp.usage_tips.length > 0 && (
+                    <div className="space-y-1">
+                      <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
+                        {tCommon('nativeHelpUsageTips')}
+                      </p>
+                      <ul className="space-y-1">
+                        {nativeHelp.usage_tips.map((tip, i) => (
+                          <li key={i} className="text-fl-muted-2 text-sm">
+                            <span className="text-fl-muted-3 mr-2">·</span>
+                            {tip}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {nativeHelp.register_notes.length > 0 && (
+                    <div className="border-fl-border space-y-1 border-t pt-3">
+                      <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
+                        {tCommon('nativeHelpRegisterNotes')}
+                      </p>
+                      {nativeHelp.register_notes.map((note, i) => (
+                        <p key={i} className="text-fl-muted-2 text-sm">
+                          {note}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+
+                  {nativeHelp.phrase_notes.length > 0 && (
+                    <div className="border-fl-border space-y-2 border-t pt-3">
+                      <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
+                        {tCommon('nativeHelpPhraseNotes')}
+                      </p>
+                      {nativeHelp.phrase_notes.map((item, i) => (
+                        <div key={i} className="space-y-0.5">
+                          <TargetLanguageText
+                            languageCode={language}
+                            className="text-fl-muted-1 text-sm italic"
+                          >
+                            {item.phrase}
+                          </TargetLanguageText>
+                          <p className="text-fl-muted-3 text-sm">{item.note}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {nativeHelp.common_traps.length > 0 && (
+                    <div className="border-fl-border space-y-2 border-t pt-3">
+                      <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
+                        {tCommon('nativeHelpCommonTraps')}
+                      </p>
+                      {nativeHelp.common_traps.map((trap, i) => (
+                        <div key={i} className="space-y-0.5">
+                          <p className="text-fl-muted-2 text-sm">
+                            {trap.mistake}
+                          </p>
+                          <p className="text-fl-muted-3 text-sm">{trap.fix}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {nativeHelp.mini_glossary.length > 0 && (
+                    <div className="border-fl-border space-y-2 border-t pt-3">
+                      <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
+                        {tCommon('nativeHelpMiniGlossary')}
+                      </p>
+                      {nativeHelp.mini_glossary.map((item, i) => (
+                        <div key={i}>
+                          <TargetLanguageText
+                            languageCode={language}
+                            className="text-fl-muted-1 text-sm font-bold"
+                          >
+                            {item.term}
+                          </TargetLanguageText>
+                          <p className="text-fl-muted-2 text-sm">
+                            {item.meaning}
+                          </p>
+                          {item.note && (
+                            <p className="text-fl-muted-3 text-sm">
+                              {item.note}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <button
+                  type="button"
+                  onClick={generateNativeHelp}
+                  className="text-fl-muted-3 hover:text-fl-fg font-mono text-sm transition-colors"
+                >
+                  {nativeHelpError
+                    ? tCommon('retry')
+                    : tCommon('nativeHelpShow', {
+                        language: nativeLanguageName,
+                      })}
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
       <ul className="divide-fl-border divide-y">
         {phrases.map((phrase, i) => (
           <li key={i} className="group space-y-1 px-5 py-3">
             <div className="flex items-start justify-between gap-3">
-              <p className="text-fl-fg flex-1 font-mono text-xs leading-relaxed">
+              <TargetLanguageText
+                as="p"
+                languageCode={language}
+                className="text-fl-fg flex-1"
+              >
                 {phrase.text}
-              </p>
+              </TargetLanguageText>
               <div className="flex shrink-0 items-center gap-1">
                 <span
                   className={`text-fl-label font-mono tracking-widest uppercase ${REGISTER_COLORS[phrase.register]}`}
@@ -79,9 +254,13 @@ function CategoryCard({
               </div>
             </div>
             {phrase.context && (
-              <p className="text-fl-label text-fl-muted-3 font-mono italic">
+              <TargetLanguageText
+                as="p"
+                languageCode={language}
+                className="text-fl-muted-3 italic"
+              >
                 {phrase.context}
-              </p>
+              </TargetLanguageText>
             )}
           </li>
         ))}
@@ -141,7 +320,7 @@ export default function PhrasebookPage() {
   }, [])
 
   useEffect(() => {
-    fetchCategories(activeLanguage?.code ?? 'en-US')
+    fetchCategories(activeLanguage?.code ?? 'en-GB')
   }, [activeLanguage?.code, fetchCategories])
 
   const filteredCategories = useMemo(() => {
@@ -170,7 +349,7 @@ export default function PhrasebookPage() {
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
         <p className="text-fl-muted-2 font-mono text-sm">{tCommon('error')}</p>
         <button
-          onClick={() => fetchCategories(activeLanguage?.code ?? 'en-US')}
+          onClick={() => fetchCategories(activeLanguage?.code ?? 'en-GB')}
           className="text-fl-accent font-mono text-xs tracking-widest uppercase underline"
         >
           {tCommon('retry')}
@@ -278,7 +457,7 @@ export default function PhrasebookPage() {
                   cat={cat}
                   registerFilter={activeRegister}
                   search={search}
-                  language={activeLanguage?.code ?? 'en-US'}
+                  language={activeLanguage?.code ?? 'en-GB'}
                 />
               ))}
             </div>

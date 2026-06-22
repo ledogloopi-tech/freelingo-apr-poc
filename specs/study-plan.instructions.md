@@ -82,7 +82,7 @@ One row per lesson slot per day. Lessons are created lazily the first time the u
 | id            | integer             | Primary key                                                    |
 | study_plan_id | integer             | FK → study_plans                                               |
 | title         | string              | Lesson title (matches the slot title in `generated_plan`)      |
-| lesson_type   | string              | `grammar` / `vocabulary` / `reading` / `writing` / `review`    |
+| lesson_type   | string              | `grammar` / `vocabulary` / `reading` / `writing` / `listening` / `review` |
 | cefr_level    | string              |                                                                |
 | week_number   | integer             | Week in the plan (1-based)                                     |
 | day_number    | integer             | Day in the week (1-based)                                      |
@@ -122,6 +122,8 @@ Plan generation is **fully deterministic** — no LLM call. The service:
 2. Calls `distribute_units()` to spread units across the total weeks × days grid.
 3. Builds a list of `WeekPlan` objects, each containing a list of `DayPlan` objects.
 4. Returns a `GeneratedPlan` Pydantic model, which is stored as JSON in `study_plans.generated_plan`.
+
+Current backend curriculum modules cover `en-GB`, `en-US`, `de-DE`, `es-ES`, `fr-FR`, `it-IT`, `pt-PT`, `ja-JP`, `ko-KR`, and `zh-CN`. Japanese plans use Japanese unit titles and templates such as `文字とあいさつ - レッスン 1`; Korean plans use Korean unit titles and templates such as `한글과 기본 인사 - 레슨 1`; Mainland Chinese plans use Simplified Chinese unit titles and templates such as `拼音、声调和问候 - 第 1 课`. Japanese, Korean, and Mainland Chinese curricula include `listening` lesson slots from A2 through C2, matching the platform's voice/listening practice model while keeping A1 focused on fundamentals.
 
 ### Plan JSON structure (`generated_plan`)
 
@@ -169,10 +171,12 @@ The `generate_lesson()` function receives:
 - `week`, `day`, `unit_id`
 - `grammar_points`, `vocabulary_set_ids` (from curriculum context)
 - `target_language` (user's target language BCP-47)
+- `native_language` for every lesson level, so lessons can include a native-language explanation alongside the target-language explanation.
 
 It returns a structured JSON with:
 
 - `explanation` — rich lesson content
+- `native_explanation` — optional translated explanation using the user's native language, generated automatically for new lessons at any CEFR level or later via `POST /api/lessons/{id}/native-explanation` for existing lessons. It contains translated explanation text, key points, examples with target-language sentences, plus native-language `common_traps` and `mini_glossary` study support. The lesson UI opens it by default for A1/A2 and keeps it collapsed by default for B1+.
 - `exercises` — list of exercise objects (`type`, `question`, `options`, `correct`, `explanation`)
 
 If the LLM call fails or returns an empty exercises list, the lesson is discarded (rolled back) and that slot returns `id: null` in the today response. The user can retry by refreshing.

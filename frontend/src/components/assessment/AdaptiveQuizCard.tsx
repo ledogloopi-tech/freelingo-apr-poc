@@ -2,12 +2,14 @@
 
 import { useTranslations } from 'next-intl'
 import type { AssessmentQuestion } from '@/data/types'
+import { TargetLanguageText } from '@/components/TargetLanguageText'
 
 interface Props {
   question: AssessmentQuestion
   questionNumber: number
   totalQuestions: number
   onAnswer: (answer: string) => void
+  languageCode?: string | null
 }
 
 export default function AdaptiveQuizCard({
@@ -15,6 +17,7 @@ export default function AdaptiveQuizCard({
   questionNumber,
   totalQuestions,
   onAnswer,
+  languageCode,
 }: Props) {
   const t = useTranslations('assessment')
   const progress = Math.round((questionNumber / totalQuestions) * 100)
@@ -56,9 +59,13 @@ export default function AdaptiveQuizCard({
 
         {/* Question */}
         <div className="space-y-6 p-8">
-          <p className="text-fl-body text-fl-fg font-mono leading-relaxed">
+          <TargetLanguageText
+            as="p"
+            languageCode={languageCode}
+            className="text-fl-fg"
+          >
             {question.question}
-          </p>
+          </TargetLanguageText>
 
           {/* Options */}
           <div className="space-y-2">
@@ -68,10 +75,14 @@ export default function AdaptiveQuizCard({
                 <button
                   key={option}
                   onClick={() => onAnswer(option)}
-                  className="border-fl-border text-fl-muted-1 text-fl-label hover:border-fl-border-2 hover:text-fl-fg hover:bg-fl-surface-2 flex w-full items-start gap-3 border px-4 py-3 text-left font-mono transition-colors"
+                  className="border-fl-border text-fl-muted-1 hover:border-fl-border-2 hover:text-fl-fg hover:bg-fl-surface-2 flex w-full items-start gap-3 border px-4 py-3 text-left transition-colors"
                 >
-                  <span className="text-fl-muted-3 shrink-0">{labels[i]}.</span>
-                  <span>{option}</span>
+                  <span className="text-fl-label text-fl-muted-3 shrink-0 font-mono">
+                    {labels[i]}.
+                  </span>
+                  <TargetLanguageText languageCode={languageCode}>
+                    {option}
+                  </TargetLanguageText>
                 </button>
               )
             })}

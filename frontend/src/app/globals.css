@@ -153,6 +153,30 @@
   background-size: 24px 24px;
 }
 
+@utility font-target-latin {
+  font-family:
+    var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+@utility font-target-ja {
+  font-family:
+    var(--font-noto-ja), 'Hiragino Sans', 'Yu Gothic', Meiryo, system-ui,
+    sans-serif;
+}
+
+@utility font-target-ko {
+  font-family:
+    var(--font-noto-ko), 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui,
+    sans-serif;
+}
+
+@utility font-target-zh {
+  font-family:
+    var(--font-noto-zh), 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC',
+    system-ui, sans-serif;
+}
+
 ::-webkit-scrollbar {
   width: 4px;
 }

@@ -48,7 +48,7 @@ C2_UNITS: list[CurriculumUnit] = [
         title="Idiomatic & Figurative Language",
         grammar_points=["fronting-emphasis", "idiomatic-expressions"],
         vocabulary_set_ids=["idiomatic_expressions_c2"],
-        lesson_types=["grammar", "reading", "vocabulary", "writing", "review"],
+        lesson_types=["grammar", "reading", "vocabulary", "listening", "writing", "review"],
         competency_checklist=[
             "Use a wide range of idiomatic expressions naturally in spoken and written English.",
             "Interpret figurative language in authentic literary and journalistic texts.",

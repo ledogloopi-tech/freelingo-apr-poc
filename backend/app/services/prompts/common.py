@@ -60,6 +60,27 @@ Language-specific guidance:
 - Use du or Sie consistently according to the context and learner level.
 - Avoid Austrian or Swiss variants unless explicitly comparing them.
 """.strip(),
+    "ja-JP": """
+Language-specific guidance:
+- Use standard Japanese as used in Japan consistently.
+- Use Japanese script naturally: hiragana, katakana, and level-appropriate kanji. Use romaji only as a short support aid for beginners or when explicitly teaching pronunciation.
+- Pay close attention to particles, politeness level, verb forms, counters, and natural word order.
+- Keep register consistent with the learner level; avoid abrupt shifts between plain and polite style unless teaching the contrast.
+""".strip(),
+    "ko-KR": """
+Language-specific guidance:
+- Use standard Korean as used in South Korea consistently.
+- Use Hangul as the primary script. Use romanization only as a short support aid for beginners or when explicitly teaching pronunciation.
+- Pay close attention to particles, speech level, honorifics, verb endings, batchim, and natural Korean phrasing.
+- Avoid North Korean vocabulary, spelling, or usage unless explicitly comparing variants.
+""".strip(),
+    "zh-CN": """
+Language-specific guidance:
+- Use Mainland China Standard Mandarin (Putonghua) consistently.
+- Use simplified Chinese characters. Use pinyin with tone marks only as support for pronunciation or beginner scaffolding, never as the main writing system.
+- Pay close attention to tones, measure words, aspect particles, word order, and natural Mainland usage.
+- Avoid Traditional Chinese, Cantonese, Taiwan, Hong Kong, or Macau variants unless explicitly comparing them.
+""".strip(),
 }
 
 _LANGUAGE_PROMPT_OVERLAY_ALIASES: dict[str, str] = {
@@ -68,6 +89,9 @@ _LANGUAGE_PROMPT_OVERLAY_ALIASES: dict[str, str] = {
     "es": "es-ES",
     "it": "it-IT",
     "pt": "pt-PT",
+    "ja": "ja-JP",
+    "ko": "ko-KR",
+    "zh": "zh-CN",
 }
 
 

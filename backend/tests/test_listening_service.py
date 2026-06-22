@@ -116,6 +116,34 @@ class TestGenerateAndSaveExercise:
         assert mock_structured.await_args.args[1] is ListeningGenerationResponse
 
     @pytest.mark.asyncio
+    async def test_cjk_generation_uses_character_length_guidance(self, db_session, tmp_path):
+        from app.schemas.listening import ListeningGenerationResponse
+        from app.services.listening_service import generate_and_save_exercise
+
+        response = ListeningGenerationResponse(
+            topic="Daily routine",
+            text="你好，今天我去学校。",
+            questions=_QUESTIONS,
+        )
+
+        with patch(
+            "app.services.listening_service.llm_adapter.structured_output",
+            new=AsyncMock(return_value=response),
+        ) as mock_structured:
+            exercise = await generate_and_save_exercise(
+                level="A1",
+                target_language="zh-CN",
+                db=db_session,
+                tts_service=_FakeTTS(),
+                storage_path=str(tmp_path),
+            )
+
+        prompt = mock_structured.await_args.args[0][0]["content"]
+        assert "Length: approximately 160–240 characters" in prompt
+        assert "Use Mainland China Standard Mandarin" in prompt
+        assert exercise.target_language == "zh-CN"
+
+    @pytest.mark.asyncio
     async def test_returns_uncompleted_exercise(self, db_session, exercise):
         from app.services.listening_service import get_available_exercise
 

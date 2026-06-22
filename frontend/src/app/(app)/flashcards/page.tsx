@@ -8,6 +8,7 @@ import { useLanguageStore } from '@/store/language'
 import { AudioPlayer } from '@/components/ui/AudioPlayer'
 import { VoiceRecorder } from '@/components/ui/VoiceRecorder'
 import { PageLoading } from '@/components/ui/page-loading'
+import { TargetLanguageText } from '@/components/TargetLanguageText'
 import { CEFR_LEVELS } from '@/data/curriculum'
 
 interface CardData {
@@ -86,7 +87,7 @@ export default function FlashcardsPage() {
       s
         .trim()
         .toLowerCase()
-        .replace(/[^a-z0-9 ]/g, '')
+        .replace(/[\p{P}\p{S}\s]+/gu, '')
     const isCorrect = norm(transcription) === norm(card.word)
     await reviewCard(isCorrect ? 5 : 2)
   }
@@ -129,6 +130,8 @@ export default function FlashcardsPage() {
   if (loading) {
     return <PageLoading />
   }
+
+  const targetLanguageCode = activeLanguage?.code ?? 'en-GB'
 
   return (
     <div className="mx-auto max-w-2xl space-y-4 p-6">
@@ -308,22 +311,34 @@ export default function FlashcardsPage() {
                 <div className="flex flex-col items-center justify-center gap-4 p-10 text-center">
                   {!flipped ? (
                     <div className="flex items-center gap-3">
-                      <p className="text-fl-fg font-mono text-3xl font-bold tracking-wide">
+                      <TargetLanguageText
+                        as="p"
+                        languageCode={targetLanguageCode}
+                        className="text-fl-fg text-3xl font-bold"
+                      >
                         {cards[current].word}
-                      </p>
+                      </TargetLanguageText>
                       <span onClick={(e) => e.stopPropagation()}>
                         <AudioPlayer text={cards[current].word} size="md" />
                       </span>
                     </div>
                   ) : (
                     <>
-                      <p className="text-fl-fg-2 font-mono text-base leading-relaxed">
+                      <TargetLanguageText
+                        as="p"
+                        languageCode={targetLanguageCode}
+                        className="text-fl-fg-2"
+                      >
                         {cards[current].definition}
-                      </p>
+                      </TargetLanguageText>
                       {cards[current].example_sentence && (
-                        <p className="text-fl-muted-1 font-mono text-xs italic">
+                        <TargetLanguageText
+                          as="p"
+                          languageCode={targetLanguageCode}
+                          className="text-fl-muted-1 italic"
+                        >
                           {cards[current].example_sentence}
-                        </p>
+                        </TargetLanguageText>
                       )}
                       {cards[current].translation && (
                         <p className="text-fl-label text-fl-muted-3 border-fl-border mt-1 border-t pt-3 font-mono tracking-widest uppercase">
@@ -373,13 +388,21 @@ export default function FlashcardsPage() {
               </div>
 
               <div className="flex flex-col items-center justify-center gap-5 p-10 text-center">
-                <p className="text-fl-fg-2 font-mono text-base leading-relaxed">
+                <TargetLanguageText
+                  as="p"
+                  languageCode={targetLanguageCode}
+                  className="text-fl-fg-2"
+                >
                   {cards[current].definition}
-                </p>
+                </TargetLanguageText>
                 {cards[current].example_sentence && (
-                  <p className="text-fl-muted-1 font-mono text-xs italic">
+                  <TargetLanguageText
+                    as="p"
+                    languageCode={targetLanguageCode}
+                    className="text-fl-muted-1 italic"
+                  >
                     {cards[current].example_sentence}
-                  </p>
+                  </TargetLanguageText>
                 )}
                 {cards[current].translation && (
                   <p className="text-fl-label text-fl-muted-3 border-fl-border mt-1 border-t pt-3 font-mono tracking-widest uppercase">

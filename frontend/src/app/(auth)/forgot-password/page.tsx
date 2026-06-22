@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { Loader2 } from 'lucide-react'
 import { apiFetch } from '@/lib/api'
@@ -36,6 +37,13 @@ export default function ForgotPasswordPage() {
     <div className="bg-fl-bg bg-dot-grid flex min-h-screen items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="mb-10 flex flex-col items-center">
+          <Image
+            src="/logo.png"
+            alt="FreeLingo"
+            width={100}
+            height={100}
+            className="mb-4"
+          />
           <h1 className="text-fl-fg font-mono text-xl font-bold tracking-widest uppercase">
             FreeLingo
           </h1>

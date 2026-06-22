@@ -26,6 +26,88 @@ _LANGUAGE_INFO: dict[str, dict[str, str]] = {
         "iso639": "pt",
         "flag": "🇵🇹",
     },
+    "ja-JP": {"name": "Japanese", "self_name": "日本語", "iso639": "ja", "flag": "🇯🇵"},
+    "ko-KR": {"name": "Korean (South Korea)", "self_name": "한국어", "iso639": "ko", "flag": "🇰🇷"},
+    "zh-CN": {
+        "name": "Chinese (Mainland China)",
+        "self_name": "中文（中国）",
+        "iso639": "zh",
+        "flag": "🇨🇳",
+    },
+}
+
+_LANGUAGE_CAPABILITIES: dict[str, dict[str, str | bool]] = {
+    "en-US": {
+        "script": "latin",
+        "romanization": "",
+        "uses_word_spacing": True,
+        "reading_length_unit": "words",
+    },
+    "en-GB": {
+        "script": "latin",
+        "romanization": "",
+        "uses_word_spacing": True,
+        "reading_length_unit": "words",
+    },
+    "de-DE": {
+        "script": "latin",
+        "romanization": "",
+        "uses_word_spacing": True,
+        "reading_length_unit": "words",
+    },
+    "es-ES": {
+        "script": "latin",
+        "romanization": "",
+        "uses_word_spacing": True,
+        "reading_length_unit": "words",
+    },
+    "fr-FR": {
+        "script": "latin",
+        "romanization": "",
+        "uses_word_spacing": True,
+        "reading_length_unit": "words",
+    },
+    "it-IT": {
+        "script": "latin",
+        "romanization": "",
+        "uses_word_spacing": True,
+        "reading_length_unit": "words",
+    },
+    "pt-PT": {
+        "script": "latin",
+        "romanization": "",
+        "uses_word_spacing": True,
+        "reading_length_unit": "words",
+    },
+    "ja-JP": {
+        "script": "hiragana-katakana-kanji",
+        "romanization": "romaji",
+        "uses_word_spacing": False,
+        "reading_length_unit": "characters",
+    },
+    "ko-KR": {
+        "script": "hangul",
+        "romanization": "revised-romanization",
+        "uses_word_spacing": True,
+        "reading_length_unit": "words",
+    },
+    "zh-CN": {
+        "script": "simplified-hanzi",
+        "romanization": "pinyin",
+        "uses_word_spacing": False,
+        "reading_length_unit": "characters",
+    },
+}
+
+_LANGUAGE_CAPABILITY_ALIASES: dict[str, str] = {
+    "de": "de-DE",
+    "es": "es-ES",
+    "fr": "fr-FR",
+    "it": "it-IT",
+    "pt": "pt-PT",
+    "ja": "ja-JP",
+    "ko": "ko-KR",
+    "zh": "zh-CN",
 }
 
 _VOICE_SESSION_TITLES: dict[str, str] = {
@@ -205,6 +287,42 @@ def get_language_flag(target_language: str) -> str:
     """'es-ES' → '🇪🇸', 'it-IT' → '🇮🇹'"""
     info = _LANGUAGE_INFO.get(target_language)
     return info["flag"] if info else ""
+
+
+def _get_language_capability(target_language: str) -> dict[str, str | bool]:
+    canonical_language = _LANGUAGE_CAPABILITY_ALIASES.get(target_language, target_language)
+    if canonical_language not in _LANGUAGE_CAPABILITIES:
+        iso_language = target_language.split("-")[0].lower()
+        canonical_language = _LANGUAGE_CAPABILITY_ALIASES.get(iso_language, canonical_language)
+    return _LANGUAGE_CAPABILITIES.get(canonical_language, _LANGUAGE_CAPABILITIES["en-GB"])
+
+
+def get_language_script(target_language: str) -> str:
+    """Return the primary writing-system metadata for a target language."""
+    return str(_get_language_capability(target_language)["script"])
+
+
+def get_language_romanization(target_language: str) -> str:
+    """Return the romanization system used as learner support, or an empty string."""
+    return str(_get_language_capability(target_language)["romanization"])
+
+
+def uses_word_spacing(target_language: str) -> bool:
+    """Return whether ordinary text uses visible spaces between words."""
+    return bool(_get_language_capability(target_language)["uses_word_spacing"])
+
+
+def get_reading_length_unit(target_language: str) -> str:
+    """Return the best length unit for generated reading/listening prompts."""
+    return str(_get_language_capability(target_language)["reading_length_unit"])
+
+
+def get_comprehension_length_guidance(target_language: str, base_word_count: int) -> str:
+    """Return language-aware length guidance for generated comprehension content."""
+    unit = get_reading_length_unit(target_language)
+    if unit == "characters":
+        return f"{base_word_count * 2}–{base_word_count * 3} characters"
+    return f"{base_word_count} words"
 
 
 def get_native_language_name(native_language: str) -> str:

@@ -1,13 +1,17 @@
 import { describe, it, expect } from 'vitest'
 import {
   SUPPORTED_TARGET_LANGUAGES,
+  TARGET_LANGUAGE_CATALOG,
   getLanguageByCode,
   DEFAULT_TARGET_LANGUAGE,
+  TARGET_LANGUAGE_CAPABILITIES,
+  getTargetLanguageCapability,
+  getTargetLanguageTextClass,
 } from '@/lib/target-languages'
 
 describe('SUPPORTED_TARGET_LANGUAGES', () => {
-  it('contains exactly 7 languages', () => {
-    expect(SUPPORTED_TARGET_LANGUAGES).toHaveLength(7)
+  it('contains exactly 10 languages', () => {
+    expect(SUPPORTED_TARGET_LANGUAGES).toHaveLength(10)
   })
 
   const expectedCodes = [
@@ -18,16 +22,24 @@ describe('SUPPORTED_TARGET_LANGUAGES', () => {
     'pt-PT',
     'fr-FR',
     'de-DE',
+    'ja-JP',
+    'ko-KR',
+    'zh-CN',
   ]
 
   it.each(expectedCodes)('%s has all required fields', (code) => {
     const lang = SUPPORTED_TARGET_LANGUAGES.find((l) => l.code === code)
+    const catalogLang = TARGET_LANGUAGE_CATALOG.find((l) => l.code === code)
     expect(lang).toBeDefined()
+    expect(catalogLang).toBeDefined()
     expect(lang!.code).toBeTypeOf('string')
     expect(lang!.name).toBeTypeOf('string')
     expect(lang!.nameEn).toBeTypeOf('string')
-    expect(lang!.flagPath).toMatch(/^\/flags\/[a-zA-Z]+\./)
+    expect(lang!.flagPath).toMatch(/^\/flags\/[a-zA-Z_]+\./)
     expect(lang!.iso639).toMatch(/^[a-z]{2}$/)
+    expect(lang!.script).toBe(catalogLang!.script)
+    expect(lang!.fontClass).toBe(catalogLang!.fontClass)
+    expect(lang!.usesWordSpacing).toBe(catalogLang!.usesWordSpacing)
   })
 
   it('every code is unique', () => {
@@ -44,6 +56,9 @@ describe('SUPPORTED_TARGET_LANGUAGES', () => {
     expect(paths).toContain('/flags/portugal.jpg')
     expect(paths).toContain('/flags/france.jpg')
     expect(paths).toContain('/flags/germany.jpg')
+    expect(paths).toContain('/flags/japan.jpg')
+    expect(paths).toContain('/flags/south_korea.jpg')
+    expect(paths).toContain('/flags/china.jpg')
   })
 
   it('iso639 codes map to correct languages', () => {
@@ -53,12 +68,60 @@ describe('SUPPORTED_TARGET_LANGUAGES', () => {
     const ptLangs = SUPPORTED_TARGET_LANGUAGES.filter((l) => l.iso639 === 'pt')
     const frLangs = SUPPORTED_TARGET_LANGUAGES.filter((l) => l.iso639 === 'fr')
     const deLangs = SUPPORTED_TARGET_LANGUAGES.filter((l) => l.iso639 === 'de')
+    const jaLangs = SUPPORTED_TARGET_LANGUAGES.filter((l) => l.iso639 === 'ja')
+    const koLangs = SUPPORTED_TARGET_LANGUAGES.filter((l) => l.iso639 === 'ko')
+    const zhLangs = SUPPORTED_TARGET_LANGUAGES.filter((l) => l.iso639 === 'zh')
     expect(enLangs).toHaveLength(2)
     expect(esLangs).toHaveLength(1)
     expect(itLangs).toHaveLength(1)
     expect(ptLangs).toHaveLength(1)
     expect(frLangs).toHaveLength(1)
     expect(deLangs).toHaveLength(1)
+    expect(jaLangs).toHaveLength(1)
+    expect(koLangs).toHaveLength(1)
+    expect(zhLangs).toHaveLength(1)
+  })
+})
+
+describe('TARGET_LANGUAGE_CATALOG', () => {
+  it('contains the current supported languages plus CJK catalog entries', () => {
+    expect(TARGET_LANGUAGE_CATALOG).toHaveLength(10)
+    expect(TARGET_LANGUAGE_CATALOG.map((l) => l.code)).toEqual([
+      'en-US',
+      'en-GB',
+      'es-ES',
+      'it-IT',
+      'pt-PT',
+      'fr-FR',
+      'de-DE',
+      'ja-JP',
+      'ko-KR',
+      'zh-CN',
+    ])
+  })
+
+  it('contains complete CJK display metadata', () => {
+    expect(getLanguageByCode('ja-JP')).toMatchObject({
+      name: '日本語',
+      nameEn: 'Japanese',
+      flagPath: '/flags/japan.jpg',
+      iso639: 'ja',
+      fontClass: 'font-target-ja',
+    })
+    expect(getLanguageByCode('ko-KR')).toMatchObject({
+      name: '한국어',
+      nameEn: 'Korean',
+      flagPath: '/flags/south_korea.jpg',
+      iso639: 'ko',
+      fontClass: 'font-target-ko',
+    })
+    expect(getLanguageByCode('zh-CN')).toMatchObject({
+      name: '中文（中国）',
+      nameEn: 'Chinese (Mainland China)',
+      flagPath: '/flags/china.jpg',
+      iso639: 'zh',
+      fontClass: 'font-target-zh',
+    })
   })
 })
 
@@ -115,7 +178,6 @@ describe('getLanguageByCode', () => {
   })
 
   it('returns undefined for an unknown code', () => {
-    expect(getLanguageByCode('ja-JP')).toBeUndefined()
     expect(getLanguageByCode('')).toBeUndefined()
   })
 
@@ -148,5 +210,46 @@ describe('TargetLanguage interface compliance', () => {
     SUPPORTED_TARGET_LANGUAGES.forEach((lang) => {
       expect(lang.name.length).toBeGreaterThan(0)
     })
+  })
+})
+
+describe('target language capabilities', () => {
+  it('keeps CJK capabilities enabled in the supported catalog', () => {
+    expect(TARGET_LANGUAGE_CAPABILITIES['ja-JP']).toMatchObject({
+      script: 'hiragana-katakana-kanji',
+      fontClass: 'font-target-ja',
+      usesWordSpacing: false,
+      romanization: 'romaji',
+    })
+    expect(TARGET_LANGUAGE_CAPABILITIES['ko-KR']).toMatchObject({
+      script: 'hangul',
+      fontClass: 'font-target-ko',
+      usesWordSpacing: true,
+      romanization: 'revised-romanization',
+    })
+    expect(TARGET_LANGUAGE_CAPABILITIES['zh-CN']).toMatchObject({
+      script: 'simplified-hanzi',
+      fontClass: 'font-target-zh',
+      usesWordSpacing: false,
+      romanization: 'pinyin',
+    })
+    expect(SUPPORTED_TARGET_LANGUAGES.map((l) => l.code)).toEqual(
+      TARGET_LANGUAGE_CATALOG.map((l) => l.code)
+    )
+  })
+
+  it('returns safe Latin defaults for unknown codes', () => {
+    expect(getTargetLanguageCapability('xx-XX')).toMatchObject({
+      script: 'latin',
+      fontClass: 'font-target-latin',
+      usesWordSpacing: true,
+    })
+  })
+
+  it('uses CJK-friendly text classes for future CJK languages', () => {
+    expect(getTargetLanguageTextClass('zh-CN')).toContain('font-target-zh')
+    expect(getTargetLanguageTextClass('zh-CN')).toContain('leading-loose')
+    expect(getTargetLanguageTextClass('zh-CN')).not.toContain('font-mono')
+    expect(getTargetLanguageTextClass('en-GB')).toContain('font-target-latin')
   })
 })

@@ -25,7 +25,7 @@ backend/
 │   │   ├── app_logger.py        # Structured logging (structlog)
 │   │   └── limiter.py           # slowapi rate limiter setup
 │   │
-│   ├── models/                  # SQLAlchemy 2.0 ORM models (15 files, 21 model classes)
+│   ├── models/                  # SQLAlchemy 2.0 ORM models (16 files, 22 model classes)
 │   │   ├── __init__.py
 │   │   ├── user.py              # User, UserPreferences, user quotas, avatar
 │   │   ├── user_language.py     # UserLanguage (phase 10: multi-language learning)
@@ -40,6 +40,7 @@ backend/
 │   │   ├── reading.py           # ReadingExercise, ReadingAttempt
 │   │   ├── feedback.py          # FeedbackEntry, FeedbackVote, FeedbackComment
 │   │   ├── review.py            # Review (one moderated product review per user)
+│   │   ├── resource_native_help.py # ResourceNativeHelp (global native-help cache for static resources)
 │   │   ├── memory.py            # Memory (persistent LLM context)
 │   │   └── llm_usage.py         # LLMUsage (token audit trail)
 │   │
@@ -91,13 +92,13 @@ backend/
 │   │   ├── tts.py               # Text-to-speech proxy
 │   │   └── vocabulary.py        # Static vocabulary data (per language + per level)
 │   │
-│   ├── services/                # Business logic + external service clients (18 modules + prompts package)
+│   ├── services/                # Business logic + external service clients (19 modules + prompts package)
 │   │   ├── __init__.py
 │   │   ├── assessment.py        # Adaptive quiz logic, CEFR level estimation
 │   │   ├── conversation_pipeline.py  # WebSocket voice orchestrator: STT → LLM → TTS
 │   │   ├── email_service.py     # SMTP email (verification, password reset, contact, admin notifications)
 │   │   ├── flashcard_sm2.py     # SM-2 spaced repetition algorithm
-│   │   ├── language_helpers.py  # Language code parsing, voice/engine selection
+│   │   ├── language_helpers.py  # Language code parsing, script metadata, prompt length guidance, voice/engine selection
 │   │   ├── lesson_generator.py  # LLM-powered lesson content generation
 │   │   ├── listening_service.py # AI listening exercise generation + caching
 │   │   ├── llm_adapter.py       # Multi-provider LLM interface (Ollama, OpenAI, Anthropic, DeepSeek)
@@ -106,6 +107,7 @@ backend/
 │   │   ├── prompts/             # Centralized LLM prompt templates and builders
 │   │   ├── quota_service.py     # Token quota tracking and enforcement
 │   │   ├── reading_service.py   # AI reading exercise generation + caching
+│   │   ├── resource_native_help.py # Static-resource native-help cache helpers
 │   │   ├── review_service.py    # User review creation, duplicate guard, approval, deletion
 │   │   ├── stt_service.py       # Speech-to-text abstraction (local Whisper / OpenAI)
 │   │   ├── study_plan_generator.py  # Deterministic unit distribution from curriculum
@@ -113,32 +115,38 @@ backend/
 │   │   ├── tts_service.py       # Text-to-speech abstraction (local Kokoro / OpenAI)
 │   │   └── user_language_service.py # Multi-language study plan management (phase 10)
 │   │
-│   └── data/                    # Static curriculum, assessment, vocabulary, and phrasebook content (4 languages)
+│   └── data/                    # Static curriculum, assessment, vocabulary, and phrasebook content (9 language modules)
 │       ├── __init__.py
 │       ├── _types.py             # Shared types (CEFRLevel, CurriculumUnit, AssessmentQuestion, VocabularyEntry, VocabularySet, PhrasebookEntry, PhrasebookCategory)
 │       ├── curriculum.py         # Language-aware curriculum dispatcher
 │       ├── assessment_bank.py    # Language-aware assessment bank dispatcher
 │       ├── vocabulary.py         # Language-aware vocabulary dispatcher
-│       ├── en/                   # English — curriculum, assessment bank, vocabulary, phrasebook (per CEFR level)
+│       ├── en_GB/                # British English — curriculum, assessment bank, vocabulary, phrasebook
+│       ├── en_US/                # American English — curriculum, assessment bank, vocabulary, phrasebook
+│       ├── de/                   # German — curriculum, assessment bank, vocabulary, phrasebook
 │       ├── es/                   # Spanish — curriculum, assessment bank, vocabulary, phrasebook
+│       ├── fr/                   # French — curriculum, assessment bank, vocabulary, phrasebook
 │       ├── it/                   # Italian — curriculum, assessment bank, vocabulary, phrasebook
+│       ├── ja/                   # Japanese — curriculum, assessment bank, vocabulary, phrasebook
+│       ├── ko/                   # Korean — curriculum, assessment bank, vocabulary, phrasebook
+│       ├── zh/                   # Mainland Chinese — curriculum, assessment bank, vocabulary, phrasebook
 │       └── pt/                   # Portuguese — curriculum, assessment bank, vocabulary, phrasebook
 │
 ├── alembic/
-│   └── versions/                # DB migrations (42 migrations)
+│   └── versions/                # DB migrations (43 migrations)
 │
-└── tests/                       # pytest suite (43 test files, 846 tests)
+└── tests/                       # pytest suite (43 test files, 887 tests)
 ```
 
 ## Database models
 
-The application uses 20 SQLAlchemy ORM models organized into 5 domains:
+The application uses 21 SQLAlchemy ORM model sections organized into 5 domains:
 
 - **Core**: User (authentication, preferences, quotas), Progress (daily XP/streak/skills)
 - **Study plan**: StudyPlan, Lesson, Exercise, UserCompetency (curriculum tracking)
 - **Spaced repetition**: Flashcard (SM-2 algorithm)
 - **Conversations**: Conversation, ChatHistory (text and voice transcripts)
-- **AI-generated content**: ListeningExercise, ListeningAttempt, ReadingExercise, ReadingAttempt (shared exercise pools)
+- **AI-generated/static support content**: ListeningExercise, ListeningAttempt, ReadingExercise, ReadingAttempt (shared exercise pools), ResourceNativeHelp (global native-language cache for static resources)
 - **Community**: FeedbackEntry, FeedbackVote, FeedbackComment (feature requests and bug reports), Review (moderated product reviews)
 - **LLM**: Memory (persistent context), LLMUsage (token audit trail)
 - **Multi-language**: UserLanguage (phase 10 — enables learning multiple target languages per user)
@@ -157,11 +165,11 @@ The application uses 18 services plus a centralized `services/prompts/` package 
 
 - **LLM & AI**: LLM Adapter (multi-provider), Assessment, Study Plan Generator, Lesson Generator, Flashcard SM-2
 - **Media**: TTS Service, STT Service, Conversation Pipeline (WebSocket voice orchestrator)
-- **Content**: Listening Service, Reading Service (AI-generated exercises with caching; generation responses validated with Pydantic `structured_output()` schemas)
+- **Content**: Listening Service, Reading Service (AI-generated exercises with caching; generation responses validated with Pydantic `structured_output()` schemas), Resource Native Help (global cache for static-resource native-language helpers)
 - **User**: Progress Service, Memory Service, Quota Service, Subscription Service, User Language Service
 - **Community**: Review Service
 - **Infrastructure**: Language Helpers, Email Service
-- **Prompt architecture**: prompt templates, shared blocks, and builders live in `services/prompts/`; see [prompts.instructions.md](prompts.instructions.md)
+- **Prompt architecture**: prompt templates, shared blocks, CJK-ready language overlays, and builders live in `services/prompts/`; see [prompts.instructions.md](prompts.instructions.md)
 
 Key architectural decisions:
 
@@ -169,6 +177,7 @@ Key architectural decisions:
 - **Study Plan Generator** and **Lesson Generator** are deterministic within curriculum constraints
 - **TTS/STT services** abstract local (Kokoro/Whisper) and cloud (OpenAI) providers behind common interfaces
 - **Conversation Pipeline** orchestrates real-time voice: cancellable greeting, STT → full LLM response → sentence-level TTS chunks, serialized WebSocket sends, empty-STT guard, and backend barge-in support with frontend automatic interruption disabled
+- **Language Helpers** centralize target-language display names, ISO codes, script metadata, romanization metadata, word-spacing metadata, and reading/listening length guidance. Japanese (`ja-JP`), Korean (`ko-KR`), and Mainland Chinese (`zh-CN`) are enabled in backend language allow-lists and static content dispatchers.
 
 For complete service details, APIs, and implementation notes, see [services.instructions.md](services.instructions.md).
 
@@ -194,8 +203,8 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 
 - **Framework**: pytest + pytest-asyncio + httpx AsyncClient
 - **Test files**: 43 (plus conftest.py for shared fixtures)
-- **Tests**: 846
-- **Coverage**: 84.23% (target: ≥70%)
+- **Tests**: 887
+- **Coverage**: 85.39% last measured (target: ≥70%)
 - **Key fixtures**: async database session, test client with auth headers, Redis mock, user_language fixture
 
 ---
@@ -274,26 +283,26 @@ All configuration is environment-driven. Variables are defined in `app/core/conf
 
 ### Email
 
-| Variable      | Default               | Purpose                                                          |
-| ------------- | --------------------- | ---------------------------------------------------------------- |
+| Variable      | Default               | Purpose                                                                             |
+| ------------- | --------------------- | ----------------------------------------------------------------------------------- |
 | EMAIL_ENABLED | false                 | Enable SMTP email (verification, password reset, contact form, admin notifications) |
 | CONTACT_EMAIL | ``                    | Destination address for contact form submissions and admin notifications            |
-| SMTP_HOST     | localhost             | SMTP server hostname                                             |
-| SMTP_PORT     | 587                   | SMTP server port                                                 |
-| SMTP_USER     | ``                    | SMTP username                                                    |
-| SMTP_PASSWORD | ``                    | SMTP password                                                    |
-| SMTP_FROM     | noreply@freelingo.app | From address for outgoing emails                                 |
-| SMTP_TLS      | true                  | Use STARTTLS                                                     |
-| SMTP_SSL      | false                 | Use implicit SSL (port 465)                                      |
-| APP_BASE_URL  | http://localhost:3000 | Public frontend URL (used in email links)                        |
+| SMTP_HOST     | localhost             | SMTP server hostname                                                                |
+| SMTP_PORT     | 587                   | SMTP server port                                                                    |
+| SMTP_USER     | ``                    | SMTP username                                                                       |
+| SMTP_PASSWORD | ``                    | SMTP password                                                                       |
+| SMTP_FROM     | noreply@freelingo.app | From address for outgoing emails                                                    |
+| SMTP_TLS      | true                  | Use STARTTLS                                                                        |
+| SMTP_SSL      | false                 | Use implicit SSL (port 465)                                                         |
+| APP_BASE_URL  | http://localhost:3000 | Public frontend URL (used in email links)                                           |
 
 ### Other
 
-| Variable                   | Default                                   | Purpose                                              |
-| -------------------------- | ----------------------------------------- | ---------------------------------------------------- |
-| RATE_LIMIT_ENABLED         | true                                      | Enable slowapi rate limiting                         |
-| AUDIO_STORAGE_PATH         | /data/audio                               | Docker volume path for generated listening MP3 files |
-| AVAILABLE_TARGET_LANGUAGES | ["en-US","en-GB","es-ES","it-IT","pt-PT"] | BCP-47 codes of supported target languages           |
+| Variable                   | Default                                                                           | Purpose                                                                                                                       |
+| -------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| RATE_LIMIT_ENABLED         | true                                                                              | Enable slowapi rate limiting                                                                                                  |
+| AUDIO_STORAGE_PATH         | /data/audio                                                                       | Docker volume path for generated listening MP3 files                                                                          |
+| AVAILABLE_TARGET_LANGUAGES | ["de-DE","en-GB","en-US","es-ES","fr-FR","it-IT","ja-JP","ko-KR","pt-PT","zh-CN"] | Operator-configured BCP-47 target-language list; entries not present in backend `SUPPORTED_TARGET_LANGUAGES` are filtered out |
 
 ### Docker-level variables (not consumed by Python backend)
 

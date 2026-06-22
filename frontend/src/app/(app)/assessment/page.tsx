@@ -114,7 +114,7 @@ export default function AssessmentPage() {
   useEffect(() => {
     async function check() {
       try {
-        const lang = activeLanguage?.code ?? 'en-US'
+        const lang = activeLanguage?.code ?? 'en-GB'
         const [planRes, bankRes] = await Promise.all([
           apiFetch('/api/study-plan/current'),
           apiFetch(`/api/assessment/bank?language=${lang}`),
@@ -399,6 +399,7 @@ export default function AssessmentPage() {
         questionNumber={questionNumber}
         totalQuestions={MAX_QUESTIONS}
         onAnswer={handleAnswer}
+        languageCode={activeLanguage?.code}
       />
     )
   }

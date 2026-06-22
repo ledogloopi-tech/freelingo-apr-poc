@@ -6,6 +6,7 @@ You are an expert {target_language_name} teacher creating a structured lesson.
 Parameters:
 - CEFR level: {cefr_level}   ← Do NOT use grammar or vocabulary above this level.
 - Target language: {target_language_name}  ← Use {target_language_name} vocabulary and spelling throughout.
+- Native language (student's language): {native_language_name}
 - Lesson type: {lesson_type}
 - Topic / unit title: {topic}
 - Curriculum unit id: {unit_id}
@@ -57,6 +58,14 @@ For pronunciation exercises use this exact structure:
   "explanation": "What phonetic aspect this practices (describe in {target_language_name})."
 }}
 
+NATIVE EXPLANATION RULES:
+- If native_language_name is "none", set "native_explanation" to null.
+- Otherwise, populate "native_explanation" with the SAME structure as "explanation" but entirely in {native_language_name} — translate the explanation, key_points, and examples so the student can read it in their own language.
+- Keep native_explanation example sentences in {target_language_name}; translate only the example notes.
+- Also include "common_traps" and "mini_glossary" in native_explanation to help the student study the lesson.
+- common_traps: 2-4 likely mistakes for this lesson, with "mistake" and "fix" in {native_language_name}.
+- mini_glossary: 3-6 useful lesson terms, with "term" in {target_language_name}, plus "meaning" and optional "note" in {native_language_name}.
+
 Return a JSON object using this exact schema:
 {{
   "lesson_type": "{lesson_type}",
@@ -71,6 +80,22 @@ Return a JSON object using this exact schema:
     ],
     "examples": [
       {{"sentence": "[natural example sentence in {target_language_name}]", "note": "[what this example shows]"}}
+    ]
+  }},
+  "native_explanation": {{
+    "text": "[same explanation translated into {native_language_name}]",
+    "key_points": [
+      "[first key takeaway in {native_language_name}]",
+      "[second key takeaway]"
+    ],
+    "examples": [
+      {{"sentence": "[same example sentence in {target_language_name} — keep the example sentence in the target language]", "note": "[note translated into {native_language_name}]"}}
+    ],
+    "common_traps": [
+      {{"mistake": "[common learner mistake in {native_language_name}]", "fix": "[how to avoid or correct it in {native_language_name}]"}}
+    ],
+    "mini_glossary": [
+      {{"term": "[useful {target_language_name} word or phrase]", "meaning": "[meaning in {native_language_name}]", "note": "[optional study note in {native_language_name}]"}}
     ]
   }},
   "exercises": [
@@ -106,12 +131,14 @@ Return a JSON object using this exact schema:
 }}
 
 IMPORTANT — all content (explanations, questions, options, correct answers, vocabulary)
-must be entirely in {target_language_name}. Only this meta-prompt is in English.
+must be entirely in {target_language_name}, EXCEPT for "native_explanation" which must be in {native_language_name} (or null if native_language_name is "none").
+Only this meta-prompt is in English.
 
 Before returning, verify:
 - Every fill_blank exercise has ___ inside the "question" field (not in "explanation").
 - No multiple_choice option starts with a letter or number prefix (A., B., 1., 2.).
-- All text visible to the student is in {target_language_name}.
+- All text visible to the student (except native_explanation) is in {target_language_name}.
+- If native_language_name is not "none", native_explanation is populated and all native fields are in {native_language_name}.
 """
 
 FILL_BLANK_EVAL_PROMPT = """
@@ -234,10 +261,12 @@ def build_lesson_generation_prompt(
     day: int,
     valid_slugs: str,
     language_prompt_overlay: str = "",
+    native_language_name: str = "none",
 ) -> str:
     return LESSON_GENERATION_PROMPT.format(
         cefr_level=cefr_level,
         target_language_name=target_language_name,
+        native_language_name=native_language_name,
         lesson_type=lesson_type,
         topic=topic,
         unit_id=unit_id,
@@ -302,4 +331,50 @@ def build_pronunciation_eval_prompt(
         target=target,
         transcription=transcription,
         language_prompt_overlay=language_prompt_overlay,
+    )
+
+
+NATIVE_EXPLANATION_ON_DEMAND = """
+You are a translator. Translate the following lesson explanation from {target_language_name}
+into {native_language_name}.
+
+The source explanation is JSON. Preserve its structure. Only translate the text, key_points,
+and the notes in examples. Keep example sentences in their original {target_language_name}
+form. Also add study support in the student's native language. Return a JSON object with this exact structure:
+
+{{
+  "text": "[translated explanation in {native_language_name}]",
+  "key_points": [
+    "[translated key point 1 in {native_language_name}]",
+    "[translated key point 2 in {native_language_name}]"
+  ],
+  "examples": [
+    {{"sentence": "[KEEP original sentence in {target_language_name}]", "note": "[translated note in {native_language_name}]"}},
+    {{"sentence": "[KEEP original sentence in {target_language_name}]", "note": "[translated note in {native_language_name}]"}}
+  ],
+  "common_traps": [
+    {{"mistake": "[common learner mistake in {native_language_name}]", "fix": "[how to avoid or correct it in {native_language_name}]"}}
+  ],
+  "mini_glossary": [
+    {{"term": "[useful {target_language_name} word or phrase from the lesson]", "meaning": "[meaning in {native_language_name}]", "note": "[optional study note in {native_language_name}]"}}
+  ]
+}}
+
+Source explanation JSON to translate:
+<<<EXPLANATION_JSON
+{source_explanation}
+EXPLANATION_JSON
+"""
+
+
+def build_native_explanation_on_demand_prompt(
+    *,
+    target_language_name: str,
+    native_language_name: str,
+    source_explanation: str,
+) -> str:
+    return NATIVE_EXPLANATION_ON_DEMAND.format(
+        target_language_name=target_language_name,
+        native_language_name=native_language_name,
+        source_explanation=source_explanation,
     )

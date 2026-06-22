@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.reading import ReadingAttempt, ReadingExercise
 from app.schemas.reading import ReadingGenerationResponse
-from app.services.language_helpers import get_language_name
+from app.services.language_helpers import get_comprehension_length_guidance, get_language_name
 from app.services.llm_adapter import LLMResponseError, llm_adapter
 from app.services.progress_service import update_daily_progress
 from app.services.prompts.common import get_language_prompt_overlay
@@ -88,6 +88,24 @@ _CULTURAL_TOPICS: dict[str, list[str]] = {
         "daily life and customs in Portuguese cities",
         "Portuguese history, the Age of Discoveries, and heritage",
     ],
+    "ja": [
+        "daily life, etiquette, and seasonal customs in Japan",
+        "Japanese food culture, festivals, and regional traditions",
+        "Japanese cities, transport, schools, and workplace routines",
+        "Japanese literature, media, history, and cultural heritage",
+    ],
+    "ko": [
+        "daily life, etiquette, and social customs in South Korea",
+        "Korean food culture, festivals, music, and contemporary media",
+        "South Korean cities, transport, education, and workplace routines",
+        "Korean history, language culture, and cultural heritage",
+    ],
+    "zh": [
+        "daily life, etiquette, and social customs in Mainland China",
+        "Chinese food culture, festivals, family traditions, and regional customs",
+        "Mainland Chinese cities, transport, education, and workplace routines",
+        "Chinese history, literature, arts, and cultural heritage",
+    ],
     "en-GB": [
         "British traditions, monarchy, and cultural life",
         "daily life and customs in UK cities and countryside",
@@ -159,6 +177,7 @@ async def generate_and_save_exercise(
         exercise_type_desc=_TYPE_DESCRIPTIONS[exercise_type],
         topic=topic_area,
         word_count=word_count,
+        length_guidance=get_comprehension_length_guidance(target_language, word_count),
         language_prompt_overlay=get_language_prompt_overlay(target_language),
     )
     messages = [{"role": "user", "content": prompt}]

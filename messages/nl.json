@@ -37,7 +37,10 @@
       "es-ES": "¡Hola!",
       "fr-FR": "Bonjour !",
       "it-IT": "Ciao!",
-      "pt-PT": "Olá!"
+      "pt-PT": "Olá!",
+      "ja-JP": "こんにちは！",
+      "ko-KR": "안녕하세요!",
+      "zh-CN": "你好！"
     }
   },
   "common": {
@@ -77,7 +80,19 @@
     "noActivePlan": "Geen actief studieplan gevonden",
     "removeLanguageConfirmTitle": "Taal verwijderen",
     "removeLanguageConfirmMessage": "Alle gegevens voor deze taal (studieplan, voortgang, flashcards, gesprekken en herinneringen) worden permanent verwijderd. Deze actie kan niet ongedaan worden gemaakt.",
-    "removeLanguageConfirmLabel": "Verwijderen"
+    "removeLanguageConfirmLabel": "Verwijderen",
+    "nativeHelpTitle": "Hulp in {language}",
+    "nativeHelpLoading": "Hulp in {language} voorbereiden...",
+    "nativeHelpShow": "Hulp in {language} tonen",
+    "nativeHelpKeyPoints": "Kernpunten",
+    "nativeHelpCommonTraps": "Veelvoorkomende valkuilen",
+    "nativeHelpMiniGlossary": "Miniglossarium",
+    "nativeHelpUsageTips": "Gebruikstips",
+    "nativeHelpRegisterNotes": "Register",
+    "nativeHelpPhraseNotes": "Zinsnotities",
+    "nativeHelpStudyTips": "Studietips",
+    "nativeHelpWordNotes": "Woordnotities",
+    "nativeHelpPractice": "Oefening"
   },
   "nav": {
     "home": "Home",
@@ -557,7 +572,10 @@
     "submitAnswer": "Antwoord versturen",
     "lessonDone": "Les voltooid",
     "score": "Score",
+    "showNativeExplanation": "Toon in",
     "examples": "Voorbeelden",
+    "commonTraps": "Veelgemaakte fouten",
+    "miniGlossary": "Miniwoordenlijst",
     "pronunciationExercise": "Uitspraak",
     "exerciseTypeMultipleChoice": "Meerkeuzevraag",
     "exerciseTypeFillBlank": "Invuloefening",
@@ -1082,19 +1100,28 @@
     "pt-PT": "Portugees",
     "fr-FR": "Frans",
     "de-DE": "Duits",
+    "ja-JP": "Japans",
+    "ko-KR": "Koreaans",
+    "zh-CN": "Chinees (vasteland China)",
     "en": "Engels",
     "es": "Spaans",
     "it": "Italiaans",
     "pt": "Portugees",
     "fr": "Frans",
     "de": "Duits",
+    "ja": "Japans",
+    "ko": "Koreaans",
+    "zh": "Chinees",
     "es-ES-description": "Spaans zoals gesproken in Spanje.",
     "it-IT-description": "Italiaans zoals gesproken in Italië.",
     "pt-PT-description": "Portugees zoals gesproken in Portugal.",
     "en-US-description": "Engels zoals gesproken in de Verenigde Staten.",
     "en-GB-description": "Engels zoals gesproken in het Verenigd Koninkrijk.",
     "fr-FR-description": "Frans zoals gesproken in Frankrijk.",
-    "de-DE-description": "Duits zoals gesproken in Duitsland."
+    "de-DE-description": "Duits zoals gesproken in Duitsland.",
+    "ja-JP-description": "Japans zoals gesproken in Japan.",
+    "ko-KR-description": "Koreaans zoals gesproken in Zuid-Korea.",
+    "zh-CN-description": "Mandarijn-Chinees van het Chinese vasteland, met vereenvoudigde karakters."
   },
   "onboarding": {
     "title": "Kies jouw taal",
@@ -1239,21 +1266,25 @@
   },
   "whatsNew": {
     "title": "Nieuw",
-    "version": "v1.8.9",
+    "version": "v1.8.10",
     "cta": "Begrepen",
     "entry1": {
-      "label": "Vijf nieuwe leertalen",
-      "desc": "Duits, Frans, Italiaans, Portugees en Spaans zijn nu beschikbaar — elk met een volledig curriculum van beginner tot gevorderd (A1–C2), grammatica, woordenschat, zinnen, Reading, Listening en meer. Voeg ze toe via Instellingen → Mijn talen."
+      "label": "Meer talen om te leren",
+      "desc": "<bold>Duits, Frans, Italiaans, Japans, Koreaans, Portugees, Spaans en Chinees (vasteland)</bold> zijn nu beschikbaar — met volledige leerpaden van beginner tot gevorderd, grammatica, woordenschat, zinnen, Reading, Listening en meer. Voeg ze toe via Instellingen → Mijn talen."
     },
     "entry2": {
+      "label": "Lesuitleg in je eigen taal",
+      "desc": "Beginnerslessen kunnen de belangrijkste ideeën nu in je eigen taal uitleggen, zodat je elke les makkelijker begrijpt voordat je gaat oefenen."
+    },
+    "entry3": {
       "label": "Voeg een review toe vanuit je profiel",
       "desc": "Je kunt nu je mening over FreeLingo direct delen via Instellingen → Profiel. Je review helpt andere leerlingen het platform te ontdekken."
     },
-    "entry3": {
+    "entry4": {
       "label": "Verbeterde leermiddelen",
       "desc": "Alle leermiddelensecties zijn uitgebreid met nieuwe inhoud."
     },
-    "entry4": {
+    "entry5": {
       "label": "Bugfixes",
       "desc": "Diverse kleine bugfixes en stabiliteitsverbeteringen in het hele platform."
     }
@@ -1397,9 +1428,9 @@
     "submit": "Verzenden"
   },
   "landingReviews": {
-    "eyebrow": "Beoordelingen van cursisten",
-    "title": "Echte vooruitgang, beoordeeld door cursisten",
-    "subtitle": "Geverifieerde FreeLingo-beoordelingen van studenten die het platform gebruiken om met Lingu te leren.",
+    "eyebrow": "Verhalen van cursisten",
+    "title": "Leren voelt echter wanneer je het zelf vertelt",
+    "subtitle": "Beoordelingen van studenten die al met Lingu oefenen op FreeLingo.",
     "learningLanguage": "Leert {language}",
     "starsLabel": "{rating} van 5 sterren",
     "ratingOnly": "Geverifieerde FreeLingo-beoordeling."

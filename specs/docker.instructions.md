@@ -78,20 +78,21 @@ Two named volumes: `postgres_data` and `redis_data`. Both services also accept b
 
 The canonical reference is `.env.example` at the repo root. The categories operators must review before first deployment:
 
-| Category      | Key variables                                                                    | Notes                                                       |
-| ------------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| Database      | `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`                              | All three must be set                                       |
-| Data path     | `DATA_PATH`                                                                      | Host path for bind mounts (postgres, redis, avatars, audio) |
-| Cache         | `REDIS_PASSWORD`                                                                 | Must match in Redis command and backend URL                 |
-| Auth          | `SECRET_KEY`                                                                     | Generate with `openssl rand -hex 32`; never commit          |
-| CORS / Cookie | `CORS_ORIGINS`, `COOKIE_SECURE`                                                  | Set `COOKIE_SECURE=true` when serving over HTTPS            |
-| Registration  | `ALLOW_REGISTRATION`, `FIRST_USER_IS_ADMIN`                                      | Restrict signups and promote first user automatically       |
-| Email / SMTP  | `EMAIL_ENABLED`, `SMTP_*`, `APP_BASE_URL`                                        | Required for email verification and password reset          |
-| LLM           | `LLM_PROVIDER`, `OLLAMA_*`, `OPENAI_*`, `ANTHROPIC_*`, `DEEPSEEK_*`              | Provider selected via `LLM_PROVIDER`                        |
-| TTS           | `TTS_PROVIDER`, `TTS_BASE_URL`, `TTS_VOICE`, `OPENAI_TTS_*`                      | `local` or `openai`                                         |
-| STT           | `STT_PROVIDER`, `STT_BASE_URL`, `STT_MODEL`, `STT_ENGINE`, `OPENAI_STT_MODEL`    | `local` or `openai`                                         |
-| Stripe        | `STRIPE_ENABLED`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_*` | Optional; disabled by default                               |
-| Logging       | `LOG_LEVEL`                                                                      | Default: `INFO`                                             |
+| Category      | Key variables                                                                    | Notes                                                                       |
+| ------------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Database      | `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`                              | All three must be set                                                       |
+| Data path     | `DATA_PATH`                                                                      | Host path for bind mounts (postgres, redis, avatars, audio)                 |
+| Cache         | `REDIS_PASSWORD`                                                                 | Must match in Redis command and backend URL                                 |
+| Auth          | `SECRET_KEY`                                                                     | Generate with `openssl rand -hex 32`; never commit                          |
+| CORS / Cookie | `CORS_ORIGINS`, `COOKIE_SECURE`                                                  | Set `COOKIE_SECURE=true` when serving over HTTPS                            |
+| Registration  | `ALLOW_REGISTRATION`, `FIRST_USER_IS_ADMIN`                                      | Restrict signups and promote first user automatically                       |
+| Email / SMTP  | `EMAIL_ENABLED`, `SMTP_*`, `APP_BASE_URL`                                        | Required for email verification and password reset                          |
+| Languages     | `AVAILABLE_TARGET_LANGUAGES`                                                     | Operator-configured target-language list; backend filters unsupported codes |
+| LLM           | `LLM_PROVIDER`, `OLLAMA_*`, `OPENAI_*`, `ANTHROPIC_*`, `DEEPSEEK_*`              | Provider selected via `LLM_PROVIDER`                                        |
+| TTS           | `TTS_PROVIDER`, `TTS_BASE_URL`, `TTS_VOICE`, `OPENAI_TTS_*`                      | `local` or `openai`                                                         |
+| STT           | `STT_PROVIDER`, `STT_BASE_URL`, `STT_MODEL`, `STT_ENGINE`, `OPENAI_STT_MODEL`    | `local` or `openai`                                                         |
+| Stripe        | `STRIPE_ENABLED`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_*` | Optional; disabled by default                                               |
+| Logging       | `LOG_LEVEL`                                                                      | Default: `INFO`                                                             |
 
 ---
 

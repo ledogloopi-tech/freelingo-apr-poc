@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
+import { TargetLanguageText } from '@/components/TargetLanguageText'
 
 interface Props {
   role: 'user' | 'assistant'
@@ -8,6 +9,7 @@ interface Props {
   speaking?: boolean
   userAvatar?: string | null
   userInitial?: string
+  languageCode?: string | null
 }
 
 export default function TranscriptBubble({
@@ -17,6 +19,7 @@ export default function TranscriptBubble({
   speaking = false,
   userAvatar,
   userInitial,
+  languageCode,
 }: Props) {
   const t = useTranslations('conversation')
   const isUser = role === 'user'
@@ -68,8 +71,10 @@ export default function TranscriptBubble({
         <span className="text-fl-label text-fl-muted-4 font-mono tracking-widest uppercase">
           {isUser ? t('you') : t('assistant')}
         </span>
-        <div
-          className={`border px-4 py-3 font-mono text-sm leading-relaxed ${
+        <TargetLanguageText
+          as="div"
+          languageCode={languageCode}
+          className={`border px-4 py-3 ${
             isUser
               ? 'bg-fl-accent text-fl-accent-fg border-fl-accent'
               : 'bg-fl-surface text-fl-fg border-fl-border'
@@ -79,7 +84,7 @@ export default function TranscriptBubble({
           {streaming && (
             <span className="ml-1 inline-block h-3 w-1 animate-pulse bg-current align-middle" />
           )}
-        </div>
+        </TargetLanguageText>
       </div>
     </div>
   )

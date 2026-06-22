@@ -37,7 +37,10 @@
       "es-ES": "¡Hola!",
       "fr-FR": "Bonjour !",
       "it-IT": "Ciao!",
-      "pt-PT": "Olá!"
+      "pt-PT": "Olá!",
+      "ja-JP": "こんにちは！",
+      "ko-KR": "안녕하세요!",
+      "zh-CN": "你好！"
     }
   },
   "common": {
@@ -77,7 +80,19 @@
     "noActivePlan": "Nie znaleziono aktywnego planu nauki",
     "removeLanguageConfirmTitle": "Usuń język",
     "removeLanguageConfirmMessage": "Wszystkie dane dla tego języka (plan nauki, postępy, fiszki, konwersacje i wspomnienia) zostaną trwale usunięte. Tej akcji nie można cofnąć.",
-    "removeLanguageConfirmLabel": "Usuń"
+    "removeLanguageConfirmLabel": "Usuń",
+    "nativeHelpTitle": "Pomoc w języku {language}",
+    "nativeHelpLoading": "Przygotowuję pomoc w języku {language}...",
+    "nativeHelpShow": "Pokaż pomoc w języku {language}",
+    "nativeHelpKeyPoints": "Kluczowe punkty",
+    "nativeHelpCommonTraps": "Częste pułapki",
+    "nativeHelpMiniGlossary": "Mini słowniczek",
+    "nativeHelpUsageTips": "Wskazówki użycia",
+    "nativeHelpRegisterNotes": "Rejestr",
+    "nativeHelpPhraseNotes": "Notatki do zwrotów",
+    "nativeHelpStudyTips": "Wskazówki do nauki",
+    "nativeHelpWordNotes": "Notatki do słów",
+    "nativeHelpPractice": "Ćwiczenie"
   },
   "nav": {
     "home": "Strona główna",
@@ -557,7 +572,10 @@
     "submitAnswer": "Wyślij odpowiedź",
     "lessonDone": "Lekcja ukończona",
     "score": "Wynik",
+    "showNativeExplanation": "Pokaż w",
     "examples": "Przykłady",
+    "commonTraps": "Częste błędy",
+    "miniGlossary": "Mini słowniczek",
     "pronunciationExercise": "Wymowa",
     "exerciseTypeMultipleChoice": "Wielokrotny wybór",
     "exerciseTypeFillBlank": "Uzupełnianie luk",
@@ -1082,19 +1100,28 @@
     "pt-PT": "Portugalski",
     "fr-FR": "Francuski",
     "de-DE": "Niemiecki",
+    "ja-JP": "Japoński",
+    "ko-KR": "Koreański",
+    "zh-CN": "Chiński kontynentalny",
     "en": "angielski",
     "es": "hiszpański",
     "it": "włoski",
     "pt": "portugalski",
     "fr": "francuski",
     "de": "niemiecki",
+    "ja": "japoński",
+    "ko": "koreański",
+    "zh": "chiński",
     "es-ES-description": "Hiszpański używany w Hiszpanii.",
     "it-IT-description": "Włoski używany we Włoszech.",
     "pt-PT-description": "Portugalski używany w Portugalii.",
     "en-US-description": "Angielski używany w Stanach Zjednoczonych.",
     "en-GB-description": "Angielski używany w Wielkiej Brytanii.",
     "fr-FR-description": "Francuski używany we Francji.",
-    "de-DE-description": "Niemiecki używany w Niemczech."
+    "de-DE-description": "Niemiecki używany w Niemczech.",
+    "ja-JP-description": "Japoński używany w Japonii.",
+    "ko-KR-description": "Koreański używany w Korei Południowej.",
+    "zh-CN-description": "Mandaryński chiński z Chin kontynentalnych, z uproszczonymi znakami."
   },
   "onboarding": {
     "title": "Wybierz swój język",
@@ -1239,21 +1266,25 @@
   },
   "whatsNew": {
     "title": "Co nowego",
-    "version": "v1.8.9",
+    "version": "v1.8.10",
     "cta": "Rozumiem",
     "entry1": {
-      "label": "Pięć nowych języków do nauki",
-      "desc": "Francuski, hiszpański, niemiecki, portugalski i włoski są już dostępne — każdy z pełnym programem nauczania od początkującego do zaawansowanego (A1–C2), gramatyką, słownictwem, zwrotami, Reading, Listening i więcej. Dodaj je w Ustawienia → Moje języki."
+      "label": "Więcej języków do nauki",
+      "desc": "<bold>Chiński kontynentalny, francuski, hiszpański, japoński, koreański, niemiecki, portugalski i włoski</bold> są już dostępne — z pełnymi ścieżkami nauki od początkującego do zaawansowanego, gramatyką, słownictwem, zwrotami, Reading, Listening i więcej. Dodaj je w Ustawienia → Moje języki."
     },
     "entry2": {
+      "label": "Wyjaśnienia lekcji w Twoim języku",
+      "desc": "Lekcje dla początkujących mogą teraz wyjaśniać najważniejsze pomysły w Twoim języku, dzięki czemu łatwiej zrozumiesz każdą lekcję przed ćwiczeniami."
+    },
+    "entry3": {
       "label": "Dodaj recenzję ze swojego profilu",
       "desc": "Możesz teraz podzielić się opinią o FreeLingo bezpośrednio w Ustawienia → Profil. Twoja recenzja pomaga innym uczącym się odkryć platformę."
     },
-    "entry3": {
+    "entry4": {
       "label": "Ulepszone materiały dydaktyczne",
       "desc": "Wszystkie sekcje materiałów dydaktycznych zostały rozszerzone o nowe treści."
     },
-    "entry4": {
+    "entry5": {
       "label": "Poprawki błędów",
       "desc": "Różne drobne poprawki błędów i ulepszenia stabilności na całej platformie."
     }
@@ -1397,9 +1428,9 @@
     "submit": "Wyślij"
   },
   "landingReviews": {
-    "eyebrow": "Recenzje uczących się",
-    "title": "Prawdziwe postępy ocenione przez uczących się",
-    "subtitle": "Zweryfikowane recenzje FreeLingo od uczniów korzystających z platformy do nauki z Lingu.",
+    "eyebrow": "Historie uczących się",
+    "title": "Naukę widać lepiej, gdy opowiadasz o niej samodzielnie",
+    "subtitle": "Recenzje uczniów, którzy już ćwiczą z Lingu na FreeLingo.",
     "learningLanguage": "Nauka: {language}",
     "starsLabel": "{rating} z 5 gwiazdek",
     "ratingOnly": "Zweryfikowana ocena FreeLingo."

@@ -30,29 +30,32 @@ The global default limit is 200 requests/minute for all endpoints without an exp
 
 Only endpoints with explicit `@limiter.limit()` decorators override the global default. Everything else falls back to 200 requests/minute.
 
-| Endpoint                             | Limit        | Key type | Rationale                                                                                               |
-| ------------------------------------ | ------------ | -------- | ------------------------------------------------------------------------------------------------------- |
-| `POST /api/auth/register`            | 5 / minute   | IP       | Prevent account-creation abuse; invite token provides additional gating                                 |
-| `POST /api/auth/login`               | 10 / minute  | IP       | Prevent brute-force on credentials                                                                      |
-| `POST /api/auth/refresh`             | 20 / minute  | IP       | Token rotation — higher limit to avoid disrupting normal SPA refresh cycles                             |
-| `GET /api/auth/verify-email`         | 10 / minute  | IP       | Prevent token-probing abuse                                                                             |
-| `POST /api/auth/resend-verification` | 3 / minute   | IP       | Prevent email-sending abuse                                                                             |
-| `POST /api/auth/forgot-password`     | 5 / minute   | IP       | Prevent email enumeration / spam                                                                        |
-| `POST /api/auth/reset-password`      | 5 / minute   | IP       | Prevent token-brute-force                                                                               |
-| `GET /api/admin/stats`               | 60 / minute  | IP       | Admin-only operational overview metrics                                                                 |
-| `GET /api/admin/users`               | 60 / minute  | IP       | Admin-only paginated user management with search and filters (`q`, `subscription`, `role`, `is_active`) |
-| `GET /api/admin/reviews`             | 60 / minute  | IP       | Admin-only review moderation list with approval/rating/language filters                                  |
-| `PATCH /api/admin/reviews/{id}`      | 60 / minute  | IP       | Admin-only review approval state changes                                                                |
-| `DELETE /api/admin/reviews/{id}`     | 60 / minute  | IP       | Admin-only review deletion                                                                               |
-| `GET /api/feedback`                  | 60 / minute  | IP       | Authenticated feedback board listing with search and filters (`q`, `type`, `status`, `sort`, `order`)   |
-| `GET /api/reviews/me`                | 60 / minute  | IP       | Authenticated current-user review state check                                                            |
-| `POST /api/reviews`                  | 5 / hour     | IP       | User-generated review creation; one review per user plus rate limit                                      |
-| `PATCH /api/reviews/me`              | 10 / hour    | IP       | Authenticated current-user review edits; edited reviews return to pending approval                       |
-| `DELETE /api/reviews/me`             | 10 / hour    | IP       | Authenticated current-user review deletion                                                              |
-| `GET /api/reviews/public`            | 60 / minute  | IP       | Public landing review list                                                                               |
-| `POST /api/tts`                      | 20 / minute  | User     | Audio generation (computationally expensive)                                                            |
-| `POST /api/stt`                      | 20 / minute  | User     | Audio transcription (computationally expensive)                                                         |
-| All other endpoints                  | 200 / minute | IP       | Global default catch-all                                                                                |
+| Endpoint                               | Limit        | Key type | Rationale                                                                                               |
+| -------------------------------------- | ------------ | -------- | ------------------------------------------------------------------------------------------------------- |
+| `POST /api/auth/register`              | 5 / minute   | IP       | Prevent account-creation abuse; invite token provides additional gating                                 |
+| `POST /api/auth/login`                 | 10 / minute  | IP       | Prevent brute-force on credentials                                                                      |
+| `POST /api/auth/refresh`               | 20 / minute  | IP       | Token rotation — higher limit to avoid disrupting normal SPA refresh cycles                             |
+| `GET /api/auth/verify-email`           | 10 / minute  | IP       | Prevent token-probing abuse                                                                             |
+| `POST /api/auth/resend-verification`   | 3 / minute   | IP       | Prevent email-sending abuse                                                                             |
+| `POST /api/auth/forgot-password`       | 5 / minute   | IP       | Prevent email enumeration / spam                                                                        |
+| `POST /api/auth/reset-password`        | 5 / minute   | IP       | Prevent token-brute-force                                                                               |
+| `GET /api/admin/stats`                 | 60 / minute  | IP       | Admin-only operational overview metrics                                                                 |
+| `GET /api/admin/users`                 | 60 / minute  | IP       | Admin-only paginated user management with search and filters (`q`, `subscription`, `role`, `is_active`) |
+| `GET /api/admin/reviews`               | 60 / minute  | IP       | Admin-only review moderation list with approval/rating/language filters                                 |
+| `PATCH /api/admin/reviews/{id}`        | 60 / minute  | IP       | Admin-only review approval state changes                                                                |
+| `DELETE /api/admin/reviews/{id}`       | 60 / minute  | IP       | Admin-only review deletion                                                                              |
+| `GET /api/feedback`                    | 60 / minute  | IP       | Authenticated feedback board listing with search and filters (`q`, `type`, `status`, `sort`, `order`)   |
+| `GET /api/reviews/me`                  | 60 / minute  | IP       | Authenticated current-user review state check                                                           |
+| `POST /api/reviews`                    | 5 / hour     | IP       | User-generated review creation; one review per user plus rate limit                                     |
+| `PATCH /api/reviews/me`                | 10 / hour    | IP       | Authenticated current-user review edits; edited reviews return to pending approval                      |
+| `DELETE /api/reviews/me`               | 10 / hour    | IP       | Authenticated current-user review deletion                                                              |
+| `GET /api/reviews/public`              | 60 / minute  | IP       | Public landing review list                                                                              |
+| `POST /api/grammar/{slug}/native-help` | 10 / minute  | IP       | LLM-backed native-language helper generation for static grammar topics, cached after first generation   |
+| `POST /api/phrasebook/{category_id}/native-help` | 10 / minute  | IP       | LLM-backed native-language helper generation for phrasebook categories, cached after first generation    |
+| `POST /api/vocabulary/{set_id}/native-help` | 10 / minute  | IP       | LLM-backed native-language helper generation for vocabulary sets, cached after first generation          |
+| `POST /api/tts`                        | 20 / minute  | User     | Audio generation (computationally expensive)                                                            |
+| `POST /api/stt`                        | 20 / minute  | User     | Audio transcription (computationally expensive)                                                         |
+| All other endpoints                    | 200 / minute | IP       | Global default catch-all                                                                                |
 
 ---
 

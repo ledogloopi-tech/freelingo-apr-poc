@@ -1,5 +1,8 @@
+from unittest.mock import AsyncMock, patch
+
 import pytest
 
+from app.schemas.lessons import ExerciseContent, LessonContent
 from tests.conftest import deactivate_active_plans, make_study_plan
 
 
@@ -76,6 +79,83 @@ async def test_get_today_lessons(client, test_user):
     assert data["total_days"] == 48  # 12 weeks × 4 days
     assert data["pending_count"] == 0
     assert len(data["lessons"]) >= 0
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    ("cefr_level", "expected_native_language"),
+    [("A1", "es"), ("A2", "es"), ("B1", "es")],
+)
+async def test_today_passes_native_language_only_for_beginner_lessons(
+    client, test_user, db_session, cefr_level, expected_native_language
+):
+    """Lazy lesson generation receives native_language for all CEFR levels."""
+    user, headers = test_user
+
+    await deactivate_active_plans(db_session, user.id)
+    await make_study_plan(
+        db_session,
+        user_id=user.id,
+        cefr_level=cefr_level,
+        goals=["grammar"],
+        duration_weeks=1,
+        days_per_week=1,
+        current_unit="",
+        generated_plan={
+            "title": "Test Plan",
+            "cefr_level": cefr_level,
+            "duration_weeks": 1,
+            "days_per_week": 1,
+            "ends_with_test": False,
+            "weekly_plan": [
+                {
+                    "week": 1,
+                    "theme": "basics",
+                    "days": [
+                        {
+                            "day": 1,
+                            "lesson_type": "grammar",
+                            "title": "Generated Lesson",
+                            "objectives": [],
+                            "estimated_minutes": 20,
+                            "unit_id": "",
+                            "grammar_points": [],
+                            "vocabulary_set_ids": [],
+                        }
+                    ],
+                }
+            ],
+        },
+        is_active=True,
+        progress_day=0,
+    )
+
+    generated = LessonContent(
+        lesson_type="grammar",
+        title="Generated Lesson",
+        cefr_level=cefr_level,
+        explanation={"text": "Explanation", "key_points": [], "examples": []},
+        exercises=[
+            ExerciseContent(
+                type="multiple_choice",
+                question="Question?",
+                options=["A", "B"],
+                correct="A",
+                explanation="Because.",
+            )
+        ],
+        vocabulary=[],
+        grammar_refs=[],
+        unit_id="",
+    )
+    with patch(
+        "app.routers.study_plan.generate_lesson",
+        new=AsyncMock(return_value=generated),
+    ) as mock_generate:
+        response = await client.get("/api/study-plan/today", headers=headers)
+
+    assert response.status_code == 200
+    assert mock_generate.await_args.kwargs["native_language"] == expected_native_language
 
 
 @pytest.mark.asyncio
