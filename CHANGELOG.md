@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.8.10] - 2026-06-21
+## [1.8.10] - 2026-06-22
 
 ### Added
 
@@ -13,13 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Korean learning data**: `ko-KR` now has a complete backend learning package with A1-C2 curriculum, grammar, vocabulary, phrasebook, assessment, listening-enabled study plan coverage, and Korean-specific reading generation topics.
 - **Mainland Chinese learning data**: `zh-CN` now has a complete backend learning package with A1-C2 curriculum, grammar, vocabulary, phrasebook, assessment, listening-enabled study plan coverage, and Mainland Chinese-specific reading generation topics.
 - **CJK data integrity coverage**: grammar, vocabulary, phrasebook, assessment, curriculum, allow-list, and cross-reference tests assert that Japanese, Korean, and Mainland Chinese resolve to explicit target-language data rather than falling back to English.
-- **Native-language beginner explanations**: A1/A2 lessons can now include a native-language `native_explanation` alongside the target-language explanation. New beginner lessons generate it automatically, while existing beginner lessons expose an on-demand "show in native language" action that translates and caches the explanation without regenerating exercises.
-- **Native explanation test coverage**: backend coverage now includes native-explanation endpoint generation/caching, A1/A2 gating, and native-language propagation during lazy lesson generation. Backend suite: 875 tests, 85.27% coverage.
+- **Native-language lesson explanations**: lessons at every CEFR level can now include a native-language `native_explanation` alongside the target-language explanation. New lessons generate it automatically, while existing lessons expose an on-demand "show in native language" action that translates and caches the explanation without regenerating exercises. Native explanations now also include common traps and a mini-glossary to make each generated lesson easier to study.
+- **Native explanation test coverage**: backend coverage now includes native-explanation endpoint generation/caching and native-language propagation during lazy lesson generation. Backend suite: 875 tests, 85.27% coverage.
 
 ### Changed
 
 - **What's New language entry**: bumped to `v1.8.10` and expanded the main language entry to mention Japanese, Korean, and Mainland Chinese alongside the existing language set so the copy does not need another update when the remaining CJK language data lands.
 - **Target-language data organization**: Japanese, Korean, and Mainland Chinese grammar/vocabulary data now follow the British English package structure with level modules and assembler files; the add-language spec now requires that organization for future target languages.
+- **Lesson native-explanation UX**: lesson native explanations now appear in a collapsible section that is open by default for A1/A2 and collapsed by default for B1+.
 
 ## [1.8.9] - 2026-06-20
 

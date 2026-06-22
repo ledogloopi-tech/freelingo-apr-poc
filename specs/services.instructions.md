@@ -41,7 +41,7 @@ LLM-powered lesson content generation with strict constraints:
 
 - Grammar constrained to the target language's validated curriculum grammar slugs; Japanese currently contributes 130 validated slugs, while Korean and Mainland Chinese each contribute 126 validated slugs across A1-C2.
 - CEFR level and target language adherence using BCP-47 `target_language`, human-readable language names, and centralized prompt overlays.
-- A1/A2 lesson generation receives the user's mandatory `native_language` and may include `native_explanation` alongside the target-language `explanation`; B1+ lessons keep target-language-only explanations.
+- Lesson generation receives the user's mandatory `native_language` at every CEFR level and may include `native_explanation` alongside the target-language `explanation`, including translated key points, examples, common traps, and a mini-glossary for guided study.
 - Generates 3-5 exercises per lesson (multiple_choice, fill_blank, free_write)
 - Separately evaluates free_write answers and pronunciation (scored 0.0–1.0 with feedback)
 

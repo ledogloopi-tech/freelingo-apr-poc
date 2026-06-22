@@ -102,3 +102,5 @@ class NativeExplanationResponse(BaseModel):
     text: str
     key_points: list[str]
     examples: list[dict]
+    common_traps: list[dict] | None = None
+    mini_glossary: list[dict] | None = None

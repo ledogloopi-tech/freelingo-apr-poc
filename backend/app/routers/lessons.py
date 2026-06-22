@@ -313,12 +313,6 @@ async def generate_native_explanation(
 ):
     lesson = await _get_lesson_for_user(lesson_id, current_user.id, db)
 
-    if lesson.cefr_level not in ("A1", "A2"):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Native explanations are only available for A1 and A2 levels",
-        )
-
     content = dict(lesson.content or {})
     if content.get("native_explanation"):
         return {"native_explanation": content["native_explanation"]}

@@ -103,7 +103,7 @@ Auth required (`get_current_user`). Serves static vocabulary data across the bac
 | GET    | `/{lesson_id}`           | Lesson detail with exercises                                                                |
 | POST   | `/{lesson_id}/start`     | Marks lesson as in-progress                                                                 |
 | POST   | `/{lesson_id}/complete`  | Marks as completed, updates progress and competencies                                       |
-| POST   | `/{lesson_id}/native-explanation` | Generates and caches a native-language explanation for existing A1/A2 lessons whose `content.native_explanation` is missing; idempotently returns the cached explanation when already present |
+| POST   | `/{lesson_id}/native-explanation` | Generates and caches a native-language explanation for existing lessons at any CEFR level whose `content.native_explanation` is missing; returned support includes translated text, key points, examples, common traps, and a mini-glossary; idempotently returns the cached explanation when already present |
 | POST   | `/exercises/{id}/answer` | Submits answer → evaluates (MC, fill, free_write, pronunciation) → returns score + feedback |
 
 ---

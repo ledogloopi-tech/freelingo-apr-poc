@@ -171,12 +171,12 @@ The `generate_lesson()` function receives:
 - `week`, `day`, `unit_id`
 - `grammar_points`, `vocabulary_set_ids` (from curriculum context)
 - `target_language` (user's target language BCP-47)
-- `native_language` for A1/A2 lessons only, so beginner lessons can include a native-language explanation; B1+ lessons pass no native language and keep full immersion.
+- `native_language` for every lesson level, so lessons can include a native-language explanation alongside the target-language explanation.
 
 It returns a structured JSON with:
 
 - `explanation` — rich lesson content
-- `native_explanation` — optional translated beginner explanation using the user's native language, generated automatically for new A1/A2 lessons or later via `POST /api/lessons/{id}/native-explanation` for existing lessons
+- `native_explanation` — optional translated explanation using the user's native language, generated automatically for new lessons at any CEFR level or later via `POST /api/lessons/{id}/native-explanation` for existing lessons. It contains translated explanation text, key points, examples with target-language sentences, plus native-language `common_traps` and `mini_glossary` study support. The lesson UI opens it by default for A1/A2 and keeps it collapsed by default for B1+.
 - `exercises` — list of exercise objects (`type`, `question`, `options`, `correct`, `explanation`)
 
 If the LLM call fails or returns an empty exercises list, the lesson is discarded (rolled back) and that slot returns `id: null` in the today response. The user can retry by refreshing.
