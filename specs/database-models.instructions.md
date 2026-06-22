@@ -1,5 +1,5 @@
 ---
-description: "Database models reference for FreeLingo: 20 SQLAlchemy ORM models with full schema details, relationships, constraints, and business rules."
+description: "Database models reference for FreeLingo: 21 SQLAlchemy ORM models with full schema details, relationships, constraints, and business rules."
 applyTo: "backend/app/models/**, backend/alembic/**"
 ---
 
@@ -20,7 +20,7 @@ Registration, authentication, and user preferences.
 | hashed_password                 | string              | bcrypt hash                                                                                            |
 | role                            | string              | `"admin"` or `"user"`                                                                                  |
 | native_language                 | string              | e.g. `"es"`, `"fr"` — used for flashcard translations and tutor feedback                               |
-| target_language                 | string              | BCP-47 tag, e.g. `"en-US"` (default) or `"en-GB"` — the language the user is learning                  |
+| target_language                 | string              | BCP-47 tag, e.g. `"en-GB"` (default) or `"en-US"` — the language the user is learning                  |
 | is_active                       | boolean             | False = account disabled by admin                                                                      |
 | is_verified                     | boolean             | False until email verified (default False; existing users set to True on migration)                    |
 | conversation_max_duration       | integer             | Max voice session duration in seconds (default 1800)                                                   |
@@ -359,6 +359,33 @@ One moderated product review per user. Added in Phase 11.
 - Landing/public queries must show only approved reviews with `rating >= 4`.
 - Rating-only reviews are valid; `comment` may be null.
 - Deleting a user cascades and deletes their review.
+
+## ResourceNativeHelp (`resource_native_helps`)
+
+Global cache for native-language study help generated for static learning resources. Added in v1.8.10 for grammar native help and designed to be reusable for vocabulary and phrasebook resources.
+
+| Column          | Type     | Notes                                                                                       |
+| --------------- | -------- | ------------------------------------------------------------------------------------------- |
+| id              | integer  | Primary key                                                                                 |
+| resource_type   | string   | Resource namespace, initially `"grammar"`; reserved for `"vocabulary"` and `"phrasebook"`  |
+| resource_key    | string   | Stable resource identifier, e.g. grammar topic slug                                         |
+| target_language | string   | BCP-47 learning language for the source content                                             |
+| native_language | string   | User native-language code used for the generated help                                       |
+| source_hash     | string   | SHA-256 hash of the source static content used to generate `content`                         |
+| content         | JSONB    | Generated native-language help JSON                                                         |
+| created_at      | datetime | Auto-set on creation                                                                        |
+| updated_at      | datetime | Updated whenever stale cached help is regenerated                                           |
+
+**Constraints and indexes:**
+
+- `uq_resource_native_helps_resource_lang` enforces one cache row per `(resource_type, resource_key, target_language, native_language)`.
+- Indexes: `resource_type`, `resource_key`, `target_language`, `native_language`, and composite `ix_resource_native_helps_lookup` on `(resource_type, target_language)`.
+
+**Business rules:**
+
+- Cache entries are shared by all users with the same native language and learning target language.
+- If the static source content changes, the computed `source_hash` changes and the next request regenerates the cached help.
+- Grammar native help keeps target-language example sentences unchanged while translating explanations, notes, traps, and glossary support into the user's native language.
 
 ## Memory (`memories`)
 

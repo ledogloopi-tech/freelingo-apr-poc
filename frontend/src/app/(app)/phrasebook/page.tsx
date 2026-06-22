@@ -150,7 +150,7 @@ export default function PhrasebookPage() {
   }, [])
 
   useEffect(() => {
-    fetchCategories(activeLanguage?.code ?? 'en-US')
+    fetchCategories(activeLanguage?.code ?? 'en-GB')
   }, [activeLanguage?.code, fetchCategories])
 
   const filteredCategories = useMemo(() => {
@@ -179,7 +179,7 @@ export default function PhrasebookPage() {
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
         <p className="text-fl-muted-2 font-mono text-sm">{tCommon('error')}</p>
         <button
-          onClick={() => fetchCategories(activeLanguage?.code ?? 'en-US')}
+          onClick={() => fetchCategories(activeLanguage?.code ?? 'en-GB')}
           className="text-fl-accent font-mono text-xs tracking-widest uppercase underline"
         >
           {tCommon('retry')}
@@ -287,7 +287,7 @@ export default function PhrasebookPage() {
                   cat={cat}
                   registerFilter={activeRegister}
                   search={search}
-                  language={activeLanguage?.code ?? 'en-US'}
+                  language={activeLanguage?.code ?? 'en-GB'}
                 />
               ))}
             </div>

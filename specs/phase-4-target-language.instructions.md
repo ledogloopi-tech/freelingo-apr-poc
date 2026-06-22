@@ -47,7 +47,7 @@ New migration that:
    - `english_variant = 'american'` → `target_language = 'en-US'`
    - `english_variant = 'british'` → `target_language = 'en-GB'`
    - Any other value (should not exist) → `target_language = 'en-US'`
-3. Sets `NOT NULL DEFAULT 'en-US'` on the column.
+3. Sets `NOT NULL DEFAULT 'en-GB'` on the column.
 4. Drops the old `english_variant` column.
 
 ### 1.2 SQLAlchemy model (`app/models/user.py`)
@@ -61,7 +61,7 @@ english_variant: Mapped[str] = mapped_column(String(10), nullable=False, default
 With:
 
 ```python
-target_language: Mapped[str] = mapped_column(String(10), nullable=False, default="en-US")
+target_language: Mapped[str] = mapped_column(String(10), nullable=False, default="en-GB")
 ```
 
 All other fields remain unchanged.
@@ -197,7 +197,7 @@ plan.target_language = current_user.target_language
 
 ### 2.7 `app/models/study_plan.py`
 
-Add column `target_language: Mapped[str] = mapped_column(String(10), nullable=False, default="en-US")` to `StudyPlan`. This is included in the same migration `0007_target_language.py` (back-fill existing plans with `"en-US"`).
+Add column `target_language: Mapped[str] = mapped_column(String(10), nullable=False, default="en-GB")` to `StudyPlan`. Existing plans are back-filled with their stored target language where available.
 
 This field is informational in Phase 4 (the curriculum is still English-only) but is the correct place to store it for future multi-language plan generation.
 
@@ -440,13 +440,13 @@ Returning users (second login) and admin-created users are unaffected — their 
 | Column            | Before                      | After                                              |
 | ----------------- | --------------------------- | -------------------------------------------------- |
 | `english_variant` | `"american"` \| `"british"` | **removed**                                        |
-| `target_language` | —                           | `"en-US"` \| `"en-GB"` (BCP-47), default `"en-US"` |
+| `target_language` | —                           | `"en-GB"` \| `"en-US"` (BCP-47), default `"en-GB"` |
 
 ### `study_plans` table
 
 | Column            | Before | After                                     |
 | ----------------- | ------ | ----------------------------------------- |
-| `target_language` | —      | `"en-US"` \| `"en-GB"`, default `"en-US"` |
+| `target_language` | —      | `"en-GB"` \| `"en-US"`, default `"en-GB"` |
 
 ### Migration chain
 

@@ -1,5 +1,5 @@
 ---
-description: "Service layer reference for FreeLingo: 18 backend services covering LLM, TTS/STT, study plan, lessons, flashcards, listening, reading, reviews, memory, progress, quotas, subscriptions, and voice conversation pipeline."
+description: "Service layer reference for FreeLingo: 19 backend services covering LLM, TTS/STT, study plan, lessons, static-resource native help, flashcards, listening, reading, reviews, memory, progress, quotas, subscriptions, and voice conversation pipeline."
 applyTo: "backend/app/services/**, backend/app/core/app_logger.py"
 ---
 
@@ -51,6 +51,17 @@ Full SM-2 spaced repetition algorithm:
 
 - `sm2_update(card, quality)`: modifies ease_factor, interval, repetitions, and next_review based on 0–5 quality rating
 - LLM-powered `generate_flashcards`: creates flashcards with native-language translations; stored native-language codes are converted to human-readable names before prompt injection.
+
+## Resource Native Help (`resource_native_help.py`)
+
+Shared cache helpers for native-language support generated from static resource content:
+
+- `calculate_source_hash(source)` serializes resource source data deterministically and returns a SHA-256 hash.
+- `get_cached_native_help(...)` returns a `ResourceNativeHelp` row only when the resource cache key exists and its `source_hash` still matches the current static source.
+- `upsert_native_help(...)` creates or refreshes the global cache row for a resource/native-language pair.
+- `native_help_lock_key(...)` builds Redis lock keys so routers can avoid duplicate LLM generations for the same resource.
+
+The first consumer is grammar native help via `POST /api/grammar/{slug}/native-help`. Generated content is shared across users with the same `(resource_type, resource_key, target_language, native_language)` and regenerated automatically when the source static topic hash changes.
 
 ## Language Helpers (`language_helpers.py`)
 

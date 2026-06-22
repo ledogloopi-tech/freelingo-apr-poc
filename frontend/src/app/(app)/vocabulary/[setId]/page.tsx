@@ -39,7 +39,7 @@ export default function VocabularySetPage({
   const [error, setError] = useState('')
 
   useEffect(() => {
-    const lang = activeLanguage?.code ?? 'en-US'
+    const lang = activeLanguage?.code ?? 'en-GB'
     apiFetch(`/api/vocabulary/${encodeURIComponent(setId)}?language=${lang}`)
       .then((r) => {
         if (!r.ok) throw new Error('not found')

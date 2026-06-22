@@ -14,13 +14,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Mainland Chinese learning data**: `zh-CN` now has a complete backend learning package with A1-C2 curriculum, grammar, vocabulary, phrasebook, assessment, listening-enabled study plan coverage, and Mainland Chinese-specific reading generation topics.
 - **CJK data integrity coverage**: grammar, vocabulary, phrasebook, assessment, curriculum, allow-list, and cross-reference tests assert that Japanese, Korean, and Mainland Chinese resolve to explicit target-language data rather than falling back to English.
 - **Native-language lesson explanations**: lessons at every CEFR level can now include a native-language `native_explanation` alongside the target-language explanation. New lessons generate it automatically, while existing lessons expose an on-demand "show in native language" action that translates and caches the explanation without regenerating exercises. Native explanations now also include common traps and a mini-glossary to make each generated lesson easier to study.
-- **Native explanation test coverage**: backend coverage now includes native-explanation endpoint generation/caching and native-language propagation during lazy lesson generation. Backend suite: 875 tests, 85.27% coverage.
+- **Native-language grammar help**: grammar topic detail pages now offer native-language study help generated on demand and cached globally per topic, target language, native language, and source hash. A1/A2 help opens automatically, while B1-C2 remains collapsed until requested.
+- **Native explanation test coverage**: backend coverage now includes native-explanation endpoint generation/caching, grammar native-help generation/cache refresh, and native-language propagation during lazy lesson generation. Backend suite: 879 tests, 85.39% coverage.
 
 ### Changed
 
 - **What's New language entry**: bumped to `v1.8.10` and expanded the main language entry to mention Japanese, Korean, and Mainland Chinese alongside the existing language set so the copy does not need another update when the remaining CJK language data lands.
 - **Target-language data organization**: Japanese, Korean, and Mainland Chinese grammar/vocabulary data now follow the British English package structure with level modules and assembler files; the add-language spec now requires that organization for future target languages.
 - **Lesson native-explanation UX**: lesson native explanations now appear in a collapsible section that is open by default for A1/A2 and collapsed by default for B1+.
+- **Default target-language fallbacks**: frontend resource pages now consistently fall back to `en-GB` instead of `en-US` when no active learning language is loaded.
 
 ## [1.8.9] - 2026-06-20
 

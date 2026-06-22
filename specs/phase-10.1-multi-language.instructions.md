@@ -348,7 +348,7 @@ op.execute(
 
 Rows where the user has progress/flashcards/competencies but no active study plan (e.g. the user never completed onboarding, or their plan was manually deleted). Instead of deleting this data, a minimal fallback study plan is created so the data is preserved. A re-backfill then populates `study_plan_id` from the newly created plans.
 
-> **Implementation note:** This is a data-preserving alternative to purging orphans. The fallback plan is created with sensible defaults: `cefr_level='A1'`, `duration_weeks=12`, `days_per_week=4`, `target_language` from the user's `users.target_language` (default `en-US`), `completion_test_taken=false`. The `NOT EXISTS` guard prevents duplicate fallback plans when multiple orphan tables belong to the same user.
+> **Implementation note:** This is a data-preserving alternative to purging orphans. The fallback plan is created with sensible defaults: `cefr_level='A1'`, `duration_weeks=12`, `days_per_week=4`, `target_language` from the user's `users.target_language` (current default `en-GB`), `completion_test_taken=false`. The `NOT EXISTS` guard prevents duplicate fallback plans when multiple orphan tables belong to the same user.
 
 ```python
 # Create fallback plans for each orphan table (with dedup via NOT EXISTS)

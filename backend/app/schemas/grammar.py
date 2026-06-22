@@ -35,3 +35,32 @@ class GrammarTopicsResponse(BaseModel):
 
 class GrammarTopicDetailResponse(BaseModel):
     topic: GrammarTopicResponse
+
+
+class GrammarNativeHelpExampleResponse(BaseModel):
+    sentence: str
+    note: str
+
+
+class GrammarNativeHelpTrapResponse(BaseModel):
+    mistake: str
+    fix: str
+
+
+class GrammarNativeHelpGlossaryResponse(BaseModel):
+    term: str
+    meaning: str
+    note: str | None = None
+
+
+class GrammarNativeHelpContentResponse(BaseModel):
+    summary: str
+    explanation: str
+    key_points: list[str]
+    examples: list[GrammarNativeHelpExampleResponse]
+    common_traps: list[GrammarNativeHelpTrapResponse]
+    mini_glossary: list[GrammarNativeHelpGlossaryResponse]
+
+
+class GrammarNativeHelpResponse(BaseModel):
+    native_help: GrammarNativeHelpContentResponse

@@ -174,8 +174,8 @@ frontend/
 - `/chat` — AI tutor text chat with SSE streaming.
 - `/conversation` — Real-time voice conversation with WebSocket + VAD. When the user manually stops a connected voice session after at least 5 minutes, the page may open the reusable review prompt, subject to duplicate-review checks and local dismissal cooldown.
 - `/flashcards` — Spaced-repetition flashcard review.
-- `/grammar` — Grammar reference index.
-- `/grammar/[slug]` — Grammar topic detail page.
+- `/grammar` — Grammar reference index using the active learning language, with `en-GB` fallback.
+- `/grammar/[slug]` — Grammar topic detail page. Includes a native-language helper section below the target-language explanation: A1/A2 opens and generates automatically, while B1-C2 stays collapsed and generates only when opened. The section calls `POST /api/grammar/{slug}/native-help`, then renders summary, explanation, key points, examples, common traps, and mini-glossary entries.
 - `/vocabulary` — Vocabulary hub overview.
 - `/vocabulary/[setId]` — Vocabulary set detail.
 - `/phrasebook` — Common phrases by category.

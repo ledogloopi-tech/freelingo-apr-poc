@@ -89,7 +89,7 @@ export default function LessonPage() {
   const [grammarTopics, setGrammarTopics] = useState<GrammarTopic[]>([])
 
   useEffect(() => {
-    getGrammarTopics(activeLanguage?.code ?? 'en-US')
+    getGrammarTopics(activeLanguage?.code ?? 'en-GB')
       .then(setGrammarTopics)
       .catch(() => setGrammarTopics([]))
   }, [activeLanguage?.code])

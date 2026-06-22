@@ -27,6 +27,7 @@ backend/app/services/prompts/
 ├── common.py          # shared JSON, memory, and provider-helper prompt fragments
 ├── comprehension.py   # reading and listening generation prompts
 ├── flashcards.py      # flashcard generation and word lookup prompts
+├── grammar.py         # static grammar native-help prompt
 ├── lesson.py          # lesson generation and exercise evaluation prompts
 └── tutor.py           # text tutor and voice conversation system prompts
 ```
@@ -72,6 +73,7 @@ ISO alias support (`ja`, `ko`, `zh`).
 | `build_conversation_system_prompt()`         | `prompts/tutor.py`         | `services/conversation_pipeline.py` | `system`                         | Streaming voice-safe tutor response.                |
 | `build_lesson_generation_prompt()`           | `prompts/lesson.py`        | `services/lesson_generator.py`      | `system` via `structured_output` | `LessonContent` JSON, including optional `native_explanation` with translated explanation, common traps, and mini-glossary for lessons at any CEFR level. |
 | `build_native_explanation_on_demand_prompt()` | `prompts/lesson.py`        | `routers/lessons.py`                | `user` via `structured_output`   | `NativeExplanationResponse` JSON for translating an existing lesson explanation on demand. |
+| `build_grammar_native_help_prompt()`          | `prompts/grammar.py`       | `routers/grammar.py`                | `user` via `structured_output`   | `GrammarNativeHelpContentResponse` JSON for native-language study support from a static grammar topic. |
 | `build_fill_blank_eval_prompt()`             | `prompts/lesson.py`        | `services/lesson_generator.py`      | `system` via `structured_output` | `FillBlankEvaluation` JSON.                         |
 | `build_free_write_eval_prompt()`             | `prompts/lesson.py`        | `services/lesson_generator.py`      | `system` via `structured_output` | `FreeWriteEvaluation` JSON.                         |
 | `build_pronunciation_eval_prompt()`          | `prompts/lesson.py`        | `services/lesson_generator.py`      | `system` via `structured_output` | `PronunciationEvaluation` JSON.                     |
@@ -93,6 +95,7 @@ ISO alias support (`ja`, `ko`, `zh`).
 | Memory                       | `MEMORY_SYSTEM_INSTRUCTION_BASE`                                         | Allows the LLM to append a hidden `<<MEMORY>>...<<ENDMEMORY>>` marker only when it learns a useful new student fact.                                                                                                                  |
 | Lesson generation            | `LESSON_GENERATION_PROMPT`                                               | Generates structured lesson JSON constrained by CEFR level, target language, curriculum unit, grammar points, vocabulary sets, exercise schema, valid grammar slugs, and language-specific overlay guidance. The router passes the user's native language so the model can also return `native_explanation` with translated explanation, common traps, and a mini-glossary; exercises remain in the target language. |
 | Native lesson explanation    | `NATIVE_EXPLANATION_ON_DEMAND`                                           | Translates an existing lesson `explanation` JSON into the user's native language for lessons at any CEFR level, preserving target-language example sentences, adding native-language common traps and mini-glossary support, and caching the result on the lesson. |
+| Grammar native help          | `GRAMMAR_NATIVE_HELP_PROMPT`                                             | Creates concise native-language support for static grammar topics, preserving target-language examples while generating summary, explanation, key points, common traps, mini-glossary, and example notes. The result is cached globally by resource/native-language key. |
 | Lesson fill-blank evaluation | `FILL_BLANK_EVAL_PROMPT`                                                 | Evaluates a fill-blank answer leniently for minor spelling/case variation and contractions, with language-specific overlay guidance. Dynamic exercise fields are delimited and treated as data only.                                  |
 | Lesson free-write evaluation | `FREE_WRITE_EVAL_PROMPT`                                                 | Scores a writing answer and returns feedback plus correction objects, with language-specific overlay guidance. Dynamic exercise fields are delimited and treated as data only.                                                        |
 | Pronunciation evaluation     | `PRONUNCIATION_EVAL_PROMPT`                                              | Compares target phrase to STT transcription and returns score, feedback, and correctness, with language-specific overlay guidance. Dynamic exercise fields are delimited and treated as data only.                                    |
@@ -123,6 +126,7 @@ Domain-specific variables:
 - Tutor: `total_xp`, `streak`, `lessons_today`, `skills`.
 - Lesson generation: `lesson_type`, `topic`, `unit_id`, `grammar_points`, `vocabulary_set_ids`, `week`, `day`, `valid_slugs`, optional `native_language_name` for `native_explanation`.
 - Native explanation generation: `target_language_name`, `native_language_name`, and delimited source explanation JSON.
+- Grammar native help: `target_language_name`, `native_language_name`, and delimited static grammar topic JSON.
 - Lesson evaluation: `question`, `correct_answer`, `student_answer`, `prompt`, `criteria`, `answer`, `target`, `transcription`.
 - Flashcards: `topic`, `count`, `word`, `context`, `lang_hint` (backward-compatible builder parameter; production uses centralized `language_prompt_overlay`).
 - Reading/listening: `exercise_type`, `exercise_type_desc`, `topic`, `word_count`, `length_guidance`.
@@ -139,6 +143,7 @@ This delimiter pattern is currently used for:
 
 - Lesson evaluation prompts: fill-blank, free-write, and pronunciation fields.
 - Flashcard prompts: generated topic, selected word, and context sentence.
+- Grammar native help: static grammar topic JSON.
 - Free-write assessment: writing prompt and student answer.
 
 Legacy assessment evaluation sends the quiz and answers as serialized JSON inside the user message

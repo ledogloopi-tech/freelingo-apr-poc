@@ -19,7 +19,7 @@ export interface PhrasebookCategory {
 }
 
 export async function getPhrasebookCategories(
-  targetLanguage: string = 'en-US'
+  targetLanguage: string = 'en-GB'
 ): Promise<PhrasebookCategory[]> {
   const res = await apiFetch(
     `/api/phrasebook?language=${encodeURIComponent(targetLanguage)}`
@@ -31,7 +31,7 @@ export async function getPhrasebookCategories(
 
 export async function getPhrasebookByLevel(
   level: string,
-  targetLanguage: string = 'en-US'
+  targetLanguage: string = 'en-GB'
 ): Promise<PhrasebookCategory[]> {
   const res = await apiFetch(
     `/api/phrasebook/level/${encodeURIComponent(level)}?language=${encodeURIComponent(targetLanguage)}`

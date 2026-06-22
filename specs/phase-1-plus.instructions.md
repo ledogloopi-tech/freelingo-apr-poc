@@ -26,9 +26,9 @@ A unified resource centre delivering five complementary features: a grammar refe
 
 ## Milestone 1 — Grammar Reference
 
-### Data model (`frontend/src/data/grammar.ts`)
+### Data model (`backend/app/data/_types.py` + per-language `grammar.py`)
 
-A single static TypeScript file containing approximately 50+ grammar topics spanning A1 through C2. No backend endpoint needed — all content ships with the JS bundle and is tree-shakeable.
+Grammar content is served from backend Python dataclasses organized per target language and CEFR level. The frontend consumes `GET /api/grammar` and falls back to `en-GB` when no active learning language is available.
 
 Each grammar topic has:
 
@@ -63,7 +63,12 @@ Dynamic route rendering a single grammar topic. The `[slug]` parameter maps dire
 - Unknown slugs return a 404 page (Next.js `notFound()`)
 - Renders: title, level badge, explanation (formatted Markdown-lite), structure pattern, rules list, example sentences with optional translations, common mistakes table, and related topics links
 - Related topics are linked to their own detail pages
+- Renders native-language study support below the target-language explanation. A1/A2 opens by default and generates on page load; B1-C2 stays collapsed and generates only when opened. The generated support includes summary, explanation, key points, target-language examples with native notes, common traps, and a mini-glossary.
 - The AI tutor's system prompt references the current grammar slug to provide contextual corrections during chat
+
+### Native-language grammar help
+
+`POST /api/grammar/{slug}/native-help?language=<target>` generates grammar support in the authenticated user's native language. Results are cached globally in `resource_native_helps` by `resource_type="grammar"`, grammar slug, target language, native language, and source-content hash, so the same native-language help is generated only once per static topic version and reused for later users.
 
 ### Integration with other features
 
