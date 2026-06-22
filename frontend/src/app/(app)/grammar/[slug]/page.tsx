@@ -4,8 +4,16 @@ import { useState, useEffect, useCallback } from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { use } from 'react'
-import { useTranslations } from 'next-intl'
-import { getGrammarTopics, type GrammarTopic } from '@/data/grammar'
+import { useLocale, useTranslations } from 'next-intl'
+import {
+  getGrammarNativeHelp,
+  getGrammarTopics,
+  type GrammarNativeHelp,
+  type GrammarTopic,
+} from '@/data/grammar'
+import { TargetLanguageText } from '@/components/TargetLanguageText'
+import { formatLanguageName } from '@/lib/target-languages'
+import { useAuthStore } from '@/store/auth'
 import { useLanguageStore } from '@/store/language'
 import { PageLoading } from '@/components/ui/page-loading'
 
@@ -82,12 +90,25 @@ export default function GrammarDetailPage({
   const t = useTranslations('grammar')
   const tCommon = useTranslations('common')
   const tNav = useTranslations('nav')
+  const tLang = useTranslations('languages')
+  const locale = useLocale()
   const activeLanguage = useLanguageStore((s) => s.activeLanguage)
+  const user = useAuthStore((s) => s.user)
+  const nativeLanguageName = user?.native_language
+    ? formatLanguageName(tLang(user.native_language), locale)
+    : ''
   const { slug } = use(params)
 
   const [topics, setTopics] = useState<GrammarTopic[]>([])
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(false)
+  const [nativeHelpOpen, setNativeHelpOpen] = useState(false)
+  const [nativeHelp, setNativeHelp] = useState<GrammarNativeHelp | null>(null)
+  const [loadingNativeHelp, setLoadingNativeHelp] = useState(false)
+  const [nativeHelpError, setNativeHelpError] = useState(false)
+
+  const topic = topics.find((t) => t.slug === slug)
+  const targetLanguageCode = activeLanguage?.code ?? 'en-GB'
 
   const fetchTopics = useCallback(async (lang: string) => {
     setLoading(true)
@@ -104,8 +125,39 @@ export default function GrammarDetailPage({
   }, [])
 
   useEffect(() => {
-    fetchTopics(activeLanguage?.code ?? 'en-US')
-  }, [activeLanguage?.code, fetchTopics])
+    fetchTopics(targetLanguageCode)
+  }, [targetLanguageCode, fetchTopics])
+
+  useEffect(() => {
+    if (!topic) return
+    setNativeHelp(null)
+    setNativeHelpError(false)
+    setNativeHelpOpen(topic.level === 'A1' || topic.level === 'A2')
+  }, [topic?.slug, topic?.level, targetLanguageCode])
+
+  const generateNativeHelp = useCallback(async () => {
+    if (!topic || loadingNativeHelp) return
+    setLoadingNativeHelp(true)
+    setNativeHelpError(false)
+    try {
+      const help = await getGrammarNativeHelp(topic.slug, targetLanguageCode)
+      if (help) {
+        setNativeHelp(help)
+      } else {
+        setNativeHelpError(true)
+      }
+    } catch {
+      setNativeHelpError(true)
+    } finally {
+      setLoadingNativeHelp(false)
+    }
+  }, [loadingNativeHelp, targetLanguageCode, topic])
+
+  useEffect(() => {
+    if (nativeHelpOpen && topic && !nativeHelp && !loadingNativeHelp) {
+      generateNativeHelp()
+    }
+  }, [generateNativeHelp, loadingNativeHelp, nativeHelp, nativeHelpOpen, topic])
 
   if (loading) {
     return <PageLoading />
@@ -116,7 +168,7 @@ export default function GrammarDetailPage({
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
         <p className="text-fl-muted-2 font-mono text-sm">{tCommon('error')}</p>
         <button
-          onClick={() => fetchTopics(activeLanguage?.code ?? 'en-US')}
+          onClick={() => fetchTopics(targetLanguageCode)}
           className="text-fl-accent font-mono text-xs tracking-widest uppercase underline"
         >
           {tCommon('retry')}
@@ -125,7 +177,6 @@ export default function GrammarDetailPage({
     )
   }
 
-  const topic = topics.find((t) => t.slug === slug)
   if (!topic) notFound()
 
   const hasTable = topic.explanation.includes('|')
@@ -210,6 +261,129 @@ export default function GrammarDetailPage({
           )}
         </div>
       </div>
+
+      {nativeLanguageName && (
+        <div className="border-fl-border bg-fl-surface border">
+          <button
+            type="button"
+            onClick={() => setNativeHelpOpen((open) => !open)}
+            className="border-fl-border text-fl-label text-fl-muted-2 hover:text-fl-fg flex w-full items-center justify-between border-b px-6 py-4 font-mono tracking-widest uppercase transition-colors"
+            aria-expanded={nativeHelpOpen}
+          >
+            <span>Help in {nativeLanguageName}</span>
+            <span>{nativeHelpOpen ? '−' : '+'}</span>
+          </button>
+          {nativeHelpOpen && (
+            <div className="space-y-4 px-6 py-5">
+              {loadingNativeHelp ? (
+                <p className="text-fl-muted-3 font-mono text-xs">
+                  Preparing help in {nativeLanguageName}...
+                </p>
+              ) : nativeHelp ? (
+                <>
+                  <div className="space-y-2">
+                    <p className="text-fl-muted-2 text-sm leading-relaxed">
+                      {nativeHelp.summary}
+                    </p>
+                    <p className="text-fl-muted-1 text-sm leading-relaxed">
+                      {nativeHelp.explanation}
+                    </p>
+                  </div>
+
+                  {nativeHelp.key_points.length > 0 && (
+                    <div className="space-y-2">
+                      <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
+                        Key points
+                      </p>
+                      <ul className="space-y-1">
+                        {nativeHelp.key_points.map((point, i) => (
+                          <li key={i} className="text-fl-muted-2 text-sm">
+                            <span className="text-fl-muted-3 mr-2">·</span>
+                            {point}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {nativeHelp.examples.length > 0 && (
+                    <div className="border-fl-border space-y-2 border-t pt-3">
+                      <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
+                        {t('examples')}
+                      </p>
+                      {nativeHelp.examples.map((ex, i) => (
+                        <div key={i} className="space-y-0.5">
+                          <TargetLanguageText
+                            languageCode={targetLanguageCode}
+                            className="text-fl-muted-1 text-sm italic"
+                          >
+                            {ex.sentence}
+                          </TargetLanguageText>
+                          <p className="text-fl-muted-3 text-sm">{ex.note}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {nativeHelp.common_traps.length > 0 && (
+                    <div className="border-fl-border space-y-2 border-t pt-3">
+                      <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
+                        Common traps
+                      </p>
+                      {nativeHelp.common_traps.map((trap, i) => (
+                        <div key={i} className="space-y-0.5">
+                          <p className="text-fl-muted-2 text-sm">
+                            {trap.mistake}
+                          </p>
+                          <p className="text-fl-muted-3 text-sm">{trap.fix}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {nativeHelp.mini_glossary.length > 0 && (
+                    <div className="border-fl-border space-y-2 border-t pt-3">
+                      <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
+                        Mini glossary
+                      </p>
+                      {nativeHelp.mini_glossary.map((item, i) => (
+                        <div key={i}>
+                          <TargetLanguageText
+                            languageCode={targetLanguageCode}
+                            className="text-fl-muted-1 text-sm font-bold"
+                          >
+                            {item.term}
+                          </TargetLanguageText>
+                          <p className="text-fl-muted-2 text-sm">
+                            {item.meaning}
+                          </p>
+                          {item.note && (
+                            <p className="text-fl-muted-3 text-sm">
+                              {item.note}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="text-center">
+                  <button
+                    type="button"
+                    onClick={generateNativeHelp}
+                    className="text-fl-muted-3 hover:text-fl-fg font-mono text-sm transition-colors"
+                  >
+                    {nativeHelpError
+                      ? tCommon('retry')
+                      : `Show help in ${nativeLanguageName}`}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {topic.rules.length > 0 && (
         <div className="border-fl-border bg-fl-surface border">

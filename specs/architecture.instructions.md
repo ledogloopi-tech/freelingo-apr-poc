@@ -16,18 +16,18 @@ freelingo/
 ├── backend/                     # Python 3.14 FastAPI
 │   ├── app/
 │   │   ├── core/                # Config, DB engine, security, deps, rate limiter (7 modules)
-│   │   ├── models/              # SQLAlchemy 2.0 ORM models (14 files, 20 model classes)
-│   │   ├── schemas/             # Pydantic v2 request/response schemas (14 modules)
-│   │   ├── routers/             # 22 routers (21 REST + 1 WebSocket)
-│   │   ├── services/            # Business logic + external service clients (17 modules + prompts package)
-│   │   └── data/                # Static curriculum and content data (8 language modules)
+│   │   ├── models/              # SQLAlchemy 2.0 ORM models (16 files, 22 model classes)
+│   │   ├── schemas/             # Pydantic v2 request/response schemas (15 modules)
+│   │   ├── routers/             # 23 routers (22 REST + 1 WebSocket)
+│   │   ├── services/            # Business logic + external service clients (19 modules + prompts package)
+│   │   └── data/                # Static curriculum and content data (9 language modules)
 │   │       ├── en/              # English curriculum (A1–C2)
 │   │       ├── es/              # Spanish curriculum (A1–C2)
 │   │       ├── it/              # Italian curriculum (A1–C2)
 │   │       └── pt/              # Portuguese curriculum (A1–C2)
 │   ├── alembic/
-│   │   └── versions/            # DB migrations (31)
-│   └── tests/                   # pytest suite (43 test files, 870 tests)
+│   │   └── versions/            # DB migrations (43)
+│   └── tests/                   # pytest suite (43 test files, 887 tests)
 │
 ├── frontend/                    # Next.js 16 App Router
 │   ├── src/
@@ -173,6 +173,6 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 
 **Summary:**
 
-- **Backend**: pytest + pytest-asyncio, 43 test files, 875 tests, 85.27% last measured coverage (target: 70%)
+- **Backend**: pytest + pytest-asyncio, 43 test files, 887 tests, 85.39% last measured coverage (target: 70%)
 - **Frontend**: Vitest, 30 test files, 404 tests covering stores, components, hooks, lib, i18n, app pages, and middleware; coverage is not configured/reported
 - **E2E**: Playwright (planned, not yet implemented)

@@ -46,7 +46,7 @@ A2_SETS: list[VocabularySet] = [
                 pos="noun",
                 definition="유명한 곳을 구경하는 일.",
                 ipa="gwangwang",
-                example="서울에 가면 경복궁을 꼭 관광해 보세요.",
+                example="서울에 가면 경복궁을 꼭 구경해 보세요.",
                 frequency_rank=310,
             ),
             VocabularyEntry(
@@ -484,7 +484,7 @@ A2_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="오른쪽",
                 pos="noun",
-                definition="동쪽을 바라볼 때 남쪽에 해당하는 방향.",
+                definition="몸이나 기준의 오른편 방향.",
                 ipa="oreunjjok",
                 example="다음 사거리에서 오른쪽으로 가세요.",
                 frequency_rank=111,
@@ -492,7 +492,7 @@ A2_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="왼쪽",
                 pos="noun",
-                definition="동쪽을 바라볼 때 북쪽에 해당하는 방향.",
+                definition="몸이나 기준의 왼편 방향.",
                 ipa="oenjjok",
                 example="은행은 길 왼쪽에 있어요.",
                 frequency_rank=115,
@@ -927,7 +927,7 @@ A2_SETS: list[VocabularySet] = [
         id="advice_a2",
         level="A2",
         topic="충고",
-        unit_ref="a2-unit-9",
+        unit_ref="a2-unit-8",
         words=[
             VocabularyEntry(
                 word="충고",
@@ -983,7 +983,7 @@ A2_SETS: list[VocabularySet] = [
         id="obligations_a2",
         level="A2",
         topic="의무",
-        unit_ref="a2-unit-9",
+        unit_ref="a2-unit-8",
         words=[
             VocabularyEntry(
                 word="의무",
@@ -1039,7 +1039,7 @@ A2_SETS: list[VocabularySet] = [
         id="services_a2",
         level="A2",
         topic="서비스",
-        unit_ref="a2-unit-10",
+        unit_ref="a2-unit-7",
         words=[
             VocabularyEntry(
                 word="서비스",
@@ -1103,7 +1103,7 @@ A2_SETS: list[VocabularySet] = [
         id="emotions_a2",
         level="A2",
         topic="감정",
-        unit_ref="a2-unit-10",
+        unit_ref="a2-unit-3",
         words=[
             VocabularyEntry(
                 word="기분",
@@ -1142,7 +1142,7 @@ A2_SETS: list[VocabularySet] = [
                 pos="verb",
                 definition="안 좋은 일이 생길까 봐 마음을 졸이다.",
                 ipa="geokjeonghada",
-                example="시험 결과가 걱정돼요.",
+                example="시험 결과를 걱정하고 있어요.",
                 frequency_rank=301,
             ),
             VocabularyEntry(
@@ -1167,7 +1167,7 @@ A2_SETS: list[VocabularySet] = [
         id="technology_a2",
         level="A2",
         topic="기술",
-        unit_ref="a2-unit-11",
+        unit_ref="a2-unit-6",
         words=[
             VocabularyEntry(
                 word="컴퓨터",
@@ -1220,7 +1220,7 @@ A2_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="사진",
                 pos="noun",
-                definition="카메라로 찍은 영상.",
+                definition="카메라로 찍은 정지된 이미지.",
                 ipa="sajin",
                 example="여행 사진을 SNS에 올렸어요.",
                 frequency_rank=73,
@@ -1364,7 +1364,7 @@ A2_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="마감",
                 pos="noun",
-                definition="정해진 기한이 끝나는 것.",
+                definition="일이나 신청 등을 끝내야 하는 정해진 기한.",
                 example="숙제 마감이 내일이에요.",
                 ipa="magam",
                 frequency_rank=341,
@@ -1581,7 +1581,7 @@ A2_SETS: list[VocabularySet] = [
                 word="추천",
                 pos="noun",
                 definition="어떤 것을 권하는 것.",
-                example="여기 삼겹살이 진짜 추천이에요.",
+                example="친구의 추천으로 이 식당에 왔어요.",
                 ipa="chucheon",
                 frequency_rank=423,
             ),
@@ -1597,7 +1597,7 @@ A2_SETS: list[VocabularySet] = [
                 word="서비스",
                 pos="noun",
                 definition="손님을 대접하는 태도.",
-                example="직원분들이 서비스가 친절해요.",
+                example="직원분들이 친절해서 서비스가 좋아요.",
                 ipa="seobiseu",
                 frequency_rank=365,
             ),
@@ -1620,7 +1620,7 @@ A2_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="청소하다",
                 pos="verb",
-                definition="먼지나 쓰레기를 치움.",
+                definition="먼지나 쓰레기를 치우다.",
                 example="주말마다 방을 청소해요.",
                 ipa="cheongsohada",
                 frequency_rank=420,
@@ -1628,7 +1628,7 @@ A2_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="빨래하다",
                 pos="verb",
-                definition="옷을 빨아서 깨끗이 함.",
+                definition="옷을 빨아서 깨끗하게 하다.",
                 example="오늘 빨래할 게 많아요.",
                 ipa="ppalraehada",
                 frequency_rank=363,
@@ -1636,7 +1636,7 @@ A2_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="요리하다",
                 pos="verb",
-                definition="음식을 만들어 준비함.",
+                definition="음식을 만들다.",
                 example="어머니께서 맛있는 저녁을 요리하셨어요.",
                 ipa="yorihada",
                 frequency_rank=396,
@@ -1644,7 +1644,7 @@ A2_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="설거지하다",
                 pos="verb",
-                definition="먹은 그릇을 씻어 정리함.",
+                definition="먹은 그릇을 씻어 정리하다.",
                 example="저녁 먹고 설거지했어요.",
                 ipa="seolgeojihada",
                 frequency_rank=366,
@@ -1652,7 +1652,7 @@ A2_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="정리하다",
                 pos="verb",
-                definition="어지러운 것을 가지런히 함.",
+                definition="어지러운 것을 가지런히 하다.",
                 example="책상을 깨끗하게 정리했어요.",
                 ipa="jeongrihada",
                 frequency_rank=409,

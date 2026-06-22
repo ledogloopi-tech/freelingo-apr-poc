@@ -89,7 +89,7 @@ C2_CATEGORIES: list[PhrasebookCategory] = [
                 "비판적 평가를 시작할 때",
                 "formal",
                 "c2-unit-3",
-                romanization="i jujangui jeonjereul meonjeo geomtoyaeya hamnida.",
+                romanization="i jujangui jeonjereul meonjeo geomtohaeya hamnida.",
             ),
             _p(
                 "반증 사례도 함께 고려해야 합니다.",
@@ -157,7 +157,7 @@ C2_CATEGORIES.append(
                 "근본적 재검토를 제안할 때",
                 "formal",
                 "c2-unit-8",
-                romanization="i nonuineun yongeo jeonguibuteo jaegeomtoyaeya hamnida.",
+                romanization="i nonuineun yongeo jeonguibuteo jaegeomtohaeya hamnida.",
             ),
             _p(
                 "전문성을 유지하면서도 표현을 쉽게 바꾸겠습니다.",
@@ -304,7 +304,7 @@ C2_CATEGORIES.append(
                 "논리적 오류를 경고할 때",
                 "formal",
                 "c2-unit-8",
-                romanization="sanggwangwangyewa ingwagwangyereul hondonghamyeon an doemnida.",
+                romanization="sanggwan gwangyewa ingwa gwangyereul hondonghamyeon an doemnida.",
             ),
             _p(
                 "이 자료만으로는 단정하기 어렵습니다.",

@@ -89,7 +89,7 @@ export default function LessonPage() {
   const [grammarTopics, setGrammarTopics] = useState<GrammarTopic[]>([])
 
   useEffect(() => {
-    getGrammarTopics(activeLanguage?.code ?? 'en-US')
+    getGrammarTopics(activeLanguage?.code ?? 'en-GB')
       .then(setGrammarTopics)
       .catch(() => setGrammarTopics([]))
   }, [activeLanguage?.code])
@@ -101,6 +101,7 @@ export default function LessonPage() {
   const [loadingNativeExplanation, setLoadingNativeExplanation] =
     useState(false)
   const [nativeExplanationError, setNativeExplanationError] = useState(false)
+  const [nativeExplanationOpen, setNativeExplanationOpen] = useState(false)
 
   const loadLesson = useCallback(async () => {
     setLoading(true)
@@ -109,6 +110,9 @@ export default function LessonPage() {
       const data = await res.json()
       setLesson(data.lesson)
       setExercises(data.exercises)
+      setNativeExplanationOpen(
+        data.lesson?.cefr_level === 'A1' || data.lesson?.cefr_level === 'A2'
+      )
     } catch {
       setLoadError(true)
     } finally {
@@ -325,6 +329,9 @@ export default function LessonPage() {
   const explanation = lesson?.content?.explanation as
     | Record<string, unknown>
     | undefined
+  const nativeExplanation = lesson?.content?.native_explanation as
+    | Record<string, unknown>
+    | undefined
 
   return (
     <>
@@ -434,117 +441,156 @@ export default function LessonPage() {
                 )}
               </div>
             )}
-            {/* Native explanation (A1/A2 only) */}
-            {(lesson?.cefr_level === 'A1' || lesson?.cefr_level === 'A2') && (
+            {/* Native explanation */}
+            {nativeLanguageName && (
               <div className="border-fl-border mt-4 border-t pt-4">
-                {(lesson?.content?.native_explanation as Record<
-                  string,
-                  unknown
-                >) ? (
-                  <div className="space-y-3">
-                    <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
-                      {nativeLanguageName}
-                    </p>
-                    {String(
-                      (
-                        lesson?.content?.native_explanation as Record<
-                          string,
-                          unknown
-                        >
-                      )?.text ?? ''
-                    ) && (
-                      <p className="text-fl-muted-2 text-sm">
-                        {String(
-                          (
-                            lesson?.content?.native_explanation as Record<
-                              string,
-                              unknown
-                            >
-                          ).text
-                        )}
-                      </p>
-                    )}
-                    {(
-                      (
-                        lesson?.content?.native_explanation as Record<
-                          string,
-                          unknown
-                        >
-                      )?.key_points as string[]
-                    )?.length > 0 && (
-                      <ul className="space-y-1">
-                        {(
-                          (
-                            lesson?.content?.native_explanation as Record<
-                              string,
-                              unknown
-                            >
-                          )?.key_points as string[]
-                        ).map((kp, i) => (
-                          <li key={i} className="text-fl-muted-3 text-sm">
-                            <span className="text-fl-muted-2 mr-2">·</span>
-                            {kp}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                    {(
-                      (
-                        lesson?.content?.native_explanation as Record<
-                          string,
-                          unknown
-                        >
-                      )?.examples as { sentence: string; note: string }[]
-                    )?.length > 0 && (
-                      <div className="space-y-2">
-                        <p className="text-fl-label text-fl-muted-3 font-mono text-xs tracking-widest uppercase">
-                          {t('examples')}
+                <button
+                  type="button"
+                  onClick={() => setNativeExplanationOpen((open) => !open)}
+                  className="text-fl-label text-fl-muted-3 hover:text-fl-fg flex w-full items-center justify-between font-mono tracking-widest uppercase transition-colors"
+                  aria-expanded={nativeExplanationOpen}
+                >
+                  <span>{nativeLanguageName}</span>
+                  <span>{nativeExplanationOpen ? '−' : '+'}</span>
+                </button>
+                {nativeExplanationOpen &&
+                  (nativeExplanation ? (
+                    <div className="mt-3 space-y-3">
+                      {String(nativeExplanation.text ?? '') && (
+                        <p className="text-fl-muted-2 text-sm">
+                          {String(nativeExplanation.text)}
                         </p>
-                        {(
-                          (
-                            lesson?.content?.native_explanation as Record<
-                              string,
-                              unknown
-                            >
-                          )?.examples as { sentence: string; note: string }[]
-                        ).map((ex, i) => (
-                          <div key={i} className="flex items-start gap-3">
-                            <span className="text-fl-muted-3 mt-0.5 text-sm">
-                              ·
-                            </span>
-                            <div className="min-w-0 flex-1">
+                      )}
+                      {(nativeExplanation.key_points as string[])?.length >
+                        0 && (
+                        <ul className="space-y-1">
+                          {(nativeExplanation.key_points as string[]).map(
+                            (kp, i) => (
+                              <li key={i} className="text-fl-muted-3 text-sm">
+                                <span className="text-fl-muted-2 mr-2">·</span>
+                                {kp}
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      )}
+                      {(
+                        nativeExplanation.examples as {
+                          sentence: string
+                          note: string
+                        }[]
+                      )?.length > 0 && (
+                        <div className="space-y-2">
+                          <p className="text-fl-label text-fl-muted-3 font-mono text-xs tracking-widest uppercase">
+                            {t('examples')}
+                          </p>
+                          {(
+                            nativeExplanation.examples as {
+                              sentence: string
+                              note: string
+                            }[]
+                          ).map((ex, i) => (
+                            <div key={i} className="flex items-start gap-3">
+                              <span className="text-fl-muted-3 mt-0.5 text-sm">
+                                ·
+                              </span>
+                              <div className="min-w-0 flex-1">
+                                <TargetLanguageText
+                                  languageCode={targetLanguageCode}
+                                  className="text-fl-muted-1 text-sm italic"
+                                >
+                                  {ex.sentence}
+                                </TargetLanguageText>
+                                {ex.note && (
+                                  <p className="text-fl-hint text-fl-muted-3 mt-0.5 text-sm">
+                                    {ex.note}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {(
+                        nativeExplanation.common_traps as {
+                          mistake: string
+                          fix: string
+                        }[]
+                      )?.length > 0 && (
+                        <div className="border-fl-border space-y-2 border-t pt-3">
+                          <p className="text-fl-label text-fl-muted-3 font-mono text-xs tracking-widest uppercase">
+                            {t('commonTraps')}
+                          </p>
+                          {(
+                            nativeExplanation.common_traps as {
+                              mistake: string
+                              fix: string
+                            }[]
+                          ).map((trap, i) => (
+                            <div key={i} className="space-y-0.5">
+                              <p className="text-fl-muted-2 text-sm">
+                                {trap.mistake}
+                              </p>
+                              <p className="text-fl-hint text-fl-muted-3 text-sm">
+                                {trap.fix}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {(
+                        nativeExplanation.mini_glossary as {
+                          term: string
+                          meaning: string
+                          note?: string
+                        }[]
+                      )?.length > 0 && (
+                        <div className="border-fl-border space-y-2 border-t pt-3">
+                          <p className="text-fl-label text-fl-muted-3 font-mono text-xs tracking-widest uppercase">
+                            {t('miniGlossary')}
+                          </p>
+                          {(
+                            nativeExplanation.mini_glossary as {
+                              term: string
+                              meaning: string
+                              note?: string
+                            }[]
+                          ).map((item, i) => (
+                            <div key={i}>
                               <TargetLanguageText
                                 languageCode={targetLanguageCode}
-                                className="text-fl-muted-1 text-sm italic"
+                                className="text-fl-muted-1 text-sm font-bold"
                               >
-                                {ex.sentence}
+                                {item.term}
                               </TargetLanguageText>
-                              {ex.note && (
-                                <p className="text-fl-hint text-fl-muted-3 mt-0.5 text-sm">
-                                  {ex.note}
+                              <p className="text-fl-muted-2 text-sm">
+                                {item.meaning}
+                              </p>
+                              {item.note && (
+                                <p className="text-fl-hint text-fl-muted-3 text-sm">
+                                  {item.note}
                                 </p>
                               )}
                             </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="text-center">
-                    <button
-                      onClick={generateNativeExplanation}
-                      disabled={loadingNativeExplanation}
-                      className="text-fl-hint text-fl-muted-3 hover:text-fl-fg font-mono text-sm transition-colors"
-                    >
-                      {loadingNativeExplanation
-                        ? '...'
-                        : nativeExplanationError
-                          ? tCommon('retry')
-                          : `${t('showNativeExplanation')} ${nativeLanguageName}`}
-                    </button>
-                  </div>
-                )}
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="mt-3 text-center">
+                      <button
+                        onClick={generateNativeExplanation}
+                        disabled={loadingNativeExplanation}
+                        className="text-fl-hint text-fl-muted-3 hover:text-fl-fg font-mono text-sm transition-colors"
+                      >
+                        {loadingNativeExplanation
+                          ? '...'
+                          : nativeExplanationError
+                            ? tCommon('retry')
+                            : `${t('showNativeExplanation')} ${nativeLanguageName}`}
+                      </button>
+                    </div>
+                  ))}
               </div>
             )}
           </div>

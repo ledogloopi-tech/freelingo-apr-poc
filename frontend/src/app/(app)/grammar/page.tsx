@@ -62,7 +62,7 @@ export default function GrammarIndexPage() {
   }, [])
 
   useEffect(() => {
-    fetchTopics(activeLanguage?.code ?? 'en-US')
+    fetchTopics(activeLanguage?.code ?? 'en-GB')
   }, [activeLanguage?.code, fetchTopics])
 
   const allCategories: GrammarCategory[] = useMemo(
@@ -101,7 +101,7 @@ export default function GrammarIndexPage() {
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
         <p className="text-fl-muted-2 font-mono text-sm">{tCommon('error')}</p>
         <button
-          onClick={() => fetchTopics(activeLanguage?.code ?? 'en-US')}
+          onClick={() => fetchTopics(activeLanguage?.code ?? 'en-GB')}
           className="text-fl-accent font-mono text-xs tracking-widest uppercase underline"
         >
           {tCommon('retry')}

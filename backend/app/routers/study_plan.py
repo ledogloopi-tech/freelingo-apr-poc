@@ -254,9 +254,6 @@ async def get_today_lessons(
         plan_id = plan.id  # cache before any rollback that would expire the ORM object
         if lesson_id is None:
             try:
-                native_lang = (
-                    current_user.native_language if plan.cefr_level in ("A1", "A2") else None
-                )
                 content = await generate_lesson(
                     cefr_level=plan.cefr_level,
                     lesson_type=d_type,
@@ -267,7 +264,7 @@ async def get_today_lessons(
                     grammar_points=grammar_points,
                     vocabulary_set_ids=vocabulary_set_ids,
                     target_language=plan.target_language,
-                    native_language=native_lang,
+                    native_language=current_user.native_language,
                 )
                 content_dict = content.model_dump() if hasattr(content, "model_dump") else content
 

@@ -33,3 +33,32 @@ class PhrasebookCategoriesResponse(BaseModel):
 
 class PhrasebookCategoryDetailResponse(BaseModel):
     category: PhrasebookCategoryResponse
+
+
+class PhrasebookNativeHelpPhraseNoteResponse(BaseModel):
+    phrase: str
+    note: str
+
+
+class PhrasebookNativeHelpTrapResponse(BaseModel):
+    mistake: str
+    fix: str
+
+
+class PhrasebookNativeHelpGlossaryResponse(BaseModel):
+    term: str
+    meaning: str
+    note: str | None = None
+
+
+class PhrasebookNativeHelpContentResponse(BaseModel):
+    summary: str
+    usage_tips: list[str]
+    register_notes: list[str]
+    phrase_notes: list[PhrasebookNativeHelpPhraseNoteResponse]
+    common_traps: list[PhrasebookNativeHelpTrapResponse]
+    mini_glossary: list[PhrasebookNativeHelpGlossaryResponse]
+
+
+class PhrasebookNativeHelpResponse(BaseModel):
+    native_help: PhrasebookNativeHelpContentResponse

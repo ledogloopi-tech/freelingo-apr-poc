@@ -388,7 +388,7 @@ A1_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="배우",
                 pos="noun",
-                definition="영화나 드라마에 나오는 사람.",
+                definition="영화나 드라마에서 연기하는 사람.",
                 example="한국 배우가 나오는 영화를 봤어요.",
                 ipa="baeu",
                 frequency_rank=60,
@@ -1356,7 +1356,7 @@ A1_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="가족",
                 pos="noun",
-                definition="부부와 그 자녀로 이루어진 집단.",
+                definition="부모, 자녀, 형제자매 등 함께 생활하거나 가까운 관계인 사람들.",
                 example="우리 가족은 모두 네 명이에요.",
                 ipa="gajok",
                 frequency_rank=5,
@@ -1420,7 +1420,7 @@ A1_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="할아버지",
                 pos="noun",
-                definition="아버지의 아버지.",
+                definition="부모님의 아버지.",
                 example="할아버지는 시골에 사세요.",
                 ipa="harabeoji",
                 frequency_rank=178,
@@ -1428,7 +1428,7 @@ A1_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="할머니",
                 pos="noun",
-                definition="아버지의 어머니.",
+                definition="부모님의 어머니.",
                 example="할머니가 김치를 잘 만드세요.",
                 ipa="halmeoni",
                 frequency_rank=177,
@@ -1644,7 +1644,7 @@ A1_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="오른쪽",
                 pos="noun",
-                definition="동쪽을 바라볼 때 남쪽 방향.",
+                definition="몸이나 기준의 오른편 방향.",
                 example="오른쪽으로 가세요.",
                 ipa="oreunjjok",
                 frequency_rank=111,
@@ -1652,7 +1652,7 @@ A1_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="왼쪽",
                 pos="noun",
-                definition="동쪽을 바라볼 때 북쪽 방향.",
+                definition="몸이나 기준의 왼편 방향.",
                 example="왼쪽에 은행이 있어요.",
                 ipa="oenjjok",
                 frequency_rank=115,

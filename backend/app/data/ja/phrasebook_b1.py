@@ -124,7 +124,21 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 "例を求める",
                 "neutral",
                 "b1-unit-7",
-                romanization="guteki na rei o ageru to wakariyasui desu",
+                romanization="gutaiteki na rei o ageru to wakariyasui desu",
+            ),
+            _p(
+                "つまり、こういう理解で合っていますか。",
+                "理解を確認する",
+                "formal",
+                "b1-unit-1",
+                romanization="tsumari, kō iu rikai de atte imasu ka",
+            ),
+            _p(
+                "完全には同意できませんが、重要な点だと思います。",
+                "丁寧に部分的な反対を述べる",
+                "formal",
+                "b1-unit-7",
+                romanization="kanzen ni wa dōi dekimasen ga, jūyō na ten da to omoimasu",
             ),
             _p(
                 "一番大きな理由は費用だと思います。",
@@ -231,7 +245,7 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 "地域活動への関心を示す",
                 "neutral",
                 "b1-unit-1",
-                romanization="chiiki no ibento ni sankyō shitai desu",
+                romanization="chiiki no ibento ni sanka shite mitai desu",
             ),
             _p(
                 "この施設は誰でも利用できますか。",
@@ -380,7 +394,7 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 "条件付きで参加を伝える",
                 "neutral",
                 "b1-unit-3",
-                romanization="yotei ga aeba, zehi sankyō shitai desu",
+                romanization="yotei ga aeba, zehi sanka shitai desu",
             ),
             _p(
                 "急な用事ができたので、少し遅れます。",

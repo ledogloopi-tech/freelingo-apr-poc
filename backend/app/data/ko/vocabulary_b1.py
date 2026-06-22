@@ -93,7 +93,7 @@ B1_SETS: list[VocabularySet] = [
             ),
             VocabularyEntry(
                 word="때문에",
-                pos="conjunction",
+                pos="phrase",
                 definition="어떤 일의 원인이나 이유를 나타내는 연결 표현.",
                 example="비 때문에 소풍이 취소됐어요.",
                 ipa="ttaemune",
@@ -262,7 +262,7 @@ B1_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="결혼",
                 pos="noun",
-                definition="남녀가 법적으로 부부가 되는 일.",
+                definition="두 사람이 법적·사회적으로 부부가 되는 일.",
                 example="친한 친구의 결혼식에 다녀왔어요.",
                 ipa="gyeolhon",
                 frequency_rank=606,
@@ -318,7 +318,7 @@ B1_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="관계",
                 pos="noun",
-                definition="사람과 사람 사이의 관련.",
+                definition="사람, 집단, 사물 등이 서로 관련되어 있는 상태.",
                 example="두 나라의 관계가 점점 좋아지고 있어요.",
                 ipa="gwangye",
                 frequency_rank=612,
@@ -726,7 +726,7 @@ B1_SETS: list[VocabularySet] = [
             VocabularyEntry(
                 word="태풍",
                 pos="noun",
-                definition="열대 지방에서 발생하는 강한 바람.",
+                definition="열대 지방에서 발생하는 매우 강한 비바람을 동반한 폭풍.",
                 example="태풍 때문에 학교가 하루 쉬었어요.",
                 ipa="taepung",
                 frequency_rank=714,
@@ -863,7 +863,7 @@ B1_SETS: list[VocabularySet] = [
                 word="가능하다",
                 pos="adjective",
                 definition="어떤 일을 할 수 있다.",
-                example="내일 오전에 만나는 게 가능하세요?",
+                example="내일 오전에 만나는 게 가능할까요?",
                 ipa="ganeunghada",
                 frequency_rank=601,
             ),

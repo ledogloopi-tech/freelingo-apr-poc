@@ -194,11 +194,11 @@ A2_CATEGORIES.append(
                 romanization="yeyak siganeul bakkul su isseulkkayo?",
             ),
             _p(
-                "내일 오후는 가능해요?",
+                "내일 오후는 가능할까요?",
                 "가능 시간을 물을 때",
-                "neutral",
+                "formal",
                 "a2-unit-8",
-                romanization="naeil ohuneun ganeunghaeyo?",
+                romanization="naeil ohuneun ganeunghalkkayo?",
             ),
             _p(
                 "취소하려면 어떻게 해야 해요?",

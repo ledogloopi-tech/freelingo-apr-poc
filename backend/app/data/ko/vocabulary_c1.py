@@ -481,7 +481,7 @@ C1_SETS: list[VocabularySet] = [
         id="linguistics_c1",
         level="C1",
         topic="언어학",
-        unit_ref="c1-unit-7",
+        unit_ref="c1-unit-8",
         words=[
             VocabularyEntry(
                 word="형태소",
@@ -665,7 +665,7 @@ C1_SETS: list[VocabularySet] = [
         id="politics_c1",
         level="C1",
         topic="정치학",
-        unit_ref="c1-unit-9",
+        unit_ref="c1-unit-8",
         words=[
             VocabularyEntry(
                 word="주권",
@@ -729,7 +729,7 @@ C1_SETS: list[VocabularySet] = [
         id="science_c1",
         level="C1",
         topic="과학",
-        unit_ref="c1-unit-9",
+        unit_ref="c1-unit-8",
         words=[
             VocabularyEntry(
                 word="유전자",
@@ -793,7 +793,7 @@ C1_SETS: list[VocabularySet] = [
         id="philosophy_c1",
         level="C1",
         topic="철학",
-        unit_ref="c1-unit-10",
+        unit_ref="c1-unit-8",
         words=[
             VocabularyEntry(
                 word="존재론",
@@ -857,7 +857,7 @@ C1_SETS: list[VocabularySet] = [
         id="art_criticism_c1",
         level="C1",
         topic="예술 비평",
-        unit_ref="c1-unit-10",
+        unit_ref="c1-unit-8",
         words=[
             VocabularyEntry(
                 word="미학",
@@ -921,7 +921,7 @@ C1_SETS: list[VocabularySet] = [
         id="law_c1",
         level="C1",
         topic="법학",
-        unit_ref="c1-unit-11",
+        unit_ref="c1-unit-8",
         words=[
             VocabularyEntry(
                 word="판례",
@@ -985,7 +985,7 @@ C1_SETS: list[VocabularySet] = [
         id="medicine_c1",
         level="C1",
         topic="의학",
-        unit_ref="c1-unit-11",
+        unit_ref="c1-unit-8",
         words=[
             VocabularyEntry(
                 word="진단",
@@ -1049,7 +1049,7 @@ C1_SETS: list[VocabularySet] = [
         id="environment_c1",
         level="C1",
         topic="환경",
-        unit_ref="c1-unit-12",
+        unit_ref="c1-unit-8",
         words=[
             VocabularyEntry(
                 word="이상 기후",
@@ -1113,7 +1113,7 @@ C1_SETS: list[VocabularySet] = [
         id="technology_c1",
         level="C1",
         topic="기술",
-        unit_ref="c1-unit-12",
+        unit_ref="c1-unit-8",
         words=[
             VocabularyEntry(
                 word="인공 지능",

@@ -25,7 +25,7 @@ backend/
 │   │   ├── app_logger.py        # Structured logging (structlog)
 │   │   └── limiter.py           # slowapi rate limiter setup
 │   │
-│   ├── models/                  # SQLAlchemy 2.0 ORM models (15 files, 21 model classes)
+│   ├── models/                  # SQLAlchemy 2.0 ORM models (16 files, 22 model classes)
 │   │   ├── __init__.py
 │   │   ├── user.py              # User, UserPreferences, user quotas, avatar
 │   │   ├── user_language.py     # UserLanguage (phase 10: multi-language learning)
@@ -40,6 +40,7 @@ backend/
 │   │   ├── reading.py           # ReadingExercise, ReadingAttempt
 │   │   ├── feedback.py          # FeedbackEntry, FeedbackVote, FeedbackComment
 │   │   ├── review.py            # Review (one moderated product review per user)
+│   │   ├── resource_native_help.py # ResourceNativeHelp (global native-help cache for static resources)
 │   │   ├── memory.py            # Memory (persistent LLM context)
 │   │   └── llm_usage.py         # LLMUsage (token audit trail)
 │   │
@@ -91,7 +92,7 @@ backend/
 │   │   ├── tts.py               # Text-to-speech proxy
 │   │   └── vocabulary.py        # Static vocabulary data (per language + per level)
 │   │
-│   ├── services/                # Business logic + external service clients (18 modules + prompts package)
+│   ├── services/                # Business logic + external service clients (19 modules + prompts package)
 │   │   ├── __init__.py
 │   │   ├── assessment.py        # Adaptive quiz logic, CEFR level estimation
 │   │   ├── conversation_pipeline.py  # WebSocket voice orchestrator: STT → LLM → TTS
@@ -106,6 +107,7 @@ backend/
 │   │   ├── prompts/             # Centralized LLM prompt templates and builders
 │   │   ├── quota_service.py     # Token quota tracking and enforcement
 │   │   ├── reading_service.py   # AI reading exercise generation + caching
+│   │   ├── resource_native_help.py # Static-resource native-help cache helpers
 │   │   ├── review_service.py    # User review creation, duplicate guard, approval, deletion
 │   │   ├── stt_service.py       # Speech-to-text abstraction (local Whisper / OpenAI)
 │   │   ├── study_plan_generator.py  # Deterministic unit distribution from curriculum
@@ -131,20 +133,20 @@ backend/
 │       └── pt/                   # Portuguese — curriculum, assessment bank, vocabulary, phrasebook
 │
 ├── alembic/
-│   └── versions/                # DB migrations (42 migrations)
+│   └── versions/                # DB migrations (43 migrations)
 │
-└── tests/                       # pytest suite (43 test files, 870 tests)
+└── tests/                       # pytest suite (43 test files, 887 tests)
 ```
 
 ## Database models
 
-The application uses 20 SQLAlchemy ORM models organized into 5 domains:
+The application uses 21 SQLAlchemy ORM model sections organized into 5 domains:
 
 - **Core**: User (authentication, preferences, quotas), Progress (daily XP/streak/skills)
 - **Study plan**: StudyPlan, Lesson, Exercise, UserCompetency (curriculum tracking)
 - **Spaced repetition**: Flashcard (SM-2 algorithm)
 - **Conversations**: Conversation, ChatHistory (text and voice transcripts)
-- **AI-generated content**: ListeningExercise, ListeningAttempt, ReadingExercise, ReadingAttempt (shared exercise pools)
+- **AI-generated/static support content**: ListeningExercise, ListeningAttempt, ReadingExercise, ReadingAttempt (shared exercise pools), ResourceNativeHelp (global native-language cache for static resources)
 - **Community**: FeedbackEntry, FeedbackVote, FeedbackComment (feature requests and bug reports), Review (moderated product reviews)
 - **LLM**: Memory (persistent context), LLMUsage (token audit trail)
 - **Multi-language**: UserLanguage (phase 10 — enables learning multiple target languages per user)
@@ -163,7 +165,7 @@ The application uses 18 services plus a centralized `services/prompts/` package 
 
 - **LLM & AI**: LLM Adapter (multi-provider), Assessment, Study Plan Generator, Lesson Generator, Flashcard SM-2
 - **Media**: TTS Service, STT Service, Conversation Pipeline (WebSocket voice orchestrator)
-- **Content**: Listening Service, Reading Service (AI-generated exercises with caching; generation responses validated with Pydantic `structured_output()` schemas)
+- **Content**: Listening Service, Reading Service (AI-generated exercises with caching; generation responses validated with Pydantic `structured_output()` schemas), Resource Native Help (global cache for static-resource native-language helpers)
 - **User**: Progress Service, Memory Service, Quota Service, Subscription Service, User Language Service
 - **Community**: Review Service
 - **Infrastructure**: Language Helpers, Email Service
@@ -201,8 +203,8 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 
 - **Framework**: pytest + pytest-asyncio + httpx AsyncClient
 - **Test files**: 43 (plus conftest.py for shared fixtures)
-- **Tests**: 870
-- **Coverage**: 84.62% last measured (target: ≥70%)
+- **Tests**: 887
+- **Coverage**: 85.39% last measured (target: ≥70%)
 - **Key fixtures**: async database session, test client with auth headers, Redis mock, user_language fixture
 
 ---

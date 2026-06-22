@@ -62,6 +62,9 @@ NATIVE EXPLANATION RULES:
 - If native_language_name is "none", set "native_explanation" to null.
 - Otherwise, populate "native_explanation" with the SAME structure as "explanation" but entirely in {native_language_name} — translate the explanation, key_points, and examples so the student can read it in their own language.
 - Keep native_explanation example sentences in {target_language_name}; translate only the example notes.
+- Also include "common_traps" and "mini_glossary" in native_explanation to help the student study the lesson.
+- common_traps: 2-4 likely mistakes for this lesson, with "mistake" and "fix" in {native_language_name}.
+- mini_glossary: 3-6 useful lesson terms, with "term" in {target_language_name}, plus "meaning" and optional "note" in {native_language_name}.
 
 Return a JSON object using this exact schema:
 {{
@@ -87,6 +90,12 @@ Return a JSON object using this exact schema:
     ],
     "examples": [
       {{"sentence": "[same example sentence in {target_language_name} — keep the example sentence in the target language]", "note": "[note translated into {native_language_name}]"}}
+    ],
+    "common_traps": [
+      {{"mistake": "[common learner mistake in {native_language_name}]", "fix": "[how to avoid or correct it in {native_language_name}]"}}
+    ],
+    "mini_glossary": [
+      {{"term": "[useful {target_language_name} word or phrase]", "meaning": "[meaning in {native_language_name}]", "note": "[optional study note in {native_language_name}]"}}
     ]
   }},
   "exercises": [
@@ -129,7 +138,7 @@ Before returning, verify:
 - Every fill_blank exercise has ___ inside the "question" field (not in "explanation").
 - No multiple_choice option starts with a letter or number prefix (A., B., 1., 2.).
 - All text visible to the student (except native_explanation) is in {target_language_name}.
-- If native_language_name is not "none", native_explanation is populated and in {native_language_name}.
+- If native_language_name is not "none", native_explanation is populated and all native fields are in {native_language_name}.
 """
 
 FILL_BLANK_EVAL_PROMPT = """
@@ -331,7 +340,7 @@ into {native_language_name}.
 
 The source explanation is JSON. Preserve its structure. Only translate the text, key_points,
 and the notes in examples. Keep example sentences in their original {target_language_name}
-form. Return a JSON object with this exact structure:
+form. Also add study support in the student's native language. Return a JSON object with this exact structure:
 
 {{
   "text": "[translated explanation in {native_language_name}]",
@@ -342,6 +351,12 @@ form. Return a JSON object with this exact structure:
   "examples": [
     {{"sentence": "[KEEP original sentence in {target_language_name}]", "note": "[translated note in {native_language_name}]"}},
     {{"sentence": "[KEEP original sentence in {target_language_name}]", "note": "[translated note in {native_language_name}]"}}
+  ],
+  "common_traps": [
+    {{"mistake": "[common learner mistake in {native_language_name}]", "fix": "[how to avoid or correct it in {native_language_name}]"}}
+  ],
+  "mini_glossary": [
+    {{"term": "[useful {target_language_name} word or phrase from the lesson]", "meaning": "[meaning in {native_language_name}]", "note": "[optional study note in {native_language_name}]"}}
   ]
 }}
 

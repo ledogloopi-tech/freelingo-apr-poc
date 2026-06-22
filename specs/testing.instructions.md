@@ -1,5 +1,5 @@
 ---
-description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 875 tests, 85.27% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (30 test files, 404 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
+description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 887 tests, 85.39% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (30 test files, 404 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
 applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 ---
 
@@ -9,11 +9,11 @@ applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 
 | Layer                      | Framework               | Scope                                                   | Coverage                           | Status      |
 | -------------------------- | ----------------------- | ------------------------------------------------------- | ---------------------------------- | ----------- |
-| Backend unit + integration | pytest + pytest-asyncio | API endpoints, services, SM-2 algorithm, data integrity | 84.62% last measured (target: 70%) | Implemented |
+| Backend unit + integration | pytest + pytest-asyncio | API endpoints, services, SM-2 algorithm, data integrity | 85.39% last measured (target: 70%) | Implemented |
 | Frontend unit              | Vitest                  | Stores, components, hooks, lib, middleware              | Not configured                     | Implemented |
 | E2E                        | Playwright              | Critical user flows                                     | Smoke                              | Pending     |
 
-All tests pass on every push. Backend coverage threshold configured at 70%, last measured at 85.27%. Frontend tests cover stores, critical components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher, TargetLanguageSelector, review UI, LanguageBubbles), app pages, hooks, lib modules, i18n, and middleware. Frontend coverage is not currently reported because Vitest coverage is not configured and `@vitest/coverage-v8` is not installed.
+All tests pass on every push. Backend coverage threshold configured at 70%, last measured at 85.39%. Frontend tests cover stores, critical components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher, TargetLanguageSelector, review UI, LanguageBubbles), app pages, hooks, lib modules, i18n, and middleware. Frontend coverage is not currently reported because Vitest coverage is not configured and `@vitest/coverage-v8` is not installed.
 
 ---
 
@@ -38,7 +38,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_avatar.py`** — Lines: 327. What it covers: Avatar upload, validation, storage, retrieval
 - **`test_assessment.py`** — Lines: 165. What it covers: Quiz start (mocked LLM), submit and deterministic evaluation, legacy endpoints, LLM error handling
 - **`test_assessment_router.py`** — Lines: —. What it covers: Full assessment router: start, submit, evaluate, free-write, complete, level-test questions/submit/result (54 tests, 51%→98% coverage)
-- **`test_study_plan.py`** — Lines: 459. What it covers: Plan generation, today's lessons, auto-generation on access, A1/A2 native-language lesson-generation context, unit progression
+- **`test_study_plan.py`** — Lines: 459. What it covers: Plan generation, today's lessons, auto-generation on access, native-language lesson-generation context, unit progression
 - **`test_lessons.py`** — Lines: 235. What it covers: Lesson CRUD, exercise answering (multiple_choice, free_write, pronunciation), completion flow, progress update on complete
 - **`test_lessons_extra.py`** — Lines: 106. What it covers: Additional lesson scenarios and edge cases
 - **`test_lessons_router.py`** — Lines: —. What it covers: Lesson router: get lesson with exercises, complete lesson, native-language explanation generation/caching, answer exercises (all 4 types), lifecycle, fill-blank sanitization (39 tests, 58%→99% coverage)
@@ -53,11 +53,12 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_conversation_pipeline_service.py`** — Lines: —. What it covers: Conversation pipeline service: system prompt, native-language name injection, sentence cleaning, TTS queue, greet, audio processing, barge-in, usage tracking, inactivity watcher, max-duration watcher, full lifecycle
 - **`test_email_service.py`** — Lines: —. What it covers: Email template rendering escapes user-controlled values by default while preserving explicitly trusted internal HTML, including contact/review templates (3 tests)
 - **`test_frontend_data_integrity.py`** — Lines: 168+. What it covers: Cross-reference validation for grammar, vocabulary, related grammar slugs, and vocabulary IDs across backend language data, including Japanese, Korean, and Mainland Chinese.
+- **`test_grammar.py`** — Lines: 290+. What it covers: Grammar API: list topics, topic detail, language switching, auth, error cases, Japanese/Korean/Mainland Chinese data resolution, and native-help generation/cache refresh.
 - **`test_listening.py`** — Lines: 503. What it covers: Exercise pool (next / generate), generation lock, audio serving, answer evaluation (score + XP), attempt deduplication, history
 - **`test_listening_extra.py`** — Lines: 208. What it covers: Additional listening exercise scenarios
 - **`test_reading.py`** — Lines: 400+. What it covers: Reading exercise generation with `structured_output()`, language-aware CJK length guidance, comprehension questions, answer evaluation, XP calculation
 - **`test_reading_extra.py`** — Lines: 255. What it covers: Additional reading exercise scenarios
-- **`test_vocabulary.py`** — Lines: 175+. What it covers: Vocabulary API: list sets, by-level, set detail, language switching, auth, error cases, and Japanese/Korean/Mainland Chinese data resolution.
+- **`test_vocabulary.py`** — Lines: 175+. What it covers: Vocabulary API: list sets, by-level, set detail, language switching, auth, error cases, Japanese/Korean/Mainland Chinese data resolution, and native-help generation/cache refresh.
 - **`test_feedback.py`** — Lines: 1261. What it covers: Feedback board: feature requests, bug reports, default exclusion of done entries, voting, comments, admin moderation
 - **`test_billing.py`** — Lines: 381. What it covers: Stripe subscriptions, webhooks, payment status, subscription lifecycle
 - **`test_maintenance.py`** — Lines: 153. What it covers: Maintenance mode toggle, API behavior during maintenance
@@ -66,7 +67,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_llm_adapter.py`** — Lines: —. What it covers: LLM adapter: JSON parsing, streaming, 5 exception classes, 4 provider init paths, chat (streaming + non-streaming), Anthropic error mapping, structured output with retry, DeepSeek provider, edge cases (63 tests, 38%→100% coverage)
 - **`test_prompts.py`** — Lines: —. What it covers: Centralized prompt builders, regional/native language names, language capability metadata, memory instructions, JSON-only block reuse, language overlays including CJK readiness overlays and aliases
 - **`test_reviews.py`** — Lines: —. What it covers: User reviews: creation, editing, rating validation, duplicate guard, public filtering, admin moderation, permissions, admin email notification on creation
-- **`test_phrasebook.py`** — Lines: 185+. What it covers: Phrasebook API: list categories, by-level filtering, category detail, language switching, auth, error cases, and Japanese/Korean/Mainland Chinese data resolution.
+- **`test_phrasebook.py`** — Lines: 330+. What it covers: Phrasebook API: list categories, by-level filtering, category detail, language switching, auth, error cases, Japanese/Korean/Mainland Chinese data resolution, and native-help generation/cache refresh.
 - **`test_quota_service.py`** — Lines: —. What it covers: Quota service: key helpers, quota status, session tracking, daily/weekly minute checks, monthly token tracking, combined quota validation, full session lifecycle (71 tests, 37%→100% coverage)
 - **`test_flashcard_sm2.py`** — Lines: —. What it covers: Flashcard service: `_clean_generated_word`, `_get_lang_hint` (10 languages + fallbacks), native-language name injection, `generate_flashcards`, `lookup_word`
 - **`test_assessment_bank.py`** — Lines: —. What it covers: Assessment bank dispatcher: all 10 backend data languages including Japanese, Korean, and Mainland Chinese, unknown fallback to en-GB, ISO prefix fallback, cache reuse (14 tests, 0%→100% coverage)
@@ -74,11 +75,11 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_lesson_generator.py`** — Lines: —. What it covers: Lesson generator service: `get_valid_grammar_slugs`, `generate_lesson`, fill-blank sanitization, grammar refs filtering, `evaluate_free_write`, `evaluate_pronunciation`, `evaluate_fill_blank` (12 tests, 51%→100% coverage)
 - **`test_listening_service.py`** — Lines: —. What it covers: Listening service DB layer and generation: `structured_output()` generation persistence, language-aware CJK length guidance, `get_available_exercise`, `submit_attempt` (correct/partial/duplicate/replay/not-found), `get_user_history` (empty/attempts/limit/language filter)
 
-**Total: 43 test files, 870 tests.**
+**Total: 43 test files, 887 tests.**
 
 ### Coverage
 
-- **Current coverage**: 85.27% last measured (above 70% target)
+- **Current coverage**: 85.39% last measured (above 70% target)
 - **Configured threshold**: 70% (enforced via `pytest --cov-fail-under=70`)
 
 ### Test patterns

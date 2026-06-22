@@ -26,9 +26,9 @@ A unified resource centre delivering five complementary features: a grammar refe
 
 ## Milestone 1 — Grammar Reference
 
-### Data model (`frontend/src/data/grammar.ts`)
+### Data model (`backend/app/data/_types.py` + per-language `grammar.py`)
 
-A single static TypeScript file containing approximately 50+ grammar topics spanning A1 through C2. No backend endpoint needed — all content ships with the JS bundle and is tree-shakeable.
+Grammar content is served from backend Python dataclasses organized per target language and CEFR level. The frontend consumes `GET /api/grammar` and falls back to `en-GB` when no active learning language is available.
 
 Each grammar topic has:
 
@@ -63,7 +63,12 @@ Dynamic route rendering a single grammar topic. The `[slug]` parameter maps dire
 - Unknown slugs return a 404 page (Next.js `notFound()`)
 - Renders: title, level badge, explanation (formatted Markdown-lite), structure pattern, rules list, example sentences with optional translations, common mistakes table, and related topics links
 - Related topics are linked to their own detail pages
+- Renders native-language study support below the target-language explanation. A1/A2 opens by default and generates on page load; B1-C2 stays collapsed and generates only when opened. The generated support includes summary, explanation, key points, target-language examples with native notes, common traps, and a mini-glossary.
 - The AI tutor's system prompt references the current grammar slug to provide contextual corrections during chat
+
+### Native-language grammar help
+
+`POST /api/grammar/{slug}/native-help?language=<target>` generates grammar support in the authenticated user's native language. Results are cached globally in `resource_native_helps` by `resource_type="grammar"`, grammar slug, target language, native language, and source-content hash, so the same native-language help is generated only once per static topic version and reused for later users.
 
 ### Integration with other features
 
@@ -119,6 +124,11 @@ Dynamic route for a single vocabulary set. The `[setId]` parameter maps to a `Vo
 - Topic title, level badge, word count
 - Full word table: word, part of speech badge, definition, example, IPA pronunciation, frequency rank
 - "Add to flashcards" button: sends the word to the flashcards API for SM-2 review
+- A native-language helper panel that stays collapsed until requested. Generated support includes a topic summary, study tips, selected word notes, common traps, a mini-glossary, and practice prompts.
+
+### Native-language vocabulary help
+
+`POST /api/vocabulary/{set_id}/native-help?language=<target>` generates vocabulary study support in the authenticated user's native language. Results are cached globally in `resource_native_helps` by `resource_type="vocabulary"`, set ID, target language, native language, and source-content hash. The generated help keeps target-language words and examples unchanged while explaining memory tips, usage notes, common traps, glossary meanings, and practice prompts in the learner's native language.
 
 ### Integration with flashcards
 
@@ -169,6 +179,11 @@ Each category card shows:
 - Phrase count
 - Expand to see all phrases with context and register badges
 - Phrase entries are selectable (tap to copy to clipboard)
+- A native-language helper panel. A1/A2 panels open by default but generate only when the user clicks the helper button; B1-C2 panels stay collapsed until requested. Generated support includes usage tips, register notes, phrase notes, common traps, and a mini-glossary.
+
+### Native-language phrasebook help
+
+`POST /api/phrasebook/{category_id}/native-help?language=<target>` generates practical usage support in the authenticated user's native language. Results are cached globally in `resource_native_helps` by `resource_type="phrasebook"`, category ID, target language, native language, and source-content hash. The generated help keeps target-language phrases unchanged and explains when to use them, register/formality, common traps, and useful expressions in the learner's native language.
 
 ### Usage
 
@@ -348,7 +363,7 @@ This split is intentional: the frontend needs fast roadmap rendering, and the ba
 - [x] `/grammar` renders all topics from backend grammar data
 - [x] `/grammar/[slug]` renders full detail; unknown slugs return 404
 - [x] `/vocabulary` lists all sets grouped by level with flashcard-progress badges (fetches via `/api/vocabulary`)
-- [x] `/vocabulary/[setId]` shows words + "Add to flashcards" button that integrates with the flashcard API
+- [x] `/vocabulary/[setId]` shows words + "Add to flashcards" button that integrates with the flashcard API and on-demand native-language study help
 - [x] `/phrasebook` lists situations with level and register filters
 - [x] `/progress` shows per-unit competency checklist with scores
 - [x] `/progress` shows vocabulary progress bars per set (fetches via `/api/vocabulary`)

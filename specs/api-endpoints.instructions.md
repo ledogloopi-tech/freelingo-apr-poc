@@ -83,6 +83,7 @@ Auth required (`get_current_user`). Serves static vocabulary data across the bac
 - **GET ``** — Auth: get_current_user. All vocabulary sets for the given language. Query param: `language` (BCP-47, default `en-GB`). Response: `{sets: [{id, level, topic, unit_ref, words: [{word, pos, definition, example, ipa?, frequency_rank?}]}]}`.
 - **GET `/level/{level}`** — Auth: get_current_user. Vocabulary sets filtered by CEFR level (A1–C2). Query param: `language` (BCP-47). Returns 400 for invalid levels.
 - **GET `/{set_id}`** — Auth: get_current_user. A single vocabulary set by ID. Query param: `language` (BCP-47). Response: `{set: {...}}`. Returns 404 if not found.
+- **POST `/{set_id}/native-help`** — Rate limit: 10/min. Auth: get_current_user. Query param: `language` (BCP-47, default `en-GB`). Generates or returns cached native-language study help for a vocabulary set, keyed globally by set ID, target language, native language, and source-content hash. Response: `{native_help: {summary, study_tips, word_notes, common_traps, mini_glossary, practice_prompts}}`. Returns 404 if the set does not exist and 503 if generation is unavailable or already in progress.
 
 ---
 
@@ -103,7 +104,7 @@ Auth required (`get_current_user`). Serves static vocabulary data across the bac
 | GET    | `/{lesson_id}`           | Lesson detail with exercises                                                                |
 | POST   | `/{lesson_id}/start`     | Marks lesson as in-progress                                                                 |
 | POST   | `/{lesson_id}/complete`  | Marks as completed, updates progress and competencies                                       |
-| POST   | `/{lesson_id}/native-explanation` | Generates and caches a native-language explanation for existing A1/A2 lessons whose `content.native_explanation` is missing; idempotently returns the cached explanation when already present |
+| POST   | `/{lesson_id}/native-explanation` | Generates and caches a native-language explanation for existing lessons at any CEFR level whose `content.native_explanation` is missing; returned support includes translated text, key points, examples, common traps, and a mini-glossary; idempotently returns the cached explanation when already present |
 | POST   | `/exercises/{id}/answer` | Submits answer → evaluates (MC, fill, free_write, pronunciation) → returns score + feedback |
 
 ---
@@ -128,6 +129,7 @@ All endpoints require `get_current_user`.
 
 - **GET ``** — Rate limit: 60/min. Auth: get_current_user. Returns all grammar topics for the given target language. Query param: `language` (BCP-47, default `en-GB`). Response: `{topics: [{slug, title, level, category, summary, explanation, structure, rules, examples, common_mistakes, related}]}`. `ja-JP` includes 130 grammar topics, while `ko-KR` and `zh-CN` include 126 grammar topics aligned with their curriculum slugs.
 - **GET `/{slug}`** — Rate limit: 60/min. Auth: get_current_user. Returns a single grammar topic by slug. Query param: `language`. Returns 404 if not found.
+- **POST `/{slug}/native-help`** — Rate limit: 10/min. Auth: get_current_user. Query param: `language` (BCP-47, default `en-GB`). Generates or returns cached native-language study help for a static grammar topic, keyed globally by grammar slug, target language, native language, and source-content hash. Response: `{native_help: {summary, explanation, key_points, examples, common_traps, mini_glossary}}`. Returns 404 if the topic does not exist and 503 if generation is unavailable or already in progress.
 
 ---
 
@@ -276,4 +278,5 @@ All endpoints require `get_current_user`.
 - **GET ``** — Rate limit: 60/min. Auth: get_current_user. Returns all phrasebook categories for the given target language. Query param: `language` (BCP-47, default `en-GB`). Response: `{categories: [{id, level, situation, icon, phrases: [{text, context, register, unit_ref}]}]}`. `ja-JP` includes 44 A1-C2 phrasebook categories, `ko-KR` includes 34 A1-C2 phrasebook categories, and `zh-CN` includes 24 A1-C2 phrasebook categories in the target language.
 - **GET `/level/{level}`** — Rate limit: 60/min. Auth: get_current_user. Returns phrasebook categories filtered by CEFR level (A1–C2). Returns 400 for invalid levels. Query param: `language`.
 - **GET `/{category_id}`** — Rate limit: 60/min. Auth: get_current_user. Returns a single phrasebook category by ID. Query param: `language`. Returns 404 if not found.
+- **POST `/{category_id}/native-help`** — Rate limit: 10/min. Auth: get_current_user. Query param: `language` (BCP-47, default `en-GB`). Generates or returns cached native-language study help for a phrasebook category, keyed globally by category ID, target language, native language, and source-content hash. Response: `{native_help: {summary, usage_tips, register_notes, phrase_notes, common_traps, mini_glossary}}`. Returns 404 if the category does not exist and 503 if generation is unavailable or already in progress.
 - **GET `/audio/{category_id}/{phrase_index}`** — Rate limit: 30/min. Auth: get_current_user. Returns cached TTS audio (audio/mpeg) for a specific phrase. Generates and caches on first request; subsequent requests serve from disk. Query param: `language`. Returns 404 if category or phrase index not found, 503 if TTS service unavailable.

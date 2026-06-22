@@ -210,7 +210,7 @@ async def test_get_lesson_no_exercises(client, test_user, db_session):
 
 @pytest.mark.asyncio
 async def test_generate_native_explanation_persists_content(client, test_user, db_session):
-    """POST /native-explanation translates an A1/A2 lesson explanation and stores it."""
+    """POST /native-explanation translates a lesson explanation and stores it."""
     user, headers = test_user
     lesson = await _create_lesson_with_plan(
         db_session,
@@ -276,8 +276,8 @@ async def test_generate_native_explanation_returns_existing(client, test_user, d
 
 
 @pytest.mark.asyncio
-async def test_generate_native_explanation_rejects_b1_plus(client, test_user, db_session):
-    """Native explanations are only available for A1/A2 lessons."""
+async def test_generate_native_explanation_accepts_b1_plus(client, test_user, db_session):
+    """Native explanations are generated for all levels, including B1+."""
     user, headers = test_user
     lesson = await _create_lesson_with_plan(
         db_session,
@@ -286,9 +286,21 @@ async def test_generate_native_explanation_rejects_b1_plus(client, test_user, db
         content={"explanation": {"text": "Source"}},
     )
 
-    response = await client.post(f"/api/lessons/{lesson.id}/native-explanation", headers=headers)
+    translated = NativeExplanationResponse(
+        text="Traducción de B1.",
+        key_points=["Punto clave."],
+        examples=[],
+    )
+    with patch(
+        "app.routers.lessons.llm_adapter.structured_output",
+        new=AsyncMock(return_value=translated),
+    ):
+        response = await client.post(
+            f"/api/lessons/{lesson.id}/native-explanation", headers=headers
+        )
 
-    assert response.status_code == 400
+    assert response.status_code == 200
+    assert response.json()["native_explanation"]["text"] == translated.text
 
 
 @pytest.mark.asyncio

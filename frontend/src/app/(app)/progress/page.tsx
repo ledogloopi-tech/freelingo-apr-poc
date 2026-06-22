@@ -191,7 +191,7 @@ export default function ProgressPage() {
     void load()
   }, [activeLanguage?.code])
 
-  const targetLanguageCode = activeLanguage?.code ?? 'en-US'
+  const targetLanguageCode = activeLanguage?.code ?? 'en-GB'
 
   useEffect(() => {
     if (plan?.cefr_level) {

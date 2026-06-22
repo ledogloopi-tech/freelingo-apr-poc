@@ -170,15 +170,15 @@ frontend/
 - `/dashboard` — Home: XP counter, streak, next lesson card, target language selector.
 - `/assessment` — Level placement test (`BeginnerGate` → `AdaptiveQuiz` → `DurationSelector`).
 - `/plan` — Study plan overview: unit cards, `LevelTestBanner`, `UnitDrawer`.
-- `/lesson/[id]` — Lesson player: content + interactive exercises. For A1/A2 lessons, if `content.native_explanation` exists it is shown below the target-language explanation; if it is missing, the page shows a native-language button that calls `POST /api/lessons/{id}/native-explanation` and stores the returned explanation in local lesson state. Completing a lesson may open the reusable review prompt when it advances the user out of the completed curriculum unit, subject to duplicate-review checks and local dismissal cooldown.
+- `/lesson/[id]` — Lesson player: content + interactive exercises. If `content.native_explanation` exists, it is shown below the target-language explanation in a collapsible section that opens by default for A1/A2 and stays collapsed by default for B1+. The section renders translated text, key points, examples, common traps, and a mini-glossary when present. If it is missing, the expanded section shows a native-language button that calls `POST /api/lessons/{id}/native-explanation` and stores the returned explanation in local lesson state. Completing a lesson may open the reusable review prompt when it advances the user out of the completed curriculum unit, subject to duplicate-review checks and local dismissal cooldown.
 - `/chat` — AI tutor text chat with SSE streaming.
 - `/conversation` — Real-time voice conversation with WebSocket + VAD. When the user manually stops a connected voice session after at least 5 minutes, the page may open the reusable review prompt, subject to duplicate-review checks and local dismissal cooldown.
 - `/flashcards` — Spaced-repetition flashcard review.
-- `/grammar` — Grammar reference index.
-- `/grammar/[slug]` — Grammar topic detail page.
+- `/grammar` — Grammar reference index using the active learning language, with `en-GB` fallback.
+- `/grammar/[slug]` — Grammar topic detail page. Includes a native-language helper section below the target-language explanation: A1/A2 opens and generates automatically, while B1-C2 stays collapsed and generates only when opened. The section calls `POST /api/grammar/{slug}/native-help`, then renders summary, explanation, key points, examples, common traps, and mini-glossary entries.
 - `/vocabulary` — Vocabulary hub overview.
-- `/vocabulary/[setId]` — Vocabulary set detail.
-- `/phrasebook` — Common phrases by category.
+- `/vocabulary/[setId]` — Vocabulary set detail. Includes an on-demand native-language helper section that calls `POST /api/vocabulary/{set_id}/native-help`, then renders a summary, study tips, selected word notes, common traps, mini-glossary entries, and practice prompts. The section stays collapsed until requested to avoid LLM calls on page load.
+- `/phrasebook` — Common phrases by category. Each category can show native-language study help generated through `POST /api/phrasebook/{category_id}/native-help`: A1/A2 categories open the helper panel by default but still require a click to generate, while B1-C2 categories stay collapsed until requested. The helper renders summary, usage tips, register notes, phrase notes, common traps, and mini-glossary entries.
 - `/listening` — AI-generated listening comprehension exercises.
 - `/reading` — AI-generated reading comprehension exercises.
 - `/progress` — Skills tracker with radar chart and multi-level vocabulary progress toggle.
