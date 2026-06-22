@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 GRAMMAR_NATIVE_HELP_PROMPT = """
 You are creating study support for a language learner.
 

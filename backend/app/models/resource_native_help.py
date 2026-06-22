@@ -31,9 +31,7 @@ class ResourceNativeHelp(Base):
     target_language: Mapped[str] = mapped_column(String(10), nullable=False, index=True)
     native_language: Mapped[str] = mapped_column(String(10), nullable=False, index=True)
     source_hash: Mapped[str] = mapped_column(String(64), nullable=False)
-    content: Mapped[dict] = mapped_column(
-        JSON().with_variant(JSONB, "postgresql"), nullable=False
-    )
+    content: Mapped[dict] = mapped_column(JSON().with_variant(JSONB, "postgresql"), nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, default=lambda: datetime.now(UTC).replace(tzinfo=None)
     )

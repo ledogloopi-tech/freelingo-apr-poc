@@ -18,6 +18,7 @@ class FakeGrammarNativeHelpLLM:
             mini_glossary=[{"term": "pattern", "meaning": "patrón", "note": "Úsalo como guía."}],
         )
 
+
 # ── GET /api/grammar ──────────────────────────────────────────────────────────
 
 

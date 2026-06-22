@@ -47,7 +47,9 @@ def upgrade() -> None:
     op.create_index(
         "ix_resource_native_helps_resource_type", "resource_native_helps", ["resource_type"]
     )
-    op.create_index("ix_resource_native_helps_resource_key", "resource_native_helps", ["resource_key"])
+    op.create_index(
+        "ix_resource_native_helps_resource_key", "resource_native_helps", ["resource_key"]
+    )
     op.create_index(
         "ix_resource_native_helps_target_language", "resource_native_helps", ["target_language"]
     )
