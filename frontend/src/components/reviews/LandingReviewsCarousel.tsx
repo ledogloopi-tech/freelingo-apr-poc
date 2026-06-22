@@ -40,8 +40,9 @@ export function LandingReviewsCarousel({
     const interval = window.setInterval(() => {
       const nextLeft = scroller.scrollLeft + 320
       const maxLeft = scroller.scrollWidth - scroller.clientWidth
+      const isAtEnd = scroller.scrollLeft >= maxLeft - 1
       scroller.scrollTo({
-        left: nextLeft >= maxLeft ? 0 : nextLeft,
+        left: isAtEnd ? 0 : Math.min(nextLeft, maxLeft),
         behavior: 'smooth',
       })
     }, 3500)

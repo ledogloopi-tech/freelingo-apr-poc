@@ -11,6 +11,7 @@ class ExerciseContent(BaseModel):
     options: list[str] | None = None
     correct: str
     explanation: str | None = None
+    native_explanation: str | None = None
 
 
 class LessonContent(BaseModel):
@@ -55,6 +56,7 @@ class ExerciseResponse(BaseModel):
     score: float | None = None
     feedback: str | None = None
     explanation: str | None = None
+    native_explanation: str | None = None
     answered_at: datetime | None = None
 
     model_config = {"from_attributes": True}
@@ -104,3 +106,7 @@ class NativeExplanationResponse(BaseModel):
     examples: list[dict]
     common_traps: list[dict] | None = None
     mini_glossary: list[dict] | None = None
+
+
+class NativeExerciseExplanationResponse(BaseModel):
+    native_explanation: str

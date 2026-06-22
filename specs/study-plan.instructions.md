@@ -177,7 +177,7 @@ It returns a structured JSON with:
 
 - `explanation` — rich lesson content
 - `native_explanation` — optional translated explanation using the user's native language, generated automatically for new lessons at any CEFR level or later via `POST /api/lessons/{id}/native-explanation` for existing lessons. It contains translated explanation text, key points, examples with target-language sentences, plus native-language `common_traps` and `mini_glossary` study support. The lesson UI opens it by default for A1/A2 and keeps it collapsed by default for B1+.
-- `exercises` — list of exercise objects (`type`, `question`, `options`, `correct`, `explanation`)
+- `exercises` — list of exercise objects (`type`, `question`, `options`, `correct`, `explanation`, optional `native_explanation`). New generated exercises keep the exercise itself and target-language explanation in the target language, then add a concise native-language clarification shown below the target-language explanation in the lesson UI. The persisted `exercises` table remains unchanged; `GET /api/lessons/{id}` reads the optional native text from `lesson.content.exercises[*].native_explanation` and includes it in each exercise response when available. If an existing exercise has `explanation` but no `native_explanation`, the UI shows a native-language button that calls `POST /api/lessons/exercises/{id}/native-explanation`; the backend generates the clarification from the exercise fields, caches it back into `lesson.content.exercises[*].native_explanation`, and returns it to update local UI state.
 
 If the LLM call fails or returns an empty exercises list, the lesson is discarded (rolled back) and that slot returns `id: null` in the today response. The user can retry by refreshing.
 
