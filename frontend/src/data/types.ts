@@ -64,3 +64,29 @@ export interface VocabularySet {
   unit_ref: string
   words: VocabularyEntry[]
 }
+
+export interface VocabularyNativeHelpWordNote {
+  word: string
+  meaning: string
+  note: string
+}
+
+export interface VocabularyNativeHelpTrap {
+  mistake: string
+  fix: string
+}
+
+export interface VocabularyNativeHelpGlossaryItem {
+  term: string
+  meaning: string
+  note?: string | null
+}
+
+export interface VocabularyNativeHelp {
+  summary: string
+  study_tips: string[]
+  word_notes: VocabularyNativeHelpWordNote[]
+  common_traps: VocabularyNativeHelpTrap[]
+  mini_glossary: VocabularyNativeHelpGlossaryItem[]
+  practice_prompts: string[]
+}

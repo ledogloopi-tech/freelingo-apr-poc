@@ -25,7 +25,7 @@ Fixes what can be fixed automatically: Python lint + format, JS/TS lint + format
 source .venv/bin/activate && cd backend && pytest -v
 ```
 
-883 backend tests, >= 70% backend coverage required. Current backend coverage is 85.39% last measured. SQLite in-memory, no Docker needed.
+887 backend tests, >= 70% backend coverage required. Current backend coverage is 85.39% last measured. SQLite in-memory, no Docker needed.
 
 Use a command timeout of at least 600 seconds for the full backend suite; the current run takes about 4 minutes and can exceed shorter 120-second tool defaults.
 
@@ -43,7 +43,7 @@ cd frontend && npm run lint && npx tsc --noEmit && npm run test:run
 | 0    | black            | Auto-format Python code                        |
 | 0    | eslint --fix     | Auto-fix JS/TS lint issues                     |
 | 0    | prettier --write | Auto-format JS/TS/CSS code                     |
-| 1    | pytest           | 883 backend tests, SQLite in-memory            |
+| 1    | pytest           | 887 backend tests, SQLite in-memory            |
 | 2    | eslint           | Verify no remaining JS/TS errors               |
 | 2    | tsc --noEmit     | TypeScript type checking                       |
 | 2    | vitest           | 404 frontend tests; coverage is not configured |

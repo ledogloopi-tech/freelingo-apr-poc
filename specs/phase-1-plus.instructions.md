@@ -124,6 +124,11 @@ Dynamic route for a single vocabulary set. The `[setId]` parameter maps to a `Vo
 - Topic title, level badge, word count
 - Full word table: word, part of speech badge, definition, example, IPA pronunciation, frequency rank
 - "Add to flashcards" button: sends the word to the flashcards API for SM-2 review
+- A native-language helper panel that stays collapsed until requested. Generated support includes a topic summary, study tips, selected word notes, common traps, a mini-glossary, and practice prompts.
+
+### Native-language vocabulary help
+
+`POST /api/vocabulary/{set_id}/native-help?language=<target>` generates vocabulary study support in the authenticated user's native language. Results are cached globally in `resource_native_helps` by `resource_type="vocabulary"`, set ID, target language, native language, and source-content hash. The generated help keeps target-language words and examples unchanged while explaining memory tips, usage notes, common traps, glossary meanings, and practice prompts in the learner's native language.
 
 ### Integration with flashcards
 
@@ -358,7 +363,7 @@ This split is intentional: the frontend needs fast roadmap rendering, and the ba
 - [x] `/grammar` renders all topics from backend grammar data
 - [x] `/grammar/[slug]` renders full detail; unknown slugs return 404
 - [x] `/vocabulary` lists all sets grouped by level with flashcard-progress badges (fetches via `/api/vocabulary`)
-- [x] `/vocabulary/[setId]` shows words + "Add to flashcards" button that integrates with the flashcard API
+- [x] `/vocabulary/[setId]` shows words + "Add to flashcards" button that integrates with the flashcard API and on-demand native-language study help
 - [x] `/phrasebook` lists situations with level and register filters
 - [x] `/progress` shows per-unit competency checklist with scores
 - [x] `/progress` shows vocabulary progress bars per set (fetches via `/api/vocabulary`)

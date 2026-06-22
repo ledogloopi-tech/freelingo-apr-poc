@@ -177,7 +177,7 @@ frontend/
 - `/grammar` — Grammar reference index using the active learning language, with `en-GB` fallback.
 - `/grammar/[slug]` — Grammar topic detail page. Includes a native-language helper section below the target-language explanation: A1/A2 opens and generates automatically, while B1-C2 stays collapsed and generates only when opened. The section calls `POST /api/grammar/{slug}/native-help`, then renders summary, explanation, key points, examples, common traps, and mini-glossary entries.
 - `/vocabulary` — Vocabulary hub overview.
-- `/vocabulary/[setId]` — Vocabulary set detail.
+- `/vocabulary/[setId]` — Vocabulary set detail. Includes an on-demand native-language helper section that calls `POST /api/vocabulary/{set_id}/native-help`, then renders a summary, study tips, selected word notes, common traps, mini-glossary entries, and practice prompts. The section stays collapsed until requested to avoid LLM calls on page load.
 - `/phrasebook` — Common phrases by category. Each category can show native-language study help generated through `POST /api/phrasebook/{category_id}/native-help`: A1/A2 categories open the helper panel by default but still require a click to generate, while B1-C2 categories stay collapsed until requested. The helper renders summary, usage tips, register notes, phrase notes, common traps, and mini-glossary entries.
 - `/listening` — AI-generated listening comprehension exercises.
 - `/reading` — AI-generated reading comprehension exercises.

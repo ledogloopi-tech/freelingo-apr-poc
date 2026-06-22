@@ -4,6 +4,23 @@ from __future__ import annotations
 
 import pytest
 
+
+class FakeVocabularyNativeHelpLLM:
+    def __init__(self):
+        self.calls = 0
+
+    async def structured_output(self, messages, schema):
+        self.calls += 1
+        return schema(
+            summary="Resumen del tema",
+            study_tips=["Consejo 1", "Consejo 2", "Consejo 3"],
+            word_notes=[{"word": "hello", "meaning": "hola", "note": "Úsalo al saludar."}],
+            common_traps=[{"mistake": "Confundir registros", "fix": "Revisa el contexto."}],
+            mini_glossary=[{"term": "hello", "meaning": "hola", "note": "Saludo básico."}],
+            practice_prompts=["Escribe una frase con dos palabras del set."],
+        )
+
+
 # ── GET /api/vocabulary ──────────────────────────────────────────────────────
 
 
@@ -235,3 +252,101 @@ async def test_chinese_language_returns_chinese_sets(client, test_user):
     assert len(sets) > 0
     assert any(s["id"] == "pinyin_a1" for s in sets)
     assert any(s["topic"] == "拼音" for s in sets)
+
+
+# ── Native help ───────────────────────────────────────────────────────────────
+
+
+@pytest.mark.asyncio
+async def test_generate_vocabulary_native_help(client, test_user, monkeypatch):
+    """POST /api/vocabulary/{set_id}/native-help generates native-language support."""
+    from app.routers import vocabulary as vocabulary_router
+
+    fake_llm = FakeVocabularyNativeHelpLLM()
+    monkeypatch.setattr(vocabulary_router.llm_adapter, "structured_output", fake_llm.structured_output)
+
+    _, headers = test_user
+    list_res = await client.get("/api/vocabulary?language=en-GB", headers=headers)
+    set_id = list_res.json()["sets"][0]["id"]
+
+    response = await client.post(f"/api/vocabulary/{set_id}/native-help?language=en-GB", headers=headers)
+
+    assert response.status_code == 200
+    native_help = response.json()["native_help"]
+    assert native_help["summary"] == "Resumen del tema"
+    assert len(native_help["study_tips"]) == 3
+    assert native_help["word_notes"][0]["word"] == "hello"
+    assert fake_llm.calls == 1
+
+
+@pytest.mark.asyncio
+async def test_generate_vocabulary_native_help_uses_cache(client, test_user, monkeypatch):
+    """Vocabulary native help is generated once per set/native-language cache key."""
+    from app.routers import vocabulary as vocabulary_router
+
+    fake_llm = FakeVocabularyNativeHelpLLM()
+    monkeypatch.setattr(vocabulary_router.llm_adapter, "structured_output", fake_llm.structured_output)
+
+    _, headers = test_user
+    list_res = await client.get("/api/vocabulary?language=en-GB", headers=headers)
+    set_id = list_res.json()["sets"][0]["id"]
+
+    first = await client.post(f"/api/vocabulary/{set_id}/native-help?language=en-GB", headers=headers)
+    second = await client.post(f"/api/vocabulary/{set_id}/native-help?language=en-GB", headers=headers)
+
+    assert first.status_code == 200
+    assert second.status_code == 200
+    assert first.json() == second.json()
+    assert fake_llm.calls == 1
+
+
+@pytest.mark.asyncio
+async def test_generate_vocabulary_native_help_refreshes_stale_cache(
+    client, test_user, db_session, monkeypatch
+):
+    """Cached vocabulary native help is replaced when the source hash no longer matches."""
+    from app.models.resource_native_help import ResourceNativeHelp
+    from app.routers import vocabulary as vocabulary_router
+
+    fake_llm = FakeVocabularyNativeHelpLLM()
+    monkeypatch.setattr(vocabulary_router.llm_adapter, "structured_output", fake_llm.structured_output)
+
+    _, headers = test_user
+    list_res = await client.get("/api/vocabulary?language=en-GB", headers=headers)
+    set_id = list_res.json()["sets"][0]["id"]
+
+    db_session.add(
+        ResourceNativeHelp(
+            resource_type="vocabulary",
+            resource_key=set_id,
+            target_language="en-GB",
+            native_language="es",
+            source_hash="stale",
+            content={
+                "summary": "Viejo",
+                "study_tips": [],
+                "word_notes": [],
+                "common_traps": [],
+                "mini_glossary": [],
+                "practice_prompts": [],
+            },
+        )
+    )
+    await db_session.commit()
+
+    response = await client.post(f"/api/vocabulary/{set_id}/native-help?language=en-GB", headers=headers)
+
+    assert response.status_code == 200
+    assert response.json()["native_help"]["summary"] == "Resumen del tema"
+    assert fake_llm.calls == 1
+
+
+@pytest.mark.asyncio
+async def test_generate_vocabulary_native_help_not_found(client, test_user):
+    """POST /api/vocabulary/{set_id}/native-help returns 404 for unknown sets."""
+    _, headers = test_user
+
+    response = await client.post("/api/vocabulary/nope/native-help?language=en-GB", headers=headers)
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Vocabulary set not found"

@@ -61,7 +61,7 @@ Shared cache helpers for native-language support generated from static resource 
 - `upsert_native_help(...)` creates or refreshes the global cache row for a resource/native-language pair.
 - `native_help_lock_key(...)` builds Redis lock keys so routers can avoid duplicate LLM generations for the same resource.
 
-Current consumers are grammar native help via `POST /api/grammar/{slug}/native-help` and phrasebook native help via `POST /api/phrasebook/{category_id}/native-help`. Generated content is shared across users with the same `(resource_type, resource_key, target_language, native_language)` and regenerated automatically when the source static resource hash changes.
+Current consumers are grammar native help via `POST /api/grammar/{slug}/native-help`, phrasebook native help via `POST /api/phrasebook/{category_id}/native-help`, and vocabulary native help via `POST /api/vocabulary/{set_id}/native-help`. Generated content is shared across users with the same `(resource_type, resource_key, target_language, native_language)` and regenerated automatically when the source static resource hash changes.
 
 ## Language Helpers (`language_helpers.py`)
 

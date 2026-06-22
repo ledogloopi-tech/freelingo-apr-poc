@@ -362,7 +362,7 @@ One moderated product review per user. Added in Phase 11.
 
 ## ResourceNativeHelp (`resource_native_helps`)
 
-Global cache for native-language study help generated for static learning resources. Added in v1.8.10 for grammar and phrasebook native help and designed to be reusable for vocabulary resources.
+Global cache for native-language study help generated for static learning resources. Added in v1.8.10 for grammar, phrasebook, and vocabulary native help.
 
 | Column          | Type     | Notes                                                                                       |
 | --------------- | -------- | ------------------------------------------------------------------------------------------- |
@@ -387,6 +387,7 @@ Global cache for native-language study help generated for static learning resour
 - If the static source content changes, the computed `source_hash` changes and the next request regenerates the cached help.
 - Grammar native help keeps target-language example sentences unchanged while translating explanations, notes, traps, and glossary support into the user's native language.
 - Phrasebook native help keeps target-language phrases unchanged while generating native-language usage tips, register notes, phrase notes, traps, and glossary support.
+- Vocabulary native help keeps target-language words and example phrases unchanged while generating native-language study tips, word notes, traps, glossary support, and practice prompts.
 
 ## Memory (`memories`)
 

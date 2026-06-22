@@ -1,14 +1,16 @@
 'use client'
 
-import { useState, useEffect, use } from 'react'
+import { useState, useEffect, use, useCallback } from 'react'
 import { notFound, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { PageLoading } from '@/components/ui/page-loading'
-import type { VocabularySet } from '@/data/types'
+import type { VocabularyNativeHelp, VocabularySet } from '@/data/types'
 import { useLanguageStore } from '@/store/language'
+import { useAuthStore } from '@/store/auth'
 import { apiFetch } from '@/lib/api'
 import { TargetLanguageText } from '@/components/TargetLanguageText'
+import { formatLanguageName } from '@/lib/target-languages'
 
 const POS_LABELS: Record<string, string> = {
   noun: 'n.',
@@ -31,15 +33,28 @@ export default function VocabularySetPage({
   const router = useRouter()
   const t = useTranslations('vocabulary')
   const tCommon = useTranslations('common')
+  const tLang = useTranslations('languages')
+  const locale = useLocale()
   const activeLanguage = useLanguageStore((s) => s.activeLanguage)
+  const user = useAuthStore((s) => s.user)
   const [vocabSet, setVocabSet] = useState<VocabularySet | null>(null)
   const [loading, setLoading] = useState(true)
   const [adding, setAdding] = useState(false)
   const [addedCount, setAddedCount] = useState<number | null>(null)
   const [error, setError] = useState('')
+  const [nativeHelpOpen, setNativeHelpOpen] = useState(false)
+  const [nativeHelp, setNativeHelp] = useState<VocabularyNativeHelp | null>(
+    null
+  )
+  const [loadingNativeHelp, setLoadingNativeHelp] = useState(false)
+  const [nativeHelpError, setNativeHelpError] = useState(false)
+  const nativeLanguageName = user?.native_language
+    ? formatLanguageName(tLang(user.native_language), locale)
+    : ''
 
   useEffect(() => {
     const lang = activeLanguage?.code ?? 'en-GB'
+    setLoading(true)
     apiFetch(`/api/vocabulary/${encodeURIComponent(setId)}?language=${lang}`)
       .then((r) => {
         if (!r.ok) throw new Error('not found')
@@ -50,13 +65,38 @@ export default function VocabularySetPage({
       .finally(() => setLoading(false))
   }, [setId, activeLanguage?.code])
 
+  useEffect(() => {
+    setNativeHelpOpen(false)
+    setNativeHelp(null)
+    setNativeHelpError(false)
+  }, [setId, activeLanguage?.code])
+
+  const targetLanguageCode = activeLanguage?.code ?? 'en-GB'
+
+  const generateNativeHelp = useCallback(async () => {
+    if (loadingNativeHelp) return
+    setLoadingNativeHelp(true)
+    setNativeHelpError(false)
+    try {
+      const res = await apiFetch(
+        `/api/vocabulary/${encodeURIComponent(setId)}/native-help?language=${targetLanguageCode}`,
+        { method: 'POST' }
+      )
+      if (!res.ok) throw new Error('native help failed')
+      const data = (await res.json()) as { native_help: VocabularyNativeHelp }
+      setNativeHelp(data.native_help)
+    } catch {
+      setNativeHelpError(true)
+    } finally {
+      setLoadingNativeHelp(false)
+    }
+  }, [loadingNativeHelp, setId, targetLanguageCode])
+
   if (loading) {
     return <PageLoading />
   }
 
   if (!vocabSet) notFound()
-
-  const targetLanguageCode = activeLanguage?.code ?? 'en-GB'
 
   async function handleAddAll() {
     if (!vocabSet) return
@@ -163,6 +203,143 @@ export default function VocabularySetPage({
           {error && <p className="font-mono text-xs text-red-500">{error}</p>}
         </div>
       </div>
+
+      {nativeLanguageName && (
+        <div className="border-fl-border bg-fl-surface border">
+          <button
+            type="button"
+            onClick={() => setNativeHelpOpen((open) => !open)}
+            className="border-fl-border text-fl-label text-fl-muted-2 hover:text-fl-fg flex w-full items-center justify-between border-b px-6 py-4 font-mono tracking-widest uppercase transition-colors"
+            aria-expanded={nativeHelpOpen}
+          >
+            <span>Help in {nativeLanguageName}</span>
+            <span>{nativeHelpOpen ? '−' : '+'}</span>
+          </button>
+          {nativeHelpOpen && (
+            <div className="space-y-4 px-6 py-5">
+              {loadingNativeHelp ? (
+                <p className="text-fl-muted-3 font-mono text-xs">
+                  Preparing help in {nativeLanguageName}...
+                </p>
+              ) : nativeHelp ? (
+                <>
+                  <p className="text-fl-muted-2 text-sm leading-relaxed">
+                    {nativeHelp.summary}
+                  </p>
+
+                  {nativeHelp.study_tips.length > 0 && (
+                    <div className="space-y-2">
+                      <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
+                        Study tips
+                      </p>
+                      <ul className="space-y-1">
+                        {nativeHelp.study_tips.map((tip, i) => (
+                          <li key={i} className="text-fl-muted-2 text-sm">
+                            <span className="text-fl-muted-3 mr-2">·</span>
+                            {tip}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {nativeHelp.word_notes.length > 0 && (
+                    <div className="border-fl-border space-y-2 border-t pt-3">
+                      <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
+                        Word notes
+                      </p>
+                      {nativeHelp.word_notes.map((item, i) => (
+                        <div key={i} className="space-y-0.5">
+                          <TargetLanguageText
+                            languageCode={targetLanguageCode}
+                            className="text-fl-muted-1 text-sm font-bold"
+                          >
+                            {item.word}
+                          </TargetLanguageText>
+                          <p className="text-fl-muted-2 text-sm">
+                            {item.meaning}
+                          </p>
+                          <p className="text-fl-muted-3 text-sm">{item.note}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {nativeHelp.common_traps.length > 0 && (
+                    <div className="border-fl-border space-y-2 border-t pt-3">
+                      <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
+                        Common traps
+                      </p>
+                      {nativeHelp.common_traps.map((trap, i) => (
+                        <div key={i} className="space-y-0.5">
+                          <p className="text-fl-muted-2 text-sm">
+                            {trap.mistake}
+                          </p>
+                          <p className="text-fl-muted-3 text-sm">{trap.fix}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {nativeHelp.mini_glossary.length > 0 && (
+                    <div className="border-fl-border space-y-2 border-t pt-3">
+                      <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
+                        Mini glossary
+                      </p>
+                      {nativeHelp.mini_glossary.map((item, i) => (
+                        <div key={i}>
+                          <TargetLanguageText
+                            languageCode={targetLanguageCode}
+                            className="text-fl-muted-1 text-sm font-bold"
+                          >
+                            {item.term}
+                          </TargetLanguageText>
+                          <p className="text-fl-muted-2 text-sm">
+                            {item.meaning}
+                          </p>
+                          {item.note && (
+                            <p className="text-fl-muted-3 text-sm">
+                              {item.note}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {nativeHelp.practice_prompts.length > 0 && (
+                    <div className="border-fl-border space-y-2 border-t pt-3">
+                      <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
+                        Practice
+                      </p>
+                      <ul className="space-y-1">
+                        {nativeHelp.practice_prompts.map((prompt, i) => (
+                          <li key={i} className="text-fl-muted-2 text-sm">
+                            <span className="text-fl-muted-3 mr-2">·</span>
+                            {prompt}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="text-center">
+                  <button
+                    type="button"
+                    onClick={generateNativeHelp}
+                    className="text-fl-muted-3 hover:text-fl-fg font-mono text-sm transition-colors"
+                  >
+                    {nativeHelpError
+                      ? tCommon('retry')
+                      : `Show help in ${nativeLanguageName}`}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Word list */}
       <div className="border-fl-border bg-fl-surface divide-fl-border divide-y border">
