@@ -31,7 +31,21 @@ B2_CATEGORIES: list[PhrasebookCategory] = [
                 "資料確認を依頼する",
                 "formal",
                 "b2-unit-1",
-                romanization="shiryō o go kakunin itadakemasu deshō ka",
+                romanization="shiryō o gokakunin itadakemasu deshō ka",
+            ),
+            _p(
+                "恐れ入りますが、こちらをご確認いただけますか。",
+                "丁寧に確認を依頼する",
+                "formal",
+                "b2-unit-1",
+                romanization="osoreirimasu ga, kochira o gokakunin itadakemasu ka",
+            ),
+            _p(
+                "差し支えなければ、背景を教えていただけますか。",
+                "配慮しながら事情を尋ねる",
+                "formal",
+                "b2-unit-1",
+                romanization="sashitsukae nakereba, haikei o oshiete itadakemasu ka",
             ),
             _p(
                 "後ほど改めてご連絡いたします。",
@@ -67,7 +81,7 @@ B2_CATEGORIES: list[PhrasebookCategory] = [
                 "話題を導入する",
                 "formal",
                 "b2-unit-5",
-                romanization="kono ten ni kanshite, betsu no mihō mo arimasu",
+                romanization="kono ten ni kanshite, betsu no mikata mo arimasu",
             ),
             _p(
                 "一方で、費用の問題も無視できません。",
@@ -181,7 +195,7 @@ B2_CATEGORIES: list[PhrasebookCategory] = [
                 "根拠を求める",
                 "formal",
                 "b2-unit-2",
-                romanization="guteki na dēta o miru hitsuyō ga arimasu",
+                romanization="gutaiteki na dēta o miru hitsuyō ga arimasu",
             ),
             _p(
                 "この結論は少し飛躍していると思います。",
@@ -195,7 +209,7 @@ B2_CATEGORIES: list[PhrasebookCategory] = [
                 "条件を示す",
                 "neutral",
                 "b2-unit-5",
-                romanization="zentei ga kawarereba kekka mo kawarimasu",
+                romanization="zentei ga kawareba kekka mo kawarimasu",
             ),
             _p(
                 "短所だけでなく長所も考えるべきです。",
@@ -309,7 +323,7 @@ B2_CATEGORIES: list[PhrasebookCategory] = [
                 "リソース不足を伝える",
                 "formal",
                 "b2-unit-1",
-                romanization="kigen ni matinau ni wa jinin ga hitsuyō desu",
+                romanization="kigen ni maniawaseru ni wa jin'in ga hitsuyō desu",
             ),
             _p(
                 "品質を保つために確認工程を増やします。",
@@ -366,7 +380,7 @@ B2_CATEGORIES: list[PhrasebookCategory] = [
                 "判断基準を示す",
                 "formal",
                 "b2-unit-6",
-                romanization="hiyō-taikō o kakunin shite kara handan shimashō",
+                romanization="hiyō tai kōka o kakunin shite kara handan shimashō",
             ),
             _p(
                 "顧客への影響を最優先に考える必要があります。",

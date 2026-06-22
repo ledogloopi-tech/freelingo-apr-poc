@@ -52,9 +52,9 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="「お〜になる」にさらに受身の「れる」をつける二重敬語は誤り。",
             ),
             GrammarMistake(
-                wrong="私の父が伺いました。",
-                correct="私の父が参りました。",
-                note="身内の行為に尊敬語「伺う」を使うのは不適切。身内には謙譲語を使う。",
+                wrong="お客様が参りました。",
+                correct="お客様がいらっしゃいました。",
+                note="相手側・外部の人の行為に謙譲語「参る」を使うのは不適切。尊敬語「いらっしゃる」を使う。",
             ),
         ],
         related=["kenjougo-basics", "teineigo-control"],
@@ -98,9 +98,9 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         common_mistakes=[
             GrammarMistake(
-                wrong="部長が参りましたので、少々お待ちください。",
-                correct="部長がいらっしゃいましたので、少々お待ちください。",
-                note="上司（部長）の行為に謙譲語「参る」を使うのは誤り。尊敬語「いらっしゃる」を使う。",
+                wrong="お客様が参りましたので、少々お待ちください。",
+                correct="お客様がいらっしゃいましたので、少々お待ちください。",
+                note="相手側・外部の人の行為に謙譲語「参る」を使うのは誤り。尊敬語で高める。",
             ),
             GrammarMistake(
                 wrong="私は駅で友達をお待ちしました。",
@@ -132,14 +132,14 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="「いただきまして」：文中まで丁寧にした改まった挨拶",
             ),
             GrammarExample(
-                text="先日お送りした資料ですが、ご確認いただけましたでしょうか。",
+                text="先日お送りした資料ですが、ご確認いただけましたか。",
                 translation=None,
-                note="「ですが」で文をつなぐビジネス文体",
+                note="過去の依頼について確認する自然なビジネス文体",
             ),
             GrammarExample(
-                text="明日の会議は10時からです。場所は第一会議室になります。",
+                text="明日の会議は10時からです。場所は第一会議室です。",
                 translation=None,
-                note="です・ます体で統一した案内",
+                note="過剰な「〜になります」を避け、です・ます体で統一した案内",
             ),
             GrammarExample(
                 text="こちらでよろしかったでしょうか。（レジにて）",
