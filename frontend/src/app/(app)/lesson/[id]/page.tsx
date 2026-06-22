@@ -103,10 +103,14 @@ export default function LessonPage() {
     useState(false)
   const [nativeExplanationError, setNativeExplanationError] = useState(false)
   const [nativeExplanationOpen, setNativeExplanationOpen] = useState(false)
-  const [loadingExerciseNativeExplanationId, setLoadingExerciseNativeExplanationId] =
-    useState<number | null>(null)
-  const [exerciseNativeExplanationErrorId, setExerciseNativeExplanationErrorId] =
-    useState<number | null>(null)
+  const [
+    loadingExerciseNativeExplanationId,
+    setLoadingExerciseNativeExplanationId,
+  ] = useState<number | null>(null)
+  const [
+    exerciseNativeExplanationErrorId,
+    setExerciseNativeExplanationErrorId,
+  ] = useState<number | null>(null)
 
   const loadLesson = useCallback(async () => {
     setLoading(true)

@@ -131,6 +131,7 @@ export default function GrammarDetailPage({
     setNativeHelp(null)
     setNativeHelpError(false)
     setNativeHelpOpen(topic.level === 'A1' || topic.level === 'A2')
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- topic?.slug and topic?.level avoid unnecessary runs; topic object identity changes every render
   }, [topic?.slug, topic?.level, targetLanguageCode])
 
   const generateNativeHelp = useCallback(async () => {
