@@ -263,13 +263,17 @@ async def test_generate_vocabulary_native_help(client, test_user, monkeypatch):
     from app.routers import vocabulary as vocabulary_router
 
     fake_llm = FakeVocabularyNativeHelpLLM()
-    monkeypatch.setattr(vocabulary_router.llm_adapter, "structured_output", fake_llm.structured_output)
+    monkeypatch.setattr(
+        vocabulary_router.llm_adapter, "structured_output", fake_llm.structured_output
+    )
 
     _, headers = test_user
     list_res = await client.get("/api/vocabulary?language=en-GB", headers=headers)
     set_id = list_res.json()["sets"][0]["id"]
 
-    response = await client.post(f"/api/vocabulary/{set_id}/native-help?language=en-GB", headers=headers)
+    response = await client.post(
+        f"/api/vocabulary/{set_id}/native-help?language=en-GB", headers=headers
+    )
 
     assert response.status_code == 200
     native_help = response.json()["native_help"]
@@ -285,14 +289,20 @@ async def test_generate_vocabulary_native_help_uses_cache(client, test_user, mon
     from app.routers import vocabulary as vocabulary_router
 
     fake_llm = FakeVocabularyNativeHelpLLM()
-    monkeypatch.setattr(vocabulary_router.llm_adapter, "structured_output", fake_llm.structured_output)
+    monkeypatch.setattr(
+        vocabulary_router.llm_adapter, "structured_output", fake_llm.structured_output
+    )
 
     _, headers = test_user
     list_res = await client.get("/api/vocabulary?language=en-GB", headers=headers)
     set_id = list_res.json()["sets"][0]["id"]
 
-    first = await client.post(f"/api/vocabulary/{set_id}/native-help?language=en-GB", headers=headers)
-    second = await client.post(f"/api/vocabulary/{set_id}/native-help?language=en-GB", headers=headers)
+    first = await client.post(
+        f"/api/vocabulary/{set_id}/native-help?language=en-GB", headers=headers
+    )
+    second = await client.post(
+        f"/api/vocabulary/{set_id}/native-help?language=en-GB", headers=headers
+    )
 
     assert first.status_code == 200
     assert second.status_code == 200
@@ -309,7 +319,9 @@ async def test_generate_vocabulary_native_help_refreshes_stale_cache(
     from app.routers import vocabulary as vocabulary_router
 
     fake_llm = FakeVocabularyNativeHelpLLM()
-    monkeypatch.setattr(vocabulary_router.llm_adapter, "structured_output", fake_llm.structured_output)
+    monkeypatch.setattr(
+        vocabulary_router.llm_adapter, "structured_output", fake_llm.structured_output
+    )
 
     _, headers = test_user
     list_res = await client.get("/api/vocabulary?language=en-GB", headers=headers)
@@ -334,7 +346,9 @@ async def test_generate_vocabulary_native_help_refreshes_stale_cache(
     )
     await db_session.commit()
 
-    response = await client.post(f"/api/vocabulary/{set_id}/native-help?language=en-GB", headers=headers)
+    response = await client.post(
+        f"/api/vocabulary/{set_id}/native-help?language=en-GB", headers=headers
+    )
 
     assert response.status_code == 200
     assert response.json()["native_help"]["summary"] == "Resumen del tema"

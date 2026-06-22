@@ -20,6 +20,7 @@ class FakePhrasebookNativeHelpLLM:
             mini_glossary=[{"term": "Hello", "meaning": "Hola", "note": "Saludo básico."}],
         )
 
+
 # ── GET /api/phrasebook ───────────────────────────────────────────────────────
 
 
@@ -258,7 +259,9 @@ async def test_generate_phrasebook_native_help(client, test_user, monkeypatch):
     from app.routers import phrasebook as phrasebook_router
 
     fake_llm = FakePhrasebookNativeHelpLLM()
-    monkeypatch.setattr(phrasebook_router.llm_adapter, "structured_output", fake_llm.structured_output)
+    monkeypatch.setattr(
+        phrasebook_router.llm_adapter, "structured_output", fake_llm.structured_output
+    )
 
     _, headers = test_user
     list_res = await client.get("/api/phrasebook?language=en-GB", headers=headers)
@@ -282,7 +285,9 @@ async def test_generate_phrasebook_native_help_uses_cache(client, test_user, mon
     from app.routers import phrasebook as phrasebook_router
 
     fake_llm = FakePhrasebookNativeHelpLLM()
-    monkeypatch.setattr(phrasebook_router.llm_adapter, "structured_output", fake_llm.structured_output)
+    monkeypatch.setattr(
+        phrasebook_router.llm_adapter, "structured_output", fake_llm.structured_output
+    )
 
     _, headers = test_user
     list_res = await client.get("/api/phrasebook?language=en-GB", headers=headers)
@@ -310,7 +315,9 @@ async def test_generate_phrasebook_native_help_refreshes_stale_cache(
     from app.routers import phrasebook as phrasebook_router
 
     fake_llm = FakePhrasebookNativeHelpLLM()
-    monkeypatch.setattr(phrasebook_router.llm_adapter, "structured_output", fake_llm.structured_output)
+    monkeypatch.setattr(
+        phrasebook_router.llm_adapter, "structured_output", fake_llm.structured_output
+    )
 
     _, headers = test_user
     list_res = await client.get("/api/phrasebook?language=en-GB", headers=headers)
@@ -349,9 +356,7 @@ async def test_generate_phrasebook_native_help_not_found(client, test_user):
     """POST /api/phrasebook/{category_id}/native-help returns 404 for unknown categories."""
     _, headers = test_user
 
-    response = await client.post(
-        "/api/phrasebook/nope/native-help?language=en-GB", headers=headers
-    )
+    response = await client.post("/api/phrasebook/nope/native-help?language=en-GB", headers=headers)
 
     assert response.status_code == 404
     assert response.json()["detail"] == "Phrasebook category not found"

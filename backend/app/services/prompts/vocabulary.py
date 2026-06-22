@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 VOCABULARY_NATIVE_HELP_PROMPT = """
 You are creating vocabulary study support for a language learner.
 

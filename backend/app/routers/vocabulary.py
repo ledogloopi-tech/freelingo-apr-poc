@@ -12,9 +12,9 @@ from app.data._types import VocabularySet
 from app.data.vocabulary import get_vocabulary_by_level, get_vocabulary_set, get_vocabulary_sets
 from app.models.user import User
 from app.schemas.vocabulary import (
+    VocabularyEntryResponse,
     VocabularyNativeHelpContentResponse,
     VocabularyNativeHelpResponse,
-    VocabularyEntryResponse,
     VocabularySetDetailResponse,
     VocabularySetResponse,
     VocabularySetsResponse,

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 PHRASEBOOK_NATIVE_HELP_PROMPT = """
 You are creating practical phrasebook study support for a language learner.
 
