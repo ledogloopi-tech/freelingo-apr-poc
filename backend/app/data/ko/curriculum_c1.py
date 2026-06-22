@@ -82,7 +82,7 @@ C1_UNITS: list[CurriculumUnit] = [
         vocabulary_set_ids=["register_genre_c1", "formal_writing_c1", "literary_language_c1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
-            "격식체, 설명문, 논설문, 수필의 문체 차이를 인식할 수 있다",
+            "격식적/비격식적 문체와 설명문, 논설문, 수필의 장르 차이를 인식할 수 있다",
             "장르에 맞는 표현과 구성 방식을 선택할 수 있다",
             "명사 중심 문체를 사용해 공식적인 글을 더 간결하게 만들 수 있다",
             "문체가 독자에게 주는 인상을 설명할 수 있다",

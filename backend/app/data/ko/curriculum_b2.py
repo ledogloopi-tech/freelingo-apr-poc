@@ -53,7 +53,7 @@ B2_UNITS: list[CurriculumUnit] = [
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "을 것 같다로 근거가 있는 추측을 표현할 수 있다",
-            "을 테다로 예상이나 판단을 맥락에 맞게 사용할 수 있다",
+            "을 테예요/을 테니까로 예상이나 판단을 맥락에 맞게 사용할 수 있다",
             "나 보다로 관찰에 기반한 추정을 말할 수 있다",
             "뉴스와 통계 자료에서 추세와 가능성을 설명할 수 있다",
         ],
@@ -124,7 +124,7 @@ B2_UNITS: list[CurriculumUnit] = [
         vocabulary_set_ids=["media_literacy_b2", "online_discourse_b2", "bias_b2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "listening", "review"],
         competency_checklist=[
-            "보도에 따르면 같은 표현으로 정보 출처를 분명히 할 수 있다",
+            "보도 표현과 출처 표시를 활용해 정보의 신뢰도를 평가할 수 있다",
             "그럼에도 불구하고로 예상과 다른 결과를 연결할 수 있다",
             "글쓴이의 입장과 편향을 근거와 함께 설명할 수 있다",
             "온라인 글과 기사에서 사실과 의견을 구분할 수 있다",

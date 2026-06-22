@@ -121,11 +121,11 @@ C1_CATEGORIES: list[PhrasebookCategory] = [
                 romanization="geu jeomeun ihaehajiman dareun daeando itseumnida.",
             ),
             _p(
-                "가능하시다면 일정을 조정하고 싶습니다.",
+                "괜찮으시다면 일정을 조정하고 싶습니다.",
                 "협상에서 요청할 때",
                 "formal",
                 "c1-unit-6",
-                romanization="ganeunghasidamyeon iljeongeul jojeonghago sipseumnida.",
+                romanization="gwaenchaneusidamyeon iljeongeul jojeonghago sipseumnida.",
             ),
             _p(
                 "서로 받아들일 수 있는 조건을 찾아봅시다.",

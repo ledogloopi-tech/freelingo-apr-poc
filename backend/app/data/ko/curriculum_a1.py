@@ -48,7 +48,7 @@ A1_UNITS: list[CurriculumUnit] = [
         vocabulary_set_ids=["numbers_a1", "time_a1", "days_dates_a1"],
         lesson_types=["grammar", "vocabulary", "listening", "reading", "writing", "review"],
         competency_checklist=[
-            "한국어 숫자와 한자어 숫자를 기본 상황에서 구별할 수 있다",
+            "고유어 숫자와 한자어 숫자를 기본 상황에서 구별할 수 있다",
             "시간, 요일, 날짜를 묻고 답할 수 있다",
             "시간을 나타내는 에를 사용해 간단한 일정을 말할 수 있다",
             "짧은 시간표와 약속 메모를 이해할 수 있다",
@@ -118,7 +118,7 @@ A1_UNITS: list[CurriculumUnit] = [
         competency_checklist=[
             "주세요를 사용해 물건이나 도움을 공손하게 요청할 수 있다",
             "가격, 수량, 기본 단위를 말하고 이해할 수 있다",
-            "에서와 까지 조합을 사용해 출발점과 도착점을 표현할 수 있다",
+            "에서~까지를 사용해 출발점과 도착점을 표현할 수 있다",
             "가게와 길 안내 상황의 짧은 대화를 이해할 수 있다",
         ],
         default_weeks=2,

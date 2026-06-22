@@ -84,7 +84,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
         options=[
             "학생이에요?",
             "학생이에요.",
-            "학생입니까?",
+            "학생이에요를?",
             "학생이에요!",
         ],
         correct="학생이에요?",
@@ -141,7 +141,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
             "책상 위에 책이 있어요.",
             "책상 위에 책을 있어요.",
             "책상 위에 책이 이에요.",
-            "책상 위에 책이 없어요.",
+            "책상 위에 책이 있어요를.",
         ],
         correct="책상 위에 책이 있어요.",
         grammar_slug="isseoyo-eopseoyo",
@@ -945,7 +945,7 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
         id="ko-g-b2-008",
         skill="grammar",
         difficulty="B2",
-        question="을 테다 예상의 자연스러운 예는 어느 것입니까?",
+        question="을 테예요 예상의 자연스러운 예는 어느 것입니까?",
         options=[
             "지금쯤 도착했을 테예요.",
             "지금쯤 도착해서 테예요.",
@@ -1250,12 +1250,12 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
         difficulty="C1",
         question="공손 전략의 자연스러운 예는 어느 것입니까?",
         options=[
-            "가능하시다면 다음 주로 조정 부탁드립니다.",
+            "괜찮으시다면 다음 주로 조정 부탁드립니다.",
             "다음 주로 조정해 주세요. 안 되면 말고요.",
             "무조건 다음 주로 바꿔 주십시오.",
             "일정 조정은 절대 불가능합니다.",
         ],
-        correct="가능하시다면 다음 주로 조정 부탁드립니다.",
+        correct="괜찮으시다면 다음 주로 조정 부탁드립니다.",
         grammar_slug="deference-strategies",
     ),
     AssessmentQuestion(
@@ -1525,12 +1525,12 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
         difficulty="C2",
         question="조사 뉘앙스의 자연스러운 예는 어느 것입니까?",
         options=[
-            "저는 대비를 만들고 제가 초점을 만듭니다.",
+            "'저는'은 대비를, '제가'는 초점을 나타낼 수 있습니다.",
             "저는과 제가는 항상 같은 뜻입니다.",
             "조사는 문장에서 전혀 중요하지 않습니다.",
             "한국어에는 조사라는 것이 없습니다.",
         ],
-        correct="저는 대비를 만들고 제가 초점을 만듭니다.",
+        correct="'저는'은 대비를, '제가'는 초점을 나타낼 수 있습니다.",
         grammar_slug="particle-nuance",
     ),
     AssessmentQuestion(
