@@ -80,7 +80,19 @@
     "noActivePlan": "Активный учебный план не найден",
     "removeLanguageConfirmTitle": "Удалить язык",
     "removeLanguageConfirmMessage": "Все данные для этого языка (план обучения, прогресс, карточки, разговоры и воспоминания) будут безвозвратно удалены. Это действие нельзя отменить.",
-    "removeLanguageConfirmLabel": "Удалить"
+    "removeLanguageConfirmLabel": "Удалить",
+    "nativeHelpTitle": "Помощь на языке {language}",
+    "nativeHelpLoading": "Подготовка помощи на языке {language}...",
+    "nativeHelpShow": "Показать помощь на языке {language}",
+    "nativeHelpKeyPoints": "Ключевые моменты",
+    "nativeHelpCommonTraps": "Частые ошибки",
+    "nativeHelpMiniGlossary": "Мини-глоссарий",
+    "nativeHelpUsageTips": "Советы по использованию",
+    "nativeHelpRegisterNotes": "Регистр",
+    "nativeHelpPhraseNotes": "Заметки о фразах",
+    "nativeHelpStudyTips": "Советы по обучению",
+    "nativeHelpWordNotes": "Заметки о словах",
+    "nativeHelpPractice": "Практика"
   },
   "nav": {
     "home": "Главная",

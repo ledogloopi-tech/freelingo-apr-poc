@@ -80,7 +80,19 @@
     "noActivePlan": "Nie znaleziono aktywnego planu nauki",
     "removeLanguageConfirmTitle": "Usuń język",
     "removeLanguageConfirmMessage": "Wszystkie dane dla tego języka (plan nauki, postępy, fiszki, konwersacje i wspomnienia) zostaną trwale usunięte. Tej akcji nie można cofnąć.",
-    "removeLanguageConfirmLabel": "Usuń"
+    "removeLanguageConfirmLabel": "Usuń",
+    "nativeHelpTitle": "Pomoc w języku {language}",
+    "nativeHelpLoading": "Przygotowuję pomoc w języku {language}...",
+    "nativeHelpShow": "Pokaż pomoc w języku {language}",
+    "nativeHelpKeyPoints": "Kluczowe punkty",
+    "nativeHelpCommonTraps": "Częste pułapki",
+    "nativeHelpMiniGlossary": "Mini słowniczek",
+    "nativeHelpUsageTips": "Wskazówki użycia",
+    "nativeHelpRegisterNotes": "Rejestr",
+    "nativeHelpPhraseNotes": "Notatki do zwrotów",
+    "nativeHelpStudyTips": "Wskazówki do nauki",
+    "nativeHelpWordNotes": "Notatki do słów",
+    "nativeHelpPractice": "Ćwiczenie"
   },
   "nav": {
     "home": "Strona główna",

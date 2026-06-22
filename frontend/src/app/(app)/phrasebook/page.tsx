@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo, useEffect, useCallback } from 'react'
-import { useLocale, useTranslations } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import {
   getPhrasebookCategories,
   getPhrasebookNativeHelp,
@@ -15,7 +15,6 @@ import { AudioPlayer } from '@/components/ui/AudioPlayer'
 import { PageLoading } from '@/components/ui/page-loading'
 import { TargetLanguageText } from '@/components/TargetLanguageText'
 import { useAuthStore } from '@/store/auth'
-import { formatLanguageName } from '@/lib/target-languages'
 
 const CEFR_LEVELS: CEFRLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
 const REGISTERS: Register[] = ['formal', 'neutral', 'informal']
@@ -39,11 +38,10 @@ function CategoryCard({
 }) {
   const t = useTranslations('phrasebook')
   const tCommon = useTranslations('common')
-  const tLang = useTranslations('languages')
-  const locale = useLocale()
+  const tTargetLang = useTranslations('targetLanguages')
   const user = useAuthStore((s) => s.user)
   const nativeLanguageName = user?.native_language
-    ? formatLanguageName(tLang(user.native_language), locale)
+    ? tTargetLang(user.native_language)
     : ''
   const [nativeHelpOpen, setNativeHelpOpen] = useState(
     cat.level === 'A1' || cat.level === 'A2'
@@ -103,14 +101,18 @@ function CategoryCard({
             className="text-fl-label text-fl-muted-3 hover:text-fl-fg flex w-full items-center justify-between font-mono tracking-widest uppercase transition-colors"
             aria-expanded={nativeHelpOpen}
           >
-            <span>Help in {nativeLanguageName}</span>
+            <span>
+              {tCommon('nativeHelpTitle', { language: nativeLanguageName })}
+            </span>
             <span>{nativeHelpOpen ? '−' : '+'}</span>
           </button>
           {nativeHelpOpen && (
             <div className="mt-3 space-y-3">
               {loadingNativeHelp ? (
                 <p className="text-fl-muted-3 font-mono text-xs">
-                  Preparing help in {nativeLanguageName}...
+                  {tCommon('nativeHelpLoading', {
+                    language: nativeLanguageName,
+                  })}
                 </p>
               ) : nativeHelp ? (
                 <>
@@ -121,7 +123,7 @@ function CategoryCard({
                   {nativeHelp.usage_tips.length > 0 && (
                     <div className="space-y-1">
                       <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
-                        Usage tips
+                        {tCommon('nativeHelpUsageTips')}
                       </p>
                       <ul className="space-y-1">
                         {nativeHelp.usage_tips.map((tip, i) => (
@@ -137,7 +139,7 @@ function CategoryCard({
                   {nativeHelp.register_notes.length > 0 && (
                     <div className="border-fl-border space-y-1 border-t pt-3">
                       <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
-                        Register
+                        {tCommon('nativeHelpRegisterNotes')}
                       </p>
                       {nativeHelp.register_notes.map((note, i) => (
                         <p key={i} className="text-fl-muted-2 text-sm">
@@ -150,7 +152,7 @@ function CategoryCard({
                   {nativeHelp.phrase_notes.length > 0 && (
                     <div className="border-fl-border space-y-2 border-t pt-3">
                       <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
-                        Phrase notes
+                        {tCommon('nativeHelpPhraseNotes')}
                       </p>
                       {nativeHelp.phrase_notes.map((item, i) => (
                         <div key={i} className="space-y-0.5">
@@ -169,7 +171,7 @@ function CategoryCard({
                   {nativeHelp.common_traps.length > 0 && (
                     <div className="border-fl-border space-y-2 border-t pt-3">
                       <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
-                        Common traps
+                        {tCommon('nativeHelpCommonTraps')}
                       </p>
                       {nativeHelp.common_traps.map((trap, i) => (
                         <div key={i} className="space-y-0.5">
@@ -185,7 +187,7 @@ function CategoryCard({
                   {nativeHelp.mini_glossary.length > 0 && (
                     <div className="border-fl-border space-y-2 border-t pt-3">
                       <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
-                        Mini glossary
+                        {tCommon('nativeHelpMiniGlossary')}
                       </p>
                       {nativeHelp.mini_glossary.map((item, i) => (
                         <div key={i}>
@@ -216,7 +218,9 @@ function CategoryCard({
                 >
                   {nativeHelpError
                     ? tCommon('retry')
-                    : `Show help in ${nativeLanguageName}`}
+                    : tCommon('nativeHelpShow', {
+                        language: nativeLanguageName,
+                      })}
                 </button>
               )}
             </div>

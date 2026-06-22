@@ -80,7 +80,19 @@
     "noActivePlan": "No active study plan found",
     "removeLanguageConfirmTitle": "Remove language",
     "removeLanguageConfirmMessage": "All data for this language (study plan, progress, flashcards, conversations, and memories) will be permanently deleted. This action cannot be undone.",
-    "removeLanguageConfirmLabel": "Remove"
+    "removeLanguageConfirmLabel": "Remove",
+    "nativeHelpTitle": "Help in {language}",
+    "nativeHelpLoading": "Preparing help in {language}...",
+    "nativeHelpShow": "Show help in {language}",
+    "nativeHelpKeyPoints": "Key points",
+    "nativeHelpCommonTraps": "Common traps",
+    "nativeHelpMiniGlossary": "Mini glossary",
+    "nativeHelpUsageTips": "Usage tips",
+    "nativeHelpRegisterNotes": "Register",
+    "nativeHelpPhraseNotes": "Phrase notes",
+    "nativeHelpStudyTips": "Study tips",
+    "nativeHelpWordNotes": "Word notes",
+    "nativeHelpPractice": "Practice"
   },
   "nav": {
     "home": "Home",

@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { use } from 'react'
-import { useLocale, useTranslations } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import {
   getGrammarNativeHelp,
   getGrammarTopics,
@@ -12,7 +12,6 @@ import {
   type GrammarTopic,
 } from '@/data/grammar'
 import { TargetLanguageText } from '@/components/TargetLanguageText'
-import { formatLanguageName } from '@/lib/target-languages'
 import { useAuthStore } from '@/store/auth'
 import { useLanguageStore } from '@/store/language'
 import { PageLoading } from '@/components/ui/page-loading'
@@ -90,12 +89,11 @@ export default function GrammarDetailPage({
   const t = useTranslations('grammar')
   const tCommon = useTranslations('common')
   const tNav = useTranslations('nav')
-  const tLang = useTranslations('languages')
-  const locale = useLocale()
+  const tTargetLang = useTranslations('targetLanguages')
   const activeLanguage = useLanguageStore((s) => s.activeLanguage)
   const user = useAuthStore((s) => s.user)
   const nativeLanguageName = user?.native_language
-    ? formatLanguageName(tLang(user.native_language), locale)
+    ? tTargetLang(user.native_language)
     : ''
   const { slug } = use(params)
 
@@ -270,14 +268,18 @@ export default function GrammarDetailPage({
             className="border-fl-border text-fl-label text-fl-muted-2 hover:text-fl-fg flex w-full items-center justify-between border-b px-6 py-4 font-mono tracking-widest uppercase transition-colors"
             aria-expanded={nativeHelpOpen}
           >
-            <span>Help in {nativeLanguageName}</span>
+            <span>
+              {tCommon('nativeHelpTitle', { language: nativeLanguageName })}
+            </span>
             <span>{nativeHelpOpen ? '−' : '+'}</span>
           </button>
           {nativeHelpOpen && (
             <div className="space-y-4 px-6 py-5">
               {loadingNativeHelp ? (
                 <p className="text-fl-muted-3 font-mono text-xs">
-                  Preparing help in {nativeLanguageName}...
+                  {tCommon('nativeHelpLoading', {
+                    language: nativeLanguageName,
+                  })}
                 </p>
               ) : nativeHelp ? (
                 <>
@@ -293,7 +295,7 @@ export default function GrammarDetailPage({
                   {nativeHelp.key_points.length > 0 && (
                     <div className="space-y-2">
                       <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
-                        Key points
+                        {tCommon('nativeHelpKeyPoints')}
                       </p>
                       <ul className="space-y-1">
                         {nativeHelp.key_points.map((point, i) => (
@@ -328,7 +330,7 @@ export default function GrammarDetailPage({
                   {nativeHelp.common_traps.length > 0 && (
                     <div className="border-fl-border space-y-2 border-t pt-3">
                       <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
-                        Common traps
+                        {tCommon('nativeHelpCommonTraps')}
                       </p>
                       {nativeHelp.common_traps.map((trap, i) => (
                         <div key={i} className="space-y-0.5">
@@ -344,7 +346,7 @@ export default function GrammarDetailPage({
                   {nativeHelp.mini_glossary.length > 0 && (
                     <div className="border-fl-border space-y-2 border-t pt-3">
                       <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
-                        Mini glossary
+                        {tCommon('nativeHelpMiniGlossary')}
                       </p>
                       {nativeHelp.mini_glossary.map((item, i) => (
                         <div key={i}>
@@ -376,7 +378,9 @@ export default function GrammarDetailPage({
                   >
                     {nativeHelpError
                       ? tCommon('retry')
-                      : `Show help in ${nativeLanguageName}`}
+                      : tCommon('nativeHelpShow', {
+                          language: nativeLanguageName,
+                        })}
                   </button>
                 </div>
               )}

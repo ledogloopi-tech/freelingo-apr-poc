@@ -80,7 +80,19 @@
     "noActivePlan": "Kein aktiver Lernplan gefunden",
     "removeLanguageConfirmTitle": "Sprache entfernen",
     "removeLanguageConfirmMessage": "Alle Daten für diese Sprache (Studienplan, Fortschritt, Karteikarten, Konversationen und Erinnerungen) werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
-    "removeLanguageConfirmLabel": "Entfernen"
+    "removeLanguageConfirmLabel": "Entfernen",
+    "nativeHelpTitle": "Hilfe auf {language}",
+    "nativeHelpLoading": "Hilfe auf {language} wird vorbereitet...",
+    "nativeHelpShow": "Hilfe auf {language} anzeigen",
+    "nativeHelpKeyPoints": "Kernpunkte",
+    "nativeHelpCommonTraps": "Häufige Fallen",
+    "nativeHelpMiniGlossary": "Mini-Glossar",
+    "nativeHelpUsageTips": "Verwendungstipps",
+    "nativeHelpRegisterNotes": "Register",
+    "nativeHelpPhraseNotes": "Hinweise zu Phrasen",
+    "nativeHelpStudyTips": "Lerntipps",
+    "nativeHelpWordNotes": "Worthinweise",
+    "nativeHelpPractice": "Übung"
   },
   "nav": {
     "home": "Startseite",

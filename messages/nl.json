@@ -80,7 +80,19 @@
     "noActivePlan": "Geen actief studieplan gevonden",
     "removeLanguageConfirmTitle": "Taal verwijderen",
     "removeLanguageConfirmMessage": "Alle gegevens voor deze taal (studieplan, voortgang, flashcards, gesprekken en herinneringen) worden permanent verwijderd. Deze actie kan niet ongedaan worden gemaakt.",
-    "removeLanguageConfirmLabel": "Verwijderen"
+    "removeLanguageConfirmLabel": "Verwijderen",
+    "nativeHelpTitle": "Hulp in {language}",
+    "nativeHelpLoading": "Hulp in {language} voorbereiden...",
+    "nativeHelpShow": "Hulp in {language} tonen",
+    "nativeHelpKeyPoints": "Kernpunten",
+    "nativeHelpCommonTraps": "Veelvoorkomende valkuilen",
+    "nativeHelpMiniGlossary": "Miniglossarium",
+    "nativeHelpUsageTips": "Gebruikstips",
+    "nativeHelpRegisterNotes": "Register",
+    "nativeHelpPhraseNotes": "Zinsnotities",
+    "nativeHelpStudyTips": "Studietips",
+    "nativeHelpWordNotes": "Woordnotities",
+    "nativeHelpPractice": "Oefening"
   },
   "nav": {
     "home": "Home",

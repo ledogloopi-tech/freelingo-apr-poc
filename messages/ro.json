@@ -80,7 +80,19 @@
     "noActivePlan": "Nu a fost găsit niciun plan de studiu activ",
     "removeLanguageConfirmTitle": "Elimină limba",
     "removeLanguageConfirmMessage": "Toate datele pentru această limbă (plan de studiu, progres, flashcards, conversații și amintiri) vor fi șterse permanent. Această acțiune nu poate fi anulată.",
-    "removeLanguageConfirmLabel": "Elimină"
+    "removeLanguageConfirmLabel": "Elimină",
+    "nativeHelpTitle": "Ajutor în {language}",
+    "nativeHelpLoading": "Se pregătește ajutorul în {language}...",
+    "nativeHelpShow": "Afișează ajutorul în {language}",
+    "nativeHelpKeyPoints": "Puncte-cheie",
+    "nativeHelpCommonTraps": "Capcane frecvente",
+    "nativeHelpMiniGlossary": "Mini glosar",
+    "nativeHelpUsageTips": "Sfaturi de utilizare",
+    "nativeHelpRegisterNotes": "Registru",
+    "nativeHelpPhraseNotes": "Note despre fraze",
+    "nativeHelpStudyTips": "Sfaturi de studiu",
+    "nativeHelpWordNotes": "Note despre cuvinte",
+    "nativeHelpPractice": "Practică"
   },
   "nav": {
     "home": "Acasă",

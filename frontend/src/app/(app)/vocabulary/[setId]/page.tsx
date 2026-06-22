@@ -3,14 +3,13 @@
 import { useState, useEffect, use, useCallback } from 'react'
 import { notFound, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useLocale, useTranslations } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { PageLoading } from '@/components/ui/page-loading'
 import type { VocabularyNativeHelp, VocabularySet } from '@/data/types'
 import { useLanguageStore } from '@/store/language'
 import { useAuthStore } from '@/store/auth'
 import { apiFetch } from '@/lib/api'
 import { TargetLanguageText } from '@/components/TargetLanguageText'
-import { formatLanguageName } from '@/lib/target-languages'
 
 const POS_LABELS: Record<string, string> = {
   noun: 'n.',
@@ -33,8 +32,7 @@ export default function VocabularySetPage({
   const router = useRouter()
   const t = useTranslations('vocabulary')
   const tCommon = useTranslations('common')
-  const tLang = useTranslations('languages')
-  const locale = useLocale()
+  const tTargetLang = useTranslations('targetLanguages')
   const activeLanguage = useLanguageStore((s) => s.activeLanguage)
   const user = useAuthStore((s) => s.user)
   const [vocabSet, setVocabSet] = useState<VocabularySet | null>(null)
@@ -49,7 +47,7 @@ export default function VocabularySetPage({
   const [loadingNativeHelp, setLoadingNativeHelp] = useState(false)
   const [nativeHelpError, setNativeHelpError] = useState(false)
   const nativeLanguageName = user?.native_language
-    ? formatLanguageName(tLang(user.native_language), locale)
+    ? tTargetLang(user.native_language)
     : ''
 
   useEffect(() => {
@@ -212,14 +210,18 @@ export default function VocabularySetPage({
             className="border-fl-border text-fl-label text-fl-muted-2 hover:text-fl-fg flex w-full items-center justify-between border-b px-6 py-4 font-mono tracking-widest uppercase transition-colors"
             aria-expanded={nativeHelpOpen}
           >
-            <span>Help in {nativeLanguageName}</span>
+            <span>
+              {tCommon('nativeHelpTitle', { language: nativeLanguageName })}
+            </span>
             <span>{nativeHelpOpen ? '−' : '+'}</span>
           </button>
           {nativeHelpOpen && (
             <div className="space-y-4 px-6 py-5">
               {loadingNativeHelp ? (
                 <p className="text-fl-muted-3 font-mono text-xs">
-                  Preparing help in {nativeLanguageName}...
+                  {tCommon('nativeHelpLoading', {
+                    language: nativeLanguageName,
+                  })}
                 </p>
               ) : nativeHelp ? (
                 <>
@@ -230,7 +232,7 @@ export default function VocabularySetPage({
                   {nativeHelp.study_tips.length > 0 && (
                     <div className="space-y-2">
                       <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
-                        Study tips
+                        {tCommon('nativeHelpStudyTips')}
                       </p>
                       <ul className="space-y-1">
                         {nativeHelp.study_tips.map((tip, i) => (
@@ -246,7 +248,7 @@ export default function VocabularySetPage({
                   {nativeHelp.word_notes.length > 0 && (
                     <div className="border-fl-border space-y-2 border-t pt-3">
                       <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
-                        Word notes
+                        {tCommon('nativeHelpWordNotes')}
                       </p>
                       {nativeHelp.word_notes.map((item, i) => (
                         <div key={i} className="space-y-0.5">
@@ -268,7 +270,7 @@ export default function VocabularySetPage({
                   {nativeHelp.common_traps.length > 0 && (
                     <div className="border-fl-border space-y-2 border-t pt-3">
                       <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
-                        Common traps
+                        {tCommon('nativeHelpCommonTraps')}
                       </p>
                       {nativeHelp.common_traps.map((trap, i) => (
                         <div key={i} className="space-y-0.5">
@@ -284,7 +286,7 @@ export default function VocabularySetPage({
                   {nativeHelp.mini_glossary.length > 0 && (
                     <div className="border-fl-border space-y-2 border-t pt-3">
                       <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
-                        Mini glossary
+                        {tCommon('nativeHelpMiniGlossary')}
                       </p>
                       {nativeHelp.mini_glossary.map((item, i) => (
                         <div key={i}>
@@ -310,7 +312,7 @@ export default function VocabularySetPage({
                   {nativeHelp.practice_prompts.length > 0 && (
                     <div className="border-fl-border space-y-2 border-t pt-3">
                       <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
-                        Practice
+                        {tCommon('nativeHelpPractice')}
                       </p>
                       <ul className="space-y-1">
                         {nativeHelp.practice_prompts.map((prompt, i) => (
@@ -332,7 +334,9 @@ export default function VocabularySetPage({
                   >
                     {nativeHelpError
                       ? tCommon('retry')
-                      : `Show help in ${nativeLanguageName}`}
+                      : tCommon('nativeHelpShow', {
+                          language: nativeLanguageName,
+                        })}
                   </button>
                 </div>
               )}

@@ -80,7 +80,19 @@
     "noActivePlan": "Nenhum plano de estudo ativo encontrado",
     "removeLanguageConfirmTitle": "Remover idioma",
     "removeLanguageConfirmMessage": "Todos os dados deste idioma (plano de estudo, progresso, flashcards, conversas e memórias) serão eliminados permanentemente. Esta ação não pode ser desfeita.",
-    "removeLanguageConfirmLabel": "Remover"
+    "removeLanguageConfirmLabel": "Remover",
+    "nativeHelpTitle": "Ajuda em {language}",
+    "nativeHelpLoading": "A preparar ajuda em {language}...",
+    "nativeHelpShow": "Mostrar ajuda em {language}",
+    "nativeHelpKeyPoints": "Pontos-chave",
+    "nativeHelpCommonTraps": "Erros comuns",
+    "nativeHelpMiniGlossary": "Mini glossário",
+    "nativeHelpUsageTips": "Dicas de uso",
+    "nativeHelpRegisterNotes": "Registo",
+    "nativeHelpPhraseNotes": "Notas de frases",
+    "nativeHelpStudyTips": "Dicas de estudo",
+    "nativeHelpWordNotes": "Notas de palavras",
+    "nativeHelpPractice": "Prática"
   },
   "nav": {
     "home": "Início",
