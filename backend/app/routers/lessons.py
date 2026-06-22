@@ -18,6 +18,7 @@ from app.schemas.lessons import (
     ExerciseResponse,
     LessonDetailResponse,
     LessonResponse,
+    NativeExerciseExplanationResponse,
     NativeExplanationResponse,
 )
 from app.services.language_helpers import get_language_name, get_native_language_name
@@ -71,12 +72,19 @@ async def get_lesson(
     # Sanitize fill_blank exercises that were generated before constraint #6 was enforced:
     # if `question` is an instruction text (no ___) but `explanation` has the gapped sentence,
     # swap them so the user sees the sentence — without touching the DB.
+    content_exercises = []
+    if isinstance(lesson.content, dict) and isinstance(lesson.content.get("exercises"), list):
+        content_exercises = lesson.content["exercises"]
+
     fixed: list[ExerciseResponse] = []
-    for ex in exercises:
+    for index, ex in enumerate(exercises):
         q, exp = ex.question, ex.explanation
         if ex.exercise_type == "fill_blank" and "___" not in q:
             if exp and "___" in exp:
                 q, exp = exp, q
+        native_exp = None
+        if index < len(content_exercises) and isinstance(content_exercises[index], dict):
+            native_exp = content_exercises[index].get("native_explanation")
         fixed.append(
             ExerciseResponse(
                 id=ex.id,
@@ -89,6 +97,7 @@ async def get_lesson(
                 score=ex.score,
                 feedback=ex.feedback,
                 explanation=exp,
+                native_explanation=native_exp if isinstance(native_exp, str) else None,
                 answered_at=ex.answered_at,
             )
         )
@@ -301,6 +310,86 @@ async def answer_exercise(
         feedback=exercise.feedback,
         correct_answer=exercise.correct_answer,
     )
+
+
+@router.post("/exercises/{exercise_id}/native-explanation")
+@limiter.limit("10/minute")
+async def generate_exercise_native_explanation(
+    request: Request,
+    exercise_id: int,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    exercise = await db.get(Exercise, exercise_id)
+    if not exercise:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Exercise not found")
+
+    lesson = await _get_lesson_for_user(exercise.lesson_id, current_user.id, db)
+
+    result = await db.execute(
+        select(Exercise).where(Exercise.lesson_id == lesson.id).order_by(Exercise.id)
+    )
+    lesson_exercises = result.scalars().all()
+    exercise_index = next(
+        (index for index, item in enumerate(lesson_exercises) if item.id == exercise.id), None
+    )
+    if exercise_index is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Exercise not found")
+
+    content = dict(lesson.content or {})
+    content_exercises = content.get("exercises")
+    if not isinstance(content_exercises, list):
+        content_exercises = []
+    while len(content_exercises) <= exercise_index:
+        content_exercises.append({})
+
+    content_exercise = content_exercises[exercise_index]
+    if not isinstance(content_exercise, dict):
+        content_exercise = {}
+        content_exercises[exercise_index] = content_exercise
+
+    cached = content_exercise.get("native_explanation")
+    if isinstance(cached, str) and cached.strip():
+        return {"native_explanation": cached}
+
+    if not exercise.explanation:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Exercise has no explanation to translate",
+        )
+
+    plan = await db.get(StudyPlan, lesson.study_plan_id)
+    target_language = plan.target_language if plan else "en-GB"
+
+    from app.services.prompts.lesson import build_native_exercise_explanation_on_demand_prompt
+
+    prompt = build_native_exercise_explanation_on_demand_prompt(
+        target_language_name=get_language_name(target_language),
+        native_language_name=get_native_language_name(current_user.native_language),
+        exercise_type=exercise.exercise_type,
+        question=exercise.question,
+        correct_answer=exercise.correct_answer,
+        explanation=exercise.explanation,
+    )
+
+    try:
+        result_native = await llm_adapter.structured_output(
+            [{"role": "user", "content": prompt}],
+            NativeExerciseExplanationResponse,
+        )
+        native_exp = result_native.native_explanation
+    except LLMError, LLMTimeoutError, LLMUnavailableError:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Could not generate native exercise explanation at this time",
+        )
+
+    content_exercise["native_explanation"] = native_exp
+    content["exercises"] = content_exercises
+    lesson.content = content
+    await db.commit()
+
+    return {"native_explanation": native_exp}
 
 
 @router.post("/{lesson_id}/native-explanation")
