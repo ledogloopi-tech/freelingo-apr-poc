@@ -114,6 +114,7 @@ docker compose exec backend alembic upgrade head
 - When finishing a feature or task that requires test validation, use only the `pre-push` skill for the final test run.
 - If new backend tests are added, update the documented backend test count and backend coverage percentage wherever those metrics are recorded.
 - If new frontend tests are added, update the documented frontend test count wherever it is recorded. Frontend coverage percentage is not tracked.
+- **If any test fails, STOP and ask the user what to do.** Never modify production code or tests to make them pass without explicit user approval. Report the failures and wait for instructions.
 
 ## Auth design (do not deviate)
 

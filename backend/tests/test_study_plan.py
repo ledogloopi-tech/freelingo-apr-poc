@@ -84,12 +84,12 @@ async def test_get_today_lessons(client, test_user):
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
     ("cefr_level", "expected_native_language"),
-    [("A1", "es"), ("A2", "es"), ("B1", None)],
+    [("A1", "es"), ("A2", "es"), ("B1", "es")],
 )
 async def test_today_passes_native_language_only_for_beginner_lessons(
     client, test_user, db_session, cefr_level, expected_native_language
 ):
-    """Lazy lesson generation receives native_language for A1/A2 only."""
+    """Lazy lesson generation receives native_language for all CEFR levels."""
     user, headers = test_user
 
     await deactivate_active_plans(db_session, user.id)
