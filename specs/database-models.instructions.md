@@ -362,12 +362,12 @@ One moderated product review per user. Added in Phase 11.
 
 ## ResourceNativeHelp (`resource_native_helps`)
 
-Global cache for native-language study help generated for static learning resources. Added in v1.8.10 for grammar native help and designed to be reusable for vocabulary and phrasebook resources.
+Global cache for native-language study help generated for static learning resources. Added in v1.8.10 for grammar and phrasebook native help and designed to be reusable for vocabulary resources.
 
 | Column          | Type     | Notes                                                                                       |
 | --------------- | -------- | ------------------------------------------------------------------------------------------- |
 | id              | integer  | Primary key                                                                                 |
-| resource_type   | string   | Resource namespace, initially `"grammar"`; reserved for `"vocabulary"` and `"phrasebook"`  |
+| resource_type   | string   | Resource namespace, currently `"grammar"` or `"phrasebook"`; reserved for `"vocabulary"`   |
 | resource_key    | string   | Stable resource identifier, e.g. grammar topic slug                                         |
 | target_language | string   | BCP-47 learning language for the source content                                             |
 | native_language | string   | User native-language code used for the generated help                                       |
@@ -386,6 +386,7 @@ Global cache for native-language study help generated for static learning resour
 - Cache entries are shared by all users with the same native language and learning target language.
 - If the static source content changes, the computed `source_hash` changes and the next request regenerates the cached help.
 - Grammar native help keeps target-language example sentences unchanged while translating explanations, notes, traps, and glossary support into the user's native language.
+- Phrasebook native help keeps target-language phrases unchanged while generating native-language usage tips, register notes, phrase notes, traps, and glossary support.
 
 ## Memory (`memories`)
 

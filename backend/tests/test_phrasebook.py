@@ -4,6 +4,22 @@ from __future__ import annotations
 
 import pytest
 
+
+class FakePhrasebookNativeHelpLLM:
+    def __init__(self):
+        self.calls = 0
+
+    async def structured_output(self, messages, schema):
+        self.calls += 1
+        return schema(
+            summary="Resumen de situación",
+            usage_tips=["Consejo 1", "Consejo 2", "Consejo 3"],
+            register_notes=["Nota de registro"],
+            phrase_notes=[{"phrase": "Hello", "note": "Úsalo al saludar."}],
+            common_traps=[{"mistake": "Usarlo demasiado formal", "fix": "Elige según contexto."}],
+            mini_glossary=[{"term": "Hello", "meaning": "Hola", "note": "Saludo básico."}],
+        )
+
 # ── GET /api/phrasebook ───────────────────────────────────────────────────────
 
 
@@ -231,3 +247,111 @@ async def test_chinese_language_returns_chinese_categories(client, test_user):
     assert len(categories) > 0
     assert any(c["id"] == "greetings_a1" for c in categories)
     assert any(c["situation"] == "问候和介绍" for c in categories)
+
+
+# ── Native help ───────────────────────────────────────────────────────────────
+
+
+@pytest.mark.asyncio
+async def test_generate_phrasebook_native_help(client, test_user, monkeypatch):
+    """POST /api/phrasebook/{category_id}/native-help generates native-language support."""
+    from app.routers import phrasebook as phrasebook_router
+
+    fake_llm = FakePhrasebookNativeHelpLLM()
+    monkeypatch.setattr(phrasebook_router.llm_adapter, "structured_output", fake_llm.structured_output)
+
+    _, headers = test_user
+    list_res = await client.get("/api/phrasebook?language=en-GB", headers=headers)
+    category_id = list_res.json()["categories"][0]["id"]
+
+    response = await client.post(
+        f"/api/phrasebook/{category_id}/native-help?language=en-GB", headers=headers
+    )
+
+    assert response.status_code == 200
+    native_help = response.json()["native_help"]
+    assert native_help["summary"] == "Resumen de situación"
+    assert len(native_help["usage_tips"]) == 3
+    assert native_help["phrase_notes"][0]["phrase"] == "Hello"
+    assert fake_llm.calls == 1
+
+
+@pytest.mark.asyncio
+async def test_generate_phrasebook_native_help_uses_cache(client, test_user, monkeypatch):
+    """Phrasebook native help is generated once per category/native-language cache key."""
+    from app.routers import phrasebook as phrasebook_router
+
+    fake_llm = FakePhrasebookNativeHelpLLM()
+    monkeypatch.setattr(phrasebook_router.llm_adapter, "structured_output", fake_llm.structured_output)
+
+    _, headers = test_user
+    list_res = await client.get("/api/phrasebook?language=en-GB", headers=headers)
+    category_id = list_res.json()["categories"][0]["id"]
+
+    first = await client.post(
+        f"/api/phrasebook/{category_id}/native-help?language=en-GB", headers=headers
+    )
+    second = await client.post(
+        f"/api/phrasebook/{category_id}/native-help?language=en-GB", headers=headers
+    )
+
+    assert first.status_code == 200
+    assert second.status_code == 200
+    assert first.json() == second.json()
+    assert fake_llm.calls == 1
+
+
+@pytest.mark.asyncio
+async def test_generate_phrasebook_native_help_refreshes_stale_cache(
+    client, test_user, db_session, monkeypatch
+):
+    """Cached phrasebook native help is replaced when the source hash no longer matches."""
+    from app.models.resource_native_help import ResourceNativeHelp
+    from app.routers import phrasebook as phrasebook_router
+
+    fake_llm = FakePhrasebookNativeHelpLLM()
+    monkeypatch.setattr(phrasebook_router.llm_adapter, "structured_output", fake_llm.structured_output)
+
+    _, headers = test_user
+    list_res = await client.get("/api/phrasebook?language=en-GB", headers=headers)
+    category_id = list_res.json()["categories"][0]["id"]
+
+    db_session.add(
+        ResourceNativeHelp(
+            resource_type="phrasebook",
+            resource_key=category_id,
+            target_language="en-GB",
+            native_language="es",
+            source_hash="stale",
+            content={
+                "summary": "Viejo",
+                "usage_tips": [],
+                "register_notes": [],
+                "phrase_notes": [],
+                "common_traps": [],
+                "mini_glossary": [],
+            },
+        )
+    )
+    await db_session.commit()
+
+    response = await client.post(
+        f"/api/phrasebook/{category_id}/native-help?language=en-GB", headers=headers
+    )
+
+    assert response.status_code == 200
+    assert response.json()["native_help"]["summary"] == "Resumen de situación"
+    assert fake_llm.calls == 1
+
+
+@pytest.mark.asyncio
+async def test_generate_phrasebook_native_help_not_found(client, test_user):
+    """POST /api/phrasebook/{category_id}/native-help returns 404 for unknown categories."""
+    _, headers = test_user
+
+    response = await client.post(
+        "/api/phrasebook/nope/native-help?language=en-GB", headers=headers
+    )
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Phrasebook category not found"

@@ -1,12 +1,17 @@
 import hashlib
+import asyncio
+import json
 import os
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
 from fastapi.responses import FileResponse
+from redis.asyncio import Redis
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.app_logger import get_logger
 from app.core.config import settings
-from app.core.deps import get_current_user
+from app.core.database import get_db
+from app.core.deps import get_current_user, get_redis
 from app.core.limiter import limiter
 from app.data._types import PhrasebookCategory
 from app.data.phrasebook import (
@@ -20,6 +25,17 @@ from app.schemas.phrasebook import (
     PhrasebookCategoryDetailResponse,
     PhrasebookCategoryResponse,
     PhrasebookEntryResponse,
+    PhrasebookNativeHelpContentResponse,
+    PhrasebookNativeHelpResponse,
+)
+from app.services.language_helpers import get_language_name, get_native_language_name
+from app.services.llm_adapter import LLMError, llm_adapter
+from app.services.prompts.phrasebook import build_phrasebook_native_help_prompt
+from app.services.resource_native_help import (
+    calculate_source_hash,
+    get_cached_native_help,
+    native_help_lock_key,
+    upsert_native_help,
 )
 
 router = APIRouter(prefix="/api/phrasebook", tags=["phrasebook"])
@@ -43,6 +59,23 @@ def _category_to_response(c: PhrasebookCategory) -> PhrasebookCategoryResponse:
             for p in c.phrases
         ],
     )
+
+
+def _category_to_source(c: PhrasebookCategory) -> dict:
+    return {
+        "id": c.id,
+        "level": c.level,
+        "situation": c.situation,
+        "phrases": [
+            {
+                "text": p.text,
+                "context": p.context,
+                "register": p.register,
+                "romanization": p.romanization,
+            }
+            for p in c.phrases
+        ],
+    }
 
 
 @router.get("", response_model=PhrasebookCategoriesResponse)
@@ -93,6 +126,95 @@ def get_phrasebook_category_detail(
             detail="Phrasebook category not found",
         )
     return PhrasebookCategoryDetailResponse(category=_category_to_response(c))
+
+
+@router.post("/{category_id}/native-help", response_model=PhrasebookNativeHelpResponse)
+@limiter.limit("10/minute")
+async def generate_phrasebook_native_help(
+    request: Request,
+    category_id: str,
+    language: str = Query("en-GB", description="BCP-47 target language code"),
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+    redis: Redis = Depends(get_redis),
+):
+    """Return cached native-language help for a phrasebook category."""
+    category = get_phrasebook_category(category_id, language)
+    if not category:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Phrasebook category not found",
+        )
+
+    source = _category_to_source(category)
+    source_hash = calculate_source_hash(source)
+    native_language = current_user.native_language
+
+    cached = await get_cached_native_help(
+        db,
+        resource_type="phrasebook",
+        resource_key=category.id,
+        target_language=language,
+        native_language=native_language,
+        source_hash=source_hash,
+    )
+    if cached:
+        return PhrasebookNativeHelpResponse(native_help=cached.content)
+
+    lock_key = native_help_lock_key(
+        resource_type="phrasebook",
+        resource_key=category.id,
+        target_language=language,
+        native_language=native_language,
+    )
+    lock_acquired = await redis.set(lock_key, "1", ex=90, nx=True)
+    if lock_acquired is False:
+        for _ in range(10):
+            await asyncio.sleep(0.5)
+            cached = await get_cached_native_help(
+                db,
+                resource_type="phrasebook",
+                resource_key=category.id,
+                target_language=language,
+                native_language=native_language,
+                source_hash=source_hash,
+            )
+            if cached:
+                return PhrasebookNativeHelpResponse(native_help=cached.content)
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Native help is being generated. Try again shortly.",
+        )
+
+    prompt = build_phrasebook_native_help_prompt(
+        target_language_name=get_language_name(language),
+        native_language_name=get_native_language_name(native_language),
+        source_category=json.dumps(source, ensure_ascii=False),
+    )
+    try:
+        result = await llm_adapter.structured_output(
+            [{"role": "user", "content": prompt}],
+            PhrasebookNativeHelpContentResponse,
+        )
+        content = result.model_dump()
+    except LLMError:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Could not generate native help at this time",
+        ) from None
+    finally:
+        await redis.delete(lock_key)
+
+    cached = await upsert_native_help(
+        db,
+        resource_type="phrasebook",
+        resource_key=category.id,
+        target_language=language,
+        native_language=native_language,
+        source_hash=source_hash,
+        content=content,
+    )
+    return PhrasebookNativeHelpResponse(native_help=cached.content)
 
 
 @router.get("/audio/{category_id}/{phrase_index}")

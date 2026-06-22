@@ -51,6 +51,7 @@ Only endpoints with explicit `@limiter.limit()` decorators override the global d
 | `DELETE /api/reviews/me`               | 10 / hour    | IP       | Authenticated current-user review deletion                                                              |
 | `GET /api/reviews/public`              | 60 / minute  | IP       | Public landing review list                                                                              |
 | `POST /api/grammar/{slug}/native-help` | 10 / minute  | IP       | LLM-backed native-language helper generation for static grammar topics, cached after first generation   |
+| `POST /api/phrasebook/{category_id}/native-help` | 10 / minute  | IP       | LLM-backed native-language helper generation for phrasebook categories, cached after first generation    |
 | `POST /api/tts`                        | 20 / minute  | User     | Audio generation (computationally expensive)                                                            |
 | `POST /api/stt`                        | 20 / minute  | User     | Audio transcription (computationally expensive)                                                         |
 | All other endpoints                    | 200 / minute | IP       | Global default catch-all                                                                                |

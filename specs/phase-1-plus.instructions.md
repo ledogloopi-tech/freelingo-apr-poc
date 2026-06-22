@@ -174,6 +174,11 @@ Each category card shows:
 - Phrase count
 - Expand to see all phrases with context and register badges
 - Phrase entries are selectable (tap to copy to clipboard)
+- A native-language helper panel. A1/A2 panels open by default but generate only when the user clicks the helper button; B1-C2 panels stay collapsed until requested. Generated support includes usage tips, register notes, phrase notes, common traps, and a mini-glossary.
+
+### Native-language phrasebook help
+
+`POST /api/phrasebook/{category_id}/native-help?language=<target>` generates practical usage support in the authenticated user's native language. Results are cached globally in `resource_native_helps` by `resource_type="phrasebook"`, category ID, target language, native language, and source-content hash. The generated help keeps target-language phrases unchanged and explains when to use them, register/formality, common traps, and useful expressions in the learner's native language.
 
 ### Usage
 
