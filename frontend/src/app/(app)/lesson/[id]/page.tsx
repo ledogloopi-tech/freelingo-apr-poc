@@ -681,7 +681,8 @@ export default function LessonPage() {
                 <div className="space-y-2">
                   {exercise.options.map((opt) => {
                     const isSelected = answer === opt
-                    const isCorrect = isEvaluated && opt === exercise.correct_answer
+                    const isCorrect =
+                      isEvaluated && opt === exercise.correct_answer
                     const isWrongSelection =
                       isEvaluated && isSelected && !isCorrect
                     return (
@@ -691,9 +692,9 @@ export default function LessonPage() {
                         onClick={() => setAnswer(opt)}
                         className={`flex w-full items-center justify-between gap-3 border px-4 py-3 text-left transition-colors disabled:opacity-100 ${
                           isCorrect
-                            ? 'border-green-500/40 bg-green-500/5 text-fl-fg'
+                            ? 'text-fl-fg border-green-500/40 bg-green-500/5'
                             : isWrongSelection
-                              ? 'border-red-500/40 bg-red-500/5 text-fl-fg'
+                              ? 'text-fl-fg border-red-500/40 bg-red-500/5'
                               : isSelected
                                 ? 'border-fl-accent bg-fl-accent text-fl-accent-fg'
                                 : 'border-fl-border text-fl-muted-1 hover:border-fl-border-2 hover:text-fl-fg'
