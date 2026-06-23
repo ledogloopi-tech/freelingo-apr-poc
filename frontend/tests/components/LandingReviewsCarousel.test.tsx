@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { LandingReviewsCarousel } from '@/components/reviews/LandingReviewsCarousel'
 
 vi.mock('next-intl', () => ({
+  useLocale: () => 'en',
   useTranslations:
     (namespace?: string) => (key: string, values?: Record<string, string | number>) => {
       if (namespace === 'targetLanguages') {

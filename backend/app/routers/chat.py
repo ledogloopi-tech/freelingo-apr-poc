@@ -8,7 +8,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.app_logger import get_logger
 from app.core.database import get_db
-from app.core.deps import get_active_study_plan_optional, require_subscription
+from app.core.deps import (
+    get_active_study_plan_optional,
+    require_not_maintenance,
+    require_subscription,
+)
 from app.core.limiter import limiter
 from app.models.chat_history import ChatHistory
 from app.models.conversation import Conversation
@@ -108,6 +112,7 @@ async def _resolve_chat_context(
 @limiter.limit("60/minute")
 async def list_conversations(
     request: Request,
+    _maintenance: None = Depends(require_not_maintenance),
     current_user: User = Depends(require_subscription),
     db: AsyncSession = Depends(get_db),
 ):
@@ -132,6 +137,7 @@ async def list_conversations(
 async def create_conversation(
     request: Request,
     data: ConversationCreate,
+    _maintenance: None = Depends(require_not_maintenance),
     current_user: User = Depends(require_subscription),
     db: AsyncSession = Depends(get_db),
 ):
@@ -157,6 +163,7 @@ async def create_conversation(
 async def delete_conversation(
     request: Request,
     conversation_id: int,
+    _maintenance: None = Depends(require_not_maintenance),
     current_user: User = Depends(require_subscription),
     db: AsyncSession = Depends(get_db),
 ):
@@ -178,6 +185,7 @@ async def delete_conversation(
 async def get_conversation_messages(
     request: Request,
     conversation_id: int,
+    _maintenance: None = Depends(require_not_maintenance),
     current_user: User = Depends(require_subscription),
     db: AsyncSession = Depends(get_db),
 ):
@@ -213,6 +221,7 @@ async def get_conversation_messages(
 async def chat(
     request: Request,
     request_data: ChatRequest,
+    _maintenance: None = Depends(require_not_maintenance),
     current_user: User = Depends(require_subscription),
     db: AsyncSession = Depends(get_db),
 ):
@@ -479,6 +488,7 @@ async def chat(
 @limiter.limit("60/minute")
 async def get_history(
     request: Request,
+    _maintenance: None = Depends(require_not_maintenance),
     current_user: User = Depends(require_subscription),
     db: AsyncSession = Depends(get_db),
 ):

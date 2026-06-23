@@ -412,7 +412,10 @@
     "recentPerformanceDescription": "Com base nas suas últimas respostas e revisões.",
     "performanceNeedsPractice": "Precisa praticar",
     "performanceInProgress": "Em progresso",
-    "performanceStrong": "Forte"
+    "performanceStrong": "Forte",
+    "premiumBannerTitle": "Pratica mais com o FreeLingo Premium",
+    "premiumBannerDesc": "Acede a Reading, Listening, chat com Lingu e conversa por voz.",
+    "premiumBannerCta": "Ver planos →"
   },
   "assessment": {
     "title": "Avaliação",
@@ -1260,7 +1263,7 @@
     "canceledTitle": "Nenhuma cobrança foi efetuada",
     "canceledDesc": "Pode subscrever a qualquer momento. O seu progresso e definições estão intactos.",
     "canceledCtaDashboard": "Ir para o painel",
-    "canceledCtaSettings": "Ver opções de subscrição",
+    "canceledCtaSettings": "Ir para definições",
     "section": "Subscrição",
     "status": "Estado",
     "statusActive": "Ativa",
@@ -1286,7 +1289,7 @@
   },
   "whatsNew": {
     "title": "Novidades",
-    "version": "v1.8.12",
+    "version": "v1.8.13",
     "cta": "Entendido",
     "entry1": {
       "label": "Dashboard mais claro",
@@ -1447,6 +1450,7 @@
     "eyebrow": "Histórias de estudantes",
     "title": "Aprender nota-se mais quando és tu a contar",
     "subtitle": "Avaliações de estudantes que já praticam com o Lingu no FreeLingo.",
+    "averageLabel": "{average}/5 · {count, plural, one {# avaliação no total} other {# avaliações no total}}",
     "learningLanguage": "A aprender {language}",
     "starsLabel": "{rating} em 5 estrelas",
     "ratingOnly": "Classificação verificada do FreeLingo."

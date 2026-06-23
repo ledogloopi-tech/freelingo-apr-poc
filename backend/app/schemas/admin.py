@@ -54,6 +54,10 @@ class AdminUserCreate(BaseModel):
         return v
 
 
+class MaintenanceModeUpdate(BaseModel):
+    maintenance_mode: bool
+
+
 class AdminUserUpdate(BaseModel):
     display_name: str | None = Field(default=None, max_length=100)
     role: Literal["user", "admin"] | None = None

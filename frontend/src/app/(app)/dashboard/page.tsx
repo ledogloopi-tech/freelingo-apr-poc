@@ -4,12 +4,14 @@ import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { apiFetch } from '@/lib/api'
-import { useAuthStore } from '@/store/auth'
+import { isSubscribed, useAuthStore } from '@/store/auth'
 import { useProgressStore } from '@/store/progress'
 import { useLanguageStore } from '@/store/language'
+import { useConfigStore } from '@/store/config'
 import OnboardingTour from '@/components/tour/OnboardingTour'
 import WhatsNew from '@/components/whats-new/WhatsNew'
 import { PageLoading } from '@/components/ui/page-loading'
+import { SubscriptionPlanButtons } from '@/components/billing/SubscriptionPlanButtons'
 
 interface TodayLessonItem {
   id: number | null
@@ -29,6 +31,7 @@ export default function DashboardPage() {
   const tTarget = useTranslations('targetLanguages')
   const tError = useTranslations('error')
   const user = useAuthStore((s) => s.user)
+  const stripeEnabled = useConfigStore((s) => s.stripeEnabled)
   const {
     streak,
     xp,
@@ -56,6 +59,7 @@ export default function DashboardPage() {
   const [vocabularyProgress, setVocabularyProgress] = useState(0)
   const [skipping, setSkipping] = useState(false)
   const [skipError, setSkipError] = useState(false)
+  const [showPremiumPlans, setShowPremiumPlans] = useState(false)
 
   const loadData = useCallback(async () => {
     try {
@@ -180,6 +184,7 @@ export default function DashboardPage() {
       : 0
   const daysRemaining = hasPlan ? Math.max(totalDays - progressDay, 0) : 0
   const vocabularyProgressPct = Math.round(vocabularyProgress * 100)
+  const showPremiumBanner = stripeEnabled && !isSubscribed(user, stripeEnabled)
 
   function getPerformanceLabel(value: number) {
     if (value < 0.5) return t('performanceNeedsPractice')
@@ -544,6 +549,35 @@ export default function DashboardPage() {
             )}
           </div>
         </div>
+
+        {showPremiumBanner && (
+          <div className="border-fl-border bg-fl-surface mb-6 border p-5">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex gap-3">
+                <span className="text-fl-accent font-mono text-sm leading-none">
+                  ★
+                </span>
+                <div>
+                  <p className="text-fl-label text-fl-muted-2 mb-2 font-mono tracking-widest uppercase">
+                    {t('premiumBannerTitle')}
+                  </p>
+                  <p className="text-fl-muted-2 font-mono text-xs leading-relaxed">
+                    {t('premiumBannerDesc')}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowPremiumPlans((value) => !value)}
+                className="text-fl-label text-fl-fg border-fl-border hover:border-fl-border-2 border px-4 py-2 font-mono tracking-widest whitespace-nowrap uppercase transition-colors"
+              >
+                {t('premiumBannerCta')}
+              </button>
+            </div>
+            {showPremiumPlans && (
+              <SubscriptionPlanButtons className="border-fl-border mt-4 border-t pt-4" />
+            )}
+          </div>
+        )}
 
         {/* Quick actions */}
         <div className="flex flex-wrap gap-2">

@@ -1,4 +1,4 @@
-"""Tests for maintenance mode — admin toggle, config exposure, and subscription guard."""
+"""Tests for maintenance mode — admin toggle, config exposure, and feature guard."""
 
 import pytest
 
@@ -22,6 +22,37 @@ async def test_maintenance_toggle_on(client, admin_user):
 
 
 @pytest.mark.asyncio
+async def test_maintenance_put_sets_explicit_state(client, admin_user):
+    """PUT /api/admin/maintenance sets the requested state explicitly."""
+    _, headers = admin_user
+
+    response = await client.put(
+        "/api/admin/maintenance",
+        json={"maintenance_mode": True},
+        headers=headers,
+    )
+    assert response.status_code == 200
+    assert response.json() == {"maintenance_mode": True}
+
+    # Sending true again stays true instead of toggling off.
+    response = await client.put(
+        "/api/admin/maintenance",
+        json={"maintenance_mode": True},
+        headers=headers,
+    )
+    assert response.status_code == 200
+    assert response.json() == {"maintenance_mode": True}
+
+    response = await client.put(
+        "/api/admin/maintenance",
+        json={"maintenance_mode": False},
+        headers=headers,
+    )
+    assert response.status_code == 200
+    assert response.json() == {"maintenance_mode": False}
+
+
+@pytest.mark.asyncio
 async def test_maintenance_toggle_off(client, admin_user):
     """PATCH toggles from on → off."""
     _, headers = admin_user
@@ -41,6 +72,12 @@ async def test_maintenance_non_admin_gets_403(client, test_user):
     assert r_get.status_code == 403
     r_patch = await client.patch("/api/admin/maintenance", headers=headers)
     assert r_patch.status_code == 403
+    r_put = await client.put(
+        "/api/admin/maintenance",
+        json={"maintenance_mode": True},
+        headers=headers,
+    )
+    assert r_put.status_code == 403
 
 
 @pytest.mark.asyncio
@@ -50,6 +87,8 @@ async def test_maintenance_unauthenticated_gets_401(client):
     assert r_get.status_code == 401
     r_patch = await client.patch("/api/admin/maintenance")
     assert r_patch.status_code == 401
+    r_put = await client.put("/api/admin/maintenance", json={"maintenance_mode": True})
+    assert r_put.status_code == 401
 
 
 @pytest.mark.asyncio

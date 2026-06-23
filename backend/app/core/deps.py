@@ -62,19 +62,24 @@ async def check_maintenance_mode(redis: Redis = Depends(get_redis)) -> None:
 
 async def require_subscription(
     current_user: User = Depends(get_current_user),
-    redis: Redis = Depends(get_redis),
 ) -> User:
-    """Dependency for AI-powered endpoints gated by subscription.
+    """Dependency for endpoints gated by subscription.
 
     Returns the user unchanged when STRIPE_ENABLED=false (self-hosted mode).
-    Raises HTTP 503 when maintenance mode is active.
     Raises HTTP 402 when STRIPE_ENABLED=true and user has no active subscription.
     """
-    await check_maintenance_mode(redis)
-
     if not is_subscribed(current_user, settings.STRIPE_ENABLED):
         raise HTTPException(status_code=402, detail="subscription_required")
     return current_user
+
+
+async def require_not_maintenance(
+    current_user: User = Depends(get_current_user),
+    redis: Redis = Depends(get_redis),
+) -> None:
+    """Dependency for operational features disabled during maintenance mode."""
+    if current_user.role != "admin":
+        await check_maintenance_mode(redis)
 
 
 async def get_active_study_plan(

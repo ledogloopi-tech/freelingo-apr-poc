@@ -412,7 +412,10 @@
     "recentPerformanceDescription": "Bazată pe ultimele tale răspunsuri și recapitulări.",
     "performanceNeedsPractice": "Necesită practică",
     "performanceInProgress": "În progres",
-    "performanceStrong": "Puternic"
+    "performanceStrong": "Puternic",
+    "premiumBannerTitle": "Exersează mai mult cu FreeLingo Premium",
+    "premiumBannerDesc": "Ai acces la Reading, Listening, chat cu Lingu și conversație vocală.",
+    "premiumBannerCta": "Vezi planurile →"
   },
   "assessment": {
     "title": "Evaluare",
@@ -1260,7 +1263,7 @@
     "canceledTitle": "Nu a fost efectuată nicio taxă",
     "canceledDesc": "Te poți abona oricând. Progresul și setările tale sunt intacte.",
     "canceledCtaDashboard": "Mergi la tabloul de bord",
-    "canceledCtaSettings": "Vezi opțiunile de abonament",
+    "canceledCtaSettings": "Mergi la setări",
     "section": "Abonament",
     "status": "Status",
     "statusActive": "Activ",
@@ -1286,7 +1289,7 @@
   },
   "whatsNew": {
     "title": "Noutăți",
-    "version": "v1.8.12",
+    "version": "v1.8.13",
     "cta": "Am înțeles",
     "entry1": {
       "label": "Dashboard mai clar",
@@ -1447,6 +1450,7 @@
     "eyebrow": "Povești de la cursanți",
     "title": "Învățarea se vede mai bine când o povestești tu",
     "subtitle": "Recenzii de la studenți care exersează deja cu Lingu pe FreeLingo.",
+    "averageLabel": "{average}/5 · {count, plural, one {# recenzie în total} few {# recenzii în total} other {# recenzii în total}}",
     "learningLanguage": "Învață {language}",
     "starsLabel": "{rating} din 5 stele",
     "ratingOnly": "Rating FreeLingo verificat."

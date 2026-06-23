@@ -349,7 +349,12 @@ export default function AdminUsersPage() {
     setMaintenanceLoading(true)
     setError('')
     try {
-      const res = await apiFetch('/api/admin/maintenance', { method: 'PATCH' })
+      const nextMode = !maintenanceMode
+      const res = await apiFetch('/api/admin/maintenance', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ maintenance_mode: nextMode }),
+      })
       if (res.ok) {
         const data = await res.json()
         useConfigStore.setState({ maintenanceMode: data.maintenance_mode })

@@ -159,9 +159,10 @@ Stored as a simple Redis flag (`maintenance_mode` = `"1"` / `"0"`). Toggled by t
 
 - `get_redis()` — centralized async Redis dependency.
 - `check_maintenance_mode()` — raises HTTP 503 when `maintenance_mode == "1"`. Swallows Redis errors to fail open.
-- `require_subscription` — calls `check_maintenance_mode` before the subscription check. Both HTTP endpoints (chat, listening, reading) and the WebSocket (`/ws/conversation`) are protected.
+- `require_subscription` — checks only subscription status. It does not consult maintenance mode.
+- `require_not_maintenance` — checks only the `maintenance_mode` flag for operational feature availability. Non-admin users receive HTTP 503 when maintenance is active; admins bypass the guard so they can verify gated features during maintenance. Applied explicitly alongside `require_subscription` on chat, listening, reading, and conversation warmup endpoints. The WebSocket (`/ws/conversation`) performs the same maintenance check manually. Memory-management endpoints use only `require_subscription`.
 
-**Frontend**: `MaintenanceGate` component renders a static banner when `maintenance_mode` is true. Applied on top of `PaywallGate` in the four subscription-gated pages: `/chat`, `/conversation`, `/listening`, `/reading`.
+**Frontend**: `MaintenanceGate` component renders a static banner when `maintenance_mode` is true for non-admin users. Applied on top of `PaywallGate` in the four subscription-gated pages: `/chat`, `/conversation`, `/listening`, `/reading`.
 
 **Public exposure**: `GET /api/config` returns `maintenance_mode: bool` so the frontend can read the state without an authenticated request.
 

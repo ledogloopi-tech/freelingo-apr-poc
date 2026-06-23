@@ -412,7 +412,10 @@
     "recentPerformanceDescription": "Na podstawie ostatnich odpowiedzi i powtórek.",
     "performanceNeedsPractice": "Wymaga praktyki",
     "performanceInProgress": "W trakcie",
-    "performanceStrong": "Mocne"
+    "performanceStrong": "Mocne",
+    "premiumBannerTitle": "Ćwicz więcej z FreeLingo Premium",
+    "premiumBannerDesc": "Uzyskaj dostęp do Reading, Listening, czatu z Lingu i rozmów głosowych.",
+    "premiumBannerCta": "Zobacz plany →"
   },
   "assessment": {
     "title": "Ocena poziomu",
@@ -1260,7 +1263,7 @@
     "canceledTitle": "Nie pobrano żadnych opłat",
     "canceledDesc": "Możesz subskrybować w dowolnym momencie. Twój postęp i ustawienia są nienaruszone.",
     "canceledCtaDashboard": "Przejdź do panelu",
-    "canceledCtaSettings": "Wyświetl opcje subskrypcji",
+    "canceledCtaSettings": "Przejdź do ustawień",
     "section": "Subskrypcja",
     "status": "Status",
     "statusActive": "Aktywna",
@@ -1286,7 +1289,7 @@
   },
   "whatsNew": {
     "title": "Co nowego",
-    "version": "v1.8.12",
+    "version": "v1.8.13",
     "cta": "Rozumiem",
     "entry1": {
       "label": "Czytelniejszy dashboard",
@@ -1447,6 +1450,7 @@
     "eyebrow": "Historie uczących się",
     "title": "Naukę widać lepiej, gdy opowiadasz o niej samodzielnie",
     "subtitle": "Recenzje uczniów, którzy już ćwiczą z Lingu na FreeLingo.",
+    "averageLabel": "{average}/5 · {count, plural, one {# recenzja łącznie} few {# recenzje łącznie} many {# recenzji łącznie} other {# recenzji łącznie}}",
     "learningLanguage": "Nauka: {language}",
     "starsLabel": "{rating} z 5 gwiazdek",
     "ratingOnly": "Zweryfikowana ocena FreeLingo."

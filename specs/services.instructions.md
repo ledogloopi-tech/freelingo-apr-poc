@@ -208,7 +208,7 @@ Single source of truth for subscription-based access control (Phase 5):
 - `is_subscribed(user, stripe_enabled) → bool` — returns `True` unconditionally when `stripe_enabled=False` (self-hosted mode, default); otherwise requires `subscription_status` to be `"trialing"` or `"active"`.
 - `apply_subscription_quotas(user, db)` — resets conversation and token quotas to defaults when a subscription becomes active or enters trial.
 
-Used by `require_subscription` in `core/deps.py`, which gates all chat, listening, reading, conversation, and memory endpoints.
+Used by `require_subscription` in `core/deps.py`, which gates subscription-only access. Maintenance mode is handled separately by `require_not_maintenance` on chat, listening, reading, and conversation warmup endpoints. Memory-management endpoints use only `require_subscription`, so they stay subscription-gated but are not blocked during maintenance mode.
 
 ## Conversation Pipeline (`conversation_pipeline.py`)
 

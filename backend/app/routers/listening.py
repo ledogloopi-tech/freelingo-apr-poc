@@ -11,7 +11,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.core.database import get_db
-from app.core.deps import get_active_study_plan, get_redis, require_subscription
+from app.core.deps import (
+    get_active_study_plan,
+    get_redis,
+    require_not_maintenance,
+    require_subscription,
+)
 from app.core.limiter import limiter
 from app.models.listening import ListeningExercise
 from app.models.study_plan import StudyPlan
@@ -106,6 +111,7 @@ async def _background_generate(
 @limiter.limit("10/minute")
 async def get_next_exercise(
     request: Request,
+    _maintenance: None = Depends(require_not_maintenance),
     wait: bool = False,
     plan: StudyPlan = Depends(get_active_study_plan),
     current_user: User = Depends(require_subscription),
@@ -154,6 +160,7 @@ async def get_next_exercise(
 async def generate_exercise(
     request: Request,
     background_tasks: BackgroundTasks,
+    _maintenance: None = Depends(require_not_maintenance),
     voice: str = Query(default=""),
     plan: StudyPlan = Depends(get_active_study_plan),
     current_user: User = Depends(require_subscription),
@@ -194,6 +201,7 @@ async def generate_exercise(
 async def get_audio(
     request: Request,
     exercise_id: int,
+    _maintenance: None = Depends(require_not_maintenance),
     plan: StudyPlan = Depends(get_active_study_plan),
     current_user: User = Depends(require_subscription),
     db: AsyncSession = Depends(get_db),
@@ -226,6 +234,7 @@ async def get_audio(
 async def submit_listening_attempt(
     request: Request,
     body: ListeningSubmitRequest,
+    _maintenance: None = Depends(require_not_maintenance),
     plan: StudyPlan = Depends(get_active_study_plan),
     current_user: User = Depends(require_subscription),
     db: AsyncSession = Depends(get_db),
@@ -267,6 +276,7 @@ async def submit_listening_attempt(
 @limiter.limit("60/minute")
 async def get_listening_history(
     request: Request,
+    _maintenance: None = Depends(require_not_maintenance),
     skip: int = 0,
     limit: int = 10,
     plan: StudyPlan = Depends(get_active_study_plan),

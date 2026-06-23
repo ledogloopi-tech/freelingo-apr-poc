@@ -167,7 +167,7 @@ frontend/
 
 ### Authenticated routes — `(app)/`
 
-- `/dashboard` — Home: action-oriented overview using existing progress and study-plan data. Shows the active language/level, a primary next-step card, streak/XP/lesson/accuracy stats, plan-progress summary with compact current-level vocabulary progress, today's lessons with completion count and next pending lesson highlight, recent-performance areas derived from `skills`, pending-lesson link, and shortcuts to plan, flashcards, tutor, and assessment.
+- `/dashboard` — Home: action-oriented overview using existing progress and study-plan data. Shows the active language/level, a primary next-step card, streak/XP/lesson/accuracy stats, plan-progress summary with compact current-level vocabulary progress, today's lessons with completion count and next pending lesson highlight, recent-performance areas derived from `skills`, pending-lesson link, a compact Premium banner for unsubscribed users when Stripe is enabled, and shortcuts to plan, flashcards, tutor, and assessment.
 - `/assessment` — Level placement test (`BeginnerGate` → `AdaptiveQuiz` → `DurationSelector`).
 - `/plan` — Study plan overview: unit cards, `LevelTestBanner`, `UnitDrawer`.
 - `/lesson/[id]` — Lesson player: content + interactive exercises. If `content.native_explanation` exists, it is shown below the target-language explanation in a collapsible section that opens by default for A1/A2 and stays collapsed by default for B1+. The section renders translated text, key points, examples, common traps, and a mini-glossary when present. If it is missing, the expanded section shows a native-language button that calls `POST /api/lessons/{id}/native-explanation` and stores the returned explanation in local lesson state. Exercise feedback still shows the target-language explanation first; when an exercise response includes `native_explanation`, the lesson page renders that native-language clarification directly below the target-language exercise explanation. When the exercise has a target-language explanation but lacks native text, the same button pattern calls `POST /api/lessons/exercises/{id}/native-explanation` and patches the exercise in local state. Completing a lesson may open the reusable review prompt when it advances the user out of the completed curriculum unit, subject to duplicate-review checks and local dismissal cooldown.
@@ -185,7 +185,7 @@ frontend/
 - `/settings` — Profile, avatar, subscription, user review creation/editing, conversation settings.
 - `/faq` — Frequently asked questions.
 - `/admin/reviews` — Admin-only review moderation with status/rating filters, approve/unapprove, and delete confirmation.
-- Landing page — The top navigation includes a Reviews anchor between Features and Pricing when approved public reviews are available; the same conditional link appears in the mobile menu. Review carousel cards keep a consistent height and clamp long comments to 6 lines.
+- Landing page — The top navigation includes a Reviews anchor between Features and Pricing when approved public reviews are available; the same conditional link appears in the mobile menu. The reviews section shows a compact average-rating and total-review-count badge below the subtitle, using localized formatting and public-facing copy. Review carousel cards keep a consistent height and clamp long comments to 6 lines.
 - `/feedback` — Feature requests and bug reports board (community).
 - `/admin` — Admin overview with aggregated metrics including pending feedback and pending review approvals, operational alerts, quick links to users/feedback/reviews, and maintenance-mode status (admin only).
 - `/admin/users` — User management with responsive table/cards, search, filters, invite copy workflow, create-user sheet, and maintenance toggle (admin only).
@@ -241,7 +241,7 @@ Six Zustand stores hold all client-side state. No React Context is used for glob
 | --------------- | -------------------------------------------------------------------------------------------------- |
 | `assessment/`   | `AdaptiveQuizCard`, `BeginnerGate`, `DurationSelector`                                             |
 | `admin/`        | `AdminNav`, `AdminPageHeader`, `AdminPanel`, `AdminMetric`, `AdminBadge` shared across admin pages |
-| `billing/`      | Stripe subscription management UI; landing `PricingSection` hides for active/trialing subscribers  |
+| `billing/`      | Stripe subscription management UI; landing `PricingSection` hides for active/trialing subscribers; `MaintenanceGate` hides gated pages from non-admin users during maintenance  |
 | `chat/`         | Message display, input, SSE stream handling                                                        |
 | `conversation/` | `ConversationMode`, `MicButton`, `StatusIndicator`, `TranscriptBubble`, VAD integration            |
 | `flashcard/`    | Flashcard flip animation, SM-2 rating buttons                                                      |

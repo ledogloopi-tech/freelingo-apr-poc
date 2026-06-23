@@ -412,7 +412,10 @@
     "recentPerformanceDescription": "На основе последних ответов и повторений.",
     "performanceNeedsPractice": "Нужна практика",
     "performanceInProgress": "В процессе",
-    "performanceStrong": "Сильно"
+    "performanceStrong": "Сильно",
+    "premiumBannerTitle": "Практикуйтесь больше с FreeLingo Premium",
+    "premiumBannerDesc": "Откройте доступ к Reading, Listening, чату с Lingu и голосовым разговорам.",
+    "premiumBannerCta": "Посмотреть планы →"
   },
   "assessment": {
     "title": "Оценка",
@@ -1260,7 +1263,7 @@
     "canceledTitle": "Списаний не было",
     "canceledDesc": "Вы можете подписаться в любое время. Ваш прогресс и настройки целы.",
     "canceledCtaDashboard": "Перейти в панель",
-    "canceledCtaSettings": "Посмотреть опции подписки",
+    "canceledCtaSettings": "Перейти в настройки",
     "section": "Подписка",
     "status": "Статус",
     "statusActive": "Активна",
@@ -1286,7 +1289,7 @@
   },
   "whatsNew": {
     "title": "Что нового",
-    "version": "v1.8.12",
+    "version": "v1.8.13",
     "cta": "Понятно",
     "entry1": {
       "label": "Более понятный дашборд",
@@ -1447,6 +1450,7 @@
     "eyebrow": "Истории учеников",
     "title": "Обучение заметнее, когда ты рассказываешь о нём сам",
     "subtitle": "Отзывы учеников, которые уже практикуются с Lingu во FreeLingo.",
+    "averageLabel": "{average}/5 · {count, plural, one {# отзыв всего} few {# отзыва всего} many {# отзывов всего} other {# отзыва всего}}",
     "learningLanguage": "Изучает {language}",
     "starsLabel": "{rating} из 5 звезд",
     "ratingOnly": "Проверенная оценка FreeLingo."
