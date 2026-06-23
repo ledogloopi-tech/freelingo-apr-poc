@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.12] - 2026-06-23
+
+### Changed
+
+- **Dashboard UX refresh**: `/dashboard` now emphasizes the student's next action with a primary next-step card, richer progress stats from existing summary data, a clearer plan-progress block, and a reorganized daily lesson section that highlights the next pending lesson and shows how many lessons are completed today. No dashboard endpoints or request flow changed.
+
 ## [1.8.11] - 2026-06-22
 
 ### Added

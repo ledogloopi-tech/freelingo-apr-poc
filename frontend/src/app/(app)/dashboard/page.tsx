@@ -46,6 +46,14 @@ export default function DashboardPage() {
   const [progressDay, setProgressDay] = useState(0)
   const [totalDays, setTotalDays] = useState(0)
   const [pendingCount, setPendingCount] = useState(0)
+  const [totalLessons, setTotalLessons] = useState(0)
+  const [totalExercises, setTotalExercises] = useState(0)
+  const [exercisesCorrect, setExercisesCorrect] = useState(0)
+  const [accuracy, setAccuracy] = useState(0)
+  const [vocabularyLevel, setVocabularyLevel] = useState<string | null>(null)
+  const [vocabularyMastered, setVocabularyMastered] = useState(0)
+  const [vocabularyTotal, setVocabularyTotal] = useState(0)
+  const [vocabularyProgress, setVocabularyProgress] = useState(0)
   const [skipping, setSkipping] = useState(false)
   const [skipError, setSkipError] = useState(false)
 
@@ -62,8 +70,24 @@ export default function DashboardPage() {
           xp: prog.total_xp ?? 0,
           skills: prog.skills ?? {},
         })
+        setTotalLessons(prog.total_lessons ?? 0)
+        setTotalExercises(prog.total_exercises ?? 0)
+        setExercisesCorrect(prog.exercises_correct ?? 0)
+        setAccuracy(prog.accuracy ?? 0)
+        setVocabularyLevel(prog.vocabulary_level ?? null)
+        setVocabularyMastered(prog.vocabulary_mastered ?? 0)
+        setVocabularyTotal(prog.vocabulary_total ?? 0)
+        setVocabularyProgress(prog.vocabulary_progress ?? 0)
       } else {
         setProgress({ streak: 0, xp: 0, skills: {} })
+        setTotalLessons(0)
+        setTotalExercises(0)
+        setExercisesCorrect(0)
+        setAccuracy(0)
+        setVocabularyLevel(null)
+        setVocabularyMastered(0)
+        setVocabularyTotal(0)
+        setVocabularyProgress(0)
       }
       if (planRes.ok) {
         const plan = await planRes.json()
@@ -140,6 +164,28 @@ export default function DashboardPage() {
   }
 
   const skillEntries = Object.entries(skills)
+    .map(([skill, value]) => ({ skill, value: value as number }))
+    .sort((a, b) => a.value - b.value)
+  const completedLessonCount = todayLessons.filter(
+    (lesson) =>
+      (lesson.id && completedToday.includes(lesson.id)) || lesson.isCompleted
+  ).length
+  const nextLesson = todayLessons.find(
+    (lesson) =>
+      lesson.id && !completedToday.includes(lesson.id) && !lesson.isCompleted
+  )
+  const planCompletion =
+    hasPlan && totalDays > 0
+      ? Math.min(100, Math.round((progressDay / totalDays) * 100))
+      : 0
+  const daysRemaining = hasPlan ? Math.max(totalDays - progressDay, 0) : 0
+  const vocabularyProgressPct = Math.round(vocabularyProgress * 100)
+
+  function getPerformanceLabel(value: number) {
+    if (value < 0.5) return t('performanceNeedsPractice')
+    if (value < 0.8) return t('performanceInProgress')
+    return t('performanceStrong')
+  }
 
   return (
     <>
@@ -147,18 +193,92 @@ export default function DashboardPage() {
       <WhatsNew />
       <div className="mx-auto max-w-4xl p-6">
         {/* Header */}
-        <div className="border-fl-border mb-8 border-b pb-4">
+        <div className="border-fl-border mb-6 border-b pb-4">
           <p className="text-fl-label text-fl-muted-2 mb-1 font-mono tracking-widest uppercase">
             {t('welcomeBack')}
           </p>
-          <h1 className="text-fl-fg font-mono text-2xl font-bold tracking-tight">
-            {user?.displayName || user?.username}
-          </h1>
-          {activeLanguage && (
-            <p className="text-fl-muted-1 mt-2 font-mono text-sm">
-              {tTarget(activeLanguage.code)}
-              {cefrLevel ? ` (${cefrLevel})` : ''}
-            </p>
+          <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+            <div>
+              <h1 className="text-fl-fg font-mono text-2xl font-bold tracking-tight">
+                {user?.displayName || user?.username}
+              </h1>
+              {activeLanguage && (
+                <p className="text-fl-muted-1 mt-2 font-mono text-sm">
+                  {tTarget(activeLanguage.code)}
+                  {cefrLevel ? ` (${cefrLevel})` : ''}
+                </p>
+              )}
+            </div>
+            {hasPlan && totalDays > 0 && (
+              <p className="text-fl-hint text-fl-muted-2 font-mono tracking-widest uppercase">
+                {t('dayProgress', {
+                  current: Math.min(progressDay + 1, totalDays),
+                  total: totalDays,
+                })}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Next step */}
+        <div className="border-fl-border bg-fl-surface mb-8 border p-5">
+          <p className="text-fl-label text-fl-muted-2 mb-3 font-mono tracking-widest uppercase">
+            {t('nextStep')}
+          </p>
+          {!hasPlan ? (
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2 className="text-fl-fg font-mono text-xl font-bold tracking-tight">
+                  {t('startWithAssessment')}
+                </h2>
+                <p className="text-fl-muted-2 mt-2 max-w-xl font-mono text-sm">
+                  {t('assessmentCreatesPlan')}
+                </p>
+              </div>
+              <Link href="/assessment">
+                <button className="text-fl-label text-fl-bg bg-fl-fg hover:bg-fl-accent/90 px-4 py-2 font-mono tracking-widest uppercase transition-colors">
+                  {t('takeAssessmentArrow')}
+                </button>
+              </Link>
+            </div>
+          ) : nextLesson ? (
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-fl-hint text-fl-muted-2 mb-2 font-mono tracking-widest uppercase">
+                  {t('lessonReady')}
+                </p>
+                <h2 className="text-fl-fg font-mono text-xl font-bold tracking-tight">
+                  {nextLesson.title}
+                </h2>
+                <p className="text-fl-muted-2 mt-2 font-mono text-sm">
+                  {tPlan(`lessonTypes.${nextLesson.lessonType}`)} ·{' '}
+                  {nextLesson.estimatedMinutes}min
+                </p>
+              </div>
+              <Link href={`/lesson/${nextLesson.id}`}>
+                <button className="text-fl-label text-fl-bg bg-fl-fg hover:bg-fl-accent/90 px-4 py-2 font-mono tracking-widest uppercase transition-colors">
+                  {t('startLesson')}
+                </button>
+              </Link>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2 className="text-fl-fg font-mono text-xl font-bold tracking-tight">
+                  {t('allCaughtUp')}
+                </h2>
+                <p className="text-fl-muted-2 mt-2 font-mono text-sm">
+                  {pendingCount > 0
+                    ? t('pendingStillAvailable', { count: pendingCount })
+                    : t('noPendingToday')}
+                </p>
+              </div>
+              <Link href="/plan">
+                <button className="text-fl-label text-fl-fg border-fl-border hover:border-fl-border-2 border px-4 py-2 font-mono tracking-widest uppercase transition-colors">
+                  {t('goToMyPlan')}
+                </button>
+              </Link>
+            </div>
           )}
         </div>
 
@@ -167,8 +287,24 @@ export default function DashboardPage() {
           {[
             { label: t('streak'), value: `${streak}d`, accent: streak > 0 },
             { label: t('xp'), value: xp, accent: false },
-            { label: t('level'), value: cefrLevel ?? '—', accent: false },
-            { label: t('skills'), value: skillEntries.length, accent: false },
+            {
+              label: t('lessonsCompleted'),
+              value: totalLessons,
+              accent: false,
+            },
+            {
+              label: t('accuracy'),
+              value:
+                totalExercises > 0 ? `${Math.round(accuracy * 100)}%` : '—',
+              accent: false,
+              detail:
+                totalExercises > 0
+                  ? t('exerciseStats', {
+                      correct: exercisesCorrect,
+                      total: totalExercises,
+                    })
+                  : t('noExercisesYet'),
+            },
           ].map((stat) => (
             <div key={stat.label} className="bg-fl-surface px-5 py-5">
               <p className="text-fl-hint text-fl-muted-2 mb-2 font-mono tracking-widest uppercase">
@@ -179,43 +315,87 @@ export default function DashboardPage() {
               >
                 {stat.value}
               </p>
+              {'detail' in stat && stat.detail && (
+                <p className="text-fl-hint text-fl-muted-3 mt-2 font-mono tracking-widest uppercase">
+                  {stat.detail}
+                </p>
+              )}
             </div>
           ))}
         </div>
 
         <div className="bg-fl-border mb-8 grid gap-px sm:grid-cols-2">
-          {/* Skills */}
+          {/* Plan progress */}
           <div className="bg-fl-surface p-5">
-            <div className="mb-4 flex items-center gap-2">
-              <span className="text-fl-label text-fl-muted-2">●</span>
-              <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
-                {t('skills')}
-              </span>
+            <div className="mb-4 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2">
+                <span className="text-fl-label text-fl-muted-2">●</span>
+                <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
+                  {t('planProgress')}
+                </span>
+              </div>
+              {hasPlan && totalDays > 0 && (
+                <span className="text-fl-hint text-fl-muted-3 font-mono tracking-widest">
+                  {planCompletion}%
+                </span>
+              )}
             </div>
-            {skillEntries.length > 0 ? (
-              <div className="space-y-3">
-                {skillEntries.map(([skill, value]) => (
-                  <div key={skill}>
-                    <div className="mb-1 flex justify-between">
-                      <span className="text-fl-label text-fl-muted-1 font-mono tracking-widest uppercase">
-                        {tPlan(`lessonTypes.${skill}`)}
-                      </span>
-                      <span className="text-fl-label text-fl-muted-2 font-mono">
-                        {Math.round((value as number) * 100)}%
-                      </span>
+            {hasPlan && totalDays > 0 ? (
+              <>
+                <div className="bg-fl-border mb-4 h-px w-full">
+                  <div
+                    className="bg-fl-accent h-px transition-all duration-500"
+                    style={{ width: `${planCompletion}%` }}
+                  />
+                </div>
+                <div className="bg-fl-border grid grid-cols-2 gap-px">
+                  <div className="bg-fl-bg p-3">
+                    <p className="text-fl-hint text-fl-muted-2 mb-1 font-mono tracking-widest uppercase">
+                      {t('currentDay')}
+                    </p>
+                    <p className="text-fl-fg font-mono text-lg font-bold">
+                      {Math.min(progressDay + 1, totalDays)} / {totalDays}
+                    </p>
+                  </div>
+                  <div className="bg-fl-bg p-3">
+                    <p className="text-fl-hint text-fl-muted-2 mb-1 font-mono tracking-widest uppercase">
+                      {t('daysRemaining')}
+                    </p>
+                    <p className="text-fl-fg font-mono text-lg font-bold">
+                      {daysRemaining}
+                    </p>
+                  </div>
+                </div>
+                {vocabularyTotal > 0 && (
+                  <div className="mt-4">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-fl-hint text-fl-muted-2 font-mono tracking-widest uppercase">
+                        {t('vocabularyProgress', {
+                          level: vocabularyLevel ?? cefrLevel ?? '',
+                        })}
+                      </p>
+                      <p className="text-fl-label text-fl-muted-2 font-mono">
+                        {vocabularyProgressPct}%
+                      </p>
                     </div>
-                    <div className="bg-fl-border h-px w-full">
+                    <p className="text-fl-hint text-fl-muted-3 mt-2 font-mono tracking-widest uppercase">
+                      {t('vocabularyWords', {
+                        mastered: vocabularyMastered,
+                        total: vocabularyTotal,
+                      })}
+                    </p>
+                    <div className="bg-fl-border mt-2 h-px w-full">
                       <div
-                        className="bg-fl-accent h-px"
-                        style={{ width: `${(value as number) * 100}%` }}
+                        className="bg-fl-accent h-px transition-all duration-500"
+                        style={{ width: `${vocabularyProgressPct}%` }}
                       />
                     </div>
                   </div>
-                ))}
-              </div>
+                )}
+              </>
             ) : (
               <p className="text-fl-muted-2 font-mono text-xs">
-                {t('noSkills')}
+                {t('startWithAssessment')}
               </p>
             )}
           </div>
@@ -229,59 +409,64 @@ export default function DashboardPage() {
                   {t('today')}
                 </span>
               </div>
-              {hasPlan && totalDays > 0 && (
+              {todayLessons.length > 0 && (
                 <span className="text-fl-hint text-fl-muted-3 font-mono tracking-widest">
-                  {t('dayProgress', {
-                    current: Math.min(progressDay + 1, totalDays),
-                    total: totalDays,
+                  {t('completedToday', {
+                    completed: completedLessonCount,
+                    total: todayLessons.length,
                   })}
                 </span>
               )}
             </div>
 
-            {/* Plan progress bar */}
-            {hasPlan && totalDays > 0 && (
-              <div className="bg-fl-border mb-4 h-px w-full">
-                <div
-                  className="bg-fl-accent h-px transition-all duration-500"
-                  style={{
-                    width: `${Math.round((progressDay / totalDays) * 100)}%`,
-                  }}
-                />
-              </div>
-            )}
-
             {todayLessons.length > 0 ? (
               <div className="space-y-2">
-                {todayLessons.map((lesson, i) => (
-                  <div
-                    key={i}
-                    className="border-fl-border flex items-center justify-between border px-4 py-3"
-                  >
-                    <div>
-                      <p className="text-fl-fg font-mono text-xs">
-                        {lesson.title}
-                      </p>
-                      <p className="text-fl-label text-fl-muted-2 mt-0.5 font-mono tracking-wider uppercase">
-                        {tPlan(`lessonTypes.${lesson.lessonType}`)} ·{' '}
-                        {lesson.estimatedMinutes}min
-                      </p>
+                {todayLessons.map((lesson, i) => {
+                  const isDone =
+                    (lesson.id && completedToday.includes(lesson.id)) ||
+                    lesson.isCompleted
+                  const isNext = nextLesson?.id === lesson.id
+
+                  return (
+                    <div
+                      key={i}
+                      className={`border px-4 py-3 ${
+                        isNext
+                          ? 'border-fl-accent/60 bg-fl-accent/5'
+                          : 'border-fl-border'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-4">
+                        <div>
+                          <p className="text-fl-fg font-mono text-xs">
+                            {lesson.title}
+                          </p>
+                          <p className="text-fl-label text-fl-muted-2 mt-0.5 font-mono tracking-wider uppercase">
+                            {tPlan(`lessonTypes.${lesson.lessonType}`)} ·{' '}
+                            {lesson.estimatedMinutes}min
+                          </p>
+                        </div>
+                        {isDone ? (
+                          <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
+                            ✓ {t('lessonDone')}
+                          </span>
+                        ) : lesson.id ? (
+                          <Link href={`/lesson/${lesson.id}`}>
+                            <button
+                              className={`text-fl-label px-3 py-1 font-mono tracking-widest uppercase transition-colors ${
+                                isNext
+                                  ? 'text-fl-bg bg-fl-fg hover:bg-fl-accent/90'
+                                  : 'text-fl-fg border-fl-border hover:border-fl-border-2 border'
+                              }`}
+                            >
+                              {t('startLesson')}
+                            </button>
+                          </Link>
+                        ) : null}
+                      </div>
                     </div>
-                    {lesson.id &&
-                    (completedToday.includes(lesson.id) ||
-                      lesson.isCompleted) ? (
-                      <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
-                        ✓ {t('lessonDone')}
-                      </span>
-                    ) : lesson.id ? (
-                      <Link href={`/lesson/${lesson.id}`}>
-                        <button className="text-fl-label text-fl-bg bg-fl-fg hover:bg-fl-accent/90 px-3 py-1 font-mono tracking-widest uppercase transition-colors">
-                          {t('startLesson')}
-                        </button>
-                      </Link>
-                    ) : null}
-                  </div>
-                ))}
+                  )
+                })}
                 <div className="pt-1">
                   <button
                     onClick={skipDay}
@@ -310,6 +495,52 @@ export default function DashboardPage() {
                   </Link>
                 )}
               </div>
+            )}
+          </div>
+
+          {/* Recent performance */}
+          <div className="bg-fl-surface p-5 sm:col-span-2">
+            <div className="mb-4">
+              <div className="mb-2 flex items-center gap-2">
+                <span className="text-fl-label text-fl-muted-2">●</span>
+                <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
+                  {t('recentPerformance')}
+                </span>
+              </div>
+              <p className="text-fl-muted-3 font-mono text-xs">
+                {t('recentPerformanceDescription')}
+              </p>
+            </div>
+            {skillEntries.length > 0 ? (
+              <div className="space-y-3">
+                {skillEntries.map(({ skill, value }) => (
+                  <div key={skill}>
+                    <div className="mb-1 flex justify-between">
+                      <span className="text-fl-label text-fl-muted-1 font-mono tracking-widest uppercase">
+                        {tPlan(`lessonTypes.${skill}`)}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-fl-label text-fl-muted-3 font-mono tracking-widest uppercase">
+                          {getPerformanceLabel(value)}
+                        </span>
+                        <span className="text-fl-label text-fl-muted-2 font-mono">
+                          {Math.round(value * 100)}%
+                        </span>
+                      </div>
+                    </div>
+                    <div className="bg-fl-border h-px w-full">
+                      <div
+                        className="bg-fl-accent h-px"
+                        style={{ width: `${value * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-fl-muted-2 font-mono text-xs">
+                {t('noSkills')}
+              </p>
             )}
           </div>
         </div>

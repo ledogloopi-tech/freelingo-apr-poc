@@ -27,6 +27,8 @@ async def test_progress_with_data(client, test_user, db_session):
     user, headers = test_user
 
     from app.models.progress import Progress
+    from app.models.flashcard import Flashcard
+    from app.data.vocabulary import get_vocabulary_by_level
     from tests.conftest import make_study_plan
 
     plan = await make_study_plan(
@@ -53,6 +55,32 @@ async def test_progress_with_data(client, test_user, db_session):
         skills={"grammar": 0.6, "vocabulary": 0.4},
     )
     db_session.add(progress)
+    vocab_sets = get_vocabulary_by_level("A1", "en-US")
+    first_word = vocab_sets[0].words[0].word
+    second_word = vocab_sets[0].words[1].word
+    total_a1_words = sum(len(vocab_set.words) for vocab_set in vocab_sets)
+    db_session.add_all(
+        [
+            Flashcard(
+                user_id=user.id,
+                study_plan_id=plan.id,
+                word=first_word,
+                definition="Definition",
+                example_sentence="Example sentence.",
+                translation="Translation",
+                repetitions=1,
+            ),
+            Flashcard(
+                user_id=user.id,
+                study_plan_id=plan.id,
+                word=second_word,
+                definition="Definition",
+                example_sentence="Example sentence.",
+                translation="Translation",
+                repetitions=0,
+            ),
+        ]
+    )
     await db_session.commit()
 
     response = await client.get("/api/progress/summary", headers=headers)
@@ -61,3 +89,7 @@ async def test_progress_with_data(client, test_user, db_session):
     assert data["total_xp"] == 50
     assert data["current_streak"] == 3
     assert data["accuracy"] == 0.8
+    assert data["vocabulary_level"] == "A1"
+    assert data["vocabulary_mastered"] == 1
+    assert data["vocabulary_total"] == total_a1_words
+    assert data["vocabulary_progress"] == round(1 / total_a1_words, 2)

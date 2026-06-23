@@ -31,6 +31,10 @@ class ProgressSummary(BaseModel):
     exercises_correct: int
     accuracy: float
     skills: dict
+    vocabulary_level: str | None = None
+    vocabulary_mastered: int = 0
+    vocabulary_total: int = 0
+    vocabulary_progress: float = 0.0
 
 
 class ProgressHistoryResponse(BaseModel):
