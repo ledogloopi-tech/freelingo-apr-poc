@@ -1263,7 +1263,7 @@
     "canceledTitle": "Списаний не было",
     "canceledDesc": "Вы можете подписаться в любое время. Ваш прогресс и настройки целы.",
     "canceledCtaDashboard": "Перейти в панель",
-    "canceledCtaSettings": "Посмотреть опции подписки",
+    "canceledCtaSettings": "Перейти в настройки",
     "section": "Подписка",
     "status": "Статус",
     "statusActive": "Активна",
@@ -1450,7 +1450,7 @@
     "eyebrow": "Истории учеников",
     "title": "Обучение заметнее, когда ты рассказываешь о нём сам",
     "subtitle": "Отзывы учеников, которые уже практикуются с Lingu во FreeLingo.",
-    "averageLabel": "{average}/5 · всего отзывов: {count}",
+    "averageLabel": "{average}/5 · {count, plural, one {# отзыв всего} few {# отзыва всего} many {# отзывов всего} other {# отзыва всего}}",
     "learningLanguage": "Изучает {language}",
     "starsLabel": "{rating} из 5 звезд",
     "ratingOnly": "Проверенная оценка FreeLingo."

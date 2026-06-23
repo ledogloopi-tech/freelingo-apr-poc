@@ -343,7 +343,7 @@ The **"Skip today"** button is shown when `lessons.length > 0`. It calls `POST /
 
 The **assessment button** is shown only when the user has no active plan (`hasPlan = false`, i.e. the `/today` call returned 404).
 
-When Stripe is enabled and `isSubscribed(user, stripeEnabled)` is false, the dashboard shows a compact Premium banner above quick actions. It links to `/#pricing` and does not render for subscribed/trialing users or self-hosted deployments with Stripe disabled.
+When Stripe is enabled and `isSubscribed(user, stripeEnabled)` is false, the dashboard shows a compact Premium banner above quick actions. Its CTA expands inline monthly/yearly plan buttons; the selected plan posts to `POST /api/billing/checkout` and redirects to Stripe Checkout. The banner does not render for subscribed/trialing users or self-hosted deployments with Stripe disabled.
 
 ### Lesson player (`frontend/src/app/(app)/lesson/[id]/page.tsx`)
 

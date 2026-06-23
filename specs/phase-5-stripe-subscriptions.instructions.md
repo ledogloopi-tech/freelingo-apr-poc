@@ -324,6 +324,7 @@ Only rendered when `stripeEnabled`. Shows:
 - Current plan: "Monthly" / "Yearly" / "Trial" / "No subscription"
 - Status badge: active (green) / trialing (blue) / past_due (amber) / canceled (red)
 - Next billing date (from `subscription_ends_at`)
+- For unsubscribed users, monthly and yearly plan buttons are shown before checkout; each posts `POST /api/billing/checkout` with the selected plan.
 - Button "Manage subscription" → `POST /api/billing/portal` → `router.push(url)`
 
 ### 4.6 Pricing section in landing page (`/`)

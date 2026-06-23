@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { apiFetch } from '@/lib/api'
 import { useAuthStore, isSubscribed } from '@/store/auth'
 import { useConfigStore } from '@/store/config'
+import { SubscriptionPlanButtons } from '@/components/billing/SubscriptionPlanButtons'
 
 export function BillingSection() {
   const tBilling = useTranslations('billing')
@@ -12,29 +13,8 @@ export function BillingSection() {
   const stripeEnabled = useConfigStore((s) => s.stripeEnabled)
   const [portalLoading, setPortalLoading] = useState(false)
   const [portalError, setPortalError] = useState<string | null>(null)
-  const [checkoutLoading, setCheckoutLoading] = useState(false)
 
   if (!stripeEnabled) return null
-
-  async function handleCheckout() {
-    setCheckoutLoading(true)
-    setPortalError(null)
-    try {
-      const res = await apiFetch('/api/billing/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan: 'monthly' }),
-      })
-      if (!res.ok) throw new Error(tBilling('checkoutError'))
-      const { url } = await res.json()
-      window.location.href = url
-    } catch (err) {
-      setPortalError(
-        err instanceof Error ? err.message : tBilling('checkoutError')
-      )
-      setCheckoutLoading(false)
-    }
-  }
 
   async function handleManageSubscription() {
     setPortalLoading(true)
@@ -118,13 +98,7 @@ export function BillingSection() {
             {portalLoading ? '...' : tBilling('manage')}
           </button>
         ) : (
-          <button
-            onClick={handleCheckout}
-            disabled={checkoutLoading}
-            className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 w-full py-2.5 font-mono text-xs tracking-widest uppercase transition-colors disabled:opacity-50"
-          >
-            {checkoutLoading ? '...' : tBilling('subscribe')}
-          </button>
+          <SubscriptionPlanButtons />
         )}
 
         {portalError && (

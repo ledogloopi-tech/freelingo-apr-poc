@@ -1263,7 +1263,7 @@
     "canceledTitle": "Nenhuma cobrança foi efetuada",
     "canceledDesc": "Pode subscrever a qualquer momento. O seu progresso e definições estão intactos.",
     "canceledCtaDashboard": "Ir para o painel",
-    "canceledCtaSettings": "Ver opções de subscrição",
+    "canceledCtaSettings": "Ir para definições",
     "section": "Subscrição",
     "status": "Estado",
     "statusActive": "Ativa",
@@ -1450,7 +1450,7 @@
     "eyebrow": "Histórias de estudantes",
     "title": "Aprender nota-se mais quando és tu a contar",
     "subtitle": "Avaliações de estudantes que já praticam com o Lingu no FreeLingo.",
-    "averageLabel": "{average}/5 · {count} avaliações no total",
+    "averageLabel": "{average}/5 · {count, plural, one {# avaliação no total} other {# avaliações no total}}",
     "learningLanguage": "A aprender {language}",
     "starsLabel": "{rating} em 5 estrelas",
     "ratingOnly": "Classificação verificada do FreeLingo."

@@ -1263,7 +1263,7 @@
     "canceledTitle": "Nu a fost efectuată nicio taxă",
     "canceledDesc": "Te poți abona oricând. Progresul și setările tale sunt intacte.",
     "canceledCtaDashboard": "Mergi la tabloul de bord",
-    "canceledCtaSettings": "Vezi opțiunile de abonament",
+    "canceledCtaSettings": "Mergi la setări",
     "section": "Abonament",
     "status": "Status",
     "statusActive": "Activ",
@@ -1450,7 +1450,7 @@
     "eyebrow": "Povești de la cursanți",
     "title": "Învățarea se vede mai bine când o povestești tu",
     "subtitle": "Recenzii de la studenți care exersează deja cu Lingu pe FreeLingo.",
-    "averageLabel": "{average}/5 · {count} recenzii în total",
+    "averageLabel": "{average}/5 · {count, plural, one {# recenzie în total} few {# recenzii în total} other {# recenzii în total}}",
     "learningLanguage": "Învață {language}",
     "starsLabel": "{rating} din 5 stele",
     "ratingOnly": "Rating FreeLingo verificat."

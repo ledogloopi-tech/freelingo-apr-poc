@@ -1263,7 +1263,7 @@
     "canceledTitle": "Er zijn geen kosten in rekening gebracht",
     "canceledDesc": "Je kunt je op elk moment abonneren. Je voortgang en instellingen zijn intact.",
     "canceledCtaDashboard": "Naar dashboard",
-    "canceledCtaSettings": "Abonnementsopties bekijken",
+    "canceledCtaSettings": "Naar instellingen",
     "section": "Abonnement",
     "status": "Status",
     "statusActive": "Actief",
@@ -1450,7 +1450,7 @@
     "eyebrow": "Verhalen van cursisten",
     "title": "Leren voelt echter wanneer je het zelf vertelt",
     "subtitle": "Beoordelingen van studenten die al met Lingu oefenen op FreeLingo.",
-    "averageLabel": "{average}/5 · {count} beoordelingen in totaal",
+    "averageLabel": "{average}/5 · {count, plural, one {# beoordeling in totaal} other {# beoordelingen in totaal}}",
     "learningLanguage": "Leert {language}",
     "starsLabel": "{rating} van 5 sterren",
     "ratingOnly": "Geverifieerde FreeLingo-beoordeling."

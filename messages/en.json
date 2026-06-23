@@ -1263,7 +1263,7 @@
     "canceledTitle": "No charge was made",
     "canceledDesc": "You can subscribe any time. Your progress and settings are intact.",
     "canceledCtaDashboard": "Go to dashboard",
-    "canceledCtaSettings": "View subscription options",
+    "canceledCtaSettings": "Go to settings",
     "section": "Subscription",
     "status": "Status",
     "statusActive": "Active",
@@ -1450,7 +1450,7 @@
     "eyebrow": "Learner stories",
     "title": "Learning feels more real when you tell it yourself",
     "subtitle": "Reviews from students already practicing with Lingu on FreeLingo.",
-    "averageLabel": "{average}/5 · {count} total reviews",
+    "averageLabel": "{average}/5 · {count, plural, one {# total review} other {# total reviews}}",
     "learningLanguage": "Learning {language}",
     "starsLabel": "{rating} out of 5 stars",
     "ratingOnly": "Verified FreeLingo rating."

@@ -1263,7 +1263,7 @@
     "canceledTitle": "Aucun frais n'a été prélevé",
     "canceledDesc": "Vous pouvez vous abonner à tout moment. Vos progrès et paramètres sont intacts.",
     "canceledCtaDashboard": "Aller au tableau de bord",
-    "canceledCtaSettings": "Voir les options d'abonnement",
+    "canceledCtaSettings": "Aller aux paramètres",
     "section": "Abonnement",
     "status": "Statut",
     "statusActive": "Actif",
@@ -1450,7 +1450,7 @@
     "eyebrow": "Histoires d'apprenants",
     "title": "Apprendre se voit encore mieux quand vous le racontez",
     "subtitle": "Avis d'étudiants qui s'entraînent déjà avec Lingu sur FreeLingo.",
-    "averageLabel": "{average}/5 · {count} avis au total",
+    "averageLabel": "{average}/5 · {count, plural, one {# avis au total} other {# avis au total}}",
     "learningLanguage": "Apprentissage : {language}",
     "starsLabel": "{rating} sur 5 étoiles",
     "ratingOnly": "Note FreeLingo vérifiée."
