@@ -392,7 +392,27 @@
     "quickActions": "Actions rapides",
     "dayProgress": "Jour {current} sur {total}",
     "skipDay": "Passer aujourd'hui",
-    "pendingLessons": "leçons en attente"
+    "pendingLessons": "leçons en attente",
+    "nextStep": "Prochaine étape",
+    "assessmentCreatesPlan": "L'évaluation détermine votre niveau et crée un plan personnalisé pour votre langue active.",
+    "lessonReady": "Leçon prête",
+    "pendingStillAvailable": "Vous avez {count} anciennes leçons en attente dans votre plan.",
+    "noPendingToday": "Vous avez terminé les leçons du jour. Vous pouvez revoir votre plan ou pratiquer une autre activité.",
+    "lessonsCompleted": "Leçons",
+    "accuracy": "Précision",
+    "exerciseStats": "{correct}/{total} exercices",
+    "noExercisesYet": "Aucun exercice pour l'instant",
+    "planProgress": "Progression du plan",
+    "currentDay": "Jour actuel",
+    "daysRemaining": "Jours restants",
+    "completedToday": "{completed}/{total} faites",
+    "vocabularyProgress": "Vocabulaire {level}",
+    "vocabularyWords": "{mastered}/{total} mots",
+    "recentPerformance": "Performance récente",
+    "recentPerformanceDescription": "Basée sur vos dernières réponses et révisions.",
+    "performanceNeedsPractice": "À pratiquer",
+    "performanceInProgress": "En progression",
+    "performanceStrong": "Solide"
   },
   "assessment": {
     "title": "Évaluation",
@@ -1266,25 +1286,21 @@
   },
   "whatsNew": {
     "title": "Nouveautés",
-    "version": "v1.8.11",
+    "version": "v1.8.12",
     "cta": "Compris",
     "entry1": {
-      "label": "Plus de langues à apprendre",
-      "desc": "<bold>Allemand, chinois continental, coréen, espagnol, français, italien, japonais et portugais</bold> sont désormais disponibles, avec des parcours complets du débutant à l’avancé, grammaire, vocabulaire, phrases, Reading, Listening et plus. Ajoutez-les depuis Paramètres → Mes langues."
+      "label": "Tableau de bord plus clair",
+      "desc": "Votre tableau de bord se concentre maintenant sur la prochaine action, avec des leçons du jour, une progression du plan, une progression du vocabulaire et des performances récentes plus faciles à lire."
     },
     "entry2": {
-      "label": "Explications de leçon dans votre langue",
-      "desc": "Les leçons pour débutants peuvent désormais expliquer les idées clés dans votre propre langue, afin de mieux comprendre chaque leçon avant de pratiquer."
+      "label": "Plus de langues à apprendre",
+      "desc": "<bold>Allemand, chinois continental, coréen, espagnol, français, italien, japonais et portugais</bold> sont désormais disponibles, avec des parcours complets du débutant à l’avancé, grammaire, vocabulaire, phrases, Reading, Listening et plus. Ajoutez-les depuis Paramètres → Mes langues."
     },
     "entry3": {
       "label": "Ajoutez un avis depuis votre profil",
       "desc": "Vous pouvez désormais partager votre avis sur FreeLingo directement depuis Paramètres → Profil. Votre avis aide d'autres apprenants à découvrir la plateforme."
     },
     "entry4": {
-      "label": "Ressources pédagogiques améliorées",
-      "desc": "Toutes les sections de ressources pédagogiques ont été enrichies avec du nouveau contenu."
-    },
-    "entry5": {
       "label": "Corrections de bugs",
       "desc": "Diverses corrections de bugs mineurs et améliorations de stabilité sur toute la plateforme."
     }

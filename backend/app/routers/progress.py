@@ -1,3 +1,5 @@
+from typing import cast
+
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -5,6 +7,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
 from app.core.deps import get_current_user
 from app.core.limiter import limiter
+from app.data._types import CEFRLevel
+from app.data.vocabulary import get_vocabulary_by_level
+from app.models.flashcard import Flashcard
 from app.models.progress import Progress
 from app.models.study_plan import StudyPlan
 from app.models.user import User
@@ -29,6 +34,31 @@ async def _get_active_plan_or_none(db: AsyncSession, user_id: int) -> StudyPlan 
     return result.scalar_one_or_none()
 
 
+async def _get_vocabulary_level_progress(
+    db: AsyncSession, user_id: int, plan: StudyPlan
+) -> tuple[int, int, float]:
+    vocab_sets = get_vocabulary_by_level(cast(CEFRLevel, plan.cefr_level), plan.target_language)
+    total_words = sum(len(vocab_set.words) for vocab_set in vocab_sets)
+    if total_words == 0:
+        return 0, 0, 0.0
+
+    result = await db.execute(
+        select(Flashcard.word).where(
+            Flashcard.user_id == user_id,
+            Flashcard.study_plan_id == plan.id,
+            Flashcard.repetitions > 0,
+        )
+    )
+    mastered_words = {word.strip().lower() for word in result.scalars().all()}
+    mastered_count = sum(
+        1
+        for vocab_set in vocab_sets
+        for word in vocab_set.words
+        if word.word.strip().lower() in mastered_words
+    )
+    return mastered_count, total_words, mastered_count / total_words
+
+
 @router.get("/summary", response_model=ProgressSummary)
 @limiter.limit("60/minute")
 async def get_summary(
@@ -48,6 +78,10 @@ async def get_summary(
             skills={},
         )
 
+    vocabulary_mastered, vocabulary_total, vocabulary_progress = (
+        await _get_vocabulary_level_progress(db, current_user.id, plan)
+    )
+
     result = await db.execute(
         select(Progress).where(Progress.study_plan_id == plan.id).order_by(Progress.date.desc())
     )
@@ -62,6 +96,10 @@ async def get_summary(
             exercises_correct=0,
             accuracy=0.0,
             skills={},
+            vocabulary_level=plan.cefr_level,
+            vocabulary_mastered=vocabulary_mastered,
+            vocabulary_total=vocabulary_total,
+            vocabulary_progress=round(vocabulary_progress, 2),
         )
 
     total_xp = sum(e.xp_earned for e in all_entries)
@@ -80,6 +118,10 @@ async def get_summary(
         exercises_correct=exercises_correct,
         accuracy=round(accuracy, 2),
         skills=latest_skills,
+        vocabulary_level=plan.cefr_level,
+        vocabulary_mastered=vocabulary_mastered,
+        vocabulary_total=vocabulary_total,
+        vocabulary_progress=round(vocabulary_progress, 2),
     )
 
 

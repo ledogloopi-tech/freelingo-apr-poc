@@ -151,9 +151,11 @@ All endpoints require `get_current_user`.
 
 | Method | Path            | Description                                   |
 | ------ | --------------- | --------------------------------------------- |
-| GET    | `/summary`      | Streak, XP, skills breakdown                  |
+| GET    | `/summary`      | Streak, XP, skills breakdown, and current-level vocabulary progress for the active study language |
 | GET    | `/history`      | Daily progress for last 90 days               |
 | GET    | `/competencies` | Per-unit competency scores and mastery status |
+
+`GET /api/progress/summary` returns totals scoped to the active study plan/language: `total_xp`, `current_streak`, `total_lessons`, `total_exercises`, `exercises_correct`, `accuracy`, `skills`, plus vocabulary summary fields for the plan's current CEFR level and `target_language`: `vocabulary_level`, `vocabulary_mastered`, `vocabulary_total`, and `vocabulary_progress`. Vocabulary progress counts words from the current level's backend vocabulary sets whose flashcard exists in the active `study_plan_id` with `repetitions > 0`.
 
 ---
 
