@@ -26,9 +26,9 @@ async def test_progress_history_empty(client, test_user):
 async def test_progress_with_data(client, test_user, db_session):
     user, headers = test_user
 
-    from app.models.progress import Progress
-    from app.models.flashcard import Flashcard
     from app.data.vocabulary import get_vocabulary_by_level
+    from app.models.flashcard import Flashcard
+    from app.models.progress import Progress
     from tests.conftest import make_study_plan
 
     plan = await make_study_plan(
