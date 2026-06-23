@@ -412,7 +412,10 @@
     "recentPerformanceDescription": "Bazată pe ultimele tale răspunsuri și recapitulări.",
     "performanceNeedsPractice": "Necesită practică",
     "performanceInProgress": "În progres",
-    "performanceStrong": "Puternic"
+    "performanceStrong": "Puternic",
+    "premiumBannerTitle": "Exersează mai mult cu FreeLingo Premium",
+    "premiumBannerDesc": "Ai acces la Reading, Listening, chat cu Lingu și conversație vocală.",
+    "premiumBannerCta": "Vezi planurile →"
   },
   "assessment": {
     "title": "Evaluare",
@@ -1286,7 +1289,7 @@
   },
   "whatsNew": {
     "title": "Noutăți",
-    "version": "v1.8.12",
+    "version": "v1.8.13",
     "cta": "Am înțeles",
     "entry1": {
       "label": "Dashboard mai clar",

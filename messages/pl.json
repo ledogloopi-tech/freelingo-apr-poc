@@ -412,7 +412,10 @@
     "recentPerformanceDescription": "Na podstawie ostatnich odpowiedzi i powtórek.",
     "performanceNeedsPractice": "Wymaga praktyki",
     "performanceInProgress": "W trakcie",
-    "performanceStrong": "Mocne"
+    "performanceStrong": "Mocne",
+    "premiumBannerTitle": "Ćwicz więcej z FreeLingo Premium",
+    "premiumBannerDesc": "Uzyskaj dostęp do Reading, Listening, czatu z Lingu i rozmów głosowych.",
+    "premiumBannerCta": "Zobacz plany →"
   },
   "assessment": {
     "title": "Ocena poziomu",
@@ -1286,7 +1289,7 @@
   },
   "whatsNew": {
     "title": "Co nowego",
-    "version": "v1.8.12",
+    "version": "v1.8.13",
     "cta": "Rozumiem",
     "entry1": {
       "label": "Czytelniejszy dashboard",

@@ -412,7 +412,10 @@
     "recentPerformanceDescription": "Basierend auf deinen letzten Antworten und Wiederholungen.",
     "performanceNeedsPractice": "Braucht Übung",
     "performanceInProgress": "In Arbeit",
-    "performanceStrong": "Stark"
+    "performanceStrong": "Stark",
+    "premiumBannerTitle": "Übe mehr mit FreeLingo Premium",
+    "premiumBannerDesc": "Erhalte Zugriff auf Reading, Listening, Chat mit Lingu und Sprachkonversation.",
+    "premiumBannerCta": "Pläne ansehen →"
   },
   "assessment": {
     "title": "Einstufungstest",
@@ -1286,7 +1289,7 @@
   },
   "whatsNew": {
     "title": "Neuigkeiten",
-    "version": "v1.8.12",
+    "version": "v1.8.13",
     "cta": "Verstanden",
     "entry1": {
       "label": "Klareres Dashboard",
