@@ -141,7 +141,7 @@ During the LLM streaming loop that drives sentence-by-sentence TTS:
 **File:** `backend/app/routers/memories.py`  
 **Router prefix:** `/api/memories`  
 **Tag:** `memories`  
-**Auth:** all endpoints require `require_subscription`.
+**Auth:** all endpoints require `require_subscription`. Maintenance mode is not applied to these endpoints because memory management is used by text chat and user settings rather than direct LLM service operation.
 
 | Method | Path                        | Rate limit | Response             | Notes                                                           |
 | ------ | --------------------------- | ---------- | -------------------- | --------------------------------------------------------------- |

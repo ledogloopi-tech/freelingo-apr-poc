@@ -20,7 +20,7 @@ backend/
 │   │   ├── __init__.py
 │   │   ├── config.py            # Pydantic Settings — all env vars defined here
 │   │   ├── database.py          # SQLAlchemy async engine + session factory
-│   │   ├── deps.py              # FastAPI dependencies: get_redis, get_current_user, check_maintenance_mode, require_subscription
+│   │   ├── deps.py              # FastAPI dependencies: get_redis, get_current_user, maintenance/subscription guards
 │   │   ├── security.py          # JWT encode/decode, password hashing
 │   │   ├── app_logger.py        # Structured logging (structlog)
 │   │   └── limiter.py           # slowapi rate limiter setup

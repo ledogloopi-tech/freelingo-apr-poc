@@ -342,7 +342,7 @@ This document records what was built and the completion criteria met.
 - **3** — Chat integration — marker withheld mid-stream, `{"memory_updated": true}` SSE signal after `done`. Status: ✅
 - **4** — Voice integration — marker stripped from TTS path, `{"type": "memory_updated"}` WebSocket signal before `turn_complete`. Status: ✅
 - **5** — `MEMORY_SYSTEM_INSTRUCTION` injected into both chat and voice system prompts. Status: ✅
-- **6** — REST API — 3 endpoints: list, delete single, clear all (all require `require_subscription`). Status: ✅
+- **6** — REST API — 3 endpoints: list, delete single, clear all (all require `require_subscription`; maintenance mode is not applied). Status: ✅
 - **7** — Frontend toast in chat and voice conversation on `memory_updated` signal. Status: ✅
 - **8** — Settings → Memory subpage (`/settings/memories`) — full list, individual delete, clear all. Status: ✅
 - **9** — i18n — `settings.sectionMemory`, `settings.memoryEmpty`, `settings.memoryClearAll*`, `chat.memoryUpdated`, `conversation.memoryUpdated` in all 10 locale files. Status: ✅

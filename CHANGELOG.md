@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Dashboard progress refinements**: `/api/progress/summary` now includes current-level vocabulary progress for the active study language, and `/dashboard` shows it compactly inside the plan-progress card without adding a dashboard request. The dashboard's former skills section is now presented as recent performance with clearer labels and explanatory copy.
 - **Dashboard Premium banner**: unsubscribed users now see a compact FreeLingo Premium banner above quick actions when Stripe is enabled, linking to pricing and highlighting Reading, Listening, text chat with Lingu, and voice conversation.
+- **Maintenance access control**: maintenance mode now blocks the four gated learning sections only for non-admin users, allowing admins to verify chat, voice conversation, listening, and reading while maintenance is active. Memory-management endpoints remain subscription-gated but are no longer blocked by maintenance mode. The admin toggle now uses `PUT /api/admin/maintenance` with an explicit `maintenance_mode` value instead of relying on a state-flipping request from the UI.
 
 ## [1.8.12] - 2026-06-23
 
@@ -382,7 +383,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Status workflow**: `pending` → `planned` → `in_progress` → `done` / `declined`. Each status has a distinct colour badge consistent with the existing design system (grey / blue / yellow / green / red).
 - **Navigation**: `/feedback` added to `bottomNavItems` in the sidebar (alongside Settings and FAQ) and to `PROTECTED_ROUTES` in `middleware.ts`.
 - **i18n**: `feedback` namespace (44 keys) added to all 10 locale files (en, es, fr, de, it, nl, pl, pt, ro, ru) with full translations. `nav.feedback` key added to all locales.
-- **Maintenance mode**: admin can toggle a maintenance mode from the admin users panel (`/admin/users`) via `PATCH /api/admin/maintenance`. When active, the four subscription-gated features (tutor chat, voice conversation, listening, reading) are blocked with a 503 backend response and a static maintenance banner in the frontend. No restart required — stored in Redis (`maintenance_mode` key). The toggle does not affect free features (lessons, flashcards, assessment, progress, etc.). Backend: `get_redis()` centralized in `deps.py`, `check_maintenance_mode()` dependency, `require_subscription` checks maintenance first. Frontend: `MaintenanceGate` component, `config.ts` extended with `maintenanceMode`, `PaywallGate` unchanged.
+- **Maintenance mode**: admin can toggle a maintenance mode from the admin users panel (`/admin/users`) via `PATCH /api/admin/maintenance`. When active, the four subscription-gated features (tutor chat, voice conversation, listening, reading) are blocked with a 503 backend response and a static maintenance banner in the frontend. No restart required — stored in Redis (`maintenance_mode` key). The toggle does not affect free features (lessons, flashcards, assessment, progress, etc.). Backend: `get_redis()` centralized in `deps.py`, `check_maintenance_mode()` plus explicit maintenance guards separate from subscription checks. Frontend: `MaintenanceGate` component, `config.ts` extended with `maintenanceMode`, `PaywallGate` unchanged.
 
 ### Fixed
 

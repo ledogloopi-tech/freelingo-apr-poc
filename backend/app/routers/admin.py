@@ -29,6 +29,7 @@ from app.schemas.admin import (
     AdminUserUpdate,
     InviteResponse,
     LanguageStats,
+    MaintenanceModeUpdate,
     PaginatedAdminUsersResponse,
 )
 from app.services import email_service
@@ -480,3 +481,16 @@ async def toggle_maintenance_mode(
     new_mode = "1" if current != "1" else "0"
     await redis.set(MAINTENANCE_KEY, new_mode)
     return {"maintenance_mode": new_mode == "1"}
+
+
+@router.put("/maintenance")
+@limiter.limit("60/minute")
+async def set_maintenance_mode(
+    request: Request,
+    data: MaintenanceModeUpdate,
+    admin: User = Depends(require_admin),
+    redis: Redis = Depends(get_redis),
+):
+    mode = "1" if data.maintenance_mode else "0"
+    await redis.set(MAINTENANCE_KEY, mode)
+    return {"maintenance_mode": data.maintenance_mode}

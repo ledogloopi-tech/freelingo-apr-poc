@@ -1,6 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
+import { useAuthStore } from '@/store/auth'
 import { useConfigStore } from '@/store/config'
 
 export function MaintenanceBanner() {
@@ -28,7 +29,8 @@ export function MaintenanceBanner() {
 /** Gate that renders a maintenance banner when maintenance mode is active. */
 export function MaintenanceGate({ children }: { children: React.ReactNode }) {
   const maintenanceMode = useConfigStore((s) => s.maintenanceMode)
+  const isAdmin = useAuthStore((s) => s.user?.role === 'admin')
 
-  if (maintenanceMode) return <MaintenanceBanner />
+  if (maintenanceMode && !isAdmin) return <MaintenanceBanner />
   return <>{children}</>
 }

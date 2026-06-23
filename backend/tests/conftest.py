@@ -98,7 +98,7 @@ async def client(db_session, mock_redis):
     app.dependency_overrides[admin_get_redis] = lambda: mock_redis
     app.dependency_overrides[assessment_get_redis] = lambda: mock_redis
 
-    # Override centralized get_redis from deps.py (used by require_subscription, etc.)
+    # Override centralized get_redis from deps.py (used by maintenance/admin guards, etc.)
     from app.core.deps import get_redis as deps_get_redis
 
     app.dependency_overrides[deps_get_redis] = lambda: mock_redis

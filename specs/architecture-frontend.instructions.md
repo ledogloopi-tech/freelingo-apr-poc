@@ -241,7 +241,7 @@ Six Zustand stores hold all client-side state. No React Context is used for glob
 | --------------- | -------------------------------------------------------------------------------------------------- |
 | `assessment/`   | `AdaptiveQuizCard`, `BeginnerGate`, `DurationSelector`                                             |
 | `admin/`        | `AdminNav`, `AdminPageHeader`, `AdminPanel`, `AdminMetric`, `AdminBadge` shared across admin pages |
-| `billing/`      | Stripe subscription management UI; landing `PricingSection` hides for active/trialing subscribers  |
+| `billing/`      | Stripe subscription management UI; landing `PricingSection` hides for active/trialing subscribers; `MaintenanceGate` hides gated pages from non-admin users during maintenance  |
 | `chat/`         | Message display, input, SSE stream handling                                                        |
 | `conversation/` | `ConversationMode`, `MicButton`, `StatusIndicator`, `TranscriptBubble`, VAD integration            |
 | `flashcard/`    | Flashcard flip animation, SM-2 rating buttons                                                      |
