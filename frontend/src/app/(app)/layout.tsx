@@ -317,13 +317,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             onClick={() => setContactOpen(true)}
             className="text-fl-label text-fl-muted-2 hover:text-fl-fg mb-1 w-full text-left font-mono tracking-widest uppercase transition-colors"
           >
-            — {tNav('contact')}
+            {tNav('contact')}
           </button>
           <button
             onClick={() => setLogoutConfirm(true)}
             className="text-fl-label text-fl-muted-2 hover:text-fl-fg w-full text-left font-mono tracking-widest uppercase transition-colors"
           >
-            — {tCommon('logout')}
+            {tCommon('logout')}
           </button>
         </div>
       </aside>
@@ -501,7 +501,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 }}
                 className="text-fl-label text-fl-muted-2 hover:text-fl-fg mb-1 block font-mono tracking-widest uppercase transition-colors"
               >
-                — {tNav('contact')}
+                {tNav('contact')}
               </button>
               <button
                 onClick={() => {
@@ -510,7 +510,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 }}
                 className="text-fl-label text-fl-muted-2 hover:text-fl-fg font-mono tracking-widest uppercase transition-colors"
               >
-                — {tCommon('logout')}
+                {tCommon('logout')}
               </button>
             </div>
           </nav>

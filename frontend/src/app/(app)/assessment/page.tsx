@@ -347,7 +347,7 @@ export default function AssessmentPage() {
                 onClick={() => setStep('beginner-gate')}
                 className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 flex-[1.75] px-3 py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
               >
-                — {t('retake')}
+                {t('retake')}
               </button>
             </div>
           </div>
@@ -442,11 +442,10 @@ export default function AssessmentPage() {
                   <button
                     key={lvl}
                     onClick={() => setSelectedLevel(lvl)}
-                    className={`border px-3 py-1.5 font-mono text-xs font-bold tracking-widest transition-colors ${
-                      selectedLevel === lvl
+                    className={`border px-3 py-1.5 font-mono text-xs font-bold tracking-widest transition-colors ${selectedLevel === lvl
                         ? 'bg-fl-accent text-fl-accent-fg border-fl-accent'
                         : 'border-fl-border text-fl-muted-2 hover:border-fl-border-2 hover:text-fl-fg'
-                    }`}
+                      }`}
                   >
                     {lvl}
                   </button>
@@ -501,7 +500,7 @@ export default function AssessmentPage() {
               onClick={() => setStep('duration')}
               className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 w-full py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
             >
-              — {t('createPlan')} →
+              {t('createPlan')} →
             </button>
           </div>
         </div>

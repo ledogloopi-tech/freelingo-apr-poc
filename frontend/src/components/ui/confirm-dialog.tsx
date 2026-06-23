@@ -75,7 +75,7 @@ export function ConfirmDialog({
             onClick={onCancel}
             className="border-fl-border text-fl-label text-fl-muted-2 hover:border-fl-border-2 hover:text-fl-fg flex-1 border py-3 font-mono font-bold tracking-widest uppercase transition-colors"
           >
-            — {cancelLabel ?? tCommon('cancel')}
+            {cancelLabel ?? tCommon('cancel')}
           </button>
           <button
             onClick={onConfirm}
@@ -85,7 +85,7 @@ export function ConfirmDialog({
                 : 'bg-fl-fg text-fl-bg hover:bg-fl-fg-bright'
             }`}
           >
-            — {confirmLabel}
+            {confirmLabel}
           </button>
         </div>
       </div>

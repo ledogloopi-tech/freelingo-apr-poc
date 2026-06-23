@@ -128,7 +128,7 @@ export default function UnitCard({
             onClick={onStartLesson}
             className="bg-fl-fg text-fl-bg hover:bg-fl-fg/90 px-4 py-2 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
           >
-            — {tCommon('start')} →
+            {tCommon('start')} →
           </button>
         </div>
       )}
