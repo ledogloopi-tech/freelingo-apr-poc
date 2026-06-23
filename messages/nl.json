@@ -642,6 +642,7 @@
     "myVocabularyBtn": "Mijn woordenschat",
     "myVocabulary": "Mijn woordenschat",
     "myVocabularyEmpty": "Nog geen woorden opgeslagen. Selecteer een woord tijdens het lezen om het hier op te slaan.",
+    "myVocabularyNoResults": "Geen opgeslagen woorden komen overeen met je zoekopdracht.",
     "vocabularySearch": "Woorden zoeken...",
     "vocabularyPageInfo": "Pagina {page} van {pages}",
     "vocabularyPrev": "Vorige",
@@ -1289,7 +1290,7 @@
   },
   "whatsNew": {
     "title": "Nieuw",
-    "version": "v1.8.13",
+    "version": "v1.8.14",
     "cta": "Begrepen",
     "entry1": {
       "label": "Duidelijker dashboard",

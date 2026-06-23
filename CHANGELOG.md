@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.14] - 2026-06-23
+
+### Fixed
+
+- **Mobile word saving**: selectable learning text now uses pointer-based selection handling so mobile users can select a single word in lessons, reading, listening, and assistant chat replies and save it to My Vocabulary.
+- **My Vocabulary empty search state**: searching saved vocabulary with no matches now shows a localized flashcards message instead of the raw `common.noResults` key.
+- **Mobile sidebar profile summary**: the mobile menu now shows the user's display name above their `@username`, matching the desktop sidebar.
+- **Lesson exercise results**: evaluated exercise answers now show subtle green checkmarks and red crosses where the answer state is visually useful.
+
 ## [1.8.13] - 2026-06-23
 
 ### Changed

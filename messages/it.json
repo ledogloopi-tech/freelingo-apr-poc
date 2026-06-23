@@ -642,6 +642,7 @@
     "myVocabularyBtn": "Il mio vocabolario",
     "myVocabulary": "Il mio vocabolario",
     "myVocabularyEmpty": "Nessuna parola salvata. Seleziona una parola durante la lettura per salvarla qui.",
+    "myVocabularyNoResults": "Nessuna parola salvata corrisponde alla tua ricerca.",
     "vocabularySearch": "Cerca parole...",
     "vocabularyPageInfo": "Pagina {page} di {pages}",
     "vocabularyPrev": "Prec.",
@@ -1289,7 +1290,7 @@
   },
   "whatsNew": {
     "title": "Novità",
-    "version": "v1.8.13",
+    "version": "v1.8.14",
     "cta": "Capito",
     "entry1": {
       "label": "Dashboard più chiaro",

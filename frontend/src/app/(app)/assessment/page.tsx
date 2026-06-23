@@ -345,7 +345,7 @@ export default function AssessmentPage() {
               </button>
               <button
                 onClick={() => setStep('beginner-gate')}
-                className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 flex-[2] py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
+                className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 flex-[1.75] py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
               >
                 — {t('retake')}
               </button>
