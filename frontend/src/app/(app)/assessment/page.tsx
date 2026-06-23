@@ -339,13 +339,13 @@ export default function AssessmentPage() {
             <div className="flex gap-2">
               <button
                 onClick={() => router.push('/dashboard')}
-                className="border-fl-border text-fl-muted-2 hover:border-fl-border-2 hover:text-fl-fg flex-1 border py-3 font-mono text-xs tracking-widest uppercase transition-colors"
+                className="border-fl-border text-fl-muted-2 hover:border-fl-border-2 hover:text-fl-fg flex-1 border px-3 py-3 font-mono text-xs tracking-widest uppercase transition-colors"
               >
                 ← {tCommon('backToDashboard')}
               </button>
               <button
                 onClick={() => setStep('beginner-gate')}
-                className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 flex-[1.75] py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
+                className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 flex-[1.75] px-3 py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
               >
                 — {t('retake')}
               </button>
