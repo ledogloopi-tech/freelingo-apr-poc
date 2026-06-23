@@ -322,14 +322,22 @@ slot in generated_plan
 
 ### Dashboard (`frontend/src/app/(app)/dashboard/page.tsx`)
 
-On load, calls `GET /api/progress/summary` and `GET /api/study-plan/today` in parallel.
+On load, calls `GET /api/progress/summary` and `GET /api/study-plan/today` in parallel. The dashboard does not add extra requests for its action-oriented overview.
+
+From the progress summary it reads:
+
+- `current_streak` / `total_xp` → renders the main streak and XP stat cards.
+- `total_lessons` → renders the completed-lessons stat card.
+- `accuracy`, `exercises_correct`, and `total_exercises` → renders the accuracy stat card, with an empty state when no exercises exist yet.
+- `vocabulary_level`, `vocabulary_mastered`, `vocabulary_total`, and `vocabulary_progress` → renders compact vocabulary progress for the active plan's current CEFR level inside the plan-progress block. The backend computes this with the plan's `target_language` and counts only flashcards in the active `study_plan_id` with `repetitions > 0`.
+- `skills` → renders the dashboard's recent-performance section. Entries are sorted from lowest to highest score and labelled in the UI as needs-practice / in-progress / strong based on the existing score ranges; this is presented as recent performance, not cumulative progress.
 
 From the today response it reads:
 
-- `progress_day` / `total_days` → renders a progress bar and a "Day X of Y" label (`dayProgress` i18n key).  
+- `progress_day` / `total_days` → renders a plan-progress block, percentage, days remaining, progress bar, and a "Day X of Y" label (`dayProgress` i18n key).  
   The label shows `Math.min(progress_day + 1, total_days)` as the current day number (1-based display of a 0-indexed value).
-- `pending_count` → shows a "N pending lessons →" button linking to `/plan` when > 0.
-- `lessons` → renders today's lesson cards with "Start" buttons.
+- `pending_count` → shows contextual pending copy in the next-step card and a "N pending lessons →" button linking to `/plan` when > 0.
+- `lessons` → chooses the first incomplete lesson as the next step, renders today's lesson cards with "Start" buttons, and shows an "N/M done" daily completion counter.
 
 The **"Skip today"** button is shown when `lessons.length > 0`. It calls `POST /api/study-plan/skip-day` then refreshes the page data.
 

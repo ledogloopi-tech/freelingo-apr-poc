@@ -32,7 +32,7 @@ frontend/
 │   │   │   ├── assessment/      # Level test: BeginnerGate → AdaptiveQuizCard → DurationSelector
 │   │   │   ├── chat/            # AI tutor SSE chat + conversation history
 │   │   │   ├── conversation/    # Real-time voice conversation (WebSocket + VAD)
-│   │   │   ├── dashboard/       # Home: XP, streak, plan summary, language selector
+│   │   │   ├── dashboard/       # Home: next step, progress stats, plan summary, daily lessons
 │   │   │   ├── faq/             # Frequently asked questions
 │   │   │   ├── feedback/        # Feature requests & bug reports board
 │   │   │   ├── flashcards/      # Spaced-repetition flashcard review
@@ -167,7 +167,7 @@ frontend/
 
 ### Authenticated routes — `(app)/`
 
-- `/dashboard` — Home: XP counter, streak, next lesson card, target language selector.
+- `/dashboard` — Home: action-oriented overview using existing progress and study-plan data. Shows the active language/level, a primary next-step card, streak/XP/lesson/accuracy stats, plan-progress summary with compact current-level vocabulary progress, today's lessons with completion count and next pending lesson highlight, recent-performance areas derived from `skills`, pending-lesson link, and shortcuts to plan, flashcards, tutor, and assessment.
 - `/assessment` — Level placement test (`BeginnerGate` → `AdaptiveQuiz` → `DurationSelector`).
 - `/plan` — Study plan overview: unit cards, `LevelTestBanner`, `UnitDrawer`.
 - `/lesson/[id]` — Lesson player: content + interactive exercises. If `content.native_explanation` exists, it is shown below the target-language explanation in a collapsible section that opens by default for A1/A2 and stays collapsed by default for B1+. The section renders translated text, key points, examples, common traps, and a mini-glossary when present. If it is missing, the expanded section shows a native-language button that calls `POST /api/lessons/{id}/native-explanation` and stores the returned explanation in local lesson state. Exercise feedback still shows the target-language explanation first; when an exercise response includes `native_explanation`, the lesson page renders that native-language clarification directly below the target-language exercise explanation. When the exercise has a target-language explanation but lacks native text, the same button pattern calls `POST /api/lessons/exercises/{id}/native-explanation` and patches the exercise in local state. Completing a lesson may open the reusable review prompt when it advances the user out of the completed curriculum unit, subject to duplicate-review checks and local dismissal cooldown.

@@ -84,7 +84,7 @@ backend/
 │   │   ├── listening.py         # AI-generated listening exercises
 │   │   ├── memories.py          # LLM memory management
 │   │   ├── phrasebook.py        # Phrasebook categories and phrases
-│   │   ├── progress.py          # User progress, XP, streak, skills
+│   │   ├── progress.py          # User progress, XP, streak, skills, vocabulary summary
 │   │   ├── reading.py           # AI-generated reading exercises
 │   │   ├── reviews.py           # User reviews: create/state, public list, admin moderation
 │   │   ├── stt.py               # Speech-to-text proxy

@@ -392,7 +392,27 @@
     "quickActions": "Snelle acties",
     "dayProgress": "Dag {current} van {total}",
     "skipDay": "Vandaag overslaan",
-    "pendingLessons": "lopende lessen"
+    "pendingLessons": "lopende lessen",
+    "nextStep": "Volgende stap",
+    "assessmentCreatesPlan": "De beoordeling bepaalt je niveau en maakt een persoonlijk plan voor je actieve taal.",
+    "lessonReady": "Les klaar",
+    "pendingStillAvailable": "Je hebt {count} eerdere lessen openstaan in je plan.",
+    "noPendingToday": "Je hebt de lessen van vandaag afgerond. Je kunt je plan bekijken of een andere activiteit oefenen.",
+    "lessonsCompleted": "Lessen",
+    "accuracy": "Nauwkeurigheid",
+    "exerciseStats": "{correct}/{total} oefeningen",
+    "noExercisesYet": "Nog geen oefeningen",
+    "planProgress": "Planvoortgang",
+    "currentDay": "Huidige dag",
+    "daysRemaining": "Dagen over",
+    "completedToday": "{completed}/{total} gedaan",
+    "vocabularyProgress": "Woordenschat {level}",
+    "vocabularyWords": "{mastered}/{total} woorden",
+    "recentPerformance": "Recente prestaties",
+    "recentPerformanceDescription": "Gebaseerd op je laatste antwoorden en herhalingen.",
+    "performanceNeedsPractice": "Oefening nodig",
+    "performanceInProgress": "In ontwikkeling",
+    "performanceStrong": "Sterk"
   },
   "assessment": {
     "title": "Beoordeling",
@@ -1266,25 +1286,21 @@
   },
   "whatsNew": {
     "title": "Nieuw",
-    "version": "v1.8.11",
+    "version": "v1.8.12",
     "cta": "Begrepen",
     "entry1": {
-      "label": "Meer talen om te leren",
-      "desc": "<bold>Duits, Frans, Italiaans, Japans, Koreaans, Portugees, Spaans en Chinees (vasteland)</bold> zijn nu beschikbaar — met volledige leerpaden van beginner tot gevorderd, grammatica, woordenschat, zinnen, Reading, Listening en meer. Voeg ze toe via Instellingen → Mijn talen."
+      "label": "Duidelijker dashboard",
+      "desc": "Je dashboard richt zich nu op wat je hierna kunt doen, met duidelijkere lessen van vandaag, planvoortgang, woordenschatvoortgang en recente prestaties in één oogopslag."
     },
     "entry2": {
-      "label": "Lesuitleg in je eigen taal",
-      "desc": "Beginnerslessen kunnen de belangrijkste ideeën nu in je eigen taal uitleggen, zodat je elke les makkelijker begrijpt voordat je gaat oefenen."
+      "label": "Meer talen om te leren",
+      "desc": "<bold>Duits, Frans, Italiaans, Japans, Koreaans, Portugees, Spaans en Chinees (vasteland)</bold> zijn nu beschikbaar — met volledige leerpaden van beginner tot gevorderd, grammatica, woordenschat, zinnen, Reading, Listening en meer. Voeg ze toe via Instellingen → Mijn talen."
     },
     "entry3": {
       "label": "Voeg een review toe vanuit je profiel",
       "desc": "Je kunt nu je mening over FreeLingo direct delen via Instellingen → Profiel. Je review helpt andere leerlingen het platform te ontdekken."
     },
     "entry4": {
-      "label": "Verbeterde leermiddelen",
-      "desc": "Alle leermiddelensecties zijn uitgebreid met nieuwe inhoud."
-    },
-    "entry5": {
       "label": "Bugfixes",
       "desc": "Diverse kleine bugfixes en stabiliteitsverbeteringen in het hele platform."
     }

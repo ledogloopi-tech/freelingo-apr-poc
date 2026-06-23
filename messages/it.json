@@ -392,7 +392,27 @@
     "quickActions": "Azioni rapide",
     "dayProgress": "Giorno {current} di {total}",
     "skipDay": "Salta oggi",
-    "pendingLessons": "lezioni in sospeso"
+    "pendingLessons": "lezioni in sospeso",
+    "nextStep": "Prossimo passo",
+    "assessmentCreatesPlan": "La valutazione trova il tuo livello e crea un piano personalizzato per la lingua attiva.",
+    "lessonReady": "Lezione pronta",
+    "pendingStillAvailable": "Hai {count} lezioni precedenti in sospeso nel tuo piano.",
+    "noPendingToday": "Hai completato le lezioni di oggi. Puoi rivedere il piano o praticare un'altra attività.",
+    "lessonsCompleted": "Lezioni",
+    "accuracy": "Precisione",
+    "exerciseStats": "{correct}/{total} esercizi",
+    "noExercisesYet": "Ancora nessun esercizio",
+    "planProgress": "Progresso del piano",
+    "currentDay": "Giorno attuale",
+    "daysRemaining": "Giorni rimasti",
+    "completedToday": "{completed}/{total} fatte",
+    "vocabularyProgress": "Vocabolario {level}",
+    "vocabularyWords": "{mastered}/{total} parole",
+    "recentPerformance": "Rendimento recente",
+    "recentPerformanceDescription": "Basato sulle tue ultime risposte e ripassi.",
+    "performanceNeedsPractice": "Serve pratica",
+    "performanceInProgress": "In progresso",
+    "performanceStrong": "Forte"
   },
   "assessment": {
     "title": "Valutazione",
@@ -1266,25 +1286,21 @@
   },
   "whatsNew": {
     "title": "Novità",
-    "version": "v1.8.11",
+    "version": "v1.8.12",
     "cta": "Capito",
     "entry1": {
-      "label": "Più lingue da imparare",
-      "desc": "<bold>Cinese continentale, coreano, francese, giapponese, italiano, portoghese, spagnolo e tedesco</bold> sono ora disponibili, con percorsi completi da principiante ad avanzato, grammatica, vocabolario, frasi, Reading, Listening e altro. Aggiungili da Impostazioni → Le mie lingue."
+      "label": "Dashboard più chiaro",
+      "desc": "Il dashboard ora mette al centro cosa fare dopo, con lezioni giornaliere, progresso del piano, progresso del vocabolario e rendimento recente più facili da consultare."
     },
     "entry2": {
-      "label": "Spiegazioni delle lezioni nella tua lingua",
-      "desc": "Le lezioni per principianti ora possono spiegare le idee principali nella tua lingua, così è più facile capire ogni lezione prima di esercitarti."
+      "label": "Più lingue da imparare",
+      "desc": "<bold>Cinese continentale, coreano, francese, giapponese, italiano, portoghese, spagnolo e tedesco</bold> sono ora disponibili, con percorsi completi da principiante ad avanzato, grammatica, vocabolario, frasi, Reading, Listening e altro. Aggiungili da Impostazioni → Le mie lingue."
     },
     "entry3": {
       "label": "Aggiungi una recensione dal tuo profilo",
       "desc": "Ora puoi condividere la tua opinione su FreeLingo direttamente da Impostazioni → Profilo. La tua recensione aiuta altri studenti a scoprire la piattaforma."
     },
     "entry4": {
-      "label": "Risorse didattiche migliorate",
-      "desc": "Tutte le sezioni di risorse didattiche sono state ampliate con nuovi contenuti."
-    },
-    "entry5": {
       "label": "Correzioni di bug",
       "desc": "Varie correzioni di bug minori e miglioramenti della stabilità su tutta la piattaforma."
     }

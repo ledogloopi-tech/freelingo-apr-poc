@@ -392,7 +392,27 @@
     "quickActions": "Schnellaktionen",
     "dayProgress": "Tag {current} von {total}",
     "skipDay": "Heute überspringen",
-    "pendingLessons": "ausstehende Lektionen"
+    "pendingLessons": "ausstehende Lektionen",
+    "nextStep": "Nächster Schritt",
+    "assessmentCreatesPlan": "Die Bewertung ermittelt dein Niveau und erstellt einen persönlichen Plan für deine aktive Sprache.",
+    "lessonReady": "Lektion bereit",
+    "pendingStillAvailable": "Du hast {count} frühere Lektionen in deinem Plan offen.",
+    "noPendingToday": "Du hast die heutigen Lektionen abgeschlossen. Du kannst deinen Plan ansehen oder eine andere Aktivität üben.",
+    "lessonsCompleted": "Lektionen",
+    "accuracy": "Genauigkeit",
+    "exerciseStats": "{correct}/{total} Übungen",
+    "noExercisesYet": "Noch keine Übungen",
+    "planProgress": "Planfortschritt",
+    "currentDay": "Aktueller Tag",
+    "daysRemaining": "Tage übrig",
+    "completedToday": "{completed}/{total} erledigt",
+    "vocabularyProgress": "Wortschatz {level}",
+    "vocabularyWords": "{mastered}/{total} Wörter",
+    "recentPerformance": "Aktuelle Leistung",
+    "recentPerformanceDescription": "Basierend auf deinen letzten Antworten und Wiederholungen.",
+    "performanceNeedsPractice": "Braucht Übung",
+    "performanceInProgress": "In Arbeit",
+    "performanceStrong": "Stark"
   },
   "assessment": {
     "title": "Einstufungstest",
@@ -1266,25 +1286,21 @@
   },
   "whatsNew": {
     "title": "Neuigkeiten",
-    "version": "v1.8.11",
+    "version": "v1.8.12",
     "cta": "Verstanden",
     "entry1": {
-      "label": "Mehr Sprachen zum Lernen",
-      "desc": "<bold>Deutsch, Französisch, Italienisch, Japanisch, Koreanisch, Portugiesisch, Spanisch und Chinesisch (Festland)</bold> sind jetzt verfügbar — mit vollständigen Lernpfaden von Anfänger bis Fortgeschritten, Grammatik, Wortschatz, Redewendungen, Reading, Listening und mehr. Füge sie unter Einstellungen → Meine Sprachen hinzu."
+      "label": "Klareres Dashboard",
+      "desc": "Dein Dashboard zeigt jetzt deutlicher, was als Nächstes ansteht: tägliche Lektionen, Planfortschritt, Wortschatzfortschritt und aktuelle Leistung auf einen Blick."
     },
     "entry2": {
-      "label": "Lektionserklärungen in deiner Sprache",
-      "desc": "Anfängerlektionen können die wichtigsten Ideen jetzt in deiner eigenen Sprache erklären, damit du jede Lektion vor dem Üben leichter verstehst."
+      "label": "Mehr Sprachen zum Lernen",
+      "desc": "<bold>Deutsch, Französisch, Italienisch, Japanisch, Koreanisch, Portugiesisch, Spanisch und Chinesisch (Festland)</bold> sind jetzt verfügbar — mit vollständigen Lernpfaden von Anfänger bis Fortgeschritten, Grammatik, Wortschatz, Redewendungen, Reading, Listening und mehr. Füge sie unter Einstellungen → Meine Sprachen hinzu."
     },
     "entry3": {
       "label": "Bewertung im Profil hinzufügen",
       "desc": "Du kannst deine Meinung zu FreeLingo jetzt direkt unter Einstellungen → Profil teilen. Deine Bewertung hilft anderen Lernenden, die Plattform zu entdecken."
     },
     "entry4": {
-      "label": "Verbesserte Lernressourcen",
-      "desc": "Alle Lernressourcen wurden mit neuen Inhalten erweitert."
-    },
-    "entry5": {
       "label": "Fehlerbehebungen",
       "desc": "Verschiedene kleinere Fehlerbehebungen und Stabilitätsverbesserungen in der gesamten Plattform."
     }

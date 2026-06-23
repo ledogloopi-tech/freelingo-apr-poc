@@ -392,7 +392,27 @@
     "quickActions": "Quick Actions",
     "dayProgress": "Day {current} of {total}",
     "skipDay": "Skip today",
-    "pendingLessons": "pending lessons"
+    "pendingLessons": "pending lessons",
+    "nextStep": "Next step",
+    "assessmentCreatesPlan": "The assessment finds your level and creates a personalised plan for your active language.",
+    "lessonReady": "Lesson ready",
+    "pendingStillAvailable": "You have {count} previous lessons waiting in your plan.",
+    "noPendingToday": "You have completed today's lessons. You can review your plan or practise another activity.",
+    "lessonsCompleted": "Lessons",
+    "accuracy": "Accuracy",
+    "exerciseStats": "{correct}/{total} exercises",
+    "noExercisesYet": "No exercises yet",
+    "planProgress": "Plan progress",
+    "currentDay": "Current day",
+    "daysRemaining": "Days left",
+    "completedToday": "{completed}/{total} done",
+    "vocabularyProgress": "Vocabulary {level}",
+    "vocabularyWords": "{mastered}/{total} words",
+    "recentPerformance": "Recent performance",
+    "recentPerformanceDescription": "Based on your latest answers and reviews.",
+    "performanceNeedsPractice": "Needs practice",
+    "performanceInProgress": "In progress",
+    "performanceStrong": "Strong"
   },
   "assessment": {
     "title": "Assessment",
@@ -1266,25 +1286,21 @@
   },
   "whatsNew": {
     "title": "What's New",
-    "version": "v1.8.11",
+    "version": "v1.8.12",
     "cta": "Got it",
     "entry1": {
-      "label": "More languages to learn",
-      "desc": "<bold>French, German, Italian, Japanese, Korean, Mainland Chinese, Portuguese, and Spanish</bold> are now available — with full learning paths from beginner to advanced, grammar, vocabulary, phrases, Reading, Listening, and more. Add them from Settings → My Languages."
+      "label": "Clearer dashboard",
+      "desc": "Your dashboard now focuses on what to do next, with clearer daily lessons, plan progress, vocabulary progress, and recent performance at a glance."
     },
     "entry2": {
-      "label": "Lesson explanations in your language",
-      "desc": "Beginner lessons can now explain the key ideas in your own language, so it is easier to understand each lesson before you practise."
+      "label": "More languages to learn",
+      "desc": "<bold>French, German, Italian, Japanese, Korean, Mainland Chinese, Portuguese, and Spanish</bold> are now available — with full learning paths from beginner to advanced, grammar, vocabulary, phrases, Reading, Listening, and more. Add them from Settings → My Languages."
     },
     "entry3": {
       "label": "Add a review from your profile",
       "desc": "You can now share your thoughts about FreeLingo directly from Settings → Profile. Your review helps other learners discover the platform."
     },
     "entry4": {
-      "label": "Expanded learning resources",
-      "desc": "All learning resource sections have been expanded with new content."
-    },
-    "entry5": {
       "label": "Bug fixes",
       "desc": "Various minor bug fixes and stability improvements across the platform."
     }

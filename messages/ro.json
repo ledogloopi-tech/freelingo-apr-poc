@@ -392,7 +392,27 @@
     "quickActions": "Acțiuni rapide",
     "dayProgress": "Ziua {current} din {total}",
     "skipDay": "Sari astăzi",
-    "pendingLessons": "lecții în așteptare"
+    "pendingLessons": "lecții în așteptare",
+    "nextStep": "Pasul următor",
+    "assessmentCreatesPlan": "Evaluarea îți găsește nivelul și creează un plan personalizat pentru limba activă.",
+    "lessonReady": "Lecție pregătită",
+    "pendingStillAvailable": "Ai {count} lecții anterioare în așteptare în plan.",
+    "noPendingToday": "Ai terminat lecțiile de azi. Poți verifica planul sau exersa o altă activitate.",
+    "lessonsCompleted": "Lecții",
+    "accuracy": "Acuratețe",
+    "exerciseStats": "{correct}/{total} exerciții",
+    "noExercisesYet": "Încă nu există exerciții",
+    "planProgress": "Progresul planului",
+    "currentDay": "Ziua curentă",
+    "daysRemaining": "Zile rămase",
+    "completedToday": "{completed}/{total} făcute",
+    "vocabularyProgress": "Vocabular {level}",
+    "vocabularyWords": "{mastered}/{total} cuvinte",
+    "recentPerformance": "Performanță recentă",
+    "recentPerformanceDescription": "Bazată pe ultimele tale răspunsuri și recapitulări.",
+    "performanceNeedsPractice": "Necesită practică",
+    "performanceInProgress": "În progres",
+    "performanceStrong": "Puternic"
   },
   "assessment": {
     "title": "Evaluare",
@@ -1266,25 +1286,21 @@
   },
   "whatsNew": {
     "title": "Noutăți",
-    "version": "v1.8.11",
+    "version": "v1.8.12",
     "cta": "Am înțeles",
     "entry1": {
-      "label": "Mai multe limbi de învățat",
-      "desc": "<bold>Chineză continentală, coreeană, franceză, germană, italiană, japoneză, portugheză și spaniolă</bold> sunt acum disponibile, cu parcursuri complete de la începător la avansat, gramatică, vocabular, fraze, Reading, Listening și mai mult. Adaugă-le din Setări → Limbile mele."
+      "label": "Dashboard mai clar",
+      "desc": "Dashboardul se concentrează acum pe următorul pas, cu lecțiile zilnice, progresul planului, progresul vocabularului și performanța recentă mai ușor de urmărit."
     },
     "entry2": {
-      "label": "Explicații ale lecțiilor în limba ta",
-      "desc": "Lecțiile pentru începători pot explica acum ideile principale în limba ta, ca să înțelegi mai ușor fiecare lecție înainte de exerciții."
+      "label": "Mai multe limbi de învățat",
+      "desc": "<bold>Chineză continentală, coreeană, franceză, germană, italiană, japoneză, portugheză și spaniolă</bold> sunt acum disponibile, cu parcursuri complete de la începător la avansat, gramatică, vocabular, fraze, Reading, Listening și mai mult. Adaugă-le din Setări → Limbile mele."
     },
     "entry3": {
       "label": "Adaugă o recenzie din profil",
       "desc": "Acum poți împărtăși părerea ta despre FreeLingo direct din Setări → Profil. Recenzia ta îi ajută pe alți cursanți să descopere platforma."
     },
     "entry4": {
-      "label": "Resurse didactice îmbunătățite",
-      "desc": "Toate secțiunile de resurse didactice au fost extinse cu conținut nou."
-    },
-    "entry5": {
       "label": "Corectări de bug-uri",
       "desc": "Diverse corectări minore de bug-uri și îmbunătățiri de stabilitate pe întreaga platformă."
     }
