@@ -1450,6 +1450,7 @@
     "eyebrow": "Истории учеников",
     "title": "Обучение заметнее, когда ты рассказываешь о нём сам",
     "subtitle": "Отзывы учеников, которые уже практикуются с Lingu во FreeLingo.",
+    "averageLabel": "{average}/5 · всего отзывов: {count}",
     "learningLanguage": "Изучает {language}",
     "starsLabel": "{rating} из 5 звезд",
     "ratingOnly": "Проверенная оценка FreeLingo."

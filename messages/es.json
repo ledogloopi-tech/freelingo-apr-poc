@@ -1450,6 +1450,7 @@
     "eyebrow": "Historias de estudiantes",
     "title": "Aprender se nota más cuando lo cuentas tú",
     "subtitle": "Reseñas de estudiantes que ya practican con Lingu en FreeLingo.",
+    "averageLabel": "{average}/5 · {count} reseñas en total",
     "learningLanguage": "Aprendiendo {language}",
     "starsLabel": "{rating} de 5 estrellas",
     "ratingOnly": "Puntuación verificada de FreeLingo."

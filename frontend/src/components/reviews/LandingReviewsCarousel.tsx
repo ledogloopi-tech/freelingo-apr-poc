@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Star } from 'lucide-react'
 import { getLanguageByCode } from '@/lib/target-languages'
 import type { ReviewPublic } from '@/types/api'
@@ -27,6 +27,7 @@ export function LandingReviewsCarousel({
 }) {
   const t = useTranslations('landingReviews')
   const tTarget = useTranslations('targetLanguages')
+  const locale = useLocale()
   const scrollerRef = useRef<HTMLDivElement | null>(null)
 
   function languageLabel(code: string) {
@@ -51,6 +52,13 @@ export function LandingReviewsCarousel({
 
   if (!reviews.length) return null
 
+  const averageRating =
+    reviews.reduce((total, review) => total + review.rating, 0) / reviews.length
+  const formattedAverage = new Intl.NumberFormat(locale, {
+    maximumFractionDigits: 1,
+    minimumFractionDigits: 1,
+  }).format(averageRating)
+
   return (
     <section
       id="reviews"
@@ -70,6 +78,18 @@ export function LandingReviewsCarousel({
         <p className="text-fl-muted-1 mx-auto max-w-2xl font-mono text-xs leading-relaxed">
           {t('subtitle')}
         </p>
+        <div className="border-fl-border bg-fl-surface/60 text-fl-label text-fl-muted-2 mx-auto inline-flex items-center gap-2 border px-3 py-2 font-mono tracking-widest uppercase">
+          <Star
+            className="size-3.5 fill-yellow-400 text-yellow-400"
+            aria-hidden="true"
+          />
+          <span>
+            {t('averageLabel', {
+              average: formattedAverage,
+              count: reviews.length,
+            })}
+          </span>
+        </div>
       </div>
 
       <div

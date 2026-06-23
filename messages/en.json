@@ -1450,6 +1450,7 @@
     "eyebrow": "Learner stories",
     "title": "Learning feels more real when you tell it yourself",
     "subtitle": "Reviews from students already practicing with Lingu on FreeLingo.",
+    "averageLabel": "{average}/5 · {count} total reviews",
     "learningLanguage": "Learning {language}",
     "starsLabel": "{rating} out of 5 stars",
     "ratingOnly": "Verified FreeLingo rating."

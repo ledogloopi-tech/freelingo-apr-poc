@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Dashboard progress refinements**: `/api/progress/summary` now includes current-level vocabulary progress for the active study language, and `/dashboard` shows it compactly inside the plan-progress card without adding a dashboard request. The dashboard's former skills section is now presented as recent performance with clearer labels and explanatory copy.
 - **Dashboard Premium banner**: unsubscribed users now see a compact FreeLingo Premium banner above quick actions when Stripe is enabled, linking to pricing and highlighting Reading, Listening, text chat with Lingu, and voice conversation.
+- **Landing reviews signal**: the public reviews section now shows the average rating and total review count below the section subtitle, using localized number formatting and public-facing copy such as "reseñas en total" rather than moderation terminology.
 - **Maintenance access control**: maintenance mode now blocks the four gated learning sections only for non-admin users, allowing admins to verify chat, voice conversation, listening, and reading while maintenance is active. Memory-management endpoints remain subscription-gated but are no longer blocked by maintenance mode. The admin toggle now uses `PUT /api/admin/maintenance` with an explicit `maintenance_mode` value instead of relying on a state-flipping request from the UI.
 
 ## [1.8.12] - 2026-06-23

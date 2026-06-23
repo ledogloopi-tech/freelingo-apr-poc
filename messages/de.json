@@ -1450,6 +1450,7 @@
     "eyebrow": "Geschichten von Lernenden",
     "title": "Lernen wirkt echter, wenn du selbst davon erzählst",
     "subtitle": "Bewertungen von Lernenden, die bereits mit Lingu auf FreeLingo üben.",
+    "averageLabel": "{average}/5 · {count} Bewertungen insgesamt",
     "learningLanguage": "Lernt {language}",
     "starsLabel": "{rating} von 5 Sternen",
     "ratingOnly": "Verifizierte FreeLingo-Bewertung."

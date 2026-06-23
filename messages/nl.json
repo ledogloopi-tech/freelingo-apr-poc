@@ -1450,6 +1450,7 @@
     "eyebrow": "Verhalen van cursisten",
     "title": "Leren voelt echter wanneer je het zelf vertelt",
     "subtitle": "Beoordelingen van studenten die al met Lingu oefenen op FreeLingo.",
+    "averageLabel": "{average}/5 · {count} beoordelingen in totaal",
     "learningLanguage": "Leert {language}",
     "starsLabel": "{rating} van 5 sterren",
     "ratingOnly": "Geverifieerde FreeLingo-beoordeling."
