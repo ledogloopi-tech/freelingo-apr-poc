@@ -642,6 +642,7 @@
     "myVocabularyBtn": "Mój słownik",
     "myVocabulary": "Mój słownik",
     "myVocabularyEmpty": "Nie zapisano jeszcze żadnych słów. Zaznacz słowo podczas czytania, aby je tutaj zapisać.",
+    "myVocabularyNoResults": "Żadne zapisane słowa nie pasują do wyszukiwania.",
     "vocabularySearch": "Szukaj słów...",
     "vocabularyPageInfo": "Strona {page} z {pages}",
     "vocabularyPrev": "Poprz.",
@@ -1289,7 +1290,7 @@
   },
   "whatsNew": {
     "title": "Co nowego",
-    "version": "v1.8.13",
+    "version": "v1.8.14",
     "cta": "Rozumiem",
     "entry1": {
       "label": "Czytelniejszy dashboard",

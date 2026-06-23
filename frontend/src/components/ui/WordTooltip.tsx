@@ -94,22 +94,28 @@ export function useWordSave() {
     window.getSelection()?.removeAllRanges()
   }, [])
 
-  function handleTextMouseUp(context: string, cefrLevel = 'B1') {
-    const selection = window.getSelection()
-    if (!selection || selection.isCollapsed) return
-    const raw = selection.toString().trim()
-    // Accept only single words (no whitespace)
-    if (!raw || /\s/.test(raw)) return
-    const range = selection.getRangeAt(0)
-    const rect = range.getBoundingClientRect()
-    setSelectedContext(context)
-    setSelectedCefrLevel(cefrLevel)
-    setSelectedWord(raw)
-    setSaveState('idle')
-    setTooltipPos({
-      x: rect.left + rect.width / 2,
-      y: rect.top - 8,
-    })
+  function handleTextSelection(context: string, cefrLevel = 'B1') {
+    window.setTimeout(() => {
+      const selection = window.getSelection()
+      if (!selection || selection.isCollapsed || selection.rangeCount === 0) {
+        return
+      }
+
+      const raw = selection.toString().trim()
+      // Accept only single words (no whitespace)
+      if (!raw || /\s/.test(raw)) return
+
+      const range = selection.getRangeAt(0)
+      const rect = range.getBoundingClientRect()
+      setSelectedContext(context)
+      setSelectedCefrLevel(cefrLevel)
+      setSelectedWord(raw)
+      setSaveState('idle')
+      setTooltipPos({
+        x: rect.left + rect.width / 2,
+        y: Math.max(rect.top - 8, 56),
+      })
+    }, 0)
   }
 
   async function handleSaveWord() {
@@ -137,7 +143,7 @@ export function useWordSave() {
     selectedWord,
     tooltipPos,
     saveState,
-    handleTextMouseUp,
+    handleTextSelection,
     handleSaveWord,
     dismissTooltip,
   }

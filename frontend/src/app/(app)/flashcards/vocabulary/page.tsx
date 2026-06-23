@@ -20,7 +20,6 @@ const LIMIT = 10
 
 export default function VocabularyPage() {
   const t = useTranslations('flashcards')
-  const tCommon = useTranslations('common')
 
   const [items, setItems] = useState<VocabItem[]>([])
   const [total, setTotal] = useState(0)
@@ -118,7 +117,9 @@ export default function VocabularyPage() {
           <PageLoading fullScreen={false} className="block p-5" />
         ) : items.length === 0 ? (
           <p className="text-fl-muted-3 p-5 font-mono text-xs tracking-widest uppercase">
-            {debouncedSearch ? tCommon('noResults') : t('myVocabularyEmpty')}
+            {debouncedSearch
+              ? t('myVocabularyNoResults')
+              : t('myVocabularyEmpty')}
           </p>
         ) : (
           <div className="divide-fl-border divide-y">

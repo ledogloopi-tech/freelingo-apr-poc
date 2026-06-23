@@ -54,7 +54,7 @@ function ListeningPage() {
     selectedWord,
     tooltipPos,
     saveState,
-    handleTextMouseUp,
+    handleTextSelection,
     handleSaveWord,
     dismissTooltip,
   } = useWordSave()
@@ -304,8 +304,8 @@ function ListeningPage() {
                   as="p"
                   languageCode={item.exercise.target_language}
                   className="text-fl-muted-2 border-fl-border word-selectable mb-3 cursor-text border-t pt-3 select-text"
-                  onMouseUp={() =>
-                    handleTextMouseUp(item.text, item.exercise.level ?? 'B1')
+                  onPointerUp={() =>
+                    handleTextSelection(item.text, item.exercise.level ?? 'B1')
                   }
                 >
                   {item.text}
@@ -393,8 +393,8 @@ function ListeningPage() {
               as="p"
               languageCode={exercise.target_language}
               className="text-fl-fg word-selectable cursor-text select-text"
-              onMouseUp={() =>
-                handleTextMouseUp(result.text, exercise?.level ?? 'B1')
+              onPointerUp={() =>
+                handleTextSelection(result.text, exercise?.level ?? 'B1')
               }
             >
               {result.text}

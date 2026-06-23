@@ -642,6 +642,7 @@
     "myVocabularyBtn": "Mon vocabulaire",
     "myVocabulary": "Mon vocabulaire",
     "myVocabularyEmpty": "Aucun mot enregistré pour l’instant. Sélectionne un mot en lisant pour le sauvegarder ici.",
+    "myVocabularyNoResults": "Aucun mot enregistré ne correspond à votre recherche.",
     "vocabularySearch": "Rechercher des mots...",
     "vocabularyPageInfo": "Page {page} sur {pages}",
     "vocabularyPrev": "Préc.",
@@ -1289,7 +1290,7 @@
   },
   "whatsNew": {
     "title": "Nouveautés",
-    "version": "v1.8.13",
+    "version": "v1.8.14",
     "cta": "Compris",
     "entry1": {
       "label": "Tableau de bord plus clair",

@@ -311,7 +311,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </div>
           </div>
           <p className="text-fl-label text-fl-muted-4 mb-2 font-mono tracking-wider">
-            v1.8.13
+            v1.8.14
           </p>
           <button
             onClick={() => setContactOpen(true)}
@@ -477,9 +477,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                     </div>
                   )}
                 </div>
-                <p className="text-fl-label text-fl-muted-4 truncate font-mono">
-                  @{user?.username?.toLowerCase()}
-                </p>
+                <div className="min-w-0">
+                  <p className="text-fl-caption text-fl-muted-2 truncate font-mono tracking-widest uppercase">
+                    {user?.displayName || user?.username}
+                  </p>
+                  <p className="text-fl-label text-fl-muted-4 truncate font-mono">
+                    @{user?.username?.toLowerCase()}
+                  </p>
+                </div>
               </div>
               {trialDaysLeft > 0 && (
                 <p className="text-fl-label text-fl-accent mb-2 font-mono text-xs">
@@ -487,7 +492,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 </p>
               )}
               <p className="text-fl-label text-fl-muted-4 mb-2 font-mono tracking-wider">
-                v1.8.13
+                v1.8.14
               </p>
               <button
                 onClick={() => {

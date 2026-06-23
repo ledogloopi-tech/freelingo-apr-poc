@@ -642,6 +642,7 @@
     "myVocabularyBtn": "Mi vocabulario",
     "myVocabulary": "Mi vocabulario",
     "myVocabularyEmpty": "Aún no has guardado palabras. Selecciona una palabra al leer para guardarla aquí.",
+    "myVocabularyNoResults": "Ninguna palabra guardada coincide con tu búsqueda.",
     "vocabularySearch": "Buscar palabras...",
     "vocabularyPageInfo": "Página {page} de {pages}",
     "vocabularyPrev": "Ant.",
@@ -1289,7 +1290,7 @@
   },
   "whatsNew": {
     "title": "Novedades",
-    "version": "v1.8.13",
+    "version": "v1.8.14",
     "cta": "Entendido",
     "entry1": {
       "label": "Dashboard más claro",
