@@ -56,7 +56,7 @@ function ReadingPage() {
     selectedWord,
     tooltipPos,
     saveState,
-    handleTextMouseUp,
+    handleTextSelection,
     handleSaveWord,
     dismissTooltip,
   } = useWordSave()
@@ -500,8 +500,11 @@ function ReadingPage() {
           <div className="border-fl-border bg-fl-surface relative border p-5">
             <div
               ref={textRef}
-              onMouseUp={() =>
-                handleTextMouseUp(exercise?.text ?? '', exercise?.level ?? 'B1')
+              onPointerUp={() =>
+                handleTextSelection(
+                  exercise?.text ?? '',
+                  exercise?.level ?? 'B1'
+                )
               }
             >
               <TargetLanguageText

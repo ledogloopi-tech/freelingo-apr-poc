@@ -181,14 +181,13 @@ export function ContactFormModal({ open, onClose }: ContactFormModalProps) {
                 disabled={isLoading}
                 className="border-fl-border text-fl-label text-fl-muted-2 hover:border-fl-border-2 hover:text-fl-fg flex-1 border py-3 font-mono font-bold tracking-widest uppercase transition-colors disabled:opacity-50"
               >
-                — {tCommon('cancel')}
+                {tCommon('cancel')}
               </button>
               <button
                 type="submit"
                 disabled={isLoading}
                 className="bg-fl-fg text-fl-bg text-fl-label hover:bg-fl-fg-bright flex-1 py-3 font-mono font-bold tracking-widest uppercase transition-colors disabled:opacity-50"
               >
-                —{' '}
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 inline h-4 w-4 animate-spin" />

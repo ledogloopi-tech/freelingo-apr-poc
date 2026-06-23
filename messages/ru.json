@@ -642,6 +642,7 @@
     "myVocabularyBtn": "Мой словарь",
     "myVocabulary": "Мой словарь",
     "myVocabularyEmpty": "Слов ещё нет. Выдели слово во время чтения, чтобы сохранить его здесь.",
+    "myVocabularyNoResults": "Сохранённые слова не соответствуют вашему запросу.",
     "vocabularySearch": "Поиск слов...",
     "vocabularyPageInfo": "Страница {page} из {pages}",
     "vocabularyPrev": "Назад",
@@ -1289,7 +1290,7 @@
   },
   "whatsNew": {
     "title": "Что нового",
-    "version": "v1.8.13",
+    "version": "v1.8.14",
     "cta": "Понятно",
     "entry1": {
       "label": "Более понятный дашборд",

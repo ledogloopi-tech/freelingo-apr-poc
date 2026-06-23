@@ -108,7 +108,7 @@ export default function SettingsMemoriesPage() {
               onClick={() => setClearConfirm(true)}
               className="text-fl-hint text-fl-muted-2 border-fl-border hover:text-fl-error hover:border-fl-error/40 w-full border py-2 font-mono tracking-widest uppercase transition-colors"
             >
-              — {t('memoryClearAll')}
+              {t('memoryClearAll')}
             </button>
           </>
         )}

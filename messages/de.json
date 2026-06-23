@@ -642,6 +642,7 @@
     "myVocabularyBtn": "Mein Vokabular",
     "myVocabulary": "Mein Vokabular",
     "myVocabularyEmpty": "Noch keine Wörter gespeichert. Wähle beim Lesen ein Wort aus, um es hier zu speichern.",
+    "myVocabularyNoResults": "Keine gespeicherten Wörter entsprechen deiner Suche.",
     "vocabularySearch": "Wörter suchen...",
     "vocabularyPageInfo": "Seite {page} von {pages}",
     "vocabularyPrev": "Zurück",
@@ -1289,7 +1290,7 @@
   },
   "whatsNew": {
     "title": "Neuigkeiten",
-    "version": "v1.8.13",
+    "version": "v1.8.14",
     "cta": "Verstanden",
     "entry1": {
       "label": "Klareres Dashboard",

@@ -73,7 +73,7 @@ export default function LessonPage() {
     selectedWord,
     tooltipPos,
     saveState,
-    handleTextMouseUp,
+    handleTextSelection,
     handleSaveWord,
     dismissTooltip,
   } = useWordSave()
@@ -363,6 +363,7 @@ export default function LessonPage() {
 
   const exercise = exercises[currentExercise]
   const isEvaluated = exercise?.score !== null
+  const isAnswerCorrect = (exercise?.score ?? 0) >= 1
   const targetLanguageCode = activeLanguage?.code ?? 'en-GB'
   const explanation = lesson?.content?.explanation as
     | Record<string, unknown>
@@ -421,8 +422,8 @@ export default function LessonPage() {
                     as="p"
                     languageCode={targetLanguageCode}
                     className="text-fl-muted-1 word-selectable cursor-text select-text"
-                    onMouseUp={() =>
-                      handleTextMouseUp(
+                    onPointerUp={() =>
+                      handleTextSelection(
                         String(explanation.text),
                         lesson?.cefr_level ?? 'B1'
                       )
@@ -680,20 +681,41 @@ export default function LessonPage() {
                 <div className="space-y-2">
                   {exercise.options.map((opt) => {
                     const isSelected = answer === opt
+                    const isCorrect =
+                      isEvaluated && opt === exercise.correct_answer
+                    const isWrongSelection =
+                      isEvaluated && isSelected && !isCorrect
                     return (
                       <button
                         key={opt}
                         disabled={isEvaluated}
                         onClick={() => setAnswer(opt)}
-                        className={`w-full border px-4 py-3 text-left transition-colors disabled:opacity-60 ${
-                          isSelected
-                            ? 'border-fl-accent bg-fl-accent text-fl-accent-fg'
-                            : 'border-fl-border text-fl-muted-1 hover:border-fl-border-2 hover:text-fl-fg'
+                        className={`flex w-full items-center justify-between gap-3 border px-4 py-3 text-left transition-colors disabled:opacity-100 ${
+                          isCorrect
+                            ? 'text-fl-fg border-green-500/40 bg-green-500/5'
+                            : isWrongSelection
+                              ? 'text-fl-fg border-red-500/40 bg-red-500/5'
+                              : isSelected
+                                ? 'border-fl-accent bg-fl-accent text-fl-accent-fg'
+                                : 'border-fl-border text-fl-muted-1 hover:border-fl-border-2 hover:text-fl-fg'
                         }`}
                       >
-                        <TargetLanguageText languageCode={targetLanguageCode}>
+                        <TargetLanguageText
+                          languageCode={targetLanguageCode}
+                          className="min-w-0 flex-1"
+                        >
                           {opt}
                         </TargetLanguageText>
+                        {isCorrect && (
+                          <span className="font-mono text-xs text-green-400">
+                            ✓
+                          </span>
+                        )}
+                        {isWrongSelection && (
+                          <span className="font-mono text-xs text-red-400">
+                            ✕
+                          </span>
+                        )}
                       </button>
                     )
                   })}
@@ -733,16 +755,32 @@ export default function LessonPage() {
                   )}
                 </div>
               ) : (
-                <textarea
-                  className={cn(
-                    getTargetLanguageTextClass(targetLanguageCode),
-                    'bg-fl-bg border-fl-border text-fl-fg placeholder:text-fl-muted-4 focus:border-fl-border-2 min-h-[90px] w-full resize-y border px-4 py-3 transition-colors focus:outline-none'
+                <div className="relative">
+                  <textarea
+                    className={cn(
+                      getTargetLanguageTextClass(targetLanguageCode),
+                      'bg-fl-bg border-fl-border text-fl-fg placeholder:text-fl-muted-4 focus:border-fl-border-2 min-h-[90px] w-full resize-y border px-4 py-3 transition-colors focus:outline-none disabled:opacity-100',
+                      isEvaluated && 'pr-10',
+                      isEvaluated &&
+                        (isAnswerCorrect
+                          ? 'border-green-500/40'
+                          : 'border-red-500/40')
+                    )}
+                    placeholder={t('yourAnswer')}
+                    value={answer}
+                    onChange={(e) => setAnswer(e.target.value)}
+                    disabled={isEvaluated}
+                  />
+                  {isEvaluated && (
+                    <span
+                      className={`absolute top-3 right-3 font-mono text-xs ${
+                        isAnswerCorrect ? 'text-green-400' : 'text-red-400'
+                      }`}
+                    >
+                      {isAnswerCorrect ? '✓' : '✕'}
+                    </span>
                   )}
-                  placeholder={t('yourAnswer')}
-                  value={answer}
-                  onChange={(e) => setAnswer(e.target.value)}
-                  disabled={isEvaluated}
-                />
+                </div>
               )}
 
               {!isEvaluated ? (

@@ -39,7 +39,7 @@ export default function ChatPage() {
     selectedWord,
     tooltipPos,
     saveState,
-    handleTextMouseUp,
+    handleTextSelection,
     handleSaveWord,
     dismissTooltip,
   } = useWordSave()
@@ -467,9 +467,9 @@ export default function ChatPage() {
                             ? 'bg-fl-accent text-fl-accent-fg border-fl-accent'
                             : 'bg-fl-surface text-fl-fg-2 border-fl-border'
                         }`}
-                        onMouseUp={
+                        onPointerUp={
                           msg.role === 'assistant'
-                            ? () => handleTextMouseUp(msg.content)
+                            ? () => handleTextSelection(msg.content)
                             : undefined
                         }
                       >

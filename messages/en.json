@@ -642,6 +642,7 @@
     "myVocabularyBtn": "My Vocabulary",
     "myVocabulary": "My Vocabulary",
     "myVocabularyEmpty": "No saved words yet. Select a word while reading to save it here.",
+    "myVocabularyNoResults": "No saved words match your search.",
     "vocabularySearch": "Search words...",
     "vocabularyPageInfo": "Page {page} of {pages}",
     "vocabularyPrev": "Prev",
@@ -1289,7 +1290,7 @@
   },
   "whatsNew": {
     "title": "What's New",
-    "version": "v1.8.13",
+    "version": "v1.8.14",
     "cta": "Got it",
     "entry1": {
       "label": "Clearer dashboard",

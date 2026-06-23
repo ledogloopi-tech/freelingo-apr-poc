@@ -642,6 +642,7 @@
     "myVocabularyBtn": "Vocabularul meu",
     "myVocabulary": "Vocabularul meu",
     "myVocabularyEmpty": "Niciun cuvânt salvat încă. Selectează un cuvânt în timp ce citeşti pentru a-l salva aici.",
+    "myVocabularyNoResults": "Niciun cuvânt salvat nu corespunde căutării tale.",
     "vocabularySearch": "Caută cuvinte...",
     "vocabularyPageInfo": "Pagina {page} din {pages}",
     "vocabularyPrev": "Prec.",
@@ -1289,7 +1290,7 @@
   },
   "whatsNew": {
     "title": "Noutăți",
-    "version": "v1.8.13",
+    "version": "v1.8.14",
     "cta": "Am înțeles",
     "entry1": {
       "label": "Dashboard mai clar",
