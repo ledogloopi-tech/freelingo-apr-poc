@@ -412,7 +412,10 @@
     "recentPerformanceDescription": "Gebaseerd op je laatste antwoorden en herhalingen.",
     "performanceNeedsPractice": "Oefening nodig",
     "performanceInProgress": "In ontwikkeling",
-    "performanceStrong": "Sterk"
+    "performanceStrong": "Sterk",
+    "premiumBannerTitle": "Oefen meer met FreeLingo Premium",
+    "premiumBannerDesc": "Krijg toegang tot Reading, Listening, chat met Lingu en spraakgesprekken.",
+    "premiumBannerCta": "Bekijk plannen →"
   },
   "assessment": {
     "title": "Beoordeling",
@@ -1286,7 +1289,7 @@
   },
   "whatsNew": {
     "title": "Nieuw",
-    "version": "v1.8.12",
+    "version": "v1.8.13",
     "cta": "Begrepen",
     "entry1": {
       "label": "Duidelijker dashboard",
@@ -1447,6 +1450,7 @@
     "eyebrow": "Verhalen van cursisten",
     "title": "Leren voelt echter wanneer je het zelf vertelt",
     "subtitle": "Beoordelingen van studenten die al met Lingu oefenen op FreeLingo.",
+    "averageLabel": "{average}/5 · {count} beoordelingen in totaal",
     "learningLanguage": "Leert {language}",
     "starsLabel": "{rating} van 5 sterren",
     "ratingOnly": "Geverifieerde FreeLingo-beoordeling."

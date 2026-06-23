@@ -412,7 +412,10 @@
     "recentPerformanceDescription": "Based on your latest answers and reviews.",
     "performanceNeedsPractice": "Needs practice",
     "performanceInProgress": "In progress",
-    "performanceStrong": "Strong"
+    "performanceStrong": "Strong",
+    "premiumBannerTitle": "Practise more with FreeLingo Premium",
+    "premiumBannerDesc": "Access Reading, Listening, chat with Lingu, and voice conversation.",
+    "premiumBannerCta": "View plans →"
   },
   "assessment": {
     "title": "Assessment",
@@ -1286,7 +1289,7 @@
   },
   "whatsNew": {
     "title": "What's New",
-    "version": "v1.8.12",
+    "version": "v1.8.13",
     "cta": "Got it",
     "entry1": {
       "label": "Clearer dashboard",
@@ -1447,6 +1450,7 @@
     "eyebrow": "Learner stories",
     "title": "Learning feels more real when you tell it yourself",
     "subtitle": "Reviews from students already practicing with Lingu on FreeLingo.",
+    "averageLabel": "{average}/5 · {count} total reviews",
     "learningLanguage": "Learning {language}",
     "starsLabel": "{rating} out of 5 stars",
     "ratingOnly": "Verified FreeLingo rating."

@@ -47,10 +47,10 @@ Admin can still override any quota field per user via the admin panel regardless
 
 ### Maintenance mode
 
-A runtime toggle (Redis flag `maintenance_mode`) that blocks all subscription-gated features regardless of the user's subscription status. This allows the admin to preventively disable LLM-dependent features (chat, voice conversation, listening, reading) without revoking API keys or changing environment variables.
+A runtime toggle (Redis flag `maintenance_mode`) that blocks all subscription-gated features for non-admin users regardless of subscription status. This allows the admin to preventively disable LLM-dependent features (chat, voice conversation, listening, reading) without revoking API keys or changing environment variables, while admins can still access the gated sections to verify service health.
 
-- **Backend**: `require_subscription` dependency checks `maintenance_mode` first → returns HTTP 503 when active. The WebSocket (`/ws/conversation`) also checks the flag manually.
-- **Frontend**: `MaintenanceGate` component renders a static banner. Applied on the four gated pages (`/chat`, `/conversation`, `/listening`, `/reading`). Lessons, flashcards, and other free features are unaffected.
+- **Backend**: `require_subscription` checks only subscription status. `require_not_maintenance` checks only `maintenance_mode` for non-admin users and returns HTTP 503 when active. Chat, listening, reading, and conversation warmup endpoints use both dependencies explicitly; the WebSocket (`/ws/conversation`) checks the flag manually with the same admin bypass. Memory-management endpoints use only `require_subscription`, so maintenance mode does not block listing or deleting saved memories.
+- **Frontend**: `MaintenanceGate` component renders a static banner for non-admin users. Applied on the four gated pages (`/chat`, `/conversation`, `/listening`, `/reading`). Lessons, flashcards, memory settings, and other free features are unaffected.
 - **Admin toggle**: `PATCH /api/admin/maintenance` — no restart required.
 
 ### Lessons are no longer paywalled

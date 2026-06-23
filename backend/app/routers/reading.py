@@ -8,7 +8,12 @@ from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
-from app.core.deps import get_active_study_plan, get_redis, require_subscription
+from app.core.deps import (
+    get_active_study_plan,
+    get_redis,
+    require_not_maintenance,
+    require_subscription,
+)
 from app.core.limiter import limiter
 from app.models.study_plan import StudyPlan
 from app.models.user import User
@@ -95,6 +100,7 @@ async def _background_generate(
 @limiter.limit("10/minute")
 async def get_next_exercise(
     request: Request,
+    _maintenance: None = Depends(require_not_maintenance),
     wait: bool = False,
     plan: StudyPlan = Depends(get_active_study_plan),
     current_user: User = Depends(require_subscription),
@@ -140,6 +146,7 @@ async def get_next_exercise(
 async def generate_exercise(
     request: Request,
     background_tasks: BackgroundTasks,
+    _maintenance: None = Depends(require_not_maintenance),
     plan: StudyPlan = Depends(get_active_study_plan),
     current_user: User = Depends(require_subscription),
     db: AsyncSession = Depends(get_db),
@@ -173,6 +180,7 @@ async def generate_exercise(
 async def submit_reading_attempt(
     request: Request,
     body: ReadingSubmitRequest,
+    _maintenance: None = Depends(require_not_maintenance),
     plan: StudyPlan = Depends(get_active_study_plan),
     current_user: User = Depends(require_subscription),
     db: AsyncSession = Depends(get_db),
@@ -213,6 +221,7 @@ async def submit_reading_attempt(
 @limiter.limit("60/minute")
 async def get_reading_history(
     request: Request,
+    _maintenance: None = Depends(require_not_maintenance),
     skip: int = 0,
     limit: int = 10,
     plan: StudyPlan = Depends(get_active_study_plan),

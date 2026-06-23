@@ -10,7 +10,7 @@ from sqlalchemy import select
 
 from app.core.app_logger import get_logger
 from app.core.config import settings
-from app.core.deps import MAINTENANCE_KEY, require_subscription
+from app.core.deps import MAINTENANCE_KEY, require_not_maintenance, require_subscription
 from app.core.limiter import limiter
 from app.core.security import decode_access_token
 from app.models.conversation import Conversation as ConversationModel
@@ -59,6 +59,7 @@ def _make_silence_wav(duration_ms: int = 100, sample_rate: int = 16000) -> bytes
 @limiter.limit("20/minute")
 async def conversation_warmup(
     request: Request,
+    _maintenance: None = Depends(require_not_maintenance),
     _current_user: User = Depends(require_subscription),
 ) -> JSONResponse:
     """Pre-heat TTS and STT services before a conversation session starts.
@@ -153,7 +154,7 @@ async def conversation_ws(
         try:
             async with _redis_client() as redis_check:
                 maintenance = await redis_check.get(MAINTENANCE_KEY)
-            if maintenance == "1":
+            if maintenance == "1" and user.role != "admin":
                 logger.info(
                     "[conversation] Maintenance mode active — closing WS for user %s", user_id
                 )

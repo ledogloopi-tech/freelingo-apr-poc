@@ -264,7 +264,7 @@ User review endpoints. Admin moderation endpoints live under `/api/admin/reviews
 
 ## Memories — `/api/memories`
 
-All endpoints require `require_subscription`.
+All endpoints require `require_subscription`: users still need subscription access when Stripe is enabled, but maintenance mode does not block memory management.
 
 | Method | Path    | Rate limit | Auth                 | Description                                                                                                   |
 | ------ | ------- | ---------- | -------------------- | ------------------------------------------------------------------------------------------------------------- |
