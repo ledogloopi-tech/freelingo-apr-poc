@@ -41,6 +41,85 @@ from app.services.progress_service import update_daily_progress, upsert_unit_com
 router = APIRouter(prefix="/api/lessons", tags=["lessons"])
 
 
+_ANSWER_FEEDBACK: dict[str, dict[str, str]] = {
+    "en": {
+        "correct": "Correct!",
+        "correct_answer": "The correct answer is: {answer}",
+        "free_write_unavailable": "Could not evaluate free-write answer at this time.",
+        "good_pronunciation": "Good pronunciation!",
+        "target_phrase": "The target phrase was: {answer}",
+    },
+    "es": {
+        "correct": "Correcto!",
+        "correct_answer": "La respuesta correcta es: {answer}",
+        "free_write_unavailable": "No se pudo evaluar la respuesta escrita en este momento.",
+        "good_pronunciation": "Buena pronunciacion!",
+        "target_phrase": "La frase objetivo era: {answer}",
+    },
+    "de": {
+        "correct": "Richtig!",
+        "correct_answer": "Die richtige Antwort ist: {answer}",
+        "free_write_unavailable": "Die schriftliche Antwort konnte momentan nicht bewertet werden.",
+        "good_pronunciation": "Gute Aussprache!",
+        "target_phrase": "Der Zielsatz war: {answer}",
+    },
+    "fr": {
+        "correct": "Correct !",
+        "correct_answer": "La bonne reponse est : {answer}",
+        "free_write_unavailable": "Impossible d'evaluer la reponse ecrite pour le moment.",
+        "good_pronunciation": "Bonne prononciation !",
+        "target_phrase": "La phrase cible etait : {answer}",
+    },
+    "it": {
+        "correct": "Corretto!",
+        "correct_answer": "La risposta corretta e: {answer}",
+        "free_write_unavailable": "Non e possibile valutare la risposta scritta in questo momento.",
+        "good_pronunciation": "Buona pronuncia!",
+        "target_phrase": "La frase obiettivo era: {answer}",
+    },
+    "pt": {
+        "correct": "Correto!",
+        "correct_answer": "A resposta correta e: {answer}",
+        "free_write_unavailable": "Nao foi possivel avaliar a resposta escrita neste momento.",
+        "good_pronunciation": "Boa pronuncia!",
+        "target_phrase": "A frase-alvo era: {answer}",
+    },
+    "ru": {
+        "correct": "Правильно!",
+        "correct_answer": "Правильный ответ: {answer}",
+        "free_write_unavailable": "Сейчас не удалось оценить письменный ответ.",
+        "good_pronunciation": "Хорошее произношение!",
+        "target_phrase": "Целевая фраза была: {answer}",
+    },
+    "nl": {
+        "correct": "Correct!",
+        "correct_answer": "Het juiste antwoord is: {answer}",
+        "free_write_unavailable": "Het geschreven antwoord kan momenteel niet worden beoordeeld.",
+        "good_pronunciation": "Goede uitspraak!",
+        "target_phrase": "De doelzin was: {answer}",
+    },
+    "pl": {
+        "correct": "Poprawnie!",
+        "correct_answer": "Prawidlowa odpowiedz to: {answer}",
+        "free_write_unavailable": "Nie mozna teraz ocenic odpowiedzi pisemnej.",
+        "good_pronunciation": "Dobra wymowa!",
+        "target_phrase": "Fraza docelowa to: {answer}",
+    },
+    "ro": {
+        "correct": "Corect!",
+        "correct_answer": "Raspunsul corect este: {answer}",
+        "free_write_unavailable": "Nu s-a putut evalua raspunsul scris momentan.",
+        "good_pronunciation": "Pronuntie buna!",
+        "target_phrase": "Fraza tinta a fost: {answer}",
+    },
+}
+
+
+def _answer_feedback(native_language: str, key: str, *, answer: str = "") -> str:
+    messages = _ANSWER_FEEDBACK.get(native_language, _ANSWER_FEEDBACK["en"])
+    return messages[key].format(answer=answer)
+
+
 async def _get_lesson_for_user(lesson_id: int, user_id: int, db: AsyncSession) -> Lesson:
     """Fetch a lesson and verify it belongs to the requesting user via its study plan."""
     from app.models.user_language import UserLanguage
@@ -251,6 +330,7 @@ async def answer_exercise(
                 criteria=criteria,
                 answer=data.answer,
                 target_language=target_language,
+                native_language=current_user.native_language,
             )
             sco = eval_result.score if hasattr(eval_result, "score") else eval_result["score"]
             fb = (
@@ -262,7 +342,9 @@ async def answer_exercise(
             exercise.feedback = fb
         except LLMTimeoutError, LLMUnavailableError, LLMError:
             exercise.score = 0.5
-            exercise.feedback = "Could not evaluate free-write answer at this time."
+            exercise.feedback = _answer_feedback(
+                current_user.native_language, "free_write_unavailable"
+            )
     elif exercise.exercise_type == "fill_blank":
         try:
             eval_result = await evaluate_fill_blank(
@@ -271,6 +353,7 @@ async def answer_exercise(
                 correct_answer=exercise.correct_answer,
                 student_answer=data.answer,
                 target_language=target_language,
+                native_language=current_user.native_language,
             )
             exercise.score = eval_result.score
             exercise.feedback = eval_result.feedback
@@ -282,7 +365,13 @@ async def answer_exercise(
             is_correct = ua == ca or ua in alternatives
             exercise.score = 1.0 if is_correct else 0.0
             exercise.feedback = (
-                "Correct!" if is_correct else f"The correct answer is: {exercise.correct_answer}"
+                _answer_feedback(current_user.native_language, "correct")
+                if is_correct
+                else _answer_feedback(
+                    current_user.native_language,
+                    "correct_answer",
+                    answer=exercise.correct_answer,
+                )
             )
     elif exercise.exercise_type == "pronunciation":
         transcription = data.answer
@@ -292,6 +381,7 @@ async def answer_exercise(
                 target=exercise.correct_answer,
                 transcription=transcription,
                 target_language=target_language,
+                native_language=current_user.native_language,
             )
             exercise.score = eval_result.score
             exercise.feedback = eval_result.feedback
@@ -306,9 +396,13 @@ async def answer_exercise(
             )
             exercise.score = 1.0 if is_close else 0.0
             exercise.feedback = (
-                "Good pronunciation!"
+                _answer_feedback(current_user.native_language, "good_pronunciation")
                 if is_close
-                else f"The target phrase was: {exercise.correct_answer}"
+                else _answer_feedback(
+                    current_user.native_language,
+                    "target_phrase",
+                    answer=exercise.correct_answer,
+                )
             )
     else:
         user_ans = data.answer.strip().lower()
@@ -323,7 +417,13 @@ async def answer_exercise(
         )
         exercise.score = 1.0 if is_correct else 0.0
         exercise.feedback = (
-            "Correct!" if is_correct else f"The correct answer is: {exercise.correct_answer}"
+            _answer_feedback(current_user.native_language, "correct")
+            if is_correct
+            else _answer_feedback(
+                current_user.native_language,
+                "correct_answer",
+                answer=exercise.correct_answer,
+            )
         )
 
     exercise.user_answer = data.answer

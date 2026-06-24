@@ -272,17 +272,21 @@ class TestEvaluateFillBlank:
         with patch(
             "app.services.lesson_generator.llm_adapter.structured_output",
             AsyncMock(return_value=mock_eval),
-        ):
+        ) as mock_structured:
             result = await evaluate_fill_blank(
                 cefr_level="A1",
                 question="I ___ a student.",
                 correct_answer="am",
                 student_answer="am",
                 target_language="en-GB",
+                native_language="es",
             )
 
         assert result.is_correct is True
         assert result.score == 1.0
+        prompt = mock_structured.await_args.args[0][0]["content"]
+        assert "Student native language: Spanish" in prompt
+        assert "Write all feedback in Spanish" in prompt
 
     @pytest.mark.asyncio
     async def test_evaluates_fill_blank_incorrect(self):

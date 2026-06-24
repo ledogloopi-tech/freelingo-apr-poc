@@ -104,14 +104,17 @@ async def evaluate_free_write(
     criteria: list[str],
     answer: str,
     target_language: str = "en-GB",
+    native_language: str | None = None,
 ) -> FreeWriteEvaluation:
-    from app.services.language_helpers import get_language_name
-
     target_language_name = get_language_name(target_language)
+    native_language_name = (
+        get_native_language_name(native_language) if native_language else "English"
+    )
     language_prompt_overlay = get_language_prompt_overlay(target_language)
     eval_prompt = build_free_write_eval_prompt(
         cefr_level=cefr_level,
         target_language_name=target_language_name,
+        native_language_name=native_language_name,
         prompt=prompt,
         criteria=", ".join(criteria),
         answer=answer,
@@ -130,14 +133,17 @@ async def evaluate_pronunciation(
     target: str,
     transcription: str,
     target_language: str = "en-GB",
+    native_language: str | None = None,
 ) -> PronunciationEvaluation:
-    from app.services.language_helpers import get_language_name
-
     target_language_name = get_language_name(target_language)
+    native_language_name = (
+        get_native_language_name(native_language) if native_language else "English"
+    )
     language_prompt_overlay = get_language_prompt_overlay(target_language)
     eval_prompt = build_pronunciation_eval_prompt(
         cefr_level=cefr_level,
         target_language_name=target_language_name,
+        native_language_name=native_language_name,
         target=target,
         transcription=transcription,
         language_prompt_overlay=language_prompt_overlay,
@@ -155,14 +161,17 @@ async def evaluate_fill_blank(
     correct_answer: str,
     student_answer: str,
     target_language: str = "en-GB",
+    native_language: str | None = None,
 ) -> FillBlankEvaluation:
-    from app.services.language_helpers import get_language_name
-
     target_language_name = get_language_name(target_language)
+    native_language_name = (
+        get_native_language_name(native_language) if native_language else "English"
+    )
     language_prompt_overlay = get_language_prompt_overlay(target_language)
     eval_prompt = build_fill_blank_eval_prompt(
         cefr_level=cefr_level,
         target_language_name=target_language_name,
+        native_language_name=native_language_name,
         question=question,
         correct_answer=correct_answer,
         student_answer=student_answer,

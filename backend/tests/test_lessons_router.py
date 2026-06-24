@@ -820,6 +820,7 @@ async def test_answer_fill_blank_correct(client, test_user, db_session):
     assert data["score"] == 1.0
     assert data["feedback"] == "Perfect!"
     assert data["correct_answer"] == "Her"
+    assert mock_eval.await_args.kwargs["native_language"] == "es"
 
 
 @pytest.mark.asyncio
@@ -852,6 +853,7 @@ async def test_answer_fill_blank_wrong(client, test_user, db_session):
     data = response.json()
     assert data["score"] == 0.0
     assert "Her" in data["feedback"]
+    assert mock_eval.await_args.kwargs["native_language"] == "es"
 
 
 @pytest.mark.asyncio
@@ -880,7 +882,7 @@ async def test_answer_fill_blank_llm_fallback_correct(client, test_user, db_sess
     assert response.status_code == 200
     data = response.json()
     assert data["score"] == 1.0
-    assert "Correct" in data["feedback"]
+    assert data["feedback"] == "Correcto!"
 
 
 @pytest.mark.asyncio
@@ -910,6 +912,7 @@ async def test_answer_fill_blank_llm_fallback_wrong(client, test_user, db_sessio
     data = response.json()
     assert data["score"] == 0.0
     assert "Her" in data["feedback"]
+    assert "La respuesta correcta" in data["feedback"]
 
 
 @pytest.mark.asyncio
@@ -971,6 +974,7 @@ async def test_answer_free_write_with_llm(client, test_user, db_session):
     data = response.json()
     assert data["score"] == 0.8
     assert data["feedback"] == "Good grammar."
+    assert mock_eval.await_args.kwargs["native_language"] == "es"
 
 
 @pytest.mark.asyncio
@@ -1029,7 +1033,7 @@ async def test_answer_free_write_llm_fallback(client, test_user, db_session):
     assert response.status_code == 200
     data = response.json()
     assert data["score"] == 0.5
-    assert "Could not evaluate" in data["feedback"]
+    assert "No se pudo evaluar" in data["feedback"]
 
 
 # ── pronunciation exercises (LLM mocked) ────────────────────────────────────
@@ -1065,6 +1069,7 @@ async def test_answer_pronunciation_with_llm(client, test_user, db_session):
     data = response.json()
     assert data["score"] == 0.85
     assert data["feedback"] == "Good pronunciation."
+    assert mock_eval.await_args.kwargs["native_language"] == "es"
 
 
 @pytest.mark.asyncio
@@ -1093,7 +1098,7 @@ async def test_answer_pronunciation_llm_fallback_exact_match(client, test_user, 
     assert response.status_code == 200
     data = response.json()
     assert data["score"] == 1.0
-    assert "Good pronunciation" in data["feedback"]
+    assert data["feedback"] == "Buena pronunciacion!"
 
 
 @pytest.mark.asyncio
@@ -1151,6 +1156,7 @@ async def test_answer_pronunciation_llm_fallback_mismatch(client, test_user, db_
     data = response.json()
     assert data["score"] == 0.0
     assert "Good morning" in data["feedback"]
+    assert "La frase objetivo" in data["feedback"]
 
 
 # ── lifecycle: start → answer → complete ─────────────────────────────────────
