@@ -160,13 +160,13 @@ export default function PrivacyPage() {
             href={termsHref}
             className="text-fl-muted-2 hover:text-fl-fg font-mono text-xs tracking-widest uppercase transition-colors"
           >
-            — {t('linkTerms')}
+            {t('linkTerms')}
           </Link>
           <Link
             href={backHref}
             className="text-fl-muted-2 hover:text-fl-fg font-mono text-xs tracking-widest uppercase transition-colors"
           >
-            — {backLabel}
+            {backLabel}
           </Link>
         </div>
       </div>

@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.15] - 2026-06-24
+
+### Changed
+
+- **Lesson vocabulary support**: newly generated lesson vocabulary can now include native-language translations, translated example sentences, usage notes, and optional reading/pronunciation guidance while keeping older lesson vocabulary compatible.
+
+### Fixed
+
+- Minor bug fixes and improvements.
+
 ## [1.8.14] - 2026-06-23
 
 ### Fixed

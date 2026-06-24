@@ -43,6 +43,7 @@ LLM-powered lesson content generation with strict constraints:
 - CEFR level and target language adherence using BCP-47 `target_language`, human-readable language names, and centralized prompt overlays.
 - Lesson generation receives the user's mandatory `native_language` at every CEFR level and may include `native_explanation` alongside the target-language `explanation`, including translated key points, examples, common traps, and a mini-glossary for guided study.
 - Generates 3-5 exercises per lesson (multiple_choice, fill_blank, free_write, pronunciation). Newly generated exercises can include an optional concise `native_explanation` in the user's native language, stored in `lesson.content.exercises[*]` and surfaced by the lesson detail endpoint without adding a database column. Missing exercise-level native explanations can be generated on demand from the target-language exercise explanation and cached into the same JSON structure.
+- Generates enriched lesson vocabulary items with target-language word, definition, and example fields plus optional native-language translation, example translation, usage note, and optional reading/pronunciation guide. The extra fields are stored inside `lesson.content.vocabulary` and remain backward-compatible with older three-field vocabulary items.
 - Separately evaluates free_write answers and pronunciation (scored 0.0–1.0 with feedback)
 
 ## Flashcard SM-2 (`flashcard_sm2.py`)

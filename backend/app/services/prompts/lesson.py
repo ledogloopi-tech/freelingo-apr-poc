@@ -69,6 +69,15 @@ NATIVE EXPLANATION RULES:
 - common_traps: 2-4 likely mistakes for this lesson, with "mistake" and "fix" in {native_language_name}.
 - mini_glossary: 3-6 useful lesson terms, with "term" in {target_language_name}, plus "meaning" and optional "note" in {native_language_name}.
 
+VOCABULARY RULES:
+- Include 3-8 useful words or short phrases from this lesson.
+- "word", "definition", and "example" must be in {target_language_name}.
+- "translation", "example_translation", and "note" must be in {native_language_name} when native_language_name is not "none"; otherwise set them to null.
+- "translation" is a direct meaning of the word or phrase.
+- "example_translation" is a natural translation of the example sentence.
+- "note" is optional but should be helpful when there is a usage nuance, common mistake, register issue, or memory aid.
+- "reading" is optional. Use it only when a pronunciation guide, reading, or transliteration helps the learner; otherwise set it to null.
+
 Return a JSON object using this exact schema:
 {{
   "lesson_type": "{lesson_type}",
@@ -131,19 +140,28 @@ Return a JSON object using this exact schema:
     }}
   ],
   "vocabulary": [
-    {{"word": "[word or phrase in {target_language_name}]", "definition": "[definition in target language]", "example": "[example sentence in {target_language_name}]"}}
+    {{
+      "word": "[word or phrase in {target_language_name}]",
+      "definition": "[simple definition in {target_language_name}]",
+      "translation": "[direct meaning in {native_language_name}; null if native_language_name is none]",
+      "example": "[example sentence in {target_language_name}]",
+      "example_translation": "[natural translation in {native_language_name}; null if native_language_name is none]",
+      "note": "[optional usage note or memory aid in {native_language_name}; null if not needed or native_language_name is none]",
+      "reading": "[optional pronunciation guide, reading, or transliteration; null if not needed]"
+    }}
   ],
   "grammar_refs": ["[slug from valid_slugs list]", "[another slug]"]
 }}
 
-IMPORTANT — all content (explanations, questions, options, correct answers, vocabulary)
-must be entirely in {target_language_name}, EXCEPT for "native_explanation" which must be in {native_language_name} (or null if native_language_name is "none").
+IMPORTANT — all content (explanations, questions, options, correct answers, vocabulary word/definition/example)
+must be entirely in {target_language_name}, EXCEPT for "native_explanation" and vocabulary "translation", "example_translation", and "note" which must be in {native_language_name} (or null if native_language_name is "none").
 Only this meta-prompt is in English.
 
 Before returning, verify:
 - Every fill_blank exercise has ___ inside the "question" field (not in "explanation").
 - No multiple_choice option starts with a letter or number prefix (A., B., 1., 2.).
 - All text visible to the student (except native_explanation) is in {target_language_name}.
+- Vocabulary translation, example_translation, and note are in {native_language_name} when native_language_name is not "none".
 - If native_language_name is not "none", native_explanation is populated and all native fields are in {native_language_name}.
 - If native_language_name is not "none", every exercise has native_explanation in {native_language_name}.
 """

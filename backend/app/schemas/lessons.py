@@ -14,6 +14,16 @@ class ExerciseContent(BaseModel):
     native_explanation: str | None = None
 
 
+class LessonVocabularyItem(BaseModel):
+    word: str
+    definition: str
+    example: str
+    translation: str | None = None
+    example_translation: str | None = None
+    note: str | None = None
+    reading: str | None = None
+
+
 class LessonContent(BaseModel):
     lesson_type: str
     title: str
@@ -21,7 +31,7 @@ class LessonContent(BaseModel):
     explanation: dict
     native_explanation: dict | None = None
     exercises: list[ExerciseContent]
-    vocabulary: list[dict] | None = None
+    vocabulary: list[LessonVocabularyItem] | None = None
     grammar_refs: list[str] = []
     unit_id: str | None = None
 

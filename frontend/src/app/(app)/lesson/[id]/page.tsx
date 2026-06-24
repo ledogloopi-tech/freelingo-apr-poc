@@ -47,6 +47,16 @@ interface LessonData {
   content: Record<string, unknown>
 }
 
+interface LessonVocabularyItem {
+  word?: string
+  definition?: string
+  translation?: string | null
+  example?: string
+  example_translation?: string | null
+  note?: string | null
+  reading?: string | null
+}
+
 function getLessonUnitId(lesson: LessonData | null): string | null {
   const unitId = lesson?.content?.unit_id
   return typeof unitId === 'string' && unitId ? unitId : null
@@ -895,9 +905,8 @@ export default function LessonPage() {
 
         {/* Vocabulary */}
         {(() => {
-          const vocabItems = (lesson?.content?.vocabulary ?? []) as Array<
-            Record<string, string>
-          >
+          const vocabItems = (lesson?.content?.vocabulary ??
+            []) as LessonVocabularyItem[]
           if (!vocabItems.length) return null
           return (
             <div className="border-fl-border bg-fl-surface border p-5">
@@ -907,13 +916,28 @@ export default function LessonPage() {
               <div className="space-y-3">
                 {vocabItems.map((item, idx) => (
                   <div key={idx} className="border-fl-border border px-4 py-3">
-                    <TargetLanguageText
-                      as="p"
-                      languageCode={targetLanguageCode}
-                      className="text-fl-fg mb-1 font-semibold"
-                    >
-                      {item.word}
-                    </TargetLanguageText>
+                    <div className="mb-2 flex flex-wrap items-start justify-between gap-3">
+                      <div className="min-w-0 flex-1">
+                        {item.word && (
+                          <TargetLanguageText
+                            as="p"
+                            languageCode={targetLanguageCode}
+                            className="text-fl-fg font-semibold"
+                            reading={item.reading}
+                          >
+                            {item.word}
+                          </TargetLanguageText>
+                        )}
+                        {item.translation && (
+                          <p className="text-fl-muted-2 mt-1 text-sm">
+                            {item.translation}
+                          </p>
+                        )}
+                      </div>
+                      {item.example && (
+                        <AudioPlayer text={item.example} size="sm" />
+                      )}
+                    </div>
                     {item.definition && (
                       <TargetLanguageText
                         as="p"
@@ -924,13 +948,25 @@ export default function LessonPage() {
                       </TargetLanguageText>
                     )}
                     {item.example && (
-                      <TargetLanguageText
-                        as="p"
-                        languageCode={targetLanguageCode}
-                        className="text-fl-muted-2 mt-1 italic"
-                      >
-                        {item.example}
-                      </TargetLanguageText>
+                      <div className="border-fl-border mt-3 border-t pt-3">
+                        <TargetLanguageText
+                          as="p"
+                          languageCode={targetLanguageCode}
+                          className="text-fl-muted-2 italic"
+                        >
+                          {item.example}
+                        </TargetLanguageText>
+                        {item.example_translation && (
+                          <p className="text-fl-hint text-fl-muted-3 mt-1 text-sm">
+                            {item.example_translation}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.note && (
+                      <p className="text-fl-hint text-fl-muted-3 mt-3 text-sm">
+                        {item.note}
+                      </p>
                     )}
                   </div>
                 ))}

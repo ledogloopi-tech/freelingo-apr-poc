@@ -60,7 +60,7 @@ export default function BillingSuccessPage() {
           href="/dashboard"
           className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 block py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
         >
-          — {t('successCta')}
+          {t('successCta')}
         </Link>
       </div>
     </div>
