@@ -113,10 +113,11 @@ function QuotaPill({
     <div className="w-full">
       <button
         onClick={() => setOpen((v) => !v)}
-        className={`text-fl-hint flex w-full items-center justify-between border px-3 py-1.5 font-mono tracking-widest uppercase transition-colors ${alert
+        className={`text-fl-hint flex w-full items-center justify-between border px-3 py-1.5 font-mono tracking-widest uppercase transition-colors ${
+          alert
             ? 'border-fl-error/50 text-fl-error hover:border-fl-error'
             : 'border-fl-border text-fl-muted-3 hover:border-fl-border-2 hover:text-fl-muted-1'
-          }`}
+        }`}
       >
         <span>● {text}</span>
         <span className="text-fl-muted-4">{open ? '▴' : '▾'}</span>
@@ -216,7 +217,7 @@ export default function ConversationMode({
     apiFetch('/api/auth/quota')
       .then((r) => (r.ok ? r.json() : null))
       .then((data: QuotaStatus | null) => data && setQuota(data))
-      .catch(() => { })
+      .catch(() => {})
   }, [])
 
   useEffect(() => {
@@ -459,7 +460,7 @@ export default function ConversationMode({
       audioQueueRef.current?.cancel()
       audioQueueRef.current = null
       if (audioCtxRef.current) {
-        void audioCtxRef.current.close().catch(() => { })
+        void audioCtxRef.current.close().catch(() => {})
         audioCtxRef.current = null
       }
       setSessionActive(false)
@@ -556,7 +557,7 @@ export default function ConversationMode({
           void event.data
             .arrayBuffer()
             .then((arrayBuffer) => handleAudioChunk(arrayBuffer))
-            .catch(() => { })
+            .catch(() => {})
           return
         }
 

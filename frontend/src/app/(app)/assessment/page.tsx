@@ -442,10 +442,11 @@ export default function AssessmentPage() {
                   <button
                     key={lvl}
                     onClick={() => setSelectedLevel(lvl)}
-                    className={`border px-3 py-1.5 font-mono text-xs font-bold tracking-widest transition-colors ${selectedLevel === lvl
+                    className={`border px-3 py-1.5 font-mono text-xs font-bold tracking-widest transition-colors ${
+                      selectedLevel === lvl
                         ? 'bg-fl-accent text-fl-accent-fg border-fl-accent'
                         : 'border-fl-border text-fl-muted-2 hover:border-fl-border-2 hover:text-fl-fg'
-                      }`}
+                    }`}
                   >
                     {lvl}
                   </button>
