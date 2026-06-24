@@ -3,17 +3,17 @@
 import { useTranslations } from 'next-intl'
 import { useThemeStore } from '@/store/theme'
 
-export function AppearanceSection() {
+export function AppearanceSection({ title }: { title?: string } = {}) {
   const t = useTranslations('settings')
   const theme = useThemeStore((s) => s.theme)
   const setTheme = useThemeStore((s) => s.setTheme)
 
   return (
-    <div className="border-fl-border bg-fl-surface mt-4 border p-6">
+    <div className="border-fl-border bg-fl-surface border p-6">
       <div className="border-fl-border mb-5 flex items-center gap-2 border-b pb-4">
         <span className="text-fl-label text-fl-muted-2">●</span>
         <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
-          {t('sectionAppearance')}
+          {title ?? t('sectionAppearance')}
         </span>
       </div>
       <div className="flex items-center justify-between gap-4">

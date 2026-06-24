@@ -208,19 +208,19 @@ export default function PricingSection({
 
       {/* Comparison table */}
       <div className="border-fl-border overflow-hidden border">
-        <table className="w-full">
+        <table className="w-full table-fixed">
           <thead>
             <tr className="border-fl-border bg-fl-surface border-b">
-              <th className="text-fl-label text-fl-muted-2 px-5 py-3 text-left font-mono tracking-widest uppercase">
+              <th className="text-fl-label text-fl-muted-2 w-[42%] px-3 py-3 text-left font-mono tracking-widest uppercase sm:w-auto sm:px-5">
                 &nbsp;
               </th>
-              <th className="text-fl-label text-fl-muted-2 px-4 py-3 text-center font-mono tracking-widest uppercase">
+              <th className="text-fl-hint text-fl-muted-2 sm:text-fl-label w-[19.333%] px-1 py-3 text-center font-mono tracking-[0.18em] uppercase sm:w-auto sm:px-4 sm:tracking-widest">
                 {tBilling('planFreeName')}
               </th>
-              <th className="text-fl-label text-fl-muted-2 px-4 py-3 text-center font-mono tracking-widest uppercase">
+              <th className="text-fl-hint text-fl-muted-2 sm:text-fl-label w-[19.333%] px-1 py-3 text-center font-mono tracking-[0.18em] uppercase sm:w-auto sm:px-4 sm:tracking-widest">
                 {tBilling('planMonthlyName')}
               </th>
-              <th className="text-fl-label text-fl-muted-2 px-4 py-3 text-center font-mono tracking-widest uppercase">
+              <th className="text-fl-hint text-fl-muted-2 sm:text-fl-label w-[19.333%] px-1 py-3 text-center font-mono tracking-[0.18em] uppercase sm:w-auto sm:px-4 sm:tracking-widest">
                 {tBilling('planYearlyName')}
               </th>
             </tr>
@@ -233,24 +233,24 @@ export default function PricingSection({
                   i < tableRows.length - 1 ? 'border-fl-border border-b' : ''
                 }
               >
-                <td className="text-fl-muted-1 px-5 py-3 font-mono text-xs">
+                <td className="text-fl-muted-1 px-3 py-3 font-mono text-xs sm:px-5">
                   {row.label}
                 </td>
-                <td className="px-4 py-3 text-center">
+                <td className="px-1 py-3 text-center sm:px-4">
                   {row.free ? (
                     <Check className="text-fl-accent mx-auto h-3.5 w-3.5" />
                   ) : (
                     <Minus className="text-fl-muted-4 mx-auto h-3.5 w-3.5" />
                   )}
                 </td>
-                <td className="px-4 py-3 text-center">
+                <td className="px-1 py-3 text-center sm:px-4">
                   {row.monthly ? (
                     <Check className="text-fl-accent mx-auto h-3.5 w-3.5" />
                   ) : (
                     <Minus className="text-fl-muted-4 mx-auto h-3.5 w-3.5" />
                   )}
                 </td>
-                <td className="px-4 py-3 text-center">
+                <td className="px-1 py-3 text-center sm:px-4">
                   {row.yearly ? (
                     <Check className="text-fl-accent mx-auto h-3.5 w-3.5" />
                   ) : (

@@ -13,6 +13,7 @@ import pytest
 from app.schemas.lessons import (
     FillBlankEvaluation,
     FreeWriteEvaluation,
+    NativeExerciseHintResponse,
     NativeExplanationResponse,
     PronunciationEvaluation,
 )
@@ -330,6 +331,145 @@ async def test_get_lesson_includes_user_answers(client, test_user, db_session):
     assert data["exercises"][0]["user_answer"] == "B"
     assert data["exercises"][0]["score"] == 1.0
     assert data["exercises"][0]["feedback"] == "Correct!"
+
+
+@pytest.mark.asyncio
+async def test_get_lesson_includes_native_hint_from_content(client, test_user, db_session):
+    """GET lesson returns exercise native_hint from generated lesson JSON."""
+    from app.models.lesson import Exercise
+
+    user, headers = test_user
+    lesson = await _create_lesson_with_plan(
+        db_session,
+        user.id,
+        content={"exercises": [{"native_hint": "Fíjate en el sujeto."}]},
+    )
+
+    ex = Exercise(
+        lesson_id=lesson.id,
+        exercise_type="fill_blank",
+        question="Ich ___ müde.",
+        options=None,
+        correct_answer="bin",
+        explanation="Use the first-person form.",
+    )
+    db_session.add(ex)
+    await db_session.commit()
+
+    response = await client.get(f"/api/lessons/{lesson.id}", headers=headers)
+
+    assert response.status_code == 200
+    assert response.json()["exercises"][0]["native_hint"] == "Fíjate en el sujeto."
+
+
+@pytest.mark.asyncio
+async def test_generate_native_hint_returns_existing(client, test_user, db_session):
+    """POST /native-hint returns cached exercise hint without calling the LLM."""
+    from app.models.lesson import Exercise
+
+    user, headers = test_user
+    lesson = await _create_lesson_with_plan(
+        db_session,
+        user.id,
+        content={"exercises": [{"native_hint": "Ya existe."}]},
+    )
+    ex = Exercise(
+        lesson_id=lesson.id,
+        exercise_type="multiple_choice",
+        question="Q?",
+        options=["A", "B"],
+        correct_answer="B",
+        explanation="Choose B.",
+    )
+    db_session.add(ex)
+    await db_session.commit()
+    await db_session.refresh(ex)
+
+    with patch(
+        "app.routers.lessons.llm_adapter.structured_output",
+        new=AsyncMock(),
+    ) as mock_structured:
+        response = await client.post(f"/api/lessons/exercises/{ex.id}/native-hint", headers=headers)
+
+    assert response.status_code == 200
+    assert response.json()["native_hint"] == "Ya existe."
+    mock_structured.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_generate_native_hint_persists_content(client, test_user, db_session):
+    """POST /native-hint generates and stores a missing exercise hint."""
+    from app.models.lesson import Exercise
+
+    user, headers = test_user
+    lesson = await _create_lesson_with_plan(
+        db_session,
+        user.id,
+        content={"exercises": [{}]},
+    )
+    ex = Exercise(
+        lesson_id=lesson.id,
+        exercise_type="fill_blank",
+        question="Ich ___ müde.",
+        options=None,
+        correct_answer="bin",
+        explanation="Use the first-person form of sein.",
+    )
+    db_session.add(ex)
+    await db_session.commit()
+    await db_session.refresh(ex)
+
+    generated = NativeExerciseHintResponse(native_hint="Fíjate en el sujeto y el verbo.")
+    with patch(
+        "app.routers.lessons.llm_adapter.structured_output",
+        new=AsyncMock(return_value=generated),
+    ) as mock_structured:
+        response = await client.post(f"/api/lessons/exercises/{ex.id}/native-hint", headers=headers)
+
+    assert response.status_code == 200
+    assert response.json()["native_hint"] == generated.native_hint
+    prompt = mock_structured.await_args.args[0][0]["content"]
+    assert "Do not reveal the answer" in prompt
+    assert "Ich ___ müde." in prompt
+
+    await db_session.refresh(lesson)
+    assert lesson.content["exercises"][0]["native_hint"] == generated.native_hint
+
+
+@pytest.mark.asyncio
+async def test_generate_native_hint_rejects_answer_revealing_hint(client, test_user, db_session):
+    """POST /native-hint rejects generated hints that contain the answer literally."""
+    from app.models.lesson import Exercise
+
+    user, headers = test_user
+    lesson = await _create_lesson_with_plan(
+        db_session,
+        user.id,
+        content={"exercises": [{}]},
+    )
+    ex = Exercise(
+        lesson_id=lesson.id,
+        exercise_type="fill_blank",
+        question="Ich ___ müde.",
+        options=None,
+        correct_answer="bin",
+        explanation="Use the first-person form of sein.",
+    )
+    db_session.add(ex)
+    await db_session.commit()
+    await db_session.refresh(ex)
+
+    generated = NativeExerciseHintResponse(native_hint="Piensa en la forma bin.")
+    with patch(
+        "app.routers.lessons.llm_adapter.structured_output",
+        new=AsyncMock(return_value=generated),
+    ):
+        response = await client.post(f"/api/lessons/exercises/{ex.id}/native-hint", headers=headers)
+
+    assert response.status_code == 503
+
+    await db_session.refresh(lesson)
+    assert "native_hint" not in lesson.content["exercises"][0]
 
 
 # ── POST /api/lessons/{lesson_id}/complete ───────────────────────────────────
@@ -680,6 +820,7 @@ async def test_answer_fill_blank_correct(client, test_user, db_session):
     assert data["score"] == 1.0
     assert data["feedback"] == "Perfect!"
     assert data["correct_answer"] == "Her"
+    assert mock_eval.await_args.kwargs["native_language"] == "es"
 
 
 @pytest.mark.asyncio
@@ -712,6 +853,7 @@ async def test_answer_fill_blank_wrong(client, test_user, db_session):
     data = response.json()
     assert data["score"] == 0.0
     assert "Her" in data["feedback"]
+    assert mock_eval.await_args.kwargs["native_language"] == "es"
 
 
 @pytest.mark.asyncio
@@ -740,7 +882,7 @@ async def test_answer_fill_blank_llm_fallback_correct(client, test_user, db_sess
     assert response.status_code == 200
     data = response.json()
     assert data["score"] == 1.0
-    assert "Correct" in data["feedback"]
+    assert data["feedback"] == "Correcto!"
 
 
 @pytest.mark.asyncio
@@ -770,6 +912,7 @@ async def test_answer_fill_blank_llm_fallback_wrong(client, test_user, db_sessio
     data = response.json()
     assert data["score"] == 0.0
     assert "Her" in data["feedback"]
+    assert "La respuesta correcta" in data["feedback"]
 
 
 @pytest.mark.asyncio
@@ -831,6 +974,7 @@ async def test_answer_free_write_with_llm(client, test_user, db_session):
     data = response.json()
     assert data["score"] == 0.8
     assert data["feedback"] == "Good grammar."
+    assert mock_eval.await_args.kwargs["native_language"] == "es"
 
 
 @pytest.mark.asyncio
@@ -889,7 +1033,7 @@ async def test_answer_free_write_llm_fallback(client, test_user, db_session):
     assert response.status_code == 200
     data = response.json()
     assert data["score"] == 0.5
-    assert "Could not evaluate" in data["feedback"]
+    assert "No se pudo evaluar" in data["feedback"]
 
 
 # ── pronunciation exercises (LLM mocked) ────────────────────────────────────
@@ -925,6 +1069,7 @@ async def test_answer_pronunciation_with_llm(client, test_user, db_session):
     data = response.json()
     assert data["score"] == 0.85
     assert data["feedback"] == "Good pronunciation."
+    assert mock_eval.await_args.kwargs["native_language"] == "es"
 
 
 @pytest.mark.asyncio
@@ -953,7 +1098,7 @@ async def test_answer_pronunciation_llm_fallback_exact_match(client, test_user, 
     assert response.status_code == 200
     data = response.json()
     assert data["score"] == 1.0
-    assert "Good pronunciation" in data["feedback"]
+    assert data["feedback"] == "Buena pronunciacion!"
 
 
 @pytest.mark.asyncio
@@ -1011,6 +1156,7 @@ async def test_answer_pronunciation_llm_fallback_mismatch(client, test_user, db_
     data = response.json()
     assert data["score"] == 0.0
     assert "Good morning" in data["feedback"]
+    assert "La frase objetivo" in data["feedback"]
 
 
 # ── lifecycle: start → answer → complete ─────────────────────────────────────

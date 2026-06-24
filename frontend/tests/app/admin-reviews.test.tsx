@@ -85,7 +85,8 @@ describe('AdminReviewsPage', () => {
     render(<AdminReviewsPage />)
     fireEvent.click(await screen.findByText('Delete'))
     const callsBeforeDelete = mockFetchAdminReviews.mock.calls.length
-    fireEvent.click(screen.getByText('— Delete'))
+    const deleteButtons = screen.getAllByText('Delete')
+    fireEvent.click(deleteButtons[deleteButtons.length - 1])
     await waitFor(() => expect(mockDeleteReview).toHaveBeenCalledWith(7))
     await waitFor(() =>
       expect(mockFetchAdminReviews.mock.calls.length).toBeGreaterThan(

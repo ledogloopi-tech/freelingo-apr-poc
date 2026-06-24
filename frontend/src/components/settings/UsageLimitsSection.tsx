@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl'
 import { apiFetch } from '@/lib/api'
 import { type QuotaStatus } from '@/types/api'
 
-export function UsageLimitsSection() {
+export function UsageLimitsSection({ title }: { title?: string } = {}) {
   const t = useTranslations('settings')
   const [quota, setQuota] = useState<QuotaStatus | null>(null)
 
@@ -19,11 +19,11 @@ export function UsageLimitsSection() {
   }, [])
 
   return (
-    <div className="border-fl-border bg-fl-surface mt-4 border p-6">
+    <div className="border-fl-border bg-fl-surface border p-6">
       <div className="border-fl-border mb-5 flex items-center gap-2 border-b pb-4">
         <span className="text-fl-label text-fl-muted-2">●</span>
         <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
-          {t('sectionUsageLimits')}
+          {title ?? t('sectionUsageLimits')}
         </span>
       </div>
       {quota === null ? (

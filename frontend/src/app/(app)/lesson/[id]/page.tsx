@@ -37,6 +37,7 @@ interface ExerciseItem {
   user_answer: string | null
   score: number | null
   feedback: string | null
+  native_hint: string | null
 }
 
 interface LessonData {
@@ -45,6 +46,16 @@ interface LessonData {
   lesson_type: string
   cefr_level: string
   content: Record<string, unknown>
+}
+
+interface LessonVocabularyItem {
+  word?: string
+  definition?: string
+  translation?: string | null
+  example?: string
+  example_translation?: string | null
+  note?: string | null
+  reading?: string | null
 }
 
 function getLessonUnitId(lesson: LessonData | null): string | null {
@@ -111,6 +122,14 @@ export default function LessonPage() {
     exerciseNativeExplanationErrorId,
     setExerciseNativeExplanationErrorId,
   ] = useState<number | null>(null)
+  const [openNativeHintIds, setOpenNativeHintIds] = useState<Set<number>>(
+    () => new Set()
+  )
+  const [loadingExerciseNativeHintId, setLoadingExerciseNativeHintId] =
+    useState<number | null>(null)
+  const [exerciseNativeHintErrorId, setExerciseNativeHintErrorId] = useState<
+    number | null
+  >(null)
 
   const loadLesson = useCallback(async () => {
     setLoading(true)
@@ -190,6 +209,39 @@ export default function LessonPage() {
       setExerciseNativeExplanationErrorId(exerciseId)
     } finally {
       setLoadingExerciseNativeExplanationId(null)
+    }
+  }
+
+  const showExerciseNativeHint = async (exerciseId: number) => {
+    const existing = exercises.find((item) => item.id === exerciseId)
+    setOpenNativeHintIds((prev) => new Set(prev).add(exerciseId))
+    if (existing?.native_hint) return
+
+    setLoadingExerciseNativeHintId(exerciseId)
+    setExerciseNativeHintErrorId(null)
+    try {
+      const res = await apiFetch(
+        `/api/lessons/exercises/${exerciseId}/native-hint`,
+        { method: 'POST' }
+      )
+      if (!res.ok) {
+        setExerciseNativeHintErrorId(exerciseId)
+        return
+      }
+      const data = await res.json()
+      if (data.native_hint) {
+        setExercises((prev) =>
+          prev.map((item) =>
+            item.id === exerciseId
+              ? { ...item, native_hint: data.native_hint }
+              : item
+          )
+        )
+      }
+    } catch {
+      setExerciseNativeHintErrorId(exerciseId)
+    } finally {
+      setLoadingExerciseNativeHintId(null)
     }
   }
 
@@ -364,6 +416,7 @@ export default function LessonPage() {
   const exercise = exercises[currentExercise]
   const isEvaluated = exercise?.score !== null
   const isAnswerCorrect = (exercise?.score ?? 0) >= 1
+  const isNativeHintOpen = exercise ? openNativeHintIds.has(exercise.id) : false
   const targetLanguageCode = activeLanguage?.code ?? 'en-GB'
   const explanation = lesson?.content?.explanation as
     | Record<string, unknown>
@@ -676,6 +729,36 @@ export default function LessonPage() {
                 {exercise.question}
               </TargetLanguageText>
 
+              {nativeLanguageName &&
+                (!isEvaluated ||
+                  (isNativeHintOpen && exercise.native_hint)) && (
+                  <div className="border-fl-border bg-fl-bg border px-4 py-3">
+                    {isNativeHintOpen && exercise.native_hint ? (
+                      <div className="space-y-2">
+                        <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest">
+                          {t('hint')}
+                        </p>
+                        <p className="text-fl-muted-2 text-sm">
+                          {exercise.native_hint}
+                        </p>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => showExerciseNativeHint(exercise.id)}
+                        disabled={loadingExerciseNativeHintId === exercise.id}
+                        className="text-fl-hint text-fl-muted-3 hover:text-fl-fg font-mono text-sm transition-colors disabled:opacity-50"
+                      >
+                        {loadingExerciseNativeHintId === exercise.id
+                          ? '...'
+                          : exerciseNativeHintErrorId === exercise.id
+                            ? tCommon('retry')
+                            : `${t('showNativeHint')} ${nativeLanguageName}`}
+                      </button>
+                    )}
+                  </div>
+                )}
+
               {exercise.exercise_type === 'multiple_choice' &&
               exercise.options ? (
                 <div className="space-y-2">
@@ -895,9 +978,8 @@ export default function LessonPage() {
 
         {/* Vocabulary */}
         {(() => {
-          const vocabItems = (lesson?.content?.vocabulary ?? []) as Array<
-            Record<string, string>
-          >
+          const vocabItems = (lesson?.content?.vocabulary ??
+            []) as LessonVocabularyItem[]
           if (!vocabItems.length) return null
           return (
             <div className="border-fl-border bg-fl-surface border p-5">
@@ -907,13 +989,28 @@ export default function LessonPage() {
               <div className="space-y-3">
                 {vocabItems.map((item, idx) => (
                   <div key={idx} className="border-fl-border border px-4 py-3">
-                    <TargetLanguageText
-                      as="p"
-                      languageCode={targetLanguageCode}
-                      className="text-fl-fg mb-1 font-semibold"
-                    >
-                      {item.word}
-                    </TargetLanguageText>
+                    <div className="mb-2 flex flex-wrap items-start justify-between gap-3">
+                      <div className="min-w-0 flex-1">
+                        {item.word && (
+                          <TargetLanguageText
+                            as="p"
+                            languageCode={targetLanguageCode}
+                            className="text-fl-fg font-semibold"
+                            reading={item.reading}
+                          >
+                            {item.word}
+                          </TargetLanguageText>
+                        )}
+                        {item.translation && (
+                          <p className="text-fl-muted-2 mt-1 text-sm">
+                            {item.translation}
+                          </p>
+                        )}
+                      </div>
+                      {item.example && (
+                        <AudioPlayer text={item.example} size="sm" />
+                      )}
+                    </div>
                     {item.definition && (
                       <TargetLanguageText
                         as="p"
@@ -924,13 +1021,25 @@ export default function LessonPage() {
                       </TargetLanguageText>
                     )}
                     {item.example && (
-                      <TargetLanguageText
-                        as="p"
-                        languageCode={targetLanguageCode}
-                        className="text-fl-muted-2 mt-1 italic"
-                      >
-                        {item.example}
-                      </TargetLanguageText>
+                      <div className="border-fl-border mt-3 border-t pt-3">
+                        <TargetLanguageText
+                          as="p"
+                          languageCode={targetLanguageCode}
+                          className="text-fl-muted-2 italic"
+                        >
+                          {item.example}
+                        </TargetLanguageText>
+                        {item.example_translation && (
+                          <p className="text-fl-hint text-fl-muted-3 mt-1 text-sm">
+                            {item.example_translation}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.note && (
+                      <p className="text-fl-hint text-fl-muted-3 mt-3 text-sm">
+                        {item.note}
+                      </p>
                     )}
                   </div>
                 ))}

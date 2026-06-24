@@ -165,6 +165,14 @@ class TestGenerateLesson:
 
         assert "made-up-slug-xyz-123" not in result.grammar_refs
 
+    def test_hint_reveals_answer_detects_literal_answer(self):
+        from app.services.lesson_generator import hint_reveals_answer
+
+        assert hint_reveals_answer("Piensa en la forma bin.", "bin") is True
+        assert hint_reveals_answer("Fíjate en el sujeto y el verbo.", "bin") is False
+        assert hint_reveals_answer("Busca una frase completa.", "in") is False
+        assert hint_reveals_answer("La preposición es in.", "in") is True
+
 
 class TestEvaluateFreeWrite:
     @pytest.mark.asyncio
@@ -264,17 +272,21 @@ class TestEvaluateFillBlank:
         with patch(
             "app.services.lesson_generator.llm_adapter.structured_output",
             AsyncMock(return_value=mock_eval),
-        ):
+        ) as mock_structured:
             result = await evaluate_fill_blank(
                 cefr_level="A1",
                 question="I ___ a student.",
                 correct_answer="am",
                 student_answer="am",
                 target_language="en-GB",
+                native_language="es",
             )
 
         assert result.is_correct is True
         assert result.score == 1.0
+        prompt = mock_structured.await_args.args[0][0]["content"]
+        assert "Student native language: Spanish" in prompt
+        assert "Write all feedback in Spanish" in prompt
 
     @pytest.mark.asyncio
     async def test_evaluates_fill_blank_incorrect(self):

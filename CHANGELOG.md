@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.15] - 2026-06-24
+
+### Changed
+
+- **Lesson vocabulary support**: newly generated lesson vocabulary can now include native-language translations, translated example sentences, usage notes, and optional reading/pronunciation guidance while keeping older lesson vocabulary compatible.
+- **Lesson exercise hints**: lesson exercises can now include native-language pre-answer hints, and older exercises can generate them on demand without revealing the correct answer.
+- **Settings UI organization**: the Settings page now uses a wider, admin-inspired layout with section navigation, quick action cards, clearer account grouping, and legal/session actions kept under Account without changing settings functionality.
+
+### Fixed
+
+- Minor bug fixes and improvements.
+
 ## [1.8.14] - 2026-06-23
 
 ### Fixed

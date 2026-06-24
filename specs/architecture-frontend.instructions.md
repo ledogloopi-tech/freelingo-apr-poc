@@ -43,7 +43,7 @@ frontend/
 │   │   │   ├── plan/            # Study plan overview + unit drawer
 │   │   │   ├── progress/        # Skills tracker with radar chart
 │   │   │   ├── reading/         # AI-generated reading comprehension
-│   │   │   ├── settings/        # Profile, avatar, subscription, conversation config
+│   │   │   ├── settings/        # Settings hub: account, learning, voice, plan/usage, review
 │   │   │   └── vocabulary/      # Vocabulary hub (index + [setId] detail)
 │   │   │
 │   │   ├── (legal)/             # Minimal layout (2 pages)
@@ -66,7 +66,7 @@ frontend/
 │   │   ├── lesson/              # Lesson exercise components
 │   │   ├── plan/                # LevelTestBanner, UnitCard, UnitDrawer
 │   │   ├── reviews/             # ReviewPrompt, reusable ReviewForm, landing reviews carousel
-│   │   ├── settings/            # Settings form components, including profile review section
+│   │   ├── settings/            # Settings shell primitives and form sections
 │   │   ├── tour/                # OnboardingTour components
 │   │   ├── ui/                  # shadcn/ui + custom: AudioPlayer, VoiceRecorder, confirm-dialog...
 │   │   ├── whats-new/           # What's New changelog modal
@@ -170,7 +170,7 @@ frontend/
 - `/dashboard` — Home: action-oriented overview using existing progress and study-plan data. Shows the active language/level, a primary next-step card, streak/XP/lesson/accuracy stats, plan-progress summary with compact current-level vocabulary progress, today's lessons with completion count and next pending lesson highlight, recent-performance areas derived from `skills`, pending-lesson link, a compact Premium banner for unsubscribed users when Stripe is enabled, and shortcuts to plan, flashcards, tutor, and assessment.
 - `/assessment` — Level placement test (`BeginnerGate` → `AdaptiveQuiz` → `DurationSelector`).
 - `/plan` — Study plan overview: unit cards, `LevelTestBanner`, `UnitDrawer`.
-- `/lesson/[id]` — Lesson player: content + interactive exercises. If `content.native_explanation` exists, it is shown below the target-language explanation in a collapsible section that opens by default for A1/A2 and stays collapsed by default for B1+. The section renders translated text, key points, examples, common traps, and a mini-glossary when present. If it is missing, the expanded section shows a native-language button that calls `POST /api/lessons/{id}/native-explanation` and stores the returned explanation in local lesson state. Exercise feedback still shows the target-language explanation first; when an exercise response includes `native_explanation`, the lesson page renders that native-language clarification directly below the target-language exercise explanation. When the exercise has a target-language explanation but lacks native text, the same button pattern calls `POST /api/lessons/exercises/{id}/native-explanation` and patches the exercise in local state. Completing a lesson may open the reusable review prompt when it advances the user out of the completed curriculum unit, subject to duplicate-review checks and local dismissal cooldown.
+- `/lesson/[id]` — Lesson player: content + interactive exercises. If `content.native_explanation` exists, it is shown below the target-language explanation in a collapsible section that opens by default for A1/A2 and stays collapsed by default for B1+. The section renders translated text, key points, examples, common traps, and a mini-glossary when present. If it is missing, the expanded section shows a native-language button that calls `POST /api/lessons/{id}/native-explanation` and stores the returned explanation in local lesson state. Before an unanswered exercise, the page can show a native-language hint button; if the exercise response includes `native_hint`, it renders immediately when requested, otherwise the button calls `POST /api/lessons/exercises/{id}/native-hint` and patches the exercise in local state. Exercise feedback still shows the target-language explanation first; when an exercise response includes `native_explanation`, the lesson page renders that native-language clarification directly below the target-language exercise explanation. When the exercise has a target-language explanation but lacks native text, the same button pattern calls `POST /api/lessons/exercises/{id}/native-explanation` and patches the exercise in local state. The lesson vocabulary block renders target-language word, definition, example audio, and example text, plus optional reading, native-language translation, example translation, and usage note when present; older vocabulary items without those optional fields still render normally. Completing a lesson may open the reusable review prompt when it advances the user out of the completed curriculum unit, subject to duplicate-review checks and local dismissal cooldown.
 - `/chat` — AI tutor text chat with SSE streaming.
 - `/conversation` — Real-time voice conversation with WebSocket + VAD. When the user manually stops a connected voice session after at least 5 minutes, the page may open the reusable review prompt, subject to duplicate-review checks and local dismissal cooldown.
 - `/flashcards` — Spaced-repetition flashcard review.
@@ -182,7 +182,7 @@ frontend/
 - `/listening` — AI-generated listening comprehension exercises.
 - `/reading` — AI-generated reading comprehension exercises.
 - `/progress` — Skills tracker with radar chart and multi-level vocabulary progress toggle.
-- `/settings` — Profile, avatar, subscription, user review creation/editing, conversation settings.
+- `/settings` — Settings hub with an admin-inspired header/nav, quick action cards, and grouped panels. Account contains profile/avatar/password plus legal/session actions; Learning links to My Languages and Memory; Voice contains conversation and TTS voice preferences; Plan contains billing and usage limits; Community contains review creation/editing.
 - `/faq` — Frequently asked questions.
 - `/admin/reviews` — Admin-only review moderation with status/rating filters, approve/unapprove, and delete confirmation.
 - Landing page — The top navigation includes a Reviews anchor between Features and Pricing when approved public reviews are available; the same conditional link appears in the mobile menu. The reviews section shows a compact average-rating and total-review-count badge below the subtitle, using localized formatting and public-facing copy. Review carousel cards keep a consistent height and clamp long comments to 6 lines.
@@ -247,7 +247,7 @@ Six Zustand stores hold all client-side state. No React Context is used for glob
 | `flashcard/`    | Flashcard flip animation, SM-2 rating buttons                                                      |
 | `lesson/`       | Exercise renderers (multiple choice, fill-in-blank, listening, reading)                            |
 | `plan/`         | `LevelTestBanner`, `UnitCard`, `UnitDrawer`                                                        |
-| `settings/`     | Profile form, avatar upload, conversation preferences                                              |
+| `settings/`     | `SettingsShell` primitives plus profile/avatar, appearance, billing, usage, conversation, voice, memory/language links, and review sections |
 | `tour/`         | `OnboardingTour` step-by-step walkthrough                                                          |
 | `whats-new/`    | Version-aware changelog overlay modal                                                              |
 
@@ -278,11 +278,11 @@ Every page wrapper uses `mx-auto` plus one of three canonical widths. Do not use
 
 | Class       | Width   | Use for                                                                                                    |
 | ----------- | ------- | ---------------------------------------------------------------------------------------------------------- |
-| `max-w-6xl` | 1152 px | Dense admin data pages and operational admin overview (admin, admin/users, admin/feedback)                 |
+| `max-w-6xl` | 1152 px | Dense admin data pages, operational admin overview, and settings hub layouts (admin, admin/users, admin/feedback, settings) |
 | `max-w-5xl` | 1024 px | Admin overview pages with lighter operational cards                                                        |
 | `max-w-4xl` | 896 px  | Index/overview pages with grids or card layouts (dashboard, grammar, vocabulary, phrasebook, progress)     |
 | `max-w-3xl` | 768 px  | Compact detail or legacy admin list pages                                                                  |
-| `max-w-2xl` | 672 px  | Detail pages, forms, long-form content (lesson, grammar detail, settings, feedback, flashcards, faq, plan) |
+| `max-w-2xl` | 672 px  | Detail pages, forms, long-form content (lesson, grammar detail, feedback, flashcards, faq, plan)           |
 
 Full-screen interactive experiences (conversation, chat, listening, reading, assessment) are exempt — they manage their own layout internally.
 

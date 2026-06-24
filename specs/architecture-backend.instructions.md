@@ -174,7 +174,7 @@ The application uses 18 services plus a centralized `services/prompts/` package 
 Key architectural decisions:
 
 - **LLM Adapter** is a singleton with provider-agnostic interface (Ollama, OpenAI, Anthropic, DeepSeek)
-- **Study Plan Generator** and **Lesson Generator** are deterministic within curriculum constraints; lesson generation can include native-language support at both lesson level and per-exercise explanation level without adding a separate exercise-table column, and missing exercise native explanations can be generated on demand and cached in lesson JSON
+- **Study Plan Generator** and **Lesson Generator** are deterministic within curriculum constraints; lesson generation can include native-language support at lesson level, per-exercise explanation level, and per-exercise pre-answer hint level without adding separate exercise-table columns, enriched lesson vocabulary with native-language translation/example notes inside lesson JSON, and missing exercise native explanations or hints can be generated on demand and cached in lesson JSON
 - **TTS/STT services** abstract local (Kokoro/Whisper) and cloud (OpenAI) providers behind common interfaces
 - **Conversation Pipeline** orchestrates real-time voice: cancellable greeting, STT → full LLM response → sentence-level TTS chunks, serialized WebSocket sends, empty-STT guard, and backend barge-in support with frontend automatic interruption disabled
 - **Language Helpers** centralize target-language display names, ISO codes, script metadata, romanization metadata, word-spacing metadata, and reading/listening length guidance. Japanese (`ja-JP`), Korean (`ko-KR`), and Mainland Chinese (`zh-CN`) are enabled in backend language allow-lists and static content dispatchers.
