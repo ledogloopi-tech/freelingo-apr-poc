@@ -1,12 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { apiFetch } from '@/lib/api'
 import { useAuthStore } from '@/store/auth'
 import { useRouter } from 'next/navigation'
-import { ExternalLink } from 'lucide-react'
+import {
+  Bot,
+  CreditCard,
+  ExternalLink,
+  Globe2,
+  MessageSquareText,
+  Palette,
+  User,
+  Volume2,
+} from 'lucide-react'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { useLogout } from '@/hooks/useLogout'
 import { ProfileSection } from '@/components/settings/ProfileSection'
@@ -16,6 +24,12 @@ import { UsageLimitsSection } from '@/components/settings/UsageLimitsSection'
 import { AppearanceSection } from '@/components/settings/AppearanceSection'
 import { BillingSection } from '@/components/settings/BillingSection'
 import { ReviewSection } from '@/components/settings/ReviewSection'
+import {
+  SettingsActionCard,
+  SettingsNav,
+  SettingsPageHeader,
+  SettingsPanel,
+} from '@/components/settings/SettingsShell'
 
 export default function SettingsPage() {
   const t = useTranslations('settings')
@@ -29,6 +43,16 @@ export default function SettingsPage() {
   const [deleteConfirm, setDeleteConfirm] = useState(false)
   const [deleting, setDeleting] = useState(false)
 
+  const navItems = [
+    { href: '#account', label: t('sectionAccount'), icon: User },
+    { href: '#preferences', label: t('sectionAppearance'), icon: Palette },
+    { href: '#voice', label: t('sectionConversation'), icon: Volume2 },
+    { href: '#plan', label: t('sectionUsageLimits'), icon: CreditCard },
+    { href: '#community', label: t('sectionReview'), icon: MessageSquareText },
+    { href: '#author', label: t('sectionAuthor'), icon: User },
+    { href: '#legal', label: t('sectionLegal'), icon: Globe2 },
+  ]
+
   async function handleDeleteAccount() {
     setDeleting(true)
     try {
@@ -41,137 +65,142 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl p-6">
-      {/* Header */}
-      <div className="border-fl-border mb-8 border-b pb-4">
-        <p className="text-fl-label text-fl-muted-2 mb-1 font-mono tracking-widest uppercase">
-          {t('sectionAccount')}
-        </p>
-        <h1 className="text-fl-fg font-mono text-2xl font-bold tracking-tight">
-          {t('title')}
-        </h1>
-      </div>
+    <div className="mx-auto max-w-6xl space-y-4 p-6">
+      <SettingsPageHeader
+        eyebrow={`${t('sectionAccount')} / ${t('title')}`}
+        title={t('title')}
+      />
 
-      <ProfileSection />
-      <BillingSection />
-      <ReviewSection />
+      <SettingsNav items={navItems} />
 
-      {/* Memory */}
-      <div className="border-fl-border bg-fl-surface mt-4 border p-6">
-        <div className="border-fl-border mb-4 flex items-center gap-2 border-b pb-4">
-          <span className="text-fl-label text-fl-muted-2">●</span>
-          <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
-            {t('sectionMemory')}
-          </span>
-        </div>
-        <Link
-          href="/settings/memories"
-          className="text-fl-muted-1 hover:text-fl-fg group flex items-center justify-between font-mono text-xs transition-colors"
-        >
-          <span className="tracking-widest uppercase">{t('memoryManage')}</span>
-          <span className="text-fl-muted-3 group-hover:text-fl-fg transition-colors">
-            ›
-          </span>
-        </Link>
-      </div>
-
-      {/* Languages */}
-      <div className="border-fl-border bg-fl-surface mt-4 border p-6">
-        <div className="border-fl-border mb-4 flex items-center gap-2 border-b pb-4">
-          <span className="text-fl-label text-fl-muted-2">●</span>
-          <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
-            {t('sectionLanguages')}
-          </span>
-        </div>
-        <Link
+      <div className="grid gap-3 md:grid-cols-2">
+        <SettingsActionCard
           href="/settings/languages"
-          className="text-fl-muted-1 hover:text-fl-fg group flex items-center justify-between font-mono text-xs transition-colors"
-        >
-          <span className="tracking-widest uppercase">
-            {t('languagesManage')}
-          </span>
-          <span className="text-fl-muted-3 group-hover:text-fl-fg transition-colors">
-            ›
-          </span>
-        </Link>
+          label={t('languagesManage')}
+          description={t('sectionLanguages')}
+          icon={Globe2}
+        />
+        <SettingsActionCard
+          href="/settings/memories"
+          label={t('memoryManage')}
+          description={t('sectionMemory')}
+          icon={Bot}
+        />
       </div>
 
-      <ConversationSection />
-      <VoiceSection />
-      <UsageLimitsSection />
-      <AppearanceSection />
+      <div className="space-y-4">
+        <SettingsPanel id="account" title={t('sectionAccount')}>
+          <ProfileSection title={t('cardProfileAccess')} />
 
-      {/* Author */}
-      <div className="border-fl-border bg-fl-surface mt-4 border p-6">
-        <div className="border-fl-border mb-5 flex items-center gap-2 border-b pb-4">
-          <span className="text-fl-label text-fl-muted-2">●</span>
-          <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
-            {t('sectionAuthor')}
-          </span>
-        </div>
-        <p className="text-fl-fg font-mono text-sm">{t('authorDescription')}</p>
-        <div className="mt-3 flex flex-col gap-2">
-          <a
-            href="https://arturocarreterocalvo.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-fl-muted-2 hover:text-fl-fg inline-flex items-center gap-2 font-mono text-xs transition-colors hover:underline"
-          >
-            <ExternalLink className="h-3.5 w-3.5" />
-            {t('websiteLink')}
-          </a>
-          <a
-            href="https://github.com/artcc"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-fl-muted-2 hover:text-fl-fg inline-flex items-center gap-2 font-mono text-xs transition-colors hover:underline"
-          >
-            <ExternalLink className="h-3.5 w-3.5" />
-            {t('githubProfile')}
-          </a>
-        </div>
+          <div className="border-fl-border bg-fl-surface border p-6">
+            <div className="border-fl-border mb-4 flex items-center gap-2 border-b pb-4">
+              <span className="text-fl-label text-fl-muted-2">●</span>
+              <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
+                {t('cardSessionSecurity')}
+              </span>
+            </div>
+            <div className="space-y-2">
+              <button
+                onClick={() => setLogoutConfirm(true)}
+                className="text-fl-label text-fl-muted-2 border-fl-border hover:text-fl-error hover:border-fl-error/40 w-full border py-3 font-mono tracking-widest uppercase transition-colors"
+              >
+                {tCommon('logout')}
+              </button>
+
+              {user?.role !== 'admin' && (
+                <button
+                  onClick={() => setDeleteConfirm(true)}
+                  disabled={deleting}
+                  className="text-fl-label text-fl-error border-fl-error/40 hover:border-fl-error/70 w-full border py-3 font-mono tracking-widest uppercase transition-colors disabled:opacity-40"
+                >
+                  {t('deleteAccount')}
+                </button>
+              )}
+            </div>
+          </div>
+        </SettingsPanel>
+
+        <SettingsPanel id="preferences" title={t('sectionAppearance')}>
+          <AppearanceSection title={t('cardTheme')} />
+        </SettingsPanel>
+
+        <SettingsPanel id="voice" title={t('sectionConversation')}>
+          <div className="grid gap-4 xl:grid-cols-2">
+            <ConversationSection title={t('cardConversationTiming')} />
+            <VoiceSection title={t('cardTutorVoice')} />
+          </div>
+        </SettingsPanel>
+
+        <SettingsPanel id="plan" title={t('sectionUsageLimits')}>
+          <div className="space-y-4">
+            <BillingSection />
+            <UsageLimitsSection title={t('cardCurrentUsage')} />
+          </div>
+        </SettingsPanel>
+
+        <SettingsPanel id="community" title={t('sectionReview')}>
+          <ReviewSection title={t('cardProductReview')} />
+        </SettingsPanel>
+
+        <SettingsPanel id="author" title={t('sectionAuthor')}>
+          <div className="border-fl-border bg-fl-surface border p-6">
+            <div className="border-fl-border mb-5 flex items-center gap-2 border-b pb-4">
+              <span className="text-fl-label text-fl-muted-2">●</span>
+              <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
+                {t('cardCreatedBy')}
+              </span>
+            </div>
+            <p className="text-fl-fg font-mono text-sm">
+              {t('authorDescription')}
+            </p>
+            <div className="mt-3 flex flex-col gap-2">
+              <a
+                href="https://arturocarreterocalvo.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-fl-muted-2 hover:text-fl-fg inline-flex items-center gap-2 font-mono text-xs transition-colors hover:underline"
+              >
+                <ExternalLink className="h-3.5 w-3.5" />
+                {t('websiteLink')}
+              </a>
+              <a
+                href="https://github.com/artcc"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-fl-muted-2 hover:text-fl-fg inline-flex items-center gap-2 font-mono text-xs transition-colors hover:underline"
+              >
+                <ExternalLink className="h-3.5 w-3.5" />
+                {t('githubProfile')}
+              </a>
+            </div>
+          </div>
+        </SettingsPanel>
+
+        <SettingsPanel id="legal" title={t('sectionLegal')}>
+          <div className="border-fl-border bg-fl-surface border p-6">
+            <div className="border-fl-border mb-4 flex items-center gap-2 border-b pb-4">
+              <span className="text-fl-label text-fl-muted-2">●</span>
+              <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
+                {t('cardLegalDocuments')}
+              </span>
+            </div>
+            <div className="flex flex-col gap-2">
+              <a
+                href="/terms?from=settings"
+                className="text-fl-muted-2 hover:text-fl-fg font-mono text-xs tracking-widest uppercase transition-colors"
+              >
+                {t('termsOfService')}
+              </a>
+              <a
+                href="/privacy?from=settings"
+                className="text-fl-muted-2 hover:text-fl-fg font-mono text-xs tracking-widest uppercase transition-colors"
+              >
+                {t('privacyPolicy')}
+              </a>
+            </div>
+          </div>
+        </SettingsPanel>
       </div>
-
-      {/* Legal */}
-      <div className="border-fl-border bg-fl-surface mt-4 border p-6">
-        <div className="border-fl-border mb-4 flex items-center gap-2 border-b pb-4">
-          <span className="text-fl-label text-fl-muted-2">●</span>
-          <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
-            {t('sectionLegal')}
-          </span>
-        </div>
-        <div className="flex flex-col gap-2">
-          <a
-            href="/terms?from=settings"
-            className="text-fl-muted-2 hover:text-fl-fg font-mono text-xs tracking-widest uppercase transition-colors"
-          >
-            {t('termsOfService')}
-          </a>
-          <a
-            href="/privacy?from=settings"
-            className="text-fl-muted-2 hover:text-fl-fg font-mono text-xs tracking-widest uppercase transition-colors"
-          >
-            {t('privacyPolicy')}
-          </a>
-        </div>
-      </div>
-
-      <button
-        onClick={() => setLogoutConfirm(true)}
-        className="text-fl-label text-fl-muted-2 border-fl-border hover:text-fl-error hover:border-fl-error/40 mt-4 w-full border py-3 font-mono tracking-widest uppercase transition-colors"
-      >
-        {tCommon('logout')}
-      </button>
-
-      {user?.role !== 'admin' && (
-        <button
-          onClick={() => setDeleteConfirm(true)}
-          disabled={deleting}
-          className="text-fl-label text-fl-error border-fl-error/40 hover:border-fl-error/70 mt-2 w-full border py-3 font-mono tracking-widest uppercase transition-colors disabled:opacity-40"
-        >
-          {t('deleteAccount')}
-        </button>
-      )}
 
       <ConfirmDialog
         open={logoutConfirm}

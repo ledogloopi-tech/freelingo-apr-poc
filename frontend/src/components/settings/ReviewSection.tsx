@@ -13,7 +13,7 @@ import {
 } from '@/lib/reviews'
 import type { ReviewAdmin } from '@/types/api'
 
-export function ReviewSection() {
+export function ReviewSection({ title }: { title?: string } = {}) {
   const t = useTranslations('settings')
   const tReview = useTranslations('reviewPrompt')
   const [review, setReview] = useState<ReviewAdmin | null>(null)
@@ -61,11 +61,11 @@ export function ReviewSection() {
 
   return (
     <>
-      <div className="border-fl-border bg-fl-surface mt-4 border p-6">
+      <div className="border-fl-border bg-fl-surface border p-6">
         <div className="border-fl-border mb-4 flex items-center gap-2 border-b pb-4">
           <span className="text-fl-label text-fl-muted-2">●</span>
           <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
-            {t('sectionReview')}
+            {title ?? t('sectionReview')}
           </span>
         </div>
 
