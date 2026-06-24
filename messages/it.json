@@ -596,6 +596,8 @@
     "lessonDone": "Lezione completata",
     "score": "Punteggio",
     "showNativeExplanation": "Mostra in",
+    "hint": "Suggerimento",
+    "showNativeHint": "Mostra suggerimento in",
     "examples": "Esempi",
     "commonTraps": "Errori comuni",
     "miniGlossary": "Mini glossario",

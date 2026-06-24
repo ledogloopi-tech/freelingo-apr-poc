@@ -596,6 +596,8 @@
     "lessonDone": "Lesson Done",
     "score": "Score",
     "showNativeExplanation": "Show in",
+    "hint": "Hint",
+    "showNativeHint": "Show hint in",
     "examples": "Examples",
     "commonTraps": "Common traps",
     "miniGlossary": "Mini glossary",

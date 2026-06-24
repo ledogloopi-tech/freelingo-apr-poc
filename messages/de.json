@@ -596,6 +596,8 @@
     "lessonDone": "Lektion abgeschlossen",
     "score": "Punktzahl",
     "showNativeExplanation": "Auf",
+    "hint": "Hinweis",
+    "showNativeHint": "Hinweis auf",
     "examples": "Beispiele",
     "commonTraps": "Häufige Fehler",
     "miniGlossary": "Mini-Glossar",

@@ -37,6 +37,7 @@ interface ExerciseItem {
   user_answer: string | null
   score: number | null
   feedback: string | null
+  native_hint: string | null
 }
 
 interface LessonData {
@@ -121,6 +122,14 @@ export default function LessonPage() {
     exerciseNativeExplanationErrorId,
     setExerciseNativeExplanationErrorId,
   ] = useState<number | null>(null)
+  const [openNativeHintIds, setOpenNativeHintIds] = useState<Set<number>>(
+    () => new Set()
+  )
+  const [loadingExerciseNativeHintId, setLoadingExerciseNativeHintId] =
+    useState<number | null>(null)
+  const [exerciseNativeHintErrorId, setExerciseNativeHintErrorId] = useState<
+    number | null
+  >(null)
 
   const loadLesson = useCallback(async () => {
     setLoading(true)
@@ -200,6 +209,39 @@ export default function LessonPage() {
       setExerciseNativeExplanationErrorId(exerciseId)
     } finally {
       setLoadingExerciseNativeExplanationId(null)
+    }
+  }
+
+  const showExerciseNativeHint = async (exerciseId: number) => {
+    const existing = exercises.find((item) => item.id === exerciseId)
+    setOpenNativeHintIds((prev) => new Set(prev).add(exerciseId))
+    if (existing?.native_hint) return
+
+    setLoadingExerciseNativeHintId(exerciseId)
+    setExerciseNativeHintErrorId(null)
+    try {
+      const res = await apiFetch(
+        `/api/lessons/exercises/${exerciseId}/native-hint`,
+        { method: 'POST' }
+      )
+      if (!res.ok) {
+        setExerciseNativeHintErrorId(exerciseId)
+        return
+      }
+      const data = await res.json()
+      if (data.native_hint) {
+        setExercises((prev) =>
+          prev.map((item) =>
+            item.id === exerciseId
+              ? { ...item, native_hint: data.native_hint }
+              : item
+          )
+        )
+      }
+    } catch {
+      setExerciseNativeHintErrorId(exerciseId)
+    } finally {
+      setLoadingExerciseNativeHintId(null)
     }
   }
 
@@ -374,6 +416,7 @@ export default function LessonPage() {
   const exercise = exercises[currentExercise]
   const isEvaluated = exercise?.score !== null
   const isAnswerCorrect = (exercise?.score ?? 0) >= 1
+  const isNativeHintOpen = exercise ? openNativeHintIds.has(exercise.id) : false
   const targetLanguageCode = activeLanguage?.code ?? 'en-GB'
   const explanation = lesson?.content?.explanation as
     | Record<string, unknown>
@@ -685,6 +728,36 @@ export default function LessonPage() {
               >
                 {exercise.question}
               </TargetLanguageText>
+
+              {nativeLanguageName &&
+                (!isEvaluated ||
+                  (isNativeHintOpen && exercise.native_hint)) && (
+                  <div className="border-fl-border bg-fl-bg border px-4 py-3">
+                    {isNativeHintOpen && exercise.native_hint ? (
+                      <div className="space-y-2">
+                        <p className="text-fl-label text-fl-muted-3 font-mono tracking-widest">
+                          {t('hint')}
+                        </p>
+                        <p className="text-fl-muted-2 text-sm">
+                          {exercise.native_hint}
+                        </p>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => showExerciseNativeHint(exercise.id)}
+                        disabled={loadingExerciseNativeHintId === exercise.id}
+                        className="text-fl-hint text-fl-muted-3 hover:text-fl-fg font-mono text-sm transition-colors disabled:opacity-50"
+                      >
+                        {loadingExerciseNativeHintId === exercise.id
+                          ? '...'
+                          : exerciseNativeHintErrorId === exercise.id
+                            ? tCommon('retry')
+                            : `${t('showNativeHint')} ${nativeLanguageName}`}
+                      </button>
+                    )}
+                  </div>
+                )}
 
               {exercise.exercise_type === 'multiple_choice' &&
               exercise.options ? (

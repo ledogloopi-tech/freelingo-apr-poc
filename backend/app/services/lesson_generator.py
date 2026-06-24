@@ -1,3 +1,5 @@
+import re
+
 from app.data.curriculum import get_curriculum
 from app.schemas.lessons import (
     FillBlankEvaluation,
@@ -20,6 +22,23 @@ LESSON_GENERATION_PROMPT = lesson_prompts.LESSON_GENERATION_PROMPT
 FILL_BLANK_EVAL_PROMPT = lesson_prompts.FILL_BLANK_EVAL_PROMPT
 FREE_WRITE_EVAL_PROMPT = lesson_prompts.FREE_WRITE_EVAL_PROMPT
 PRONUNCIATION_EVAL_PROMPT = lesson_prompts.PRONUNCIATION_EVAL_PROMPT
+
+
+def hint_reveals_answer(native_hint: str | None, correct_answer: str | None) -> bool:
+    if not native_hint or not correct_answer:
+        return False
+    hint = native_hint.casefold()
+    answers = [part.strip().casefold() for part in correct_answer.split("/")]
+    for answer in answers:
+        if not answer:
+            continue
+        if re.search(r"\s", answer) or not answer.replace("'", "").isalnum():
+            if answer in hint:
+                return True
+            continue
+        if re.search(rf"(?<!\w){re.escape(answer)}(?!\w)", hint):
+            return True
+    return False
 
 
 def get_valid_grammar_slugs(target_language: str = "en-GB") -> set[str]:
@@ -74,6 +93,8 @@ async def generate_lesson(
         if ex.type == "fill_blank" and "___" not in ex.question:
             if ex.explanation and "___" in ex.explanation:
                 ex.question, ex.explanation = ex.explanation, ex.question
+        if hint_reveals_answer(ex.native_hint, ex.correct):
+            ex.native_hint = None
     return lesson
 
 

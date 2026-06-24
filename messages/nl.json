@@ -596,6 +596,8 @@
     "lessonDone": "Les voltooid",
     "score": "Score",
     "showNativeExplanation": "Toon in",
+    "hint": "Hint",
+    "showNativeHint": "Toon hint in",
     "examples": "Voorbeelden",
     "commonTraps": "Veelgemaakte fouten",
     "miniGlossary": "Miniwoordenlijst",

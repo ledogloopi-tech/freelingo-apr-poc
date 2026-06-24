@@ -101,11 +101,12 @@ Auth required (`get_current_user`). Serves static vocabulary data across the bac
 
 | Method | Path                     | Description                                                                                 |
 | ------ | ------------------------ | ------------------------------------------------------------------------------------------- |
-| GET    | `/{lesson_id}`           | Lesson detail with exercises; exercise responses include optional `native_explanation` copied from generated lesson JSON when available; lesson content may include enriched vocabulary items with optional native-language translation, example translation, note, and reading fields |
+| GET    | `/{lesson_id}`           | Lesson detail with exercises; exercise responses include optional `native_explanation` and `native_hint` copied from generated lesson JSON when available; lesson content may include enriched vocabulary items with optional native-language translation, example translation, note, and reading fields |
 | POST   | `/{lesson_id}/start`     | Marks lesson as in-progress                                                                 |
 | POST   | `/{lesson_id}/complete`  | Marks as completed, updates progress and competencies                                       |
 | POST   | `/{lesson_id}/native-explanation` | Generates and caches a native-language explanation for existing lessons at any CEFR level whose `content.native_explanation` is missing; returned support includes translated text, key points, examples, common traps, and a mini-glossary; idempotently returns the cached explanation when already present |
 | POST   | `/exercises/{id}/native-explanation` | Generates and caches a concise native-language clarification for an exercise whose target-language `explanation` exists but whose generated JSON lacks `native_explanation`; idempotently returns the cached exercise-level explanation when already present |
+| POST   | `/exercises/{id}/native-hint` | Generates and caches a concise pre-answer native-language hint for an exercise whose generated JSON lacks `native_hint`; hints must help without revealing the correct answer and are idempotently returned when already present |
 | POST   | `/exercises/{id}/answer` | Submits answer → evaluates (MC, fill, free_write, pronunciation) → returns score + feedback |
 
 ---

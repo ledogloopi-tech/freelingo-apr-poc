@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - **Lesson vocabulary support**: newly generated lesson vocabulary can now include native-language translations, translated example sentences, usage notes, and optional reading/pronunciation guidance while keeping older lesson vocabulary compatible.
+- **Lesson exercise hints**: lesson exercises can now include native-language pre-answer hints, and older exercises can generate them on demand without revealing the correct answer.
 
 ### Fixed
 

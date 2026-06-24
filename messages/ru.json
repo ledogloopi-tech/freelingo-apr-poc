@@ -596,6 +596,8 @@
     "lessonDone": "Урок завершён",
     "score": "Счёт",
     "showNativeExplanation": "Показать на",
+    "hint": "Подсказка",
+    "showNativeHint": "Показать подсказку на",
     "examples": "Примеры",
     "commonTraps": "Распространённые ошибки",
     "miniGlossary": "Мини-глоссарий",

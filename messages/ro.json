@@ -596,6 +596,8 @@
     "lessonDone": "Lecție finalizată",
     "score": "Scor",
     "showNativeExplanation": "Arată în",
+    "hint": "Indiciu",
+    "showNativeHint": "Arată indiciu în",
     "examples": "Exemple",
     "commonTraps": "Greșeli frecvente",
     "miniGlossary": "Mini glosar",
