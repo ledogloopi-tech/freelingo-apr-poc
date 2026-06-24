@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Lesson vocabulary support**: newly generated lesson vocabulary can now include native-language translations, translated example sentences, usage notes, and optional reading/pronunciation guidance while keeping older lesson vocabulary compatible.
 - **Lesson exercise hints**: lesson exercises can now include native-language pre-answer hints, and older exercises can generate them on demand without revealing the correct answer.
+- **Settings UI organization**: the Settings page now uses a wider, admin-inspired layout with section navigation, quick action cards, clearer account grouping, and legal/session actions kept under Account without changing settings functionality.
 
 ### Fixed
 

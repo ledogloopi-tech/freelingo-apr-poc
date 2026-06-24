@@ -18,7 +18,7 @@ const OPENAI_VOICES = [
 ] as const
 const TTS_VOICE_STORAGE_KEY = 'tts_voice'
 
-export function VoiceSection() {
+export function VoiceSection({ title }: { title?: string } = {}) {
   const t = useTranslations('settings')
   const ttsProvider = useConfigStore((s) => s.ttsProvider)
   const openaiTtsVoice = useConfigStore((s) => s.openaiTtsVoice)
@@ -93,11 +93,11 @@ export function VoiceSection() {
   if (ttsProvider !== 'openai') return null
 
   return (
-    <div className="border-fl-border bg-fl-surface mt-4 border p-6">
+    <div className="border-fl-border bg-fl-surface border p-6">
       <div className="border-fl-border mb-5 flex items-center gap-2 border-b pb-4">
         <span className="text-fl-label text-fl-muted-2">●</span>
         <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
-          {t('sectionVoice')}
+          {title ?? t('sectionVoice')}
         </span>
       </div>
       <p className="text-fl-hint text-fl-muted-3 mb-4 font-mono">

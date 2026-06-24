@@ -6,7 +6,7 @@ import { apiFetch } from '@/lib/api'
 import { mapUser } from '@/lib/mappers'
 import { useAuthStore } from '@/store/auth'
 
-export function ConversationSection() {
+export function ConversationSection({ title }: { title?: string } = {}) {
   const t = useTranslations('settings')
   const user = useAuthStore((s) => s.user)
   const setUser = useAuthStore((s) => s.setUser)
@@ -57,11 +57,11 @@ export function ConversationSection() {
   }
 
   return (
-    <div className="border-fl-border bg-fl-surface mt-4 border p-6">
+    <div className="border-fl-border bg-fl-surface border p-6">
       <div className="border-fl-border mb-5 flex items-center gap-2 border-b pb-4">
         <span className="text-fl-label text-fl-muted-2">●</span>
         <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
-          {t('sectionConversation')}
+          {title ?? t('sectionConversation')}
         </span>
       </div>
 

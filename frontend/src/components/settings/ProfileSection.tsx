@@ -52,7 +52,7 @@ function resizeImage(file: File, maxPx: number): Promise<Blob> {
   })
 }
 
-export function ProfileSection() {
+export function ProfileSection({ title }: { title?: string } = {}) {
   const t = useTranslations('settings')
   const tLang = useTranslations('languages')
   const currentLocale = useLocale()
@@ -177,11 +177,11 @@ export function ProfileSection() {
   }
 
   return (
-    <div className="border-fl-border bg-fl-surface mb-4 space-y-5 border p-6">
+    <div className="border-fl-border bg-fl-surface space-y-5 border p-6">
       <div className="border-fl-border flex items-center gap-2 border-b pb-4">
         <span className="text-fl-label text-fl-muted-2">●</span>
         <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
-          {t('sectionProfile')}
+          {title ?? t('sectionProfile')}
         </span>
       </div>
 
