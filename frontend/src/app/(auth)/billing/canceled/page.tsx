@@ -24,13 +24,13 @@ export default function BillingCanceledPage() {
             href="/dashboard"
             className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 block py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
           >
-            — {t('canceledCtaDashboard')}
+            {t('canceledCtaDashboard')}
           </Link>
           <Link
             href="/settings"
             className="border-fl-border text-fl-muted-1 hover:text-fl-fg hover:border-fl-border-2 block border py-3 font-mono text-xs tracking-widest uppercase transition-colors"
           >
-            — {t('canceledCtaSettings')}
+            {t('canceledCtaSettings')}
           </Link>
         </div>
       </div>

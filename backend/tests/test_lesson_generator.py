@@ -165,6 +165,14 @@ class TestGenerateLesson:
 
         assert "made-up-slug-xyz-123" not in result.grammar_refs
 
+    def test_hint_reveals_answer_detects_literal_answer(self):
+        from app.services.lesson_generator import hint_reveals_answer
+
+        assert hint_reveals_answer("Piensa en la forma bin.", "bin") is True
+        assert hint_reveals_answer("Fíjate en el sujeto y el verbo.", "bin") is False
+        assert hint_reveals_answer("Busca una frase completa.", "in") is False
+        assert hint_reveals_answer("La preposición es in.", "in") is True
+
 
 class TestEvaluateFreeWrite:
     @pytest.mark.asyncio

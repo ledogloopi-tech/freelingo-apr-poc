@@ -957,7 +957,7 @@ export default function ConversationMode({
       )}
       {status === 'ended' && (
         <div className="border-fl-border bg-fl-surface text-fl-muted-2 mb-4 border px-4 py-3 font-mono text-xs">
-          — {t('sessionEnded')}
+          {t('sessionEnded')}
         </div>
       )}
 

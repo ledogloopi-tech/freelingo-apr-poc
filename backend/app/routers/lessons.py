@@ -1,3 +1,4 @@
+import copy
 import json
 import re
 from datetime import UTC, datetime
@@ -19,6 +20,7 @@ from app.schemas.lessons import (
     LessonDetailResponse,
     LessonResponse,
     NativeExerciseExplanationResponse,
+    NativeExerciseHintResponse,
     NativeExplanationResponse,
 )
 from app.services.language_helpers import get_language_name, get_native_language_name
@@ -26,6 +28,7 @@ from app.services.lesson_generator import (
     evaluate_fill_blank,
     evaluate_free_write,
     evaluate_pronunciation,
+    hint_reveals_answer,
 )
 from app.services.llm_adapter import (
     LLMError,
@@ -52,6 +55,36 @@ async def _get_lesson_for_user(lesson_id: int, user_id: int, db: AsyncSession) -
     if not lesson:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Lesson not found")
     return lesson
+
+
+async def _get_exercise_content_entry(
+    exercise: Exercise,
+    lesson: Lesson,
+    db: AsyncSession,
+) -> tuple[dict, list, dict]:
+    result = await db.execute(
+        select(Exercise).where(Exercise.lesson_id == lesson.id).order_by(Exercise.id)
+    )
+    lesson_exercises = result.scalars().all()
+    exercise_index = next(
+        (index for index, item in enumerate(lesson_exercises) if item.id == exercise.id), None
+    )
+    if exercise_index is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Exercise not found")
+
+    content = copy.deepcopy(lesson.content or {})
+    content_exercises = content.get("exercises")
+    if not isinstance(content_exercises, list):
+        content_exercises = []
+    while len(content_exercises) <= exercise_index:
+        content_exercises.append({})
+
+    content_exercise = content_exercises[exercise_index]
+    if not isinstance(content_exercise, dict):
+        content_exercise = {}
+        content_exercises[exercise_index] = content_exercise
+
+    return content, content_exercises, content_exercise
 
 
 @router.get("/{lesson_id}", response_model=LessonDetailResponse)
@@ -83,8 +116,10 @@ async def get_lesson(
             if exp and "___" in exp:
                 q, exp = exp, q
         native_exp = None
+        native_hint = None
         if index < len(content_exercises) and isinstance(content_exercises[index], dict):
             native_exp = content_exercises[index].get("native_explanation")
+            native_hint = content_exercises[index].get("native_hint")
         fixed.append(
             ExerciseResponse(
                 id=ex.id,
@@ -98,6 +133,7 @@ async def get_lesson(
                 feedback=ex.feedback,
                 explanation=exp,
                 native_explanation=native_exp if isinstance(native_exp, str) else None,
+                native_hint=native_hint if isinstance(native_hint, str) else None,
                 answered_at=ex.answered_at,
             )
         )
@@ -325,28 +361,9 @@ async def generate_exercise_native_explanation(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Exercise not found")
 
     lesson = await _get_lesson_for_user(exercise.lesson_id, current_user.id, db)
-
-    result = await db.execute(
-        select(Exercise).where(Exercise.lesson_id == lesson.id).order_by(Exercise.id)
+    content, content_exercises, content_exercise = await _get_exercise_content_entry(
+        exercise, lesson, db
     )
-    lesson_exercises = result.scalars().all()
-    exercise_index = next(
-        (index for index, item in enumerate(lesson_exercises) if item.id == exercise.id), None
-    )
-    if exercise_index is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Exercise not found")
-
-    content = dict(lesson.content or {})
-    content_exercises = content.get("exercises")
-    if not isinstance(content_exercises, list):
-        content_exercises = []
-    while len(content_exercises) <= exercise_index:
-        content_exercises.append({})
-
-    content_exercise = content_exercises[exercise_index]
-    if not isinstance(content_exercise, dict):
-        content_exercise = {}
-        content_exercises[exercise_index] = content_exercise
 
     cached = content_exercise.get("native_explanation")
     if isinstance(cached, str) and cached.strip():
@@ -390,6 +407,64 @@ async def generate_exercise_native_explanation(
     await db.commit()
 
     return {"native_explanation": native_exp}
+
+
+@router.post("/exercises/{exercise_id}/native-hint")
+@limiter.limit("10/minute")
+async def generate_exercise_native_hint(
+    request: Request,
+    exercise_id: int,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    exercise = await db.get(Exercise, exercise_id)
+    if not exercise:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Exercise not found")
+
+    lesson = await _get_lesson_for_user(exercise.lesson_id, current_user.id, db)
+    content, content_exercises, content_exercise = await _get_exercise_content_entry(
+        exercise, lesson, db
+    )
+
+    cached = content_exercise.get("native_hint")
+    if isinstance(cached, str) and cached.strip():
+        return {"native_hint": cached}
+
+    plan = await db.get(StudyPlan, lesson.study_plan_id)
+    target_language = plan.target_language if plan else "en-GB"
+
+    from app.services.prompts.lesson import build_native_exercise_hint_on_demand_prompt
+
+    prompt = build_native_exercise_hint_on_demand_prompt(
+        target_language_name=get_language_name(target_language),
+        native_language_name=get_native_language_name(current_user.native_language),
+        exercise_type=exercise.exercise_type,
+        question=exercise.question,
+        options=json.dumps(exercise.options or [], ensure_ascii=False),
+        correct_answer=exercise.correct_answer,
+        explanation=exercise.explanation or "",
+    )
+
+    try:
+        result_native = await llm_adapter.structured_output(
+            [{"role": "user", "content": prompt}],
+            NativeExerciseHintResponse,
+        )
+        native_hint = result_native.native_hint
+        if hint_reveals_answer(native_hint, exercise.correct_answer):
+            raise LLMError("Generated hint revealed the answer")
+    except LLMError, LLMTimeoutError, LLMUnavailableError:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Could not generate native exercise hint at this time",
+        )
+
+    content_exercise["native_hint"] = native_hint
+    content["exercises"] = content_exercises
+    lesson.content = content
+    await db.commit()
+
+    return {"native_hint": native_hint}
 
 
 @router.post("/{lesson_id}/native-explanation")

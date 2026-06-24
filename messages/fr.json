@@ -596,6 +596,8 @@
     "lessonDone": "Leçon terminée",
     "score": "Score",
     "showNativeExplanation": "Voir en",
+    "hint": "Indice",
+    "showNativeHint": "Voir l’indice en",
     "examples": "Exemples",
     "commonTraps": "Erreurs fréquentes",
     "miniGlossary": "Mini-glossaire",
@@ -1290,7 +1292,7 @@
   },
   "whatsNew": {
     "title": "Nouveautés",
-    "version": "v1.8.14",
+    "version": "v1.8.15",
     "cta": "Compris",
     "entry1": {
       "label": "Tableau de bord plus clair",

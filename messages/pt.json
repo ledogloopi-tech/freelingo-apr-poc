@@ -596,6 +596,8 @@
     "lessonDone": "Lição concluída",
     "score": "Pontuação",
     "showNativeExplanation": "Ver em",
+    "hint": "Pista",
+    "showNativeHint": "Ver pista em",
     "examples": "Exemplos",
     "commonTraps": "Erros comuns",
     "miniGlossary": "Mini glossário",
@@ -1290,7 +1292,7 @@
   },
   "whatsNew": {
     "title": "Novidades",
-    "version": "v1.8.14",
+    "version": "v1.8.15",
     "cta": "Entendido",
     "entry1": {
       "label": "Dashboard mais claro",

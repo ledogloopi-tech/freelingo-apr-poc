@@ -596,6 +596,8 @@
     "lessonDone": "Lektion abgeschlossen",
     "score": "Punktzahl",
     "showNativeExplanation": "Auf",
+    "hint": "Hinweis",
+    "showNativeHint": "Hinweis auf",
     "examples": "Beispiele",
     "commonTraps": "Häufige Fehler",
     "miniGlossary": "Mini-Glossar",
@@ -1290,7 +1292,7 @@
   },
   "whatsNew": {
     "title": "Neuigkeiten",
-    "version": "v1.8.14",
+    "version": "v1.8.15",
     "cta": "Verstanden",
     "entry1": {
       "label": "Klareres Dashboard",

@@ -12,6 +12,17 @@ class ExerciseContent(BaseModel):
     correct: str
     explanation: str | None = None
     native_explanation: str | None = None
+    native_hint: str | None = None
+
+
+class LessonVocabularyItem(BaseModel):
+    word: str
+    definition: str
+    example: str
+    translation: str | None = None
+    example_translation: str | None = None
+    note: str | None = None
+    reading: str | None = None
 
 
 class LessonContent(BaseModel):
@@ -21,7 +32,7 @@ class LessonContent(BaseModel):
     explanation: dict
     native_explanation: dict | None = None
     exercises: list[ExerciseContent]
-    vocabulary: list[dict] | None = None
+    vocabulary: list[LessonVocabularyItem] | None = None
     grammar_refs: list[str] = []
     unit_id: str | None = None
 
@@ -57,6 +68,7 @@ class ExerciseResponse(BaseModel):
     feedback: str | None = None
     explanation: str | None = None
     native_explanation: str | None = None
+    native_hint: str | None = None
     answered_at: datetime | None = None
 
     model_config = {"from_attributes": True}
@@ -110,3 +122,7 @@ class NativeExplanationResponse(BaseModel):
 
 class NativeExerciseExplanationResponse(BaseModel):
     native_explanation: str
+
+
+class NativeExerciseHintResponse(BaseModel):
+    native_hint: str

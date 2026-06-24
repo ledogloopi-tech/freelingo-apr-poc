@@ -596,6 +596,8 @@
     "lessonDone": "Lesson Done",
     "score": "Score",
     "showNativeExplanation": "Show in",
+    "hint": "Hint",
+    "showNativeHint": "Show hint in",
     "examples": "Examples",
     "commonTraps": "Common traps",
     "miniGlossary": "Mini glossary",
@@ -1290,7 +1292,7 @@
   },
   "whatsNew": {
     "title": "What's New",
-    "version": "v1.8.14",
+    "version": "v1.8.15",
     "cta": "Got it",
     "entry1": {
       "label": "Clearer dashboard",

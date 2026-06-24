@@ -596,6 +596,8 @@
     "lessonDone": "Les voltooid",
     "score": "Score",
     "showNativeExplanation": "Toon in",
+    "hint": "Hint",
+    "showNativeHint": "Toon hint in",
     "examples": "Voorbeelden",
     "commonTraps": "Veelgemaakte fouten",
     "miniGlossary": "Miniwoordenlijst",
@@ -1290,7 +1292,7 @@
   },
   "whatsNew": {
     "title": "Nieuw",
-    "version": "v1.8.14",
+    "version": "v1.8.15",
     "cta": "Begrepen",
     "entry1": {
       "label": "Duidelijker dashboard",
