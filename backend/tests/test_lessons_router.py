@@ -389,9 +389,7 @@ async def test_generate_native_hint_returns_existing(client, test_user, db_sessi
         "app.routers.lessons.llm_adapter.structured_output",
         new=AsyncMock(),
     ) as mock_structured:
-        response = await client.post(
-            f"/api/lessons/exercises/{ex.id}/native-hint", headers=headers
-        )
+        response = await client.post(f"/api/lessons/exercises/{ex.id}/native-hint", headers=headers)
 
     assert response.status_code == 200
     assert response.json()["native_hint"] == "Ya existe."
@@ -426,9 +424,7 @@ async def test_generate_native_hint_persists_content(client, test_user, db_sessi
         "app.routers.lessons.llm_adapter.structured_output",
         new=AsyncMock(return_value=generated),
     ) as mock_structured:
-        response = await client.post(
-            f"/api/lessons/exercises/{ex.id}/native-hint", headers=headers
-        )
+        response = await client.post(f"/api/lessons/exercises/{ex.id}/native-hint", headers=headers)
 
     assert response.status_code == 200
     assert response.json()["native_hint"] == generated.native_hint
@@ -468,9 +464,7 @@ async def test_generate_native_hint_rejects_answer_revealing_hint(client, test_u
         "app.routers.lessons.llm_adapter.structured_output",
         new=AsyncMock(return_value=generated),
     ):
-        response = await client.post(
-            f"/api/lessons/exercises/{ex.id}/native-hint", headers=headers
-        )
+        response = await client.post(f"/api/lessons/exercises/{ex.id}/native-hint", headers=headers)
 
     assert response.status_code == 503
 

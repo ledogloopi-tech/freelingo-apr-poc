@@ -1,3 +1,4 @@
+import copy
 import json
 import re
 from datetime import UTC, datetime
@@ -71,7 +72,7 @@ async def _get_exercise_content_entry(
     if exercise_index is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Exercise not found")
 
-    content = dict(lesson.content or {})
+    content = copy.deepcopy(lesson.content or {})
     content_exercises = content.get("exercises")
     if not isinstance(content_exercises, list):
         content_exercises = []
