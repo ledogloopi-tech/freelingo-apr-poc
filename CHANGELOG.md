@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Canceled checkout recovery**: `/billing/canceled` now recovers high-intent users with a direct retry CTA for their last selected monthly/yearly plan, falling back to yearly when no local plan hint is available, plus clearer no-charge-today reassurance.
 - **Premium upgrade surfaces**: premium-gated routes now show contextual paywall copy for chat, voice conversation, listening, and reading, while the dashboard Premium banner exposes the yearly-first subscription buttons directly and uses clearer trial-focused messaging.
 - **Landing layout consistency**: public landing sections for features, open source, and FAQ now use the same `max-w-5xl` content width as reviews and pricing for a more consistent horizontal rhythm.
+- **Private app layout consistency**: private learning/content sections that previously used `max-w-2xl` now align to the wider `max-w-4xl` content width, and reading non-exercise states match that width while preserving the wider two-column exercise layout.
 - **What's New version marker**: bumped to `v1.8.16` while keeping the existing What's New entry text unchanged.
 
 ## [1.8.15] - 2026-06-24

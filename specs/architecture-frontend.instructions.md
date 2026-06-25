@@ -280,9 +280,9 @@ Page wrappers use `mx-auto` plus the canonical widths below. Avoid introducing n
 | ----------- | ------- | ---------------------------------------------------------------------------------------------------------- |
 | `max-w-6xl` | 1152 px | Dense admin data pages, operational admin overview, and settings hub layouts (admin, admin/users, admin/feedback, settings) |
 | `max-w-5xl` | 1024 px | Public landing content sections (features, reviews, pricing, open source, FAQ), admin overview pages with lighter operational cards |
-| `max-w-4xl` | 896 px  | Index/overview pages with grids or card layouts (dashboard, grammar, vocabulary, phrasebook, progress)     |
+| `max-w-4xl` | 896 px  | Standard private learning/content pages and resource views (dashboard, plan, progress, flashcards, listening, lessons, grammar, vocabulary, phrasebook, feedback, FAQ, language/memory settings, reading non-exercise states) |
 | `max-w-3xl` | 768 px  | Compact detail or legacy admin list pages                                                                  |
-| `max-w-2xl` | 672 px  | Detail pages, forms, long-form content (lesson, grammar detail, feedback, flashcards, faq, plan)           |
+| `max-w-2xl` | 672 px  | Legacy/error-state wrappers only; do not use for new private page shells                                  |
 
 Full-screen interactive experiences (conversation, chat, listening, reading, assessment), auth cards, legal pages, the landing hero, and the landing footer are exempt because they manage their own layout internally.
 
