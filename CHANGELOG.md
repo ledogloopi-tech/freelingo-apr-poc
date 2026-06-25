@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.17] - 2026-06-25
+
+### Fixed
+
+- Minor bug fixes and improvements.
+
 ## [1.8.16] - 2026-06-25
 
 ### Changed
@@ -15,7 +21,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Trial-aware subscription copy**: authenticated upgrade surfaces now use the exposed `trial_used` flag to show free-trial copy only when the user is eligible, falling back to neutral plan-selection and amount-confirmation copy after a trial has already been used.
 - **Landing layout consistency**: public landing sections for features, open source, and FAQ now use the same `max-w-5xl` content width as reviews and pricing for a more consistent horizontal rhythm.
 - **Private app layout consistency**: private learning/content sections that previously used `max-w-2xl` now align to the wider `max-w-4xl` content width, and reading non-exercise states match that width while preserving the wider two-column exercise layout.
-- **What's New version marker**: bumped to `v1.8.16` while keeping the existing What's New entry text unchanged.
 
 ## [1.8.15] - 2026-06-24
 

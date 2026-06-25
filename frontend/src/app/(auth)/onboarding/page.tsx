@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { Loader2 } from 'lucide-react'
 import { apiFetch } from '@/lib/api'
-import { type BillingInterval } from '@/lib/billing-copy'
+import { splitYearlyCta, type BillingInterval } from '@/lib/billing-copy'
 import { mapUser } from '@/lib/mappers'
 import { useAuthStore, isSubscribed } from '@/store/auth'
 import { useConfigStore } from '@/store/config'
@@ -142,6 +142,11 @@ export default function OnboardingPage() {
   const checkoutPlans: BillingInterval[] =
     selectedPlan === 'monthly' ? ['monthly', 'yearly'] : ['yearly', 'monthly']
   const trialEligible = !user?.trial_used
+  const yearlyCta = splitYearlyCta(
+    t(trialEligible ? 'trialCtaYearly' : 'trialCtaYearlyTrialUsed', {
+      price: String(priceYearly),
+    })
+  )
 
   return (
     <div className="bg-fl-bg bg-dot-grid flex min-h-screen items-center justify-center px-4">
@@ -318,23 +323,33 @@ export default function OnboardingPage() {
                           : 'border-fl-border text-fl-muted-1 hover:text-fl-fg hover:border-fl-border-2 border'
                       }`}
                     >
-                      {checkoutLoading === plan
-                        ? '...'
-                        : plan === 'monthly'
-                          ? t(
-                              trialEligible
-                                ? 'trialCtaMonthly'
-                                : 'trialCtaMonthlyTrialUsed',
-                              {
-                                price: String(priceMonthly),
-                              }
-                            )
-                          : t(
-                              trialEligible
-                                ? 'trialCtaYearly'
-                                : 'trialCtaYearlyTrialUsed',
-                              { price: String(priceYearly) }
-                            )}
+                      {checkoutLoading === plan ? (
+                        '...'
+                      ) : plan === 'monthly' ? (
+                        t(
+                          trialEligible
+                            ? 'trialCtaMonthly'
+                            : 'trialCtaMonthlyTrialUsed',
+                          {
+                            price: String(priceMonthly),
+                          }
+                        )
+                      ) : (
+                        <span className="flex flex-col items-center gap-0.5 leading-relaxed">
+                          <span>{yearlyCta.main}</span>
+                          {yearlyCta.savings && (
+                            <span
+                              className={`text-[0.68rem] ${
+                                isPrimary
+                                  ? 'text-fl-accent-fg/80'
+                                  : 'text-fl-muted-3'
+                              }`}
+                            >
+                              {yearlyCta.savings}
+                            </span>
+                          )}
+                        </span>
+                      )}
                     </button>
                   )
                 })}

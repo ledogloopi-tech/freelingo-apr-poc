@@ -2,7 +2,7 @@ export type BillingInterval = 'monthly' | 'yearly'
 
 export function splitYearlyCta(label: string) {
   const parts = label.split(' · ')
-  if (parts.length < 3) return { main: label, savings: null }
+  if (parts.length < 2) return { main: label, savings: null }
 
   return {
     main: `${parts.slice(0, -1).join(' · ')} →`,

@@ -2,6 +2,7 @@
 
 import { Suspense, useCallback, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { Loader2 } from 'lucide-react'
@@ -409,12 +410,12 @@ function RegisterForm() {
 
           <p className="text-fl-label text-fl-muted-2 mt-6 text-center font-mono tracking-wide">
             {t('hasAccount')}{' '}
-            <a
+            <Link
               href="/login"
               className="text-fl-muted-1 hover:text-fl-fg transition-colors"
             >
               {t('login')}
-            </a>
+            </Link>
           </p>
         </div>
       </div>
