@@ -1,6 +1,11 @@
-let subscriptionStatusPromise: Promise<boolean> | null = null
+interface LandingSubscriptionState {
+  subscribed: boolean
+  trialUsed: boolean
+}
 
-export async function hasActiveLandingSubscription(): Promise<boolean> {
+let subscriptionStatusPromise: Promise<LandingSubscriptionState> | null = null
+
+export async function getLandingSubscriptionState(): Promise<LandingSubscriptionState> {
   if (subscriptionStatusPromise) return subscriptionStatusPromise
 
   subscriptionStatusPromise = (async () => {
@@ -9,7 +14,7 @@ export async function hasActiveLandingSubscription(): Promise<boolean> {
         method: 'POST',
         credentials: 'include',
       })
-      if (!refreshRes.ok) return false
+      if (!refreshRes.ok) return { subscribed: false, trialUsed: false }
 
       const { access_token } = await refreshRes.json()
 
@@ -17,15 +22,23 @@ export async function hasActiveLandingSubscription(): Promise<boolean> {
         headers: { Authorization: `Bearer ${access_token}` },
         credentials: 'include',
       })
-      if (!meRes.ok) return false
+      if (!meRes.ok) return { subscribed: false, trialUsed: false }
 
       const me = await meRes.json()
       const status: string = me.subscription_status ?? 'none'
-      return status === 'active' || status === 'trialing'
+      return {
+        subscribed: status === 'active' || status === 'trialing',
+        trialUsed: Boolean(me.trial_used),
+      }
     } catch {
-      return false
+      return { subscribed: false, trialUsed: false }
     }
   })()
 
   return subscriptionStatusPromise
+}
+
+export async function hasActiveLandingSubscription(): Promise<boolean> {
+  const state = await getLandingSubscriptionState()
+  return state.subscribed
 }

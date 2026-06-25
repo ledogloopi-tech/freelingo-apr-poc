@@ -141,6 +141,7 @@ export default function OnboardingPage() {
 
   const checkoutPlans: BillingInterval[] =
     selectedPlan === 'monthly' ? ['monthly', 'yearly'] : ['yearly', 'monthly']
+  const trialEligible = !user?.trial_used
 
   return (
     <div className="bg-fl-bg bg-dot-grid flex min-h-screen items-center justify-center px-4">
@@ -173,7 +174,11 @@ export default function OnboardingPage() {
                     : t('title')
                   : step === 2
                     ? t('goals.title')
-                    : t('trialHeadline')}
+                    : t(
+                        trialEligible
+                          ? 'trialHeadline'
+                          : 'trialHeadlineTrialUsed'
+                      )}
               </span>
             </div>
             <span className="text-fl-hint text-fl-muted-4 font-mono tabular-nums">
@@ -289,10 +294,14 @@ export default function OnboardingPage() {
           {step === 3 && (
             <div className="space-y-5 text-center">
               <h2 className="text-fl-fg font-mono text-base font-bold">
-                {t('trialTitle', { days: stripeTrialDays })}
+                {t(trialEligible ? 'trialTitle' : 'trialTitleTrialUsed', {
+                  days: stripeTrialDays,
+                })}
               </h2>
               <p className="text-fl-muted-1 font-mono text-xs leading-relaxed">
-                {t('trialDesc', { days: stripeTrialDays })}
+                {t(trialEligible ? 'trialDesc' : 'trialDescTrialUsed', {
+                  days: stripeTrialDays,
+                })}
               </p>
               <div className="flex flex-col gap-3">
                 {checkoutPlans.map((plan, index) => {
@@ -312,10 +321,20 @@ export default function OnboardingPage() {
                       {checkoutLoading === plan
                         ? '...'
                         : plan === 'monthly'
-                          ? t('trialCtaMonthly', {
-                              price: String(priceMonthly),
-                            })
-                          : t('trialCtaYearly', { price: String(priceYearly) })}
+                          ? t(
+                              trialEligible
+                                ? 'trialCtaMonthly'
+                                : 'trialCtaMonthlyTrialUsed',
+                              {
+                                price: String(priceMonthly),
+                              }
+                            )
+                          : t(
+                              trialEligible
+                                ? 'trialCtaYearly'
+                                : 'trialCtaYearlyTrialUsed',
+                              { price: String(priceYearly) }
+                            )}
                     </button>
                   )
                 })}
@@ -326,7 +345,7 @@ export default function OnboardingPage() {
                 </p>
               )}
               <p className="text-fl-hint text-fl-muted-3 font-mono tracking-widest uppercase">
-                {t('trialNoCharge')}
+                {t(trialEligible ? 'trialNoCharge' : 'trialNoChargeTrialUsed')}
               </p>
               <button
                 type="button"

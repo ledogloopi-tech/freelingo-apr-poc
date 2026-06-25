@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { Circle, CircleDot, Diamond, Check, Minus } from 'lucide-react'
 import { PageLoading } from '@/components/ui/page-loading'
-import { hasActiveLandingSubscription } from '@/lib/landing-subscription'
+import { getLandingSubscriptionState } from '@/lib/landing-subscription'
 
 interface PricingSectionProps {
   stripeEnabled: boolean
@@ -30,11 +30,14 @@ export default function PricingSection({
   const [subscribed, setSubscribed] = useState<boolean | null>(
     hasSession ? null : false
   )
+  const [trialUsed, setTrialUsed] = useState(false)
 
   useEffect(() => {
     if (!hasSession) return
     async function checkSubscription() {
-      setSubscribed(await hasActiveLandingSubscription())
+      const state = await getLandingSubscriptionState()
+      setSubscribed(state.subscribed)
+      setTrialUsed(state.trialUsed)
     }
     checkSubscription()
   }, [hasSession])
@@ -96,11 +99,11 @@ export default function PricingSection({
       price: priceMonthly,
       priceLabel: tBilling('month'),
       originalPrice: totalPriceMonthly,
-      badge: tBilling('trialBadge'),
+      badge: tBilling(trialUsed ? 'trialBadgeTrialUsed' : 'trialBadge'),
       desc: null,
       badgeStyle: 'text-fl-accent border-fl-accent/30',
       href: hasSession ? '/dashboard' : '/register?plan=monthly',
-      cta: tBilling('ctaRegister'),
+      cta: tBilling(trialUsed ? 'ctaRegisterTrialUsed' : 'ctaRegister'),
       isFree: false,
     },
     {
@@ -113,7 +116,7 @@ export default function PricingSection({
       desc: null,
       badgeStyle: 'text-fl-accent border-fl-accent/30',
       href: hasSession ? '/dashboard' : '/register?plan=yearly',
-      cta: tBilling('ctaRegister'),
+      cta: tBilling(trialUsed ? 'ctaRegisterTrialUsed' : 'ctaRegister'),
       isFree: false,
     },
   ]
@@ -125,7 +128,9 @@ export default function PricingSection({
           {tBilling('pricingTitle')}
         </h2>
         <p className="text-fl-muted-1 font-sans text-sm">
-          {tBilling('pricingDesc', { days: trialDays })}
+          {tBilling(trialUsed ? 'pricingDescTrialUsed' : 'pricingDesc', {
+            days: trialDays,
+          })}
         </p>
       </div>
 
@@ -270,7 +275,7 @@ export default function PricingSection({
           href={hasSession ? '/dashboard' : '/register?plan=yearly'}
           className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 inline-block px-10 py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
         >
-          {tBilling('ctaRegister')}
+          {tBilling(trialUsed ? 'ctaRegisterTrialUsed' : 'ctaRegister')}
         </Link>
       </div>
     </section>

@@ -32,6 +32,7 @@ export default function DashboardPage() {
   const tError = useTranslations('error')
   const user = useAuthStore((s) => s.user)
   const stripeEnabled = useConfigStore((s) => s.stripeEnabled)
+  const trialEligible = !user?.trial_used
   const {
     streak,
     xp,
@@ -561,12 +562,20 @@ export default function DashboardPage() {
                     {t('premiumBannerTitle')}
                   </p>
                   <p className="text-fl-muted-2 font-mono text-xs leading-relaxed">
-                    {t('premiumBannerDesc')}
+                    {t(
+                      trialEligible
+                        ? 'premiumBannerDesc'
+                        : 'premiumBannerDescTrialUsed'
+                    )}
                   </p>
                 </div>
               </div>
               <span className="text-fl-label text-fl-accent border-fl-accent/30 border px-3 py-1.5 font-mono tracking-widest whitespace-nowrap uppercase">
-                {t('premiumBannerCta')}
+                {t(
+                  trialEligible
+                    ? 'premiumBannerCta'
+                    : 'premiumBannerCtaTrialUsed'
+                )}
               </span>
             </div>
             <SubscriptionPlanButtons className="border-fl-border mt-4 border-t pt-4" />

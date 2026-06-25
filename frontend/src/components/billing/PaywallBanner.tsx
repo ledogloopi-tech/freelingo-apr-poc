@@ -50,6 +50,7 @@ export function PaywallBanner() {
   if (!stripeEnabled || isSubscribed(user, stripeEnabled)) return null
 
   const context = PAYWALL_CONTEXT[pathname as keyof typeof PAYWALL_CONTEXT]
+  const trialEligible = !user?.trial_used
 
   async function handleCheckout(interval: BillingInterval) {
     setLoading(interval)
@@ -88,7 +89,11 @@ export function PaywallBanner() {
           {t(context?.title ?? 'paywallTitle')}
         </h2>
         <p className="text-fl-muted-1 mb-6 font-mono text-xs leading-relaxed">
-          {t(context?.desc ?? 'paywallDesc', { days: trialDays })}
+          {t(
+            context?.desc ??
+              (trialEligible ? 'paywallDesc' : 'paywallDescTrialUsed'),
+            { days: trialDays }
+          )}
         </p>
 
         {/* Plan buttons */}
@@ -127,7 +132,7 @@ export function PaywallBanner() {
         )}
 
         <p className="text-fl-hint text-fl-muted-3 mt-6 font-mono tracking-widest uppercase">
-          {t('paywallNoCharge')}
+          {t(trialEligible ? 'paywallNoCharge' : 'paywallNoChargeTrialUsed')}
         </p>
 
         <button
