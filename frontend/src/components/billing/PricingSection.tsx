@@ -99,7 +99,7 @@ export default function PricingSection({
       badge: tBilling('trialBadge'),
       desc: null,
       badgeStyle: 'text-fl-accent border-fl-accent/30',
-      href: hasSession ? '/dashboard' : '/register',
+      href: hasSession ? '/dashboard' : '/register?plan=monthly',
       cta: tBilling('ctaRegister'),
       isFree: false,
     },
@@ -112,7 +112,7 @@ export default function PricingSection({
       badge: tBilling('bestValue'),
       desc: null,
       badgeStyle: 'text-fl-accent border-fl-accent/30',
-      href: hasSession ? '/dashboard' : '/register',
+      href: hasSession ? '/dashboard' : '/register?plan=yearly',
       cta: tBilling('ctaRegister'),
       isFree: false,
     },
@@ -265,7 +265,7 @@ export default function PricingSection({
 
       <div className="mt-8 text-center">
         <Link
-          href={hasSession ? '/dashboard' : '/register'}
+          href={hasSession ? '/dashboard' : '/register?plan=yearly'}
           className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 inline-block px-10 py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
         >
           {tBilling('ctaRegister')}

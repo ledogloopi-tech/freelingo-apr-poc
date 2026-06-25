@@ -427,7 +427,7 @@ export default function LessonPage() {
 
   return (
     <>
-      <div className="mx-auto max-w-2xl space-y-4 p-6">
+      <div className="mx-auto max-w-4xl space-y-4 p-6">
         {/* Lesson header */}
         <div className="border-fl-border bg-fl-surface border">
           <div className="border-fl-border flex items-center justify-between border-b px-6 py-4">

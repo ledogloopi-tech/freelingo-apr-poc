@@ -24,7 +24,7 @@ async function refreshToken(): Promise<string | null> {
     } catch {
       useAuthStore.getState().logout()
       if (typeof window !== 'undefined') {
-        window.location.href = '/login'
+        window.location.assign('/login')
       }
       return null
     } finally {

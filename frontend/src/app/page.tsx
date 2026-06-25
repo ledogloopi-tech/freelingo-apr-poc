@@ -146,10 +146,10 @@ export default async function Home() {
         </div>
         <div className="flex flex-col items-center gap-3 sm:flex-row">
           <Link
-            href={hasSession ? '/dashboard' : '/login'}
+            href={hasSession ? '/dashboard' : '/register'}
             className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 px-8 py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
           >
-            {hasSession ? t('dashboard') : t('signIn')}
+            {hasSession ? t('dashboard') : tCommon('start')}
           </Link>
           <a
             href="#features"
@@ -162,7 +162,7 @@ export default async function Home() {
 
       {/* Features */}
       <ScrollReveal>
-        <section id="features" className="mx-auto w-full max-w-4xl px-6 pb-24">
+        <section id="features" className="mx-auto w-full max-w-5xl px-6 pb-24">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {[
               {
@@ -233,7 +233,7 @@ export default async function Home() {
 
       {/* Open Source */}
       <ScrollReveal>
-        <section className="mx-auto w-full max-w-4xl px-6 pb-16">
+        <section className="mx-auto w-full max-w-5xl px-6 pb-16">
           <div className="border-fl-border bg-fl-surface flex flex-col items-center justify-between gap-4 border px-8 py-5 sm:flex-row">
             <div className="flex items-center gap-4">
               <Image
@@ -273,7 +273,7 @@ export default async function Home() {
 
       {/* FAQ */}
       <ScrollReveal>
-        <section id="faq" className="mx-auto w-full max-w-3xl px-6 pb-16">
+        <section id="faq" className="mx-auto w-full max-w-5xl px-6 pb-16">
           <h2 className="text-fl-label text-fl-muted-2 mb-8 text-center font-mono tracking-widest uppercase">
             {t('faqTitle')}
           </h2>

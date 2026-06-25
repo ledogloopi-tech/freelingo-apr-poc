@@ -21,6 +21,12 @@ const LANGUAGES = [
   'ru',
 ] as const
 
+type SelectedPlan = 'monthly' | 'yearly'
+
+function getSelectedPlan(plan: string | null): SelectedPlan | null {
+  return plan === 'monthly' || plan === 'yearly' ? plan : null
+}
+
 function RegisterForm() {
   const t = useTranslations('auth.register')
   const tLang = useTranslations('languages')
@@ -28,6 +34,7 @@ function RegisterForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const invite = searchParams.get('invite')
+  const selectedPlan = getSelectedPlan(searchParams.get('plan'))
   const setTokens = useAuthStore((s) => s.setTokens)
 
   const [username, setUsername] = useState('')
@@ -109,7 +116,9 @@ function RegisterForm() {
         }
         const data = await res.json()
         setTokens(data.access_token)
-        router.push('/onboarding')
+        router.push(
+          selectedPlan ? `/onboarding?plan=${selectedPlan}` : '/onboarding'
+        )
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : t('error'))
       } finally {
@@ -125,6 +134,7 @@ function RegisterForm() {
       nativeLanguage,
       termsAccepted,
       invite,
+      selectedPlan,
       router,
       t,
       setTokens,
