@@ -6,6 +6,10 @@ import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { Loader2 } from 'lucide-react'
 import { apiFetch } from '@/lib/api'
+import {
+  saveLastCheckoutPlan,
+  type BillingInterval,
+} from '@/lib/billing-checkout'
 import { mapUser } from '@/lib/mappers'
 import { useAuthStore, isSubscribed } from '@/store/auth'
 import { useConfigStore } from '@/store/config'
@@ -26,6 +30,10 @@ const LEARNING_GOALS = [
 
 type LearningGoal = (typeof LEARNING_GOALS)[number]
 
+function getSelectedPlan(plan: string | null): BillingInterval | null {
+  return plan === 'monthly' || plan === 'yearly' ? plan : null
+}
+
 export default function OnboardingPage() {
   const t = useTranslations('onboarding')
   const tCommon = useTranslations('common')
@@ -45,6 +53,7 @@ export default function OnboardingPage() {
 
   const isNewLanguage = searchParams.get('new') === 'true'
   const queryLanguage = searchParams.get('language')
+  const selectedPlan = getSelectedPlan(searchParams.get('plan'))
 
   const [step, setStep] = useState<1 | 2 | 3>(1)
   const [targetLanguage, setTargetLanguage] = useState(
@@ -54,7 +63,9 @@ export default function OnboardingPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [languagesLoaded, setLanguagesLoaded] = useState(false)
-  const [checkoutLoading, setCheckoutLoading] = useState(false)
+  const [checkoutLoading, setCheckoutLoading] = useState<BillingInterval | null>(
+    null
+  )
   const [checkoutError, setCheckoutError] = useState('')
 
   useEffect(() => {
@@ -111,10 +122,11 @@ export default function OnboardingPage() {
     }
   }
 
-  async function handleCheckout(interval: 'monthly' | 'yearly') {
-    setCheckoutLoading(true)
+  async function handleCheckout(interval: BillingInterval) {
+    setCheckoutLoading(interval)
     setCheckoutError('')
     try {
+      saveLastCheckoutPlan(interval)
       const res = await apiFetch('/api/billing/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -128,9 +140,12 @@ export default function OnboardingPage() {
       window.location.href = url
     } catch (err: unknown) {
       setCheckoutError(err instanceof Error ? err.message : t('trialError'))
-      setCheckoutLoading(false)
+      setCheckoutLoading(null)
     }
   }
+
+  const checkoutPlans: BillingInterval[] =
+    selectedPlan === 'monthly' ? ['monthly', 'yearly'] : ['yearly', 'monthly']
 
   return (
     <div className="bg-fl-bg bg-dot-grid flex min-h-screen items-center justify-center px-4">
@@ -285,26 +300,28 @@ export default function OnboardingPage() {
                 {t('trialDesc', { days: stripeTrialDays })}
               </p>
               <div className="flex flex-col gap-3">
-                <button
-                  type="button"
-                  disabled={checkoutLoading}
-                  onClick={() => handleCheckout('monthly')}
-                  className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 w-full py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors disabled:opacity-50"
-                >
-                  {checkoutLoading
-                    ? '...'
-                    : t('trialCtaMonthly', { price: String(priceMonthly) })}
-                </button>
-                <button
-                  type="button"
-                  disabled={checkoutLoading}
-                  onClick={() => handleCheckout('yearly')}
-                  className="border-fl-border text-fl-muted-1 hover:text-fl-fg hover:border-fl-border-2 w-full border py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors disabled:opacity-50"
-                >
-                  {checkoutLoading
-                    ? '...'
-                    : t('trialCtaYearly', { price: String(priceYearly) })}
-                </button>
+                {checkoutPlans.map((plan, index) => {
+                  const isPrimary = index === 0
+                  return (
+                    <button
+                      key={plan}
+                      type="button"
+                      disabled={checkoutLoading !== null}
+                      onClick={() => handleCheckout(plan)}
+                      className={`w-full py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors disabled:opacity-50 ${
+                        isPrimary
+                          ? 'bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90'
+                          : 'border-fl-border text-fl-muted-1 hover:text-fl-fg hover:border-fl-border-2 border'
+                      }`}
+                    >
+                      {checkoutLoading === plan
+                        ? '...'
+                        : plan === 'monthly'
+                          ? t('trialCtaMonthly', { price: String(priceMonthly) })
+                          : t('trialCtaYearly', { price: String(priceYearly) })}
+                    </button>
+                  )
+                })}
               </div>
               {checkoutError && (
                 <p className="text-fl-hint font-mono text-red-500">
@@ -316,7 +333,7 @@ export default function OnboardingPage() {
               </p>
               <button
                 type="button"
-                disabled={checkoutLoading}
+                disabled={checkoutLoading !== null}
                 onClick={() => router.push('/dashboard')}
                 className="text-fl-label text-fl-muted-4 hover:text-fl-muted-2 w-full py-1 font-mono tracking-widest uppercase transition-colors disabled:opacity-40"
               >

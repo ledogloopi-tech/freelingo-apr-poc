@@ -3,9 +3,11 @@
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { apiFetch } from '@/lib/api'
+import {
+  saveLastCheckoutPlan,
+  type BillingInterval,
+} from '@/lib/billing-checkout'
 import { useConfigStore } from '@/store/config'
-
-type BillingInterval = 'monthly' | 'yearly'
 
 interface SubscriptionPlanButtonsProps {
   className?: string
@@ -25,6 +27,7 @@ export function SubscriptionPlanButtons({
     setLoading(plan)
     setError(null)
     try {
+      saveLastCheckoutPlan(plan)
       const res = await apiFetch('/api/billing/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -47,23 +50,23 @@ export function SubscriptionPlanButtons({
       <div className="flex flex-col gap-3 sm:flex-row">
         <button
           type="button"
-          onClick={() => startCheckout('monthly')}
-          disabled={loading !== null}
-          className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 flex-1 px-4 py-2.5 font-mono text-xs font-bold tracking-widest uppercase transition-colors disabled:opacity-50"
-        >
-          {loading === 'monthly'
-            ? '...'
-            : tBilling('planMonthly', { price: String(priceMonthly) })}
-        </button>
-        <button
-          type="button"
           onClick={() => startCheckout('yearly')}
           disabled={loading !== null}
-          className="border-fl-border text-fl-muted-1 hover:text-fl-fg hover:border-fl-border-2 flex-1 border px-4 py-2.5 font-mono text-xs font-bold tracking-widest uppercase transition-colors disabled:opacity-50"
+          className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 flex-1 px-4 py-2.5 font-mono text-xs font-bold tracking-widest uppercase transition-colors disabled:opacity-50"
         >
           {loading === 'yearly'
             ? '...'
             : tBilling('planYearly', { price: String(priceYearly) })}
+        </button>
+        <button
+          type="button"
+          onClick={() => startCheckout('monthly')}
+          disabled={loading !== null}
+          className="border-fl-border text-fl-muted-1 hover:text-fl-fg hover:border-fl-border-2 flex-1 border px-4 py-2.5 font-mono text-xs font-bold tracking-widest uppercase transition-colors disabled:opacity-50"
+        >
+          {loading === 'monthly'
+            ? '...'
+            : tBilling('planMonthly', { price: String(priceMonthly) })}
         </button>
       </div>
       {error && <p className="text-fl-error font-mono text-xs">{error}</p>}

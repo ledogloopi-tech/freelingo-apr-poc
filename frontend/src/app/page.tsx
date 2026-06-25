@@ -146,10 +146,10 @@ export default async function Home() {
         </div>
         <div className="flex flex-col items-center gap-3 sm:flex-row">
           <Link
-            href={hasSession ? '/dashboard' : '/login'}
+            href={hasSession ? '/dashboard' : '/register'}
             className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 px-8 py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
           >
-            {hasSession ? t('dashboard') : t('signIn')}
+            {hasSession ? t('dashboard') : tCommon('start')}
           </Link>
           <a
             href="#features"
