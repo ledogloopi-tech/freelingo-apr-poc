@@ -32,6 +32,7 @@ export function mapUser(
       data.subscription_status ?? current?.subscription_status ?? 'none',
     subscription_ends_at:
       data.subscription_ends_at ?? current?.subscription_ends_at ?? null,
+    trial_used: data.trial_used ?? current?.trial_used ?? false,
   }
 }
 

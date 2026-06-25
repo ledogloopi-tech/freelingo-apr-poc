@@ -101,7 +101,7 @@ export default function MyLanguagesPage() {
   const hasMultiple = userLanguages.length > 1
 
   return (
-    <div className="mx-auto max-w-2xl p-6">
+    <div className="mx-auto max-w-4xl p-6">
       {/* Toast */}
       {toast && (
         <div className="pointer-events-none fixed inset-x-0 top-16 z-50 flex justify-center">

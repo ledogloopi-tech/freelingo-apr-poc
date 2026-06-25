@@ -46,6 +46,7 @@ Registration, authentication, and user preferences.
 - `BLOCKED_EMAIL_DOMAINS` is a JSON array of lowercase domain strings (e.g. `["yopmail.com","mailinator.com"]`). Registrations using an email from any listed domain are rejected with HTTP 422 before any DB access. Defaults to `[]` (no blocking).
 - `POST /register` returns an `access_token` + sets the refresh token cookie so the frontend can redirect directly to `/onboarding` without an intermediate login.
 - On `/onboarding` the user chooses their `target_language`; the choice is saved via `PATCH /me` before accessing the app.
+- `trial_used` is surfaced through authenticated user profile responses and remains backend-authoritative: Stripe Checkout only receives `trial_period_days` when `STRIPE_TRIAL_DAYS > 0` and `trial_used=false`; webhooks set it to `true` once a trialing subscription starts.
 
 ## UserLanguage (`user_languages`)
 

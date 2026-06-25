@@ -591,7 +591,7 @@ export default function FeedbackPage() {
   // If a detail view is open, render it instead
   if (selectedEntry) {
     return (
-      <div className="mx-auto max-w-2xl p-6">
+      <div className="mx-auto max-w-4xl p-6">
         <DetailView
           entry={selectedEntry}
           currentUserId={currentUserId}
@@ -606,7 +606,7 @@ export default function FeedbackPage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl space-y-4 p-6">
+    <div className="mx-auto max-w-4xl space-y-4 p-6">
       {/* Page header */}
       <div className="border-fl-border border-b pb-4">
         <p className="text-fl-label text-fl-muted-2 mb-1 font-mono tracking-widest uppercase">

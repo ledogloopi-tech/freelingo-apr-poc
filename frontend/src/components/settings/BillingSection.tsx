@@ -23,7 +23,7 @@ export function BillingSection() {
       const res = await apiFetch('/api/billing/portal', { method: 'POST' })
       if (!res.ok) throw new Error(tBilling('portalError'))
       const { url } = await res.json()
-      window.location.href = url
+      window.location.assign(url)
     } catch (err) {
       setPortalError(
         err instanceof Error ? err.message : tBilling('portalError')

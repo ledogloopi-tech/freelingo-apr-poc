@@ -32,6 +32,7 @@ export default function DashboardPage() {
   const tError = useTranslations('error')
   const user = useAuthStore((s) => s.user)
   const stripeEnabled = useConfigStore((s) => s.stripeEnabled)
+  const trialEligible = !user?.trial_used
   const {
     streak,
     xp,
@@ -59,7 +60,6 @@ export default function DashboardPage() {
   const [vocabularyProgress, setVocabularyProgress] = useState(0)
   const [skipping, setSkipping] = useState(false)
   const [skipError, setSkipError] = useState(false)
-  const [showPremiumPlans, setShowPremiumPlans] = useState(false)
 
   const loadData = useCallback(async () => {
     try {
@@ -552,7 +552,7 @@ export default function DashboardPage() {
 
         {showPremiumBanner && (
           <div className="border-fl-border bg-fl-surface mb-6 border p-5">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div className="flex gap-3">
                 <span className="text-fl-accent font-mono text-sm leading-none">
                   ★
@@ -562,20 +562,23 @@ export default function DashboardPage() {
                     {t('premiumBannerTitle')}
                   </p>
                   <p className="text-fl-muted-2 font-mono text-xs leading-relaxed">
-                    {t('premiumBannerDesc')}
+                    {t(
+                      trialEligible
+                        ? 'premiumBannerDesc'
+                        : 'premiumBannerDescTrialUsed'
+                    )}
                   </p>
                 </div>
               </div>
-              <button
-                onClick={() => setShowPremiumPlans((value) => !value)}
-                className="text-fl-label text-fl-fg border-fl-border hover:border-fl-border-2 border px-4 py-2 font-mono tracking-widest whitespace-nowrap uppercase transition-colors"
-              >
-                {t('premiumBannerCta')}
-              </button>
+              <span className="text-fl-label text-fl-accent border-fl-accent/30 border px-3 py-1.5 font-mono tracking-widest whitespace-nowrap uppercase">
+                {t(
+                  trialEligible
+                    ? 'premiumBannerCta'
+                    : 'premiumBannerCtaTrialUsed'
+                )}
+              </span>
             </div>
-            {showPremiumPlans && (
-              <SubscriptionPlanButtons className="border-fl-border mt-4 border-t pt-4" />
-            )}
+            <SubscriptionPlanButtons className="border-fl-border mt-4 border-t pt-4" />
           </div>
         )}
 

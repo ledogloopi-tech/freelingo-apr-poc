@@ -145,6 +145,7 @@ class UserResponse(BaseModel):
     learning_goals: list[str] | None = None
     subscription_status: str = "none"
     subscription_ends_at: datetime | None = None
+    trial_used: bool = False
     created_at: datetime
 
     model_config = {"from_attributes": True}

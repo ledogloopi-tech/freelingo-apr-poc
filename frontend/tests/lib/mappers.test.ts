@@ -19,6 +19,7 @@ describe('mapUser', () => {
     learning_goals: ['travel', 'work'],
     subscription_status: 'active' as const,
     subscription_ends_at: '2025-12-31',
+    trial_used: true,
   }
 
   it('maps snake_case API response to camelCase User', () => {
@@ -40,6 +41,7 @@ describe('mapUser', () => {
       learning_goals: ['travel', 'work'],
       subscription_status: 'active',
       subscription_ends_at: '2025-12-31',
+      trial_used: true,
       ui_locale: null,
     })
   })
@@ -58,6 +60,7 @@ describe('mapUser', () => {
       learning_goals: ['travel'],
       subscription_status: 'trialing',
       subscription_ends_at: '2025-06-01',
+      trial_used: true,
     }
 
     const patchResponse = {
@@ -77,6 +80,7 @@ describe('mapUser', () => {
     expect(user.learning_goals).toEqual(['travel'])
     expect(user.subscription_status).toBe('trialing')
     expect(user.subscription_ends_at).toBe('2025-06-01')
+    expect(user.trial_used).toBe(true)
   })
 
   it('uses safe defaults when no current user and optional fields missing', () => {
@@ -97,6 +101,7 @@ describe('mapUser', () => {
     expect(user.learning_goals).toBeNull()
     expect(user.subscription_status).toBe('none')
     expect(user.subscription_ends_at).toBeNull()
+    expect(user.trial_used).toBe(false)
   })
 
   it('prefers API data over current user when both present', () => {
@@ -111,6 +116,7 @@ describe('mapUser', () => {
       bio: 'old',
       learning_goals: ['old'],
       subscription_status: 'canceled',
+      trial_used: true,
     }
 
     const apiData = {
@@ -124,6 +130,7 @@ describe('mapUser', () => {
       bio: 'new bio',
       learning_goals: ['new'],
       subscription_status: 'active',
+      trial_used: false,
     }
 
     const user = mapUser(apiData, current)
@@ -134,6 +141,7 @@ describe('mapUser', () => {
     expect(user.bio).toBe('new bio')
     expect(user.learning_goals).toEqual(['new'])
     expect(user.subscription_status).toBe('active')
+    expect(user.trial_used).toBe(false)
   })
 })
 

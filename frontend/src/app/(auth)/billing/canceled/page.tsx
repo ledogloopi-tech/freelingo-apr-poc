@@ -33,6 +33,9 @@ export default function BillingCanceledPage() {
             {t('canceledCtaSettings')}
           </Link>
         </div>
+        <p className="text-fl-hint text-fl-muted-3 font-mono tracking-widest uppercase">
+          {t('canceledNoCharge')}
+        </p>
       </div>
     </div>
   )

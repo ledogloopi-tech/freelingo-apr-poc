@@ -187,7 +187,7 @@ export default function GrammarDetailPage({
     .filter(Boolean)
 
   return (
-    <div className="mx-auto max-w-2xl space-y-4 p-6">
+    <div className="mx-auto max-w-4xl space-y-4 p-6">
       <nav className="text-fl-label text-fl-muted-3 flex items-center gap-2 font-mono">
         <Link
           href="/grammar"

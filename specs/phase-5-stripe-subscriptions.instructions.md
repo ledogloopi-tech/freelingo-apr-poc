@@ -379,7 +379,7 @@ Add keys in all 10 locales (`en`, `es`, `de`, `fr`, `it`, `nl`, `pl`, `pt`, `ro`
 - `planMonthly`, `planYearly`, `planMonthlyPrice`, `planYearlyPrice`, `planYearlySavings`
 - `featuredPlan`
 - `featureSessions`, `featureMinutes`, `featureChat`, `featurePlan`, `featureLessons`
-- `ctaStart`, `ctaManage`
+- `ctaManage`
 - `alreadySubscriber`
 - `statusActive`, `statusTrialing`, `statusPastDue`, `statusCanceled`, `statusNone`
 - `nextBilling`, `cancelAnytime`
