@@ -2,6 +2,7 @@
 
 import { Suspense, useCallback, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { Loader2 } from 'lucide-react'
@@ -201,20 +202,20 @@ function LoginForm() {
 
           <p className="text-fl-label text-fl-muted-2 mt-6 text-center font-mono tracking-wide">
             {t('noAccount')}{' '}
-            <a
+            <Link
               href="/register"
               className="text-fl-muted-1 hover:text-fl-fg transition-colors"
             >
               {t('register')}
-            </a>
+            </Link>
           </p>
           <p className="text-fl-label text-fl-muted-4 mt-3 text-center font-mono tracking-wide">
-            <a
+            <Link
               href="/forgot-password"
               className="hover:text-fl-muted-2 transition-colors"
             >
               {t('forgotPassword')}
-            </a>
+            </Link>
           </p>
         </div>
       </div>
