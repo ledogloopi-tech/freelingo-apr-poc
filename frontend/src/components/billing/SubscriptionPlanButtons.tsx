@@ -38,7 +38,7 @@ export function SubscriptionPlanButtons({
         throw new Error(data.detail ?? tBilling('checkoutError'))
       }
       const { url } = await res.json()
-      window.location.href = url
+      window.location.assign(url)
     } catch (err) {
       setError(err instanceof Error ? err.message : tBilling('checkoutError'))
       setLoading(null)

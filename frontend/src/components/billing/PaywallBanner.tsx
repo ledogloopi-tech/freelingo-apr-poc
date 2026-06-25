@@ -66,7 +66,7 @@ export function PaywallBanner() {
         throw new Error(data.detail ?? t('checkoutError'))
       }
       const { url } = await res.json()
-      window.location.href = url
+      window.location.assign(url)
     } catch (err) {
       setError(err instanceof Error ? err.message : t('checkoutError'))
       setLoading(null)

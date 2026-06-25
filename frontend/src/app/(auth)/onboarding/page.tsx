@@ -63,9 +63,8 @@ export default function OnboardingPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [languagesLoaded, setLanguagesLoaded] = useState(false)
-  const [checkoutLoading, setCheckoutLoading] = useState<BillingInterval | null>(
-    null
-  )
+  const [checkoutLoading, setCheckoutLoading] =
+    useState<BillingInterval | null>(null)
   const [checkoutError, setCheckoutError] = useState('')
 
   useEffect(() => {
@@ -137,7 +136,7 @@ export default function OnboardingPage() {
         throw new Error(data.detail ?? t('trialError'))
       }
       const { url } = await res.json()
-      window.location.href = url
+      window.location.assign(url)
     } catch (err: unknown) {
       setCheckoutError(err instanceof Error ? err.message : t('trialError'))
       setCheckoutLoading(null)
@@ -317,7 +316,9 @@ export default function OnboardingPage() {
                       {checkoutLoading === plan
                         ? '...'
                         : plan === 'monthly'
-                          ? t('trialCtaMonthly', { price: String(priceMonthly) })
+                          ? t('trialCtaMonthly', {
+                              price: String(priceMonthly),
+                            })
                           : t('trialCtaYearly', { price: String(priceYearly) })}
                     </button>
                   )
