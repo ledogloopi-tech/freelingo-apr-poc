@@ -4,10 +4,7 @@ import { useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { apiFetch } from '@/lib/api'
-import {
-  saveLastCheckoutPlan,
-  type BillingInterval,
-} from '@/lib/billing-checkout'
+import { splitYearlyCta, type BillingInterval } from '@/lib/billing-copy'
 import { useConfigStore } from '@/store/config'
 import { useAuthStore, isSubscribed } from '@/store/auth'
 
@@ -45,6 +42,9 @@ export function PaywallBanner() {
   const priceYearly = useConfigStore((s) => s.priceYearly)
   const [loading, setLoading] = useState<BillingInterval | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const yearlyCta = splitYearlyCta(
+    t('planYearly', { price: String(priceYearly) })
+  )
 
   // If stripe is disabled or user is subscribed, render nothing (children show normally)
   if (!stripeEnabled || isSubscribed(user, stripeEnabled)) return null
@@ -55,7 +55,6 @@ export function PaywallBanner() {
     setLoading(interval)
     setError(null)
     try {
-      saveLastCheckoutPlan(interval)
       const res = await apiFetch('/api/billing/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -99,9 +98,18 @@ export function PaywallBanner() {
             disabled={loading !== null}
             className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 w-full px-4 py-3 font-mono text-xs tracking-widest uppercase transition-colors disabled:opacity-50"
           >
-            {loading === 'yearly'
-              ? '...'
-              : t('planYearly', { price: String(priceYearly) })}
+            {loading === 'yearly' ? (
+              '...'
+            ) : (
+              <span className="flex flex-col items-center gap-0.5 leading-relaxed">
+                <span>{yearlyCta.main}</span>
+                {yearlyCta.savings && (
+                  <span className="text-fl-accent-fg/80 text-[0.68rem]">
+                    {yearlyCta.savings}
+                  </span>
+                )}
+              </span>
+            )}
           </button>
           <button
             onClick={() => handleCheckout('monthly')}

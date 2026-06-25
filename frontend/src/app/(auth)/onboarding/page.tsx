@@ -6,10 +6,7 @@ import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { Loader2 } from 'lucide-react'
 import { apiFetch } from '@/lib/api'
-import {
-  saveLastCheckoutPlan,
-  type BillingInterval,
-} from '@/lib/billing-checkout'
+import { type BillingInterval } from '@/lib/billing-copy'
 import { mapUser } from '@/lib/mappers'
 import { useAuthStore, isSubscribed } from '@/store/auth'
 import { useConfigStore } from '@/store/config'
@@ -125,7 +122,6 @@ export default function OnboardingPage() {
     setCheckoutLoading(interval)
     setCheckoutError('')
     try {
-      saveLastCheckoutPlan(interval)
       const res = await apiFetch('/api/billing/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

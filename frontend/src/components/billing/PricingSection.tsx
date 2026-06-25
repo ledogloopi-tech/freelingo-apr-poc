@@ -160,36 +160,38 @@ export default function PricingSection({
                 )}
               </div>
 
-              {plan.price !== null ? (
-                <>
-                  <p className="text-fl-muted-2 font-mono text-sm line-through">
-                    {tBilling('priceOriginal', {
-                      price: plan.originalPrice,
-                      period: plan.priceLabel,
-                    })}
-                  </p>
-                  <p className="text-fl-fg flex items-baseline gap-2 font-mono text-xl font-bold">
-                    {tBilling('priceAmount', { amount: plan.price })}
-                    <span className="text-fl-muted-1 text-sm">
-                      {tBilling('pricePerPeriod', {
+              <div className="min-h-[4.25rem]">
+                {plan.price !== null ? (
+                  <>
+                    <p className="text-fl-muted-2 font-mono text-sm line-through">
+                      {tBilling('priceOriginal', {
+                        price: plan.originalPrice,
                         period: plan.priceLabel,
                       })}
-                    </span>
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p
-                    className="text-fl-muted-2 invisible font-mono text-sm"
-                    aria-hidden
-                  >
-                    &nbsp;
-                  </p>
-                  <p className="text-fl-muted-1 font-sans text-sm leading-relaxed">
-                    {plan.desc}
-                  </p>
-                </>
-              )}
+                    </p>
+                    <p className="text-fl-fg flex items-baseline gap-2 font-mono text-xl font-bold">
+                      {tBilling('priceAmount', { amount: plan.price })}
+                      <span className="text-fl-muted-1 text-sm">
+                        {tBilling('pricePerPeriod', {
+                          period: plan.priceLabel,
+                        })}
+                      </span>
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p
+                      className="text-fl-muted-2 invisible font-mono text-sm"
+                      aria-hidden
+                    >
+                      &nbsp;
+                    </p>
+                    <p className="text-fl-muted-1 font-sans text-sm leading-relaxed">
+                      {plan.desc}
+                    </p>
+                  </>
+                )}
+              </div>
 
               <Link
                 href={plan.href}
