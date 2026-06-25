@@ -94,9 +94,10 @@ frontend/
 │   │   ├── progress.ts          # XP, streak, skill scores, dashboard data
 │   │   └── theme.ts             # Dark/light/system theme
 │   │
-│   ├── lib/                     # Utility modules (10)
+│   ├── lib/                     # Utility modules (11)
 │   │   ├── api.ts               # apiFetch: auth interceptor, 401 → silent refresh → retry
 │   │   ├── audio.ts             # Audio player, audio queue, gapless playback helpers
+│   │   ├── billing-copy.ts      # Billing CTA copy helpers and shared BillingInterval type
 │   │   ├── conversation-ws.ts   # WebSocket client for voice conversation
 │   │   ├── landing-subscription.ts # Shared landing subscription-status check
 │   │   ├── locales.ts           # Locale utilities for next-intl
@@ -229,7 +230,8 @@ Six Zustand stores hold all client-side state. No React Context is used for glob
 - **`conversation-ws.ts`** — WebSocket client for the voice conversation pipeline, handles WAV chunk sending and MP3 reception
 - **`landing-subscription.ts`** — Shared landing-page subscription check used by `LandingNav` and `PricingSection`; deduplicates refresh + `/api/auth/me` so the nav hides `Pricing` whenever the pricing section is hidden for active/trialing subscribers
 - **`locales.ts`** — next-intl locale detection and routing utilities
-- **`mappers.ts`** — Data transformation helpers between API responses and frontend models
+- **`mappers.ts`** — Data transformation helpers between API responses and frontend models. `mapUser()` carries subscription metadata including `subscription_status`, `subscription_ends_at`, and `trial_used` into the auth store, with safe fallbacks for partial PATCH responses.
+- **`billing-copy.ts`** — Shared billing CTA helpers and `BillingInterval` type; splits yearly CTA copy so the savings label renders on a stable second line instead of orphaning the trailing arrow in long locales.
 - **`target-languages.ts`** — Target language definitions: BCP-47 codes, display names, flag mappings, ISO codes, script/romanisation metadata, word-spacing capability, and language-specific font class helpers. `TARGET_LANGUAGE_CATALOG` and `SUPPORTED_TARGET_LANGUAGES` contain all 10 frontend-known target languages, including Japanese, Korean, and Mainland Chinese. User-visible options are constrained by backend `availableLanguageCodes` when provided.
 - **`utils.ts`** — General-purpose utilities: formatting, date helpers, class name merging
 

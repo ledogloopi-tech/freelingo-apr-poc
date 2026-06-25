@@ -15,7 +15,7 @@ All REST endpoints are prefixed under `/api`. The WebSocket endpoint is at `/ws/
 - **POST `/login`** — Rate limit: 10/min. Returns access_token (JWT, 15 min) + refresh_token in httpOnly cookie (30 days)
 - **POST `/refresh`** — Rate limit: 20/min. Rotates refresh token, returns new access_token
 - **POST `/logout`** — Rate limit: None. Deletes refresh token from Redis, clears cookie
-- **GET `/me`** — Rate limit: None. Returns authenticated user profile
+- **GET `/me`** — Rate limit: None. Returns authenticated user profile, including subscription fields (`subscription_status`, `subscription_ends_at`, `trial_used`) so the frontend can distinguish trial eligibility from active subscription state.
 - **PATCH `/me`** — Rate limit: None. Updates display_name, email, password, target_language, conversation settings
 - **POST `/me/avatar`** — Rate limit: None. Uploads profile avatar (JPEG/PNG, max 2 MB). Stores as base64 data URL on the user record.
 - **DELETE `/me/avatar`** — Rate limit: None. Removes profile avatar (sets to null)

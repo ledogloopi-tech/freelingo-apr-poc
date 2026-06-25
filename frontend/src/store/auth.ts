@@ -24,6 +24,7 @@ export interface User {
   learning_goals?: string[] | null
   subscription_status?: SubscriptionStatus
   subscription_ends_at?: string | null
+  trial_used?: boolean
 }
 
 /** Returns true when the user has an active/trialing subscription, or when Stripe is disabled (self-hosted). */
