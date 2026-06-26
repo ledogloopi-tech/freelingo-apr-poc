@@ -35,6 +35,7 @@ vi.mock('@/lib/mappers', () => ({
 }))
 
 import { ProfileSection } from '@/components/settings/ProfileSection'
+import { clearAvatarCache } from '@/lib/avatar-cache'
 import { useAuthStore } from '@/store/auth'
 import { mapUser } from '@/lib/mappers'
 
@@ -105,6 +106,7 @@ describe('ProfileSection', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockApiFetch.mockReset()
+    clearAvatarCache()
     ;(mapUser as ReturnType<typeof vi.fn>).mockImplementation(mockMapUserImpl)
     useAuthStore.setState({
       accessToken: 'test-token',
@@ -197,6 +199,7 @@ describe('ProfileSection', () => {
     })
 
     unmount()
+    clearAvatarCache()
     expect(revokeObjectURLMock).toHaveBeenCalledWith('blob:avatar')
     createObjectURLMock.mockRestore()
     revokeObjectURLMock.mockRestore()
@@ -585,9 +588,17 @@ describe('ProfileSection', () => {
     })
 
     it('shows error for oversized file', async () => {
+      vi.spyOn(HTMLCanvasElement.prototype, 'toBlob').mockImplementationOnce(
+        (cb: (blob: Blob | null) => void) => {
+          cb(
+            new Blob([new Uint8Array(3 * 1024 * 1024)], {
+              type: 'image/png',
+            })
+          )
+        }
+      )
       const { container } = render(<ProfileSection />)
-      const largeData = new Uint8Array(3 * 1024 * 1024)
-      const file = new File([largeData], 'large.png', { type: 'image/png' })
+      const file = new File(['photo'], 'large.png', { type: 'image/png' })
       await selectFile(container, file)
       await waitFor(() => {
         expect(screen.getByText(/avatarSizeError/)).toBeDefined()

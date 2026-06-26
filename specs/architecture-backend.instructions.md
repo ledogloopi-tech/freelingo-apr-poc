@@ -68,7 +68,7 @@ backend/
 │   │   ├── __init__.py
 │   │   ├── admin.py             # Admin overview metrics, review signals, user management, filtered lists, maintenance toggle
 │   │   ├── assessment.py        # Level assessment quiz + completion + static bank
-│   │   ├── auth.py              # Register, login, refresh, logout, avatar upload/private retrieval, verify-email, reset-password
+│   │   ├── auth.py              # Register, login, refresh, logout, avatar upload/private retrieval/delete, verify-email, reset-password
 │   │   ├── billing.py           # Stripe checkout, customer portal, webhook
 │   │   ├── chat.py              # SSE chat streaming
 │   │   ├── config.py            # Public config endpoint (maintenance mode, features)
@@ -135,7 +135,7 @@ backend/
 ├── alembic/
 │   └── versions/                # DB migrations (43 migrations)
 │
-└── tests/                       # pytest suite (43 test files, 887 tests)
+└── tests/                       # pytest suite (43 test files, 903 tests)
 ```
 
 ## Database models
@@ -203,7 +203,7 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 
 - **Framework**: pytest + pytest-asyncio + httpx AsyncClient
 - **Test files**: 43 (plus conftest.py for shared fixtures)
-- **Tests**: 887
+- **Tests**: 903
 - **Coverage**: 85.39% last measured (target: ≥70%)
 - **Key fixtures**: async database session, test client with auth headers, Redis mock, user_language fixture
 

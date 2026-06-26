@@ -50,7 +50,7 @@ Two named volumes: `postgres_data` and `redis_data`. Both services also accept b
 - Pulled with `pull_policy: always`; no bind mounts for source code
 - Startup command: `alembic upgrade head` then `uvicorn` — no manual migration step ever needed
 - Receives all configuration exclusively via environment variables
-- Bind mounts only for user-generated content: `avatars/` and `audio/`. Avatar files are persisted in `avatars/` but served only through authenticated backend endpoints, not as public static files.
+- Bind mounts only for user-generated content: `avatars/` and `audio/`. Avatar files are persisted in `avatars/` and served only through authenticated profile endpoints; `/api/avatars/{uuid}` is an internal stored reference, not a public static mount.
 - Worker count controlled by `UVICORN_WORKERS` (default: 4)
 
 ### Frontend

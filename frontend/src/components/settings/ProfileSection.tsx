@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import { apiFetch } from '@/lib/api'
+import { clearAvatarCache } from '@/lib/avatar-cache'
 import { mapUser } from '@/lib/mappers'
 import { useAuthStore } from '@/store/auth'
 import { SUPPORTED_LOCALES } from '@/lib/locales'
@@ -94,14 +95,14 @@ export function ProfileSection({ title }: { title?: string } = {}) {
       setAvatarError(t('avatarTypeError'))
       return
     }
-    if (file.size > 2 * 1024 * 1024) {
-      setAvatarError(t('avatarSizeError'))
-      return
-    }
     setAvatarUploading(true)
     setAvatarError(null)
     try {
       const blob = await resizeImage(file, 1024)
+      if (blob.size > 2 * 1024 * 1024) {
+        setAvatarError(t('avatarSizeError'))
+        return
+      }
       const form = new FormData()
       form.append('file', blob, file.name)
       const res = await apiFetch('/api/auth/me/avatar', {
@@ -110,6 +111,7 @@ export function ProfileSection({ title }: { title?: string } = {}) {
       })
       if (!res.ok) throw new Error()
       const updated = await res.json()
+      clearAvatarCache()
       setUser({ ...user!, avatar: updated.avatar })
     } catch {
       setAvatarError(t('avatarTypeError'))
@@ -124,6 +126,7 @@ export function ProfileSection({ title }: { title?: string } = {}) {
     try {
       const res = await apiFetch('/api/auth/me/avatar', { method: 'DELETE' })
       if (!res.ok) throw new Error()
+      clearAvatarCache()
       setUser({ ...user!, avatar: null })
     } catch {
       setAvatarError(t('avatarTypeError'))

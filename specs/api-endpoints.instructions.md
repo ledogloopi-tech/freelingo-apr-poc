@@ -23,8 +23,8 @@ Most REST endpoints are prefixed under `/api`. The public health check is at `/h
 - **POST `/logout`** — Rate limit: None. Deletes refresh token from Redis, clears cookie
 - **GET `/me`** — Rate limit: None. Returns authenticated user profile, including subscription fields (`subscription_status`, `subscription_ends_at`, `trial_used`) so the frontend can distinguish trial eligibility from active subscription state.
 - **PATCH `/me`** — Rate limit: None. Updates display_name, email, password, target_language, conversation settings
-- **POST `/me/avatar`** — Rate limit: 60/min. Uploads the authenticated user's profile avatar (JPEG/PNG, max 2 MB). Stores the image on disk under `/app/avatars` and stores only an internal avatar reference on the user record.
-- **GET `/me/avatar-file`** — Rate limit: 60/min. Returns the authenticated user's own avatar file. This is the only supported avatar image retrieval endpoint; avatar files are not served publicly.
+- **POST `/me/avatar`** — Rate limit: 60/min. Uploads the authenticated user's profile avatar (JPEG/PNG, max 2 MB). Validates the declared content type and image signature, stores the image on disk under `/app/avatars` using a non-predictable UUID filename, and returns the user profile with `avatar` set to a cache-busted internal reference (`/api/avatars/{uuid}.{ext}?v={ms}`). The file reference is not publicly served.
+- **GET `/me/avatar-file`** — Rate limit: 60/min. Authenticated current-user avatar retrieval endpoint. Returns only the authenticated user's own avatar file; this is the supported image retrieval path used by the frontend.
 - **DELETE `/me/avatar`** — Rate limit: 60/min. Removes profile avatar (sets to null)
 - **DELETE `/me`** — Rate limit: None. Deletes own account and all associated data (CASCADE). Forbidden for admin accounts.
 - **GET `/quota`** — Rate limit: None. Returns live conversation quota status for the authenticated user (sessions this week, minutes today, minutes this week)

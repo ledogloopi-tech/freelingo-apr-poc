@@ -316,6 +316,27 @@ _ALLOWED_AVATAR_TYPES = {"image/jpeg", "image/png"}
 _AVATARS_DIR = "/app/avatars"
 
 
+def _avatar_path_from_reference(avatar: str | None) -> str | None:
+    if not avatar or not avatar.startswith("/api/avatars/"):
+        return None
+    filename = avatar.split("?")[0].split("/")[-1]
+    if filename != os.path.basename(filename):
+        return None
+    return os.path.join(_AVATARS_DIR, filename)
+
+
+def _validate_avatar_bytes(content_type: str | None, data: bytes) -> str:
+    if content_type not in _ALLOWED_AVATAR_TYPES:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Only JPEG and PNG images are allowed"
+        )
+    if content_type == "image/jpeg" and data.startswith(b"\xff\xd8\xff"):
+        return "jpg"
+    if content_type == "image/png" and data.startswith(b"\x89PNG\r\n\x1a\n"):
+        return "png"
+    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid image file")
+
+
 @router.post("/me/avatar", response_model=UserResponse)
 @limiter.limit("60/minute")
 async def upload_avatar(
@@ -324,32 +345,26 @@ async def upload_avatar(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
-    if file.content_type not in _ALLOWED_AVATAR_TYPES:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Only JPEG and PNG images are allowed"
-        )
     data = await file.read(_MAX_AVATAR_BYTES + 1)
     if len(data) > _MAX_AVATAR_BYTES:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Image too large (max 2 MB)"
         )
+    ext = _validate_avatar_bytes(file.content_type, data)
 
     # Delete the existing file if it was previously stored on disk
-    if current_user.avatar and current_user.avatar.startswith("/api/avatars/"):
-        old_filename = current_user.avatar.split("?")[0].split("/")[-1]
-        old_path = os.path.join(_AVATARS_DIR, old_filename)
-        if os.path.exists(old_path):
-            os.remove(old_path)
+    old_path = _avatar_path_from_reference(current_user.avatar)
+    if old_path and os.path.exists(old_path):
+        os.remove(old_path)
 
-    ext = "jpg" if file.content_type == "image/jpeg" else "png"
-    filename = f"{current_user.id}.{ext}"
+    filename = f"{uuid.uuid4().hex}.{ext}"
     filepath = os.path.join(_AVATARS_DIR, filename)
     os.makedirs(_AVATARS_DIR, exist_ok=True)
     with open(filepath, "wb") as f:
         f.write(data)
 
     # Append a timestamp to bust the browser cache on re-upload
-    ts = int(datetime.now(UTC).timestamp())
+    ts = int(datetime.now(UTC).timestamp() * 1000)
     current_user.avatar = f"/api/avatars/{filename}?v={ts}"
     await db.commit()
     await db.refresh(current_user)
@@ -378,16 +393,13 @@ async def get_avatar_file(
     if not current_user.avatar.startswith("/api/avatars/"):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Avatar not found")
 
-    filename = current_user.avatar.split("?")[0].split("/")[-1]
-    if filename != os.path.basename(filename):
+    path = _avatar_path_from_reference(current_user.avatar)
+    if not path:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Avatar not found")
-    if filename not in {f"{current_user.id}.jpg", f"{current_user.id}.png"}:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Avatar not found")
-
-    path = os.path.join(_AVATARS_DIR, filename)
     if not os.path.exists(path):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Avatar not found")
 
+    filename = os.path.basename(path)
     media_type = "image/jpeg" if filename.lower().endswith(".jpg") else "image/png"
     return FileResponse(path, media_type=media_type)
 
@@ -399,11 +411,9 @@ async def delete_avatar(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
-    if current_user.avatar and current_user.avatar.startswith("/api/avatars/"):
-        old_filename = current_user.avatar.split("?")[0].split("/")[-1]
-        old_path = os.path.join(_AVATARS_DIR, old_filename)
-        if os.path.exists(old_path):
-            os.remove(old_path)
+    old_path = _avatar_path_from_reference(current_user.avatar)
+    if old_path and os.path.exists(old_path):
+        os.remove(old_path)
     current_user.avatar = None
     await db.commit()
     await db.refresh(current_user)
@@ -428,11 +438,9 @@ async def delete_me(
         await redis.delete(f"refresh:{token}")
     response.delete_cookie("refresh_token")
     # Clean up avatar file from disk before deleting the user record
-    if current_user.avatar and current_user.avatar.startswith("/api/avatars/"):
-        old_filename = current_user.avatar.split("?")[0].split("/")[-1]
-        old_path = os.path.join(_AVATARS_DIR, old_filename)
-        if os.path.exists(old_path):
-            os.remove(old_path)
+    old_path = _avatar_path_from_reference(current_user.avatar)
+    if old_path and os.path.exists(old_path):
+        os.remove(old_path)
     user_email = current_user.email
     user_display_name = current_user.display_name
     user_locale = current_user.native_language

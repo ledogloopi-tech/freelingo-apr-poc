@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { Loader2 } from 'lucide-react'
 import { apiFetch } from '@/lib/api'
+import { mapUser } from '@/lib/mappers'
 import { useAuthStore } from '@/store/auth'
 
 function LoginForm() {
@@ -59,7 +60,7 @@ function LoginForm() {
         const { access_token } = await res.json()
         setTokens(access_token)
         const meRes = await apiFetch('/api/auth/me')
-        if (meRes.ok) setUser(await meRes.json())
+        if (meRes.ok) setUser(mapUser(await meRes.json()))
         router.push('/dashboard')
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : t('loginFailed'))

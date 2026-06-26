@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { loadAvatar, subscribeAvatar } from '@/lib/avatar-cache'
 import { useAuthStore } from '@/store/auth'
 
 interface Props {
@@ -23,44 +24,9 @@ export function AuthAvatarImage({
   const [src, setSrc] = useState<string | null>(null)
 
   useEffect(() => {
-    let active = true
-    let objectUrl: string | null = null
-
-    if (avatar.startsWith('data:image/')) {
-      setSrc(avatar)
-      return
-    }
-
-    setSrc(null)
-
-    async function loadAvatar() {
-      try {
-        const headers: HeadersInit = accessToken
-          ? { Authorization: `Bearer ${accessToken}` }
-          : {}
-        const res = await fetch('/api/auth/me/avatar-file', {
-          headers,
-          credentials: 'include',
-        })
-        if (!res.ok) return
-        const blob = await res.blob()
-        objectUrl = URL.createObjectURL(blob)
-        if (active) {
-          setSrc(objectUrl)
-        } else {
-          URL.revokeObjectURL(objectUrl)
-        }
-      } catch {
-        if (objectUrl) URL.revokeObjectURL(objectUrl)
-      }
-    }
-
-    void loadAvatar()
-
-    return () => {
-      active = false
-      if (objectUrl) URL.revokeObjectURL(objectUrl)
-    }
+    const unsubscribe = subscribeAvatar(setSrc)
+    void loadAvatar(avatar, accessToken)
+    return unsubscribe
   }, [accessToken, avatar])
 
   if (!src) return null
