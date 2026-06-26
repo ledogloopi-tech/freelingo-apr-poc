@@ -29,7 +29,7 @@ _PASSWORD_PATTERN = re.compile(r"^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{10,25}$"
 
 class AdminUserCreate(BaseModel):
     username: str = Field(min_length=3, max_length=50, pattern=r"^[\w.-]+$")
-    email: EmailStr | None = None
+    email: EmailStr
     password: str = Field(min_length=10, max_length=25)
     display_name: str = Field(max_length=100)
     native_language: str = Field(min_length=2, max_length=5)

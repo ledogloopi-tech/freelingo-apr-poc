@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **Multiple-choice lesson validation**: LLM-generated multiple-choice lesson exercises now require usable options and an exact matching correct answer, preventing empty-option exercises that leave the submit button disabled.
+- **Admin user creation**: the admin create-user flow now consistently treats email as required in both frontend validation and the backend schema, and the admin action buttons no longer duplicate the leading plus sign when an icon is already shown.
+- **Admin users table layout**: the desktop users table now gives more room to the subscription column and truncates long subscription labels with an ellipsis instead of wrapping them onto multiple lines.
 
 ## [1.8.17] - 2026-06-25
 

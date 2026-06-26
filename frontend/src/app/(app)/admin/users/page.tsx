@@ -588,19 +588,19 @@ export default function AdminUsersPage() {
               <table className="w-full table-fixed border-collapse">
                 <thead>
                   <tr className="border-fl-border border-b">
-                    <th className="text-fl-label text-fl-muted-4 w-[30%] px-5 py-3 text-left font-mono tracking-widest uppercase">
+                    <th className="text-fl-label text-fl-muted-4 w-[25%] px-5 py-3 text-left font-mono tracking-widest uppercase">
                       {t('userColumn')}
                     </th>
-                    <th className="text-fl-label text-fl-muted-4 w-[24%] px-5 py-3 text-left font-mono tracking-widest uppercase">
+                    <th className="text-fl-label text-fl-muted-4 w-[25%] px-5 py-3 text-left font-mono tracking-widest uppercase">
                       {t('fieldEmail')}
                     </th>
-                    <th className="text-fl-label text-fl-muted-4 w-[11%] px-5 py-3 text-left font-mono tracking-widest uppercase">
+                    <th className="text-fl-label text-fl-muted-4 w-[12.5%] px-5 py-3 text-left font-mono tracking-widest uppercase">
                       {t('role')}
                     </th>
-                    <th className="text-fl-label text-fl-muted-4 w-[12%] px-5 py-3 text-left font-mono tracking-widest uppercase">
+                    <th className="text-fl-label text-fl-muted-4 w-[12.5%] px-5 py-3 text-left font-mono tracking-widest uppercase">
                       {t('status')}
                     </th>
-                    <th className="text-fl-label text-fl-muted-4 w-[13%] px-5 py-3 text-left font-mono tracking-widest uppercase">
+                    <th className="text-fl-label text-fl-muted-4 w-[15%] px-5 py-3 text-left font-mono tracking-widest uppercase">
                       {t('fieldSubscription')}
                     </th>
                     <th className="text-fl-label text-fl-muted-4 w-[10%] px-5 py-3 text-right font-mono tracking-widest uppercase">
@@ -650,7 +650,7 @@ export default function AdminUsersPage() {
                       </td>
                       <td className="px-5 py-4 align-middle">
                         <span
-                          className={`text-fl-hint border px-2 py-0.5 font-mono tracking-widest uppercase ${statusBadgeClass(u.subscription_status)}`}
+                          className={`text-fl-hint inline-block max-w-full truncate border px-2 py-0.5 font-mono tracking-widest uppercase ${statusBadgeClass(u.subscription_status)}`}
                         >
                           {subscriptionLabel(u.subscription_status, tBilling)}
                         </span>
@@ -858,7 +858,7 @@ export default function AdminUsersPage() {
               {
                 key: 'email',
                 label: t('fieldEmail'),
-                required: false,
+                required: true,
                 type: 'email',
               },
               {
