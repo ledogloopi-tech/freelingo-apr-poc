@@ -1,5 +1,5 @@
 ---
-description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 887 tests, 85.39% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (30 test files, 404 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
+description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 895 tests, 85.39% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (30 test files, 404 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
 applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 ---
 
@@ -39,7 +39,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_assessment.py`** — Lines: 165. What it covers: Quiz start (mocked LLM), submit and deterministic evaluation, legacy endpoints, LLM error handling
 - **`test_assessment_router.py`** — Lines: —. What it covers: Full assessment router: start, submit, evaluate, free-write, complete, level-test questions/submit/result (54 tests, 51%→98% coverage)
 - **`test_study_plan.py`** — Lines: 459. What it covers: Plan generation, today's lessons, auto-generation on access, native-language lesson-generation context, unit progression
-- **`test_lessons.py`** — Lines: 235. What it covers: Lesson CRUD, exercise answering (multiple_choice, free_write, pronunciation), completion flow, progress update on complete
+- **`test_lessons.py`** — Lines: 400+. What it covers: Lesson CRUD, exercise answering (multiple_choice, free_write, pronunciation), invalid exercise regeneration, completion flow, progress update on complete
 - **`test_lessons_extra.py`** — Lines: 106. What it covers: Additional lesson scenarios and edge cases
 - **`test_lessons_router.py`** — Lines: —. What it covers: Lesson router: get lesson with exercises, complete lesson, native-language explanation generation/caching, answer exercises (all 4 types), lifecycle, fill-blank sanitization (39 tests, 58%→99% coverage)
 - **`test_flashcards.py`** — Lines: 136. What it covers: SM-2 algorithm (all quality levels 0–5, interval and ease_factor transitions, edge cases), card CRUD
@@ -72,10 +72,10 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_flashcard_sm2.py`** — Lines: —. What it covers: Flashcard service: `_clean_generated_word`, `_get_lang_hint` (10 languages + fallbacks), native-language name injection, `generate_flashcards`, `lookup_word`
 - **`test_assessment_bank.py`** — Lines: —. What it covers: Assessment bank dispatcher: all 10 backend data languages including Japanese, Korean, and Mainland Chinese, unknown fallback to en-GB, ISO prefix fallback, cache reuse (14 tests, 0%→100% coverage)
 - **`test_limiter.py`** — Lines: —. What it covers: Rate limiter: `_get_real_ip` (X-Real-IP, X-Forwarded-For single/multiple, client host fallback, unknown), limiter construction (9 tests, 42%→100% coverage)
-- **`test_lesson_generator.py`** — Lines: —. What it covers: Lesson generator service: `get_valid_grammar_slugs`, `generate_lesson`, fill-blank sanitization, grammar refs filtering, `evaluate_free_write`, `evaluate_pronunciation`, `evaluate_fill_blank` (12 tests, 51%→100% coverage)
+- **`test_lesson_generator.py`** — Lines: —. What it covers: Lesson generator service: `get_valid_grammar_slugs`, `generate_lesson`, exercise schema validation, fill-blank sanitization, grammar refs filtering, `evaluate_free_write`, `evaluate_pronunciation`, `evaluate_fill_blank` (16 tests, 51%→100% coverage)
 - **`test_listening_service.py`** — Lines: —. What it covers: Listening service DB layer and generation: `structured_output()` generation persistence, language-aware CJK length guidance, `get_available_exercise`, `submit_attempt` (correct/partial/duplicate/replay/not-found), `get_user_history` (empty/attempts/limit/language filter)
 
-**Total: 43 test files, 887 tests.**
+**Total: 43 test files, 895 tests.**
 
 ### Coverage
 

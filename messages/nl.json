@@ -609,6 +609,10 @@
     "showNativeExplanation": "Toon in",
     "hint": "Hint",
     "showNativeHint": "Toon hint in",
+    "regenerateExercise": "Oefening opnieuw genereren",
+    "regeneratingExercise": "Opnieuw genereren...",
+    "regenerateError": "De oefening kon niet opnieuw worden gegenereerd. Probeer het opnieuw.",
+    "regenerateNotNeeded": "Deze oefening hoeft niet opnieuw te worden gegenereerd.",
     "examples": "Voorbeelden",
     "commonTraps": "Veelgemaakte fouten",
     "miniGlossary": "Miniwoordenlijst",
@@ -1319,7 +1323,7 @@
   },
   "whatsNew": {
     "title": "Nieuw",
-    "version": "v1.8.17",
+    "version": "v1.8.18",
     "cta": "Begrepen",
     "entry1": {
       "label": "Duidelijker dashboard",

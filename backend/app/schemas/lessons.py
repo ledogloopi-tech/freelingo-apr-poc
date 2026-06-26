@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Self
 
-from pydantic import BaseModel, field_serializer
+from pydantic import BaseModel, field_serializer, model_validator
 
 
 class ExerciseContent(BaseModel):
@@ -13,6 +14,27 @@ class ExerciseContent(BaseModel):
     explanation: str | None = None
     native_explanation: str | None = None
     native_hint: str | None = None
+
+    @model_validator(mode="after")
+    def validate_exercise_content(self) -> Self:
+        if not self.question.strip():
+            raise ValueError("exercises must include a question")
+        if not self.correct.strip():
+            raise ValueError("exercises must include a correct answer")
+        if self.type == "fill_blank" and "___" not in self.question:
+            if self.explanation and "___" in self.explanation:
+                self.question, self.explanation = self.explanation, self.question
+            else:
+                raise ValueError("fill_blank exercises must include ___ in the question")
+        if self.type != "multiple_choice":
+            return self
+        options = [option for option in (self.options or []) if option.strip()]
+        if len(options) < 2:
+            raise ValueError("multiple_choice exercises must include at least two options")
+        if self.correct not in options:
+            raise ValueError("multiple_choice correct answer must match one option exactly")
+        self.options = options
+        return self
 
 
 class LessonVocabularyItem(BaseModel):

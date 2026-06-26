@@ -609,6 +609,10 @@
     "showNativeExplanation": "Pokaż w",
     "hint": "Wskazówka",
     "showNativeHint": "Pokaż wskazówkę w",
+    "regenerateExercise": "Wygeneruj ćwiczenie ponownie",
+    "regeneratingExercise": "Generowanie...",
+    "regenerateError": "Nie udało się wygenerować ćwiczenia ponownie. Spróbuj jeszcze raz.",
+    "regenerateNotNeeded": "To ćwiczenie nie wymaga ponownego generowania.",
     "examples": "Przykłady",
     "commonTraps": "Częste błędy",
     "miniGlossary": "Mini słowniczek",
@@ -1319,7 +1323,7 @@
   },
   "whatsNew": {
     "title": "Co nowego",
-    "version": "v1.8.17",
+    "version": "v1.8.18",
     "cta": "Rozumiem",
     "entry1": {
       "label": "Czytelniejszy dashboard",

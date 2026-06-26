@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.18] - 2026-06-26
+
+### Added
+
+- **Lesson exercise regeneration**: unanswered lesson exercises that have a technical generation issue can now be regenerated on demand from the exercise card. The backend only regenerates exercises that fail validation, preserves the existing lesson, updates both the exercise row and lesson JSON, and blocks regeneration for answered or completed exercises.
+
+### Fixed
+
+- **Multiple-choice lesson validation**: LLM-generated multiple-choice lesson exercises now require usable options and an exact matching correct answer, preventing empty-option exercises that leave the submit button disabled.
+
 ## [1.8.17] - 2026-06-25
 
 ### Fixed

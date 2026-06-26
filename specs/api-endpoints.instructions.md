@@ -107,6 +107,7 @@ Auth required (`get_current_user`). Serves static vocabulary data across the bac
 | POST   | `/{lesson_id}/native-explanation` | Generates and caches a native-language explanation for existing lessons at any CEFR level whose `content.native_explanation` is missing; returned support includes translated text, key points, examples, common traps, and a mini-glossary; idempotently returns the cached explanation when already present |
 | POST   | `/exercises/{id}/native-explanation` | Generates and caches a concise native-language clarification for an exercise whose target-language `explanation` exists but whose generated JSON lacks `native_explanation`; idempotently returns the cached exercise-level explanation when already present |
 | POST   | `/exercises/{id}/native-hint` | Generates and caches a concise pre-answer native-language hint for an exercise whose generated JSON lacks `native_hint`; hints must help without revealing the correct answer and are idempotently returned when already present |
+| POST   | `/exercises/{id}/regenerate` | Regenerates one unanswered, technically invalid exercise on demand while preserving the rest of the lesson; rejects completed lessons, answered exercises, and exercises that pass validation |
 | POST   | `/exercises/{id}/answer` | Submits answer → evaluates (MC, fill, free_write, pronunciation) → returns score + feedback |
 
 ---

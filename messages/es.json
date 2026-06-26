@@ -609,6 +609,10 @@
     "showNativeExplanation": "Ver en",
     "hint": "Pista",
     "showNativeHint": "Ver pista en",
+    "regenerateExercise": "Regenerar ejercicio",
+    "regeneratingExercise": "Regenerando...",
+    "regenerateError": "No se pudo regenerar el ejercicio. Inténtalo de nuevo.",
+    "regenerateNotNeeded": "Este ejercicio no necesita regenerarse.",
     "examples": "Ejemplos",
     "commonTraps": "Errores comunes",
     "miniGlossary": "Mini-glosario",
@@ -1319,7 +1323,7 @@
   },
   "whatsNew": {
     "title": "Novedades",
-    "version": "v1.8.17",
+    "version": "v1.8.18",
     "cta": "Entendido",
     "entry1": {
       "label": "Dashboard más claro",
