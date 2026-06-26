@@ -117,6 +117,12 @@ async def regenerate_exercise(
     target_language_name = get_language_name(target_language)
     native_language_name = get_native_language_name(native_language) if native_language else "none"
     language_prompt_overlay = get_language_prompt_overlay(target_language)
+    options_schema = {
+        "multiple_choice": '["option 1", "option 2", "option 3", "option 4"]',
+        "fill_blank": "null",
+        "free_write": '["grading criterion 1", "grading criterion 2"]',
+        "pronunciation": '["short pronunciation hint"]',
+    }.get(exercise_type, "null")
     prompt = build_regenerate_exercise_prompt(
         cefr_level=cefr_level,
         target_language_name=target_language_name,
@@ -127,6 +133,7 @@ async def regenerate_exercise(
         lesson_explanation=json.dumps(lesson_explanation or {}, ensure_ascii=False),
         lesson_vocabulary=json.dumps(lesson_vocabulary or [], ensure_ascii=False),
         invalid_exercise=json.dumps(invalid_exercise, ensure_ascii=False),
+        options_schema=options_schema,
         language_prompt_overlay=language_prompt_overlay,
     )
 

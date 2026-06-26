@@ -261,7 +261,7 @@ Return exactly one replacement exercise using this schema:
 {{
   "type": "{exercise_type}",
   "question": "...",
-  "options": ["..."] or null,
+  "options": {options_schema},
   "correct": "...",
   "explanation": "...",
   "native_explanation": "... or null",
@@ -623,6 +623,7 @@ def build_regenerate_exercise_prompt(
     lesson_explanation: str,
     lesson_vocabulary: str,
     invalid_exercise: str,
+    options_schema: str,
     language_prompt_overlay: str,
 ) -> str:
     return REGENERATE_EXERCISE_PROMPT.format(
@@ -635,5 +636,6 @@ def build_regenerate_exercise_prompt(
         lesson_explanation=lesson_explanation,
         lesson_vocabulary=lesson_vocabulary,
         invalid_exercise=invalid_exercise,
+        options_schema=options_schema,
         language_prompt_overlay=language_prompt_overlay,
     )
