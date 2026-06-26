@@ -29,6 +29,7 @@ from app.services.lesson_generator import (
     evaluate_free_write,
     evaluate_pronunciation,
     hint_reveals_answer,
+    regenerate_exercise,
 )
 from app.services.llm_adapter import (
     LLMError,
@@ -120,6 +121,17 @@ def _answer_feedback(native_language: str, key: str, *, answer: str = "") -> str
     return messages[key].format(answer=answer)
 
 
+def _exercise_has_technical_error(exercise: Exercise) -> bool:
+    if not exercise.question.strip() or not exercise.correct_answer.strip():
+        return True
+    if exercise.exercise_type == "multiple_choice":
+        options = [opt for opt in (exercise.options or []) if isinstance(opt, str) and opt.strip()]
+        return len(options) < 2 or exercise.correct_answer not in options
+    if exercise.exercise_type == "fill_blank":
+        return "___" not in exercise.question
+    return False
+
+
 async def _get_lesson_for_user(lesson_id: int, user_id: int, db: AsyncSession) -> Lesson:
     """Fetch a lesson and verify it belongs to the requesting user via its study plan."""
     from app.models.user_language import UserLanguage
@@ -164,6 +176,19 @@ async def _get_exercise_content_entry(
         content_exercises[exercise_index] = content_exercise
 
     return content, content_exercises, content_exercise
+
+
+async def _get_exercise_index(exercise: Exercise, lesson: Lesson, db: AsyncSession) -> int:
+    result = await db.execute(
+        select(Exercise).where(Exercise.lesson_id == lesson.id).order_by(Exercise.id)
+    )
+    lesson_exercises = result.scalars().all()
+    exercise_index = next(
+        (index for index, item in enumerate(lesson_exercises) if item.id == exercise.id), None
+    )
+    if exercise_index is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Exercise not found")
+    return exercise_index
 
 
 @router.get("/{lesson_id}", response_model=LessonDetailResponse)
@@ -445,6 +470,105 @@ async def answer_exercise(
         score=exercise.score,
         feedback=exercise.feedback,
         correct_answer=exercise.correct_answer,
+    )
+
+
+@router.post("/exercises/{exercise_id}/regenerate", response_model=ExerciseResponse)
+@limiter.limit("5/hour")
+async def regenerate_invalid_exercise(
+    request: Request,
+    exercise_id: int,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    exercise = await db.get(Exercise, exercise_id)
+    if not exercise:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Exercise not found")
+
+    lesson = await _get_lesson_for_user(exercise.lesson_id, current_user.id, db)
+    if lesson.is_completed:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Completed lesson exercises cannot be regenerated",
+        )
+    if exercise.answered_at is not None or exercise.score is not None:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Answered exercises cannot be regenerated",
+        )
+    if not _exercise_has_technical_error(exercise):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Exercise does not need regeneration",
+        )
+
+    plan = await db.get(StudyPlan, lesson.study_plan_id)
+    if not plan:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Study plan not found for lesson",
+        )
+
+    content, content_exercises, _content_exercise = await _get_exercise_content_entry(
+        exercise, lesson, db
+    )
+    exercise_index = await _get_exercise_index(exercise, lesson, db)
+    invalid_exercise = {
+        "type": exercise.exercise_type,
+        "question": exercise.question,
+        "options": exercise.options,
+        "correct": exercise.correct_answer,
+        "explanation": exercise.explanation,
+    }
+
+    try:
+        regenerated = await regenerate_exercise(
+            cefr_level=lesson.cefr_level,
+            lesson_type=lesson.lesson_type,
+            topic=lesson.title,
+            exercise_type=exercise.exercise_type,
+            lesson_explanation=content.get("explanation") if isinstance(content, dict) else {},
+            lesson_vocabulary=content.get("vocabulary") if isinstance(content, dict) else [],
+            invalid_exercise=invalid_exercise,
+            target_language=plan.target_language,
+            native_language=current_user.native_language,
+        )
+    except (LLMError, LLMTimeoutError, LLMUnavailableError, ValueError) as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Could not regenerate exercise at this time",
+        ) from exc
+
+    exercise.question = regenerated.question
+    exercise.options = regenerated.options
+    exercise.correct_answer = regenerated.correct
+    exercise.explanation = regenerated.explanation
+    exercise.feedback = None
+    exercise.user_answer = None
+    exercise.score = None
+    exercise.answered_at = None
+
+    content_exercises[exercise_index] = regenerated.model_dump()
+    content["exercises"] = content_exercises
+    lesson.content = content
+
+    await db.commit()
+    await db.refresh(exercise)
+
+    return ExerciseResponse(
+        id=exercise.id,
+        lesson_id=exercise.lesson_id,
+        exercise_type=exercise.exercise_type,
+        question=exercise.question,
+        options=exercise.options,
+        correct_answer=exercise.correct_answer,
+        user_answer=exercise.user_answer,
+        score=exercise.score,
+        feedback=exercise.feedback,
+        explanation=exercise.explanation,
+        native_explanation=regenerated.native_explanation,
+        native_hint=regenerated.native_hint,
+        answered_at=exercise.answered_at,
     )
 
 

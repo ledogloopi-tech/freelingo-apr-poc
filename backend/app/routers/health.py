@@ -1,17 +1,30 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse
 from sqlalchemy import text
 
 from app.core.database import engine
+from app.core.deps import require_admin
+from app.core.limiter import limiter
+from app.models.user import User
 from app.utils.redis import redis_client as _redis_client
 
 router = APIRouter(tags=["health"])
 
 
 @router.get("/health")
-async def health(request: Request) -> JSONResponse:
+@limiter.limit("60/minute")
+async def health(request: Request) -> JSONResponse:  # noqa: ARG001
+    return JSONResponse({"status": "ok"})
+
+
+@router.get("/api/admin/health")
+@limiter.limit("60/minute")
+async def admin_health(
+    request: Request,
+    _admin: User = Depends(require_admin),
+) -> JSONResponse:
     checks: dict[str, str] = {}
     ok = True
 

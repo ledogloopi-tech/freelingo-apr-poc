@@ -133,6 +133,43 @@ class TestGenerateLesson:
         assert "___" in question
         assert "a cat" in question
 
+    def test_rejects_multiple_choice_without_options(self):
+        with pytest.raises(ValueError, match="multiple_choice exercises must include"):
+            ExerciseContent(
+                type="multiple_choice",
+                question="Choose the correct answer.",
+                options=[],
+                correct="geht",
+            )
+
+    def test_rejects_multiple_choice_correct_answer_outside_options(self):
+        with pytest.raises(ValueError, match="correct answer must match"):
+            ExerciseContent(
+                type="multiple_choice",
+                question="Choose the correct answer.",
+                options=["gehe", "gehst", "gehen"],
+                correct="geht",
+            )
+
+    def test_rejects_exercise_without_question(self):
+        with pytest.raises(ValueError, match="must include a question"):
+            ExerciseContent(
+                type="free_write",
+                question=" ",
+                options=None,
+                correct="A short model answer.",
+            )
+
+    def test_rejects_fill_blank_without_blank(self):
+        with pytest.raises(ValueError, match="fill_blank exercises must include"):
+            ExerciseContent(
+                type="fill_blank",
+                question="Complete the sentence.",
+                options=None,
+                correct="ist",
+                explanation="Use the verb sein.",
+            )
+
     @pytest.mark.asyncio
     async def test_filters_invalid_grammar_refs(self):
         from app.services.lesson_generator import generate_lesson, get_valid_grammar_slugs

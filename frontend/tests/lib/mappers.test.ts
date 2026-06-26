@@ -143,6 +143,33 @@ describe('mapUser', () => {
     expect(user.subscription_status).toBe('active')
     expect(user.trial_used).toBe(false)
   })
+
+  it('preserves explicit null avatar from API response', () => {
+    const current: User = {
+      id: 1,
+      username: 'john',
+      displayName: 'John Doe',
+      role: 'user',
+      conversation_max_duration: 300,
+      conversation_inactivity_timeout: 30,
+      avatar: 'old.png',
+    }
+
+    const user = mapUser(
+      {
+        id: 1,
+        username: 'john',
+        display_name: 'John Doe',
+        role: 'user',
+        conversation_max_duration: 300,
+        conversation_inactivity_timeout: 30,
+        avatar: null,
+      },
+      current
+    )
+
+    expect(user.avatar).toBeNull()
+  })
 })
 
 describe('mapUserLanguageInfo', () => {

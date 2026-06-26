@@ -15,7 +15,7 @@ Registration, authentication, and user preferences.
 | ------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------ |
 | id                              | integer             | Primary key                                                                                            |
 | username                        | string              | Unique, used for login                                                                                 |
-| email                           | string              | Unique, nullable, for account recovery                                                                 |
+| email                           | string              | Unique, nullable at DB level for legacy rows; required by public registration and admin user creation  |
 | display_name                    | string              | Shown in UI                                                                                            |
 | hashed_password                 | string              | bcrypt hash                                                                                            |
 | role                            | string              | `"admin"` or `"user"`                                                                                  |
@@ -33,7 +33,7 @@ Registration, authentication, and user preferences.
 | subscription_status             | string              | Subscription state: `none` (default), `trialing`, `active`, `past_due`, `canceled`                     |
 | subscription_ends_at            | datetime (nullable) | When the current subscription period ends                                                              |
 | trial_used                      | boolean             | `true` once the user has started or completed a trial; prevents repeated free trials (default `false`) |
-| avatar                          | text (nullable)     | Base64-encoded avatar image                                                                            |
+| avatar                          | text (nullable)     | Cache-busted internal avatar reference (`/api/avatars/{uuid}.{ext}?v={ms}`) for files stored under `/app/avatars`. Files are retrieved through authenticated profile endpoints with private no-store responses, not public static serving. Legacy base64 data URLs may still exist until replaced. |
 | bio                             | text (nullable)     | User-written profile bio                                                                               |
 | learning_goals                  | text (nullable)     | JSON-encoded array of learning goal strings                                                            |
 | created_at                      | datetime            | Auto-set on creation                                                                                   |
@@ -42,7 +42,7 @@ Registration, authentication, and user preferences.
 **Registration rules:**
 
 - First registered user becomes admin automatically when `FIRST_USER_IS_ADMIN=true` (default).
-- `ALLOW_REGISTRATION=false` blocks public signups; admin creates users or generates single-use invite links (48h expiry in Redis).
+- `ALLOW_REGISTRATION=false` blocks public signups; admin creates users with a required email address or generates single-use invite links (48h expiry in Redis).
 - `BLOCKED_EMAIL_DOMAINS` is a JSON array of lowercase domain strings (e.g. `["yopmail.com","mailinator.com"]`). Registrations using an email from any listed domain are rejected with HTTP 422 before any DB access. Defaults to `[]` (no blocking).
 - `POST /register` returns an `access_token` + sets the refresh token cookie so the frontend can redirect directly to `/onboarding` without an intermediate login.
 - On `/onboarding` the user chooses their `target_language`; the choice is saved via `PATCH /me` before accessing the app.

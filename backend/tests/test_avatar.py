@@ -9,10 +9,15 @@ import pytest
 # Helpers
 # ---------------------------------------------------------------------------
 
-# Minimal bytes that satisfy the backend's content-type check (the backend does
-# NOT validate the actual image bytes, only content_type and size).
-FAKE_JPEG = b"\xff\xd8\xff" + b"\x00" * 16  # starts with JPEG magic bytes
-FAKE_PNG = b"\x89PNG\r\n\x1a\n" + b"\x00" * 16
+# Minimal bytes that satisfy the backend's content-type and structural checks.
+FAKE_JPEG = b"\xff\xd8\xff" + b"\x00" * 16 + b"\xff\xd9"
+FAKE_PNG = (
+    b"\x89PNG\r\n\x1a\n"
+    + b"\x00\x00\x00\rIHDR"
+    + (1).to_bytes(4, "big")
+    + (1).to_bytes(4, "big")
+    + b"\x08\x06\x00\x00\x00"
+)
 
 
 def _jpeg_file(data: bytes = FAKE_JPEG) -> tuple:
@@ -22,6 +27,10 @@ def _jpeg_file(data: bytes = FAKE_JPEG) -> tuple:
 
 def _png_file(data: bytes = FAKE_PNG) -> tuple:
     return ("avatar.png", io.BytesIO(data), "image/png")
+
+
+def _avatar_filename(avatar_url: str) -> str:
+    return avatar_url.split("?")[0].split("/")[-1]
 
 
 # ---------------------------------------------------------------------------
@@ -63,7 +72,8 @@ class TestAvatarUpload:
             files={"file": _jpeg_file()},
         )
         data = resp.json()
-        assert data["avatar"].startswith(f"/api/avatars/{user.id}.jpg")
+        assert data["avatar"].startswith("/api/avatars/")
+        assert data["avatar"].split("?")[0].endswith(".jpg")
 
     @pytest.mark.asyncio
     async def test_upload_jpeg_url_contains_cache_buster(self, client, test_user, avatars_dir):
@@ -78,22 +88,24 @@ class TestAvatarUpload:
     @pytest.mark.asyncio
     async def test_upload_jpeg_file_written_to_disk(self, client, test_user, avatars_dir):
         user, headers = test_user
-        await client.post(
+        resp = await client.post(
             "/api/auth/me/avatar",
             headers=headers,
             files={"file": _jpeg_file()},
         )
-        assert (avatars_dir / f"{user.id}.jpg").exists()
+        filename = _avatar_filename(resp.json()["avatar"])
+        assert (avatars_dir / filename).exists()
 
     @pytest.mark.asyncio
     async def test_upload_jpeg_file_content_matches(self, client, test_user, avatars_dir):
         user, headers = test_user
-        await client.post(
+        resp = await client.post(
             "/api/auth/me/avatar",
             headers=headers,
             files={"file": _jpeg_file(FAKE_JPEG)},
         )
-        saved = (avatars_dir / f"{user.id}.jpg").read_bytes()
+        filename = _avatar_filename(resp.json()["avatar"])
+        saved = (avatars_dir / filename).read_bytes()
         assert saved == FAKE_JPEG
 
     @pytest.mark.asyncio
@@ -114,17 +126,19 @@ class TestAvatarUpload:
             headers=headers,
             files={"file": _png_file()},
         )
-        assert f"/api/avatars/{user.id}.png" in resp.json()["avatar"]
+        assert resp.json()["avatar"].startswith("/api/avatars/")
+        assert resp.json()["avatar"].split("?")[0].endswith(".png")
 
     @pytest.mark.asyncio
     async def test_upload_png_file_written_to_disk(self, client, test_user, avatars_dir):
         user, headers = test_user
-        await client.post(
+        resp = await client.post(
             "/api/auth/me/avatar",
             headers=headers,
             files={"file": _png_file()},
         )
-        assert (avatars_dir / f"{user.id}.png").exists()
+        filename = _avatar_filename(resp.json()["avatar"])
+        assert (avatars_dir / filename).exists()
 
     @pytest.mark.asyncio
     async def test_upload_invalid_type_rejected(self, client, test_user, avatars_dir):
@@ -136,6 +150,17 @@ class TestAvatarUpload:
         )
         assert resp.status_code == 400
         assert "JPEG" in resp.json()["detail"] or "PNG" in resp.json()["detail"]
+
+    @pytest.mark.asyncio
+    async def test_upload_invalid_jpeg_bytes_rejected(self, client, test_user, avatars_dir):
+        user, headers = test_user
+        resp = await client.post(
+            "/api/auth/me/avatar",
+            headers=headers,
+            files={"file": ("avatar.jpg", io.BytesIO(b"not an image"), "image/jpeg")},
+        )
+        assert resp.status_code == 400
+        assert resp.json()["detail"] == "Invalid image file"
 
     @pytest.mark.asyncio
     async def test_upload_too_large_rejected(self, client, test_user, avatars_dir):
@@ -165,36 +190,37 @@ class TestAvatarUpload:
         await client.post(
             "/api/auth/me/avatar",
             headers=headers,
-            files={"file": _jpeg_file(b"\xff\xd8\xff" + b"\xaa" * 16)},
+            files={"file": _jpeg_file(b"\xff\xd8\xff" + b"\xaa" * 16 + b"\xff\xd9")},
         )
-        await client.post(
+        resp = await client.post(
             "/api/auth/me/avatar",
             headers=headers,
-            files={"file": _jpeg_file(b"\xff\xd8\xff" + b"\xbb" * 16)},
+            files={"file": _jpeg_file(b"\xff\xd8\xff" + b"\xbb" * 16 + b"\xff\xd9")},
         )
-        saved = (avatars_dir / f"{user.id}.jpg").read_bytes()
-        assert saved == b"\xff\xd8\xff" + b"\xbb" * 16
+        filename = _avatar_filename(resp.json()["avatar"])
+        saved = (avatars_dir / filename).read_bytes()
+        assert saved == b"\xff\xd8\xff" + b"\xbb" * 16 + b"\xff\xd9"
 
     @pytest.mark.asyncio
     async def test_reupload_different_format_deletes_old_file(self, client, test_user, avatars_dir):
         user, headers = test_user
         # Upload JPEG first
-        await client.post(
+        resp = await client.post(
             "/api/auth/me/avatar",
             headers=headers,
             files={"file": _jpeg_file()},
         )
-        old_path = avatars_dir / f"{user.id}.jpg"
+        old_path = avatars_dir / _avatar_filename(resp.json()["avatar"])
         assert old_path.exists()
 
         # Re-upload as PNG
-        await client.post(
+        resp = await client.post(
             "/api/auth/me/avatar",
             headers=headers,
             files={"file": _png_file()},
         )
         assert not old_path.exists(), "Old JPEG should have been deleted"
-        assert (avatars_dir / f"{user.id}.png").exists()
+        assert (avatars_dir / _avatar_filename(resp.json()["avatar"])).exists()
 
     @pytest.mark.asyncio
     async def test_reupload_returns_new_url(self, client, test_user, avatars_dir):
@@ -210,7 +236,8 @@ class TestAvatarUpload:
             files={"file": _jpeg_file()},
         )
         # Both are valid avatar URLs; the cache-buster may differ
-        assert resp2.json()["avatar"].startswith(f"/api/avatars/{user.id}.jpg")
+        assert resp2.json()["avatar"].startswith("/api/avatars/")
+        assert resp2.json()["avatar"].split("?")[0].endswith(".jpg")
 
     @pytest.mark.asyncio
     async def test_upload_over_legacy_base64_avatar(
@@ -229,7 +256,8 @@ class TestAvatarUpload:
         )
         assert resp.status_code == 200
         avatar_url = resp.json()["avatar"]
-        assert avatar_url.startswith(f"/api/avatars/{user.id}.jpg")
+        assert avatar_url.startswith("/api/avatars/")
+        assert avatar_url.split("?")[0].endswith(".jpg")
 
 
 # ---------------------------------------------------------------------------
@@ -242,7 +270,7 @@ class TestAvatarDelete:
     async def test_delete_returns_200(self, client, test_user, avatars_dir):
         user, headers = test_user
         # Upload first
-        await client.post(
+        resp = await client.post(
             "/api/auth/me/avatar",
             headers=headers,
             files={"file": _jpeg_file()},
@@ -253,7 +281,7 @@ class TestAvatarDelete:
     @pytest.mark.asyncio
     async def test_delete_clears_avatar_field(self, client, test_user, avatars_dir):
         user, headers = test_user
-        await client.post(
+        resp = await client.post(
             "/api/auth/me/avatar",
             headers=headers,
             files={"file": _jpeg_file()},
@@ -264,12 +292,12 @@ class TestAvatarDelete:
     @pytest.mark.asyncio
     async def test_delete_removes_file_from_disk(self, client, test_user, avatars_dir):
         user, headers = test_user
-        await client.post(
+        resp = await client.post(
             "/api/auth/me/avatar",
             headers=headers,
             files={"file": _jpeg_file()},
         )
-        file_path = avatars_dir / f"{user.id}.jpg"
+        file_path = avatars_dir / _avatar_filename(resp.json()["avatar"])
         assert file_path.exists()
 
         await client.delete("/api/auth/me/avatar", headers=headers)
@@ -312,7 +340,21 @@ class TestAvatarDelete:
             files={"file": _jpeg_file()},
         )
         me = await client.get("/api/auth/me", headers=headers)
-        assert me.json()["avatar"].startswith(f"/api/avatars/{user.id}.jpg")
+        assert me.json()["avatar"].startswith("/api/avatars/")
+        assert me.json()["avatar"].split("?")[0].endswith(".jpg")
+
+    @pytest.mark.asyncio
+    async def test_avatar_reference_is_not_publicly_served(self, client, test_user, avatars_dir):
+        user, headers = test_user
+        resp = await client.post(
+            "/api/auth/me/avatar",
+            headers=headers,
+            files={"file": _jpeg_file()},
+        )
+        public_path = resp.json()["avatar"].split("?")[0]
+
+        public_resp = await client.get(public_path)
+        assert public_resp.status_code == 404
 
     @pytest.mark.asyncio
     async def test_get_me_reflects_deleted_avatar(self, client, test_user, avatars_dir):
