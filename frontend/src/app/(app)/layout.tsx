@@ -9,12 +9,12 @@ import { useConfigStore } from '@/store/config'
 import { apiFetch } from '@/lib/api'
 import { mapUser } from '@/lib/mappers'
 import { useLogout } from '@/hooks/useLogout'
-import Image from 'next/image'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { ContactFormModal } from '@/components/ui/contact-form-modal'
 import { LoadingBar } from '@/components/ui/loading-bar'
 import { PageLoading } from '@/components/ui/page-loading'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
+import { AuthAvatarImage } from '@/components/AuthAvatarImage'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const tNav = useTranslations('nav')
@@ -278,13 +278,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <div className="mb-3 flex items-center gap-3">
             <div className="border-fl-border h-8 w-8 flex-shrink-0 overflow-hidden rounded-full border">
               {user?.avatar ? (
-                <Image
-                  src={user.avatar}
+                <AuthAvatarImage
+                  avatar={user.avatar}
                   alt=""
                   width={32}
                   height={32}
                   className="h-full w-full object-cover"
-                  unoptimized
                 />
               ) : (
                 <div className="bg-fl-surface-2 flex h-full w-full items-center justify-center">
@@ -459,13 +458,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <div className="mb-2 flex items-center gap-3">
                 <div className="border-fl-border h-7 w-7 flex-shrink-0 overflow-hidden rounded-full border">
                   {user?.avatar ? (
-                    <Image
-                      src={user.avatar}
+                    <AuthAvatarImage
+                      avatar={user.avatar}
                       alt=""
                       width={28}
                       height={28}
                       className="h-full w-full object-cover"
-                      unoptimized
                     />
                   ) : (
                     <div className="bg-fl-surface-2 flex h-full w-full items-center justify-center">

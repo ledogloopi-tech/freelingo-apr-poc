@@ -68,7 +68,7 @@ backend/
 │   │   ├── __init__.py
 │   │   ├── admin.py             # Admin overview metrics, review signals, user management, filtered lists, maintenance toggle
 │   │   ├── assessment.py        # Level assessment quiz + completion + static bank
-│   │   ├── auth.py              # Register, login, refresh, logout, verify-email, reset-password
+│   │   ├── auth.py              # Register, login, refresh, logout, avatar upload/private retrieval, verify-email, reset-password
 │   │   ├── billing.py           # Stripe checkout, customer portal, webhook
 │   │   ├── chat.py              # SSE chat streaming
 │   │   ├── config.py            # Public config endpoint (maintenance mode, features)
@@ -78,7 +78,7 @@ backend/
 │   │   ├── feedback.py          # Feedback board CRUD, filters, search, admin status management
 │   │   ├── flashcards.py        # Spaced-repetition flashcard CRUD + review
 │   │   ├── grammar.py            # Grammar reference topics by language and CEFR level
-│   │   ├── health.py            # Health check
+│   │   ├── health.py            # Public minimal liveness check + private admin diagnostics
 │   │   ├── languages.py         # Available target languages
 │   │   ├── lessons.py           # Lesson content + exercise submission
 │   │   ├── listening.py         # AI-generated listening exercises

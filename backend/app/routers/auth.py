@@ -1,9 +1,11 @@
+import base64
 import json
 import os
 import uuid
 from datetime import UTC, datetime
 
 from fastapi import APIRouter, Depends, File, HTTPException, Request, Response, UploadFile, status
+from fastapi.responses import FileResponse
 from redis.asyncio import Redis
 from sqlalchemy import func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -352,6 +354,42 @@ async def upload_avatar(
     await db.commit()
     await db.refresh(current_user)
     return current_user
+
+
+@router.get("/me/avatar-file", response_model=None)
+@limiter.limit("60/minute")
+async def get_avatar_file(
+    request: Request,
+    current_user: User = Depends(get_current_user),
+) -> Response:
+    if not current_user.avatar:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Avatar not found")
+
+    if current_user.avatar.startswith("data:image/"):
+        header, _, payload = current_user.avatar.partition(",")
+        media_type = header.removeprefix("data:").split(";")[0]
+        try:
+            return Response(content=base64.b64decode(payload), media_type=media_type)
+        except Exception as exc:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Avatar not found"
+            ) from exc
+
+    if not current_user.avatar.startswith("/api/avatars/"):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Avatar not found")
+
+    filename = current_user.avatar.split("?")[0].split("/")[-1]
+    if filename != os.path.basename(filename):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Avatar not found")
+    if filename not in {f"{current_user.id}.jpg", f"{current_user.id}.png"}:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Avatar not found")
+
+    path = os.path.join(_AVATARS_DIR, filename)
+    if not os.path.exists(path):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Avatar not found")
+
+    media_type = "image/jpeg" if filename.lower().endswith(".jpg") else "image/png"
+    return FileResponse(path, media_type=media_type)
 
 
 @router.delete("/me/avatar", response_model=UserResponse)

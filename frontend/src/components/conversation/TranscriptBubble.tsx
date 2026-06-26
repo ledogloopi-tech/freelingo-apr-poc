@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { TargetLanguageText } from '@/components/TargetLanguageText'
+import { AuthAvatarImage } from '@/components/AuthAvatarImage'
 
 interface Props {
   role: 'user' | 'assistant'
@@ -47,13 +48,12 @@ export default function TranscriptBubble({
               className="h-full w-full object-cover"
             />
           ) : userAvatar ? (
-            <Image
-              src={userAvatar}
+            <AuthAvatarImage
+              avatar={userAvatar}
               alt=""
               width={28}
               height={28}
               className="h-full w-full object-cover"
-              unoptimized
             />
           ) : (
             <div className="bg-fl-surface-2 flex h-full w-full items-center justify-center">

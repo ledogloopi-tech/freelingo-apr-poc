@@ -56,7 +56,7 @@ frontend/
 │   │       ├── stt/route.ts     # STT proxy
 │   │       └── tts/route.ts     # TTS proxy
 │   │
-│   ├── components/              # 12 directories + 5 standalone files
+│   ├── components/              # 12 directories + 6 standalone files
 │   │   ├── assessment/          # AdaptiveQuizCard, BeginnerGate, DurationSelector
 │   │   ├── admin/               # AdminNav + AdminShell primitives shared across admin pages
 │   │   ├── billing/             # Stripe subscription UI components
@@ -71,6 +71,7 @@ frontend/
 │   │   ├── ui/                  # shadcn/ui + custom: AudioPlayer, VoiceRecorder, confirm-dialog...
 │   │   ├── whats-new/           # What's New changelog modal
 │   │   ├── CookieBanner.tsx
+│   │   ├── AuthAvatarImage.tsx   # Authenticated current-user avatar fetch/render helper
 │   │   ├── LanguageSwitcher.tsx
 │   │   ├── TargetLanguageText.tsx # Language-aware typography wrapper for learned-language content
 │   │   ├── TargetLanguageSelector.tsx
@@ -183,7 +184,7 @@ frontend/
 - `/listening` — AI-generated listening comprehension exercises. When gated by Stripe, the shared paywall uses listening-specific copy focused on ear training at the student's level.
 - `/reading` — AI-generated reading comprehension exercises. When gated by Stripe, the shared paywall uses reading-specific copy focused on level-adapted texts and instant feedback.
 - `/progress` — Skills tracker with radar chart and multi-level vocabulary progress toggle.
-- `/settings` — Settings hub with an admin-inspired header/nav, quick action cards, and grouped panels. Account contains profile/avatar/password plus legal/session actions; Learning links to My Languages and Memory; Voice contains conversation and TTS voice preferences; Plan contains billing and usage limits with shared subscription buttons that recommend yearly first; Community contains review creation/editing.
+- `/settings` — Settings hub with an admin-inspired header/nav, quick action cards, and grouped panels. Account contains profile/avatar/password plus legal/session actions; avatars are uploaded/deleted through authenticated profile endpoints and rendered through an authenticated current-user avatar fetch, never public static files. Learning links to My Languages and Memory; Voice contains conversation and TTS voice preferences; Plan contains billing and usage limits with shared subscription buttons that recommend yearly first; Community contains review creation/editing.
 - `/faq` — Frequently asked questions.
 - `/admin/reviews` — Admin-only review moderation with status/rating filters, approve/unapprove, and delete confirmation.
 - Landing page — The primary CTA sends anonymous visitors to registration and authenticated visitors to the dashboard. Pricing plan CTAs for hosted subscriptions preserve monthly/yearly intent with `plan=monthly|yearly` through registration and onboarding before Stripe Checkout. The pricing and trial copy separates the free-trial promise from the later paid price, highlights yearly as the best-value option with two months free, labels monthly as the flexible alternative, and repeats no-charge-today/cancel-anytime reassurance only when trial eligibility is unknown or `trial_used=false`; authenticated users with `trial_used=true` see neutral plan-selection and amount-confirmation copy instead. The bottom pricing CTA defaults to yearly intent. `/billing/canceled` uses neutral no-charge-in-this-session copy and sends users back to the dashboard or settings plans without promising future trial availability. The shared paywall detects premium-gated route context for chat, voice conversation, listening, and reading so the upgrade message matches the user's attempted action; its free-path exit remains available but visually secondary. The top navigation includes a Reviews anchor between Features and Pricing when approved public reviews are available; the same conditional link appears in the mobile menu. Public landing sections for features, reviews, pricing, open source, and FAQ share `max-w-5xl` content width for consistent horizontal rhythm; the hero and footer keep their own composition. The reviews section shows a compact average-rating and total-review-count badge below the subtitle, using localized formatting and public-facing copy. Review carousel cards keep a consistent height and clamp long comments to 6 lines.

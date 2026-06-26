@@ -5,8 +5,8 @@ import { useTranslations, useLocale } from 'next-intl'
 import { apiFetch } from '@/lib/api'
 import { mapUser } from '@/lib/mappers'
 import { useAuthStore } from '@/store/auth'
-import NextImage from 'next/image'
 import { SUPPORTED_LOCALES } from '@/lib/locales'
+import { AuthAvatarImage } from '@/components/AuthAvatarImage'
 
 const LANGUAGES = [
   'en',
@@ -194,13 +194,12 @@ export function ProfileSection({ title }: { title?: string } = {}) {
           className="border-fl-border hover:border-fl-border-2 relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-full border transition-colors focus:outline-none disabled:opacity-60"
         >
           {user?.avatar ? (
-            <NextImage
-              src={user.avatar}
+            <AuthAvatarImage
+              avatar={user.avatar}
               alt=""
               width={64}
               height={64}
               className="h-full w-full object-cover"
-              unoptimized
             />
           ) : (
             <div className="bg-fl-surface-2 flex h-full w-full items-center justify-center">

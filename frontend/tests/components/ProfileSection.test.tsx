@@ -169,16 +169,38 @@ describe('ProfileSection', () => {
     expect((inputAfterLabelText('bio') as HTMLTextAreaElement).value).toBe('')
   })
 
-  it('renders avatar image when user has avatar', () => {
+  it('renders avatar image when user has avatar', async () => {
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      blob: async () => new Blob(['avatar'], { type: 'image/jpeg' }),
+    } as Response)
+    const createObjectURLMock = vi
+      .spyOn(URL, 'createObjectURL')
+      .mockReturnValue('blob:avatar')
+    const revokeObjectURLMock = vi
+      .spyOn(URL, 'revokeObjectURL')
+      .mockImplementation(() => {})
+
     useAuthStore.setState({
       accessToken: 'test-token',
-      user: { ...defaultUser, avatar: 'https://example.com/avatar.jpg' },
+      user: { ...defaultUser, avatar: '/api/avatars/1.jpg?v=123' },
     })
-    const { container } = render(<ProfileSection />)
+    const { container, unmount } = render(<ProfileSection />)
     // <img> with alt="" has role=presentation in jsdom, not role=img.
+    await waitFor(() => expect(container.querySelector('img')).toBeDefined())
     const img = container.querySelector('img')
     expect(img).toBeDefined()
-    expect(img!.getAttribute('src')).toBe('https://example.com/avatar.jpg')
+    expect(img!.getAttribute('src')).toBe('blob:avatar')
+    expect(fetchMock).toHaveBeenCalledWith('/api/auth/me/avatar-file', {
+      headers: { Authorization: 'Bearer test-token' },
+      credentials: 'include',
+    })
+
+    unmount()
+    expect(revokeObjectURLMock).toHaveBeenCalledWith('blob:avatar')
+    createObjectURLMock.mockRestore()
+    revokeObjectURLMock.mockRestore()
+    fetchMock.mockRestore()
   })
 
   it('renders initial letter when user has no avatar', () => {

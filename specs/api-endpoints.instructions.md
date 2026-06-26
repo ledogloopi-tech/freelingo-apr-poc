@@ -5,7 +5,13 @@ applyTo: "backend/**"
 
 # API Endpoints — FreeLingo
 
-All REST endpoints are prefixed under `/api`. The WebSocket endpoint is at `/ws/conversation`.
+Most REST endpoints are prefixed under `/api`. The public health check is at `/health`. The WebSocket endpoint is at `/ws/conversation`.
+
+---
+
+## Health — `/health`
+
+- **GET `/health`** — Rate limit: None. Public liveness check. Returns `{"status":"ok"}` only and does not expose DB, Redis, TTS, or STT dependency details.
 
 ---
 
@@ -17,8 +23,9 @@ All REST endpoints are prefixed under `/api`. The WebSocket endpoint is at `/ws/
 - **POST `/logout`** — Rate limit: None. Deletes refresh token from Redis, clears cookie
 - **GET `/me`** — Rate limit: None. Returns authenticated user profile, including subscription fields (`subscription_status`, `subscription_ends_at`, `trial_used`) so the frontend can distinguish trial eligibility from active subscription state.
 - **PATCH `/me`** — Rate limit: None. Updates display_name, email, password, target_language, conversation settings
-- **POST `/me/avatar`** — Rate limit: None. Uploads profile avatar (JPEG/PNG, max 2 MB). Stores as base64 data URL on the user record.
-- **DELETE `/me/avatar`** — Rate limit: None. Removes profile avatar (sets to null)
+- **POST `/me/avatar`** — Rate limit: 60/min. Uploads the authenticated user's profile avatar (JPEG/PNG, max 2 MB). Stores the image on disk under `/app/avatars` and stores only an internal avatar reference on the user record.
+- **GET `/me/avatar-file`** — Rate limit: 60/min. Returns the authenticated user's own avatar file. This is the only supported avatar image retrieval endpoint; avatar files are not served publicly.
+- **DELETE `/me/avatar`** — Rate limit: 60/min. Removes profile avatar (sets to null)
 - **DELETE `/me`** — Rate limit: None. Deletes own account and all associated data (CASCADE). Forbidden for admin accounts.
 - **GET `/quota`** — Rate limit: None. Returns live conversation quota status for the authenticated user (sessions this week, minutes today, minutes this week)
 - **GET `/verify-email`** — Rate limit: None. Verifies email via one-time token (query param `token`, TTL 24h in Redis)
@@ -33,6 +40,7 @@ All REST endpoints are prefixed under `/api`. The WebSocket endpoint is at `/ws/
 Requires `role="admin"`. All endpoints return 403 for non-admin users.
 
 - **GET `/stats`** — Aggregated admin overview metrics: total/active/inactive users, active/trialing/past_due subscriptions, total feedback, pending feedback, pending bug reports, and reviews pending approval.
+- **GET `/health`** — Rate limit: 60/min. Private admin diagnostic health check. Returns DB, Redis, TTS, and STT dependency status as `{"status":"ok"|"degraded","checks":{...}}`; returns HTTP 503 when any dependency check fails.
 - **GET `/users`** — Lists users (paginated). Query params: `skip` (default 0), `limit` (default 10, max 100), `q` (search by username or email), `subscription` (`none`, `trialing`, `active`, `past_due`, `canceled`), `role` (`user`, `admin`), and `is_active` (`true`, `false`). Returns `{items, total, skip, limit}`.
 - **POST `/users`** — Creates user directly (bypasses `ALLOW_REGISTRATION`) — sends verification email if `EMAIL_ENABLED=true`
 - **GET `/users/{id}`** — User detail
