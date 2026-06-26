@@ -3,10 +3,11 @@
 import { useState, useEffect, useRef } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import { apiFetch } from '@/lib/api'
+import { clearAvatarCache } from '@/lib/avatar-cache'
 import { mapUser } from '@/lib/mappers'
 import { useAuthStore } from '@/store/auth'
-import NextImage from 'next/image'
 import { SUPPORTED_LOCALES } from '@/lib/locales'
+import { AuthAvatarImage } from '@/components/AuthAvatarImage'
 
 const LANGUAGES = [
   'en',
@@ -94,14 +95,14 @@ export function ProfileSection({ title }: { title?: string } = {}) {
       setAvatarError(t('avatarTypeError'))
       return
     }
-    if (file.size > 2 * 1024 * 1024) {
-      setAvatarError(t('avatarSizeError'))
-      return
-    }
     setAvatarUploading(true)
     setAvatarError(null)
     try {
       const blob = await resizeImage(file, 1024)
+      if (blob.size > 2 * 1024 * 1024) {
+        setAvatarError(t('avatarSizeError'))
+        return
+      }
       const form = new FormData()
       form.append('file', blob, file.name)
       const res = await apiFetch('/api/auth/me/avatar', {
@@ -110,6 +111,7 @@ export function ProfileSection({ title }: { title?: string } = {}) {
       })
       if (!res.ok) throw new Error()
       const updated = await res.json()
+      clearAvatarCache()
       setUser({ ...user!, avatar: updated.avatar })
     } catch {
       setAvatarError(t('avatarTypeError'))
@@ -124,6 +126,7 @@ export function ProfileSection({ title }: { title?: string } = {}) {
     try {
       const res = await apiFetch('/api/auth/me/avatar', { method: 'DELETE' })
       if (!res.ok) throw new Error()
+      clearAvatarCache()
       setUser({ ...user!, avatar: null })
     } catch {
       setAvatarError(t('avatarTypeError'))
@@ -194,13 +197,21 @@ export function ProfileSection({ title }: { title?: string } = {}) {
           className="border-fl-border hover:border-fl-border-2 relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-full border transition-colors focus:outline-none disabled:opacity-60"
         >
           {user?.avatar ? (
-            <NextImage
-              src={user.avatar}
+            <AuthAvatarImage
+              avatar={user.avatar}
               alt=""
               width={64}
               height={64}
               className="h-full w-full object-cover"
-              unoptimized
+              fallback={
+                <div className="bg-fl-surface-2 flex h-full w-full items-center justify-center">
+                  <span className="text-fl-muted-1 font-mono text-xl select-none">
+                    {(user?.displayName ||
+                      user?.username ||
+                      '?')[0].toUpperCase()}
+                  </span>
+                </div>
+              }
             />
           ) : (
             <div className="bg-fl-surface-2 flex h-full w-full items-center justify-center">

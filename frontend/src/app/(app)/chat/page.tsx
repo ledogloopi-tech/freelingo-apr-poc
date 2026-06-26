@@ -14,6 +14,7 @@ import { MaintenanceGate } from '@/components/billing/MaintenanceBanner'
 import { WordTooltip, useWordSave } from '@/components/ui/WordTooltip'
 import { PageLoading } from '@/components/ui/page-loading'
 import { TargetLanguageText } from '@/components/TargetLanguageText'
+import { AuthAvatarImage } from '@/components/AuthAvatarImage'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -440,13 +441,21 @@ export default function ChatPage() {
                           className="h-full w-full object-cover"
                         />
                       ) : user?.avatar ? (
-                        <Image
-                          src={user.avatar}
+                        <AuthAvatarImage
+                          avatar={user.avatar}
                           alt=""
                           width={28}
                           height={28}
                           className="h-full w-full object-cover"
-                          unoptimized
+                          fallback={
+                            <div className="bg-fl-surface-2 flex h-full w-full items-center justify-center">
+                              <span className="text-fl-hint text-fl-muted-1 font-mono select-none">
+                                {(user?.displayName ||
+                                  user?.username ||
+                                  '?')[0].toUpperCase()}
+                              </span>
+                            </div>
+                          }
                         />
                       ) : (
                         <div className="bg-fl-surface-2 flex h-full w-full items-center justify-center">

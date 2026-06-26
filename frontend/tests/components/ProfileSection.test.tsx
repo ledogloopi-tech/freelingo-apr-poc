@@ -35,6 +35,7 @@ vi.mock('@/lib/mappers', () => ({
 }))
 
 import { ProfileSection } from '@/components/settings/ProfileSection'
+import { clearAvatarCache } from '@/lib/avatar-cache'
 import { useAuthStore } from '@/store/auth'
 import { mapUser } from '@/lib/mappers'
 
@@ -105,6 +106,7 @@ describe('ProfileSection', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockApiFetch.mockReset()
+    clearAvatarCache()
     ;(mapUser as ReturnType<typeof vi.fn>).mockImplementation(mockMapUserImpl)
     useAuthStore.setState({
       accessToken: 'test-token',
@@ -169,16 +171,39 @@ describe('ProfileSection', () => {
     expect((inputAfterLabelText('bio') as HTMLTextAreaElement).value).toBe('')
   })
 
-  it('renders avatar image when user has avatar', () => {
+  it('renders avatar image when user has avatar', async () => {
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      blob: async () => new Blob(['avatar'], { type: 'image/jpeg' }),
+    } as Response)
+    const createObjectURLMock = vi
+      .spyOn(URL, 'createObjectURL')
+      .mockReturnValue('blob:avatar')
+    const revokeObjectURLMock = vi
+      .spyOn(URL, 'revokeObjectURL')
+      .mockImplementation(() => {})
+
     useAuthStore.setState({
       accessToken: 'test-token',
-      user: { ...defaultUser, avatar: 'https://example.com/avatar.jpg' },
+      user: { ...defaultUser, avatar: '/api/avatars/1.jpg?v=123' },
     })
-    const { container } = render(<ProfileSection />)
+    const { container, unmount } = render(<ProfileSection />)
     // <img> with alt="" has role=presentation in jsdom, not role=img.
+    await waitFor(() => expect(container.querySelector('img')).not.toBeNull())
     const img = container.querySelector('img')
     expect(img).toBeDefined()
-    expect(img!.getAttribute('src')).toBe('https://example.com/avatar.jpg')
+    expect(img!.getAttribute('src')).toBe('blob:avatar')
+    expect(fetchMock).toHaveBeenCalledWith('/api/auth/me/avatar-file', {
+      headers: { Authorization: 'Bearer test-token' },
+      credentials: 'include',
+    })
+
+    unmount()
+    clearAvatarCache()
+    expect(revokeObjectURLMock).toHaveBeenCalledWith('blob:avatar')
+    createObjectURLMock.mockRestore()
+    revokeObjectURLMock.mockRestore()
+    fetchMock.mockRestore()
   })
 
   it('renders initial letter when user has no avatar', () => {
@@ -563,9 +588,17 @@ describe('ProfileSection', () => {
     })
 
     it('shows error for oversized file', async () => {
+      vi.spyOn(HTMLCanvasElement.prototype, 'toBlob').mockImplementationOnce(
+        (cb: (blob: Blob | null) => void) => {
+          cb(
+            new Blob([new Uint8Array(3 * 1024 * 1024)], {
+              type: 'image/png',
+            })
+          )
+        }
+      )
       const { container } = render(<ProfileSection />)
-      const largeData = new Uint8Array(3 * 1024 * 1024)
-      const file = new File([largeData], 'large.png', { type: 'image/png' })
+      const file = new File(['photo'], 'large.png', { type: 'image/png' })
       await selectFile(container, file)
       await waitFor(() => {
         expect(screen.getByText(/avatarSizeError/)).toBeDefined()

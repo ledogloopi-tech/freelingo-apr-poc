@@ -109,6 +109,8 @@ export default function LessonPage() {
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(false)
   const [submitError, setSubmitError] = useState(false)
+  const [regeneratingExercise, setRegeneratingExercise] = useState(false)
+  const [regenerateError, setRegenerateError] = useState<string | null>(null)
   const [showExitConfirm, setShowExitConfirm] = useState(false)
   const [loadingNativeExplanation, setLoadingNativeExplanation] =
     useState(false)
@@ -272,6 +274,7 @@ export default function LessonPage() {
         ? (ex.user_answer ?? '')
         : ''
     )
+    setRegenerateError(null)
   }, [currentExercise, exercises])
 
   async function submitAnswer(overrideAnswer?: string) {
@@ -305,6 +308,38 @@ export default function LessonPage() {
       setSubmitError(true)
     } finally {
       setEvaluating(false)
+    }
+  }
+
+  async function regenerateCurrentExercise() {
+    const exercise = exercises[currentExercise]
+    if (!exercise || isEvaluated) return
+
+    setRegeneratingExercise(true)
+    setRegenerateError(null)
+    try {
+      const res = await apiFetch(
+        `/api/lessons/exercises/${exercise.id}/regenerate`,
+        { method: 'POST' }
+      )
+      if (!res.ok) {
+        setRegenerateError(
+          res.status === 400 ? t('regenerateNotNeeded') : t('regenerateError')
+        )
+        return
+      }
+      const regenerated = await res.json()
+      setExercises((prev) => {
+        const copy = [...prev]
+        copy[currentExercise] = regenerated
+        return copy
+      })
+      setAnswer('')
+      setSubmitError(false)
+    } catch {
+      setRegenerateError(t('regenerateError'))
+    } finally {
+      setRegeneratingExercise(false)
     }
   }
 
@@ -417,6 +452,10 @@ export default function LessonPage() {
   const isEvaluated = exercise?.score !== null
   const isAnswerCorrect = (exercise?.score ?? 0) >= 1
   const isNativeHintOpen = exercise ? openNativeHintIds.has(exercise.id) : false
+  const hasMultipleChoiceOptions =
+    exercise?.exercise_type === 'multiple_choice' &&
+    Array.isArray(exercise.options) &&
+    exercise.options.length > 0
   const targetLanguageCode = activeLanguage?.code ?? 'en-GB'
   const explanation = lesson?.content?.explanation as
     | Record<string, unknown>
@@ -698,16 +737,30 @@ export default function LessonPage() {
                   {t('exercise')} {currentExercise + 1} / {exercises.length}
                 </span>
               </div>
-              <span className="text-fl-hint text-fl-muted-2 border-fl-border border px-2 py-1 font-mono tracking-widest uppercase">
-                {(
-                  {
-                    multiple_choice: t('exerciseTypeMultipleChoice'),
-                    fill_blank: t('exerciseTypeFillBlank'),
-                    free_write: t('exerciseTypeFreeWrite'),
-                    pronunciation: t('exerciseTypePronunciation'),
-                  } as Record<string, string>
-                )[exercise.exercise_type] ?? exercise.exercise_type}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-fl-hint text-fl-muted-2 border-fl-border border px-2 py-1 font-mono tracking-widest uppercase">
+                  {(
+                    {
+                      multiple_choice: t('exerciseTypeMultipleChoice'),
+                      fill_blank: t('exerciseTypeFillBlank'),
+                      free_write: t('exerciseTypeFreeWrite'),
+                      pronunciation: t('exerciseTypePronunciation'),
+                    } as Record<string, string>
+                  )[exercise.exercise_type] ?? exercise.exercise_type}
+                </span>
+                {!isEvaluated && (
+                  <button
+                    type="button"
+                    onClick={regenerateCurrentExercise}
+                    disabled={regeneratingExercise}
+                    className="text-fl-hint text-fl-muted-3 hover:text-fl-fg border-fl-border hover:border-fl-border-2 border px-2 py-1 font-mono tracking-widest uppercase transition-colors disabled:opacity-50"
+                  >
+                    {regeneratingExercise
+                      ? t('regeneratingExercise')
+                      : t('regenerateExercise')}
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Progress bar */}
@@ -728,6 +781,11 @@ export default function LessonPage() {
               >
                 {exercise.question}
               </TargetLanguageText>
+              {regenerateError && (
+                <p className="text-fl-error font-mono text-xs">
+                  {regenerateError}
+                </p>
+              )}
 
               {nativeLanguageName &&
                 (!isEvaluated ||
@@ -759,10 +817,9 @@ export default function LessonPage() {
                   </div>
                 )}
 
-              {exercise.exercise_type === 'multiple_choice' &&
-              exercise.options ? (
+              {hasMultipleChoiceOptions ? (
                 <div className="space-y-2">
-                  {exercise.options.map((opt) => {
+                  {exercise.options!.map((opt) => {
                     const isSelected = answer === opt
                     const isCorrect =
                       isEvaluated && opt === exercise.correct_answer

@@ -7,7 +7,6 @@ from alembic.config import Config
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
-from fastapi.staticfiles import StaticFiles
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
@@ -160,9 +159,3 @@ if settings.STRIPE_ENABLED:
 
     _stripe.api_key = settings.STRIPE_SECRET_KEY
     app.include_router(billing_router.router)
-
-# Serve uploaded avatars as static files at /api/avatars/<user_id>.<ext>
-# The directory is persisted via a Docker volume (${DATA_PATH}/avatars:/app/avatars).
-# check_dir=False avoids a startup error in environments where the directory does
-# not exist yet (e.g. local dev without Docker); the dir is created in lifespan.
-app.mount("/api/avatars", StaticFiles(directory=_AVATARS_DIR, check_dir=False), name="avatars")

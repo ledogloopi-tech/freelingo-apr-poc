@@ -1,7 +1,10 @@
+import json
 import re
+from typing import Any
 
 from app.data.curriculum import get_curriculum
 from app.schemas.lessons import (
+    ExerciseContent,
     FillBlankEvaluation,
     FreeWriteEvaluation,
     LessonContent,
@@ -16,6 +19,7 @@ from app.services.prompts.lesson import (
     build_free_write_eval_prompt,
     build_lesson_generation_prompt,
     build_pronunciation_eval_prompt,
+    build_regenerate_exercise_prompt,
 )
 
 LESSON_GENERATION_PROMPT = lesson_prompts.LESSON_GENERATION_PROMPT
@@ -96,6 +100,55 @@ async def generate_lesson(
         if hint_reveals_answer(ex.native_hint, ex.correct):
             ex.native_hint = None
     return lesson
+
+
+async def regenerate_exercise(
+    *,
+    cefr_level: str,
+    lesson_type: str,
+    topic: str,
+    exercise_type: str,
+    lesson_explanation: dict[str, Any],
+    lesson_vocabulary: list[dict[str, Any]] | None,
+    invalid_exercise: dict[str, Any],
+    target_language: str = "en-GB",
+    native_language: str | None = None,
+) -> ExerciseContent:
+    target_language_name = get_language_name(target_language)
+    native_language_name = get_native_language_name(native_language) if native_language else "none"
+    language_prompt_overlay = get_language_prompt_overlay(target_language)
+    options_schema = {
+        "multiple_choice": '["option 1", "option 2", "option 3", "option 4"]',
+        "fill_blank": "null",
+        "free_write": '["grading criterion 1", "grading criterion 2"]',
+        "pronunciation": '["short pronunciation hint"]',
+    }.get(exercise_type, "null")
+    prompt = build_regenerate_exercise_prompt(
+        cefr_level=cefr_level,
+        target_language_name=target_language_name,
+        native_language_name=native_language_name,
+        lesson_type=lesson_type,
+        topic=topic,
+        exercise_type=exercise_type,
+        lesson_explanation=json.dumps(lesson_explanation or {}, ensure_ascii=False),
+        lesson_vocabulary=json.dumps(lesson_vocabulary or [], ensure_ascii=False),
+        invalid_exercise=json.dumps(invalid_exercise, ensure_ascii=False),
+        options_schema=options_schema,
+        language_prompt_overlay=language_prompt_overlay,
+    )
+
+    exercise = await llm_adapter.structured_output(
+        [{"role": "system", "content": prompt}],
+        ExerciseContent,
+    )
+    if exercise.type != exercise_type:
+        raise ValueError("Regenerated exercise type does not match original type")
+    if exercise.type == "fill_blank" and "___" not in exercise.question:
+        if exercise.explanation and "___" in exercise.explanation:
+            exercise.question, exercise.explanation = exercise.explanation, exercise.question
+    if hint_reveals_answer(exercise.native_hint, exercise.correct):
+        exercise.native_hint = None
+    return exercise
 
 
 async def evaluate_free_write(

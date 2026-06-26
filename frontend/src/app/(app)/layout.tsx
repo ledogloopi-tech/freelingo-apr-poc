@@ -9,12 +9,12 @@ import { useConfigStore } from '@/store/config'
 import { apiFetch } from '@/lib/api'
 import { mapUser } from '@/lib/mappers'
 import { useLogout } from '@/hooks/useLogout'
-import Image from 'next/image'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { ContactFormModal } from '@/components/ui/contact-form-modal'
 import { LoadingBar } from '@/components/ui/loading-bar'
 import { PageLoading } from '@/components/ui/page-loading'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
+import { AuthAvatarImage } from '@/components/AuthAvatarImage'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const tNav = useTranslations('nav')
@@ -133,7 +133,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         1,
         Math.ceil(
           (new Date(user.subscription_ends_at).getTime() - Date.now()) /
-          (1000 * 60 * 60 * 24)
+            (1000 * 60 * 60 * 24)
         )
       )
       setTrialDaysLeft(days)
@@ -179,10 +179,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-5 py-3 font-mono text-xs tracking-widest transition-colors ${active
+                className={`flex items-center gap-3 px-5 py-3 font-mono text-xs tracking-widest transition-colors ${
+                  active
                     ? 'text-fl-fg bg-fl-surface-2 border-fl-accent border-l-2'
                     : 'text-fl-muted-2 hover:text-fl-fg hover:bg-fl-surface border-l-2 border-transparent'
-                  }`}
+                }`}
               >
                 <span
                   className={`text-fl-label ${active ? 'text-fl-accent' : 'text-fl-muted-4'}`}
@@ -214,10 +215,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center gap-3 py-2.5 pr-5 pl-8 font-mono text-xs tracking-widest transition-colors ${active
+                    className={`flex items-center gap-3 py-2.5 pr-5 pl-8 font-mono text-xs tracking-widest transition-colors ${
+                      active
                         ? 'text-fl-fg bg-fl-surface-2 border-fl-accent border-l-2'
                         : 'text-fl-muted-2 hover:text-fl-fg hover:bg-fl-surface border-l-2 border-transparent'
-                      }`}
+                    }`}
                   >
                     <span
                       className={`text-fl-label ${active ? 'text-fl-accent' : 'text-fl-muted-4'}`}
@@ -239,10 +241,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-3 px-5 py-3 font-mono text-xs tracking-widest transition-colors ${active
+                  className={`flex items-center gap-3 px-5 py-3 font-mono text-xs tracking-widest transition-colors ${
+                    active
                       ? 'text-fl-fg bg-fl-surface-2 border-fl-accent border-l-2'
                       : 'text-fl-muted-2 hover:text-fl-fg hover:bg-fl-surface border-l-2 border-transparent'
-                    }`}
+                  }`}
                 >
                   <span
                     className={`text-fl-label ${active ? 'text-fl-fg' : 'text-fl-muted-4'}`}
@@ -258,10 +261,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           {user?.role === 'admin' && (
             <Link
               href="/admin"
-              className={`flex items-center gap-3 px-5 py-3 font-mono text-xs tracking-widest transition-colors ${pathname.startsWith('/admin')
+              className={`flex items-center gap-3 px-5 py-3 font-mono text-xs tracking-widest transition-colors ${
+                pathname.startsWith('/admin')
                   ? 'text-fl-fg bg-fl-surface-2 border-fl-accent border-l-2'
                   : 'text-fl-muted-2 hover:text-fl-fg hover:bg-fl-surface border-l-2 border-transparent'
-                }`}
+              }`}
             >
               <span className="text-fl-label text-fl-muted-4">●</span>
               {tNav('admin')}
@@ -274,13 +278,21 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <div className="mb-3 flex items-center gap-3">
             <div className="border-fl-border h-8 w-8 flex-shrink-0 overflow-hidden rounded-full border">
               {user?.avatar ? (
-                <Image
-                  src={user.avatar}
+                <AuthAvatarImage
+                  avatar={user.avatar}
                   alt=""
                   width={32}
                   height={32}
                   className="h-full w-full object-cover"
-                  unoptimized
+                  fallback={
+                    <div className="bg-fl-surface-2 flex h-full w-full items-center justify-center">
+                      <span className="text-fl-muted-1 font-mono text-xs select-none">
+                        {(user?.displayName ||
+                          user?.username ||
+                          '?')[0].toUpperCase()}
+                      </span>
+                    </div>
+                  }
                 />
               ) : (
                 <div className="bg-fl-surface-2 flex h-full w-full items-center justify-center">
@@ -307,7 +319,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </div>
           </div>
           <p className="text-fl-label text-fl-muted-4 mb-2 font-mono tracking-wider">
-            v1.8.17
+            v1.8.18
           </p>
           <button
             onClick={() => setContactOpen(true)}
@@ -355,10 +367,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-5 py-3 font-mono text-xs tracking-widest uppercase transition-colors ${active
+                  className={`flex items-center gap-3 px-5 py-3 font-mono text-xs tracking-widest uppercase transition-colors ${
+                    active
                       ? 'text-fl-fg bg-fl-surface-2 border-fl-accent border-l-2'
                       : 'text-fl-muted-2 hover:text-fl-fg hover:bg-fl-surface border-l-2 border-transparent'
-                    }`}
+                  }`}
                 >
                   <span
                     className={`text-fl-label ${active ? 'text-fl-fg' : 'text-fl-muted-4'}`}
@@ -394,10 +407,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-center gap-3 py-2.5 pr-5 pl-8 font-mono text-xs tracking-widest uppercase transition-colors ${active
+                      className={`flex items-center gap-3 py-2.5 pr-5 pl-8 font-mono text-xs tracking-widest uppercase transition-colors ${
+                        active
                           ? 'text-fl-fg bg-fl-surface-2 border-fl-accent border-l-2'
                           : 'text-fl-muted-2 hover:text-fl-fg hover:bg-fl-surface border-l-2 border-transparent'
-                        }`}
+                      }`}
                     >
                       <span
                         className={`text-fl-label ${active ? 'text-fl-fg' : 'text-fl-muted-4'}`}
@@ -419,10 +433,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-5 py-3 font-mono text-xs tracking-widest uppercase transition-colors ${active
+                  className={`flex items-center gap-3 px-5 py-3 font-mono text-xs tracking-widest uppercase transition-colors ${
+                    active
                       ? 'text-fl-fg bg-fl-surface-2 border-fl-accent border-l-2'
                       : 'text-fl-muted-2 hover:text-fl-fg hover:bg-fl-surface border-l-2 border-transparent'
-                    }`}
+                  }`}
                 >
                   <span
                     className={`text-fl-label ${active ? 'text-fl-fg' : 'text-fl-muted-4'}`}
@@ -438,10 +453,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <Link
                 href="/admin"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center gap-3 px-5 py-3 font-mono text-xs tracking-widest uppercase transition-colors ${pathname.startsWith('/admin')
+                className={`flex items-center gap-3 px-5 py-3 font-mono text-xs tracking-widest uppercase transition-colors ${
+                  pathname.startsWith('/admin')
                     ? 'text-fl-fg bg-fl-surface-2 border-fl-accent border-l-2'
                     : 'text-fl-muted-2 hover:text-fl-fg hover:bg-fl-surface border-l-2 border-transparent'
-                  }`}
+                }`}
               >
                 <span className="text-fl-label text-fl-muted-4">●</span>
                 {tNav('admin')}
@@ -451,13 +467,21 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <div className="mb-2 flex items-center gap-3">
                 <div className="border-fl-border h-7 w-7 flex-shrink-0 overflow-hidden rounded-full border">
                   {user?.avatar ? (
-                    <Image
-                      src={user.avatar}
+                    <AuthAvatarImage
+                      avatar={user.avatar}
                       alt=""
                       width={28}
                       height={28}
                       className="h-full w-full object-cover"
-                      unoptimized
+                      fallback={
+                        <div className="bg-fl-surface-2 flex h-full w-full items-center justify-center">
+                          <span className="text-fl-hint text-fl-muted-1 font-mono select-none">
+                            {(user?.displayName ||
+                              user?.username ||
+                              '?')[0].toUpperCase()}
+                          </span>
+                        </div>
+                      }
                     />
                   ) : (
                     <div className="bg-fl-surface-2 flex h-full w-full items-center justify-center">
@@ -484,7 +508,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 </p>
               )}
               <p className="text-fl-label text-fl-muted-4 mb-2 font-mono tracking-wider">
-                v1.8.17
+                v1.8.18
               </p>
               <button
                 onClick={() => {

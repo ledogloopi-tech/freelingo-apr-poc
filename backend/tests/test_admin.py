@@ -37,6 +37,7 @@ async def test_create_user_as_admin(client, admin_user):
         headers=headers,
         json={
             "username": "newadminuser",
+            "email": "newadminuser@example.com",
             "password": "Test1234!@",
             "display_name": "New Admin User",
             "native_language": "es",
@@ -59,6 +60,7 @@ async def test_create_user_duplicate_username(client, admin_user):
         headers=headers,
         json={
             "username": "dupuser",
+            "email": "dupuser@example.com",
             "password": "Test1234!@",
             "display_name": "Dup",
             "native_language": "es",
@@ -70,6 +72,7 @@ async def test_create_user_duplicate_username(client, admin_user):
         headers=headers,
         json={
             "username": "dupuser",
+            "email": "dupuser2@example.com",
             "password": "Test1234!@",
             "display_name": "Dup2",
             "native_language": "fr",
