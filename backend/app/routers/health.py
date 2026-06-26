@@ -14,7 +14,8 @@ router = APIRouter(tags=["health"])
 
 
 @router.get("/health")
-async def health() -> JSONResponse:
+@limiter.limit("60/minute")
+async def health(request: Request) -> JSONResponse:  # noqa: ARG001
     return JSONResponse({"status": "ok"})
 
 
