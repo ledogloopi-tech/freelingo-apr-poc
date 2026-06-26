@@ -54,6 +54,13 @@ export default function TranscriptBubble({
               width={28}
               height={28}
               className="h-full w-full object-cover"
+              fallback={
+                <div className="bg-fl-surface-2 flex h-full w-full items-center justify-center">
+                  <span className="text-fl-hint text-fl-muted-1 font-mono select-none">
+                    {(userInitial ?? '?').toUpperCase()}
+                  </span>
+                </div>
+              }
             />
           ) : (
             <div className="bg-fl-surface-2 flex h-full w-full items-center justify-center">

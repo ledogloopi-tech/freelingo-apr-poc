@@ -9,10 +9,15 @@ import pytest
 # Helpers
 # ---------------------------------------------------------------------------
 
-# Minimal bytes that satisfy the backend's content-type check (the backend does
-# NOT validate the actual image bytes, only content_type and size).
-FAKE_JPEG = b"\xff\xd8\xff" + b"\x00" * 16  # starts with JPEG magic bytes
-FAKE_PNG = b"\x89PNG\r\n\x1a\n" + b"\x00" * 16
+# Minimal bytes that satisfy the backend's content-type and structural checks.
+FAKE_JPEG = b"\xff\xd8\xff" + b"\x00" * 16 + b"\xff\xd9"
+FAKE_PNG = (
+    b"\x89PNG\r\n\x1a\n"
+    + b"\x00\x00\x00\rIHDR"
+    + (1).to_bytes(4, "big")
+    + (1).to_bytes(4, "big")
+    + b"\x08\x06\x00\x00\x00"
+)
 
 
 def _jpeg_file(data: bytes = FAKE_JPEG) -> tuple:
@@ -185,16 +190,16 @@ class TestAvatarUpload:
         await client.post(
             "/api/auth/me/avatar",
             headers=headers,
-            files={"file": _jpeg_file(b"\xff\xd8\xff" + b"\xaa" * 16)},
+            files={"file": _jpeg_file(b"\xff\xd8\xff" + b"\xaa" * 16 + b"\xff\xd9")},
         )
         resp = await client.post(
             "/api/auth/me/avatar",
             headers=headers,
-            files={"file": _jpeg_file(b"\xff\xd8\xff" + b"\xbb" * 16)},
+            files={"file": _jpeg_file(b"\xff\xd8\xff" + b"\xbb" * 16 + b"\xff\xd9")},
         )
         filename = _avatar_filename(resp.json()["avatar"])
         saved = (avatars_dir / filename).read_bytes()
-        assert saved == b"\xff\xd8\xff" + b"\xbb" * 16
+        assert saved == b"\xff\xd8\xff" + b"\xbb" * 16 + b"\xff\xd9"
 
     @pytest.mark.asyncio
     async def test_reupload_different_format_deletes_old_file(self, client, test_user, avatars_dir):

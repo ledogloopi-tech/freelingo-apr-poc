@@ -33,7 +33,7 @@ Registration, authentication, and user preferences.
 | subscription_status             | string              | Subscription state: `none` (default), `trialing`, `active`, `past_due`, `canceled`                     |
 | subscription_ends_at            | datetime (nullable) | When the current subscription period ends                                                              |
 | trial_used                      | boolean             | `true` once the user has started or completed a trial; prevents repeated free trials (default `false`) |
-| avatar                          | text (nullable)     | Cache-busted internal avatar reference (`/api/avatars/{uuid}.{ext}?v={ms}`) for files stored under `/app/avatars`. Files are retrieved through authenticated profile endpoints, not public static serving. Legacy base64 data URLs may still exist until replaced. |
+| avatar                          | text (nullable)     | Cache-busted internal avatar reference (`/api/avatars/{uuid}.{ext}?v={ms}`) for files stored under `/app/avatars`. Files are retrieved through authenticated profile endpoints with private no-store responses, not public static serving. Legacy base64 data URLs may still exist until replaced. |
 | bio                             | text (nullable)     | User-written profile bio                                                                               |
 | learning_goals                  | text (nullable)     | JSON-encoded array of learning goal strings                                                            |
 | created_at                      | datetime            | Auto-set on creation                                                                                   |

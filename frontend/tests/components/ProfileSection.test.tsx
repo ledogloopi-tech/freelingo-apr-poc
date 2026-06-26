@@ -189,7 +189,7 @@ describe('ProfileSection', () => {
     })
     const { container, unmount } = render(<ProfileSection />)
     // <img> with alt="" has role=presentation in jsdom, not role=img.
-    await waitFor(() => expect(container.querySelector('img')).toBeDefined())
+    await waitFor(() => expect(container.querySelector('img')).not.toBeNull())
     const img = container.querySelector('img')
     expect(img).toBeDefined()
     expect(img!.getAttribute('src')).toBe('blob:avatar')

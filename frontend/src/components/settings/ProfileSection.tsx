@@ -203,6 +203,15 @@ export function ProfileSection({ title }: { title?: string } = {}) {
               width={64}
               height={64}
               className="h-full w-full object-cover"
+              fallback={
+                <div className="bg-fl-surface-2 flex h-full w-full items-center justify-center">
+                  <span className="text-fl-muted-1 font-mono text-xl select-none">
+                    {(user?.displayName ||
+                      user?.username ||
+                      '?')[0].toUpperCase()}
+                  </span>
+                </div>
+              }
             />
           ) : (
             <div className="bg-fl-surface-2 flex h-full w-full items-center justify-center">

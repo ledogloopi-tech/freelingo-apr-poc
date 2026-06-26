@@ -331,8 +331,22 @@ def _validate_avatar_bytes(content_type: str | None, data: bytes) -> str:
             status_code=status.HTTP_400_BAD_REQUEST, detail="Only JPEG and PNG images are allowed"
         )
     if content_type == "image/jpeg" and data.startswith(b"\xff\xd8\xff"):
+        if len(data) < 4 or not data.endswith(b"\xff\xd9"):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid image file"
+            )
         return "jpg"
     if content_type == "image/png" and data.startswith(b"\x89PNG\r\n\x1a\n"):
+        if len(data) < 24 or data[12:16] != b"IHDR":
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid image file"
+            )
+        width = int.from_bytes(data[16:20], "big")
+        height = int.from_bytes(data[20:24], "big")
+        if width <= 0 or height <= 0:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid image file"
+            )
         return "png"
     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid image file")
 
@@ -384,7 +398,11 @@ async def get_avatar_file(
         header, _, payload = current_user.avatar.partition(",")
         media_type = header.removeprefix("data:").split(";")[0]
         try:
-            return Response(content=base64.b64decode(payload), media_type=media_type)
+            return Response(
+                content=base64.b64decode(payload),
+                media_type=media_type,
+                headers={"Cache-Control": "private, no-store"},
+            )
         except Exception as exc:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail="Avatar not found"
@@ -401,7 +419,7 @@ async def get_avatar_file(
 
     filename = os.path.basename(path)
     media_type = "image/jpeg" if filename.lower().endswith(".jpg") else "image/png"
-    return FileResponse(path, media_type=media_type)
+    return FileResponse(path, media_type=media_type, headers={"Cache-Control": "private, no-store"})
 
 
 @router.delete("/me/avatar", response_model=UserResponse)

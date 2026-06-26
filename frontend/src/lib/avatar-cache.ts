@@ -1,3 +1,5 @@
+import { useAuthStore } from '@/store/auth'
+
 type Subscriber = (src: string | null) => void
 
 let cacheKey: string | null = null
@@ -46,11 +48,25 @@ export function loadAvatar(avatar: string, accessToken: string | null) {
     return Promise.resolve(objectUrl)
   }
 
-  pending = fetch('/api/auth/me/avatar-file', {
-    headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
-    credentials: 'include',
-  })
+  const fetchAvatar = (token: string | null) =>
+    fetch('/api/auth/me/avatar-file', {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      credentials: 'include',
+    })
+
+  pending = fetchAvatar(accessToken)
     .then(async (res) => {
+      if (res.status === 401 && accessToken) {
+        const refresh = await fetch('/api/auth/refresh', {
+          method: 'POST',
+          credentials: 'include',
+        })
+        if (refresh.ok) {
+          const { access_token } = await refresh.json()
+          useAuthStore.getState().setTokens(access_token)
+          res = await fetchAvatar(access_token)
+        }
+      }
       if (!res.ok) return null
       const blob = await res.blob()
       if (cacheKey !== key) return null

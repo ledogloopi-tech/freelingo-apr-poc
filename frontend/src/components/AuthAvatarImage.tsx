@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import type { ReactNode } from 'react'
 import Image from 'next/image'
 import { loadAvatar, subscribeAvatar } from '@/lib/avatar-cache'
 import { useAuthStore } from '@/store/auth'
@@ -11,6 +12,7 @@ interface Props {
   width: number
   height: number
   className?: string
+  fallback?: ReactNode
 }
 
 export function AuthAvatarImage({
@@ -19,6 +21,7 @@ export function AuthAvatarImage({
   width,
   height,
   className,
+  fallback = null,
 }: Props) {
   const accessToken = useAuthStore((state) => state.accessToken)
   const [src, setSrc] = useState<string | null>(null)
@@ -29,7 +32,7 @@ export function AuthAvatarImage({
     return unsubscribe
   }, [accessToken, avatar])
 
-  if (!src) return null
+  if (!src) return fallback
 
   return (
     <Image
