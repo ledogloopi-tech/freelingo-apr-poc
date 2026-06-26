@@ -650,7 +650,7 @@ export default function AdminUsersPage() {
                       </td>
                       <td className="px-5 py-4 align-middle">
                         <span
-                          className={`text-fl-hint inline-block max-w-full truncate border px-2 py-0.5 font-mono tracking-widest uppercase ${statusBadgeClass(u.subscription_status)}`}
+                          className={`text-fl-hint border px-2 py-0.5 font-mono tracking-widest uppercase ${statusBadgeClass(u.subscription_status)}`}
                         >
                           {subscriptionLabel(u.subscription_status, tBilling)}
                         </span>

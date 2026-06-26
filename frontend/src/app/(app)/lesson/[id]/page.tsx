@@ -737,28 +737,30 @@ export default function LessonPage() {
                   {t('exercise')} {currentExercise + 1} / {exercises.length}
                 </span>
               </div>
-              <span className="text-fl-hint text-fl-muted-2 border-fl-border border px-2 py-1 font-mono tracking-widest uppercase">
-                {(
-                  {
-                    multiple_choice: t('exerciseTypeMultipleChoice'),
-                    fill_blank: t('exerciseTypeFillBlank'),
-                    free_write: t('exerciseTypeFreeWrite'),
-                    pronunciation: t('exerciseTypePronunciation'),
-                  } as Record<string, string>
-                )[exercise.exercise_type] ?? exercise.exercise_type}
-              </span>
-              {!isEvaluated && (
-                <button
-                  type="button"
-                  onClick={regenerateCurrentExercise}
-                  disabled={regeneratingExercise}
-                  className="text-fl-hint text-fl-muted-3 hover:text-fl-fg border-fl-border hover:border-fl-border-2 border px-2 py-1 font-mono tracking-widest uppercase transition-colors disabled:opacity-50"
-                >
-                  {regeneratingExercise
-                    ? t('regeneratingExercise')
-                    : t('regenerateExercise')}
-                </button>
-              )}
+              <div className="flex items-center gap-2">
+                <span className="text-fl-hint text-fl-muted-2 border-fl-border border px-2 py-1 font-mono tracking-widest uppercase">
+                  {(
+                    {
+                      multiple_choice: t('exerciseTypeMultipleChoice'),
+                      fill_blank: t('exerciseTypeFillBlank'),
+                      free_write: t('exerciseTypeFreeWrite'),
+                      pronunciation: t('exerciseTypePronunciation'),
+                    } as Record<string, string>
+                  )[exercise.exercise_type] ?? exercise.exercise_type}
+                </span>
+                {!isEvaluated && (
+                  <button
+                    type="button"
+                    onClick={regenerateCurrentExercise}
+                    disabled={regeneratingExercise}
+                    className="text-fl-hint text-fl-muted-3 hover:text-fl-fg border-fl-border hover:border-fl-border-2 border px-2 py-1 font-mono tracking-widest uppercase transition-colors disabled:opacity-50"
+                  >
+                    {regeneratingExercise
+                      ? t('regeneratingExercise')
+                      : t('regenerateExercise')}
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Progress bar */}
