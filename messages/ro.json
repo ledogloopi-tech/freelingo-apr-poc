@@ -426,7 +426,10 @@
     "premiumBannerDesc": "Începe cu o probă gratuită și exersează cu Lingu prin text, voce și exerciții adaptate nivelului tău.",
     "premiumBannerDescTrialUsed": "Activează Premium pentru a debloca chat cu Lingu, conversație vocală, reading și listening.",
     "premiumBannerCta": "Probă gratuită",
-    "premiumBannerCtaTrialUsed": "Vezi planurile"
+    "premiumBannerCtaTrialUsed": "Vezi planurile",
+    "premiumBannerPastDueTitle": "Plată în așteptare",
+    "premiumBannerPastDueDesc": "Actualizează metoda de plată pentru a restabili accesul Premium la chat, conversație vocală, reading și listening.",
+    "premiumBannerPastDueCta": "Restabilește Premium"
   },
   "assessment": {
     "title": "Evaluare",
@@ -1309,6 +1312,9 @@
     "nextBilling": "Următoarea facturare",
     "accessUntil": "Acces până la",
     "manage": "Gestionează abonamentul",
+    "updatePayment": "Actualizează plata",
+    "pastDueTitle": "Plată în așteptare",
+    "pastDueDesc": "Actualizează metoda de plată pentru a restabili accesul Premium.",
     "subscribe": "Abonează-te",
     "portalError": "Nu s-a putut deschide portalul de facturare. Încearcă din nou.",
     "openSourceTitle": "Sursă deschisă",
@@ -1323,7 +1329,7 @@
   },
   "whatsNew": {
     "title": "Noutăți",
-    "version": "v1.8.18",
+    "version": "v1.8.19",
     "cta": "Am înțeles",
     "entry1": {
       "label": "Dashboard mai clar",

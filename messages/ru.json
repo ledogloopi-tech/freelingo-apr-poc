@@ -426,7 +426,10 @@
     "premiumBannerDesc": "Начните с бесплатного пробного периода и практикуйтесь с Lingu через текст, голос и упражнения под ваш уровень.",
     "premiumBannerDescTrialUsed": "Активируйте Premium, чтобы открыть чат с Lingu, голосовые разговоры, reading и listening.",
     "premiumBannerCta": "Бесплатный пробный период",
-    "premiumBannerCtaTrialUsed": "Посмотреть планы"
+    "premiumBannerCtaTrialUsed": "Посмотреть планы",
+    "premiumBannerPastDueTitle": "Платёж ожидает",
+    "premiumBannerPastDueDesc": "Обновите способ оплаты, чтобы восстановить Premium-доступ к чату, голосовым разговорам, reading и listening.",
+    "premiumBannerPastDueCta": "Восстановить Premium"
   },
   "assessment": {
     "title": "Оценка",
@@ -1309,6 +1312,9 @@
     "nextBilling": "Следующее списание",
     "accessUntil": "Доступ до",
     "manage": "Управлять подпиской",
+    "updatePayment": "Обновить оплату",
+    "pastDueTitle": "Платёж ожидает",
+    "pastDueDesc": "Обновите способ оплаты, чтобы восстановить доступ Premium.",
     "subscribe": "Подписаться",
     "portalError": "Не удалось открыть портал оплаты. Попробуйте ещё раз.",
     "openSourceTitle": "Открытый исходный код",
@@ -1323,7 +1329,7 @@
   },
   "whatsNew": {
     "title": "Что нового",
-    "version": "v1.8.18",
+    "version": "v1.8.19",
     "cta": "Понятно",
     "entry1": {
       "label": "Более понятный дашборд",

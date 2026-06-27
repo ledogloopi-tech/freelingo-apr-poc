@@ -13,6 +13,8 @@ export function BillingSection() {
   const stripeEnabled = useConfigStore((s) => s.stripeEnabled)
   const [portalLoading, setPortalLoading] = useState(false)
   const [portalError, setPortalError] = useState<string | null>(null)
+  const isPastDue = user?.subscription_status === 'past_due'
+  const canManageBilling = isSubscribed(user, stripeEnabled) || isPastDue
 
   if (!stripeEnabled) return null
 
@@ -88,14 +90,27 @@ export function BillingSection() {
             </div>
           )}
 
+        {isPastDue && (
+          <div className="border-yellow-500/30 bg-yellow-500/5 border p-3">
+            <p className="font-mono text-xs font-bold tracking-widest text-yellow-500 uppercase">
+              {tBilling('pastDueTitle')}
+            </p>
+            <p className="text-fl-muted-1 mt-2 font-mono text-xs leading-relaxed">
+              {tBilling('pastDueDesc')}
+            </p>
+          </div>
+        )}
+
         {/* Manage or subscribe button */}
-        {isSubscribed(user, stripeEnabled) ? (
+        {canManageBilling ? (
           <button
             onClick={handleManageSubscription}
             disabled={portalLoading}
             className="border-fl-border text-fl-muted-1 hover:text-fl-fg hover:border-fl-border-2 w-full border py-2.5 font-mono text-xs tracking-widest uppercase transition-colors disabled:opacity-50"
           >
-            {portalLoading ? '...' : tBilling('manage')}
+            {portalLoading
+              ? '...'
+              : tBilling(isPastDue ? 'updatePayment' : 'manage')}
           </button>
         ) : (
           <SubscriptionPlanButtons />

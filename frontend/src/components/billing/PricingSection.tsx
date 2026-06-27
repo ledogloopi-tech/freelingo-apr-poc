@@ -6,6 +6,10 @@ import { useTranslations } from 'next-intl'
 import { Circle, CircleDot, Diamond, Check, Minus } from 'lucide-react'
 import { PageLoading } from '@/components/ui/page-loading'
 import { getLandingSubscriptionState } from '@/lib/landing-subscription'
+import { apiFetch } from '@/lib/api'
+import { useAuthStore } from '@/store/auth'
+
+type BillingInterval = 'monthly' | 'yearly'
 
 interface PricingSectionProps {
   stripeEnabled: boolean
@@ -31,6 +35,9 @@ export default function PricingSection({
     hasSession ? null : false
   )
   const [trialUsed, setTrialUsed] = useState(false)
+  const [checkoutLoading, setCheckoutLoading] =
+    useState<BillingInterval | null>(null)
+  const [checkoutError, setCheckoutError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!hasSession) return
@@ -54,6 +61,41 @@ export default function PricingSection({
   }
 
   if (subscribed) return null
+
+  async function startCheckout(plan: BillingInterval) {
+    if (checkoutLoading) return
+    setCheckoutLoading(plan)
+    setCheckoutError(null)
+
+    try {
+      if (!useAuthStore.getState().accessToken) {
+        const refreshRes = await fetch('/api/auth/refresh', {
+          method: 'POST',
+          credentials: 'include',
+        })
+        if (!refreshRes.ok) throw new Error(tBilling('checkoutError'))
+        const { access_token } = await refreshRes.json()
+        useAuthStore.getState().setTokens(access_token)
+      }
+
+      const res = await apiFetch('/api/billing/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan }),
+      })
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error(data.detail ?? tBilling('checkoutError'))
+      }
+      const { url } = await res.json()
+      window.location.assign(url)
+    } catch (err) {
+      setCheckoutError(
+        err instanceof Error ? err.message : tBilling('checkoutError')
+      )
+      setCheckoutLoading(null)
+    }
+  }
 
   const planIcons = [Circle, CircleDot, Diamond]
 
@@ -91,7 +133,7 @@ export default function PricingSection({
       badgeStyle: '',
       href: hasSession ? '/dashboard' : '/register',
       cta: tBilling('planFreeCta'),
-      isFree: true,
+      isFree: true as const,
     },
     {
       name: tBilling('planMonthlyName'),
@@ -104,7 +146,8 @@ export default function PricingSection({
       badgeStyle: 'text-fl-accent border-fl-accent/30',
       href: hasSession ? '/dashboard' : '/register?plan=monthly',
       cta: tBilling(trialUsed ? 'ctaRegisterTrialUsed' : 'ctaRegister'),
-      isFree: false,
+      isFree: false as const,
+      interval: 'monthly' as const,
     },
     {
       name: tBilling('planYearlyName'),
@@ -117,7 +160,8 @@ export default function PricingSection({
       badgeStyle: 'text-fl-accent border-fl-accent/30',
       href: hasSession ? '/dashboard' : '/register?plan=yearly',
       cta: tBilling(trialUsed ? 'ctaRegisterTrialUsed' : 'ctaRegister'),
-      isFree: false,
+      isFree: false as const,
+      interval: 'yearly' as const,
     },
   ]
 
@@ -198,16 +242,27 @@ export default function PricingSection({
                 )}
               </div>
 
-              <Link
-                href={plan.href}
-                className={`inline-block px-6 py-2.5 text-center font-mono text-xs font-bold tracking-widest uppercase transition-colors ${
-                  plan.isFree
-                    ? 'border-fl-border-2 text-fl-muted-1 hover:text-fl-fg hover:border-fl-border border'
-                    : 'bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90'
-                }`}
-              >
-                {plan.cta}
-              </Link>
+              {hasSession && !plan.isFree ? (
+                <button
+                  type="button"
+                  disabled={checkoutLoading !== null}
+                  onClick={() => startCheckout(plan.interval)}
+                  className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 inline-block px-6 py-2.5 text-center font-mono text-xs font-bold tracking-widest uppercase transition-colors disabled:opacity-50"
+                >
+                  {checkoutLoading === plan.interval ? '...' : plan.cta}
+                </button>
+              ) : (
+                <Link
+                  href={plan.href}
+                  className={`inline-block px-6 py-2.5 text-center font-mono text-xs font-bold tracking-widest uppercase transition-colors ${
+                    plan.isFree
+                      ? 'border-fl-border-2 text-fl-muted-1 hover:text-fl-fg hover:border-fl-border border'
+                      : 'bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90'
+                  }`}
+                >
+                  {plan.cta}
+                </Link>
+              )}
             </div>
           )
         })}
@@ -271,12 +326,30 @@ export default function PricingSection({
       </div>
 
       <div className="mt-8 text-center">
-        <Link
-          href={hasSession ? '/dashboard' : '/register?plan=yearly'}
-          className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 inline-block px-10 py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
-        >
-          {tBilling(trialUsed ? 'ctaRegisterTrialUsed' : 'ctaRegister')}
-        </Link>
+        {hasSession ? (
+          <button
+            type="button"
+            disabled={checkoutLoading !== null}
+            onClick={() => startCheckout('yearly')}
+            className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 inline-block px-10 py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors disabled:opacity-50"
+          >
+            {checkoutLoading === 'yearly'
+              ? '...'
+              : tBilling(trialUsed ? 'ctaRegisterTrialUsed' : 'ctaRegister')}
+          </button>
+        ) : (
+          <Link
+            href="/register?plan=yearly"
+            className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 inline-block px-10 py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
+          >
+            {tBilling(trialUsed ? 'ctaRegisterTrialUsed' : 'ctaRegister')}
+          </Link>
+        )}
+        {checkoutError && (
+          <p className="text-fl-error mt-3 font-mono text-xs">
+            {checkoutError}
+          </p>
+        )}
       </div>
     </section>
   )

@@ -426,7 +426,10 @@
     "premiumBannerDesc": "Starte mit einer kostenlosen Testphase und übe mit Lingu per Text, Stimme und Übungen für dein Niveau.",
     "premiumBannerDescTrialUsed": "Aktiviere Premium, um Chat mit Lingu, Sprachkonversation, Reading und Listening freizuschalten.",
     "premiumBannerCta": "Kostenlose Testphase",
-    "premiumBannerCtaTrialUsed": "Pläne ansehen"
+    "premiumBannerCtaTrialUsed": "Pläne ansehen",
+    "premiumBannerPastDueTitle": "Zahlung ausstehend",
+    "premiumBannerPastDueDesc": "Aktualisiere deine Zahlungsmethode, um den Premium-Zugriff auf Chat, Sprachkonversation, Reading und Listening wiederherzustellen.",
+    "premiumBannerPastDueCta": "Premium wiederherstellen"
   },
   "assessment": {
     "title": "Einstufungstest",
@@ -1309,6 +1312,9 @@
     "nextBilling": "Nächste Abrechnung",
     "accessUntil": "Zugang bis",
     "manage": "Abonnement verwalten",
+    "updatePayment": "Zahlung aktualisieren",
+    "pastDueTitle": "Zahlung ausstehend",
+    "pastDueDesc": "Aktualisiere deine Zahlungsmethode, um den Premium-Zugriff wiederherzustellen.",
     "subscribe": "Abonnieren",
     "portalError": "Abrechnungsportal konnte nicht geöffnet werden. Bitte erneut versuchen.",
     "openSourceTitle": "Open Source",
@@ -1323,7 +1329,7 @@
   },
   "whatsNew": {
     "title": "Neuigkeiten",
-    "version": "v1.8.18",
+    "version": "v1.8.19",
     "cta": "Verstanden",
     "entry1": {
       "label": "Klareres Dashboard",

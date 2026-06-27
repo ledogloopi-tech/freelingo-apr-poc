@@ -426,7 +426,10 @@
     "premiumBannerDesc": "Start with a free trial and practise with Lingu by text, voice and exercises adapted to your level.",
     "premiumBannerDescTrialUsed": "Activate Premium to unlock text chat with Lingu, voice conversation, reading and listening.",
     "premiumBannerCta": "Free trial",
-    "premiumBannerCtaTrialUsed": "View plans"
+    "premiumBannerCtaTrialUsed": "View plans",
+    "premiumBannerPastDueTitle": "Payment pending",
+    "premiumBannerPastDueDesc": "Update your payment method to restore Premium access to chat, voice conversation, reading and listening.",
+    "premiumBannerPastDueCta": "Restore Premium"
   },
   "assessment": {
     "title": "Assessment",
@@ -1309,6 +1312,9 @@
     "nextBilling": "Next billing",
     "accessUntil": "Access until",
     "manage": "Manage subscription",
+    "updatePayment": "Update payment",
+    "pastDueTitle": "Payment pending",
+    "pastDueDesc": "Update your payment method to restore Premium access.",
     "subscribe": "Subscribe",
     "portalError": "Unable to open billing portal. Please try again.",
     "openSourceTitle": "Open source",
@@ -1323,7 +1329,7 @@
   },
   "whatsNew": {
     "title": "What's New",
-    "version": "v1.8.18",
+    "version": "v1.8.19",
     "cta": "Got it",
     "entry1": {
       "label": "Clearer dashboard",

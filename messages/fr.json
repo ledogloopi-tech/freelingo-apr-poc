@@ -426,7 +426,10 @@
     "premiumBannerDesc": "Commencez par un essai gratuit et pratiquez avec Lingu par texte, voix et exercices adaptés à votre niveau.",
     "premiumBannerDescTrialUsed": "Activez Premium pour débloquer le chat avec Lingu, la conversation vocale, le reading et le listening.",
     "premiumBannerCta": "Essai gratuit",
-    "premiumBannerCtaTrialUsed": "Voir les offres"
+    "premiumBannerCtaTrialUsed": "Voir les offres",
+    "premiumBannerPastDueTitle": "Paiement en attente",
+    "premiumBannerPastDueDesc": "Mettez à jour votre moyen de paiement pour rétablir l'accès Premium au chat, à la conversation vocale, au reading et au listening.",
+    "premiumBannerPastDueCta": "Rétablir Premium"
   },
   "assessment": {
     "title": "Évaluation",
@@ -1309,6 +1312,9 @@
     "nextBilling": "Prochaine facturation",
     "accessUntil": "Accès jusqu'au",
     "manage": "Gérer l'abonnement",
+    "updatePayment": "Mettre à jour le paiement",
+    "pastDueTitle": "Paiement en attente",
+    "pastDueDesc": "Mettez à jour votre moyen de paiement pour rétablir l'accès Premium.",
     "subscribe": "S'abonner",
     "portalError": "Impossible d'ouvrir le portail de facturation. Veuillez réessayer.",
     "openSourceTitle": "Open source",
@@ -1323,7 +1329,7 @@
   },
   "whatsNew": {
     "title": "Nouveautés",
-    "version": "v1.8.18",
+    "version": "v1.8.19",
     "cta": "Compris",
     "entry1": {
       "label": "Tableau de bord plus clair",

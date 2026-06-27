@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.19] - 2026-06-27
+
+### Fixed
+
+- **Logged-in pricing checkout**: authenticated users who select a monthly or yearly plan from the public landing-page pricing section now start Stripe Checkout directly instead of being sent back to the dashboard. The landing pricing CTA refreshes the session token when needed before creating the checkout session.
+- **Past-due subscription recovery**: users with a pending Stripe payment now see payment-recovery copy and a Customer Portal action in Settings and the dashboard Premium banner instead of new subscription plan buttons.
+
 ## [1.8.18] - 2026-06-26
 
 ### Added

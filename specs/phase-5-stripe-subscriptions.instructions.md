@@ -325,6 +325,7 @@ Only rendered when `stripeEnabled`. Shows:
 - Status badge: active (green) / trialing (blue) / past_due (amber) / canceled (red)
 - Next billing date (from `subscription_ends_at`)
 - For unsubscribed users, monthly and yearly plan buttons are shown before checkout; each posts `POST /api/billing/checkout` with the selected plan.
+- For `past_due` users, access remains blocked by `is_subscribed`, but Settings shows payment-recovery copy and an "Update payment" action that opens `POST /api/billing/portal` instead of showing new subscription plan buttons.
 - Button "Manage subscription" → `POST /api/billing/portal` → `router.push(url)`
 
 ### 4.6 Pricing section in landing page (`/`)
@@ -352,7 +353,7 @@ Layout:
               Cancel anytime · No commitment
 ```
 
-Clicking "Start for free" redirects to `/login` if not authenticated, or calls `/api/billing/checkout` directly if already logged in.
+Anonymous visitors selecting a paid plan are sent to `/register?plan=monthly|yearly`, preserving the selected billing interval through onboarding before Stripe Checkout. Authenticated unsubscribed visitors selecting a monthly/yearly plan call `POST /api/billing/checkout` directly from the landing pricing section; the frontend first refreshes the access token from the session cookie when the landing page has a session cookie but no in-memory token. The bottom pricing CTA defaults to yearly and uses the same direct Checkout path for authenticated unsubscribed visitors.
 
 ### 4.7 `/billing/success` page
 

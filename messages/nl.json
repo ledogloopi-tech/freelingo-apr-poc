@@ -426,7 +426,10 @@
     "premiumBannerDesc": "Begin met een gratis proefperiode en oefen met Lingu via tekst, spraak en oefeningen op jouw niveau.",
     "premiumBannerDescTrialUsed": "Activeer Premium om chat met Lingu, spraakgesprekken, reading en listening te ontgrendelen.",
     "premiumBannerCta": "Gratis proefperiode",
-    "premiumBannerCtaTrialUsed": "Bekijk plannen"
+    "premiumBannerCtaTrialUsed": "Bekijk plannen",
+    "premiumBannerPastDueTitle": "Betaling in behandeling",
+    "premiumBannerPastDueDesc": "Werk je betaalmethode bij om Premium-toegang tot chat, spraakgesprekken, reading en listening te herstellen.",
+    "premiumBannerPastDueCta": "Premium herstellen"
   },
   "assessment": {
     "title": "Beoordeling",
@@ -1309,6 +1312,9 @@
     "nextBilling": "Volgende facturering",
     "accessUntil": "Toegang tot",
     "manage": "Abonnement beheren",
+    "updatePayment": "Betaling bijwerken",
+    "pastDueTitle": "Betaling in behandeling",
+    "pastDueDesc": "Werk je betaalmethode bij om Premium-toegang te herstellen.",
     "subscribe": "Abonneren",
     "portalError": "Factureringsportaal kon niet worden geopend. Probeer opnieuw.",
     "openSourceTitle": "Open source",
@@ -1323,7 +1329,7 @@
   },
   "whatsNew": {
     "title": "Nieuw",
-    "version": "v1.8.18",
+    "version": "v1.8.19",
     "cta": "Begrepen",
     "entry1": {
       "label": "Duidelijker dashboard",

@@ -426,7 +426,10 @@
     "premiumBannerDesc": "Zacznij od darmowego okresu próbnego i ćwicz z Lingu przez tekst, głos oraz ćwiczenia dopasowane do poziomu.",
     "premiumBannerDescTrialUsed": "Aktywuj Premium, aby odblokować czat z Lingu, rozmowy głosowe, reading i listening.",
     "premiumBannerCta": "Darmowy okres próbny",
-    "premiumBannerCtaTrialUsed": "Zobacz plany"
+    "premiumBannerCtaTrialUsed": "Zobacz plany",
+    "premiumBannerPastDueTitle": "Płatność oczekuje",
+    "premiumBannerPastDueDesc": "Zaktualizuj metodę płatności, aby przywrócić dostęp Premium do czatu, rozmów głosowych, reading i listening.",
+    "premiumBannerPastDueCta": "Przywróć Premium"
   },
   "assessment": {
     "title": "Ocena poziomu",
@@ -1309,6 +1312,9 @@
     "nextBilling": "Następna płatność",
     "accessUntil": "Dostęp do",
     "manage": "Zarządzaj subskrypcją",
+    "updatePayment": "Zaktualizuj płatność",
+    "pastDueTitle": "Płatność oczekuje",
+    "pastDueDesc": "Zaktualizuj metodę płatności, aby przywrócić dostęp Premium.",
     "subscribe": "Subskrybuj",
     "portalError": "Nie można otworzyć portalu rozliczeń. Spróbuj ponownie.",
     "openSourceTitle": "Otwarte źródło",
@@ -1323,7 +1329,7 @@
   },
   "whatsNew": {
     "title": "Co nowego",
-    "version": "v1.8.18",
+    "version": "v1.8.19",
     "cta": "Rozumiem",
     "entry1": {
       "label": "Czytelniejszy dashboard",
