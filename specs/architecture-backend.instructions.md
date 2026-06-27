@@ -69,7 +69,7 @@ backend/
 │   │   ├── admin.py             # Admin overview metrics, review signals, user management, filtered lists, maintenance toggle
 │   │   ├── assessment.py        # Level assessment quiz + completion + static bank
 │   │   ├── auth.py              # Register, login, refresh, logout, avatar upload/private retrieval/delete, verify-email, reset-password
-│   │   ├── billing.py           # Stripe checkout, customer portal, webhook
+│   │   ├── billing.py           # Stripe checkout, customer portal, webhook with current-subscription matching
 │   │   ├── chat.py              # SSE chat streaming
 │   │   ├── config.py            # Public config endpoint (maintenance mode, features)
 │   │   ├── contact.py           # Contact form submission

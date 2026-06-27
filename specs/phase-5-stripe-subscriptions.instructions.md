@@ -129,10 +129,11 @@ Add the full block above with comments.
 
 ### 2.1 `app/models/user.py`
 
-Add three fields (placed after `monthly_tokens_limit`):
+Add subscription fields (placed after `monthly_tokens_limit`):
 
 ```python
 stripe_customer_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+stripe_subscription_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
 subscription_status: Mapped[str] = mapped_column(String(20), nullable=False, default="none")
 # Values: "none" plus Stripe Subscription.status values used by Checkout:
 # "trialing" | "active" | "past_due" | "canceled" | "incomplete" |
@@ -150,6 +151,7 @@ down_revision = "0014_monthly_token_quota"
 Adds:
 
 - `stripe_customer_id VARCHAR(255) NULL`
+- `stripe_subscription_id VARCHAR(255) NULL`
 - `subscription_status VARCHAR(20) NOT NULL DEFAULT 'none'`
 - `subscription_ends_at TIMESTAMP NULL`
 
@@ -224,16 +226,16 @@ No sensitive keys exposed. Rate limit: 60/minute.
 
 #### `POST /api/billing/webhook` (no auth — verified by Stripe signature)
 
-- Reads raw request body and verifies with `stripe.WebhookSignature.verify_header()`.
+- Reads raw request body and verifies with `stripe.Webhook.construct_event()`.
 - Returns 400 immediately if signature invalid.
 - Handles these events:
 
 | Event                           | Action                                                                                                                                                                                                                                                                           |
 | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `checkout.session.completed`    | Set `stripe_customer_id`, `subscription_status = "trialing"` or `"active"`, apply quotas; set `trial_used = True` when status is `trialing`                                                                                                                                      |
-| `customer.subscription.updated` | Sync `subscription_status` and `subscription_ends_at`; accepts real Stripe subscription statuses (`trialing`, `active`, `past_due`, `canceled`, `incomplete`, `incomplete_expired`, `unpaid`, `paused`) and keeps the previous status for unknown values while logging a warning |
-| `customer.subscription.deleted` | Set `subscription_status = "canceled"`                                                                                                                                                                                                                                           |
-| `invoice.payment_failed`        | Set `subscription_status = "past_due"`                                                                                                                                                                                                                                           |
+| `checkout.session.completed`    | Set `stripe_customer_id` and `stripe_subscription_id`, sync `subscription_status = "trialing"` or `"active"`, apply quotas; set `trial_used = True` when status is `trialing`                                                                                                 |
+| `customer.subscription.updated` | Ignore stale events whose subscription ID differs from `stripe_subscription_id`; otherwise sync `subscription_status` and `subscription_ends_at`; accepts real Stripe subscription statuses (`trialing`, `active`, `past_due`, `canceled`, `incomplete`, `incomplete_expired`, `unpaid`, `paused`) and keeps the previous status for unknown values while logging a warning. Existing users without `stripe_subscription_id` are backfilled from this event. |
+| `customer.subscription.deleted` | Ignore stale events whose subscription ID differs from `stripe_subscription_id`; otherwise set `subscription_status = "canceled"`                                                                                                                                              |
+| `invoice.payment_failed`        | Ignore stale invoice events whose subscription ID differs from `stripe_subscription_id`; otherwise set `subscription_status = "past_due"`                                                                                                                                      |
 
 - Always returns HTTP 200 to Stripe (even on handled errors) to prevent retries.
 - Rate limit: 200/minute (Stripe can burst).
@@ -255,6 +257,7 @@ Add to `AdminUserResponse`:
 
 ```python
 stripe_customer_id: Optional[str] = None
+stripe_subscription_id: Optional[str] = None
 subscription_status: str = "none"
 subscription_ends_at: Optional[datetime] = None
 ```
@@ -419,7 +422,7 @@ Add keys in all 10 locales (`en`, `es`, `de`, `fr`, `it`, `nl`, `pl`, `pt`, `ro`
 
 ### 6.1 Backend tests
 
-- `test_billing.py`: mock Stripe SDK, test checkout session creation, portal session, webhook signature verification, all 4 webhook events, real Stripe subscription status persistence, and unknown-status fallback.
+- `test_billing.py`: mock Stripe SDK, test checkout session creation, portal session, webhook signature verification, all 4 webhook events, real Stripe subscription status persistence, unknown-status fallback, `stripe_subscription_id` persistence/backfill, and stale subscription-event ignoring.
 - Test that `require_subscription` returns 402 when `STRIPE_ENABLED=true` and user has `subscription_status="none"`.
 - Test that `require_subscription` passes through when `STRIPE_ENABLED=false`.
 

@@ -175,7 +175,7 @@ This document records what was built and the completion criteria met.
 | #   | Milestone                                                                               | Status |
 | --- | --------------------------------------------------------------------------------------- | ------ |
 | 1   | Config + env vars + `docker-compose.yml` + `requirements.txt`                           | ✅     |
-| 2   | User model fields (`stripe_customer_id`, `subscription_status`, `subscription_ends_at`) | ✅     |
+| 2   | User model fields (`stripe_customer_id`, `stripe_subscription_id`, `subscription_status`, `subscription_ends_at`) | ✅     |
 | 3   | Alembic migration `0016_stripe_subscription`                                            | ✅     |
 | 4   | `subscription_service.py` — `is_subscribed()` + `apply_subscription_quotas()`           | ✅     |
 | 5   | `require_subscription` FastAPI dependency                                               | ✅     |
@@ -206,6 +206,7 @@ This document records what was built and the completion criteria met.
 - [x] Stripe Checkout Session created correctly for monthly and yearly plans
 - [x] Webhook verifies Stripe signature; rejects invalid signatures with 400
 - [x] All 4 webhook events update `subscription_status` correctly
+- [x] Webhook lifecycle events ignore stale Stripe subscription IDs once the current subscription is known
 - [x] `require_subscription` returns 402 for unsubscribed users when enabled
 - [x] Admin can manually override `subscription_status`
 - [x] Pricing section visible on landing only when `STRIPE_ENABLED=true`

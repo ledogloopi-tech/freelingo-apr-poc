@@ -36,6 +36,7 @@ class User(Base):
     )
     # Stripe subscription
     stripe_customer_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    stripe_subscription_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
     subscription_status: Mapped[str] = mapped_column(
         String(20),
         nullable=False,

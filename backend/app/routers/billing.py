@@ -216,6 +216,37 @@ async def _get_user_by_customer_id(db: AsyncSession, customer_id: str) -> User |
     return result.scalar_one_or_none()
 
 
+def _subscription_event_is_current(
+    user: User,
+    event_subscription_id: str | None,
+    event_type: str,
+    *,
+    bind_if_missing: bool = False,
+) -> bool:
+    """Return False when a webhook belongs to an older subscription.
+
+    Existing users may not have stripe_subscription_id yet, so events without a
+    stored id remain accepted for compatibility. Once the current subscription
+    is known, events for any other subscription are ignored.
+    """
+    if not event_subscription_id:
+        return True
+    if user.stripe_subscription_id:
+        if user.stripe_subscription_id == event_subscription_id:
+            return True
+        logger.info(
+            "[billing] Ignoring stale %s for user %s - event subscription=%s current=%s",
+            event_type,
+            user.id,
+            event_subscription_id,
+            user.stripe_subscription_id,
+        )
+        return False
+    if bind_if_missing:
+        user.stripe_subscription_id = event_subscription_id
+    return True
+
+
 async def _handle_checkout_completed(db: AsyncSession, session: object) -> None:
     customer_id: str | None = _sget(session, "customer")
     subscription_id: str | None = _sget(session, "subscription")
@@ -237,6 +268,9 @@ async def _handle_checkout_completed(db: AsyncSession, session: object) -> None:
             "[billing] checkout.session.completed — no user found for customer %s", customer_id
         )
         return
+
+    if subscription_id:
+        user.stripe_subscription_id = subscription_id
 
     # Determine current status and period end from the Stripe Subscription object
     status = "trialing"
@@ -266,6 +300,15 @@ async def _handle_subscription_updated(db: AsyncSession, subscription: object) -
     if not user:
         return
 
+    event_subscription_id: str | None = _sget(subscription, "id")
+    if not _subscription_event_is_current(
+        user,
+        event_subscription_id,
+        "customer.subscription.updated",
+        bind_if_missing=True,
+    ):
+        return
+
     user.subscription_status = _normalize_subscription_status(
         _sget(subscription, "status"), user.subscription_status
     )
@@ -288,6 +331,14 @@ async def _handle_subscription_deleted(db: AsyncSession, subscription: object) -
     if not user:
         return
 
+    event_subscription_id: str | None = _sget(subscription, "id")
+    if not _subscription_event_is_current(
+        user,
+        event_subscription_id,
+        "customer.subscription.deleted",
+    ):
+        return
+
     user.subscription_status = "canceled"
     await db.commit()
     logger.info("[billing] User %s subscription canceled", user.id)
@@ -300,6 +351,14 @@ async def _handle_payment_failed(db: AsyncSession, invoice: object) -> None:
 
     user = await _get_user_by_customer_id(db, customer_id)
     if not user:
+        return
+
+    event_subscription_id: str | None = _sget(invoice, "subscription")
+    if not _subscription_event_is_current(
+        user,
+        event_subscription_id,
+        "invoice.payment_failed",
+    ):
         return
 
     user.subscription_status = "past_due"

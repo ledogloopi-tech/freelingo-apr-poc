@@ -105,6 +105,7 @@ class AdminUserResponse(BaseModel):
     conversation_weekly_minutes: int = 90
     monthly_tokens_limit: int = 0
     stripe_customer_id: str | None = None
+    stripe_subscription_id: str | None = None
     subscription_status: str = "none"
     subscription_ends_at: datetime | None = None
     created_at: datetime

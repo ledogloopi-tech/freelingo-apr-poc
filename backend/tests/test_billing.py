@@ -328,6 +328,7 @@ async def test_webhook_checkout_completed_activates_subscription(client, db_sess
     assert res.status_code == 200
     await db_session.refresh(user)
     assert user.subscription_status == "trialing"
+    assert user.stripe_subscription_id == "sub_test1"
 
 
 @pytest.mark.asyncio
@@ -335,12 +336,14 @@ async def test_webhook_subscription_updated(client, db_session, test_user):
     """customer.subscription.updated → subscription_status updated."""
     user, _ = test_user
     user.stripe_customer_id = "cus_webhook2"
+    user.stripe_subscription_id = "sub_current"
     user.subscription_status = "trialing"
     await db_session.commit()
 
     event = _make_stripe_event(
         "customer.subscription.updated",
         {
+            "id": "sub_current",
             "customer": "cus_webhook2",
             "status": "active",
             "current_period_end": int(datetime(2027, 1, 31).timestamp()),
@@ -360,6 +363,80 @@ async def test_webhook_subscription_updated(client, db_session, test_user):
     assert res.status_code == 200
     await db_session.refresh(user)
     assert user.subscription_status == "active"
+
+
+@pytest.mark.asyncio
+async def test_webhook_subscription_updated_ignores_stale_subscription(
+    client, db_session, test_user
+):
+    """customer.subscription.updated from an old subscription does not change state."""
+    user, _ = test_user
+    user.stripe_customer_id = "cus_stale_update"
+    user.stripe_subscription_id = "sub_current"
+    user.subscription_status = "active"
+    await db_session.commit()
+
+    event = _make_stripe_event(
+        "customer.subscription.updated",
+        {
+            "id": "sub_old",
+            "customer": "cus_stale_update",
+            "status": "canceled",
+            "current_period_end": int(datetime(2027, 1, 31).timestamp()),
+        },
+    )
+
+    with (
+        patch.object(settings, "STRIPE_ENABLED", True),
+        patch("stripe.Webhook.construct_event", return_value=event),
+    ):
+        res = await client.post(
+            "/api/billing/webhook",
+            content=_make_webhook_body(event),
+            headers=_signed_webhook_headers(),
+        )
+
+    assert res.status_code == 200
+    await db_session.refresh(user)
+    assert user.subscription_status == "active"
+    assert user.stripe_subscription_id == "sub_current"
+
+
+@pytest.mark.asyncio
+async def test_webhook_subscription_updated_binds_missing_subscription_id(
+    client, db_session, test_user
+):
+    """Existing users without stripe_subscription_id are backfilled from updates."""
+    user, _ = test_user
+    user.stripe_customer_id = "cus_bind_update"
+    user.stripe_subscription_id = None
+    user.subscription_status = "trialing"
+    await db_session.commit()
+
+    event = _make_stripe_event(
+        "customer.subscription.updated",
+        {
+            "id": "sub_bound",
+            "customer": "cus_bind_update",
+            "status": "active",
+            "current_period_end": int(datetime(2027, 1, 31).timestamp()),
+        },
+    )
+
+    with (
+        patch.object(settings, "STRIPE_ENABLED", True),
+        patch("stripe.Webhook.construct_event", return_value=event),
+    ):
+        res = await client.post(
+            "/api/billing/webhook",
+            content=_make_webhook_body(event),
+            headers=_signed_webhook_headers(),
+        )
+
+    assert res.status_code == 200
+    await db_session.refresh(user)
+    assert user.subscription_status == "active"
+    assert user.stripe_subscription_id == "sub_bound"
 
 
 @pytest.mark.asyncio
@@ -432,12 +509,13 @@ async def test_webhook_subscription_deleted(client, db_session, test_user):
     """customer.subscription.deleted → subscription_status set to 'canceled'."""
     user, _ = test_user
     user.stripe_customer_id = "cus_webhook3"
+    user.stripe_subscription_id = "sub_deleted"
     user.subscription_status = "active"
     await db_session.commit()
 
     event = _make_stripe_event(
         "customer.subscription.deleted",
-        {"customer": "cus_webhook3"},
+        {"id": "sub_deleted", "customer": "cus_webhook3"},
     )
 
     with (
@@ -456,16 +534,48 @@ async def test_webhook_subscription_deleted(client, db_session, test_user):
 
 
 @pytest.mark.asyncio
+async def test_webhook_subscription_deleted_ignores_stale_subscription(
+    client, db_session, test_user
+):
+    """customer.subscription.deleted from an old subscription does not cancel access."""
+    user, _ = test_user
+    user.stripe_customer_id = "cus_stale_delete"
+    user.stripe_subscription_id = "sub_current"
+    user.subscription_status = "active"
+    await db_session.commit()
+
+    event = _make_stripe_event(
+        "customer.subscription.deleted",
+        {"id": "sub_old", "customer": "cus_stale_delete"},
+    )
+
+    with (
+        patch.object(settings, "STRIPE_ENABLED", True),
+        patch("stripe.Webhook.construct_event", return_value=event),
+    ):
+        res = await client.post(
+            "/api/billing/webhook",
+            content=_make_webhook_body(event),
+            headers=_signed_webhook_headers(),
+        )
+
+    assert res.status_code == 200
+    await db_session.refresh(user)
+    assert user.subscription_status == "active"
+
+
+@pytest.mark.asyncio
 async def test_webhook_invoice_payment_failed(client, db_session, test_user):
     """invoice.payment_failed → subscription_status set to 'past_due'."""
     user, _ = test_user
     user.stripe_customer_id = "cus_webhook4"
+    user.stripe_subscription_id = "sub_failed"
     user.subscription_status = "active"
     await db_session.commit()
 
     event = _make_stripe_event(
         "invoice.payment_failed",
-        {"customer": "cus_webhook4"},
+        {"customer": "cus_webhook4", "subscription": "sub_failed"},
     )
 
     with (
@@ -481,6 +591,37 @@ async def test_webhook_invoice_payment_failed(client, db_session, test_user):
     assert res.status_code == 200
     await db_session.refresh(user)
     assert user.subscription_status == "past_due"
+
+
+@pytest.mark.asyncio
+async def test_webhook_invoice_payment_failed_ignores_stale_subscription(
+    client, db_session, test_user
+):
+    """invoice.payment_failed from an old subscription does not mark past_due."""
+    user, _ = test_user
+    user.stripe_customer_id = "cus_stale_invoice"
+    user.stripe_subscription_id = "sub_current"
+    user.subscription_status = "active"
+    await db_session.commit()
+
+    event = _make_stripe_event(
+        "invoice.payment_failed",
+        {"customer": "cus_stale_invoice", "subscription": "sub_old"},
+    )
+
+    with (
+        patch.object(settings, "STRIPE_ENABLED", True),
+        patch("stripe.Webhook.construct_event", return_value=event),
+    ):
+        res = await client.post(
+            "/api/billing/webhook",
+            content=_make_webhook_body(event),
+            headers=_signed_webhook_headers(),
+        )
+
+    assert res.status_code == 200
+    await db_session.refresh(user)
+    assert user.subscription_status == "active"
 
 
 @pytest.mark.asyncio
