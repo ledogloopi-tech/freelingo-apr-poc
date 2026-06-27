@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { BookOpen, Headphones, MessageSquare, Mic } from 'lucide-react'
 import { apiFetch } from '@/lib/api'
 import { splitYearlyCta, type BillingInterval } from '@/lib/billing-copy'
 import { useConfigStore } from '@/store/config'
@@ -10,22 +11,22 @@ import { useAuthStore, isSubscribed, needsPaymentRecovery } from '@/store/auth'
 
 const PAYWALL_CONTEXT = {
   '/chat': {
-    icon: '◇',
+    icon: MessageSquare,
     title: 'paywallChatTitle',
     desc: 'paywallChatDesc',
   },
   '/conversation': {
-    icon: '◎',
+    icon: Mic,
     title: 'paywallConversationTitle',
     desc: 'paywallConversationDesc',
   },
   '/listening': {
-    icon: '◈',
+    icon: Headphones,
     title: 'paywallListeningTitle',
     desc: 'paywallListeningDesc',
   },
   '/reading': {
-    icon: '▣',
+    icon: BookOpen,
     title: 'paywallReadingTitle',
     desc: 'paywallReadingDesc',
   },
@@ -52,6 +53,7 @@ export function PaywallBanner() {
   if (!stripeEnabled || isSubscribed(user, stripeEnabled)) return null
 
   const context = PAYWALL_CONTEXT[pathname as keyof typeof PAYWALL_CONTEXT]
+  const Icon = context?.icon ?? Mic
   const trialEligible = !user?.trial_used
 
   async function handleCheckout(interval: BillingInterval) {
@@ -92,10 +94,7 @@ export function PaywallBanner() {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 py-16 text-center">
       <div className="border-fl-border bg-fl-surface w-full max-w-md border p-8">
-        {/* Icon */}
-        <div className="text-fl-muted-2 mb-4 text-2xl">
-          {context?.icon ?? '◎'}
-        </div>
+        <Icon className="text-fl-muted-2 mx-auto mb-4 h-6 w-6" aria-hidden="true" />
 
         {/* Headline */}
         <p className="text-fl-label text-fl-muted-2 mb-2 font-mono tracking-widest uppercase">
