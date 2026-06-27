@@ -122,6 +122,19 @@ export default function OnboardingPage() {
     setCheckoutLoading(interval)
     setCheckoutError('')
     try {
+      if (!useAuthStore.getState().accessToken) {
+        const refreshRes = await fetch('/api/auth/refresh', {
+          method: 'POST',
+          credentials: 'include',
+        })
+        if (!refreshRes.ok) {
+          router.push('/login')
+          return
+        }
+        const { access_token } = await refreshRes.json()
+        useAuthStore.getState().setTokens(access_token)
+      }
+
       const res = await apiFetch('/api/billing/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

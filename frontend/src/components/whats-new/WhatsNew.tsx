@@ -2,12 +2,11 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useTranslations, useMessages } from 'next-intl'
+import { CircleDot, Sparkles } from 'lucide-react'
 
-const WHATS_NEW_VERSION = 'v1.8.18'
+const WHATS_NEW_VERSION = 'v1.8.19'
 const STORAGE_KEY = `fl_whats_new_seen_${WHATS_NEW_VERSION}`
 const TOUR_KEY = 'fl_tour_done'
-
-const ENTRY_ICONS = ['◎', '▣', '△', '◇', '✦', '◈']
 
 export default function WhatsNew() {
   const t = useTranslations('whatsNew')
@@ -55,7 +54,10 @@ export default function WhatsNew() {
       <div className="border-fl-border bg-fl-surface relative z-10 w-full max-w-md border shadow-2xl">
         {/* Header */}
         <div className="border-fl-border flex items-center gap-3 border-b px-5 pt-5 pb-4">
-          <span className="text-fl-accent text-lg">✦</span>
+          <Sparkles
+            className="text-fl-accent h-[1.125rem] w-[1.125rem]"
+            aria-hidden="true"
+          />
           <div>
             <p className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
               {t('title')}
@@ -70,9 +72,10 @@ export default function WhatsNew() {
         <div className="max-h-[50vh] space-y-5 overflow-y-auto px-5 py-5">
           {entries.map((entry, idx) => (
             <div key={idx} className="flex gap-3">
-              <span className="text-fl-accent mt-0.5 shrink-0 text-sm">
-                {ENTRY_ICONS[idx % ENTRY_ICONS.length]}
-              </span>
+              <CircleDot
+                className="text-fl-accent mt-0.5 h-3.5 w-3.5 shrink-0"
+                aria-hidden="true"
+              />
               <div>
                 <p className="text-fl-label text-fl-muted-2 mb-1 font-mono tracking-widest uppercase">
                   {entry.label}

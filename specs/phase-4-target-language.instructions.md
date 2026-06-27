@@ -374,30 +374,24 @@ When adding a new target language in the future (e.g. Italian `it-IT`), the foll
 
 ### Backend
 
-| File                                       | Change                                                                                                                          |
-| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| `backend/app/schemas/auth.py`              | Add `"it-IT"` to `SUPPORTED_TARGET_LANGUAGES`                                                                                   |
-| `backend/app/data/curriculum.py`           | Add `CurriculumUnit` entries for the new language under a new key                                                               |
-| `backend/app/services/lesson_generator.py` | The prompt already uses `_get_english_variant` which returns `""` for non-English; add language-specific prompt logic if needed |
-| `backend/app/services/stt_service.py`      | No change needed — `_get_iso639` already handles any BCP-47 tag                                                                 |
+- `backend/app/schemas/auth.py` — Add `"it-IT"` to `SUPPORTED_TARGET_LANGUAGES`
+- `backend/app/data/curriculum.py` — Add `CurriculumUnit` entries for the new language under a new key
+- `backend/app/services/lesson_generator.py` — The prompt already uses `_get_english_variant` which returns `""` for non-English; add language-specific prompt logic if needed
+- `backend/app/services/stt_service.py` — No change needed — `_get_iso639` already handles any BCP-47 tag
 
 ### Frontend
 
-| File                                     | Change                                                                             |
-| ---------------------------------------- | ---------------------------------------------------------------------------------- |
-| `src/lib/target-languages.ts`            | Add `{ code: 'it-IT', flagPath: '/flags/it.jpg' }` to `SUPPORTED_TARGET_LANGUAGES` |
-| `src/data/curriculum.ts`                 | Add Italian curriculum data                                                        |
-| `src/data/grammar.ts`                    | Add Italian grammar reference data                                                 |
-| `backend/app/data/it/vocabulary.py`      | Add Italian vocabulary sets (migrated from frontend in v1.7.4)                     |
-| `src/data/phrasebook.ts`                 | Add Italian phrasebook entries                                                     |
-| `backend/app/data/it/assessment_bank.py` | Add Italian assessment questions                                                   |
-| `public/flags/it.jpg`                    | Add Italian flag image                                                             |
+- `src/lib/target-languages.ts` — Add `{ code: 'it-IT', flagPath: '/flags/it.jpg' }` to `SUPPORTED_TARGET_LANGUAGES`
+- `src/data/curriculum.ts` — Add Italian curriculum data
+- `src/data/grammar.ts` — Add Italian grammar reference data
+- `backend/app/data/it/vocabulary.py` — Add Italian vocabulary sets (migrated from frontend in v1.7.4)
+- `src/data/phrasebook.ts` — Add Italian phrasebook entries
+- `backend/app/data/it/assessment_bank.py` — Add Italian assessment questions
+- `public/flags/it.jpg` — Add Italian flag image
 
 ### Messages
 
-| File                  | Change                                                                      |
-| --------------------- | --------------------------------------------------------------------------- |
-| All `messages/*.json` | Add `"it-IT"` and `"it-IT-description"` keys in `targetLanguages` namespace |
+- All `messages/*.json` — Add `"it-IT"` and `"it-IT-description"` keys in `targetLanguages` namespace
 
 > **TTS note**: Kokoro FastAPI ships with English voices only. Adding a non-English target language requires verifying that the selected TTS service supports the target language's voice synthesis, and updating `TTS_VOICE` configuration or adding per-language voice mapping in `tts_service.py`.
 
@@ -437,16 +431,12 @@ Returning users (second login) and admin-created users are unaffected — their 
 
 ### `users` table
 
-| Column            | Before                      | After                                              |
-| ----------------- | --------------------------- | -------------------------------------------------- |
-| `english_variant` | `"american"` \| `"british"` | **removed**                                        |
-| `target_language` | —                           | `"en-GB"` \| `"en-US"` (BCP-47), default `"en-GB"` |
+- `english_variant` — Before: `"american"` \; After: `"british"`
+- `target_language` — Before: —; After: `"en-GB"` \
 
 ### `study_plans` table
 
-| Column            | Before | After                                     |
-| ----------------- | ------ | ----------------------------------------- |
-| `target_language` | —      | `"en-GB"` \| `"en-US"`, default `"en-GB"` |
+- `target_language` — Before: —; After: `"en-GB"` \
 
 ### Migration chain
 
@@ -466,39 +456,29 @@ Returning users (second login) and admin-created users are unaffected — their 
 
 ### `POST /api/auth/register`
 
-|               | Before                                     | After                                      |
-| ------------- | ------------------------------------------ | ------------------------------------------ |
-| Request body  | `english_variant: "american" \| "british"` | `target_language: str` (BCP-47, validated) |
-| Response body | `{ id, username, role }`                   | `{ id, username, role, access_token }`     |
-| Cookie        | Not set                                    | Sets `refresh_token` httpOnly cookie       |
+- Request body — Before: `english_variant: "american" \; After: "british"`
+- Response body — Before: `{ id, username, role }`; After: `{ id, username, role, access_token }`
+- Cookie — Before: Not set; After: Sets `refresh_token` httpOnly cookie
 
 ### `PATCH /api/auth/me`
 
-|                  | Before            | After             |
-| ---------------- | ----------------- | ----------------- |
-| Updatable fields | `english_variant` | `target_language` |
+- Updatable fields — Before: `english_variant`; After: `target_language`
 
 ### `GET /api/auth/me`
 
-|                 | Before                 | After                  |
-| --------------- | ---------------------- | ---------------------- |
-| Response fields | `english_variant: str` | `target_language: str` |
+- Response fields — Before: `english_variant: str`; After: `target_language: str`
 
 ### `POST /api/flashcards/generate`
 
-|              | Before                                   | After                                                       |
-| ------------ | ---------------------------------------- | ----------------------------------------------------------- |
-| Request body | `native_language: str` (client-supplied) | `native_language` field removed — sourced from user profile |
+- Request body — Before: `native_language: str` (client-supplied); After: `native_language` field removed — sourced from user profile
 
 ---
 
 ## Frontend routing changes
 
-| Route                | Before                                           | After                                                                  |
-| -------------------- | ------------------------------------------------ | ---------------------------------------------------------------------- |
-| `/(auth)/register`   | Redirects to `/login?registered=true` on success | Redirects to `/onboarding` on success                                  |
-| `/(auth)/onboarding` | Does not exist                                   | New — language selection screen (requires valid access_token in store) |
-| `/(app)/settings`    | Includes English variant selector                | English variant selector removed                                       |
+- `/(auth)/register` — Before: Redirects to `/login?registered=true` on success; After: Redirects to `/onboarding` on success
+- `/(auth)/onboarding` — Before: Does not exist; After: New — language selection screen (requires valid access_token in store)
+- `/(app)/settings` — Before: Includes English variant selector; After: English variant selector removed
 
 ---
 

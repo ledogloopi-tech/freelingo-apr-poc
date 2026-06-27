@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.19] - 2026-06-27
+
+### Fixed
+
+- **Logged-in pricing checkout**: authenticated users who select a monthly or yearly plan from the public landing-page pricing section now start Stripe Checkout directly instead of being sent back to the dashboard. The landing pricing CTA refreshes the session token when needed before creating the checkout session.
+- **Past-due subscription recovery**: users with a pending Stripe payment now see payment-recovery copy and a Customer Portal action in Settings and the dashboard Premium banner instead of new subscription plan buttons.
+- **Stripe subscription states**: real Stripe states such as `unpaid`, `paused`, `incomplete`, and `incomplete_expired` are now preserved for accurate status labels while only `active` and `trialing` grant Premium access. `past_due`, `unpaid`, and `paused` route users to payment recovery; `none`, `incomplete`, `incomplete_expired`, and `canceled` show normal plan-selection buttons.
+- **Checkout success verification**: the Stripe success page now confirms `/api/auth/me` reports an active or trialing subscription before showing Premium-active copy. If the webhook has not synced yet, it shows subscription-confirmation copy instead of claiming access is already active.
+- **Stripe webhook subscription matching**: billing webhooks now persist the current `stripe_subscription_id` and ignore subscription lifecycle events for older Stripe subscriptions once the current subscription is known, preventing stale `deleted`, `updated`, or `payment_failed` events from incorrectly changing current Premium access.
+- **Onboarding checkout session recovery**: onboarding now refreshes the access token from the session cookie before starting Stripe Checkout, so users who reload onboarding after registration can still continue to payment without a failed checkout request.
+
 ## [1.8.18] - 2026-06-26
 
 ### Added

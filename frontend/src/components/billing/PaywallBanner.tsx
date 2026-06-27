@@ -3,29 +3,30 @@
 import { useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { BookOpen, Headphones, MessageSquare, Mic } from 'lucide-react'
 import { apiFetch } from '@/lib/api'
 import { splitYearlyCta, type BillingInterval } from '@/lib/billing-copy'
 import { useConfigStore } from '@/store/config'
-import { useAuthStore, isSubscribed } from '@/store/auth'
+import { useAuthStore, isSubscribed, needsPaymentRecovery } from '@/store/auth'
 
 const PAYWALL_CONTEXT = {
   '/chat': {
-    icon: '◇',
+    icon: MessageSquare,
     title: 'paywallChatTitle',
     desc: 'paywallChatDesc',
   },
   '/conversation': {
-    icon: '◎',
+    icon: Mic,
     title: 'paywallConversationTitle',
     desc: 'paywallConversationDesc',
   },
   '/listening': {
-    icon: '◈',
+    icon: Headphones,
     title: 'paywallListeningTitle',
     desc: 'paywallListeningDesc',
   },
   '/reading': {
-    icon: '▣',
+    icon: BookOpen,
     title: 'paywallReadingTitle',
     desc: 'paywallReadingDesc',
   },
@@ -41,7 +42,9 @@ export function PaywallBanner() {
   const priceMonthly = useConfigStore((s) => s.priceMonthly)
   const priceYearly = useConfigStore((s) => s.priceYearly)
   const [loading, setLoading] = useState<BillingInterval | null>(null)
+  const [portalLoading, setPortalLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const paymentRecovery = needsPaymentRecovery(user)
   const yearlyCta = splitYearlyCta(
     t('planYearly', { price: String(priceYearly) })
   )
@@ -50,6 +53,7 @@ export function PaywallBanner() {
   if (!stripeEnabled || isSubscribed(user, stripeEnabled)) return null
 
   const context = PAYWALL_CONTEXT[pathname as keyof typeof PAYWALL_CONTEXT]
+  const Icon = context?.icon ?? Mic
   const trialEligible = !user?.trial_used
 
   async function handleCheckout(interval: BillingInterval) {
@@ -73,67 +77,99 @@ export function PaywallBanner() {
     }
   }
 
+  async function handleManageBilling() {
+    setPortalLoading(true)
+    setError(null)
+    try {
+      const res = await apiFetch('/api/billing/portal', { method: 'POST' })
+      if (!res.ok) throw new Error(t('portalError'))
+      const { url } = await res.json()
+      window.location.assign(url)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t('portalError'))
+      setPortalLoading(false)
+    }
+  }
+
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 py-16 text-center">
       <div className="border-fl-border bg-fl-surface w-full max-w-md border p-8">
-        {/* Icon */}
-        <div className="text-fl-muted-2 mb-4 text-2xl">
-          {context?.icon ?? '◎'}
-        </div>
+        <Icon
+          className="text-fl-muted-2 mx-auto mb-4 h-6 w-6"
+          aria-hidden="true"
+        />
 
         {/* Headline */}
         <p className="text-fl-label text-fl-muted-2 mb-2 font-mono tracking-widest uppercase">
           {t('paywallLabel')}
         </p>
         <h2 className="text-fl-fg mb-3 font-mono text-base font-bold">
-          {t(context?.title ?? 'paywallTitle')}
+          {t(
+            paymentRecovery
+              ? 'premiumBannerPastDueTitle'
+              : (context?.title ?? 'paywallTitle')
+          )}
         </h2>
         <p className="text-fl-muted-1 mb-6 font-mono text-xs leading-relaxed">
-          {t(
-            context?.desc ??
-              (trialEligible ? 'paywallDesc' : 'paywallDescTrialUsed'),
-            { days: trialDays }
-          )}
+          {paymentRecovery
+            ? t('premiumBannerPastDueDesc')
+            : t(
+                context?.desc ??
+                  (trialEligible ? 'paywallDesc' : 'paywallDescTrialUsed'),
+                { days: trialDays }
+              )}
         </p>
 
         {/* Plan buttons */}
-        <div className="flex flex-col gap-3">
+        {paymentRecovery ? (
           <button
-            onClick={() => handleCheckout('yearly')}
-            disabled={loading !== null}
+            onClick={handleManageBilling}
+            disabled={portalLoading}
             className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 w-full px-4 py-3 font-mono text-xs tracking-widest uppercase transition-colors disabled:opacity-50"
           >
-            {loading === 'yearly' ? (
-              '...'
-            ) : (
-              <span className="flex flex-col items-center gap-0.5 leading-relaxed">
-                <span>{yearlyCta.main}</span>
-                {yearlyCta.savings && (
-                  <span className="text-fl-accent-fg/80 text-[0.68rem]">
-                    {yearlyCta.savings}
-                  </span>
-                )}
-              </span>
-            )}
+            {portalLoading ? '...' : t('updatePayment')}
           </button>
-          <button
-            onClick={() => handleCheckout('monthly')}
-            disabled={loading !== null}
-            className="border-fl-border text-fl-muted-1 hover:text-fl-fg hover:border-fl-border-2 w-full border px-4 py-3 font-mono text-xs tracking-widest uppercase transition-colors disabled:opacity-50"
-          >
-            {loading === 'monthly'
-              ? '...'
-              : t('planMonthly', { price: String(priceMonthly) })}
-          </button>
-        </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={() => handleCheckout('yearly')}
+              disabled={loading !== null}
+              className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 w-full px-4 py-3 font-mono text-xs tracking-widest uppercase transition-colors disabled:opacity-50"
+            >
+              {loading === 'yearly' ? (
+                '...'
+              ) : (
+                <span className="flex flex-col items-center gap-0.5 leading-relaxed">
+                  <span>{yearlyCta.main}</span>
+                  {yearlyCta.savings && (
+                    <span className="text-fl-accent-fg/80 text-[0.68rem]">
+                      {yearlyCta.savings}
+                    </span>
+                  )}
+                </span>
+              )}
+            </button>
+            <button
+              onClick={() => handleCheckout('monthly')}
+              disabled={loading !== null}
+              className="border-fl-border text-fl-muted-1 hover:text-fl-fg hover:border-fl-border-2 w-full border px-4 py-3 font-mono text-xs tracking-widest uppercase transition-colors disabled:opacity-50"
+            >
+              {loading === 'monthly'
+                ? '...'
+                : t('planMonthly', { price: String(priceMonthly) })}
+            </button>
+          </div>
+        )}
 
         {error && (
           <p className="text-fl-hint mt-4 font-mono text-red-500">{error}</p>
         )}
 
-        <p className="text-fl-hint text-fl-muted-3 mt-6 font-mono tracking-widest uppercase">
-          {t(trialEligible ? 'paywallNoCharge' : 'paywallNoChargeTrialUsed')}
-        </p>
+        {!paymentRecovery && (
+          <p className="text-fl-hint text-fl-muted-3 mt-6 font-mono tracking-widest uppercase">
+            {t(trialEligible ? 'paywallNoCharge' : 'paywallNoChargeTrialUsed')}
+          </p>
+        )}
 
         <button
           onClick={() => router.push('/dashboard')}

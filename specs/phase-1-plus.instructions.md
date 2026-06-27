@@ -13,14 +13,12 @@ A unified resource centre delivering five complementary features: a grammar refe
 
 ## Milestones
 
-| #   | Milestone             | What was built                                                                                                   |
-| --- | --------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| 1   | Grammar Reference     | Static grammar data file + `/grammar` index + `/grammar/[slug]` detail pages                                     |
-| 2   | Vocabulary Hub        | Backend vocabulary data per language + `/vocabulary` index via API + set detail pages with flashcard integration |
-| 3   | Phrasebook            | Static phrasebook data file + `/phrasebook` page with level and register filters                                 |
-| 4   | Skills Tracker        | `/progress` page showing unit competencies, vocabulary progress, XP history                                      |
-| 5   | Level Completion Test | End-of-level exam at `/assessment/level-test` with auto-generated questions and scoring                          |
-| 6   | Navigation & routing  | RESOURCES nav group in sidebar, curriculum-driven `/plan` roadmap                                                |
+- 1 — Milestone: Grammar Reference; What was built: Static grammar data file + `/grammar` index + `/grammar/[slug]` detail pages
+- 2 — Milestone: Vocabulary Hub; What was built: Backend vocabulary data per language + `/vocabulary` index via API + set detail pages with flashcard integration
+- 3 — Milestone: Phrasebook; What was built: Static phrasebook data file + `/phrasebook` page with level and register filters
+- 4 — Milestone: Skills Tracker; What was built: `/progress` page showing unit competencies, vocabulary progress, XP history
+- 5 — Milestone: Level Completion Test; What was built: End-of-level exam at `/assessment/level-test` with auto-generated questions and scoring
+- 6 — Milestone: Navigation & routing; What was built: RESOURCES nav group in sidebar, curriculum-driven `/plan` roadmap
 
 ---
 
@@ -88,24 +86,20 @@ Dynamic route rendering a single grammar topic. The `[slug]` parameter maps dire
 
 **VocabularyEntry** (per word):
 
-| Field            | Type              | Description                                                                       |
-| ---------------- | ----------------- | --------------------------------------------------------------------------------- |
-| `word`           | string            | English word                                                                      |
-| `pos`            | PartOfSpeech      | Noun, verb, adjective, adverb, phrase, conjunction, preposition, numeral, pronoun |
-| `definition`     | string            | Simple English definition                                                         |
-| `example`        | string            | Natural usage example                                                             |
-| `ipa`            | string (optional) | IPA pronunciation                                                                 |
-| `frequency_rank` | number (optional) | Usage frequency ranking                                                           |
+- `word` — Type: string; Description: English word
+- `pos` — Type: PartOfSpeech; Description: Noun, verb, adjective, adverb, phrase, conjunction, preposition, numeral, pronoun
+- `definition` — Type: string; Description: Simple English definition
+- `example` — Type: string; Description: Natural usage example
+- `ipa` — Type: string (optional); Description: IPA pronunciation
+- `frequency_rank` — Type: number (optional); Description: Usage frequency ranking
 
 **VocabularySet** (per topic):
 
-| Field      | Type              | Description                                              |
-| ---------- | ----------------- | -------------------------------------------------------- |
-| `id`       | string            | Unique identifier (e.g. `"identity"`, `"greetings"`)     |
-| `level`    | CEFRLevel         | CEFR level                                               |
-| `topic`    | string            | Human-readable topic name                                |
-| `unit_ref` | string            | Curriculum unit this set belongs to (e.g. `"a1-unit-1"`) |
-| `words`    | VocabularyEntry[] | The vocabulary items                                     |
+- `id` — Type: string; Description: Unique identifier (e.g. `"identity"`, `"greetings"`)
+- `level` — Type: CEFRLevel; Description: CEFR level
+- `topic` — Type: string; Description: Human-readable topic name
+- `unit_ref` — Type: string; Description: Curriculum unit this set belongs to (e.g. `"a1-unit-1"`)
+- `words` — Type: VocabularyEntry[]; Description: The vocabulary items
 
 ### Vocabulary index page (`/vocabulary`)
 
@@ -148,22 +142,18 @@ The vocabulary hub and flashcard system are connected:
 
 **Phrase** (per entry):
 
-| Field      | Type              | Description                              |
-| ---------- | ----------------- | ---------------------------------------- |
-| `text`     | string            | The phrase in the target language        |
-| `context`  | string            | When/where to use the phrase             |
-| `register` | Register          | `"formal"`, `"neutral"`, or `"informal"` |
-| `unit_ref` | string (optional) | Curriculum unit this phrase relates to   |
+- `text` — Type: string; Description: The phrase in the target language
+- `context` — Type: string; Description: When/where to use the phrase
+- `register` — Type: Register; Description: `"formal"`, `"neutral"`, or `"informal"`
+- `unit_ref` — Type: string (optional); Description: Curriculum unit this phrase relates to
 
 **PhrasebookCategory** (per situation):
 
-| Field       | Type      | Description                                            |
-| ----------- | --------- | ------------------------------------------------------ |
-| `id`        | string    | Unique identifier                                      |
-| `level`     | CEFRLevel | Minimum level for this situation                       |
-| `situation` | string    | Real-world scenario (e.g. "At the restaurant")         |
-| `icon`      | string    | Emoji representing the situation (for visual indexing) |
-| `phrases`   | Phrase[]  | The phrases for this situation                         |
+- `id` — Type: string; Description: Unique identifier
+- `level` — Type: CEFRLevel; Description: Minimum level for this situation
+- `situation` — Type: string; Description: Real-world scenario (e.g. "At the restaurant")
+- `icon` — Type: string; Description: Emoji representing the situation (for visual indexing)
+- `phrases` — Type: Phrase[]; Description: The phrases for this situation
 
 ### Phrasebook page (`/phrasebook`)
 
@@ -254,11 +244,9 @@ The prompt (`END_OF_LEVEL_TEST_PROMPT` in `services/assessment.py`) instructs th
 
 ### Scoring and recommendations
 
-| Score       | Recommendation | Action                                            |
-| ----------- | -------------- | ------------------------------------------------- |
-| >= 0.75     | `"advance"`    | Unlock next CEFR level, create new study plan     |
-| 0.55 – 0.74 | `"extend"`     | Recommend 4-week extension focusing on weak units |
-| < 0.55      | `"repeat"`     | Recommend repeating the full level                |
+- >= 0.75 — Recommendation: `"advance"`; Action: Unlock next CEFR level, create new study plan
+- 0.55 – 0.74 — Recommendation: `"extend"`; Action: Recommend 4-week extension focusing on weak units
+- < 0.55 — Recommendation: `"repeat"`; Action: Recommend repeating the full level
 
 The recommendation is stored in the StudyPlan model (`completion_test_score`, `completion_test_recommendation`) and displayed in the `TestResultSummary` component.
 

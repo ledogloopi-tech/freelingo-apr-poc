@@ -11,33 +11,34 @@ All models use SQLAlchemy 2.0 declarative style with `Mapped[T]` type annotation
 
 Registration, authentication, and user preferences.
 
-| Column                          | Type                | Notes                                                                                                  |
-| ------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------ |
-| id                              | integer             | Primary key                                                                                            |
-| username                        | string              | Unique, used for login                                                                                 |
-| email                           | string              | Unique, nullable at DB level for legacy rows; required by public registration and admin user creation  |
-| display_name                    | string              | Shown in UI                                                                                            |
-| hashed_password                 | string              | bcrypt hash                                                                                            |
-| role                            | string              | `"admin"` or `"user"`                                                                                  |
-| native_language                 | string              | e.g. `"es"`, `"fr"` — used for flashcard translations and tutor feedback                               |
-| target_language                 | string              | BCP-47 tag, e.g. `"en-GB"` (default) or `"en-US"` — the language the user is learning                  |
-| is_active                       | boolean             | False = account disabled by admin                                                                      |
-| is_verified                     | boolean             | False until email verified (default False; existing users set to True on migration)                    |
-| conversation_max_duration       | integer             | Max voice session duration in seconds (default 1800)                                                   |
-| conversation_inactivity_timeout | integer             | Seconds of silence before disconnect (default 180)                                                     |
-| conversation_weekly_sessions    | integer             | Counter reset each week (default 0)                                                                    |
-| conversation_daily_minutes      | integer             | Limit in minutes per day (default 30)                                                                  |
-| conversation_weekly_minutes     | integer             | Limit in minutes per week (default 90)                                                                 |
-| monthly_tokens_limit            | integer             | Max LLM tokens per billing period (default 1 000 000)                                                  |
-| stripe_customer_id              | string (nullable)   | Stripe customer ID (set when subscription is created)                                                  |
-| subscription_status             | string              | Subscription state: `none` (default), `trialing`, `active`, `past_due`, `canceled`                     |
-| subscription_ends_at            | datetime (nullable) | When the current subscription period ends                                                              |
-| trial_used                      | boolean             | `true` once the user has started or completed a trial; prevents repeated free trials (default `false`) |
-| avatar                          | text (nullable)     | Cache-busted internal avatar reference (`/api/avatars/{uuid}.{ext}?v={ms}`) for files stored under `/app/avatars`. Files are retrieved through authenticated profile endpoints with private no-store responses, not public static serving. Legacy base64 data URLs may still exist until replaced. |
-| bio                             | text (nullable)     | User-written profile bio                                                                               |
-| learning_goals                  | text (nullable)     | JSON-encoded array of learning goal strings                                                            |
-| created_at                      | datetime            | Auto-set on creation                                                                                   |
-| last_login                      | datetime (nullable) | Updated on each successful login                                                                       |
+**Columns:**
+
+- `id` — integer primary key.
+- `username` — unique string used for login.
+- `email` — unique string; nullable at DB level for legacy rows, but required by public registration and admin user creation.
+- `display_name` — string shown in the UI.
+- `hashed_password` — bcrypt hash.
+- `role` — string: `"admin"` or `"user"`.
+- `native_language` — string such as `"es"` or `"fr"`; used for flashcard translations and tutor feedback.
+- `target_language` — BCP-47 tag such as `"en-GB"` (default) or `"en-US"`; the language the user is learning.
+- `is_active` — boolean; `false` means the account is disabled by an admin.
+- `is_verified` — boolean; `false` until email verification. Existing users were set to `true` on migration.
+- `conversation_max_duration` — integer max voice session duration in seconds. Default: `1800`.
+- `conversation_inactivity_timeout` — integer seconds of silence before disconnect. Default: `180`.
+- `conversation_weekly_sessions` — integer weekly session counter. Default: `0`.
+- `conversation_daily_minutes` — integer daily voice limit in minutes. Default: `30`.
+- `conversation_weekly_minutes` — integer weekly voice limit in minutes. Default: `90`.
+- `monthly_tokens_limit` — integer max LLM tokens per billing period. Default: `1 000 000`.
+- `stripe_customer_id` — nullable string Stripe customer ID, set when a subscription is created.
+- `stripe_subscription_id` — nullable string current Stripe subscription ID. Used to ignore stale webhook events from older subscriptions for the same customer.
+- `subscription_status` — string subscription state: `none` by default, plus Stripe states `trialing`, `active`, `past_due`, `canceled`, `incomplete`, `incomplete_expired`, `unpaid`, and `paused`.
+- `subscription_ends_at` — nullable datetime for the current subscription period end.
+- `trial_used` — boolean; `true` once the user has started or completed a trial, preventing repeated free trials. Default: `false`.
+- `avatar` — nullable text cache-busted internal avatar reference, for example `/api/avatars/{uuid}.{ext}?v={ms}`. Files are stored under `/app/avatars` and retrieved through authenticated profile endpoints with private no-store responses, not public static serving. Legacy base64 data URLs may still exist until replaced.
+- `bio` — nullable text profile bio.
+- `learning_goals` — nullable text JSON-encoded array of learning goal strings.
+- `created_at` — datetime set automatically on creation.
+- `last_login` — nullable datetime updated on each successful login.
 
 **Registration rules:**
 
@@ -47,18 +48,18 @@ Registration, authentication, and user preferences.
 - `POST /register` returns an `access_token` + sets the refresh token cookie so the frontend can redirect directly to `/onboarding` without an intermediate login.
 - On `/onboarding` the user chooses their `target_language`; the choice is saved via `PATCH /me` before accessing the app.
 - `trial_used` is surfaced through authenticated user profile responses and remains backend-authoritative: Stripe Checkout only receives `trial_period_days` when `STRIPE_TRIAL_DAYS > 0` and `trial_used=false`; webhooks set it to `true` once a trialing subscription starts.
+- `stripe_subscription_id` is set from `checkout.session.completed` and backfilled from `customer.subscription.updated` for existing users when missing. Once present, subscription update/delete and invoice payment-failed webhooks whose subscription ID does not match are ignored as stale events.
+- Only `trialing` and `active` grant premium access. `past_due`, `unpaid`, and `paused` route users to payment recovery through Stripe Customer Portal. `none`, `incomplete`, `incomplete_expired`, and `canceled` show normal monthly/yearly plan-selection UI.
 
 ## UserLanguage (`user_languages`)
 
 Relates users to the languages they are learning. One row per user per language. Added in Phase 10.
 
-| Column          | Type       | Notes                                                                       |
-| --------------- | ---------- | --------------------------------------------------------------------------- |
-| id              | integer    | Primary key, autoincrement                                                  |
-| user_id         | integer    | FK → users (CASCADE), NOT NULL                                              |
-| target_language | string(10) | BCP-47 tag, NOT NULL                                                        |
-| is_active       | boolean    | `true` = current active language. Only one `true` per user. Default `true`. |
-| created_at      | datetime   | Auto-set                                                                    |
+- id — Type: integer; Notes: Primary key, autoincrement
+- user_id — Type: integer; Notes: FK → users (CASCADE), NOT NULL
+- target_language — Type: string(10); Notes: BCP-47 tag, NOT NULL
+- is_active — Type: boolean; Notes: `true` = current active language. Only one `true` per user. Default `true`.
+- created_at — Type: datetime; Notes: Auto-set
 
 **Constraints:**
 
@@ -92,47 +93,41 @@ One active plan per user per language. Generated after CEFR assessment. Added in
 
 **Intensity / duration mapping:**
 
-| Intensity         | Weeks | Days/week | Total lessons |
-| ----------------- | ----- | --------- | ------------- |
-| Intensive         | 4     | 5         | ~20           |
-| Standard          | 8     | 5         | ~40           |
-| Relaxed (default) | 12    | 4         | ~48           |
-| Very relaxed      | 16    | 3         | ~48           |
-
-## Lesson (`lessons`)
+- Intensive — Weeks: 4; Days/week: 5; Total lessons: ~20
+- Standard — Weeks: 8; Days/week: 5; Total lessons: ~40
+- Relaxed (default) — Weeks: 12; Days/week: 4; Total lessons: ~48
+- Very relaxed — Weeks: 16; Days/week: 3; Total lessons: ~48
 
 One lesson per day slot in the study plan.
 
-| Column        | Type              | Notes                                                   |
-| ------------- | ----------------- | ------------------------------------------------------- |
-| id            | integer           | Primary key                                             |
-| study_plan_id | integer           | FK → study_plans                                        |
-| title         | string            | Lesson title                                            |
-| lesson_type   | string            | `grammar`, `vocabulary`, `reading`, `writing`, `listening`, `review` |
-| cefr_level    | string            | CEFR level                                              |
-| week_number   | integer           | Week in the plan                                        |
-| day_number    | integer           | Day in the week                                         |
-| unit_id       | string (nullable) | Curriculum unit this lesson belongs to                  |
-| content       | JSON              | Structured lesson content generated by LLM: target-language `explanation`, optional native-language `native_explanation` with `text`, `key_points`, `examples`, `common_traps`, and `mini_glossary`, exercises, vocabulary, grammar refs, and unit metadata |
-| is_completed  | boolean           |                                                         |
-| completed_at  | datetime          |                                                         |
+**Columns:**
+
+- `id` — integer primary key.
+- `study_plan_id` — integer FK to `study_plans`.
+- `title` — lesson title.
+- `lesson_type` — string: `grammar`, `vocabulary`, `reading`, `writing`, `listening`, or `review`.
+- `cefr_level` — CEFR level string.
+- `week_number` — integer week in the plan.
+- `day_number` — integer day in the week.
+- `unit_id` — nullable string curriculum unit this lesson belongs to.
+- `content` — JSON structured lesson content generated by the LLM. Includes target-language `explanation`, optional native-language `native_explanation` with `text`, `key_points`, `examples`, `common_traps`, and `mini_glossary`, plus exercises, vocabulary, grammar refs, and unit metadata.
+- `is_completed` — boolean completion flag.
+- `completed_at` — datetime set when the lesson is completed.
 
 ## Exercise (`exercises`)
 
 Exercises belong to a lesson (1 lesson → many exercises).
 
-| Column         | Type             | Notes                                                          |
-| -------------- | ---------------- | -------------------------------------------------------------- |
-| id             | integer          | Primary key                                                    |
-| lesson_id      | integer          | FK → lessons                                                   |
-| exercise_type  | string           | `multiple_choice`, `fill_blank`, `free_write`, `pronunciation` |
-| question       | text             | Exercise prompt                                                |
-| options        | JSON             | Array of options (for multiple_choice)                         |
-| correct_answer | text             | Expected answer                                                |
-| user_answer    | text (nullable)  | User's submitted answer                                        |
-| score          | float (nullable) | 0.0 – 1.0                                                      |
-| feedback       | text (nullable)  | LLM-generated feedback                                         |
-| answered_at    | datetime         |                                                                |
+- id — Type: integer; Notes: Primary key
+- lesson_id — Type: integer; Notes: FK → lessons
+- exercise_type — Type: string; Notes: `multiple_choice`, `fill_blank`, `free_write`, `pronunciation`
+- question — Type: text; Notes: Exercise prompt
+- options — Type: JSON; Notes: Array of options (for multiple_choice)
+- correct_answer — Type: text; Notes: Expected answer
+- user_answer — Type: text (nullable); Notes: User's submitted answer
+- score — Type: float (nullable); Notes: 0.0 – 1.0
+- feedback — Type: text (nullable); Notes: LLM-generated feedback
+- answered_at — Type: datetime; Notes: —
 
 Exercise rows do not have a dedicated native-language explanation column. New lesson-generation output may include per-exercise `native_explanation` values inside `lessons.content.exercises[*]`; `GET /api/lessons/{id}` merges that optional JSON text into each exercise response by exercise order. The on-demand endpoint `POST /api/lessons/exercises/{id}/native-explanation` writes missing exercise-level native explanations back into the same JSON array.
 
@@ -140,38 +135,34 @@ Exercise rows do not have a dedicated native-language explanation column. New le
 
 SM-2 spaced repetition cards, per user per language.
 
-| Column           | Type        | Notes                                                                               |
-| ---------------- | ----------- | ----------------------------------------------------------------------------------- |
-| id               | integer     | Primary key                                                                         |
-| user_id          | integer     | FK → users                                                                          |
-| study_plan_id    | integer     | FK → study_plans (CASCADE), NOT NULL, indexed. Added in Phase 10.                   |
-| word             | string      | Target language word/phrase                                                         |
-| definition       | text        | English definition                                                                  |
-| example_sentence | text        | Usage example                                                                       |
-| translation      | text        | Translation to user's native language                                               |
-| source           | varchar(20) | Origin of the card: `NULL` (generated), `"from_text"` (saved from reading exercise) |
-| ease_factor      | float       | SM-2 ease factor (default 2.5)                                                      |
-| interval         | integer     | Days until next review (default 0)                                                  |
-| repetitions      | integer     | Consecutive correct reviews (default 0)                                             |
-| next_review      | date        | Date of next review (default today)                                                 |
-| created_at       | datetime    |                                                                                     |
+- id — Type: integer; Notes: Primary key
+- user_id — Type: integer; Notes: FK → users
+- study_plan_id — Type: integer; Notes: FK → study_plans (CASCADE), NOT NULL, indexed. Added in Phase 10.
+- word — Type: string; Notes: Target language word/phrase
+- definition — Type: text; Notes: English definition
+- example_sentence — Type: text; Notes: Usage example
+- translation — Type: text; Notes: Translation to user's native language
+- source — Type: varchar(20); Notes: Origin of the card: `NULL` (generated), `"from_text"` (saved from reading exercise)
+- ease_factor — Type: float; Notes: SM-2 ease factor (default 2.5)
+- interval — Type: integer; Notes: Days until next review (default 0)
+- repetitions — Type: integer; Notes: Consecutive correct reviews (default 0)
+- next_review — Type: date; Notes: Date of next review (default today)
+- created_at — Type: datetime; Notes: —
 
 ## Progress (`progress`)
 
 Daily progress record, one row per user per day per plan. Added `study_plan_id` in Phase 10.
 
-| Column            | Type    | Notes                                                    |
-| ----------------- | ------- | -------------------------------------------------------- |
-| id                | integer | Primary key                                              |
-| user_id           | integer | FK → users                                               |
-| study_plan_id     | integer | FK → study_plans (CASCADE), NOT NULL, indexed            |
-| date              | date    |                                                          |
-| xp_earned         | integer | XP gained that day                                       |
-| lessons_completed | integer |                                                          |
-| exercises_correct | integer |                                                          |
-| exercises_total   | integer |                                                          |
-| streak_day        | integer | Consecutive day count                                    |
-| skills            | JSON    | Skill scores: `{"grammar": 0.6, "vocabulary": 0.4, ...}` |
+- id — Type: integer; Notes: Primary key
+- user_id — Type: integer; Notes: FK → users
+- study_plan_id — Type: integer; Notes: FK → study_plans (CASCADE), NOT NULL, indexed
+- date — Type: date; Notes: —
+- xp_earned — Type: integer; Notes: XP gained that day
+- lessons_completed — Type: integer; Notes: —
+- exercises_correct — Type: integer; Notes: —
+- exercises_total — Type: integer; Notes: —
+- streak_day — Type: integer; Notes: Consecutive day count
+- skills — Type: JSON; Notes: Skill scores: `{"grammar": 0.6, "vocabulary": 0.4, ...}`
 
 **Constraint:** `UNIQUE(user_id, study_plan_id, date)` — one progress row per user per plan per day.
 
@@ -179,44 +170,38 @@ Daily progress record, one row per user per day per plan. Added `study_plan_id` 
 
 Grouping of chat messages (text and voice) into named conversations. Added `study_plan_id` in Phase 10.
 
-| Column        | Type               | Notes                                    |
-| ------------- | ------------------ | ---------------------------------------- |
-| id            | integer            | Primary key                              |
-| user_id       | integer            | FK → users (CASCADE)                     |
-| study_plan_id | integer (nullable) | FK → study_plans (SET NULL), indexed     |
-| title         | string             | Auto-generated or user-set               |
-| source        | string             | `'chat'` or `'voice'` (default `'chat'`) |
-| created_at    | datetime           |                                          |
-| updated_at    | datetime           |                                          |
+- id — Type: integer; Notes: Primary key
+- user_id — Type: integer; Notes: FK → users (CASCADE)
+- study_plan_id — Type: integer (nullable); Notes: FK → study_plans (SET NULL), indexed
+- title — Type: string; Notes: Auto-generated or user-set
+- source — Type: string; Notes: `'chat'` or `'voice'` (default `'chat'`)
+- created_at — Type: datetime; Notes: —
+- updated_at — Type: datetime; Notes: —
 
 ## ChatHistory (`chat_history`)
 
 Individual messages within text chat and voice conversations. Added `study_plan_id` in Phase 10.
 
-| Column          | Type               | Notes                                |
-| --------------- | ------------------ | ------------------------------------ |
-| id              | integer            | Primary key                          |
-| user_id         | integer            | FK → users                           |
-| conversation_id | integer (nullable) | FK → conversations (CASCADE)         |
-| study_plan_id   | integer (nullable) | FK → study_plans (SET NULL), indexed |
-| role            | string             | `"user"` or `"assistant"`            |
-| content         | text               | Message body                         |
-| created_at      | datetime           |                                      |
+- id — Type: integer; Notes: Primary key
+- user_id — Type: integer; Notes: FK → users
+- conversation_id — Type: integer (nullable); Notes: FK → conversations (CASCADE)
+- study_plan_id — Type: integer (nullable); Notes: FK → study_plans (SET NULL), indexed
+- role — Type: string; Notes: `"user"` or `"assistant"`
+- content — Type: text; Notes: Message body
+- created_at — Type: datetime; Notes: —
 
 ## UserCompetency (`user_competencies`)
 
 Per-unit competency tracking (Phase 1+). Added `study_plan_id` in Phase 10.
 
-| Column          | Type     | Notes                                         |
-| --------------- | -------- | --------------------------------------------- |
-| id              | integer  | Primary key                                   |
-| user_id         | integer  | FK → users (CASCADE)                          |
-| study_plan_id   | integer  | FK → study_plans (CASCADE), NOT NULL, indexed |
-| unit_id         | string   | Curriculum unit ID (indexed)                  |
-| competency_text | text     | Name of the competency                        |
-| score           | float    | 0.0 – 1.0, exponential moving average         |
-| mastered        | boolean  | True when score >= 0.80                       |
-| updated_at      | datetime |                                               |
+- id — Type: integer; Notes: Primary key
+- user_id — Type: integer; Notes: FK → users (CASCADE)
+- study_plan_id — Type: integer; Notes: FK → study_plans (CASCADE), NOT NULL, indexed
+- unit_id — Type: string; Notes: Curriculum unit ID (indexed)
+- competency_text — Type: text; Notes: Name of the competency
+- score — Type: float; Notes: 0.0 – 1.0, exponential moving average
+- mastered — Type: boolean; Notes: True when score >= 0.80
+- updated_at — Type: datetime; Notes: —
 
 **Constraint:** `UNIQUE(user_id, study_plan_id, unit_id, competency_text)`.
 
@@ -224,19 +209,17 @@ Per-unit competency tracking (Phase 1+). Added `study_plan_id` in Phase 10.
 
 AI-generated listening comprehension exercises (Phase 6). Shared across all users at the same CEFR level and target language.
 
-| Column           | Type     | Notes                                                                              |
-| ---------------- | -------- | ---------------------------------------------------------------------------------- |
-| id               | integer  | Primary key                                                                        |
-| level            | string   | CEFR level: A1–C2                                                                  |
-| target_language  | string   | BCP-47 tag, e.g. `"en-US"`                                                         |
-| exercise_type    | string   | E.g. `"story"`, `"dialogue"`, `"news_report"` — varies by level                    |
-| topic            | string   | Short topic description                                                            |
-| text             | text     | Full transcript (never returned to client before submission)                       |
-| audio_path       | string   | Absolute path to MP3 on disk, e.g. `/data/audio/listening/42.mp3`                  |
-| duration_seconds | integer  | Audio length in seconds                                                            |
-| questions        | JSON     | List of `{question, options: [str×4], correct}` objects (5 questions per exercise) |
-| play_count       | integer  | How many times this exercise has been served (server default 0)                    |
-| created_at       | datetime | Auto-set on creation                                                               |
+- id — Type: integer; Notes: Primary key
+- level — Type: string; Notes: CEFR level: A1–C2
+- target_language — Type: string; Notes: BCP-47 tag, e.g. `"en-US"`
+- exercise_type — Type: string; Notes: E.g. `"story"`, `"dialogue"`, `"news_report"` — varies by level
+- topic — Type: string; Notes: Short topic description
+- text — Type: text; Notes: Full transcript (never returned to client before submission)
+- audio_path — Type: string; Notes: Absolute path to MP3 on disk, e.g. `/data/audio/listening/42.mp3`
+- duration_seconds — Type: integer; Notes: Audio length in seconds
+- questions — Type: JSON; Notes: List of `{question, options: [str×4], correct}` objects (5 questions per exercise)
+- play_count — Type: integer; Notes: How many times this exercise has been served (server default 0)
+- created_at — Type: datetime; Notes: Auto-set on creation
 
 Composite index: `ix_listening_exercises_level_lang` on `(level, target_language)`.
 
@@ -244,16 +227,14 @@ Composite index: `ix_listening_exercises_level_lang` on `(level, target_language
 
 Records each user submission for a listening exercise. Added `study_plan_id` in Phase 10.
 
-| Column        | Type     | Notes                                                     |
-| ------------- | -------- | --------------------------------------------------------- |
-| id            | integer  | Primary key                                               |
-| user_id       | integer  | FK → users (CASCADE DELETE)                               |
-| exercise_id   | integer  | FK → listening_exercises (CASCADE DELETE)                 |
-| study_plan_id | integer  | FK → study_plans (CASCADE), NOT NULL, indexed             |
-| answers       | JSON     | List of strings — the user's selected option per question |
-| score         | integer  | 0–5 (number of correct answers)                           |
-| xp_earned     | integer  | 0–50 (10 per correct answer)                              |
-| completed_at  | datetime | Auto-set on creation                                      |
+- id — Type: integer; Notes: Primary key
+- user_id — Type: integer; Notes: FK → users (CASCADE DELETE)
+- exercise_id — Type: integer; Notes: FK → listening_exercises (CASCADE DELETE)
+- study_plan_id — Type: integer; Notes: FK → study_plans (CASCADE), NOT NULL, indexed
+- answers — Type: JSON; Notes: List of strings — the user's selected option per question
+- score — Type: integer; Notes: 0–5 (number of correct answers)
+- xp_earned — Type: integer; Notes: 0–50 (10 per correct answer)
+- completed_at — Type: datetime; Notes: Auto-set on creation
 
 Unique constraint: one attempt per `(user_id, exercise_id)` — enforced at service level (409 on duplicate).
 
@@ -261,17 +242,15 @@ Unique constraint: one attempt per `(user_id, exercise_id)` — enforced at serv
 
 AI-generated reading comprehension exercises (Phase 7). Shared across all users at the same CEFR level and target language. Unlike listening, no audio is produced — the text is served directly to the client.
 
-| Column          | Type     | Notes                                                                             |
-| --------------- | -------- | --------------------------------------------------------------------------------- |
-| id              | integer  | Primary key                                                                       |
-| level           | string   | CEFR level: A1–C2                                                                 |
-| target_language | string   | BCP-47 tag, e.g. `"en-US"`                                                        |
-| exercise_type   | string   | `notice`, `email`, `article`, `news`, `blog_post`, `review`, `essay`              |
-| topic           | string   | Short topic description                                                           |
-| text            | text     | Full passage text — **included in exercise response** (unlike listening)          |
-| questions       | JSON     | List of `{index, question, options: {A,B,C,D}, correct}` objects (5 per exercise) |
-| view_count      | integer  | How many times this exercise has been served (server default 0)                   |
-| created_at      | datetime | Auto-set on creation                                                              |
+- id — Type: integer; Notes: Primary key
+- level — Type: string; Notes: CEFR level: A1–C2
+- target_language — Type: string; Notes: BCP-47 tag, e.g. `"en-US"`
+- exercise_type — Type: string; Notes: `notice`, `email`, `article`, `news`, `blog_post`, `review`, `essay`
+- topic — Type: string; Notes: Short topic description
+- text — Type: text; Notes: Full passage text — **included in exercise response** (unlike listening)
+- questions — Type: JSON; Notes: List of `{index, question, options: {A,B,C,D}, correct}` objects (5 per exercise)
+- view_count — Type: integer; Notes: How many times this exercise has been served (server default 0)
+- created_at — Type: datetime; Notes: Auto-set on creation
 
 Composite index: `ix_reading_exercises_level_lang` on `(level, target_language)`.
 
@@ -279,16 +258,14 @@ Composite index: `ix_reading_exercises_level_lang` on `(level, target_language)`
 
 Records each user submission for a reading exercise. Added `study_plan_id` in Phase 10.
 
-| Column        | Type     | Notes                                                                   |
-| ------------- | -------- | ----------------------------------------------------------------------- |
-| id            | integer  | Primary key                                                             |
-| user_id       | integer  | FK → users (CASCADE DELETE)                                             |
-| exercise_id   | integer  | FK → reading_exercises (CASCADE DELETE)                                 |
-| study_plan_id | integer  | FK → study_plans (CASCADE), NOT NULL, indexed                           |
-| answers       | JSON     | `{ "0": "B", "1": "A", ... }` — the user's selected option per question |
-| score         | integer  | 0–5 (number of correct answers)                                         |
-| xp_earned     | integer  | 0–50 (10 per correct answer)                                            |
-| completed_at  | datetime | Auto-set on creation                                                    |
+- id — Type: integer; Notes: Primary key
+- user_id — Type: integer; Notes: FK → users (CASCADE DELETE)
+- exercise_id — Type: integer; Notes: FK → reading_exercises (CASCADE DELETE)
+- study_plan_id — Type: integer; Notes: FK → study_plans (CASCADE), NOT NULL, indexed
+- answers — Type: JSON; Notes: `{ "0": "B", "1": "A", ... }` — the user's selected option per question
+- score — Type: integer; Notes: 0–5 (number of correct answers)
+- xp_earned — Type: integer; Notes: 0–50 (10 per correct answer)
+- completed_at — Type: datetime; Notes: Auto-set on creation
 
 Unique constraint: one attempt per `(user_id, exercise_id)` — enforced at service level (409 on duplicate).
 
@@ -296,16 +273,14 @@ Unique constraint: one attempt per `(user_id, exercise_id)` — enforced at serv
 
 A feature request or bug report submitted by a user.
 
-| Column      | Type        | Notes                                                                     |
-| ----------- | ----------- | ------------------------------------------------------------------------- |
-| id          | integer     | Primary key                                                               |
-| type        | string(10)  | `"feature"` or `"bug"`                                                    |
-| title       | string(200) | Short title                                                               |
-| description | text        | Full description (max 5000 chars via schema)                              |
-| status      | string(20)  | `pending` (default) \| `planned` \| `in_progress` \| `done` \| `declined` |
-| author_id   | integer     | FK → users (CASCADE DELETE)                                               |
-| vote_count  | integer     | Denormalised sum of votes (default 0)                                     |
-| created_at  | datetime    | Auto-set on creation                                                      |
+- id — Type: integer; Notes: Primary key
+- type — Type: string(10); Notes: `"feature"` or `"bug"`
+- title — Type: string(200); Notes: Short title
+- description — Type: text; Notes: Full description (max 5000 chars via schema)
+- status — Type: string(20); Notes: `pending` (default) \
+- author_id — Type: integer; Notes: FK → users (CASCADE DELETE)
+- vote_count — Type: integer; Notes: Denormalised sum of votes (default 0)
+- created_at — Type: datetime; Notes: Auto-set on creation
 
 Indexes: `type`, `status`, `author_id`, `created_at`.
 
@@ -313,12 +288,10 @@ Indexes: `type`, `status`, `author_id`, `created_at`.
 
 One vote per user per feature request. Bugs are not voteable.
 
-| Column     | Type     | Notes                                  |
-| ---------- | -------- | -------------------------------------- |
-| id         | integer  | Primary key                            |
-| entry_id   | integer  | FK → feedback_entries (CASCADE DELETE) |
-| user_id    | integer  | FK → users (CASCADE DELETE)            |
-| created_at | datetime | Auto-set on creation                   |
+- id — Type: integer; Notes: Primary key
+- entry_id — Type: integer; Notes: FK → feedback_entries (CASCADE DELETE)
+- user_id — Type: integer; Notes: FK → users (CASCADE DELETE)
+- created_at — Type: datetime; Notes: Auto-set on creation
 
 Unique constraint: `UNIQUE(entry_id, user_id)` — enforced at DB level (`uq_feedback_vote`).
 
@@ -326,29 +299,25 @@ Unique constraint: `UNIQUE(entry_id, user_id)` — enforced at DB level (`uq_fee
 
 A flat comment on a feedback entry. No nesting.
 
-| Column     | Type     | Notes                                    |
-| ---------- | -------- | ---------------------------------------- |
-| id         | integer  | Primary key                              |
-| entry_id   | integer  | FK → feedback_entries (CASCADE DELETE)   |
-| author_id  | integer  | FK → users (CASCADE DELETE)              |
-| body       | text     | Comment body (max 2000 chars via schema) |
-| created_at | datetime | Auto-set on creation                     |
+- id — Type: integer; Notes: Primary key
+- entry_id — Type: integer; Notes: FK → feedback_entries (CASCADE DELETE)
+- author_id — Type: integer; Notes: FK → users (CASCADE DELETE)
+- body — Type: text; Notes: Comment body (max 2000 chars via schema)
+- created_at — Type: datetime; Notes: Auto-set on creation
 
 ## Review (`reviews`)
 
 One moderated product review per user. Added in Phase 11.
 
-| Column            | Type        | Notes                                                                |
-| ----------------- | ----------- | -------------------------------------------------------------------- |
-| id                | integer     | Primary key                                                          |
-| user_id           | integer     | FK -> users (CASCADE DELETE), unique, indexed                        |
-| user_display_name | string(150) | Snapshot of the user's visible name when the review is created       |
-| target_language   | string(10)  | Active learning language when the review is created, indexed         |
-| rating            | integer     | Required 1-5 star rating                                             |
-| comment           | text        | Optional review comment                                              |
-| is_approved       | boolean     | Admin moderation flag, default `false`, indexed                      |
-| created_at        | datetime    | Auto-set on creation, indexed                                        |
-| updated_at        | datetime    | Auto-set on creation; updated when ORM updates the row               |
+- id — Type: integer; Notes: Primary key
+- user_id — Type: integer; Notes: FK -> users (CASCADE DELETE), unique, indexed
+- user_display_name — Type: string(150); Notes: Snapshot of the user's visible name when the review is created
+- target_language — Type: string(10); Notes: Active learning language when the review is created, indexed
+- rating — Type: integer; Notes: Required 1-5 star rating
+- comment — Type: text; Notes: Optional review comment
+- is_approved — Type: boolean; Notes: Admin moderation flag, default `false`, indexed
+- created_at — Type: datetime; Notes: Auto-set on creation, indexed
+- updated_at — Type: datetime; Notes: Auto-set on creation; updated when ORM updates the row
 
 **Constraints and indexes:**
 
@@ -367,17 +336,15 @@ One moderated product review per user. Added in Phase 11.
 
 Global cache for native-language study help generated for static learning resources. Added in v1.8.10 for grammar, phrasebook, and vocabulary native help.
 
-| Column          | Type     | Notes                                                                                       |
-| --------------- | -------- | ------------------------------------------------------------------------------------------- |
-| id              | integer  | Primary key                                                                                 |
-| resource_type   | string   | Resource namespace, currently `"grammar"` or `"phrasebook"`; reserved for `"vocabulary"`   |
-| resource_key    | string   | Stable resource identifier, e.g. grammar topic slug                                         |
-| target_language | string   | BCP-47 learning language for the source content                                             |
-| native_language | string   | User native-language code used for the generated help                                       |
-| source_hash     | string   | SHA-256 hash of the source static content used to generate `content`                         |
-| content         | JSONB    | Generated native-language help JSON                                                         |
-| created_at      | datetime | Auto-set on creation                                                                        |
-| updated_at      | datetime | Updated whenever stale cached help is regenerated                                           |
+- id — Type: integer; Notes: Primary key
+- resource_type — Type: string; Notes: Resource namespace, currently `"grammar"` or `"phrasebook"`; reserved for `"vocabulary"`
+- resource_key — Type: string; Notes: Stable resource identifier, e.g. grammar topic slug
+- target_language — Type: string; Notes: BCP-47 learning language for the source content
+- native_language — Type: string; Notes: User native-language code used for the generated help
+- source_hash — Type: string; Notes: SHA-256 hash of the source static content used to generate `content`
+- content — Type: JSONB; Notes: Generated native-language help JSON
+- created_at — Type: datetime; Notes: Auto-set on creation
+- updated_at — Type: datetime; Notes: Updated whenever stale cached help is regenerated
 
 **Constraints and indexes:**
 
@@ -396,26 +363,22 @@ Global cache for native-language study help generated for static learning resour
 
 User-specific context persisted by the LLM during conversations. The AI tutor autonomously decides what to remember. Added `study_plan_id` in Phase 10.
 
-| Column        | Type               | Notes                                                |
-| ------------- | ------------------ | ---------------------------------------------------- |
-| id            | integer            | Primary key                                          |
-| user_id       | integer            | FK → users (CASCADE DELETE)                          |
-| study_plan_id | integer (nullable) | FK → study_plans (SET NULL), indexed                 |
-| content       | text               | Memory text, max 200 chars enforced at service layer |
-| source        | varchar(10)        | `"chat"` or `"voice"`                                |
-| created_at    | datetime           | Auto-set on creation                                 |
+- id — Type: integer; Notes: Primary key
+- user_id — Type: integer; Notes: FK → users (CASCADE DELETE)
+- study_plan_id — Type: integer (nullable); Notes: FK → study_plans (SET NULL), indexed
+- content — Type: text; Notes: Memory text, max 200 chars enforced at service layer
+- source — Type: varchar(10); Notes: `"chat"` or `"voice"`
+- created_at — Type: datetime; Notes: Auto-set on creation
 
 ## LLMUsage (`llm_usage`)
 
 Token-usage audit trail, one row per LLM call. Used to track consumption against `monthly_tokens_limit`. Added `study_plan_id` in Phase 10.
 
-| Column            | Type               | Notes                                                                       |
-| ----------------- | ------------------ | --------------------------------------------------------------------------- |
-| id                | integer            | Primary key                                                                 |
-| user_id           | integer            | FK → users (CASCADE DELETE), indexed                                        |
-| study_plan_id     | integer (nullable) | FK → study_plans (SET NULL), indexed                                        |
-| source            | varchar(20)        | Feature that triggered the call: `"chat"`, `"lesson"`, `"assessment"`, etc. |
-| prompt_tokens     | integer (nullable) | Input token count                                                           |
-| completion_tokens | integer (nullable) | Output token count                                                          |
-| total_tokens      | integer (nullable) | Total tokens (may differ from prompt + completion for some providers)       |
-| created_at        | datetime           | Auto-set on creation                                                        |
+- id — Type: integer; Notes: Primary key
+- user_id — Type: integer; Notes: FK → users (CASCADE DELETE), indexed
+- study_plan_id — Type: integer (nullable); Notes: FK → study_plans (SET NULL), indexed
+- source — Type: varchar(20); Notes: Feature that triggered the call: `"chat"`, `"lesson"`, `"assessment"`, etc.
+- prompt_tokens — Type: integer (nullable); Notes: Input token count
+- completion_tokens — Type: integer (nullable); Notes: Output token count
+- total_tokens — Type: integer (nullable); Notes: Total tokens (may differ from prompt + completion for some providers)
+- created_at — Type: datetime; Notes: Auto-set on creation

@@ -23,13 +23,11 @@ The LLM can fail in multiple ways. Every endpoint that calls the LLM must handle
 
 Custom exception hierarchy in `llm_adapter.py`:
 
-| Exception                 | Parent      | Raised when                                                                                           |
-| ------------------------- | ----------- | ----------------------------------------------------------------------------------------------------- |
-| `LLMError`                | `Exception` | Base class for all LLM errors                                                                         |
-| `LLMTimeoutError`         | `LLMError`  | Request exceeds 60 s timeout after all retries                                                        |
-| `LLMUnavailableError`     | `LLMError`  | Connection error or rate limit from provider                                                          |
-| `LLMResponseError`        | `LLMError`  | Malformed response, empty content, invalid JSON, missing fields. Carries `raw_response` for debugging |
-| `LLMContextOverflowError` | `LLMError`  | Prompt exceeds model's max context tokens                                                             |
+- `LLMError` — Parent: `Exception`; Raised when: Base class for all LLM errors
+- `LLMTimeoutError` — Parent: `LLMError`; Raised when: Request exceeds 60 s timeout after all retries
+- `LLMUnavailableError` — Parent: `LLMError`; Raised when: Connection error or rate limit from provider
+- `LLMResponseError` — Parent: `LLMError`; Raised when: Malformed response, empty content, invalid JSON, missing fields. Carries `raw_response` for debugging
+- `LLMContextOverflowError` — Parent: `LLMError`; Raised when: Prompt exceeds model's max context tokens
 
 ---
 
@@ -72,12 +70,10 @@ For providers with native structured output (OpenAI, Anthropic via `beta.chat.co
 
 Each provider has a maximum context window. The adapter tracks these limits and applies message trimming before every call:
 
-| Provider  | Max context tokens                          |
-| --------- | ------------------------------------------- |
-| Ollama    | 8192 (varies per model — Gemma 3 12B: 8192) |
-| OpenAI    | 128,000                                     |
-| DeepSeek  | 128,000                                     |
-| Anthropic | 200,000                                     |
+- Ollama — 8192 (varies per model — Gemma 3 12B: 8192)
+- OpenAI — 128,000
+- DeepSeek — 128,000
+- Anthropic — 200,000
 
 **Trimming algorithm**: Estimate token count as `len(content) / 4` (rough heuristic for English). If total exceeds the limit, drop the oldest user/assistant messages first, always preserving:
 
@@ -92,14 +88,12 @@ This is a proactive strategy — `LLMContextOverflowError` is declared in the ex
 
 Each LLM error type maps to a specific HTTP status and user-facing message:
 
-| Situation                               | HTTP Status             | User Message                                                                 |
-| --------------------------------------- | ----------------------- | ---------------------------------------------------------------------------- |
-| Malformed JSON after retry              | 502 Bad Gateway         | "The AI returned an invalid response. Please try again."                     |
-| Timeout (> 60 s, all retries exhausted) | 504 Gateway Timeout     | "The AI took too long. Check that Ollama is running or try a smaller model." |
-| Service unreachable                     | 503 Service Unavailable | "AI service is not reachable. Make sure Ollama is running."                  |
-| Provider rate limited                   | 429 Too Many Requests   | "Too many requests to the AI provider. Please wait a moment."                |
-| Context overflow                        | 413 Payload Too Large   | "The conversation is too long. Start a new session."                         |
-| Empty response                          | 502 Bad Gateway         | "The AI returned no content. Try rephrasing your request."                   |
+- Malformed JSON after retry — HTTP Status: 502 Bad Gateway; User Message: "The AI returned an invalid response. Please try again."
+- Timeout (> 60 s, all retries exhausted) — HTTP Status: 504 Gateway Timeout; User Message: "The AI took too long. Check that Ollama is running or try a smaller model."
+- Service unreachable — HTTP Status: 503 Service Unavailable; User Message: "AI service is not reachable. Make sure Ollama is running."
+- Provider rate limited — HTTP Status: 429 Too Many Requests; User Message: "Too many requests to the AI provider. Please wait a moment."
+- Context overflow — HTTP Status: 413 Payload Too Large; User Message: "The conversation is too long. Start a new session."
+- Empty response — HTTP Status: 502 Bad Gateway; User Message: "The AI returned no content. Try rephrasing your request."
 
 ---
 

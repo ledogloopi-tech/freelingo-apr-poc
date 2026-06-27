@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { apiFetch } from '@/lib/api'
-import { isSubscribed, useAuthStore } from '@/store/auth'
+import { isSubscribed, needsPaymentRecovery, useAuthStore } from '@/store/auth'
 import { useProgressStore } from '@/store/progress'
 import { useLanguageStore } from '@/store/language'
 import { useConfigStore } from '@/store/config'
@@ -26,6 +26,7 @@ interface TodayLessonItem {
 
 export default function DashboardPage() {
   const t = useTranslations('dashboard')
+  const tBilling = useTranslations('billing')
   const tNav = useTranslations('nav')
   const tPlan = useTranslations('plan')
   const tTarget = useTranslations('targetLanguages')
@@ -60,6 +61,8 @@ export default function DashboardPage() {
   const [vocabularyProgress, setVocabularyProgress] = useState(0)
   const [skipping, setSkipping] = useState(false)
   const [skipError, setSkipError] = useState(false)
+  const [portalLoading, setPortalLoading] = useState(false)
+  const [portalError, setPortalError] = useState<string | null>(null)
 
   const loadData = useCallback(async () => {
     try {
@@ -145,6 +148,22 @@ export default function DashboardPage() {
     }
   }
 
+  async function handleManageSubscription() {
+    setPortalLoading(true)
+    setPortalError(null)
+    try {
+      const res = await apiFetch('/api/billing/portal', { method: 'POST' })
+      if (!res.ok) throw new Error(tBilling('portalError'))
+      const { url } = await res.json()
+      window.location.assign(url)
+    } catch (err) {
+      setPortalError(
+        err instanceof Error ? err.message : tBilling('portalError')
+      )
+      setPortalLoading(false)
+    }
+  }
+
   if (loading) {
     return <PageLoading label={t('loadingProgress')} minHeight="min-h-screen" />
   }
@@ -184,6 +203,7 @@ export default function DashboardPage() {
       : 0
   const daysRemaining = hasPlan ? Math.max(totalDays - progressDay, 0) : 0
   const vocabularyProgressPct = Math.round(vocabularyProgress * 100)
+  const paymentRecovery = needsPaymentRecovery(user)
   const showPremiumBanner = stripeEnabled && !isSubscribed(user, stripeEnabled)
 
   function getPerformanceLabel(value: number) {
@@ -559,26 +579,51 @@ export default function DashboardPage() {
                 </span>
                 <div>
                   <p className="text-fl-label text-fl-muted-2 mb-2 font-mono tracking-widest uppercase">
-                    {t('premiumBannerTitle')}
+                    {t(
+                      paymentRecovery
+                        ? 'premiumBannerPastDueTitle'
+                        : 'premiumBannerTitle'
+                    )}
                   </p>
                   <p className="text-fl-muted-2 font-mono text-xs leading-relaxed">
-                    {t(
-                      trialEligible
-                        ? 'premiumBannerDesc'
-                        : 'premiumBannerDescTrialUsed'
-                    )}
+                    {paymentRecovery
+                      ? t('premiumBannerPastDueDesc')
+                      : t(
+                          trialEligible
+                            ? 'premiumBannerDesc'
+                            : 'premiumBannerDescTrialUsed'
+                        )}
                   </p>
                 </div>
               </div>
               <span className="text-fl-label text-fl-accent border-fl-accent/30 border px-3 py-1.5 font-mono tracking-widest whitespace-nowrap uppercase">
-                {t(
-                  trialEligible
-                    ? 'premiumBannerCta'
-                    : 'premiumBannerCtaTrialUsed'
-                )}
+                {paymentRecovery
+                  ? t('premiumBannerPastDueCta')
+                  : t(
+                      trialEligible
+                        ? 'premiumBannerCta'
+                        : 'premiumBannerCtaTrialUsed'
+                    )}
               </span>
             </div>
-            <SubscriptionPlanButtons className="border-fl-border mt-4 border-t pt-4" />
+            {paymentRecovery ? (
+              <div className="border-fl-border mt-4 border-t pt-4">
+                <button
+                  onClick={handleManageSubscription}
+                  disabled={portalLoading}
+                  className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 w-full px-4 py-2.5 font-mono text-xs font-bold tracking-widest uppercase transition-colors disabled:opacity-50 sm:w-auto"
+                >
+                  {portalLoading ? '...' : tBilling('updatePayment')}
+                </button>
+                {portalError && (
+                  <p className="text-fl-hint mt-3 font-mono text-red-500">
+                    {portalError}
+                  </p>
+                )}
+              </div>
+            ) : (
+              <SubscriptionPlanButtons className="border-fl-border mt-4 border-t pt-4" />
+            )}
           </div>
         )}
 

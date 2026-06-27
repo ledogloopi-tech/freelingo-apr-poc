@@ -46,17 +46,15 @@ A directory with the same structure as `backend/app/data/en/` is created for eac
 
 ### Structure (identical for `es/`, `it/`, `pt/`)
 
-| File               | Description                                            |
-| ------------------ | ------------------------------------------------------ |
-| `__init__.py`      | Python package marker                                  |
-| `_types.py`        | Types — can re-export from `en/_types.py` if identical |
-| `curriculum.py`    | Entry point: assembles and exports `CURRICULUM`        |
-| `curriculum_a1.py` | CEFR A1 units in the target language                   |
-| `curriculum_a2.py` | CEFR A2 units                                          |
-| `curriculum_b1.py` | CEFR B1 units                                          |
-| `curriculum_b2.py` | CEFR B2 units                                          |
-| `curriculum_c1.py` | CEFR C1 units                                          |
-| `curriculum_c2.py` | CEFR C2 units                                          |
+- `__init__.py` — Python package marker
+- `_types.py` — Types — can re-export from `en/_types.py` if identical
+- `curriculum.py` — Entry point: assembles and exports `CURRICULUM`
+- `curriculum_a1.py` — CEFR A1 units in the target language
+- `curriculum_a2.py` — CEFR A2 units
+- `curriculum_b1.py` — CEFR B1 units
+- `curriculum_b2.py` — CEFR B2 units
+- `curriculum_c1.py` — CEFR C1 units
+- `curriculum_c2.py` — CEFR C2 units
 
 ### Directories to create
 
@@ -107,13 +105,11 @@ export function getCurriculum(targetLanguage: string): CurriculumData {
 
 ### Structure (identical for `es/`, `it/`, `pt/`)
 
-| File              | Description                                                                                                             |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `curriculum.ts`   | Curriculum units (A1–C2)                                                                                                |
-| `grammar.ts`      | Grammar reference entries                                                                                               |
-| `vocabulary.ts`   | Vocabulary sets — migrated to backend in v1.7.4 (`app/data/{lang}/vocabulary_{a1-c2}.py`), served via `/api/vocabulary` |
-| `phrasebook.ts`   | Phrasebook entries                                                                                                      |
-| `assessment-bank` | Assessment question bank (now in `backend/app/data/{lang}/assessment_bank.py`)                                          |
+- `curriculum.ts` — Curriculum units (A1–C2)
+- `grammar.ts` — Grammar reference entries
+- `vocabulary.ts` — Vocabulary sets — migrated to backend in v1.7.4 (`app/data/{lang}/vocabulary_{a1-c2}.py`), served via `/api/vocabulary`
+- `phrasebook.ts` — Phrasebook entries
+- `assessment-bank` — Assessment question bank (now in `backend/app/data/{lang}/assessment_bank.py`)
 
 ### Directories to create
 
@@ -162,9 +158,7 @@ The English values above are the reference. Add the equivalent translations in a
 
 ### New tests (`backend/tests/test_multi_language.py`)
 
-| Test                           | Description                                                                          |
-| ------------------------------ | ------------------------------------------------------------------------------------ |
-| `test_curriculum_per_language` | `get_curriculum()` returns the correct curriculum for each language (en, es, it, pt) |
+- `test_curriculum_per_language` — `get_curriculum()` returns the correct curriculum for each language (en, es, it, pt)
 
 ### Frontend tests (Vitest)
 
@@ -172,28 +166,24 @@ The English values above are the reference. Add the equivalent translations in a
 
 ## New files in this phase
 
-| File                                                          | Type                                                                   |
-| ------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `backend/app/data/es/__init__.py`                             | Package                                                                |
-| `backend/app/data/es/_types.py`                               | Types                                                                  |
-| `backend/app/data/es/curriculum.py`                           | Entry point                                                            |
-| `backend/app/data/es/curriculum_a1.py` ... `curriculum_c2.py` | 6 CEFR files                                                           |
-| `backend/app/data/it/`                                        | Same structure (8 files + vocabulary migrated from frontend in v1.7.4) |
-| `backend/app/data/pt/`                                        | Same structure (8 files + vocabulary migrated from frontend in v1.7.4) |
-| `frontend/src/data/es/curriculum.ts`                          | ES curriculum                                                          |
-| `frontend/src/data/es/grammar.ts`                             | ES grammar                                                             |
-| `backend/app/data/es/vocabulary_a1.py`...`c2.py`              | ES vocabulary (migrated from frontend in v1.7.4)                       |
-| `frontend/src/data/es/phrasebook.ts`                          | ES phrasebook                                                          |
-| `backend/app/data/es/assessment_bank.py`                      | ES assessment bank                                                     |
-| `frontend/src/data/it/`                                       | Same structure (3 files)                                               |
-| `frontend/src/data/pt/`                                       | Same structure (3 files)                                               |
+- `backend/app/data/es/__init__.py` — Package
+- `backend/app/data/es/_types.py` — Types
+- `backend/app/data/es/curriculum.py` — Entry point
+- `backend/app/data/es/curriculum_a1.py` ... `curriculum_c2.py` — 6 CEFR files
+- `backend/app/data/it/` — Same structure (8 files + vocabulary migrated from frontend in v1.7.4)
+- `backend/app/data/pt/` — Same structure (8 files + vocabulary migrated from frontend in v1.7.4)
+- `frontend/src/data/es/curriculum.ts` — ES curriculum
+- `frontend/src/data/es/grammar.ts` — ES grammar
+- `backend/app/data/es/vocabulary_a1.py`...`c2.py` — ES vocabulary (migrated from frontend in v1.7.4)
+- `frontend/src/data/es/phrasebook.ts` — ES phrasebook
+- `backend/app/data/es/assessment_bank.py` — ES assessment bank
+- `frontend/src/data/it/` — Same structure (3 files)
+- `frontend/src/data/pt/` — Same structure (3 files)
 
 ## Modified files in this phase
 
-| File                              | Change                    |
-| --------------------------------- | ------------------------- |
-| `backend/app/data/curriculum.py`  | Language-aware dispatcher |
-| `frontend/src/data/curriculum.ts` | Language-aware dispatcher |
+- `backend/app/data/curriculum.py` — Language-aware dispatcher
+- `frontend/src/data/curriculum.ts` — Language-aware dispatcher
 
 ---
 

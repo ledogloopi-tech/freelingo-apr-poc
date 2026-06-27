@@ -9,6 +9,7 @@ const FAQ_KEYS = [
   'q_language',
   'q_assessment',
   'q_studyPlan',
+  'q_resources',
   'q_flashcards',
   'q_vocabulary',
   'q_tutor',
@@ -56,6 +57,7 @@ export function LandingFAQ() {
       [
         'q_start',
         'q_studyPlan',
+        'q_resources',
         'q_flashcards',
         'q_vocabulary',
         'q_voice',

@@ -77,6 +77,7 @@ export default function FAQPage() {
       },
       { q: t('q_assessment'), a: t('a_assessment') },
       { q: t('q_studyPlan'), a: t.rich('a_studyPlan', { strong }) },
+      { q: t('q_resources'), a: t.rich('a_resources', { strong }) },
       { q: t('q_flashcards'), a: t.rich('a_flashcards', { strong }) },
       { q: t('q_vocabulary'), a: t.rich('a_vocabulary', { strong }) },
       { q: t('q_tutor'), a: t('a_tutor') },

@@ -13,19 +13,15 @@ Introduce an optional, fully configurable subscription layer backed by Stripe. W
 
 ## Plans
 
-| Plan    | Price                                 | Billing           | Trial                       |
-| ------- | ------------------------------------- | ----------------- | --------------------------- |
-| Monthly | x €/month                             | Monthly recurring | 7 days free (card required) |
-| Yearly  | x €/year (≈ x €/month, 2 months free) | Annual recurring  | 7 days free (card required) |
+- Monthly — Price: x €/month; Billing: Monthly recurring; Trial: 7 days free (card required)
+- Yearly — Price: x €/year (≈ x €/month, 2 months free); Billing: Annual recurring; Trial: 7 days free (card required)
 
 ### Quotas applied on subscription activation
 
-| Quota field                    | Value         |
-| ------------------------------ | ------------- |
-| `conversation_weekly_sessions` | 0 (unlimited) |
-| `conversation_weekly_minutes`  | 90            |
-| `conversation_daily_minutes`   | 30            |
-| `monthly_tokens_limit`         | 1 000 000     |
+- `conversation_weekly_sessions` — 0 (unlimited)
+- `conversation_weekly_minutes` — 90
+- `conversation_daily_minutes` — 30
+- `monthly_tokens_limit` — 1 000 000
 
 Admin can still override any quota field per user via the admin panel regardless of subscription status.
 
@@ -33,15 +29,13 @@ Admin can still override any quota field per user via the admin panel regardless
 
 ## Access rules
 
-| Feature                           | `STRIPE_ENABLED=false` | `STRIPE_ENABLED=true` + active/trialing | `STRIPE_ENABLED=true` + no subscription |
-| --------------------------------- | ---------------------- | --------------------------------------- | --------------------------------------- |
-| Register / Profile / Stats        | ✅                     | ✅                                      | ✅                                      |
-| Progress / Streak                 | ✅                     | ✅                                      | ✅                                      |
-| Lessons / Assessment / Flashcards | ✅                     | ✅                                      | ✅                                      |
-| Chat con tutor                    | ✅                     | ✅                                      | ❌ Paywall                              |
-| Conversación por voz              | ✅                     | ✅                                      | ❌ Paywall                              |
-| Listening exercises               | ✅                     | ✅                                      | ❌ Paywall                              |
-| Reading exercises                 | ✅                     | ✅                                      | ❌ Paywall                              |
+- Register / Profile / Stats — `STRIPE_ENABLED=false`: ✅; `STRIPE_ENABLED=true` + active/trialing: ✅; `STRIPE_ENABLED=true` + no subscription: ✅
+- Progress / Streak — `STRIPE_ENABLED=false`: ✅; `STRIPE_ENABLED=true` + active/trialing: ✅; `STRIPE_ENABLED=true` + no subscription: ✅
+- Lessons / Assessment / Flashcards — `STRIPE_ENABLED=false`: ✅; `STRIPE_ENABLED=true` + active/trialing: ✅; `STRIPE_ENABLED=true` + no subscription: ✅
+- Chat con tutor — `STRIPE_ENABLED=false`: ✅; `STRIPE_ENABLED=true` + active/trialing: ✅; `STRIPE_ENABLED=true` + no subscription: ❌ Paywall
+- Conversación por voz — `STRIPE_ENABLED=false`: ✅; `STRIPE_ENABLED=true` + active/trialing: ✅; `STRIPE_ENABLED=true` + no subscription: ❌ Paywall
+- Listening exercises — `STRIPE_ENABLED=false`: ✅; `STRIPE_ENABLED=true` + active/trialing: ✅; `STRIPE_ENABLED=true` + no subscription: ❌ Paywall
+- Reading exercises — `STRIPE_ENABLED=false`: ✅; `STRIPE_ENABLED=true` + active/trialing: ✅; `STRIPE_ENABLED=true` + no subscription: ❌ Paywall
 
 **Single rule:** `is_subscribed(user) = True` when `STRIPE_ENABLED=false` OR when `subscription_status in ("trialing", "active")`.
 
@@ -74,7 +68,8 @@ STRIPE_SECRET_KEY=sk_test_CHANGE_ME
 # Webhook signing secret (whsec_...) — obtained from Stripe Dashboard → Webhooks
 STRIPE_WEBHOOK_SECRET=whsec_CHANGE_ME
 
-# Price IDs from Stripe Dashboard → Product catalog
+# Price IDs from Stripe Dashboard → Product catalog.
+# Required when STRIPE_ENABLED=true; the app does not create Stripe products or prices.
 STRIPE_PRICE_MONTHLY=price_CHANGE_ME
 STRIPE_PRICE_YEARLY=price_CHANGE_ME
 
@@ -128,12 +123,15 @@ Add the full block above with comments.
 
 ### 2.1 `app/models/user.py`
 
-Add three fields (placed after `monthly_tokens_limit`):
+Add subscription fields (placed after `monthly_tokens_limit`):
 
 ```python
 stripe_customer_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+stripe_subscription_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
 subscription_status: Mapped[str] = mapped_column(String(20), nullable=False, default="none")
-# Values: "none" | "trialing" | "active" | "past_due" | "canceled"
+# Values: "none" plus Stripe Subscription.status values used by Checkout:
+# "trialing" | "active" | "past_due" | "canceled" | "incomplete" |
+# "incomplete_expired" | "unpaid" | "paused"
 subscription_ends_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
 ```
 
@@ -147,6 +145,7 @@ down_revision = "0014_monthly_token_quota"
 Adds:
 
 - `stripe_customer_id VARCHAR(255) NULL`
+- `stripe_subscription_id VARCHAR(255) NULL`
 - `subscription_status VARCHAR(20) NOT NULL DEFAULT 'none'`
 - `subscription_ends_at TIMESTAMP NULL`
 
@@ -221,18 +220,16 @@ No sensitive keys exposed. Rate limit: 60/minute.
 
 #### `POST /api/billing/webhook` (no auth — verified by Stripe signature)
 
-- Reads raw request body and verifies with `stripe.WebhookSignature.verify_header()`.
+- Reads raw request body and verifies with `stripe.Webhook.construct_event()`.
 - Returns 400 immediately if signature invalid.
 - Handles these events:
 
-| Event                           | Action                                                                                                                                      |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `checkout.session.completed`    | Set `stripe_customer_id`, `subscription_status = "trialing"` or `"active"`, apply quotas; set `trial_used = True` when status is `trialing` |
-| `customer.subscription.updated` | Sync `subscription_status` and `subscription_ends_at`                                                                                       |
-| `customer.subscription.deleted` | Set `subscription_status = "canceled"`                                                                                                      |
-| `invoice.payment_failed`        | Set `subscription_status = "past_due"`                                                                                                      |
+- `checkout.session.completed` — Set `stripe_customer_id` and `stripe_subscription_id`, retrieve the Stripe Subscription before granting access, sync `subscription_status = "trialing"` or `"active"`, apply quotas; set `trial_used = True` when status is `trialing`. If the Subscription cannot be retrieved, processing fails with HTTP 500 so Stripe retries the webhook instead of granting access from an unverified checkout event.
+- `customer.subscription.updated` — Ignore stale events whose subscription ID differs from `stripe_subscription_id`; otherwise sync `subscription_status` and `subscription_ends_at`; accepts real Stripe subscription statuses (`trialing`, `active`, `past_due`, `canceled`, `incomplete`, `incomplete_expired`, `unpaid`, `paused`) and keeps the previous status for unknown values while logging a warning. Existing users without `stripe_subscription_id` are backfilled from this event.
+- `customer.subscription.deleted` — Ignore stale events whose subscription ID differs from `stripe_subscription_id`; otherwise set `subscription_status = "canceled"`
+- `invoice.payment_failed` — Extract the subscription ID from legacy `invoice.subscription` or current `invoice.parent.subscription_details.subscription`; ignore stale invoice events whose subscription ID differs from `stripe_subscription_id`; otherwise set `subscription_status = "past_due"`
 
-- Always returns HTTP 200 to Stripe (even on handled errors) to prevent retries.
+- Returns HTTP 200 only after successful processing or for unsupported event types; invalid payload/signature returns HTTP 400; internal processing failures return HTTP 500 so Stripe retries the event.
 - Rate limit: 200/minute (Stripe can burst).
 
 ### 3.5 Apply `require_subscription` to protected endpoints
@@ -252,6 +249,7 @@ Add to `AdminUserResponse`:
 
 ```python
 stripe_customer_id: Optional[str] = None
+stripe_subscription_id: Optional[str] = None
 subscription_status: str = "none"
 subscription_ends_at: Optional[datetime] = None
 ```
@@ -259,7 +257,19 @@ subscription_ends_at: Optional[datetime] = None
 Add to `AdminUserUpdate`:
 
 ```python
-subscription_status: Optional[Literal["none", "trialing", "active", "past_due", "canceled"]] = None
+subscription_status: Optional[
+    Literal[
+        "none",
+        "trialing",
+        "active",
+        "past_due",
+        "canceled",
+        "incomplete",
+        "incomplete_expired",
+        "unpaid",
+        "paused",
+    ]
+] = None
 subscription_ends_at: Optional[datetime] = None
 ```
 
@@ -278,7 +288,16 @@ Fetch `GET /api/config` once on app load (in root layout or a dedicated hook). S
 Add to the auth store user type:
 
 ```typescript
-subscription_status: "none" | "trialing" | "active" | "past_due" | "canceled";
+subscription_status:
+  | "none"
+  | "incomplete"
+  | "incomplete_expired"
+  | "trialing"
+  | "active"
+  | "past_due"
+  | "canceled"
+  | "unpaid"
+  | "paused";
 subscription_ends_at: string | null;
 ```
 
@@ -325,6 +344,8 @@ Only rendered when `stripeEnabled`. Shows:
 - Status badge: active (green) / trialing (blue) / past_due (amber) / canceled (red)
 - Next billing date (from `subscription_ends_at`)
 - For unsubscribed users, monthly and yearly plan buttons are shown before checkout; each posts `POST /api/billing/checkout` with the selected plan.
+- For `past_due`, `unpaid`, and `paused` users, access remains blocked by `is_subscribed`, but Settings and gated-page paywalls show payment-recovery copy and an "Update payment" action that opens `POST /api/billing/portal` instead of showing new subscription plan buttons.
+- For `none`, `incomplete`, `incomplete_expired`, and `canceled` users, Settings and gated-page paywalls show monthly/yearly plan buttons.
 - Button "Manage subscription" → `POST /api/billing/portal` → `router.push(url)`
 
 ### 4.6 Pricing section in landing page (`/`)
@@ -352,14 +373,15 @@ Layout:
               Cancel anytime · No commitment
 ```
 
-Clicking "Start for free" redirects to `/login` if not authenticated, or calls `/api/billing/checkout` directly if already logged in.
+Anonymous visitors selecting a paid plan are sent to `/register?plan=monthly|yearly`, preserving the selected billing interval through onboarding before Stripe Checkout. Onboarding refreshes the access token from the session cookie before creating Checkout when the page was reloaded after registration and no in-memory token is available. Authenticated unsubscribed visitors selecting a monthly/yearly plan call `POST /api/billing/checkout` directly from the landing pricing section; the frontend first refreshes the access token from the session cookie when the landing page has a session cookie but no in-memory token. The bottom pricing CTA defaults to yearly and uses the same direct Checkout path for authenticated unsubscribed visitors.
 
 ### 4.7 `/billing/success` page
 
 - Shown after successful Stripe Checkout.
-- Message: "¡Suscripción activada! Tu período de prueba de 7 días ha comenzado."
-- Refreshes auth state (calls `/api/auth/me` or `/api/auth/refresh`).
-- Auto-redirects to `/dashboard` after 3 seconds.
+- Refreshes the access token from `/api/auth/refresh` when the user returns from Stripe without an in-memory access token.
+- Polls `/api/auth/me` briefly and only shows Premium-active copy when `subscription_status` is `active` or `trialing`.
+- While verification is running, shows subscription-confirmation copy. If the webhook has not synced after the short polling window, it shows a pending-confirmation message instead of claiming Premium access is already active.
+- Auto-redirects to `/dashboard` only after the subscription is confirmed active/trialing.
 
 ### 4.8 `/billing/canceled` page
 
@@ -381,7 +403,7 @@ Add keys in all 10 locales (`en`, `es`, `de`, `fr`, `it`, `nl`, `pl`, `pt`, `ro`
 - `featureSessions`, `featureMinutes`, `featureChat`, `featurePlan`, `featureLessons`
 - `ctaManage`
 - `alreadySubscriber`
-- `statusActive`, `statusTrialing`, `statusPastDue`, `statusCanceled`, `statusNone`
+- `statusActive`, `statusTrialing`, `statusPastDue`, `statusUnpaid`, `statusPaused`, `statusIncomplete`, `statusIncompleteExpired`, `statusCanceled`, `statusNone`
 - `nextBilling`, `cancelAnytime`
 - `successTitle`, `successSubtext`, `canceledTitle`, `canceledSubtext`
 - `sectionTitle`, `sectionSubtitle`
@@ -392,7 +414,7 @@ Add keys in all 10 locales (`en`, `es`, `de`, `fr`, `it`, `nl`, `pl`, `pt`, `ro`
 
 ### 6.1 Backend tests
 
-- `test_billing.py`: mock Stripe SDK, test checkout session creation, portal session, webhook signature verification, and all 4 webhook events.
+- `test_billing.py`: mock Stripe SDK, test checkout session creation, portal session, webhook signature verification, all 4 webhook events, real Stripe subscription status persistence, unknown-status fallback, `stripe_subscription_id` persistence/backfill, and stale subscription-event ignoring.
 - Test that `require_subscription` returns 402 when `STRIPE_ENABLED=true` and user has `subscription_status="none"`.
 - Test that `require_subscription` passes through when `STRIPE_ENABLED=false`.
 
@@ -420,28 +442,26 @@ stripe trigger checkout.session.completed
 
 > **Status: ✅ COMPLETE (v1.4.0)**
 
-| #   | Task                         | File(s)                                                                                               | Status |
-| --- | ---------------------------- | ----------------------------------------------------------------------------------------------------- | ------ |
-| 1   | Config + env vars            | `config.py`, `.env.example`, `docker-compose.yml`                                                     | ✅     |
-| 2   | `requirements.txt`           | `requirements.txt`                                                                                    | ✅     |
-| 3   | User model fields            | `models/user.py`                                                                                      | ✅     |
-| 4   | Alembic migration 0016       | `alembic/versions/0016_stripe_subscription.py`                                                        | ✅     |
-| 5   | `subscription_service.py`    | `services/subscription_service.py`                                                                    | ✅     |
-| 6   | `require_subscription` dep   | `core/deps.py`                                                                                        | ✅     |
-| 7   | `GET /api/config`            | `routers/config.py` (new)                                                                             | ✅     |
-| 8   | `POST /api/billing/checkout` | `routers/billing.py`                                                                                  | ✅     |
-| 9   | `POST /api/billing/portal`   | `routers/billing.py`                                                                                  | ✅     |
-| 10  | `POST /api/billing/webhook`  | `routers/billing.py`                                                                                  | ✅     |
-| 11  | Apply `require_subscription` | `routers/chat.py`, `conversation.py`, `lessons.py`, `assessment.py`, `flashcards.py`, `study_plan.py` | ✅     |
-| 12  | Admin schema update          | `schemas/admin.py`, `routers/admin.py`                                                                | ✅     |
-| 13  | Frontend config store        | `store/config.ts`                                                                                     | ✅     |
-| 14  | User type update             | `store/auth.ts`                                                                                       | ✅     |
-| 15  | `PaywallBanner` component    | `components/billing/PaywallBanner.tsx`                                                                | ✅     |
-| 16  | Paywall in protected pages   | 6 page files                                                                                          | ✅     |
-| 17  | Billing section in settings  | `app/(app)/settings/page.tsx`                                                                         | ✅     |
-| 18  | Pricing section in landing   | `app/page.tsx`                                                                                        | ✅     |
-| 19  | `/billing/success` page      | `app/(auth)/billing/success/page.tsx`                                                                 | ✅     |
-| 20  | `/billing/canceled` page     | `app/(auth)/billing/canceled/page.tsx`                                                                | ✅     |
-| 21  | i18n keys (10 locales)       | `messages/*.json`                                                                                     | ✅     |
-| 22  | Tests                        | `tests/test_billing.py`                                                                               | ✅     |
-| 23  | Docs + version bump          | Various                                                                                               | ✅     |
+- 1 — Task: Config + env vars; File(s): `config.py`, `.env.example`, `docker-compose.yml`; Status: ✅
+- 2 — Task: `requirements.txt`; File(s): `requirements.txt`; Status: ✅
+- 3 — Task: User model fields; File(s): `models/user.py`; Status: ✅
+- 4 — Task: Alembic migration 0016; File(s): `alembic/versions/0016_stripe_subscription.py`; Status: ✅
+- 5 — Task: `subscription_service.py`; File(s): `services/subscription_service.py`; Status: ✅
+- 6 — Task: `require_subscription` dep; File(s): `core/deps.py`; Status: ✅
+- 7 — Task: `GET /api/config`; File(s): `routers/config.py` (new); Status: ✅
+- 8 — Task: `POST /api/billing/checkout`; File(s): `routers/billing.py`; Status: ✅
+- 9 — Task: `POST /api/billing/portal`; File(s): `routers/billing.py`; Status: ✅
+- 10 — Task: `POST /api/billing/webhook`; File(s): `routers/billing.py`; Status: ✅
+- 11 — Task: Apply `require_subscription`; File(s): `routers/chat.py`, `conversation.py`, `lessons.py`, `assessment.py`, `flashcards.py`, `study_plan.py`; Status: ✅
+- 12 — Task: Admin schema update; File(s): `schemas/admin.py`, `routers/admin.py`; Status: ✅
+- 13 — Task: Frontend config store; File(s): `store/config.ts`; Status: ✅
+- 14 — Task: User type update; File(s): `store/auth.ts`; Status: ✅
+- 15 — Task: `PaywallBanner` component; File(s): `components/billing/PaywallBanner.tsx`; Status: ✅
+- 16 — Task: Paywall in protected pages; File(s): 6 page files; Status: ✅
+- 17 — Task: Billing section in settings; File(s): `app/(app)/settings/page.tsx`; Status: ✅
+- 18 — Task: Pricing section in landing; File(s): `app/page.tsx`; Status: ✅
+- 19 — Task: `/billing/success` page; File(s): `app/(auth)/billing/success/page.tsx`; Status: ✅
+- 20 — Task: `/billing/canceled` page; File(s): `app/(auth)/billing/canceled/page.tsx`; Status: ✅
+- 21 — Task: i18n keys (10 locales); File(s): `messages/*.json`; Status: ✅
+- 22 — Task: Tests; File(s): `tests/test_billing.py`; Status: ✅
+- 23 — Task: Docs + version bump; File(s): Various; Status: ✅

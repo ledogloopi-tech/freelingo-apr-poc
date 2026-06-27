@@ -248,11 +248,9 @@ The English values above are the reference. Add the equivalent translation in ea
 
 ## New files in this phase
 
-| File                                           | Type                        |
-| ---------------------------------------------- | --------------------------- |
-| `frontend/src/lib/target-languages.ts`         | Language config and helpers |
-| `frontend/src/store/language.ts`               | Zustand language store      |
-| `frontend/src/components/LanguageSwitcher.tsx` | Sidebar switcher component  |
+- `frontend/src/lib/target-languages.ts` — Language config and helpers
+- `frontend/src/store/language.ts` — Zustand language store
+- `frontend/src/components/LanguageSwitcher.tsx` — Sidebar switcher component
 
 ## Modified files in this phase
 

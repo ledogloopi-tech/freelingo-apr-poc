@@ -52,12 +52,10 @@ _LANGUAGE_INFO: dict[str, dict[str, str]] = {
 
 **New / updated functions:**
 
-| Function                                  | Signature   | Description                             |
-| ----------------------------------------- | ----------- | --------------------------------------- |
-| `get_language_name(target_language)`      | `str → str` | Returns `"Italian"`, `"Spanish"`, etc.  |
-| `get_language_self_name(target_language)` | `str → str` | Returns `"Italiano"`, `"Español"`, etc. |
-| `get_iso639(target_language)`             | `str → str` | `"it-IT" → "it"` (unchanged)            |
-| `get_language_flag(target_language)`      | `str → str` | Flag emoji                              |
+- `get_language_name(target_language)` — Signature: `str → str`; Description: Returns `"Italian"`, `"Spanish"`, etc.
+- `get_language_self_name(target_language)` — Signature: `str → str`; Description: Returns `"Italiano"`, `"Español"`, etc.
+- `get_iso639(target_language)` — Signature: `str → str`; Description: `"it-IT" → "it"` (unchanged)
+- `get_language_flag(target_language)` — Signature: `str → str`; Description: Flag emoji
 
 `get_english_variant()` is **removed** (obsolete). All callers must be updated to use `get_language_name()` and `get_language_self_name()`.
 
@@ -190,12 +188,10 @@ async def upsert_unit_competency(db, user_id, unit_id, ..., study_plan_id: int |
 
 **Callers that must be updated in Phase 10.3** (they will pass the active `study_plan_id` once `get_active_study_plan` is wired in):
 
-| File                                        | Call site                                                          |
-| ------------------------------------------- | ------------------------------------------------------------------ |
-| `backend/app/routers/lessons.py`            | lines calling `update_daily_progress` and `upsert_unit_competency` |
-| `backend/app/routers/flashcards.py`         | line calling `update_daily_progress`                               |
-| `backend/app/services/listening_service.py` | line calling `update_daily_progress`                               |
-| `backend/app/services/reading_service.py`   | line calling `update_daily_progress`                               |
+- `backend/app/routers/lessons.py` — lines calling `update_daily_progress` and `upsert_unit_competency`
+- `backend/app/routers/flashcards.py` — line calling `update_daily_progress`
+- `backend/app/services/listening_service.py` — line calling `update_daily_progress`
+- `backend/app/services/reading_service.py` — line calling `update_daily_progress`
 
 ---
 
@@ -209,13 +205,11 @@ async def upsert_unit_competency(db, user_id, unit_id, ..., study_plan_id: int |
 
 **File:** `backend/app/services/user_language_service.py`
 
-| Function                                                       | Description                                                           |
-| -------------------------------------------------------------- | --------------------------------------------------------------------- |
-| `get_active_language(db, user_id) → UserLanguage \| None`      | Returns the user's active language row                                |
-| `get_user_languages(db, user_id) → list[UserLanguage]`         | All user language rows                                                |
-| `add_language(db, user_id, target_language) → UserLanguage`    | Adds a new language (creates `UserLanguage` row + deactivates others) |
-| `switch_language(db, user_id, target_language) → UserLanguage` | Switches the active language (deactivates current, activates target)  |
-| `remove_language(db, user_id, target_language) → bool`         | Removes a language row (associated plans cascade)                     |
+- `get_active_language(db, user_id) → UserLanguage \ — None`
+- `get_user_languages(db, user_id) → list[UserLanguage]` — All user language rows
+- `add_language(db, user_id, target_language) → UserLanguage` — Adds a new language (creates `UserLanguage` row + deactivates others)
+- `switch_language(db, user_id, target_language) → UserLanguage` — Switches the active language (deactivates current, activates target)
+- `remove_language(db, user_id, target_language) → bool` — Removes a language row (associated plans cascade)
 
 **Business rules enforced in this service:**
 
@@ -258,33 +252,27 @@ async def get_active_study_plan(
 
 ## Modified files in this phase
 
-| File                                            | Change                                                                                                              |
-| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `backend/app/services/language_helpers.py`      | Expand to 5 languages, remove `get_english_variant()`                                                               |
-| `backend/app/services/lesson_generator.py`      | Language-agnostic prompt, dynamic grammar slugs                                                                     |
-| `backend/app/services/flashcard_sm2.py`         | Language-agnostic prompt                                                                                            |
-| `backend/app/services/conversation_pipeline.py` | Language-agnostic prompt; `CONVERSATION_SYSTEM_PROMPT` moves from module-level constant to runtime assembly         |
-| `backend/app/routers/chat.py`                   | Language-agnostic `TUTOR_SYSTEM_PROMPT`; `TUTOR_SYSTEM_PROMPT` moves from module-level constant to runtime assembly |
-| `backend/app/services/listening_service.py`     | Language-agnostic prompt                                                                                            |
-| `backend/app/services/reading_service.py`       | Language-agnostic prompt                                                                                            |
-| `backend/app/services/assessment.py`            | Language-agnostic `FREE_WRITE_ASSESSMENT_PROMPT`                                                                    |
-| `backend/app/services/memory_service.py`        | `MEMORY_SYSTEM_INSTRUCTION` → `get_memory_system_instruction()` function, `study_plan_id` filter                    |
-| `backend/app/services/study_plan_generator.py`  | Dynamic title, `target_language` param                                                                              |
-| `backend/app/services/progress_service.py`      | Add `study_plan_id: int \| None = None` to all functions (callers updated in Phase 10.3)                            |
-| `backend/app/core/deps.py`                      | Add `get_active_study_plan` dependency                                                                              |
+- `backend/app/services/language_helpers.py` — Expand to 5 languages, remove `get_english_variant()`
+- `backend/app/services/lesson_generator.py` — Language-agnostic prompt, dynamic grammar slugs
+- `backend/app/services/flashcard_sm2.py` — Language-agnostic prompt
+- `backend/app/services/conversation_pipeline.py` — Language-agnostic prompt; `CONVERSATION_SYSTEM_PROMPT` moves from module-level constant to runtime assembly
+- `backend/app/routers/chat.py` — Language-agnostic `TUTOR_SYSTEM_PROMPT`; `TUTOR_SYSTEM_PROMPT` moves from module-level constant to runtime assembly
+- `backend/app/services/listening_service.py` — Language-agnostic prompt
+- `backend/app/services/reading_service.py` — Language-agnostic prompt
+- `backend/app/services/assessment.py` — Language-agnostic `FREE_WRITE_ASSESSMENT_PROMPT`
+- `backend/app/services/memory_service.py` — `MEMORY_SYSTEM_INSTRUCTION` → `get_memory_system_instruction()` function, `study_plan_id` filter
+- `backend/app/services/study_plan_generator.py` — Dynamic title, `target_language` param
+- `backend/app/services/progress_service.py` — Add `study_plan_id: int \
+- `backend/app/core/deps.py` — Add `get_active_study_plan` dependency
 
 ## Tests
 
 ### New tests (`backend/tests/test_multi_language.py`)
 
-| Test                                    | Description                                                                |
-| --------------------------------------- | -------------------------------------------------------------------------- |
-| `test_prompt_language_agnostic`         | System prompts include the correct language name (not hardcoded "English") |
-| `test_chat_prompt_uses_target_language` | `TUTOR_SYSTEM_PROMPT` uses the active plan's language                      |
+- `test_prompt_language_agnostic` — System prompts include the correct language name (not hardcoded "English")
+- `test_chat_prompt_uses_target_language` — `TUTOR_SYSTEM_PROMPT` uses the active plan's language
 
 ## New files in this phase
 
-| File                                                      | Type                         |
-| --------------------------------------------------------- | ---------------------------- |
-| `backend/app/services/user_language_service.py`           | New service                  |
-| `backend/alembic/versions/0030_not_null_study_plan_id.py` | Alembic migration (NOT NULL) |
+- `backend/app/services/user_language_service.py` — New service
+- `backend/alembic/versions/0030_not_null_study_plan_id.py` — Alembic migration (NOT NULL)
