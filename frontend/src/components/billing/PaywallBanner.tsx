@@ -94,7 +94,10 @@ export function PaywallBanner() {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 py-16 text-center">
       <div className="border-fl-border bg-fl-surface w-full max-w-md border p-8">
-        <Icon className="text-fl-muted-2 mx-auto mb-4 h-6 w-6" aria-hidden="true" />
+        <Icon
+          className="text-fl-muted-2 mx-auto mb-4 h-6 w-6"
+          aria-hidden="true"
+        />
 
         {/* Headline */}
         <p className="text-fl-label text-fl-muted-2 mb-2 font-mono tracking-widest uppercase">
