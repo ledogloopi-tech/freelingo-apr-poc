@@ -166,6 +166,8 @@ frontend/
 | `/forgot-password` | Request password reset email                            |
 | `/reset-password`  | Reset password with token                               |
 | `/billing`         | Stripe Customer Portal redirect (managed by Stripe)     |
+| `/billing/success` | Stripe Checkout return page; refreshes session when needed, confirms `/api/auth/me` reports `active`/`trialing` before showing Premium-active copy, and otherwise shows subscription-confirmation pending copy. |
+| `/billing/canceled` | Stripe Checkout cancellation page with no-charge copy and links back to app billing surfaces. |
 
 ### Authenticated routes — `(app)/`
 

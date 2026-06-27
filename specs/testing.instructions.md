@@ -1,5 +1,5 @@
 ---
-description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 906 tests, 84.89% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (31 test files, 409 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, billing paywall UI, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
+description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 906 tests, 84.89% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (32 test files, 412 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, billing paywall UI, billing success verification, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
 applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 ---
 
@@ -13,7 +13,7 @@ applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 | Frontend unit              | Vitest                  | Stores, components, hooks, lib, middleware              | Not configured                     | Implemented |
 | E2E                        | Playwright              | Critical user flows                                     | Smoke                              | Pending     |
 
-All tests pass on every push. Backend coverage threshold configured at 70%, last measured at 84.89%. Frontend tests cover stores, critical components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher, TargetLanguageSelector, review UI, LanguageBubbles, billing paywall UI), app pages, hooks, lib modules, i18n, and middleware. Frontend coverage is not currently reported because Vitest coverage is not configured and `@vitest/coverage-v8` is not installed.
+All tests pass on every push. Backend coverage threshold configured at 70%, last measured at 84.89%. Frontend tests cover stores, critical components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher, TargetLanguageSelector, review UI, LanguageBubbles, billing paywall UI), billing success verification, app pages, hooks, lib modules, i18n, and middleware. Frontend coverage is not currently reported because Vitest coverage is not configured and `@vitest/coverage-v8` is not installed.
 
 ---
 
@@ -195,12 +195,13 @@ pytest --cov-report=html
 - **`tests/lib/review-prompt-triggers.test.ts`** — Tests: 7. What it covers: Review prompt trigger helpers for voice sessions and unit completion: 5-minute voice threshold, unit-completed gate, dismissal cooldown expiry, and maximum dismissal count
 - **`tests/components/ReviewPrompt.test.tsx`** — Tests: 6. What it covers: Review prompt status check, rating validation, rating-only and commented submission, dismissal, duplicate-review suppression, status-check failure guard
 - **`tests/components/LandingReviewsCarousel.test.tsx`** — Tests: 3. What it covers: Landing reviews carousel rendering with comments, rating-only fallback text, empty list behavior
+- **`tests/app/billing-success.test.tsx`** — Tests: 3. What it covers: Billing success page: shows Premium-active copy only after `/me` confirms `active`/`trialing`, refreshes the session when no access token is in memory, and keeps pending-confirmation copy when the subscription is not yet synced.
 - **`tests/app/admin-overview.test.tsx`** — Tests: 2. What it covers: Admin overview rendering and metrics
 - **`tests/app/admin-query-params.test.tsx`** — Tests: 2. What it covers: Admin query param parsing and state handling
 - **`tests/app/admin-reviews.test.tsx`** — Tests: 3. What it covers: Admin review moderation list, approval action, delete confirmation
 - **`tests/i18n/admin-messages.test.ts`** — Tests: 1. What it covers: Admin message bundle integrity
 
-**Total: 409 tests across 31 files. Frontend coverage is not configured/reported.**
+**Total: 412 tests across 32 files. Frontend coverage is not configured/reported.**
 
 ### Running tests
 
@@ -260,7 +261,7 @@ CI runs on GitHub Actions, triggered on pushes and pull requests. The project is
 | Frontend lint      | `eslint src/ --ext .ts,.tsx` | Zero errors        |
 | Frontend format    | `prettier --check src/`      | Clean diff         |
 | Frontend typecheck | `npx tsc --noEmit`           | Clean output       |
-| Frontend tests     | `npm run test:run`           | All 409 tests pass |
+| Frontend tests     | `npm run test:run`           | All 412 tests pass |
 
 **Note**: The backend test job uses SQLite (same as local tests), not PostgreSQL. No Docker services are required for the backend test job.
 

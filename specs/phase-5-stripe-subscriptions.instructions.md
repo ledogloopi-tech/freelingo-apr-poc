@@ -358,9 +358,10 @@ Anonymous visitors selecting a paid plan are sent to `/register?plan=monthly|yea
 ### 4.7 `/billing/success` page
 
 - Shown after successful Stripe Checkout.
-- Message: "¡Suscripción activada! Tu período de prueba de 7 días ha comenzado."
-- Refreshes auth state (calls `/api/auth/me` or `/api/auth/refresh`).
-- Auto-redirects to `/dashboard` after 3 seconds.
+- Refreshes the access token from `/api/auth/refresh` when the user returns from Stripe without an in-memory access token.
+- Polls `/api/auth/me` briefly and only shows Premium-active copy when `subscription_status` is `active` or `trialing`.
+- While verification is running, shows subscription-confirmation copy. If the webhook has not synced after the short polling window, it shows a pending-confirmation message instead of claiming Premium access is already active.
+- Auto-redirects to `/dashboard` only after the subscription is confirmed active/trialing.
 
 ### 4.8 `/billing/canceled` page
 
