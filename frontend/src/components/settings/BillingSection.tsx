@@ -91,7 +91,7 @@ export function BillingSection() {
           )}
 
         {isPastDue && (
-          <div className="border-yellow-500/30 bg-yellow-500/5 border p-3">
+          <div className="border border-yellow-500/30 bg-yellow-500/5 p-3">
             <p className="font-mono text-xs font-bold tracking-widest text-yellow-500 uppercase">
               {tBilling('pastDueTitle')}
             </p>

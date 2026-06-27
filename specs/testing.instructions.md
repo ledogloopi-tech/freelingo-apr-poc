@@ -1,5 +1,5 @@
 ---
-description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 903 tests, 84.89% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (30 test files, 405 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
+description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 906 tests, 84.89% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (31 test files, 409 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, billing paywall UI, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
 applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 ---
 
@@ -13,7 +13,7 @@ applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 | Frontend unit              | Vitest                  | Stores, components, hooks, lib, middleware              | Not configured                     | Implemented |
 | E2E                        | Playwright              | Critical user flows                                     | Smoke                              | Pending     |
 
-All tests pass on every push. Backend coverage threshold configured at 70%, last measured at 84.89%. Frontend tests cover stores, critical components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher, TargetLanguageSelector, review UI, LanguageBubbles), app pages, hooks, lib modules, i18n, and middleware. Frontend coverage is not currently reported because Vitest coverage is not configured and `@vitest/coverage-v8` is not installed.
+All tests pass on every push. Backend coverage threshold configured at 70%, last measured at 84.89%. Frontend tests cover stores, critical components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher, TargetLanguageSelector, review UI, LanguageBubbles, billing paywall UI), app pages, hooks, lib modules, i18n, and middleware. Frontend coverage is not currently reported because Vitest coverage is not configured and `@vitest/coverage-v8` is not installed.
 
 ---
 
@@ -60,7 +60,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_reading_extra.py`** — Lines: 255. What it covers: Additional reading exercise scenarios
 - **`test_vocabulary.py`** — Lines: 175+. What it covers: Vocabulary API: list sets, by-level, set detail, language switching, auth, error cases, Japanese/Korean/Mainland Chinese data resolution, and native-help generation/cache refresh.
 - **`test_feedback.py`** — Lines: 1261. What it covers: Feedback board: feature requests, bug reports, default exclusion of done entries, voting, comments, admin moderation
-- **`test_billing.py`** — Lines: 381. What it covers: Stripe subscriptions, webhooks, payment status, subscription lifecycle
+- **`test_billing.py`** — Lines: 381+. What it covers: Stripe subscriptions, Checkout customer reuse, Customer Portal access including `past_due` recovery, webhooks, payment status, subscription lifecycle
 - **`test_maintenance.py`** — Lines: 153. What it covers: Maintenance mode toggle, API behavior during maintenance
 - **`test_memories.py`** — Lines: 362. What it covers: LLM memory (Phase 9): memory creation, retrieval, update, deletion
 - **`test_multi_language.py`** — Lines: —. What it covers: Multi-language isolation, active language switching, language API, onboarding language creation, curriculum dispatch
@@ -75,7 +75,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_lesson_generator.py`** — Lines: —. What it covers: Lesson generator service: `get_valid_grammar_slugs`, `generate_lesson`, exercise schema validation, fill-blank sanitization, grammar refs filtering, `evaluate_free_write`, `evaluate_pronunciation`, `evaluate_fill_blank` (16 tests, 51%→100% coverage)
 - **`test_listening_service.py`** — Lines: —. What it covers: Listening service DB layer and generation: `structured_output()` generation persistence, language-aware CJK length guidance, `get_available_exercise`, `submit_attempt` (correct/partial/duplicate/replay/not-found), `get_user_history` (empty/attempts/limit/language filter)
 
-**Total: 43 test files, 903 tests.**
+**Total: 43 test files, 906 tests.**
 
 ### Coverage
 
@@ -188,6 +188,7 @@ pytest --cov-report=html
 - **`tests/components/VoiceRecorder.test.tsx`** — Tests: 24. What it covers: VoiceRecorder: idle/recording/transcribing/error states, getUserMedia mock, AudioContext lifecycle, STT API call, auto-stop, mic denied error, resampling
 - **`tests/components/AudioPlayer.test.tsx`** — Tests: 36. What it covers: AudioPlayer: idle/loading/playing/error states, TTS API call, play/pause/stop, voice resolution (prop > localStorage > default), audio queue, unmount safety
 - **`tests/components/ProfileSection.test.tsx`** — Tests: 48. What it covers: ProfileSection: form fields, save flow, avatar upload/remove (File/FileReader mock), password change (validation, mismatch), locale change with reload, API error states
+- **`tests/components/BillingPaywall.test.tsx`** — Tests: 4. What it covers: Billing UI: Settings `past_due` recovery via Customer Portal, unsubscribed plan buttons, dashboard `past_due` recovery banner, and logged-in landing pricing direct Checkout
 - **`tests/components/UnitCard.test.tsx`** — Tests: 41. What it covers: UnitCard: all 5 status states (completed/active/locked/level-test/default), progress bar, click interactions. UnitDrawer: grammar points, lesson list, completion states, escape/outside-click dismiss
 - **`tests/store/progress.test.ts`** — Tests: 48. What it covers: Progress store: 10 initial state fields, setProgress/setTodayLessons/completeLesson/setCurrentUnit/setPlanDuration/updateUnitProgress/unlockLevelTest/setLevelTestResult, state transition isolation
 - **`tests/lib/reviews.test.ts`** — Tests: 6. What it covers: Review API client helpers for my-review, create/update/delete, public, admin update, and delete calls
@@ -199,7 +200,7 @@ pytest --cov-report=html
 - **`tests/app/admin-reviews.test.tsx`** — Tests: 3. What it covers: Admin review moderation list, approval action, delete confirmation
 - **`tests/i18n/admin-messages.test.ts`** — Tests: 1. What it covers: Admin message bundle integrity
 
-**Total: 405 tests across 30 files. Frontend coverage is not configured/reported.**
+**Total: 409 tests across 31 files. Frontend coverage is not configured/reported.**
 
 ### Running tests
 
@@ -259,7 +260,7 @@ CI runs on GitHub Actions, triggered on pushes and pull requests. The project is
 | Frontend lint      | `eslint src/ --ext .ts,.tsx` | Zero errors        |
 | Frontend format    | `prettier --check src/`      | Clean diff         |
 | Frontend typecheck | `npx tsc --noEmit`           | Clean output       |
-| Frontend tests     | `npm run test:run`           | All 405 tests pass |
+| Frontend tests     | `npm run test:run`           | All 409 tests pass |
 
 **Note**: The backend test job uses SQLite (same as local tests), not PostgreSQL. No Docker services are required for the backend test job.
 

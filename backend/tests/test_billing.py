@@ -208,6 +208,72 @@ async def test_checkout_missing_price_config(client, test_user):
     assert res.status_code == 503
 
 
+@pytest.mark.asyncio
+async def test_checkout_reuses_existing_customer(client, db_session, test_user):
+    """Existing Stripe customers are reused instead of creating duplicates."""
+    user, headers = test_user
+    user.stripe_customer_id = "cus_existing"
+    await db_session.commit()
+
+    mock_session = MagicMock()
+    mock_session.url = "https://checkout.stripe.com/pay/existing"
+
+    with (
+        patch.object(settings, "STRIPE_ENABLED", True),
+        patch.object(settings, "STRIPE_PRICE_MONTHLY", "price_monthly_test"),
+        patch.object(settings, "STRIPE_PRICE_YEARLY", "price_yearly_test"),
+        patch("stripe.Customer.create") as mock_create_customer,
+        patch("stripe.checkout.Session.create", return_value=mock_session) as mock_create_session,
+    ):
+        res = await client.post(
+            "/api/billing/checkout",
+            json={"plan": "monthly"},
+            headers=headers,
+        )
+
+    assert res.status_code == 200
+    assert res.json()["url"] == "https://checkout.stripe.com/pay/existing"
+    mock_create_customer.assert_not_called()
+    assert mock_create_session.call_args.kwargs["customer"] == "cus_existing"
+
+
+# ── POST /api/billing/portal ──────────────────────────────────────────────────
+
+
+@pytest.mark.asyncio
+async def test_portal_opens_for_past_due_user(client, db_session, test_user):
+    """past_due users can open Customer Portal to repair the payment."""
+    user, headers = test_user
+    user.stripe_customer_id = "cus_past_due"
+    user.subscription_status = "past_due"
+    await db_session.commit()
+
+    mock_session = MagicMock()
+    mock_session.url = "https://billing.stripe.com/session/test"
+
+    with (
+        patch.object(settings, "STRIPE_ENABLED", True),
+        patch("stripe.billing_portal.Session.create", return_value=mock_session) as mock_portal,
+    ):
+        res = await client.post("/api/billing/portal", headers=headers)
+
+    assert res.status_code == 200
+    assert res.json()["url"] == "https://billing.stripe.com/session/test"
+    assert mock_portal.call_args.kwargs["customer"] == "cus_past_due"
+
+
+@pytest.mark.asyncio
+async def test_portal_requires_existing_customer(client, test_user):
+    """Users without a Stripe customer cannot open the Customer Portal."""
+    _, headers = test_user
+
+    with patch.object(settings, "STRIPE_ENABLED", True):
+        res = await client.post("/api/billing/portal", headers=headers)
+
+    assert res.status_code == 400
+    assert res.json()["detail"] == "No active subscription found"
+
+
 # ── POST /api/billing/webhook ─────────────────────────────────────────────────
 
 
