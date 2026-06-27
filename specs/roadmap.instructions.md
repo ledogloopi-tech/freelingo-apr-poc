@@ -15,16 +15,14 @@ This document records what was built and the completion criteria met.
 
 ✅ Status: Complete (v1.0.0 – v1.1.1)
 
-| #   | Milestone                                                                                      | Status |
-| --- | ---------------------------------------------------------------------------------------------- | ------ |
-| 1   | Scaffolding — project structure, Docker Compose, CI                                            | ✅     |
-| 2   | Backend core — async DB, JWT+Redis auth, LLM adapter                                           | ✅     |
-| 3   | Assessment — 3-step onboarding (BeginnerGate → adaptive quiz → duration/goals)                 | ✅     |
-| 4   | Study plan — Deterministic curriculum-driven plan using `curriculum.py`                        | ✅     |
-| 5   | Lessons — LLM-generated content within CEFR constraints, free-write evaluation                 | ✅     |
-| 6   | Flashcards — SM-2 spaced repetition with LLM generation and native-language translations       | ✅     |
-| 7   | Chat — AI tutor with SSE streaming, progress-aware system prompt                               | ✅     |
-| 8   | Frontend — All screens connected: login, assessment, plan, lessons, flashcards, chat, settings | ✅     |
+- 1 — Milestone: Scaffolding — project structure, Docker Compose, CI; Status: ✅
+- 2 — Milestone: Backend core — async DB, JWT+Redis auth, LLM adapter; Status: ✅
+- 3 — Milestone: Assessment — 3-step onboarding (BeginnerGate → adaptive quiz → duration/goals); Status: ✅
+- 4 — Milestone: Study plan — Deterministic curriculum-driven plan using `curriculum.py`; Status: ✅
+- 5 — Milestone: Lessons — LLM-generated content within CEFR constraints, free-write evaluation; Status: ✅
+- 6 — Milestone: Flashcards — SM-2 spaced repetition with LLM generation and native-language translations; Status: ✅
+- 7 — Milestone: Chat — AI tutor with SSE streaming, progress-aware system prompt; Status: ✅
+- 8 — Milestone: Frontend — All screens connected: login, assessment, plan, lessons, flashcards, chat, settings; Status: ✅
 
 **Completion criteria:**
 
@@ -51,14 +49,12 @@ This document records what was built and the completion criteria met.
 
 > Delivered alongside Phase 1. All data is static TypeScript; no new infrastructure required.
 
-| #   | Milestone                                                                                          | Status |
-| --- | -------------------------------------------------------------------------------------------------- | ------ |
-| 1   | Grammar Reference — data layer + `/grammar` index + `/grammar/[slug]` detail pages                 | ✅     |
-| 2   | Vocabulary Hub — `vocabulary.ts` + `/vocabulary` + set detail pages with flashcard integration     | ✅     |
-| 3   | Phrasebook — `phrasebook.ts` + `/phrasebook` with level and register filters                       | ✅     |
-| 4   | Skills Tracker — `/progress` competency checklist + vocabulary stats                               | ✅     |
-| 5   | Level Completion Test — `/assessment/level-test` + result + recommendation (advance/extend/repeat) | ✅     |
-| 6   | Nav + routing — RESOURCES nav group, curriculum-driven `/plan` roadmap                             | ✅     |
+- 1 — Milestone: Grammar Reference — data layer + `/grammar` index + `/grammar/[slug]` detail pages; Status: ✅
+- 2 — Milestone: Vocabulary Hub — `vocabulary.ts` + `/vocabulary` + set detail pages with flashcard integration; Status: ✅
+- 3 — Milestone: Phrasebook — `phrasebook.ts` + `/phrasebook` with level and register filters; Status: ✅
+- 4 — Milestone: Skills Tracker — `/progress` competency checklist + vocabulary stats; Status: ✅
+- 5 — Milestone: Level Completion Test — `/assessment/level-test` + result + recommendation (advance/extend/repeat); Status: ✅
+- 6 — Milestone: Nav + routing — RESOURCES nav group, curriculum-driven `/plan` roadmap; Status: ✅
 
 **Completion criteria:**
 
@@ -81,14 +77,12 @@ This document records what was built and the completion criteria met.
 
 ✅ Status: Complete (v1.1.0 – v1.2.0)
 
-| #   | Milestone                                                                      | Status |
-| --- | ------------------------------------------------------------------------------ | ------ |
-| 1   | Kokoro TTS service + `/api/tts` proxy                                          | ✅     |
-| 2   | Whisper STT service + `/api/stt` proxy (`POST /asr`, not OpenAI API)           | ✅     |
-| 3   | Audio playback (`AudioPlayer` component) and voice recording (`VoiceRecorder`) | ✅     |
-| 4   | Pronunciation evaluation via STT transcription                                 | ✅     |
-| 5   | Pronunciation exercise type in lessons                                         | ✅     |
-| 6   | Speaking mode in flashcards                                                    | ✅     |
+- 1 — Milestone: Kokoro TTS service + `/api/tts` proxy; Status: ✅
+- 2 — Milestone: Whisper STT service + `/api/stt` proxy (`POST /asr`, not OpenAI API); Status: ✅
+- 3 — Milestone: Audio playback (`AudioPlayer` component) and voice recording (`VoiceRecorder`); Status: ✅
+- 4 — Milestone: Pronunciation evaluation via STT transcription; Status: ✅
+- 5 — Milestone: Pronunciation exercise type in lessons; Status: ✅
+- 6 — Milestone: Speaking mode in flashcards; Status: ✅
 
 **Completion criteria:**
 
@@ -108,16 +102,14 @@ This document records what was built and the completion criteria met.
 
 ✅ Status: Complete (v1.2.0 – v1.2.1)
 
-| #   | Milestone                                                               | Status |
-| --- | ----------------------------------------------------------------------- | ------ |
-| 1   | WebSocket `/ws/conversation` endpoint with TTS+STT guard                | ✅     |
-| 2   | Conversation pipeline (STT → LLM streaming → TTS chunking)              | ✅     |
-| 3   | Sentence boundary detection for TTS flushing                            | ✅     |
-| 4   | Frontend `ConversationMode` with VAD (`@ricky0123/vad-react`)           | ✅     |
-| 5   | Gapless `AudioQueue` playback via Web Audio API                         | ✅     |
-| 6   | Barge-in / interrupt support                                            | ✅     |
-| 7   | Configurable session timeouts (max duration + inactivity, 60s warnings) | ✅     |
-| 8   | Structured logging across the pipeline                                  | ✅     |
+- 1 — Milestone: WebSocket `/ws/conversation` endpoint with TTS+STT guard; Status: ✅
+- 2 — Milestone: Conversation pipeline (STT → LLM streaming → TTS chunking); Status: ✅
+- 3 — Milestone: Sentence boundary detection for TTS flushing; Status: ✅
+- 4 — Milestone: Frontend `ConversationMode` with VAD (`@ricky0123/vad-react`); Status: ✅
+- 5 — Milestone: Gapless `AudioQueue` playback via Web Audio API; Status: ✅
+- 6 — Milestone: Barge-in / interrupt support; Status: ✅
+- 7 — Milestone: Configurable session timeouts (max duration + inactivity, 60s warnings); Status: ✅
+- 8 — Milestone: Structured logging across the pipeline; Status: ✅
 
 **Completion criteria:**
 
@@ -141,15 +133,13 @@ This document records what was built and the completion criteria met.
 > Initial launch supports American English (`en-US`) and British English (`en-GB`),
 > with the data model and service layer ready for additional languages.
 
-| #   | Milestone                                                                                                                                         | Status |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| 1   | DB migration — `english_variant` → `target_language` (BCP-47); backfill existing rows to `en-US`                                                  | ✅     |
-| 2   | Backend model + schema — `User.target_language`, `StudyPlan.target_language`, `SUPPORTED_TARGET_LANGUAGES`, `RegisterResponse`                    | ✅     |
-| 3   | Auto-login on register — `POST /register` returns `access_token` + sets refresh cookie; frontend redirects to `/onboarding`                       | ✅     |
-| 4   | Service layer — `language_helpers.py`; `target_language` propagated to lesson generator, flashcards, chat, conversation pipeline, STT, assessment | ✅     |
-| 5   | Frontend — `TargetLanguageSelector` component, `/onboarding` page, auth store updated, settings cleaned up                                        | ✅     |
-| 6   | i18n — `targetLanguages` + `onboarding` namespaces added to all 6 locales; old `englishVariant` keys removed                                      | ✅     |
-| 7   | Additional target languages beyond English variants                                                                                               | ⬜     |
+- 1 — Milestone: DB migration — `english_variant` → `target_language` (BCP-47); backfill existing rows to `en-US`; Status: ✅
+- 2 — Milestone: Backend model + schema — `User.target_language`, `StudyPlan.target_language`, `SUPPORTED_TARGET_LANGUAGES`, `RegisterResponse`; Status: ✅
+- 3 — Milestone: Auto-login on register — `POST /register` returns `access_token` + sets refresh cookie; frontend redirects to `/onboarding`; Status: ✅
+- 4 — Milestone: Service layer — `language_helpers.py`; `target_language` propagated to lesson generator, flashcards, chat, conversation pipeline, STT, assessment; Status: ✅
+- 5 — Milestone: Frontend — `TargetLanguageSelector` component, `/onboarding` page, auth store updated, settings cleaned up; Status: ✅
+- 6 — Milestone: i18n — `targetLanguages` + `onboarding` namespaces added to all 6 locales; old `englishVariant` keys removed; Status: ✅
+- 7 — Milestone: Additional target languages beyond English variants; Status: ⬜
 
 **Completion criteria:**
 
@@ -172,27 +162,25 @@ This document records what was built and the completion criteria met.
 
 > Optional subscription layer backed by Stripe. Fully gated by `STRIPE_ENABLED` env var — self-hosted deployments are unaffected when set to `false`.
 
-| #   | Milestone                                                                               | Status |
-| --- | --------------------------------------------------------------------------------------- | ------ |
-| 1   | Config + env vars + `docker-compose.yml` + `requirements.txt`                           | ✅     |
-| 2   | User model fields (`stripe_customer_id`, `stripe_subscription_id`, `subscription_status`, `subscription_ends_at`) | ✅     |
-| 3   | Alembic migration `0016_stripe_subscription`                                            | ✅     |
-| 4   | `subscription_service.py` — `is_subscribed()` + `apply_subscription_quotas()`           | ✅     |
-| 5   | `require_subscription` FastAPI dependency                                               | ✅     |
-| 6   | `GET /api/config` public endpoint                                                       | ✅     |
-| 7   | `POST /api/billing/checkout` — Stripe Checkout Session                                  | ✅     |
-| 8   | `POST /api/billing/portal` — Stripe Customer Portal                                     | ✅     |
-| 9   | `POST /api/billing/webhook` — 4 Stripe events                                           | ✅     |
-| 10  | Apply `require_subscription` to all AI endpoints                                        | ✅     |
-| 11  | Admin schema: expose + override subscription status                                     | ✅     |
-| 12  | Frontend config store (`stripeEnabled`)                                                 | ✅     |
-| 13  | `PaywallBanner` component                                                               | ✅     |
-| 14  | Paywall applied to 6 protected pages                                                    | ✅     |
-| 15  | Billing section in settings/profile                                                     | ✅     |
-| 16  | Pricing section in landing page                                                         | ✅     |
-| 17  | `/billing/success` and `/billing/canceled` pages                                        | ✅     |
-| 18  | i18n — `billing` namespace in 10 locales                                                | ✅     |
-| 19  | Tests — `test_billing.py` with Stripe SDK mocks                                         | ✅     |
+- 1 — Milestone: Config + env vars + `docker-compose.yml` + `requirements.txt`; Status: ✅
+- 2 — Milestone: User model fields (`stripe_customer_id`, `stripe_subscription_id`, `subscription_status`, `subscription_ends_at`); Status: ✅
+- 3 — Milestone: Alembic migration `0016_stripe_subscription`; Status: ✅
+- 4 — Milestone: `subscription_service.py` — `is_subscribed()` + `apply_subscription_quotas()`; Status: ✅
+- 5 — Milestone: `require_subscription` FastAPI dependency; Status: ✅
+- 6 — Milestone: `GET /api/config` public endpoint; Status: ✅
+- 7 — Milestone: `POST /api/billing/checkout` — Stripe Checkout Session; Status: ✅
+- 8 — Milestone: `POST /api/billing/portal` — Stripe Customer Portal; Status: ✅
+- 9 — Milestone: `POST /api/billing/webhook` — 4 Stripe events; Status: ✅
+- 10 — Milestone: Apply `require_subscription` to all AI endpoints; Status: ✅
+- 11 — Milestone: Admin schema: expose + override subscription status; Status: ✅
+- 12 — Milestone: Frontend config store (`stripeEnabled`); Status: ✅
+- 13 — Milestone: `PaywallBanner` component; Status: ✅
+- 14 — Milestone: Paywall applied to 6 protected pages; Status: ✅
+- 15 — Milestone: Billing section in settings/profile; Status: ✅
+- 16 — Milestone: Pricing section in landing page; Status: ✅
+- 17 — Milestone: `/billing/success` and `/billing/canceled` pages; Status: ✅
+- 18 — Milestone: i18n — `billing` namespace in 10 locales; Status: ✅
+- 19 — Milestone: Tests — `test_billing.py` with Stripe SDK mocks; Status: ✅
 
 **Plans:**
 
@@ -224,17 +212,15 @@ This document records what was built and the completion criteria met.
 > extra cost. The user listens, answers 5 multiple-choice questions, then the transcript
 > is revealed together with score and XP.
 
-| #   | Milestone                                                                                          | Status |
-| --- | -------------------------------------------------------------------------------------------------- | ------ |
-| 1   | DB models — `listening_exercises` + `listening_attempts` + migration `0018`                        | ✅     |
-| 2   | Backend service — LLM generation, TTS synthesis, MP3 storage, Redis generation lock                | ✅     |
-| 3   | Backend router — 5 endpoints: next, generate, audio, attempt, history                              | ✅     |
-| 4   | Frontend page — 6 UI states: loading → generating → idle → exercise → results → history            | ✅     |
-| 5   | Frontend components — ExerciseAudioPlayer (blob URL via apiFetch), question cards, result reveal   | ✅     |
-| 6   | Audio served directly via `GET /api/listening/audio/{id}` (FileResponse, auth header via apiFetch) | ✅     |
-| 7   | Sidebar nav entry (between Conversation and Assessment)                                            | ✅     |
-| 8   | i18n — `nav.listening` + `listening.*` (27 keys) in all 10 locale files                            | ✅     |
-| 9   | `PaywallGate` on all AI endpoints (`require_subscription` dep)                                     | ✅     |
+- 1 — Milestone: DB models — `listening_exercises` + `listening_attempts` + migration `0018`; Status: ✅
+- 2 — Milestone: Backend service — LLM generation, TTS synthesis, MP3 storage, Redis generation lock; Status: ✅
+- 3 — Milestone: Backend router — 5 endpoints: next, generate, audio, attempt, history; Status: ✅
+- 4 — Milestone: Frontend page — 6 UI states: loading → generating → idle → exercise → results → history; Status: ✅
+- 5 — Milestone: Frontend components — ExerciseAudioPlayer (blob URL via apiFetch), question cards, result reveal; Status: ✅
+- 6 — Milestone: Audio served directly via `GET /api/listening/audio/{id}` (FileResponse, auth header via apiFetch); Status: ✅
+- 7 — Milestone: Sidebar nav entry (between Conversation and Assessment); Status: ✅
+- 8 — Milestone: i18n — `nav.listening` + `listening.*` (27 keys) in all 10 locale files; Status: ✅
+- 9 — Milestone: `PaywallGate` on all AI endpoints (`require_subscription` dep); Status: ✅
 
 **Completion criteria:**
 
@@ -262,18 +248,16 @@ This document records what was built and the completion criteria met.
 > are awarded on submission; completed exercises move to a personal history tab where
 > they can be replayed without earning additional XP.
 
-| #   | Milestone                                                                                        | Status |
-| --- | ------------------------------------------------------------------------------------------------ | ------ |
-| 1   | DB models — `reading_exercises` + `reading_attempts` + migration `0019`                          | ✅     |
-| 2   | Backend service — LLM generation (no TTS), 7 exercise types, 6 topic sets, Redis generation lock | ✅     |
-| 3   | Backend router — 4 endpoints: next, generate, attempt, history                                   | ✅     |
-| 4   | Reading/listening generation validated via `structured_output()` Pydantic schemas                | ✅     |
-| 5   | Frontend page — 6 UI states: loading → generating → idle → exercise → results → history          | ✅     |
-| 6   | Two-column layout (passage 55% / questions 45%) on desktop; stacked on mobile                    | ✅     |
-| 7   | Sidebar nav entry (immediately after Listening)                                                  | ✅     |
-| 8   | i18n — `nav.reading` + `reading.*` namespace in all 10 locale files                              | ✅     |
-| 9   | `PaywallGate` on AI endpoints; history accessible without subscription                           | ✅     |
-| 10  | Answer count validation (`field_validator` — exactly 5 answers required)                         | ✅     |
+- 1 — Milestone: DB models — `reading_exercises` + `reading_attempts` + migration `0019`; Status: ✅
+- 2 — Milestone: Backend service — LLM generation (no TTS), 7 exercise types, 6 topic sets, Redis generation lock; Status: ✅
+- 3 — Milestone: Backend router — 4 endpoints: next, generate, attempt, history; Status: ✅
+- 4 — Milestone: Reading/listening generation validated via `structured_output()` Pydantic schemas; Status: ✅
+- 5 — Milestone: Frontend page — 6 UI states: loading → generating → idle → exercise → results → history; Status: ✅
+- 6 — Milestone: Two-column layout (passage 55% / questions 45%) on desktop; stacked on mobile; Status: ✅
+- 7 — Milestone: Sidebar nav entry (immediately after Listening); Status: ✅
+- 8 — Milestone: i18n — `nav.reading` + `reading.*` namespace in all 10 locale files; Status: ✅
+- 9 — Milestone: `PaywallGate` on AI endpoints; history accessible without subscription; Status: ✅
+- 10 — Milestone: Answer count validation (`field_validator` — exactly 5 answers required); Status: ✅
 
 **Completion criteria:**
 
@@ -300,15 +284,13 @@ This document records what was built and the completion criteria met.
 > suggestions, and discuss entries via flat comment threads. Admins manage entry status
 > and can delete any entry or comment.
 
-| #   | Milestone                                                                                                                    | Status |
-| --- | ---------------------------------------------------------------------------------------------------------------------------- | ------ |
-| 1   | DB models — `feedback_entries` + `feedback_votes` + `feedback_comments` + migration `0020`                                   | ✅     |
-| 2   | Backend router — 9 endpoints: list, create, get, vote toggle, add comment, delete comment, delete entry, admin status update | ✅     |
-| 3   | Admin frontend page — `/admin/feedback` with status management                                                               | ✅     |
-| 4   | User frontend page — `/feedback` with list + detail view, tabs (feature/bug), sort, status filter, pagination                | ✅     |
-| 5   | Vote toggle inline on list cards and in detail view                                                                          | ✅     |
-| 6   | Flat comment thread in detail view with add/delete                                                                           | ✅     |
-| 7   | i18n — `feedback.*` namespace in all 10 locale files                                                                         | ✅     |
+- 1 — Milestone: DB models — `feedback_entries` + `feedback_votes` + `feedback_comments` + migration `0020`; Status: ✅
+- 2 — Milestone: Backend router — 9 endpoints: list, create, get, vote toggle, add comment, delete comment, delete entry, admin status update; Status: ✅
+- 3 — Milestone: Admin frontend page — `/admin/feedback` with status management; Status: ✅
+- 4 — Milestone: User frontend page — `/feedback` with list + detail view, tabs (feature/bug), sort, status filter, pagination; Status: ✅
+- 5 — Milestone: Vote toggle inline on list cards and in detail view; Status: ✅
+- 6 — Milestone: Flat comment thread in detail view with add/delete; Status: ✅
+- 7 — Milestone: i18n — `feedback.*` namespace in all 10 locale files; Status: ✅
 
 **Completion criteria:**
 
@@ -410,16 +392,14 @@ This document records what was built and the completion criteria met.
 >
 > See [`phase-11-reviews.instructions.md`](phase-11-reviews.instructions.md) for the full spec.
 
-| #   | Milestone                                                                                          | Status |
-| --- | -------------------------------------------------------------------------------------------------- | ------ |
-| 1   | Spec and planning — functional rules, model contract, endpoints, frontend behaviour, test plan      | ✅     |
-| 2   | Backend model and migration — `reviews` table, one review per user, rating constraints             | ✅     |
-| 3   | Backend API — user review creation/state, public approved reviews, admin moderation                 | ✅     |
-| 4   | Backend tests — validation, duplicate guard, public filtering, admin permissions                    | ✅     |
-| 5   | Frontend API and reusable review prompt with local dismissal cooldown                               | ✅     |
-| 6   | Landing reviews carousel — approved `rating >= 4` reviews, including rating-only reviews           | ✅     |
-| 7   | Admin reviews section — list, filters, approve/unapprove, delete                                   | ✅     |
-| 8   | Frontend tests — prompt, landing, admin interactions                                                | ✅     |
+- 1 — Milestone: Spec and planning — functional rules, model contract, endpoints, frontend behaviour, test plan; Status: ✅
+- 2 — Milestone: Backend model and migration — `reviews` table, one review per user, rating constraints; Status: ✅
+- 3 — Milestone: Backend API — user review creation/state, public approved reviews, admin moderation; Status: ✅
+- 4 — Milestone: Backend tests — validation, duplicate guard, public filtering, admin permissions; Status: ✅
+- 5 — Milestone: Frontend API and reusable review prompt with local dismissal cooldown; Status: ✅
+- 6 — Milestone: Landing reviews carousel — approved `rating >= 4` reviews, including rating-only reviews; Status: ✅
+- 7 — Milestone: Admin reviews section — list, filters, approve/unapprove, delete; Status: ✅
+- 8 — Milestone: Frontend tests — prompt, landing, admin interactions; Status: ✅
 
 **Completion criteria:**
 

@@ -140,11 +140,9 @@ The number of entries is variable per version. The component reads entries dynam
 
 ## Files to create / modify
 
-| File                                             | Action                                                               |
-| ------------------------------------------------ | -------------------------------------------------------------------- |
-| `frontend/src/components/whats-new/WhatsNew.tsx` | Create — the modal component                                         |
-| `frontend/src/app/(app)/dashboard/page.tsx`      | Modify — import and render `<WhatsNew />` after `<OnboardingTour />` |
-| `messages/en.json` (and all locale files)        | Modify — add `whatsNew` namespace with current version entries       |
+- `frontend/src/components/whats-new/WhatsNew.tsx` — Create — the modal component
+- `frontend/src/app/(app)/dashboard/page.tsx` — Modify — import and render `<WhatsNew />` after `<OnboardingTour />`
+- `messages/en.json` (and all locale files) — Modify — add `whatsNew` namespace with current version entries
 
 ---
 

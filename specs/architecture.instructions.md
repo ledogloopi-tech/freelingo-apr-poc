@@ -27,7 +27,7 @@ freelingo/
 │   │       └── pt/              # Portuguese curriculum (A1–C2)
 │   ├── alembic/
 │   │   └── versions/            # DB migrations (43)
-│   └── tests/                   # pytest suite (43 test files, 915 tests)
+│   └── tests/                   # pytest suite (43 test files, 919 tests)
 │
 ├── frontend/                    # Next.js 16 App Router
 │   ├── src/
@@ -135,13 +135,11 @@ Stable turn guard: frontend ignores user speech while the tutor turn is active
 
 ## Auth design
 
-| Token              | Type         | Algorithm | Duration   | Storage                                              |
-| ------------------ | ------------ | --------- | ---------- | ---------------------------------------------------- |
-| access_token       | JWT          | HS256     | 15 min     | Zustand store (JS memory)                            |
-| refresh_token      | Opaque UUID4 | random    | 30 days    | httpOnly cookie + Redis: `refresh:{token}` → user_id |
-| email verification | Opaque UUID4 | random    | 24 h       | Redis: `verify_email:{token}` → user_id              |
-| password reset     | Opaque UUID4 | random    | 1 h        | Redis: `reset_password:{token}` → user_id            |
-| maintenance mode   | bool flag    | —         | indefinite | Redis: `maintenance_mode` → `"1"` or `"0"`           |
+- access_token — Type: JWT; Algorithm: HS256; Duration: 15 min; Storage: Zustand store (JS memory)
+- refresh_token — Type: Opaque UUID4; Algorithm: random; Duration: 30 days; Storage: httpOnly cookie + Redis: `refresh:{token}` → user_id
+- email verification — Type: Opaque UUID4; Algorithm: random; Duration: 24 h; Storage: Redis: `verify_email:{token}` → user_id
+- password reset — Type: Opaque UUID4; Algorithm: random; Duration: 1 h; Storage: Redis: `reset_password:{token}` → user_id
+- maintenance mode — Type: bool flag; Algorithm: —; Duration: indefinite; Storage: Redis: `maintenance_mode` → `"1"` or `"0"`
 
 **Design rationale:**
 
@@ -174,6 +172,6 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 
 **Summary:**
 
-- **Backend**: pytest + pytest-asyncio, 43 test files, 915 tests, 85.01% last measured coverage (target: 70%)
+- **Backend**: pytest + pytest-asyncio, 43 test files, 919 tests, 85.06% last measured coverage (target: 70%)
 - **Frontend**: Vitest, 32 test files, 419 tests covering stores, components, hooks, lib, i18n, app pages, billing paywall UI, billing success verification, and middleware; coverage is not configured/reported
 - **E2E**: Playwright (planned, not yet implemented)

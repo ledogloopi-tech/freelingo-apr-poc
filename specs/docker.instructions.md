@@ -20,10 +20,8 @@ Ollama is assumed to run on the host machine for GPU access, reached from contai
 
 ## Image channels
 
-| Channel    | Branch    | Backend image                             | Frontend image                             |
-| ---------- | --------- | ----------------------------------------- | ------------------------------------------ |
-| Production | `main`    | `ghcr.io/artcc/freelingo-backend`         | `ghcr.io/artcc/freelingo-frontend`         |
-| Develop    | `develop` | `ghcr.io/artcc/freelingo-backend-develop` | `ghcr.io/artcc/freelingo-frontend-develop` |
+- Production — Branch: `main`; Backend image: `ghcr.io/artcc/freelingo-backend`; Frontend image: `ghcr.io/artcc/freelingo-frontend`
+- Develop — Branch: `develop`; Backend image: `ghcr.io/artcc/freelingo-backend-develop`; Frontend image: `ghcr.io/artcc/freelingo-frontend-develop`
 
 Both channels publish `:latest` and a short SHA tag on every push. The compose file uses production images by default.
 
@@ -78,21 +76,19 @@ Two named volumes: `postgres_data` and `redis_data`. Both services also accept b
 
 The canonical reference is `.env.example` at the repo root. The categories operators must review before first deployment:
 
-| Category      | Key variables                                                                    | Notes                                                                                               |
-| ------------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| Database      | `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`                              | All three must be set                                                                               |
-| Data path     | `DATA_PATH`                                                                      | Host path for bind mounts (postgres, redis, avatars, audio)                                         |
-| Cache         | `REDIS_PASSWORD`                                                                 | Must match in Redis command and backend URL                                                         |
-| Auth          | `SECRET_KEY`                                                                     | Generate with `openssl rand -hex 32`; never commit                                                  |
-| CORS / Cookie | `CORS_ORIGINS`, `COOKIE_SECURE`                                                  | Set `COOKIE_SECURE=true` when serving over HTTPS                                                    |
-| Registration  | `ALLOW_REGISTRATION`, `FIRST_USER_IS_ADMIN`                                      | Restrict signups and promote first user automatically                                               |
-| Email / SMTP  | `EMAIL_ENABLED`, `SMTP_*`, `APP_BASE_URL`                                        | Required for email verification and password reset                                                  |
-| Languages     | `AVAILABLE_TARGET_LANGUAGES`                                                     | Operator-configured target-language list; backend filters unsupported codes                         |
-| LLM           | `LLM_PROVIDER`, `OLLAMA_*`, `OPENAI_*`, `ANTHROPIC_*`, `DEEPSEEK_*`              | Provider selected via `LLM_PROVIDER`                                                                |
-| TTS           | `TTS_PROVIDER`, `TTS_BASE_URL`, `TTS_VOICE`, `OPENAI_TTS_*`                      | `local` or `openai`                                                                                 |
-| STT           | `STT_PROVIDER`, `STT_BASE_URL`, `STT_MODEL`, `STT_ENGINE`, `OPENAI_STT_MODEL`    | `local` or `openai`                                                                                 |
-| Stripe        | `STRIPE_ENABLED`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_*` | Optional; disabled by default. Price IDs are configured manually from Stripe Dashboard when enabled |
-| Logging       | `LOG_LEVEL`                                                                      | Default: `INFO`                                                                                     |
+- Database — Key variables: `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`; Notes: All three must be set
+- Data path — Key variables: `DATA_PATH`; Notes: Host path for bind mounts (postgres, redis, avatars, audio)
+- Cache — Key variables: `REDIS_PASSWORD`; Notes: Must match in Redis command and backend URL
+- Auth — Key variables: `SECRET_KEY`; Notes: Generate with `openssl rand -hex 32`; never commit
+- CORS / Cookie — Key variables: `CORS_ORIGINS`, `COOKIE_SECURE`; Notes: Set `COOKIE_SECURE=true` when serving over HTTPS
+- Registration — Key variables: `ALLOW_REGISTRATION`, `FIRST_USER_IS_ADMIN`; Notes: Restrict signups and promote first user automatically
+- Email / SMTP — Key variables: `EMAIL_ENABLED`, `SMTP_*`, `APP_BASE_URL`; Notes: Required for email verification and password reset
+- Languages — Key variables: `AVAILABLE_TARGET_LANGUAGES`; Notes: Operator-configured target-language list; backend filters unsupported codes
+- LLM — Key variables: `LLM_PROVIDER`, `OLLAMA_*`, `OPENAI_*`, `ANTHROPIC_*`, `DEEPSEEK_*`; Notes: Provider selected via `LLM_PROVIDER`
+- TTS — Key variables: `TTS_PROVIDER`, `TTS_BASE_URL`, `TTS_VOICE`, `OPENAI_TTS_*`; Notes: `local` or `openai`
+- STT — Key variables: `STT_PROVIDER`, `STT_BASE_URL`, `STT_MODEL`, `STT_ENGINE`, `OPENAI_STT_MODEL`; Notes: `local` or `openai`
+- Stripe — Key variables: `STRIPE_ENABLED`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_*`; Notes: Optional; disabled by default. Price IDs are configured manually from Stripe Dashboard when enabled
+- Logging — Key variables: `LOG_LEVEL`; Notes: Default: `INFO`
 
 ---
 
@@ -115,10 +111,8 @@ Run via the backend container after model changes. Migrations run automatically 
 
 ### GPU vs CPU
 
-| Service     | GPU image                                        | CPU image                                  | Change needed                                             |
-| ----------- | ------------------------------------------------ | ------------------------------------------ | --------------------------------------------------------- |
-| Kokoro TTS  | `ghcr.io/remsky/kokoro-fastapi-gpu:latest-cu128` | `ghcr.io/remsky/kokoro-fastapi-cpu:latest` | Replace image; remove `deploy` block                      |
-| Whisper STT | `*:latest-gpu`                                   | `*:latest`                                 | Replace tag; remove `deploy` block; use `STT_MODEL=small` |
+- Kokoro TTS — GPU image: `ghcr.io/remsky/kokoro-fastapi-gpu:latest-cu128`; CPU image: `ghcr.io/remsky/kokoro-fastapi-cpu:latest`; Change needed: Replace image; remove `deploy` block
+- Whisper STT — GPU image: `*:latest-gpu`; CPU image: `*:latest`; Change needed: Replace tag; remove `deploy` block; use `STT_MODEL=small`
 
 The `deploy.resources.reservations.devices` block requires the Docker NVIDIA runtime. Remove it entirely for CPU-only hosts.
 
@@ -126,12 +120,10 @@ The `deploy.resources.reservations.devices` block requires the Docker NVIDIA run
 
 ## TTS/STT provider selection
 
-| Variable       | Value             | Behaviour                                                       |
-| -------------- | ----------------- | --------------------------------------------------------------- |
-| `TTS_PROVIDER` | `local` (default) | Routes TTS to the `kokoro` Docker service                       |
-| `TTS_PROVIDER` | `openai`          | Routes TTS to OpenAI TTS API — `kokoro` service not needed      |
-| `STT_PROVIDER` | `local` (default) | Routes STT to the `whisper` Docker service                      |
-| `STT_PROVIDER` | `openai`          | Routes STT to OpenAI Whisper API — `whisper` service not needed |
+- `TTS_PROVIDER` — Value: `local` (default); Behaviour: Routes TTS to the `kokoro` Docker service
+- `TTS_PROVIDER` — Value: `openai`; Behaviour: Routes TTS to OpenAI TTS API — `kokoro` service not needed
+- `STT_PROVIDER` — Value: `local` (default); Behaviour: Routes STT to the `whisper` Docker service
+- `STT_PROVIDER` — Value: `openai`; Behaviour: Routes STT to OpenAI Whisper API — `whisper` service not needed
 
 When using `openai` providers, the corresponding Docker service can be removed from the stack entirely.
 

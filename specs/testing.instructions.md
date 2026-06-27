@@ -1,5 +1,5 @@
 ---
-description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 919 tests, 85.01% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (32 test files, 419 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, billing paywall UI, billing success verification, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
+description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 919 tests, 85.06% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (32 test files, 419 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, billing paywall UI, billing success verification, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
 applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 ---
 
@@ -7,13 +7,11 @@ applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 
 ## Overview
 
-| Layer                      | Framework               | Scope                                                   | Coverage                           | Status      |
-| -------------------------- | ----------------------- | ------------------------------------------------------- | ---------------------------------- | ----------- |
-| Backend unit + integration | pytest + pytest-asyncio | API endpoints, services, SM-2 algorithm, data integrity | 85.01% last measured (target: 70%) | Implemented |
-| Frontend unit              | Vitest                  | Stores, components, hooks, lib, middleware              | Not configured                     | Implemented |
-| E2E                        | Playwright              | Critical user flows                                     | Smoke                              | Pending     |
+- Backend unit + integration — Framework: pytest + pytest-asyncio; Scope: API endpoints, services, SM-2 algorithm, data integrity; Coverage: 85.06% last measured (target: 70%); Status: Implemented
+- Frontend unit — Framework: Vitest; Scope: Stores, components, hooks, lib, middleware; Coverage: Not configured; Status: Implemented
+- E2E — Framework: Playwright; Scope: Critical user flows; Coverage: Smoke; Status: Pending
 
-All tests pass on every push. Backend coverage threshold configured at 70%, last measured at 85.01%. Frontend tests cover stores, critical components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher, TargetLanguageSelector, review UI, LanguageBubbles, billing paywall UI), billing success verification, app pages, hooks, lib modules, i18n, and middleware. Frontend coverage is not currently reported because Vitest coverage is not configured and `@vitest/coverage-v8` is not installed.
+All tests pass on every push. Backend coverage threshold configured at 70%, last measured at 85.06%. Frontend tests cover stores, critical components (VoiceRecorder, AudioPlayer, ProfileSection, UnitCard/UnitDrawer, LanguageSwitcher, TargetLanguageSelector, review UI, LanguageBubbles, billing paywall UI), billing success verification, app pages, hooks, lib modules, i18n, and middleware. Frontend coverage is not currently reported because Vitest coverage is not configured and `@vitest/coverage-v8` is not installed.
 
 ---
 
@@ -75,11 +73,11 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_lesson_generator.py`** — Lines: —. What it covers: Lesson generator service: `get_valid_grammar_slugs`, `generate_lesson`, exercise schema validation, fill-blank sanitization, grammar refs filtering, `evaluate_free_write`, `evaluate_pronunciation`, `evaluate_fill_blank` (16 tests, 51%→100% coverage)
 - **`test_listening_service.py`** — Lines: —. What it covers: Listening service DB layer and generation: `structured_output()` generation persistence, language-aware CJK length guidance, `get_available_exercise`, `submit_attempt` (correct/partial/duplicate/replay/not-found), `get_user_history` (empty/attempts/limit/language filter)
 
-**Total: 43 test files, 915 tests.**
+**Total: 43 test files, 919 tests.**
 
 ### Coverage
 
-- **Current coverage**: 85.01% last measured (above 70% target)
+- **Current coverage**: 85.06% last measured (above 70% target)
 - **Configured threshold**: 70% (enforced via `pytest --cov-fail-under=70`)
 
 ### Test patterns
@@ -253,28 +251,24 @@ CI runs on GitHub Actions, triggered on pushes and pull requests. The project is
 
 ### Workflow
 
-| Job                | Steps                        | Threshold          |
-| ------------------ | ---------------------------- | ------------------ |
-| Backend lint       | `ruff check`                 | Zero errors        |
-| Backend format     | `black --check .`            | Clean diff         |
-| Backend tests      | `pytest --cov-fail-under=70` | >= 70% coverage    |
-| Frontend lint      | `eslint src/ --ext .ts,.tsx` | Zero errors        |
-| Frontend format    | `prettier --check src/`      | Clean diff         |
-| Frontend typecheck | `npx tsc --noEmit`           | Clean output       |
-| Frontend tests     | `npm run test:run`           | All 419 tests pass |
+- Backend tests — Steps: `pytest -v`; Threshold: >= 70% coverage
+- Frontend lint — Steps: `npm run lint`; Threshold: Zero errors
+- Frontend typecheck — Steps: `npx tsc --noEmit`; Threshold: Clean output
+- Frontend tests — Steps: `npm run test:run`; Threshold: All 419 tests pass
 
 **Note**: The backend test job uses SQLite (same as local tests), not PostgreSQL. No Docker services are required for the backend test job.
 
 ### Pre-push skill
 
-The `pre-push` opencode skill mirrors the CI workflow locally. Run order:
+The `run-tests` opencode skill is available for requested test, lint, typecheck, or targeted verification runs.
+
+The `pre-push` opencode skill mirrors CI locally and also auto-formats before running checks. Run order:
 
 1. Auto-format (ruff --fix, black, eslint --fix, prettier --write)
-2. Backend lint & format check
-3. Backend tests (pytest)
-4. Frontend lint & format check
+2. Backend tests (pytest)
+3. Frontend lint (npm run lint)
+4. Frontend typecheck (tsc --noEmit)
 5. Frontend tests (vitest)
-6. Frontend typecheck (tsc --noEmit)
 
 ---
 

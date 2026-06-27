@@ -24,16 +24,16 @@ python3 -m venv .venv && source .venv/bin/activate && pip install -r backend/req
 ### Run
 
 ```bash
-cd backend && pytest
+source .venv/bin/activate && cd backend && pytest -v
 ```
 
 Use a command timeout of at least 600 seconds for the full backend suite; the current run takes about 4 minutes and can exceed shorter 120-second tool defaults.
 
 Options:
 
-- Single file: `pytest tests/test_auth.py -v`
-- Single test: `pytest tests/test_flashcards.py::test_quality_3_basic_progression -v`
-- Coverage HTML: `pytest --cov-report=html`
+- Single file: `source .venv/bin/activate && cd backend && pytest tests/test_auth.py -v`
+- Single test: `source .venv/bin/activate && cd backend && pytest tests/test_flashcards.py::test_quality_3_basic_progression -v`
+- Coverage HTML: `source .venv/bin/activate && cd backend && pytest --cov-report=html`
 
 ## Frontend tests (vitest)
 
@@ -41,7 +41,7 @@ Options:
 cd frontend && npm run test:run
 ```
 
-404 tests covering stores, components, hooks, app pages, lib, i18n, middleware, review UI, review prompt triggers, and API interceptor. Frontend coverage is not configured/reported:
+419 tests covering stores, components, hooks, app pages, lib, i18n, middleware, review UI, review prompt triggers, billing UI, and API interceptor. Frontend coverage is not configured/reported:
 
 - `lib/api.ts` — auth interceptor, 401 refresh, retry
 - `store/auth.ts` — isSubscribed(), logout
@@ -73,13 +73,13 @@ Options:
 ## Frontend checks
 
 ```bash
-npx tsc --noEmit                 # TypeScript type checking
-npx eslint src/ --ext .ts,.tsx   # Lint
-npx prettier --check src/        # Format check
+cd frontend && npx tsc --noEmit                 # TypeScript type checking
+cd frontend && npm run lint                     # Lint
+cd frontend && npx prettier --check src/        # Format check
 ```
 
 ## Backend lint
 
 ```bash
-cd backend && ruff check . && black --check .
+source .venv/bin/activate && cd backend && ruff check . && black --check .
 ```

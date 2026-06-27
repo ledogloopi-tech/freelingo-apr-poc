@@ -28,6 +28,10 @@ Rules that apply without exception:
 3. **No task is complete without docs in sync.** A feature or fix is considered unfinished if the relevant spec files, `README.md`, `AGENTS.md`, or `CHANGELOG.md` have not been updated (or the user has explicitly opted out).
 4. **Version and changelog.** Any user-visible change must be reflected in `CHANGELOG.md` and `specs/version.md` (with a version bump if warranted).
 
+Spec formatting rule:
+
+- Do not use Markdown tables in `specs/` or other long-form project docs. They render poorly and become visually misaligned with long endpoint, model, or configuration descriptions. Use concise bullet lists instead, preserving the same fields and details.
+
 Files most commonly affected by code changes:
 
 - **New/modified endpoint** — `specs/api-endpoints.instructions.md`, `specs/rate-limiting.instructions.md`
@@ -86,23 +90,26 @@ These describe what was built — they are the reference documentation:
 
 - **No Docker locally.** The development machine does not have Docker installed. Never suggest `docker` or `docker compose` commands to run locally.
 - **Not deployed locally.** The application runs in a remote server; the dev machine is used only for editing and pushing code. CI/CD (GitHub Actions) builds and publishes the Docker images.
-- **Cannot test the running app locally.** Validation is limited to static checks: `npx tsc --noEmit` (frontend) and `python3 -m compileall app/ alembic/ -q` (backend).
+- **Cannot test the running app locally.** The running app is on a remote server. Local validation is limited to backend unit tests/static checks and frontend lint/typecheck/unit tests. Use the `run-tests` skill for requested test/lint/typecheck runs and the `pre-push` skill for final full validation before pushing.
 - **package-lock.json must be generated with npm 11** (the version installed locally). The Dockerfile upgrades npm to v11 before `npm ci` to stay in sync.
 
 ## Commands
 
 ```bash
 # Lint & format backend
-ruff check --fix backend/ && black backend/
+source .venv/bin/activate && cd backend && ruff check --fix . && black .
 
 # Lint & format frontend
-npx eslint src/ --ext .ts,.tsx && npx prettier --write src/
+cd frontend && npx eslint src/ --ext .ts,.tsx --fix && npx prettier --write src/
 
 # Run all backend tests (coverage must be ≥70%)
-cd backend && pytest
+source .venv/bin/activate && cd backend && pytest -v
 
 # Run single test file
-pytest tests/test_auth.py -v
+source .venv/bin/activate && cd backend && pytest tests/test_auth.py -v
+
+# Run frontend lint, typecheck, and tests
+cd frontend && npm run lint && npx tsc --noEmit && npm run test:run
 
 # DB migrations (run on the remote server, not locally)
 docker compose exec backend alembic revision --autogenerate -m "description"

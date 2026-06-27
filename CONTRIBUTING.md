@@ -37,18 +37,18 @@ Do not open PRs directly against `main`.
    ```
 2. Follow the coding standards below.
 3. Add or update tests. Coverage must remain ≥ 70 %.
-4. Run static validation before pushing:
+4. Run validation before pushing:
    ```bash
-   # Backend — compile check
-   python3 -m compileall app/ alembic/ -q
-   # Backend — lint
-   ruff check --fix backend/ && black backend/
-   # Frontend — type check
-   npx tsc --noEmit
-   # Frontend — lint
-   npx eslint src/ --ext .ts,.tsx && npx prettier --write src/
+   # Auto-format backend and frontend
+   source .venv/bin/activate && cd backend && ruff check --fix . && black . && cd ../frontend && npx eslint src/ --ext .ts,.tsx --fix && npx prettier --write src/
+
+   # Backend tests
+   source .venv/bin/activate && cd backend && pytest -v
+
+   # Frontend lint, typecheck, and tests
+   cd frontend && npm run lint && npx tsc --noEmit && npm run test:run
    ```
-5. Open a pull request against `develop`. CI will run the full test suite automatically.
+5. Open a pull request against `develop`. CI will run backend tests and frontend lint/typecheck/tests automatically.
 
 ## Coding standards
 
@@ -61,20 +61,20 @@ S and ANN rules are disabled in `tests/`.
 
 ## Running tests locally
 
-The test suite uses SQLite in-memory and mocked Redis — no Docker services required.
+The backend test suite uses SQLite in-memory and mocked Redis — no Docker services required.
 
 ```bash
 # Backend
-cd backend && pytest
+source .venv/bin/activate && cd backend && pytest -v
 
 # Run a single backend test file
-cd backend && pytest tests/test_auth.py -v
+source .venv/bin/activate && cd backend && pytest tests/test_auth.py -v
 ```
 
-Frontend tests run in CI. For a quick local check, use the type checker:
+Frontend tests run locally and in CI:
 
 ```bash
-cd frontend && npx tsc --noEmit
+cd frontend && npm run lint && npx tsc --noEmit && npm run test:run
 ```
 
 > **Note:** `package-lock.json` must be generated with **npm 11**. If you update frontend dependencies, make sure you are using npm 11 locally before committing the lockfile.

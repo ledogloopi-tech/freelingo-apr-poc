@@ -11,12 +11,10 @@ All external dependencies are accessed through the service layer. The frontend n
 
 Singleton providing provider-agnostic LLM access. Supports four providers selectable via `LLM_PROVIDER` env variable:
 
-| Provider  | Client                         | Max tokens | Notes                                        |
-| --------- | ------------------------------ | ---------- | -------------------------------------------- |
-| ollama    | AsyncOpenAI (openai SDK)       | 8192       | Local, openai-compatible endpoint            |
-| openai    | AsyncOpenAI                    | 128K       |                                              |
-| deepseek  | AsyncOpenAI                    | 128K       | openai-compatible endpoint                   |
-| anthropic | AsyncAnthropic (anthropic SDK) | 200K       | Separate code path; system message extracted |
+- ollama — Client: AsyncOpenAI (openai SDK); Max tokens: 8192; Notes: Local, openai-compatible endpoint
+- openai — Client: AsyncOpenAI; Max tokens: 128K; Notes: —
+- deepseek — Client: AsyncOpenAI; Max tokens: 128K; Notes: openai-compatible endpoint
+- anthropic — Client: AsyncAnthropic (anthropic SDK); Max tokens: 200K; Notes: Separate code path; system message extracted
 
 **Key capabilities:**
 
@@ -151,12 +149,10 @@ Manages AI-generated listening exercises end-to-end (Phase 6):
 
 **Exercise types by CEFR level** (`_TYPES_BY_LEVEL`):
 
-| Level  | Types                                                         |
-| ------ | ------------------------------------------------------------- |
-| A1, A2 | `monologue`, `announcement`, `voicemail`, `dialogue`, `story` |
-| B1     | `announcement`, `voicemail`, `story`, `dialogue`, `podcast`   |
-| B2     | `voicemail`, `story`, `podcast`, `interview`, `news`          |
-| C1, C2 | `story`, `podcast`, `interview`, `news`, `monologue`          |
+- A1, A2 — `monologue`, `announcement`, `voicemail`, `dialogue`, `story`
+- B1 — `announcement`, `voicemail`, `story`, `dialogue`, `podcast`
+- B2 — `voicemail`, `story`, `podcast`, `interview`, `news`
+- C1, C2 — `story`, `podcast`, `interview`, `news`, `monologue`
 
 ## Reading Service (`reading_service.py`)
 
@@ -170,13 +166,11 @@ Manages AI-generated reading comprehension exercises end-to-end (Phase 7):
 
 **Exercise types by CEFR level** (`_TYPES_BY_LEVEL`):
 
-| Level  | Types                                    |
-| ------ | ---------------------------------------- |
-| A1, A2 | `notice`, `email`                        |
-| B1     | `email`, `article`, `news`               |
-| B2     | `article`, `news`, `blog_post`, `review` |
-| C1     | `news`, `blog_post`, `review`, `essay`   |
-| C2     | `review`, `essay`                        |
+- A1, A2 — `notice`, `email`
+- B1 — `email`, `article`, `news`
+- B2 — `article`, `news`, `blog_post`, `review`
+- C1 — `news`, `blog_post`, `review`, `essay`
+- C2 — `review`, `essay`
 
 ## Review Service (`review_service.py`)
 

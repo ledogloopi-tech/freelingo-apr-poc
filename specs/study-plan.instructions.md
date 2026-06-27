@@ -30,23 +30,21 @@ FreeLingo's learning loop works as follows:
 
 One active plan per user. See `backend/app/models/study_plan.py`.
 
-| Column                         | Type              | Notes                                                               |
-| ------------------------------ | ----------------- | ------------------------------------------------------------------- |
-| id                             | integer           | Primary key                                                         |
-| user_id                        | integer           | FK → users                                                          |
-| cefr_level                     | string            | A1–C2                                                               |
-| target_language                | string            | BCP-47 tag copied from user at creation                             |
-| goals                          | JSON              | `["grammar", "vocabulary", ...]`                                    |
-| duration_weeks                 | integer           | 4 / 8 / 12 / 16                                                     |
-| days_per_week                  | integer           | 5 / 5 / 4 / 3 (derived from intensity)                              |
-| current_unit                   | string            | Curriculum unit ID of the last active unit                          |
-| **progress_day**               | **integer**       | **0-indexed count of completed days (see below). Default 0.**       |
-| generated_plan                 | JSON              | Full week/day grid (see Plan JSON structure)                        |
-| is_active                      | boolean           | True for the current plan; old plans are deactivated on re-generate |
-| completion_test_taken          | boolean           | Whether end-of-level test has been taken                            |
-| completion_test_score          | float (nullable)  | 0.0 – 1.0                                                           |
-| completion_test_recommendation | string (nullable) | `"advance"` / `"extend"` / `"repeat"`                               |
-| created_at                     | datetime          | Auto-set                                                            |
+- id — Type: integer; Notes: Primary key
+- user_id — Type: integer; Notes: FK → users
+- cefr_level — Type: string; Notes: A1–C2
+- target_language — Type: string; Notes: BCP-47 tag copied from user at creation
+- goals — Type: JSON; Notes: `["grammar", "vocabulary", ...]`
+- duration_weeks — Type: integer; Notes: 4 / 8 / 12 / 16
+- days_per_week — Type: integer; Notes: 5 / 5 / 4 / 3 (derived from intensity)
+- current_unit — Type: string; Notes: Curriculum unit ID of the last active unit
+- **progress_day** — Type: **integer**; Notes: **0-indexed count of completed days (see below). Default 0.**
+- generated_plan — Type: JSON; Notes: Full week/day grid (see Plan JSON structure)
+- is_active — Type: boolean; Notes: True for the current plan; old plans are deactivated on re-generate
+- completion_test_taken — Type: boolean; Notes: Whether end-of-level test has been taken
+- completion_test_score — Type: float (nullable); Notes: 0.0 – 1.0
+- completion_test_recommendation — Type: string (nullable); Notes: `"advance"` / `"extend"` / `"repeat"`
+- created_at — Type: datetime; Notes: Auto-set
 
 **`progress_day` semantics**
 
@@ -65,31 +63,27 @@ current_day  = (progress_day %  days_per_week) + 1
 
 Example (`days_per_week=4`):
 
-| progress_day |   current_week    | current_day |
-| :----------: | :---------------: | :---------: |
-|      0       |         1         |      1      |
-|      3       |         1         |      4      |
-|      4       |         2         |      1      |
-|      47      |        12         |      4      |
-|      48      | — plan complete — |      —      |
+- 0 — current_week: 1; current_day: 1
+- 3 — current_week: 1; current_day: 4
+- 4 — current_week: 2; current_day: 1
+- 47 — current_week: 12; current_day: 4
+- 48 — current_week: — plan complete —; current_day: —
 
 ### `Lesson` (`lessons` table)
 
 One row per lesson slot per day. Lessons are created lazily the first time the user calls `GET /today`.
 
-| Column        | Type                | Notes                                                                     |
-| ------------- | ------------------- | ------------------------------------------------------------------------- |
-| id            | integer             | Primary key                                                               |
-| study_plan_id | integer             | FK → study_plans                                                          |
-| title         | string              | Lesson title (matches the slot title in `generated_plan`)                 |
-| lesson_type   | string              | `grammar` / `vocabulary` / `reading` / `writing` / `listening` / `review` |
-| cefr_level    | string              |                                                                           |
-| week_number   | integer             | Week in the plan (1-based)                                                |
-| day_number    | integer             | Day in the week (1-based)                                                 |
-| unit_id       | string (nullable)   | Curriculum unit this lesson belongs to                                    |
-| content       | JSON                | Full lesson content generated by LLM (explanation + exercises)            |
-| is_completed  | boolean             | Default false                                                             |
-| completed_at  | datetime (nullable) | Set by `POST /lessons/{id}/complete`                                      |
+- id — Type: integer; Notes: Primary key
+- study_plan_id — Type: integer; Notes: FK → study_plans
+- title — Type: string; Notes: Lesson title (matches the slot title in `generated_plan`)
+- lesson_type — Type: string; Notes: `grammar` / `vocabulary` / `reading` / `writing` / `listening` / `review`
+- cefr_level — Type: string; Notes: —
+- week_number — Type: integer; Notes: Week in the plan (1-based)
+- day_number — Type: integer; Notes: Day in the week (1-based)
+- unit_id — Type: string (nullable); Notes: Curriculum unit this lesson belongs to
+- content — Type: JSON; Notes: Full lesson content generated by LLM (explanation + exercises)
+- is_completed — Type: boolean; Notes: Default false
+- completed_at — Type: datetime (nullable); Notes: Set by `POST /lessons/{id}/complete`
 
 There is a **unique constraint** on `(study_plan_id, week_number, day_number, title)` to prevent duplicate generation under race conditions.
 
@@ -97,18 +91,16 @@ There is a **unique constraint** on `(study_plan_id, week_number, day_number, ti
 
 Exercises belong to a lesson (1:N). Generated alongside the lesson and stored in the DB.
 
-| Column         | Type                | Notes                                                             |
-| -------------- | ------------------- | ----------------------------------------------------------------- |
-| id             | integer             | Primary key                                                       |
-| lesson_id      | integer             | FK → lessons                                                      |
-| exercise_type  | string              | `multiple_choice` / `fill_blank` / `free_write` / `pronunciation` |
-| question       | text                |                                                                   |
-| options        | JSON (nullable)     | Answer options for `multiple_choice`                              |
-| correct_answer | text                |                                                                   |
-| user_answer    | text (nullable)     | User's submitted answer                                           |
-| score          | float (nullable)    | 0.0 – 1.0                                                         |
-| feedback       | text (nullable)     | Evaluation feedback (LLM or deterministic)                        |
-| answered_at    | datetime (nullable) | Set when the user submits an answer                               |
+- id — Type: integer; Notes: Primary key
+- lesson_id — Type: integer; Notes: FK → lessons
+- exercise_type — Type: string; Notes: `multiple_choice` / `fill_blank` / `free_write` / `pronunciation`
+- question — Type: text; Notes: —
+- options — Type: JSON (nullable); Notes: Answer options for `multiple_choice`
+- correct_answer — Type: text; Notes: —
+- user_answer — Type: text (nullable); Notes: User's submitted answer
+- score — Type: float (nullable); Notes: 0.0 – 1.0
+- feedback — Type: text (nullable); Notes: Evaluation feedback (LLM or deterministic)
+- answered_at — Type: datetime (nullable); Notes: Set when the user submits an answer
 
 ---
 
@@ -362,11 +354,9 @@ After `POST /lessons/{id}/complete` succeeds, calls `GET /today` again. If the r
 
 ## Error handling and edge cases
 
-| Scenario                                           | Behaviour                                                                                                         |
-| -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| LLM unavailable during lesson generation           | Lesson slot returns `id: null`; dashboard shows the slot but without a "Start" link. Retry on next `/today` call. |
-| Concurrent `/today` requests for the same user     | `IntegrityError` on the unique `(plan_id, week, day, title)` constraint → rollback → re-fetch the existing row.   |
-| `progress_day >= total_days`                       | `/today` returns empty `lessons` array. Dashboard shows "all caught up" message.                                  |
-| Skip past the last day                             | `progress_day` is capped at `total_days`.                                                                         |
-| Plan with no generated lessons for the current day | Auto-advance does **not** fire. The loop stops when `lessons_by_wday.get((week, day), [])` returns `[]`.          |
-| Lesson with no exercises returned by LLM           | Rolled back and excluded from today response.                                                                     |
+- LLM unavailable during lesson generation — Lesson slot returns `id: null`; dashboard shows the slot but without a "Start" link. Retry on next `/today` call.
+- Concurrent `/today` requests for the same user — `IntegrityError` on the unique `(plan_id, week, day, title)` constraint → rollback → re-fetch the existing row.
+- `progress_day >= total_days` — `/today` returns empty `lessons` array. Dashboard shows "all caught up" message.
+- Skip past the last day — `progress_day` is capped at `total_days`.
+- Plan with no generated lessons for the current day — Auto-advance does **not** fire. The loop stops when `lessons_by_wday.get((week, day), [])` returns `[]`.
+- Lesson with no exercises returned by LLM — Rolled back and excluded from today response.

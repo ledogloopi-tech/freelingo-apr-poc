@@ -17,13 +17,11 @@ Lay the database foundation for multi-language support without breaking the runn
 
 Relates users to the languages they are learning. Each row represents "user X is learning language Y".
 
-| Column          | Type       | Notes                                                                       |
-| --------------- | ---------- | --------------------------------------------------------------------------- |
-| id              | integer    | PK, autoincrement                                                           |
-| user_id         | integer    | FK → users (CASCADE), NOT NULL                                              |
-| target_language | string(10) | BCP-47, NOT NULL                                                            |
-| is_active       | boolean    | `true` = current active language. Only one `true` per user. Default `true`. |
-| created_at      | datetime   | Auto-set                                                                    |
+- id — Type: integer; Notes: PK, autoincrement
+- user_id — Type: integer; Notes: FK → users (CASCADE), NOT NULL
+- target_language — Type: string(10); Notes: BCP-47, NOT NULL
+- is_active — Type: boolean; Notes: `true` = current active language. Only one `true` per user. Default `true`.
+- created_at — Type: datetime; Notes: Auto-set
 
 **Constraints:**
 
@@ -51,58 +49,44 @@ This replaces "one active plan per user" with "one active plan per user per lang
 
 ### Table `progress`
 
-| Change              | Detail                                                                                                   |
-| ------------------- | -------------------------------------------------------------------------------------------------------- |
-| Add `study_plan_id` | integer, FK → study_plans (CASCADE), **nullable**, with index                                            |
-| Backfill            | Assign `study_plan_id` from each user's active plan (`is_active=true`)                                   |
-| Fallback            | Create a minimal study plan for orphan rows (user has progress but no active plan), then re-backfill     |
-| NOT NULL            | **Applied in Phase 10.3** (`0031_not_null_study_plan_id.py`) once services reliably populate this column |
+- Add `study_plan_id` — integer, FK → study_plans (CASCADE), **nullable**, with index
+- Backfill — Assign `study_plan_id` from each user's active plan (`is_active=true`)
+- Fallback — Create a minimal study plan for orphan rows (user has progress but no active plan), then re-backfill
+- NOT NULL — **Applied in Phase 10.3** (`0031_not_null_study_plan_id.py`) once services reliably populate this column
 
 ### Table `flashcards`
 
-| Change              | Detail                                                                                                   |
-| ------------------- | -------------------------------------------------------------------------------------------------------- |
-| Add `study_plan_id` | integer, FK → study_plans (CASCADE), **nullable**, with index                                            |
-| Backfill            | Assign `study_plan_id` from each user's active plan                                                      |
-| Fallback            | Create a minimal study plan for orphan rows, then re-backfill                                            |
-| NOT NULL            | **Applied in Phase 10.3** (`0031_not_null_study_plan_id.py`) once services reliably populate this column |
+- Add `study_plan_id` — integer, FK → study_plans (CASCADE), **nullable**, with index
+- Backfill — Assign `study_plan_id` from each user's active plan
+- Fallback — Create a minimal study plan for orphan rows, then re-backfill
+- NOT NULL — **Applied in Phase 10.3** (`0031_not_null_study_plan_id.py`) once services reliably populate this column
 
 ### Table `user_competencies`
 
-| Change              | Detail                                                                                                   |
-| ------------------- | -------------------------------------------------------------------------------------------------------- |
-| Add `study_plan_id` | integer, FK → study_plans (CASCADE), **nullable**, with index                                            |
-| Backfill            | Assign `study_plan_id` from each user's active plan                                                      |
-| Fallback            | Create a minimal study plan for orphan rows, then re-backfill                                            |
-| NOT NULL            | **Applied in Phase 10.3** (`0031_not_null_study_plan_id.py`) once services reliably populate this column |
+- Add `study_plan_id` — integer, FK → study_plans (CASCADE), **nullable**, with index
+- Backfill — Assign `study_plan_id` from each user's active plan
+- Fallback — Create a minimal study plan for orphan rows, then re-backfill
+- NOT NULL — **Applied in Phase 10.3** (`0031_not_null_study_plan_id.py`) once services reliably populate this column
 
 ### Table `conversations`
 
-| Change              | Detail                                                     |
-| ------------------- | ---------------------------------------------------------- |
-| Add `study_plan_id` | integer, FK → study_plans (SET NULL), nullable permanently |
-| No backfill         | Existing conversations remain with `study_plan_id=NULL`    |
+- Add `study_plan_id` — integer, FK → study_plans (SET NULL), nullable permanently
+- No backfill — Existing conversations remain with `study_plan_id=NULL`
 
 ### Table `chat_history`
 
-| Change              | Detail                                                     |
-| ------------------- | ---------------------------------------------------------- |
-| Add `study_plan_id` | integer, FK → study_plans (SET NULL), nullable permanently |
-| No backfill         | Existing rows remain with `study_plan_id=NULL`             |
+- Add `study_plan_id` — integer, FK → study_plans (SET NULL), nullable permanently
+- No backfill — Existing rows remain with `study_plan_id=NULL`
 
 ### Table `memories`
 
-| Change              | Detail                                                     |
-| ------------------- | ---------------------------------------------------------- |
-| Add `study_plan_id` | integer, FK → study_plans (SET NULL), nullable permanently |
-| No backfill         | Existing memories remain without an assigned plan          |
+- Add `study_plan_id` — integer, FK → study_plans (SET NULL), nullable permanently
+- No backfill — Existing memories remain without an assigned plan
 
 ### Table `llm_usage`
 
-| Change              | Detail                                                     |
-| ------------------- | ---------------------------------------------------------- |
-| Add `study_plan_id` | integer, FK → study_plans (SET NULL), nullable permanently |
-| No backfill         | Existing usage records remain without an assigned plan     |
+- Add `study_plan_id` — integer, FK → study_plans (SET NULL), nullable permanently
+- No backfill — Existing usage records remain without an assigned plan
 
 ---
 
@@ -427,43 +411,35 @@ The partial unique index `uq_active_plan_per_lang` (`UNIQUE(user_id, target_lang
 
 ### New tests (`backend/tests/test_multi_language.py`)
 
-| Test                                                | Description                                                        |
-| --------------------------------------------------- | ------------------------------------------------------------------ |
-| `test_active_plan_per_language`                     | Two simultaneously active languages with fully independent plans   |
-| `test_progress_isolated_by_language`                | XP and streak are independent per language                         |
-| `test_flashcards_isolated_by_language`              | Flashcards filtered by `study_plan_id` — no cross-language leakage |
-| `test_conversations_isolated_by_language`           | Conversations filtered by active language                          |
-| `test_memories_isolated_by_language`                | Memories filtered by `study_plan_id`                               |
-| `test_unique_index_prevents_duplicate_active_plans` | Partial unique index enforces one active plan per user+language    |
+- `test_active_plan_per_language` — Two simultaneously active languages with fully independent plans
+- `test_progress_isolated_by_language` — XP and streak are independent per language
+- `test_flashcards_isolated_by_language` — Flashcards filtered by `study_plan_id` — no cross-language leakage
+- `test_conversations_isolated_by_language` — Conversations filtered by active language
+- `test_memories_isolated_by_language` — Memories filtered by `study_plan_id`
+- `test_unique_index_prevents_duplicate_active_plans` — Partial unique index enforces one active plan per user+language
 
 ### Existing test updates
 
-| File                               | Change                                                                                                      |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `backend/tests/conftest.py`        | Add shared `user_language` fixture; scope `StudyPlan` fixtures to avoid duplicate active plans per language |
-| `backend/tests/test_study_plan.py` | Create `UserLanguage` rows; scope plan deactivation                                                         |
+- `backend/tests/conftest.py` — Add shared `user_language` fixture; scope `StudyPlan` fixtures to avoid duplicate active plans per language
+- `backend/tests/test_study_plan.py` — Create `UserLanguage` rows; scope plan deactivation
 
 ## New files in this phase
 
-| File                                              | Type                 |
-| ------------------------------------------------- | -------------------- |
-| `backend/app/models/user_language.py`             | New SQLAlchemy model |
-| `backend/alembic/versions/0029_multi_language.py` | Alembic migration    |
+- `backend/app/models/user_language.py` — New SQLAlchemy model
+- `backend/alembic/versions/0029_multi_language.py` — Alembic migration
 
 ## Modified files in this phase
 
-| File                                 | Change                                                                 |
-| ------------------------------------ | ---------------------------------------------------------------------- |
-| `backend/app/models/study_plan.py`   | Add `__table_args__` with partial unique index                         |
-| `backend/app/models/progress.py`     | Add `study_plan_id` column                                             |
-| `backend/app/models/flashcard.py`    | Add `study_plan_id` column                                             |
-| `backend/app/models/conversation.py` | Add `study_plan_id` column                                             |
-| `backend/app/models/chat_history.py` | Add `study_plan_id` column                                             |
-| `backend/app/models/competency.py`   | Add `study_plan_id` column                                             |
-| `backend/app/models/memory.py`       | Add `study_plan_id` column                                             |
-| `backend/app/models/llm_usage.py`    | Add `study_plan_id` column                                             |
-| `backend/app/models/__init__.py`     | Add `UserLanguage`, fix missing `ReadingExercise`                      |
-| `backend/alembic/env.py`             | Replace individual imports with `import app.models`                    |
-| `backend/tests/conftest.py`          | Deactivate existing active plan before creating a new one (see 10.1.8) |
-| `backend/tests/test_assessment.py`   | Deactivate existing active plan before creating a new one (see 10.1.8) |
-| `backend/tests/test_study_plan.py`   | Deactivate existing active plan before creating a new one (see 10.1.8) |
+- `backend/app/models/study_plan.py` — Add `__table_args__` with partial unique index
+- `backend/app/models/progress.py` — Add `study_plan_id` column
+- `backend/app/models/flashcard.py` — Add `study_plan_id` column
+- `backend/app/models/conversation.py` — Add `study_plan_id` column
+- `backend/app/models/chat_history.py` — Add `study_plan_id` column
+- `backend/app/models/competency.py` — Add `study_plan_id` column
+- `backend/app/models/memory.py` — Add `study_plan_id` column
+- `backend/app/models/llm_usage.py` — Add `study_plan_id` column
+- `backend/app/models/__init__.py` — Add `UserLanguage`, fix missing `ReadingExercise`
+- `backend/alembic/env.py` — Replace individual imports with `import app.models`
+- `backend/tests/conftest.py` — Deactivate existing active plan before creating a new one (see 10.1.8)
+- `backend/tests/test_assessment.py` — Deactivate existing active plan before creating a new one (see 10.1.8)
+- `backend/tests/test_study_plan.py` — Deactivate existing active plan before creating a new one (see 10.1.8)

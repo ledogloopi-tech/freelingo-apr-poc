@@ -41,13 +41,11 @@ Do not add a language code to backend `SUPPORTED_TARGET_LANGUAGES` until the bac
 
 Current `en-GB` inventory:
 
-| Area | Baseline |
-| ---- | -------- |
-| Curriculum | 48 units: 8 per CEFR level A1-C2 |
-| Grammar | 135 topics |
-| Vocabulary | 96 sets |
-| Phrasebook | 28 categories |
-| Assessment bank | 119 questions |
+- Curriculum — 48 units: 8 per CEFR level A1-C2
+- Grammar — 135 topics
+- Vocabulary — 96 sets
+- Phrasebook — 28 categories
+- Assessment bank — 119 questions
 
 These are target ranges, not exact hard requirements. A new language should be comparable in depth and must not ship with placeholder/empty content.
 
@@ -57,28 +55,24 @@ Create `backend/app/data/<iso639>/` using the `en_GB` shape as reference.
 
 Required files:
 
-| File | Baseline pattern |
-| ---- | ---------------- |
-| `__init__.py` | Package marker |
-| `curriculum.py` | Assembles `curriculum_a1.py` ... `curriculum_c2.py` |
-| `curriculum_a1.py` ... `curriculum_c2.py` | Per-level curriculum units |
-| `grammar.py` | Assembler only; imports grammar modules and exports the flattened topic list |
-| `grammar_*` modules | Required; split by CEFR level or topic group, matching the `en_GB` modular pattern |
-| `vocabulary.py` | Assembler only; imports `vocabulary_a1.py` ... `vocabulary_c2.py` |
-| `vocabulary_a1.py` ... `vocabulary_c2.py` | Per-level vocabulary sets |
-| `phrasebook.py` | Assembles `phrasebook_a1.py` ... `phrasebook_c2.py` |
-| `phrasebook_a1.py` ... `phrasebook_c2.py` | Per-level phrasebook categories |
-| `assessment_bank.py` | Static assessment question list |
+- `__init__.py` — Package marker
+- `curriculum.py` — Assembles `curriculum_a1.py` ... `curriculum_c2.py`
+- `curriculum_a1.py` ... `curriculum_c2.py` — Per-level curriculum units
+- `grammar.py` — Assembler only; imports grammar modules and exports the flattened topic list
+- `grammar_*` modules — Required; split by CEFR level or topic group, matching the `en_GB` modular pattern
+- `vocabulary.py` — Assembler only; imports `vocabulary_a1.py` ... `vocabulary_c2.py`
+- `vocabulary_a1.py` ... `vocabulary_c2.py` — Per-level vocabulary sets
+- `phrasebook.py` — Assembles `phrasebook_a1.py` ... `phrasebook_c2.py`
+- `phrasebook_a1.py` ... `phrasebook_c2.py` — Per-level phrasebook categories
+- `assessment_bank.py` — Static assessment question list
 
 Required exports:
 
-| Export | Type |
-| ------ | ---- |
-| `CURRICULUM` | `dict[str, list[CurriculumUnit]]` |
-| `GRAMMAR_TOPICS` | `list[GrammarTopic]` |
-| `VOCABULARY_SETS` | `list[VocabularySet]` |
-| `PHRASEBOOK_CATEGORIES` | `list[PhrasebookCategory]` |
-| `ASSESSMENT_BANK` | `list[AssessmentQuestion]` |
+- `CURRICULUM` — `dict[str, list[CurriculumUnit]]`
+- `GRAMMAR_TOPICS` — `list[GrammarTopic]`
+- `VOCABULARY_SETS` — `list[VocabularySet]`
+- `PHRASEBOOK_CATEGORIES` — `list[PhrasebookCategory]`
+- `ASSESSMENT_BANK` — `list[AssessmentQuestion]`
 
 ## Curriculum Standard
 
@@ -158,22 +152,18 @@ Use `en_GB` as the depth reference: about 120 questions.
 
 Current `en-GB` distribution:
 
-| Skill | Questions |
-| ----- | --------- |
-| Grammar | 47 |
-| Vocabulary | 47 |
-| Reading | 25 |
+- Grammar — 47
+- Vocabulary — 47
+- Reading — 25
 
 Current `en-GB` level distribution:
 
-| Level | Questions |
-| ----- | --------- |
-| A1 | 24 |
-| A2 | 24 |
-| B1 | 24 |
-| B2 | 17 |
-| C1 | 16 |
-| C2 | 14 |
+- A1 — 24
+- A2 — 24
+- B1 — 24
+- B2 — 17
+- C1 — 16
+- C2 — 14
 
 Rules:
 

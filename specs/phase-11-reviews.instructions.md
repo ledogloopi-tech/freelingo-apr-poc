@@ -51,17 +51,15 @@ Status: implemented in `backend/app/models/review.py` and migration `backend/ale
 
 ### `reviews`
 
-| Column            | Type        | Constraints                                | Notes                                      |
-| ----------------- | ----------- | ------------------------------------------ | ------------------------------------------ |
-| id                | integer     | PK, autoincrement                          |                                            |
-| user_id           | integer     | NOT NULL, FK -> users(CASCADE), UNIQUE     | Enforces one review per user               |
-| user_display_name | string(150) | NOT NULL                                   | Snapshot at creation time                  |
-| target_language   | string(10)  | NOT NULL, index                            | Active learning language at creation time  |
-| rating            | integer     | NOT NULL, check `rating BETWEEN 1 AND 5`   | 1-5 stars                                  |
-| comment           | text        | nullable                                   | Optional user comment                      |
-| is_approved       | boolean     | NOT NULL, default `false`, index           | Admin moderation gate                      |
-| created_at        | datetime    | NOT NULL, index                            | UTC, tz-naive                              |
-| updated_at        | datetime    | NOT NULL                                   | Updated on approval state changes          |
+- id — Type: integer; Constraints: PK, autoincrement; Notes: —
+- user_id — Type: integer; Constraints: NOT NULL, FK -> users(CASCADE), UNIQUE; Notes: Enforces one review per user
+- user_display_name — Type: string(150); Constraints: NOT NULL; Notes: Snapshot at creation time
+- target_language — Type: string(10); Constraints: NOT NULL, index; Notes: Active learning language at creation time
+- rating — Type: integer; Constraints: NOT NULL, check `rating BETWEEN 1 AND 5`; Notes: 1-5 stars
+- comment — Type: text; Constraints: nullable; Notes: Optional user comment
+- is_approved — Type: boolean; Constraints: NOT NULL, default `false`, index; Notes: Admin moderation gate
+- created_at — Type: datetime; Constraints: NOT NULL, index; Notes: UTC, tz-naive
+- updated_at — Type: datetime; Constraints: NOT NULL; Notes: Updated on approval state changes
 
 ### Constraints and indexes
 

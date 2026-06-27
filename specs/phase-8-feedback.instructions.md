@@ -15,37 +15,31 @@ A community feedback board where users can submit feature requests and bug repor
 
 ### `feedback_entries`
 
-| Column      | Type        | Constraints                          | Notes                                                           |
-| ----------- | ----------- | ------------------------------------ | --------------------------------------------------------------- |
-| id          | integer     | PK, autoincrement                    |                                                                 |
-| type        | string(10)  | NOT NULL, index                      | `"feature"` or `"bug"`                                          |
-| title       | string(200) | NOT NULL                             |                                                                 |
-| description | text        | NOT NULL                             | Max 5000 chars enforced by schema                               |
-| status      | string(20)  | NOT NULL, default `"pending"`, index | `pending` \| `planned` \| `in_progress` \| `done` \| `declined` |
-| author_id   | integer     | NOT NULL, FK → users(CASCADE), index |                                                                 |
-| vote_count  | integer     | NOT NULL, default 0                  | Denormalised; updated atomically on vote toggle                 |
-| created_at  | datetime    | NOT NULL, index                      | UTC, tz-naive                                                   |
+- id — Type: integer; Constraints: PK, autoincrement; Notes: —
+- type — Type: string(10); Constraints: NOT NULL, index; Notes: `"feature"` or `"bug"`
+- title — Type: string(200); Constraints: NOT NULL; Notes: —
+- description — Type: text; Constraints: NOT NULL; Notes: Max 5000 chars enforced by schema
+- status — Type: string(20); Constraints: NOT NULL, default `"pending"`, index; Notes: `pending` \
+- author_id — Type: integer; Constraints: NOT NULL, FK → users(CASCADE), index; Notes: —
+- vote_count — Type: integer; Constraints: NOT NULL, default 0; Notes: Denormalised; updated atomically on vote toggle
+- created_at — Type: datetime; Constraints: NOT NULL, index; Notes: UTC, tz-naive
 
 ### `feedback_votes`
 
-| Column     | Type     | Constraints                                     | Notes |
-| ---------- | -------- | ----------------------------------------------- | ----- |
-| id         | integer  | PK, autoincrement                               |       |
-| entry_id   | integer  | NOT NULL, FK → feedback_entries(CASCADE), index |       |
-| user_id    | integer  | NOT NULL, FK → users(CASCADE), index            |       |
-| created_at | datetime | NOT NULL                                        |       |
+- id — Type: integer; Constraints: PK, autoincrement; Notes: —
+- entry_id — Type: integer; Constraints: NOT NULL, FK → feedback_entries(CASCADE), index; Notes: —
+- user_id — Type: integer; Constraints: NOT NULL, FK → users(CASCADE), index; Notes: —
+- created_at — Type: datetime; Constraints: NOT NULL; Notes: —
 
 `UNIQUE(entry_id, user_id)` — `uq_feedback_vote`. Only feature entries can receive votes; the router rejects vote attempts on bugs with HTTP 400.
 
 ### `feedback_comments`
 
-| Column     | Type     | Constraints                                     | Notes                             |
-| ---------- | -------- | ----------------------------------------------- | --------------------------------- |
-| id         | integer  | PK, autoincrement                               |                                   |
-| entry_id   | integer  | NOT NULL, FK → feedback_entries(CASCADE), index |                                   |
-| author_id  | integer  | NOT NULL, FK → users(CASCADE), index            |                                   |
-| body       | text     | NOT NULL                                        | Max 2000 chars enforced by schema |
-| created_at | datetime | NOT NULL                                        |                                   |
+- id — Type: integer; Constraints: PK, autoincrement; Notes: —
+- entry_id — Type: integer; Constraints: NOT NULL, FK → feedback_entries(CASCADE), index; Notes: —
+- author_id — Type: integer; Constraints: NOT NULL, FK → users(CASCADE), index; Notes: —
+- body — Type: text; Constraints: NOT NULL; Notes: Max 2000 chars enforced by schema
+- created_at — Type: datetime; Constraints: NOT NULL; Notes: —
 
 Cascade behaviour: deleting a `FeedbackEntry` cascades to all its `FeedbackVote` and `FeedbackComment` rows at the DB level (`ondelete="CASCADE"`).
 
@@ -122,13 +116,11 @@ Creates `feedback_entries`, `feedback_votes`, `feedback_comments` with all index
 
 **Status badge colours (consistent with admin users page):**
 
-| Status      | Border                 | Text               |
-| ----------- | ---------------------- | ------------------ |
-| pending     | `border-fl-border`     | `text-fl-muted-2`  |
-| planned     | `border-blue-500/40`   | `text-blue-400`    |
-| in_progress | `border-yellow-500/40` | `text-yellow-400`  |
-| done        | `border-green-500/40`  | `text-green-400`   |
-| declined    | `border-fl-error/30`   | `text-fl-error-fg` |
+- pending — Border: `border-fl-border`; Text: `text-fl-muted-2`
+- planned — Border: `border-blue-500/40`; Text: `text-blue-400`
+- in_progress — Border: `border-yellow-500/40`; Text: `text-yellow-400`
+- done — Border: `border-green-500/40`; Text: `text-green-400`
+- declined — Border: `border-fl-error/30`; Text: `text-fl-error-fg`
 
 ### `/admin/feedback` (`frontend/src/app/(app)/admin/feedback/page.tsx`)
 
