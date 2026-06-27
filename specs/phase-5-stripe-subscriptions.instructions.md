@@ -74,7 +74,8 @@ STRIPE_SECRET_KEY=sk_test_CHANGE_ME
 # Webhook signing secret (whsec_...) — obtained from Stripe Dashboard → Webhooks
 STRIPE_WEBHOOK_SECRET=whsec_CHANGE_ME
 
-# Price IDs from Stripe Dashboard → Product catalog
+# Price IDs from Stripe Dashboard → Product catalog.
+# Required when STRIPE_ENABLED=true; the app does not create Stripe products or prices.
 STRIPE_PRICE_MONTHLY=price_CHANGE_ME
 STRIPE_PRICE_YEARLY=price_CHANGE_ME
 
@@ -133,7 +134,9 @@ Add three fields (placed after `monthly_tokens_limit`):
 ```python
 stripe_customer_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
 subscription_status: Mapped[str] = mapped_column(String(20), nullable=False, default="none")
-# Values: "none" | "trialing" | "active" | "past_due" | "canceled"
+# Values: "none" plus Stripe Subscription.status values used by Checkout:
+# "trialing" | "active" | "past_due" | "canceled" | "incomplete" |
+# "incomplete_expired" | "unpaid" | "paused"
 subscription_ends_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
 ```
 
@@ -225,12 +228,12 @@ No sensitive keys exposed. Rate limit: 60/minute.
 - Returns 400 immediately if signature invalid.
 - Handles these events:
 
-| Event                           | Action                                                                                                                                      |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `checkout.session.completed`    | Set `stripe_customer_id`, `subscription_status = "trialing"` or `"active"`, apply quotas; set `trial_used = True` when status is `trialing` |
-| `customer.subscription.updated` | Sync `subscription_status` and `subscription_ends_at`                                                                                       |
-| `customer.subscription.deleted` | Set `subscription_status = "canceled"`                                                                                                      |
-| `invoice.payment_failed`        | Set `subscription_status = "past_due"`                                                                                                      |
+| Event                           | Action                                                                                                                                                                                                                                                                           |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `checkout.session.completed`    | Set `stripe_customer_id`, `subscription_status = "trialing"` or `"active"`, apply quotas; set `trial_used = True` when status is `trialing`                                                                                                                                      |
+| `customer.subscription.updated` | Sync `subscription_status` and `subscription_ends_at`; accepts real Stripe subscription statuses (`trialing`, `active`, `past_due`, `canceled`, `incomplete`, `incomplete_expired`, `unpaid`, `paused`) and keeps the previous status for unknown values while logging a warning |
+| `customer.subscription.deleted` | Set `subscription_status = "canceled"`                                                                                                                                                                                                                                           |
+| `invoice.payment_failed`        | Set `subscription_status = "past_due"`                                                                                                                                                                                                                                           |
 
 - Always returns HTTP 200 to Stripe (even on handled errors) to prevent retries.
 - Rate limit: 200/minute (Stripe can burst).
@@ -259,7 +262,19 @@ subscription_ends_at: Optional[datetime] = None
 Add to `AdminUserUpdate`:
 
 ```python
-subscription_status: Optional[Literal["none", "trialing", "active", "past_due", "canceled"]] = None
+subscription_status: Optional[
+    Literal[
+        "none",
+        "trialing",
+        "active",
+        "past_due",
+        "canceled",
+        "incomplete",
+        "incomplete_expired",
+        "unpaid",
+        "paused",
+    ]
+] = None
 subscription_ends_at: Optional[datetime] = None
 ```
 
@@ -278,7 +293,16 @@ Fetch `GET /api/config` once on app load (in root layout or a dedicated hook). S
 Add to the auth store user type:
 
 ```typescript
-subscription_status: "none" | "trialing" | "active" | "past_due" | "canceled";
+subscription_status:
+  | "none"
+  | "incomplete"
+  | "incomplete_expired"
+  | "trialing"
+  | "active"
+  | "past_due"
+  | "canceled"
+  | "unpaid"
+  | "paused";
 subscription_ends_at: string | null;
 ```
 
@@ -325,7 +349,8 @@ Only rendered when `stripeEnabled`. Shows:
 - Status badge: active (green) / trialing (blue) / past_due (amber) / canceled (red)
 - Next billing date (from `subscription_ends_at`)
 - For unsubscribed users, monthly and yearly plan buttons are shown before checkout; each posts `POST /api/billing/checkout` with the selected plan.
-- For `past_due` users, access remains blocked by `is_subscribed`, but Settings shows payment-recovery copy and an "Update payment" action that opens `POST /api/billing/portal` instead of showing new subscription plan buttons.
+- For `past_due`, `unpaid`, and `paused` users, access remains blocked by `is_subscribed`, but Settings and gated-page paywalls show payment-recovery copy and an "Update payment" action that opens `POST /api/billing/portal` instead of showing new subscription plan buttons.
+- For `none`, `incomplete`, `incomplete_expired`, and `canceled` users, Settings and gated-page paywalls show monthly/yearly plan buttons.
 - Button "Manage subscription" → `POST /api/billing/portal` → `router.push(url)`
 
 ### 4.6 Pricing section in landing page (`/`)
@@ -383,7 +408,7 @@ Add keys in all 10 locales (`en`, `es`, `de`, `fr`, `it`, `nl`, `pl`, `pt`, `ro`
 - `featureSessions`, `featureMinutes`, `featureChat`, `featurePlan`, `featureLessons`
 - `ctaManage`
 - `alreadySubscriber`
-- `statusActive`, `statusTrialing`, `statusPastDue`, `statusCanceled`, `statusNone`
+- `statusActive`, `statusTrialing`, `statusPastDue`, `statusUnpaid`, `statusPaused`, `statusIncomplete`, `statusIncompleteExpired`, `statusCanceled`, `statusNone`
 - `nextBilling`, `cancelAnytime`
 - `successTitle`, `successSubtext`, `canceledTitle`, `canceledSubtext`
 - `sectionTitle`, `sectionSubtitle`
@@ -394,7 +419,7 @@ Add keys in all 10 locales (`en`, `es`, `de`, `fr`, `it`, `nl`, `pl`, `pt`, `ro`
 
 ### 6.1 Backend tests
 
-- `test_billing.py`: mock Stripe SDK, test checkout session creation, portal session, webhook signature verification, and all 4 webhook events.
+- `test_billing.py`: mock Stripe SDK, test checkout session creation, portal session, webhook signature verification, all 4 webhook events, real Stripe subscription status persistence, and unknown-status fallback.
 - Test that `require_subscription` returns 402 when `STRIPE_ENABLED=true` and user has `subscription_status="none"`.
 - Test that `require_subscription` passes through when `STRIPE_ENABLED=false`.
 

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { apiFetch } from '@/lib/api'
-import { useAuthStore, isSubscribed } from '@/store/auth'
+import { useAuthStore, isSubscribed, needsPaymentRecovery } from '@/store/auth'
 import { useConfigStore } from '@/store/config'
 import { SubscriptionPlanButtons } from '@/components/billing/SubscriptionPlanButtons'
 
@@ -13,8 +13,8 @@ export function BillingSection() {
   const stripeEnabled = useConfigStore((s) => s.stripeEnabled)
   const [portalLoading, setPortalLoading] = useState(false)
   const [portalError, setPortalError] = useState<string | null>(null)
-  const isPastDue = user?.subscription_status === 'past_due'
-  const canManageBilling = isSubscribed(user, stripeEnabled) || isPastDue
+  const paymentRecovery = needsPaymentRecovery(user)
+  const canManageBilling = isSubscribed(user, stripeEnabled) || paymentRecovery
 
   if (!stripeEnabled) return null
 
@@ -54,7 +54,7 @@ export function BillingSection() {
                 ? 'border-green-600/40 text-green-500'
                 : user?.subscription_status === 'trialing'
                   ? 'border-fl-accent/40 text-fl-accent'
-                  : user?.subscription_status === 'past_due'
+                  : paymentRecovery
                     ? 'border-yellow-500/40 text-yellow-500'
                     : 'border-fl-border text-fl-muted-3'
             }`}
@@ -64,6 +64,12 @@ export function BillingSection() {
               tBilling('statusTrialing')}
             {user?.subscription_status === 'past_due' &&
               tBilling('statusPastDue')}
+            {user?.subscription_status === 'unpaid' && tBilling('statusUnpaid')}
+            {user?.subscription_status === 'paused' && tBilling('statusPaused')}
+            {user?.subscription_status === 'incomplete' &&
+              tBilling('statusIncomplete')}
+            {user?.subscription_status === 'incomplete_expired' &&
+              tBilling('statusIncompleteExpired')}
             {(!user?.subscription_status ||
               user?.subscription_status === 'none' ||
               user?.subscription_status === 'canceled') &&
@@ -76,6 +82,8 @@ export function BillingSection() {
           (user.subscription_status === 'active' ||
             user.subscription_status === 'trialing' ||
             user.subscription_status === 'past_due' ||
+            user.subscription_status === 'unpaid' ||
+            user.subscription_status === 'paused' ||
             (user.subscription_status === 'canceled' &&
               new Date(user.subscription_ends_at) > new Date())) && (
             <div className="flex items-center justify-between">
@@ -90,7 +98,7 @@ export function BillingSection() {
             </div>
           )}
 
-        {isPastDue && (
+        {paymentRecovery && (
           <div className="border border-yellow-500/30 bg-yellow-500/5 p-3">
             <p className="font-mono text-xs font-bold tracking-widest text-yellow-500 uppercase">
               {tBilling('pastDueTitle')}
@@ -110,7 +118,7 @@ export function BillingSection() {
           >
             {portalLoading
               ? '...'
-              : tBilling(isPastDue ? 'updatePayment' : 'manage')}
+              : tBilling(paymentRecovery ? 'updatePayment' : 'manage')}
           </button>
         ) : (
           <SubscriptionPlanButtons />

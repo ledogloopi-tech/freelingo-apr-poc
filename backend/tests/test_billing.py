@@ -71,6 +71,14 @@ class TestIsSubscribed:
         user.subscription_status = "past_due"
         assert is_subscribed(user, stripe_enabled=True) is False
 
+    @pytest.mark.parametrize(
+        "stripe_status", ["incomplete", "incomplete_expired", "unpaid", "paused"]
+    )
+    def test_other_stripe_statuses_not_subscribed(self, stripe_status):
+        user = MagicMock()
+        user.subscription_status = stripe_status
+        assert is_subscribed(user, stripe_enabled=True) is False
+
 
 # ── GET /api/config ───────────────────────────────────────────────────────────
 
@@ -352,6 +360,71 @@ async def test_webhook_subscription_updated(client, db_session, test_user):
     assert res.status_code == 200
     await db_session.refresh(user)
     assert user.subscription_status == "active"
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("stripe_status", ["incomplete", "incomplete_expired", "unpaid", "paused"])
+async def test_webhook_subscription_updated_accepts_real_stripe_statuses(
+    client, db_session, test_user, stripe_status
+):
+    """customer.subscription.updated persists real Stripe statuses used for UI labels."""
+    user, _ = test_user
+    user.stripe_customer_id = f"cus_{stripe_status}"
+    user.subscription_status = "active"
+    await db_session.commit()
+
+    event = _make_stripe_event(
+        "customer.subscription.updated",
+        {
+            "customer": f"cus_{stripe_status}",
+            "status": stripe_status,
+            "current_period_end": int(datetime(2027, 1, 31).timestamp()),
+        },
+    )
+
+    with (
+        patch.object(settings, "STRIPE_ENABLED", True),
+        patch("stripe.Webhook.construct_event", return_value=event),
+    ):
+        res = await client.post(
+            "/api/billing/webhook",
+            content=_make_webhook_body(event),
+            headers=_signed_webhook_headers(),
+        )
+
+    assert res.status_code == 200
+    await db_session.refresh(user)
+    assert user.subscription_status == stripe_status
+
+
+@pytest.mark.asyncio
+async def test_webhook_subscription_updated_unknown_status_keeps_existing_status(
+    client, db_session, test_user
+):
+    """Unknown Stripe statuses are not persisted into the closed UI model."""
+    user, _ = test_user
+    user.stripe_customer_id = "cus_unknown_status"
+    user.subscription_status = "past_due"
+    await db_session.commit()
+
+    event = _make_stripe_event(
+        "customer.subscription.updated",
+        {"customer": "cus_unknown_status", "status": "unexpected_status"},
+    )
+
+    with (
+        patch.object(settings, "STRIPE_ENABLED", True),
+        patch("stripe.Webhook.construct_event", return_value=event),
+    ):
+        res = await client.post(
+            "/api/billing/webhook",
+            content=_make_webhook_body(event),
+            headers=_signed_webhook_headers(),
+        )
+
+    assert res.status_code == 200
+    await db_session.refresh(user)
+    assert user.subscription_status == "past_due"
 
 
 @pytest.mark.asyncio

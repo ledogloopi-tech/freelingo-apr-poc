@@ -151,6 +151,46 @@ describe('billing paywall UI', () => {
     )
   })
 
+  it('opens Customer Portal for unpaid users in Settings instead of showing plan buttons', async () => {
+    useAuthStore.setState({
+      accessToken: 'token',
+      user: user({ subscription_status: 'unpaid' }),
+    })
+    mockApiFetch.mockResolvedValueOnce(
+      jsonResponse({ url: 'https://billing.stripe.com/session/unpaid' })
+    )
+
+    render(<BillingSection />)
+
+    expect(screen.getByText('statusUnpaid')).toBeDefined()
+    expect(screen.getByText('pastDueTitle')).toBeDefined()
+    expect(screen.queryByText('planMonthly')).toBeNull()
+
+    fireEvent.click(screen.getByText('updatePayment'))
+
+    await waitFor(() =>
+      expect(mockApiFetch).toHaveBeenCalledWith('/api/billing/portal', {
+        method: 'POST',
+      })
+    )
+    expect(window.location.assign).toHaveBeenCalledWith(
+      'https://billing.stripe.com/session/unpaid'
+    )
+  })
+
+  it('shows subscription plan buttons for canceled users in Settings', () => {
+    useAuthStore.setState({
+      accessToken: 'token',
+      user: user({ subscription_status: 'canceled' }),
+    })
+
+    render(<BillingSection />)
+
+    expect(screen.getByText('planMonthly')).toBeDefined()
+    expect(screen.getByText('planYearly')).toBeDefined()
+    expect(screen.queryByText('updatePayment')).toBeNull()
+  })
+
   it('shows subscription plan buttons for users without a subscription in Settings', () => {
     render(<BillingSection />)
 

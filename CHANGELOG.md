@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Logged-in pricing checkout**: authenticated users who select a monthly or yearly plan from the public landing-page pricing section now start Stripe Checkout directly instead of being sent back to the dashboard. The landing pricing CTA refreshes the session token when needed before creating the checkout session.
 - **Past-due subscription recovery**: users with a pending Stripe payment now see payment-recovery copy and a Customer Portal action in Settings and the dashboard Premium banner instead of new subscription plan buttons.
+- **Stripe subscription states**: real Stripe states such as `unpaid`, `paused`, `incomplete`, and `incomplete_expired` are now preserved for accurate status labels while only `active` and `trialing` grant Premium access. `past_due`, `unpaid`, and `paused` route users to payment recovery; `none`, `incomplete`, `incomplete_expired`, and `canceled` show normal plan-selection buttons.
 - **Checkout success verification**: the Stripe success page now confirms `/api/auth/me` reports an active or trialing subscription before showing Premium-active copy. If the webhook has not synced yet, it shows subscription-confirmation copy instead of claiming access is already active.
 
 ## [1.8.18] - 2026-06-26

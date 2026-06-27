@@ -271,15 +271,17 @@ All configuration is environment-driven. Variables are defined in `app/core/conf
 
 ### Stripe
 
-| Variable              | Default               | Purpose                                                            |
-| --------------------- | --------------------- | ------------------------------------------------------------------ |
-| STRIPE_ENABLED        | false                 | Enable Stripe paywall; `false` = all active users have full access |
-| STRIPE_SECRET_KEY     | ``                    | Stripe secret key                                                  |
-| STRIPE_WEBHOOK_SECRET | ``                    | Stripe webhook signing secret                                      |
-| STRIPE_PRICE_MONTHLY  | ``                    | Stripe Price ID for monthly plan                                   |
-| STRIPE_PRICE_YEARLY   | ``                    | Stripe Price ID for yearly plan                                    |
-| STRIPE_TRIAL_DAYS     | 7                     | Free trial duration in days                                        |
-| STRIPE_BASE_URL       | http://localhost:3000 | Frontend base URL used in Stripe redirect URLs                     |
+| Variable              | Default               | Purpose                                                               |
+| --------------------- | --------------------- | --------------------------------------------------------------------- |
+| STRIPE_ENABLED        | false                 | Enable Stripe paywall; `false` = all active users have full access    |
+| STRIPE_SECRET_KEY     | ``                    | Stripe secret key                                                     |
+| STRIPE_WEBHOOK_SECRET | ``                    | Stripe webhook signing secret                                         |
+| STRIPE_PRICE_MONTHLY  | ``                    | Stripe Price ID for monthly plan; required when `STRIPE_ENABLED=true` |
+| STRIPE_PRICE_YEARLY   | ``                    | Stripe Price ID for yearly plan; required when `STRIPE_ENABLED=true`  |
+| STRIPE_TRIAL_DAYS     | 7                     | Free trial duration in days                                           |
+| STRIPE_BASE_URL       | http://localhost:3000 | Frontend base URL used in Stripe redirect URLs                        |
+
+The app does not create Stripe products or prices automatically; operators configure the Stripe Price IDs from the Stripe Dashboard.
 
 ### Email
 

@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { apiFetch } from '@/lib/api'
-import { isSubscribed, useAuthStore } from '@/store/auth'
+import { isSubscribed, needsPaymentRecovery, useAuthStore } from '@/store/auth'
 import { useProgressStore } from '@/store/progress'
 import { useLanguageStore } from '@/store/language'
 import { useConfigStore } from '@/store/config'
@@ -203,7 +203,7 @@ export default function DashboardPage() {
       : 0
   const daysRemaining = hasPlan ? Math.max(totalDays - progressDay, 0) : 0
   const vocabularyProgressPct = Math.round(vocabularyProgress * 100)
-  const isPastDue = user?.subscription_status === 'past_due'
+  const paymentRecovery = needsPaymentRecovery(user)
   const showPremiumBanner = stripeEnabled && !isSubscribed(user, stripeEnabled)
 
   function getPerformanceLabel(value: number) {
@@ -580,13 +580,13 @@ export default function DashboardPage() {
                 <div>
                   <p className="text-fl-label text-fl-muted-2 mb-2 font-mono tracking-widest uppercase">
                     {t(
-                      isPastDue
+                      paymentRecovery
                         ? 'premiumBannerPastDueTitle'
                         : 'premiumBannerTitle'
                     )}
                   </p>
                   <p className="text-fl-muted-2 font-mono text-xs leading-relaxed">
-                    {isPastDue
+                    {paymentRecovery
                       ? t('premiumBannerPastDueDesc')
                       : t(
                           trialEligible
@@ -597,7 +597,7 @@ export default function DashboardPage() {
                 </div>
               </div>
               <span className="text-fl-label text-fl-accent border-fl-accent/30 border px-3 py-1.5 font-mono tracking-widest whitespace-nowrap uppercase">
-                {isPastDue
+                {paymentRecovery
                   ? t('premiumBannerPastDueCta')
                   : t(
                       trialEligible
@@ -606,7 +606,7 @@ export default function DashboardPage() {
                     )}
               </span>
             </div>
-            {isPastDue ? (
+            {paymentRecovery ? (
               <div className="border-fl-border mt-4 border-t pt-4">
                 <button
                   onClick={handleManageSubscription}

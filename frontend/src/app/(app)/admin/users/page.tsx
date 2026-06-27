@@ -72,7 +72,12 @@ function statusBadgeClass(status: string) {
     case 'trialing':
       return 'border-blue-500/40 text-blue-400'
     case 'past_due':
+    case 'unpaid':
+    case 'paused':
       return 'border-yellow-500/40 text-yellow-400'
+    case 'incomplete':
+    case 'incomplete_expired':
+      return 'border-orange-500/40 text-orange-400'
     case 'canceled':
       return 'border-fl-border text-fl-muted-2'
     default:
@@ -99,9 +104,17 @@ export default function AdminUsersPage() {
   const [subscriptionFilter, setSubscriptionFilter] = useState(() => {
     const subscription = searchParams.get('subscription')
     return subscription &&
-      ['none', 'trialing', 'active', 'past_due', 'canceled'].includes(
-        subscription
-      )
+      [
+        'none',
+        'trialing',
+        'active',
+        'past_due',
+        'canceled',
+        'incomplete',
+        'incomplete_expired',
+        'unpaid',
+        'paused',
+      ].includes(subscription)
       ? subscription
       : ''
   })
@@ -565,6 +578,12 @@ export default function AdminUsersPage() {
             <option value="active">{tBilling('statusActive')}</option>
             <option value="trialing">{tBilling('statusTrialing')}</option>
             <option value="past_due">{tBilling('statusPastDue')}</option>
+            <option value="unpaid">{tBilling('statusUnpaid')}</option>
+            <option value="paused">{tBilling('statusPaused')}</option>
+            <option value="incomplete">{tBilling('statusIncomplete')}</option>
+            <option value="incomplete_expired">
+              {tBilling('statusIncompleteExpired')}
+            </option>
             <option value="canceled">{tBilling('statusCanceled')}</option>
           </select>
           <button
@@ -1010,6 +1029,10 @@ function subscriptionLabel(
       | 'statusActive'
       | 'statusTrialing'
       | 'statusPastDue'
+      | 'statusUnpaid'
+      | 'statusPaused'
+      | 'statusIncomplete'
+      | 'statusIncompleteExpired'
       | 'statusCanceled'
       | 'statusNone'
   ) => string
@@ -1021,6 +1044,14 @@ function subscriptionLabel(
       return tBilling('statusTrialing')
     case 'past_due':
       return tBilling('statusPastDue')
+    case 'unpaid':
+      return tBilling('statusUnpaid')
+    case 'paused':
+      return tBilling('statusPaused')
+    case 'incomplete':
+      return tBilling('statusIncomplete')
+    case 'incomplete_expired':
+      return tBilling('statusIncompleteExpired')
     case 'canceled':
       return tBilling('statusCanceled')
     default:

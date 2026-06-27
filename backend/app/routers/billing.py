@@ -26,6 +26,17 @@ from app.services.subscription_service import apply_subscription_quotas
 router = APIRouter(prefix="/api/billing", tags=["billing"])
 logger = get_logger(__name__)
 
+STRIPE_SUBSCRIPTION_STATUSES = {
+    "active",
+    "canceled",
+    "incomplete",
+    "incomplete_expired",
+    "past_due",
+    "paused",
+    "trialing",
+    "unpaid",
+}
+
 
 def _stripe_client() -> None:
     """Set the Stripe API key (called once at router registration time)."""
@@ -42,6 +53,15 @@ def _sget(obj: object, key: str, default=None):
     if isinstance(obj, dict):
         return obj.get(key, default)
     return getattr(obj, key, default)
+
+
+def _normalize_subscription_status(status_value: object, fallback: str = "none") -> str:
+    if not isinstance(status_value, str):
+        return fallback
+    if status_value in STRIPE_SUBSCRIPTION_STATUSES:
+        return status_value
+    logger.warning("[billing] Unknown Stripe subscription status received: %s", status_value)
+    return fallback
 
 
 # ── Request schemas ──────────────────────────────────────────────────────────
@@ -224,7 +244,7 @@ async def _handle_checkout_completed(db: AsyncSession, session: object) -> None:
     if subscription_id:
         try:
             sub = await stripe.Subscription.retrieve_async(subscription_id)
-            status = getattr(sub, "status", "trialing")  # "trialing" | "active"
+            status = _normalize_subscription_status(getattr(sub, "status", None), "trialing")
             ends_at = _subscription_period_end(sub)
         except Exception as exc:  # noqa: BLE001
             logger.warning("[billing] Could not retrieve subscription %s: %s", subscription_id, exc)
@@ -246,7 +266,9 @@ async def _handle_subscription_updated(db: AsyncSession, subscription: object) -
     if not user:
         return
 
-    user.subscription_status = _sget(subscription, "status") or user.subscription_status
+    user.subscription_status = _normalize_subscription_status(
+        _sget(subscription, "status"), user.subscription_status
+    )
     ends_at = _subscription_period_end(subscription)
     if ends_at is not None:
         user.subscription_ends_at = ends_at

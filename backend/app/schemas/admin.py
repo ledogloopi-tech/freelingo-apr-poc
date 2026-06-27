@@ -67,7 +67,20 @@ class AdminUserUpdate(BaseModel):
     conversation_daily_minutes: int | None = Field(default=None, ge=0)
     conversation_weekly_minutes: int | None = Field(default=None, ge=0)
     monthly_tokens_limit: int | None = Field(default=None, ge=0)
-    subscription_status: Literal["none", "trialing", "active", "past_due", "canceled"] | None = None
+    subscription_status: (
+        Literal[
+            "none",
+            "trialing",
+            "active",
+            "past_due",
+            "canceled",
+            "incomplete",
+            "incomplete_expired",
+            "unpaid",
+            "paused",
+        ]
+        | None
+    ) = None
     subscription_ends_at: datetime | None = None
 
     @field_validator("subscription_ends_at")

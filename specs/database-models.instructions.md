@@ -11,33 +11,33 @@ All models use SQLAlchemy 2.0 declarative style with `Mapped[T]` type annotation
 
 Registration, authentication, and user preferences.
 
-| Column                          | Type                | Notes                                                                                                  |
-| ------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------ |
-| id                              | integer             | Primary key                                                                                            |
-| username                        | string              | Unique, used for login                                                                                 |
-| email                           | string              | Unique, nullable at DB level for legacy rows; required by public registration and admin user creation  |
-| display_name                    | string              | Shown in UI                                                                                            |
-| hashed_password                 | string              | bcrypt hash                                                                                            |
-| role                            | string              | `"admin"` or `"user"`                                                                                  |
-| native_language                 | string              | e.g. `"es"`, `"fr"` — used for flashcard translations and tutor feedback                               |
-| target_language                 | string              | BCP-47 tag, e.g. `"en-GB"` (default) or `"en-US"` — the language the user is learning                  |
-| is_active                       | boolean             | False = account disabled by admin                                                                      |
-| is_verified                     | boolean             | False until email verified (default False; existing users set to True on migration)                    |
-| conversation_max_duration       | integer             | Max voice session duration in seconds (default 1800)                                                   |
-| conversation_inactivity_timeout | integer             | Seconds of silence before disconnect (default 180)                                                     |
-| conversation_weekly_sessions    | integer             | Counter reset each week (default 0)                                                                    |
-| conversation_daily_minutes      | integer             | Limit in minutes per day (default 30)                                                                  |
-| conversation_weekly_minutes     | integer             | Limit in minutes per week (default 90)                                                                 |
-| monthly_tokens_limit            | integer             | Max LLM tokens per billing period (default 1 000 000)                                                  |
-| stripe_customer_id              | string (nullable)   | Stripe customer ID (set when subscription is created)                                                  |
-| subscription_status             | string              | Subscription state: `none` (default), `trialing`, `active`, `past_due`, `canceled`                     |
-| subscription_ends_at            | datetime (nullable) | When the current subscription period ends                                                              |
-| trial_used                      | boolean             | `true` once the user has started or completed a trial; prevents repeated free trials (default `false`) |
+| Column                          | Type                | Notes                                                                                                                                                                                                                                                                                              |
+| ------------------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| id                              | integer             | Primary key                                                                                                                                                                                                                                                                                        |
+| username                        | string              | Unique, used for login                                                                                                                                                                                                                                                                             |
+| email                           | string              | Unique, nullable at DB level for legacy rows; required by public registration and admin user creation                                                                                                                                                                                              |
+| display_name                    | string              | Shown in UI                                                                                                                                                                                                                                                                                        |
+| hashed_password                 | string              | bcrypt hash                                                                                                                                                                                                                                                                                        |
+| role                            | string              | `"admin"` or `"user"`                                                                                                                                                                                                                                                                              |
+| native_language                 | string              | e.g. `"es"`, `"fr"` — used for flashcard translations and tutor feedback                                                                                                                                                                                                                           |
+| target_language                 | string              | BCP-47 tag, e.g. `"en-GB"` (default) or `"en-US"` — the language the user is learning                                                                                                                                                                                                              |
+| is_active                       | boolean             | False = account disabled by admin                                                                                                                                                                                                                                                                  |
+| is_verified                     | boolean             | False until email verified (default False; existing users set to True on migration)                                                                                                                                                                                                                |
+| conversation_max_duration       | integer             | Max voice session duration in seconds (default 1800)                                                                                                                                                                                                                                               |
+| conversation_inactivity_timeout | integer             | Seconds of silence before disconnect (default 180)                                                                                                                                                                                                                                                 |
+| conversation_weekly_sessions    | integer             | Counter reset each week (default 0)                                                                                                                                                                                                                                                                |
+| conversation_daily_minutes      | integer             | Limit in minutes per day (default 30)                                                                                                                                                                                                                                                              |
+| conversation_weekly_minutes     | integer             | Limit in minutes per week (default 90)                                                                                                                                                                                                                                                             |
+| monthly_tokens_limit            | integer             | Max LLM tokens per billing period (default 1 000 000)                                                                                                                                                                                                                                              |
+| stripe_customer_id              | string (nullable)   | Stripe customer ID (set when subscription is created)                                                                                                                                                                                                                                              |
+| subscription_status             | string              | Subscription state: `none` (default) plus Stripe statuses `trialing`, `active`, `past_due`, `canceled`, `incomplete`, `incomplete_expired`, `unpaid`, `paused`                                                                                                                                     |
+| subscription_ends_at            | datetime (nullable) | When the current subscription period ends                                                                                                                                                                                                                                                          |
+| trial_used                      | boolean             | `true` once the user has started or completed a trial; prevents repeated free trials (default `false`)                                                                                                                                                                                             |
 | avatar                          | text (nullable)     | Cache-busted internal avatar reference (`/api/avatars/{uuid}.{ext}?v={ms}`) for files stored under `/app/avatars`. Files are retrieved through authenticated profile endpoints with private no-store responses, not public static serving. Legacy base64 data URLs may still exist until replaced. |
-| bio                             | text (nullable)     | User-written profile bio                                                                               |
-| learning_goals                  | text (nullable)     | JSON-encoded array of learning goal strings                                                            |
-| created_at                      | datetime            | Auto-set on creation                                                                                   |
-| last_login                      | datetime (nullable) | Updated on each successful login                                                                       |
+| bio                             | text (nullable)     | User-written profile bio                                                                                                                                                                                                                                                                           |
+| learning_goals                  | text (nullable)     | JSON-encoded array of learning goal strings                                                                                                                                                                                                                                                        |
+| created_at                      | datetime            | Auto-set on creation                                                                                                                                                                                                                                                                               |
+| last_login                      | datetime (nullable) | Updated on each successful login                                                                                                                                                                                                                                                                   |
 
 **Registration rules:**
 
@@ -47,6 +47,7 @@ Registration, authentication, and user preferences.
 - `POST /register` returns an `access_token` + sets the refresh token cookie so the frontend can redirect directly to `/onboarding` without an intermediate login.
 - On `/onboarding` the user chooses their `target_language`; the choice is saved via `PATCH /me` before accessing the app.
 - `trial_used` is surfaced through authenticated user profile responses and remains backend-authoritative: Stripe Checkout only receives `trial_period_days` when `STRIPE_TRIAL_DAYS > 0` and `trial_used=false`; webhooks set it to `true` once a trialing subscription starts.
+- Only `trialing` and `active` grant premium access. `past_due`, `unpaid`, and `paused` route users to payment recovery through Stripe Customer Portal. `none`, `incomplete`, `incomplete_expired`, and `canceled` show normal monthly/yearly plan-selection UI.
 
 ## UserLanguage (`user_languages`)
 
@@ -103,19 +104,19 @@ One active plan per user per language. Generated after CEFR assessment. Added in
 
 One lesson per day slot in the study plan.
 
-| Column        | Type              | Notes                                                   |
-| ------------- | ----------------- | ------------------------------------------------------- |
-| id            | integer           | Primary key                                             |
-| study_plan_id | integer           | FK → study_plans                                        |
-| title         | string            | Lesson title                                            |
-| lesson_type   | string            | `grammar`, `vocabulary`, `reading`, `writing`, `listening`, `review` |
-| cefr_level    | string            | CEFR level                                              |
-| week_number   | integer           | Week in the plan                                        |
-| day_number    | integer           | Day in the week                                         |
-| unit_id       | string (nullable) | Curriculum unit this lesson belongs to                  |
+| Column        | Type              | Notes                                                                                                                                                                                                                                                       |
+| ------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| id            | integer           | Primary key                                                                                                                                                                                                                                                 |
+| study_plan_id | integer           | FK → study_plans                                                                                                                                                                                                                                            |
+| title         | string            | Lesson title                                                                                                                                                                                                                                                |
+| lesson_type   | string            | `grammar`, `vocabulary`, `reading`, `writing`, `listening`, `review`                                                                                                                                                                                        |
+| cefr_level    | string            | CEFR level                                                                                                                                                                                                                                                  |
+| week_number   | integer           | Week in the plan                                                                                                                                                                                                                                            |
+| day_number    | integer           | Day in the week                                                                                                                                                                                                                                             |
+| unit_id       | string (nullable) | Curriculum unit this lesson belongs to                                                                                                                                                                                                                      |
 | content       | JSON              | Structured lesson content generated by LLM: target-language `explanation`, optional native-language `native_explanation` with `text`, `key_points`, `examples`, `common_traps`, and `mini_glossary`, exercises, vocabulary, grammar refs, and unit metadata |
-| is_completed  | boolean           |                                                         |
-| completed_at  | datetime          |                                                         |
+| is_completed  | boolean           |                                                                                                                                                                                                                                                             |
+| completed_at  | datetime          |                                                                                                                                                                                                                                                             |
 
 ## Exercise (`exercises`)
 
@@ -338,17 +339,17 @@ A flat comment on a feedback entry. No nesting.
 
 One moderated product review per user. Added in Phase 11.
 
-| Column            | Type        | Notes                                                                |
-| ----------------- | ----------- | -------------------------------------------------------------------- |
-| id                | integer     | Primary key                                                          |
-| user_id           | integer     | FK -> users (CASCADE DELETE), unique, indexed                        |
-| user_display_name | string(150) | Snapshot of the user's visible name when the review is created       |
-| target_language   | string(10)  | Active learning language when the review is created, indexed         |
-| rating            | integer     | Required 1-5 star rating                                             |
-| comment           | text        | Optional review comment                                              |
-| is_approved       | boolean     | Admin moderation flag, default `false`, indexed                      |
-| created_at        | datetime    | Auto-set on creation, indexed                                        |
-| updated_at        | datetime    | Auto-set on creation; updated when ORM updates the row               |
+| Column            | Type        | Notes                                                          |
+| ----------------- | ----------- | -------------------------------------------------------------- |
+| id                | integer     | Primary key                                                    |
+| user_id           | integer     | FK -> users (CASCADE DELETE), unique, indexed                  |
+| user_display_name | string(150) | Snapshot of the user's visible name when the review is created |
+| target_language   | string(10)  | Active learning language when the review is created, indexed   |
+| rating            | integer     | Required 1-5 star rating                                       |
+| comment           | text        | Optional review comment                                        |
+| is_approved       | boolean     | Admin moderation flag, default `false`, indexed                |
+| created_at        | datetime    | Auto-set on creation, indexed                                  |
+| updated_at        | datetime    | Auto-set on creation; updated when ORM updates the row         |
 
 **Constraints and indexes:**
 
@@ -367,17 +368,17 @@ One moderated product review per user. Added in Phase 11.
 
 Global cache for native-language study help generated for static learning resources. Added in v1.8.10 for grammar, phrasebook, and vocabulary native help.
 
-| Column          | Type     | Notes                                                                                       |
-| --------------- | -------- | ------------------------------------------------------------------------------------------- |
-| id              | integer  | Primary key                                                                                 |
-| resource_type   | string   | Resource namespace, currently `"grammar"` or `"phrasebook"`; reserved for `"vocabulary"`   |
-| resource_key    | string   | Stable resource identifier, e.g. grammar topic slug                                         |
-| target_language | string   | BCP-47 learning language for the source content                                             |
-| native_language | string   | User native-language code used for the generated help                                       |
-| source_hash     | string   | SHA-256 hash of the source static content used to generate `content`                         |
-| content         | JSONB    | Generated native-language help JSON                                                         |
-| created_at      | datetime | Auto-set on creation                                                                        |
-| updated_at      | datetime | Updated whenever stale cached help is regenerated                                           |
+| Column          | Type     | Notes                                                                                    |
+| --------------- | -------- | ---------------------------------------------------------------------------------------- |
+| id              | integer  | Primary key                                                                              |
+| resource_type   | string   | Resource namespace, currently `"grammar"` or `"phrasebook"`; reserved for `"vocabulary"` |
+| resource_key    | string   | Stable resource identifier, e.g. grammar topic slug                                      |
+| target_language | string   | BCP-47 learning language for the source content                                          |
+| native_language | string   | User native-language code used for the generated help                                    |
+| source_hash     | string   | SHA-256 hash of the source static content used to generate `content`                     |
+| content         | JSONB    | Generated native-language help JSON                                                      |
+| created_at      | datetime | Auto-set on creation                                                                     |
+| updated_at      | datetime | Updated whenever stale cached help is regenerated                                        |
 
 **Constraints and indexes:**
 

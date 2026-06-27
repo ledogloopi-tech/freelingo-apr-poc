@@ -151,12 +151,12 @@ Manages AI-generated listening exercises end-to-end (Phase 6):
 
 **Exercise types by CEFR level** (`_TYPES_BY_LEVEL`):
 
-| Level  | Types                                                   |
-| ------ | ------------------------------------------------------- |
+| Level  | Types                                                         |
+| ------ | ------------------------------------------------------------- |
 | A1, A2 | `monologue`, `announcement`, `voicemail`, `dialogue`, `story` |
-| B1     | `announcement`, `voicemail`, `story`, `dialogue`, `podcast` |
-| B2     | `voicemail`, `story`, `podcast`, `interview`, `news`   |
-| C1, C2 | `story`, `podcast`, `interview`, `news`, `monologue`   |
+| B1     | `announcement`, `voicemail`, `story`, `dialogue`, `podcast`   |
+| B2     | `voicemail`, `story`, `podcast`, `interview`, `news`          |
+| C1, C2 | `story`, `podcast`, `interview`, `news`, `monologue`          |
 
 ## Reading Service (`reading_service.py`)
 
@@ -208,6 +208,8 @@ Single source of truth for subscription-based access control (Phase 5):
 
 - `is_subscribed(user, stripe_enabled) → bool` — returns `True` unconditionally when `stripe_enabled=False` (self-hosted mode, default); otherwise requires `subscription_status` to be `"trialing"` or `"active"`.
 - `apply_subscription_quotas(user, db)` — resets conversation and token quotas to defaults when a subscription becomes active or enters trial.
+
+Stripe lifecycle states such as `past_due`, `unpaid`, `paused`, `incomplete`, `incomplete_expired`, and `canceled` never grant access. The frontend distinguishes payment-recovery states (`past_due`, `unpaid`, `paused`) from normal plan-selection states (`none`, `incomplete`, `incomplete_expired`, `canceled`).
 
 Used by `require_subscription` in `core/deps.py`, which gates subscription-only access. Maintenance mode is handled separately by `require_not_maintenance` on chat, listening, reading, and conversation warmup endpoints. Memory-management endpoints use only `require_subscription`, so they stay subscription-gated but are not blocked during maintenance mode.
 

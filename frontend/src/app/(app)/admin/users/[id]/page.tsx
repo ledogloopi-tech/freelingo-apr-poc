@@ -142,7 +142,12 @@ function subscriptionStatusClass(status: string) {
     case 'trialing':
       return 'border-blue-500/40 text-blue-400'
     case 'past_due':
+    case 'unpaid':
+    case 'paused':
       return 'border-yellow-500/40 text-yellow-400'
+    case 'incomplete':
+    case 'incomplete_expired':
+      return 'border-orange-500/40 text-orange-400'
     case 'canceled':
       return 'border-fl-border text-fl-muted-2'
     default:
@@ -861,6 +866,10 @@ function getSubscriptionLabel(
       | 'statusActive'
       | 'statusTrialing'
       | 'statusPastDue'
+      | 'statusUnpaid'
+      | 'statusPaused'
+      | 'statusIncomplete'
+      | 'statusIncompleteExpired'
       | 'statusCanceled'
       | 'statusNone'
   ) => string
@@ -872,6 +881,14 @@ function getSubscriptionLabel(
       return tBilling('statusTrialing')
     case 'past_due':
       return tBilling('statusPastDue')
+    case 'unpaid':
+      return tBilling('statusUnpaid')
+    case 'paused':
+      return tBilling('statusPaused')
+    case 'incomplete':
+      return tBilling('statusIncomplete')
+    case 'incomplete_expired':
+      return tBilling('statusIncompleteExpired')
     case 'canceled':
       return tBilling('statusCanceled')
     default:
