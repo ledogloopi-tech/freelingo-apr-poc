@@ -12,16 +12,14 @@ A complete platform that evaluates the user's English CEFR level through a 3-ste
 
 ## Milestones (build order)
 
-| #   | Milestone    | What was built                                                                                               |
-| --- | ------------ | ------------------------------------------------------------------------------------------------------------ |
-| 1   | Scaffolding  | Project structure, Docker Compose, CI/CD pipeline                                                            |
-| 2   | Backend core | Async DB (PostgreSQL 16 + SQLAlchemy 2.0), JWT+bcrypt auth, Redis refresh tokens, multi-provider LLM adapter |
-| 3   | Assessment   | 3-step onboarding: BeginnerGate → adaptive quiz (static bank) → duration/goals selector                      |
-| 4   | Study plan   | Deterministic plan from `curriculum.py` — distributes curriculum units across weeks/days, no LLM             |
-| 5   | Lessons      | LLM-generated lesson content within CEFR+grammar constraints, with exercise evaluation                       |
-| 6   | Flashcards   | SM-2 spaced repetition algorithm, LLM flashcard generation with native-language translations                 |
-| 7   | Chat         | AI tutor with SSE streaming, progress-aware system prompt, conversation management                           |
-| 8   | Frontend     | All screens: login/register, assessment, dashboard, plan roadmap, lessons, flashcards, chat, settings, admin |
+- 1 — Milestone: Scaffolding; What was built: Project structure, Docker Compose, CI/CD pipeline
+- 2 — Milestone: Backend core; What was built: Async DB (PostgreSQL 16 + SQLAlchemy 2.0), JWT+bcrypt auth, Redis refresh tokens, multi-provider LLM adapter
+- 3 — Milestone: Assessment; What was built: 3-step onboarding: BeginnerGate → adaptive quiz (static bank) → duration/goals selector
+- 4 — Milestone: Study plan; What was built: Deterministic plan from `curriculum.py` — distributes curriculum units across weeks/days, no LLM
+- 5 — Milestone: Lessons; What was built: LLM-generated lesson content within CEFR+grammar constraints, with exercise evaluation
+- 6 — Milestone: Flashcards; What was built: SM-2 spaced repetition algorithm, LLM flashcard generation with native-language translations
+- 7 — Milestone: Chat; What was built: AI tutor with SSE streaming, progress-aware system prompt, conversation management
+- 8 — Milestone: Frontend; What was built: All screens: login/register, assessment, dashboard, plan roadmap, lessons, flashcards, chat, settings, admin
 
 ---
 
@@ -105,25 +103,21 @@ Central `Settings` class using pydantic-settings, reading from `.env`. Covers:
 
 All require `role="admin"` via `require_admin` dependency.
 
-| Endpoint             | Behavior                                                                                   |
-| -------------------- | ------------------------------------------------------------------------------------------ |
-| `GET /users`         | Lists users with pagination, search, subscription, role, and active-status filters         |
-| `POST /users`        | Creates user directly (bypasses ALLOW_REGISTRATION)                                        |
-| `GET /users/{id}`    | Single user detail                                                                         |
-| `PATCH /users/{id}`  | Edit role, is_active, display_name                                                         |
-| `DELETE /users/{id}` | Cascading delete of all user data                                                          |
-| `POST /invite`       | Generates single-use invite token (48h Redis TTL). Returns URL: `/register?invite=<token>` |
+- `GET /users` — Lists users with pagination, search, subscription, role, and active-status filters
+- `POST /users` — Creates user directly (bypasses ALLOW_REGISTRATION)
+- `GET /users/{id}` — Single user detail
+- `PATCH /users/{id}` — Edit role, is_active, display_name
+- `DELETE /users/{id}` — Cascading delete of all user data
+- `POST /invite` — Generates single-use invite token (48h Redis TTL). Returns URL: `/register?invite=<token>`
 
 ### LLM Adapter (`app/services/llm_adapter.py`)
 
 Singleton providing provider-agnostic LLM access. Supports four providers:
 
-| Provider  | Client library                                          | Max tokens |
-| --------- | ------------------------------------------------------- | ---------- |
-| ollama    | AsyncOpenAI (openai SDK via openai-compatible endpoint) | 8192       |
-| openai    | AsyncOpenAI                                             | 128K       |
-| deepseek  | AsyncOpenAI (openai-compatible endpoint)                | 128K       |
-| anthropic | AsyncAnthropic (anthropic SDK, separate code path)      | 200K       |
+- ollama — Client library: AsyncOpenAI (openai SDK via openai-compatible endpoint); Max tokens: 8192
+- openai — Client library: AsyncOpenAI; Max tokens: 128K
+- deepseek — Client library: AsyncOpenAI (openai-compatible endpoint); Max tokens: 128K
+- anthropic — Client library: AsyncAnthropic (anthropic SDK, separate code path); Max tokens: 200K
 
 Key design: Ollama, OpenAI, and DeepSeek all use the same `AsyncOpenAI` client with different `base_url` values — the rest of the application never knows which provider is active.
 
@@ -211,11 +205,9 @@ When the user completes all units in a level, an end-of-level test becomes avail
 
 Scoring thresholds:
 
-| Score       | Recommendation | Effect                                     |
-| ----------- | -------------- | ------------------------------------------ |
-| >= 0.75     | `advance`      | Unlock next CEFR level                     |
-| 0.55 – 0.74 | `extend`       | 4-week extension on weak units recommended |
-| < 0.55      | `repeat`       | Full level repetition recommended          |
+- >= 0.75 — Recommendation: `advance`; Effect: Unlock next CEFR level
+- 0.55 – 0.74 — Recommendation: `extend`; Effect: 4-week extension on weak units recommended
+- < 0.55 — Recommendation: `repeat`; Effect: Full level repetition recommended
 
 ---
 
@@ -336,40 +328,36 @@ To avoid Next.js buffering the SSE stream (since Next.js API rewrites buffer res
 
 ### Screen inventory
 
-| Route                    | Key components                                                                                                                        | Phase |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| `/login`                 | Login form (username + password)                                                                                                      | 1     |
-| `/register`              | Registration form (username, email, password, native language), invite token handling                                                 | 1     |
-| `/assessment`            | `BeginnerGate`, `AdaptiveQuizCard`, progress bar, results screen                                                                      | 1     |
-| `/assessment/level-test` | Level completion test (20 questions), `TestResultSummary`, `RecommendationCard`                                                       | 1+    |
-| `/dashboard`             | Streak badge, XP counter, today's lessons, quick actions, skill radar                                                                 | 1     |
-| `/plan`                  | Visual curriculum roadmap (`UnitCard`, `UnitDrawer`, `LevelTestBanner`)                                                               | 1+    |
-| `/lesson/[id]`           | Lesson content (explanation + exercises), `ExerciseCard`, feedback display                                                            | 1     |
-| `/flashcards`            | Flashcard flip animation, SM-2 review controls (0-5), due count                                                                       | 1     |
-| `/chat`                  | Chat bubbles, message input, SSE streaming text, conversation sidebar                                                                 | 1     |
-| `/conversation`          | Voice conversation mode (dynamic import, SSR disabled)                                                                                | 3     |
-| `/grammar`               | Grammar reference index with search and CEFR filter                                                                                   | 1+    |
-| `/grammar/[slug]`        | Grammar topic detail: explanation, rules, examples, mistakes                                                                          | 1+    |
-| `/vocabulary`            | Vocabulary hub index, grouped by CEFR level                                                                                           | 1+    |
-| `/vocabulary/[setId]`    | Vocabulary set detail with "Add to flashcards" integration                                                                            | 1+    |
-| `/phrasebook`            | Phrasebook with level and register (formal/neutral/informal) filters                                                                  | 1+    |
-| `/progress`              | Skills tracker: unit competencies, vocabulary progress, XP history                                                                    | 1+    |
-| `/settings`              | Profile edit, password change, English variant, conversation timeouts, theme, logout                                                  | 1     |
-| `/faq`                   | FAQ with accordion UI                                                                                                                 | 1+    |
-| `/admin`                 | Admin overview with quick links and maintenance-mode status (admin only)                                                              | 1     |
-| `/admin/users`           | User CRUD table/cards, create-user sheet, invite link generator with copy action, maintenance toggle, search and filters (admin only) | 1     |
-| `/admin/users/[id]`      | User detail with summary header, Profile/Languages/Activity/Quotas/Subscription tabs, quota validation, and confirmations             | 1     |
+- `/login` — Key components: Login form (username + password); Phase: 1
+- `/register` — Key components: Registration form (username, email, password, native language), invite token handling; Phase: 1
+- `/assessment` — Key components: `BeginnerGate`, `AdaptiveQuizCard`, progress bar, results screen; Phase: 1
+- `/assessment/level-test` — Key components: Level completion test (20 questions), `TestResultSummary`, `RecommendationCard`; Phase: 1+
+- `/dashboard` — Key components: Streak badge, XP counter, today's lessons, quick actions, skill radar; Phase: 1
+- `/plan` — Key components: Visual curriculum roadmap (`UnitCard`, `UnitDrawer`, `LevelTestBanner`); Phase: 1+
+- `/lesson/[id]` — Key components: Lesson content (explanation + exercises), `ExerciseCard`, feedback display; Phase: 1
+- `/flashcards` — Key components: Flashcard flip animation, SM-2 review controls (0-5), due count; Phase: 1
+- `/chat` — Key components: Chat bubbles, message input, SSE streaming text, conversation sidebar; Phase: 1
+- `/conversation` — Key components: Voice conversation mode (dynamic import, SSR disabled); Phase: 3
+- `/grammar` — Key components: Grammar reference index with search and CEFR filter; Phase: 1+
+- `/grammar/[slug]` — Key components: Grammar topic detail: explanation, rules, examples, mistakes; Phase: 1+
+- `/vocabulary` — Key components: Vocabulary hub index, grouped by CEFR level; Phase: 1+
+- `/vocabulary/[setId]` — Key components: Vocabulary set detail with "Add to flashcards" integration; Phase: 1+
+- `/phrasebook` — Key components: Phrasebook with level and register (formal/neutral/informal) filters; Phase: 1+
+- `/progress` — Key components: Skills tracker: unit competencies, vocabulary progress, XP history; Phase: 1+
+- `/settings` — Key components: Profile edit, password change, English variant, conversation timeouts, theme, logout; Phase: 1
+- `/faq` — Key components: FAQ with accordion UI; Phase: 1+
+- `/admin` — Key components: Admin overview with quick links and maintenance-mode status (admin only); Phase: 1
+- `/admin/users` — Key components: User CRUD table/cards, create-user sheet, invite link generator with copy action, maintenance toggle, search and filters (admin only); Phase: 1
+- `/admin/users/[id]` — Key components: User detail with summary header, Profile/Languages/Activity/Quotas/Subscription tabs, quota validation, and confirmations; Phase: 1
 
 ### State management (Zustand stores)
 
 Four stores, all in JS memory (no persistence except theme to localStorage):
 
-| Store         | Key state                                                                      | Purpose                                           |
-| ------------- | ------------------------------------------------------------------------------ | ------------------------------------------------- |
-| `auth.ts`     | `accessToken`, `User` object                                                   | In-memory JWT; user profile; logout action        |
-| `progress.ts` | streak, xp, skills, todayLessons, currentUnitId, unitProgress, levelTestResult | Learning progress and curriculum state            |
-| `theme.ts`    | `theme` ('system'/'dark'/'light')                                              | UI theme, persisted to `fl-theme` in localStorage |
-| `loading.ts`  | `count` (global loading counter)                                               | When > 0, top loading bar appears                 |
+- `auth.ts` — Key state: `accessToken`, `User` object; Purpose: In-memory JWT; user profile; logout action
+- `progress.ts` — Key state: streak, xp, skills, todayLessons, currentUnitId, unitProgress, levelTestResult; Purpose: Learning progress and curriculum state
+- `theme.ts` — Key state: `theme` ('system'/'dark'/'light'); Purpose: UI theme, persisted to `fl-theme` in localStorage
+- `loading.ts` — Key state: `count` (global loading counter); Purpose: When > 0, top loading bar appears
 
 ### API client with auto-refresh (`lib/api.ts`)
 
@@ -395,13 +383,11 @@ Next.js middleware at `src/middleware.ts`:
 
 The roadmap renders curriculum units as a timeline. Each unit card shows:
 
-| State      | Visual                             | Condition                           |
-| ---------- | ---------------------------------- | ----------------------------------- |
-| Completed  | Green, shows score %               | All lessons in unit completed       |
-| Active     | Accent color, shows "Day X / Y"    | Prerequisite met, currently working |
-| Unlocked   | Grey with border, clickable        | Prerequisite met but not started    |
-| Locked     | Grey with lock icon, not clickable | Prerequisite not met                |
-| Level test | Gold, at end of roadmap            | All units completed in the level    |
+- Completed — Visual: Green, shows score %; Condition: All lessons in unit completed
+- Active — Visual: Accent color, shows "Day X / Y"; Condition: Prerequisite met, currently working
+- Unlocked — Visual: Grey with border, clickable; Condition: Prerequisite met but not started
+- Locked — Visual: Grey with lock icon, not clickable; Condition: Prerequisite not met
+- Level test — Visual: Gold, at end of roadmap; Condition: All units completed in the level
 
 Clicking a unit opens a drawer (`UnitDrawer`) showing the unit's grammar points, lesson list with completion status, and start buttons for available lessons.
 

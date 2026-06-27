@@ -108,9 +108,20 @@ async def list_users(
     q: str = Query(default="", max_length=100),
     role: Literal["user", "admin"] | None = Query(default=None),
     is_active: bool | None = Query(default=None),
-    subscription: Literal["none", "trialing", "active", "past_due", "canceled"] | None = Query(
-        default=None
-    ),
+    subscription: (
+        Literal[
+            "none",
+            "trialing",
+            "active",
+            "past_due",
+            "canceled",
+            "incomplete",
+            "incomplete_expired",
+            "unpaid",
+            "paused",
+        ]
+        | None
+    ) = Query(default=None),
 ):
     base = select(User)
     if q.strip():

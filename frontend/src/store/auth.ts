@@ -2,10 +2,14 @@ import { create } from 'zustand'
 
 export type SubscriptionStatus =
   | 'none'
+  | 'incomplete'
+  | 'incomplete_expired'
   | 'trialing'
   | 'active'
   | 'past_due'
   | 'canceled'
+  | 'unpaid'
+  | 'paused'
 
 export interface User {
   id: number
@@ -37,6 +41,14 @@ export function isSubscribed(
   return (
     user.subscription_status === 'active' ||
     user.subscription_status === 'trialing'
+  )
+}
+
+export function needsPaymentRecovery(user: User | null): boolean {
+  return (
+    user?.subscription_status === 'past_due' ||
+    user?.subscription_status === 'unpaid' ||
+    user?.subscription_status === 'paused'
   )
 }
 

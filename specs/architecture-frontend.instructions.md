@@ -157,19 +157,19 @@ frontend/
 
 ### Public (auth) routes — `(auth)/`
 
-| Route              | Description                                             |
-| ------------------ | ------------------------------------------------------- |
-| `/login`           | Email + password login                                  |
-| `/register`        | Registration form with native language selection; optional `plan=monthly|yearly` is preserved into onboarding |
-| `/onboarding`      | Post-registration: language preferences + level setup; optional `plan=monthly|yearly` highlights the selected billing interval before Stripe Checkout. Without a monthly preselection, the yearly plan is the primary trial CTA and monthly is the flexible alternative. |
-| `/verify-email`    | Email verification token handler                        |
-| `/forgot-password` | Request password reset email                            |
-| `/reset-password`  | Reset password with token                               |
-| `/billing`         | Stripe Customer Portal redirect (managed by Stripe)     |
+- `/login` — Email + password login.
+- `/register` — Registration form with native language selection. Optional `plan=monthly|yearly` is preserved into onboarding.
+- `/onboarding` — Post-registration language preferences and level setup. Optional `plan=monthly|yearly` highlights the selected billing interval before Stripe Checkout. Without a monthly preselection, the yearly plan is the primary trial CTA and monthly is the flexible alternative. If onboarding is reloaded after registration and the refresh cookie exists but no access token is in memory, it refreshes `/api/auth/refresh` before creating the Stripe Checkout session.
+- `/verify-email` — Email verification token handler.
+- `/forgot-password` — Request password reset email.
+- `/reset-password` — Reset password with token.
+- `/billing` — Stripe Customer Portal redirect managed by Stripe.
+- `/billing/success` — Stripe Checkout return page. Refreshes session when needed, confirms `/api/auth/me` reports `active` or `trialing` before showing Premium-active copy, and otherwise shows subscription-confirmation pending copy.
+- `/billing/canceled` — Stripe Checkout cancellation page with no-charge copy and links back to app billing surfaces.
 
 ### Authenticated routes — `(app)/`
 
-- `/dashboard` — Home: action-oriented overview using existing progress and study-plan data. Shows the active language/level, a primary next-step card, streak/XP/lesson/accuracy stats, plan-progress summary with compact current-level vocabulary progress, today's lessons with completion count and next pending lesson highlight, recent-performance areas derived from `skills`, pending-lesson link, a compact Premium banner for unsubscribed users when Stripe is enabled, and shortcuts to plan, flashcards, tutor, and assessment. The Premium banner presents trial-focused messaging and the shared subscription buttons directly, recommending yearly first and keeping monthly as the flexible alternative.
+- `/dashboard` — Home: action-oriented overview using existing progress and study-plan data. Shows the active language/level, a primary next-step card, streak/XP/lesson/accuracy stats, plan-progress summary with compact current-level vocabulary progress, today's lessons with completion count and next pending lesson highlight, recent-performance areas derived from `skills`, pending-lesson link, a compact Premium banner for unsubscribed users when Stripe is enabled, and shortcuts to plan, flashcards, tutor, and assessment. The Premium banner presents trial-focused messaging and the shared subscription buttons directly, recommending yearly first and keeping monthly as the flexible alternative. If the user's subscription is `past_due`, `unpaid`, or `paused`, the banner instead shows payment-recovery copy and opens the Stripe Customer Portal to update payment details.
 - `/assessment` — Level placement test (`BeginnerGate` → `AdaptiveQuiz` → `DurationSelector`).
 - `/plan` — Study plan overview: unit cards, `LevelTestBanner`, `UnitDrawer`.
 - `/lesson/[id]` — Lesson player: content + interactive exercises. If `content.native_explanation` exists, it is shown below the target-language explanation in a collapsible section that opens by default for A1/A2 and stays collapsed by default for B1+. The section renders translated text, key points, examples, common traps, and a mini-glossary when present. If it is missing, the expanded section shows a native-language button that calls `POST /api/lessons/{id}/native-explanation` and stores the returned explanation in local lesson state. Before an unanswered exercise, the page can show a native-language hint button; if the exercise response includes `native_hint`, it renders immediately when requested, otherwise the button calls `POST /api/lessons/exercises/{id}/native-hint` and patches the exercise in local state. The exercise card header also includes a small `Regenerate exercise` action for unanswered exercises; it calls `POST /api/lessons/exercises/{id}/regenerate`, replaces the current exercise in local state when the backend confirms a technical issue, and shows a small inline error if regeneration is rejected or fails. Exercise feedback still shows the target-language explanation first; when an exercise response includes `native_explanation`, the lesson page renders that native-language clarification directly below the target-language exercise explanation. When the exercise has a target-language explanation but lacks native text, the same button pattern calls `POST /api/lessons/exercises/{id}/native-explanation` and patches the exercise in local state. The lesson vocabulary block renders target-language word, definition, example audio, and example text, plus optional reading, native-language translation, example translation, and usage note when present; older vocabulary items without those optional fields still render normally. Completing a lesson may open the reusable review prompt when it advances the user out of the completed curriculum unit, subject to duplicate-review checks and local dismissal cooldown.
@@ -184,10 +184,11 @@ frontend/
 - `/listening` — AI-generated listening comprehension exercises. When gated by Stripe, the shared paywall uses listening-specific copy focused on ear training at the student's level.
 - `/reading` — AI-generated reading comprehension exercises. When gated by Stripe, the shared paywall uses reading-specific copy focused on level-adapted texts and instant feedback.
 - `/progress` — Skills tracker with radar chart and multi-level vocabulary progress toggle.
-- `/settings` — Settings hub with an admin-inspired header/nav, quick action cards, and grouped panels. Account contains profile/avatar/password plus legal/session actions; avatars are uploaded/deleted through authenticated profile endpoints and rendered through the authenticated `/api/auth/me/avatar-file` endpoint with a shared client-side blob cache. Avatar fetches retry once through the refresh-token flow after a 401, and UI surfaces use the same initial-letter placeholder while the private image blob is loading or unavailable. Avatar file references are not public static URLs. Learning links to My Languages and Memory; Voice contains conversation and TTS voice preferences; Plan contains billing and usage limits with shared subscription buttons that recommend yearly first; Community contains review creation/editing.
+- `/settings` — Settings hub with an admin-inspired header/nav, quick action cards, and grouped panels. Account contains profile/avatar/password plus legal/session actions; avatars are uploaded/deleted through authenticated profile endpoints and rendered through the authenticated `/api/auth/me/avatar-file` endpoint with a shared client-side blob cache. Avatar fetches retry once through the refresh-token flow after a 401, and UI surfaces use the same initial-letter placeholder while the private image blob is loading or unavailable. Avatar file references are not public static URLs. Learning links to My Languages and Memory; Voice contains conversation and TTS voice preferences; Plan contains billing and usage limits with shared subscription buttons that recommend yearly first for unsubscribed users; `past_due`, `unpaid`, and `paused` subscriptions show payment-recovery copy and a Stripe Customer Portal action instead of new plan buttons. `none`, `incomplete`, `incomplete_expired`, and `canceled` show normal monthly/yearly plan buttons. Community contains review creation/editing.
 - `/faq` — Frequently asked questions.
 - `/admin/reviews` — Admin-only review moderation with status/rating filters, approve/unapprove, and delete confirmation.
-- Landing page — The primary CTA sends anonymous visitors to registration and authenticated visitors to the dashboard. Pricing plan CTAs for hosted subscriptions preserve monthly/yearly intent with `plan=monthly|yearly` through registration and onboarding before Stripe Checkout. The pricing and trial copy separates the free-trial promise from the later paid price, highlights yearly as the best-value option with two months free, labels monthly as the flexible alternative, and repeats no-charge-today/cancel-anytime reassurance only when trial eligibility is unknown or `trial_used=false`; authenticated users with `trial_used=true` see neutral plan-selection and amount-confirmation copy instead. The bottom pricing CTA defaults to yearly intent. `/billing/canceled` uses neutral no-charge-in-this-session copy and sends users back to the dashboard or settings plans without promising future trial availability. The shared paywall detects premium-gated route context for chat, voice conversation, listening, and reading so the upgrade message matches the user's attempted action; its free-path exit remains available but visually secondary. The top navigation includes a Reviews anchor between Features and Pricing when approved public reviews are available; the same conditional link appears in the mobile menu. Public landing sections for features, reviews, pricing, open source, and FAQ share `max-w-5xl` content width for consistent horizontal rhythm; the hero and footer keep their own composition. The reviews section shows a compact average-rating and total-review-count badge below the subtitle, using localized formatting and public-facing copy. Review carousel cards keep a consistent height and clamp long comments to 6 lines.
+- Onboarding Checkout — If a user reloads onboarding after registration and the refresh cookie exists but no access token is in memory, onboarding refreshes `/api/auth/refresh` before creating the Stripe Checkout session for the selected monthly/yearly plan.
+- Landing page — The primary CTA sends anonymous visitors to registration and authenticated visitors to the dashboard. Pricing plan CTAs for hosted subscriptions preserve monthly/yearly intent with `plan=monthly|yearly` through registration and onboarding before Stripe Checkout for anonymous visitors; authenticated unsubscribed visitors start Stripe Checkout directly from the selected monthly/yearly pricing button, refreshing the access token from the session cookie first when needed. The pricing and trial copy separates the free-trial promise from the later paid price, highlights yearly as the best-value option with two months free, labels monthly as the flexible alternative, and repeats no-charge-today/cancel-anytime reassurance only when trial eligibility is unknown or `trial_used=false`; authenticated users with `trial_used=true` see neutral plan-selection and amount-confirmation copy instead. The bottom pricing CTA defaults to yearly intent and starts yearly Checkout directly for authenticated unsubscribed users. `/billing/canceled` uses neutral no-charge-in-this-session copy and sends users back to the dashboard or settings plans without promising future trial availability. The shared paywall detects premium-gated route context for chat, voice conversation, listening, and reading so the upgrade message matches the user's attempted action; its free-path exit remains available but visually secondary. The top navigation includes a Reviews anchor between Features and Pricing when approved public reviews are available; the same conditional link appears in the mobile menu. Public landing sections for features, reviews, pricing, open source, and FAQ share `max-w-5xl` content width for consistent horizontal rhythm; the hero and footer keep their own composition. The reviews section shows a compact average-rating and total-review-count badge below the subtitle, using localized formatting and public-facing copy. Review carousel cards keep a consistent height and clamp long comments to 6 lines.
 - `/feedback` — Feature requests and bug reports board (community).
 - `/admin` — Admin overview with aggregated metrics including pending feedback and pending review approvals, operational alerts, quick links to users/feedback/reviews, and maintenance-mode status (admin only).
 - `/admin/users` — User management with responsive table/cards, search, filters, invite copy workflow, create-user sheet with required email, and maintenance toggle (admin only). The desktop table uses fixed column widths: user 25%, email 25%, role 12.5%, status 12.5%, subscription 15%, actions 10%; subscription badges stay on one line and truncate with an ellipsis when localized labels exceed the available width. Invite and create-user action buttons rely on their icons for the leading action affordance and do not include a duplicate `+` in localized labels.
@@ -196,33 +197,27 @@ frontend/
 
 ### Legal routes — `(legal)/`
 
-| Route      | Description      |
-| ---------- | ---------------- |
-| `/privacy` | Privacy policy   |
-| `/terms`   | Terms of service |
+- `/privacy` — Privacy policy
+- `/terms` — Terms of service
 
 ### API route handlers
 
 These are Next.js Route Handlers that proxy requests to the backend:
 
-| Route       | Method | Purpose                  |
-| ----------- | ------ | ------------------------ |
-| `/api/chat` | POST   | SSE chat streaming proxy |
-| `/api/tts`  | POST   | Text-to-speech proxy     |
-| `/api/stt`  | POST   | Speech-to-text proxy     |
+- `/api/chat` — Method: POST; Purpose: SSE chat streaming proxy
+- `/api/tts` — Method: POST; Purpose: Text-to-speech proxy
+- `/api/stt` — Method: POST; Purpose: Speech-to-text proxy
 
 ## State management (Zustand)
 
 Six Zustand stores hold all client-side state. No React Context is used for global state.
 
-| Store      | Persisted?         | Key state                                                                                      |
-| ---------- | ------------------ | ---------------------------------------------------------------------------------------------- |
-| `auth`     | No (JS memory)     | `accessToken`, `user`, `isAuthenticated`, `login()`, `refresh()`, `logout()`                   |
-| `config`   | No                 | `maintenanceMode`, `availableLanguages`, `stripeEnabled`, feature flags from `GET /api/config` |
-| `language` | Yes (localStorage) | `targetLanguage` (BCP-47), `uiLocale`, language switcher state                                 |
-| `loading`  | No                 | `isLoading`, `startLoading()`, `stopLoading()` — global spinner control                        |
-| `progress` | No                 | `xp`, `streak`, `skillScores`, `planSummary` — fetched from backend                            |
-| `theme`    | Yes (localStorage) | `"light"` / `"dark"` / `"system"`                                                              |
+- `auth` — Persisted?: No (JS memory); Key state: `accessToken`, `user`, `isAuthenticated`, `login()`, `refresh()`, `logout()`
+- `config` — Persisted?: No; Key state: `maintenanceMode`, `availableLanguages`, `stripeEnabled`, feature flags from `GET /api/config`
+- `language` — Persisted?: Yes (localStorage); Key state: `targetLanguage` (BCP-47), `uiLocale`, language switcher state
+- `loading` — Persisted?: No; Key state: `isLoading`, `startLoading()`, `stopLoading()` — global spinner control
+- `progress` — Persisted?: No; Key state: `xp`, `streak`, `skillScores`, `planSummary` — fetched from backend
+- `theme` — Persisted?: Yes (localStorage); Key state: `"light"` / `"dark"` / `"system"`
 
 ## Utility modules (`lib/`)
 
@@ -240,19 +235,17 @@ Six Zustand stores hold all client-side state. No React Context is used for glob
 
 ### Page-specific components
 
-| Directory       | Key components                                                                                     |
-| --------------- | -------------------------------------------------------------------------------------------------- |
-| `assessment/`   | `AdaptiveQuizCard`, `BeginnerGate`, `DurationSelector`                                             |
-| `admin/`        | `AdminNav`, `AdminPageHeader`, `AdminPanel`, `AdminMetric`, `AdminBadge` shared across admin pages |
-| `billing/`      | Stripe subscription management UI; landing `PricingSection` hides for active/trialing subscribers; `MaintenanceGate` hides gated pages from non-admin users during maintenance  |
-| `chat/`         | Message display, input, SSE stream handling                                                        |
-| `conversation/` | `ConversationMode`, `MicButton`, `StatusIndicator`, `TranscriptBubble`, VAD integration            |
-| `flashcard/`    | Flashcard flip animation, SM-2 rating buttons                                                      |
-| `lesson/`       | Exercise renderers (multiple choice, fill-in-blank, listening, reading)                            |
-| `plan/`         | `LevelTestBanner`, `UnitCard`, `UnitDrawer`                                                        |
-| `settings/`     | `SettingsShell` primitives plus profile/avatar, appearance, billing, usage, conversation, voice, memory/language links, and review sections |
-| `tour/`         | `OnboardingTour` step-by-step walkthrough                                                          |
-| `whats-new/`    | Version-aware changelog overlay modal                                                              |
+- `assessment/` — `AdaptiveQuizCard`, `BeginnerGate`, `DurationSelector`
+- `admin/` — `AdminNav`, `AdminPageHeader`, `AdminPanel`, `AdminMetric`, `AdminBadge` shared across admin pages
+- `billing/` — Stripe subscription management UI; landing `PricingSection` hides for active/trialing subscribers; `MaintenanceGate` hides gated pages from non-admin users during maintenance
+- `chat/` — Message display, input, SSE stream handling
+- `conversation/` — `ConversationMode`, `MicButton`, `StatusIndicator`, `TranscriptBubble`, VAD integration
+- `flashcard/` — Flashcard flip animation, SM-2 rating buttons
+- `lesson/` — Exercise renderers (multiple choice, fill-in-blank, listening, reading)
+- `plan/` — `LevelTestBanner`, `UnitCard`, `UnitDrawer`
+- `settings/` — `SettingsShell` primitives plus profile/avatar, appearance, billing, usage, conversation, voice, memory/language links, and review sections
+- `tour/` — `OnboardingTour` step-by-step walkthrough
+- `whats-new/` — Version-aware changelog overlay modal
 
 ### Shared/generic components
 
@@ -267,10 +260,8 @@ Six Zustand stores hold all client-side state. No React Context is used for glob
 
 ## Code standards (TypeScript / Next.js 16)
 
-| Tool     | Purpose                                         |
-| -------- | ----------------------------------------------- |
-| ESLint   | TypeScript linting + Next.js rules              |
-| Prettier | Code formatting + `prettier-plugin-tailwindcss` |
+- ESLint — TypeScript linting + Next.js rules
+- Prettier — Code formatting + `prettier-plugin-tailwindcss`
 
 - No semicolons, single quotes, 2-space tabs, trailing commas "es5".
 - shadcn/ui components installed: `button card input progress badge separator sheet tabs`.
@@ -279,13 +270,11 @@ Six Zustand stores hold all client-side state. No React Context is used for glob
 
 Page wrappers use `mx-auto` plus the canonical widths below. Avoid introducing new sizes unless a page has a distinct interaction model or public marketing composition.
 
-| Class       | Width   | Use for                                                                                                    |
-| ----------- | ------- | ---------------------------------------------------------------------------------------------------------- |
-| `max-w-6xl` | 1152 px | Dense admin data pages, operational admin overview, and settings hub layouts (admin, admin/users, admin/feedback, settings) |
-| `max-w-5xl` | 1024 px | Public landing content sections (features, reviews, pricing, open source, FAQ), admin overview pages with lighter operational cards |
-| `max-w-4xl` | 896 px  | Standard private learning/content pages and resource views (dashboard, plan, progress, flashcards, listening, lessons, grammar, vocabulary, phrasebook, feedback, FAQ, language/memory settings, reading non-exercise states) |
-| `max-w-3xl` | 768 px  | Compact detail or legacy admin list pages                                                                  |
-| `max-w-2xl` | 672 px  | Legacy/error-state wrappers only; do not use for new private page shells                                  |
+- `max-w-6xl` (`1152 px`) — Dense admin data pages, operational admin overview, and settings hub layouts such as admin, admin users, admin feedback, and settings.
+- `max-w-5xl` (`1024 px`) — Public landing content sections such as features, reviews, pricing, open source, and FAQ; also lighter admin overview card layouts.
+- `max-w-4xl` (`896 px`) — Standard private learning/content pages and resource views: dashboard, plan, progress, flashcards, listening, lessons, grammar, vocabulary, phrasebook, feedback, FAQ, language settings, memory settings, and reading non-exercise states.
+- `max-w-3xl` (`768 px`) — Compact detail pages or legacy admin list pages.
+- `max-w-2xl` (`672 px`) — Legacy/error-state wrappers only. Do not use for new private page shells.
 
 Full-screen interactive experiences (conversation, chat, listening, reading, assessment), auth cards, legal pages, the landing hero, and the landing footer are exempt because they manage their own layout internally.
 

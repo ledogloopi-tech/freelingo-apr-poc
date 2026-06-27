@@ -100,18 +100,16 @@ At T-60 seconds, a `SessionTimeoutBanner` appears with a countdown. When the tim
 
 ### Message types
 
-| Direction       | Type              | Description                                                                  |
-| --------------- | ----------------- | ---------------------------------------------------------------------------- |
-| Client → Server | binary            | WAV audio frame (float32 PCM, 16kHz mono)                                    |
-| Client → Server | `interrupt`       | Optional manual interruption message; cancels current generation             |
-| Server → Client | `status`          | Pipeline state (`transcribing`, `thinking`, `speaking`, `listening`)         |
-| Server → Client | `transcript`      | User STT result and assistant final text                                     |
-| Server → Client | binary            | MP3 audio chunk for the assistant turn                                       |
-| Server → Client | `barge_in`        | Current response cancelled, new input being processed                        |
-| Server → Client | `turn_complete`   | Assistant turn completed server-side after audio has been generated and sent |
-| Server → Client | `session_warning` | Timeout warning (60 s remaining)                                             |
-| Server → Client | `session_end`     | Session terminated by timeout                                                |
-| Server → Client | `error`           | Pipeline error with message                                                  |
+- Client → Server — Type: binary; Description: WAV audio frame (float32 PCM, 16kHz mono)
+- Client → Server — Type: `interrupt`; Description: Optional manual interruption message; cancels current generation
+- Server → Client — Type: `status`; Description: Pipeline state (`transcribing`, `thinking`, `speaking`, `listening`)
+- Server → Client — Type: `transcript`; Description: User STT result and assistant final text
+- Server → Client — Type: binary; Description: MP3 audio chunk for the assistant turn
+- Server → Client — Type: `barge_in`; Description: Current response cancelled, new input being processed
+- Server → Client — Type: `turn_complete`; Description: Assistant turn completed server-side after audio has been generated and sent
+- Server → Client — Type: `session_warning`; Description: Timeout warning (60 s remaining)
+- Server → Client — Type: `session_end`; Description: Session terminated by timeout
+- Server → Client — Type: `error`; Description: Pipeline error with message
 
 ---
 
@@ -149,10 +147,8 @@ Assistant text is not sent to the frontend before at least one TTS audio chunk s
 
 Two asyncio tasks run concurrently with the main pipeline loop:
 
-| Timer        | Default         | User-configurable                                   | Warning                                    |
-| ------------ | --------------- | --------------------------------------------------- | ------------------------------------------ |
-| Max duration | 1800 s (30 min) | `conversation_max_duration` (from user table)       | 60 s warning via `session_warning` message |
-| Inactivity   | 180 s (3 min)   | `conversation_inactivity_timeout` (from user table) | 60 s warning via `session_warning` message |
+- Max duration — Default: 1800 s (30 min); User-configurable: `conversation_max_duration` (from user table); Warning: 60 s warning via `session_warning` message
+- Inactivity — Default: 180 s (3 min); User-configurable: `conversation_inactivity_timeout` (from user table); Warning: 60 s warning via `session_warning` message
 
 The inactivity timer resets on each received audio chunk. When either timeout fires, a `session_end` message is sent and the WebSocket connection is closed cleanly.
 
@@ -185,10 +181,8 @@ Voice conversations are **persisted incrementally** to the same `chat_history` t
 
 Users configure their voice conversation preferences from `/settings`:
 
-| Setting                         | Default | Range    | Purpose                        |
-| ------------------------------- | ------- | -------- | ------------------------------ |
-| Conversation max duration       | 30 min  | 1–60 min | Total session length           |
-| Conversation inactivity timeout | 3 min   | 1–10 min | Silence before auto-disconnect |
+- Conversation max duration — Default: 30 min; Range: 1–60 min; Purpose: Total session length
+- Conversation inactivity timeout — Default: 3 min; Range: 1–10 min; Purpose: Silence before auto-disconnect
 
 Settings are stored in the User model (`conversation_max_duration`, `conversation_inactivity_timeout` columns) and updatable via `PATCH /api/auth/me`. The WebSocket reads them on each new connection.
 
@@ -196,13 +190,11 @@ Settings are stored in the User model (`conversation_max_duration`, `conversatio
 
 ## Frontend dependencies
 
-| Package                | Version                | Purpose                                     |
-| ---------------------- | ---------------------- | ------------------------------------------- |
-| `@ricky0123/vad-react` | ^0.0.36                | React hooks for VAD (wraps vad-web)         |
-| `@ricky0123/vad-web`   | ^0.0.30                | VAD WebAssembly engine (Silero VAD v5 ONNX) |
-| `onnxruntime-web`      | 1.25.1 (threaded WASM) | ONNX model runtime for VAD                  |
-| Web Audio API          | Browser built-in       | Gapless audio playback via AudioContext     |
-| MediaRecorder API      | Browser built-in       | Microphone stream capture                   |
+- `@ricky0123/vad-react` — Version: ^0.0.36; Purpose: React hooks for VAD (wraps vad-web)
+- `@ricky0123/vad-web` — Version: ^0.0.30; Purpose: VAD WebAssembly engine (Silero VAD v5 ONNX)
+- `onnxruntime-web` — Version: 1.25.1 (threaded WASM); Purpose: ONNX model runtime for VAD
+- Web Audio API — Version: Browser built-in; Purpose: Gapless audio playback via AudioContext
+- MediaRecorder API — Version: Browser built-in; Purpose: Microphone stream capture
 
 ---
 

@@ -19,13 +19,11 @@ Users can view, delete individual, or clear all memories from the Settings page.
 
 **File:** `backend/app/models/memory.py`
 
-| Column     | Type       | Constraints                          | Notes                                     |
-| ---------- | ---------- | ------------------------------------ | ----------------------------------------- |
-| id         | integer    | PK, autoincrement                    |                                           |
-| user_id    | integer    | NOT NULL, FK → users(CASCADE), index | Cascade-deletes with the user             |
-| content    | text       | NOT NULL                             | Max 200 chars enforced by service layer   |
-| source     | string(10) | NOT NULL, default `"chat"`           | `"chat"` or `"voice"`                     |
-| created_at | datetime   | NOT NULL, default UTC now (tz-naive) | Used for eviction ordering (oldest first) |
+- id — Type: integer; Constraints: PK, autoincrement; Notes: —
+- user_id — Type: integer; Constraints: NOT NULL, FK → users(CASCADE), index; Notes: Cascade-deletes with the user
+- content — Type: text; Constraints: NOT NULL; Notes: Max 200 chars enforced by service layer
+- source — Type: string(10); Constraints: NOT NULL, default `"chat"`; Notes: `"chat"` or `"voice"`
+- created_at — Type: datetime; Constraints: NOT NULL, default UTC now (tz-naive); Notes: Used for eviction ordering (oldest first)
 
 **Index:** `ix_memories_user_id` on `user_id`.
 
@@ -46,12 +44,10 @@ Creates the `memories` table with all columns, the FK with CASCADE, and `ix_memo
 
 ### Constants
 
-| Name                    | Value                                      | Purpose                                                            |
-| ----------------------- | ------------------------------------------ | ------------------------------------------------------------------ |
-| `MEMORY_MARKER_RE`      | `r"<<MEMORY>>(.*?)<<ENDMEMORY>>"` (DOTALL) | Detects and removes the LLM-emitted block                          |
-| `MAX_MEMORIES_CONTEXT`  | 20                                         | Maximum memories injected into the system prompt (the most recent) |
-| `MAX_MEMORY_CHARS`      | 200                                        | Hard cap on each stored memory item's length                       |
-| `MAX_MEMORIES_PER_USER` | 50                                         | Hard cap per user; oldest entries are evicted (FIFO) when exceeded |
+- `MEMORY_MARKER_RE` — Value: `r"<<MEMORY>>(.*?)<<ENDMEMORY>>"` (DOTALL); Purpose: Detects and removes the LLM-emitted block
+- `MAX_MEMORIES_CONTEXT` — Value: 20; Purpose: Maximum memories injected into the system prompt (the most recent)
+- `MAX_MEMORY_CHARS` — Value: 200; Purpose: Hard cap on each stored memory item's length
+- `MAX_MEMORIES_PER_USER` — Value: 50; Purpose: Hard cap per user; oldest entries are evicted (FIFO) when exceeded
 
 ### `MEMORY_SYSTEM_INSTRUCTION`
 
@@ -143,11 +139,9 @@ During the LLM streaming loop that drives sentence-by-sentence TTS:
 **Tag:** `memories`  
 **Auth:** all endpoints require `require_subscription`. Maintenance mode is not applied to these endpoints because memory management is used by text chat and user settings rather than direct LLM service operation.
 
-| Method | Path                        | Rate limit | Response             | Notes                                                           |
-| ------ | --------------------------- | ---------- | -------------------- | --------------------------------------------------------------- |
-| GET    | `/api/memories`             | 30/min     | `MemoryListResponse` | Returns all memories for the current user ordered oldest-first. |
-| DELETE | `/api/memories/{memory_id}` | 30/min     | 204 No Content       | Returns 404 if not found or owned by a different user.          |
-| DELETE | `/api/memories`             | 10/min     | `ClearAllResponse`   | Deletes all memories; returns `{"deleted": N}`.                 |
+- GET — Path: `/api/memories`; Rate limit: 30/min; Response: `MemoryListResponse`; Notes: Returns all memories for the current user ordered oldest-first.
+- DELETE — Path: `/api/memories/{memory_id}`; Rate limit: 30/min; Response: 204 No Content; Notes: Returns 404 if not found or owned by a different user.
+- DELETE — Path: `/api/memories`; Rate limit: 10/min; Response: `ClearAllResponse`; Notes: Deletes all memories; returns `{"deleted": N}`.
 
 ### Schemas
 
@@ -177,16 +171,14 @@ A **Memory** section is rendered below the legal links:
 
 Keys added to all 10 locale files (`messages/*.json`):
 
-| Namespace      | Key                     | Purpose                          |
-| -------------- | ----------------------- | -------------------------------- |
-| `settings`     | `sectionMemory`         | Section header                   |
-| `settings`     | `memoryEmpty`           | Empty-state hint                 |
-| `settings`     | `memoryClearAll`        | "Clear all" button label         |
-| `settings`     | `memoryClearAllTitle`   | ConfirmDialog title              |
-| `settings`     | `memoryClearAllMessage` | ConfirmDialog body               |
-| `settings`     | `memoryClearAllConfirm` | ConfirmDialog confirm button     |
-| `chat`         | `memoryUpdated`         | Toast text in text chat          |
-| `conversation` | `memoryUpdated`         | Toast text in voice conversation |
+- `settings` — Key: `sectionMemory`; Purpose: Section header
+- `settings` — Key: `memoryEmpty`; Purpose: Empty-state hint
+- `settings` — Key: `memoryClearAll`; Purpose: "Clear all" button label
+- `settings` — Key: `memoryClearAllTitle`; Purpose: ConfirmDialog title
+- `settings` — Key: `memoryClearAllMessage`; Purpose: ConfirmDialog body
+- `settings` — Key: `memoryClearAllConfirm`; Purpose: ConfirmDialog confirm button
+- `chat` — Key: `memoryUpdated`; Purpose: Toast text in text chat
+- `conversation` — Key: `memoryUpdated`; Purpose: Toast text in voice conversation
 
 ---
 
@@ -194,11 +186,9 @@ Keys added to all 10 locale files (`messages/*.json`):
 
 No new environment variables. All limits are hard-coded constants in `memory_service.py` and can be changed there without schema migrations.
 
-| Constant                | Default | Effect                               |
-| ----------------------- | ------- | ------------------------------------ |
-| `MAX_MEMORIES_PER_USER` | 50      | FIFO eviction threshold              |
-| `MAX_MEMORIES_CONTEXT`  | 20      | Max injected into prompt per request |
-| `MAX_MEMORY_CHARS`      | 200     | Max length per stored item           |
+- `MAX_MEMORIES_PER_USER` — Default: 50; Effect: FIFO eviction threshold
+- `MAX_MEMORIES_CONTEXT` — Default: 20; Effect: Max injected into prompt per request
+- `MAX_MEMORY_CHARS` — Default: 200; Effect: Max length per stored item
 
 ---
 

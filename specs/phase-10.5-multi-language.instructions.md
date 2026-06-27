@@ -185,26 +185,20 @@ The English values above are the reference. Add the equivalent translations in a
 
 ### Frontend tests (Vitest)
 
-| File                                                  | What to test                                                                                           |
-| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `frontend/tests/components/LanguageSwitcher.test.tsx` | Renders when multiple languages exist; hidden when only 1 language; switch triggers API call and toast |
-| `frontend/tests/store/language.test.ts`               | Extend 10.4 tests: language switching triggers page redirect; `isSwitching` state during transition    |
+- `frontend/tests/components/LanguageSwitcher.test.tsx` — Renders when multiple languages exist; hidden when only 1 language; switch triggers API call and toast
+- `frontend/tests/store/language.test.ts` — Extend 10.4 tests: language switching triggers page redirect; `isSwitching` state during transition
 
 ## New files in this phase
 
-| File                                                 | Type                       |
-| ---------------------------------------------------- | -------------------------- |
-| `frontend/src/app/(app)/settings/languages/page.tsx` | My Languages settings page |
+- `frontend/src/app/(app)/settings/languages/page.tsx` — My Languages settings page
 
 ## Modified files in this phase
 
-| File                                                        | Change                                              |
-| ----------------------------------------------------------- | --------------------------------------------------- |
-| `frontend/src/app/(auth)/onboarding/page.tsx`               | Show all 5 languages, handle `?new=true` flow       |
-| `frontend/src/app/(app)/plan/page.tsx`                      | Show active language in header                      |
-| `frontend/src/app/(app)/dashboard/page.tsx`                 | Show active language in header                      |
-| `frontend/src/app/(app)/chat/page.tsx`                      | Language-filtered history                           |
-| `frontend/src/components/conversation/ConversationMode.tsx` | Language-filtered conversations                     |
-| `frontend/src/app/(app)/flashcards/page.tsx`                | Language-filtered flashcards                        |
-| `frontend/src/app/(app)/progress/page.tsx`                  | Language-filtered progress, language name in header |
-| `messages/*.json` (all 10)                                  | Add `languages` namespace, update `onboarding`      |
+- `frontend/src/app/(auth)/onboarding/page.tsx` — Show all 5 languages, handle `?new=true` flow
+- `frontend/src/app/(app)/plan/page.tsx` — Show active language in header
+- `frontend/src/app/(app)/dashboard/page.tsx` — Show active language in header
+- `frontend/src/app/(app)/chat/page.tsx` — Language-filtered history
+- `frontend/src/components/conversation/ConversationMode.tsx` — Language-filtered conversations
+- `frontend/src/app/(app)/flashcards/page.tsx` — Language-filtered flashcards
+- `frontend/src/app/(app)/progress/page.tsx` — Language-filtered progress, language name in header
+- `messages/*.json` (all 10) — Add `languages` namespace, update `onboarding`

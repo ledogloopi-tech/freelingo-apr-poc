@@ -69,7 +69,7 @@ backend/
 │   │   ├── admin.py             # Admin overview metrics, review signals, user management, filtered lists, maintenance toggle
 │   │   ├── assessment.py        # Level assessment quiz + completion + static bank
 │   │   ├── auth.py              # Register, login, refresh, logout, avatar upload/private retrieval/delete, verify-email, reset-password
-│   │   ├── billing.py           # Stripe checkout, customer portal, webhook
+│   │   ├── billing.py           # Stripe checkout, customer portal, webhook with current-subscription matching
 │   │   ├── chat.py              # SSE chat streaming
 │   │   ├── config.py            # Public config endpoint (maintenance mode, features)
 │   │   ├── contact.py           # Contact form submission
@@ -135,7 +135,7 @@ backend/
 ├── alembic/
 │   └── versions/                # DB migrations (43 migrations)
 │
-└── tests/                       # pytest suite (43 test files, 903 tests)
+└── tests/                       # pytest suite (43 test files, 922 tests)
 ```
 
 ## Database models
@@ -185,10 +185,8 @@ For complete service details, APIs, and implementation notes, see [services.inst
 
 ## Code standards (Python 3.14)
 
-| Tool  | Purpose                                                        |
-| ----- | -------------------------------------------------------------- |
-| ruff  | Linting + isort + pyupgrade (rules: E, W, F, I, UP, B, S, ANN) |
-| black | Code formatting (line-length 100)                              |
+- ruff — Linting + isort + pyupgrade (rules: E, W, F, I, UP, B, S, ANN)
+- black — Code formatting (line-length 100)
 
 - ANN101 (missing self type annotation) ignored globally.
 - S and ANN rules disabled in `tests/` directory.
@@ -203,8 +201,8 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 
 - **Framework**: pytest + pytest-asyncio + httpx AsyncClient
 - **Test files**: 43 (plus conftest.py for shared fixtures)
-- **Tests**: 903
-- **Coverage**: 85.39% last measured (target: ≥70%)
+- **Tests**: 922
+- **Coverage**: 85.09% last measured (target: ≥70%)
 - **Key fixtures**: async database session, test client with auth headers, Redis mock, user_language fixture
 
 ---
@@ -215,106 +213,90 @@ All configuration is environment-driven. Variables are defined in `app/core/conf
 
 ### Core
 
-| Variable                    | Default                   | Purpose                                                     |
-| --------------------------- | ------------------------- | ----------------------------------------------------------- |
-| DATABASE_URL                | —                         | asyncpg connection string                                   |
-| REDIS_URL                   | redis://localhost:6379/0  | Redis connection string                                     |
-| SECRET_KEY                  | —                         | JWT signing key (HS256)                                     |
-| ACCESS_TOKEN_EXPIRE_MINUTES | 15                        | JWT lifetime                                                |
-| REFRESH_TOKEN_EXPIRE_DAYS   | 30                        | Refresh token TTL                                           |
-| CORS_ORIGINS                | ["http://localhost:3000"] | Allowed CORS origins (JSON array)                           |
-| COOKIE_SECURE               | false                     | Set `Secure` flag on cookies                                |
-| LOG_LEVEL                   | INFO                      | Application log level (`DEBUG`, `INFO`, `WARNING`, `ERROR`) |
+- DATABASE_URL — Default: —; Purpose: asyncpg connection string
+- REDIS_URL — Default: redis://localhost:6379/0; Purpose: Redis connection string
+- SECRET_KEY — Default: —; Purpose: JWT signing key (HS256)
+- ACCESS_TOKEN_EXPIRE_MINUTES — Default: 15; Purpose: JWT lifetime
+- REFRESH_TOKEN_EXPIRE_DAYS — Default: 30; Purpose: Refresh token TTL
+- CORS_ORIGINS — Default: ["http://localhost:3000"]; Purpose: Allowed CORS origins (JSON array)
+- COOKIE_SECURE — Default: false; Purpose: Set `Secure` flag on cookies
+- LOG_LEVEL — Default: INFO; Purpose: Application log level (`DEBUG`, `INFO`, `WARNING`, `ERROR`)
 
 ### Auth & registration
 
-| Variable              | Default | Purpose                                                              |
-| --------------------- | ------- | -------------------------------------------------------------------- |
-| ALLOW_REGISTRATION    | true    | Enables/disables public signups                                      |
-| FIRST_USER_IS_ADMIN   | true    | Auto-admin for first user                                            |
-| BLOCKED_EMAIL_DOMAINS | []      | JSON array of blocked email domains (disposable/temporary providers) |
+- ALLOW_REGISTRATION — Default: true; Purpose: Enables/disables public signups
+- FIRST_USER_IS_ADMIN — Default: true; Purpose: Auto-admin for first user
+- BLOCKED_EMAIL_DOMAINS — Default: []; Purpose: JSON array of blocked email domains (disposable/temporary providers)
 
 ### LLM
 
-| Variable          | Default                           | Purpose                                                            |
-| ----------------- | --------------------------------- | ------------------------------------------------------------------ |
-| LLM_PROVIDER      | ollama                            | `ollama` / `openai` / `anthropic` / `deepseek`                     |
-| OLLAMA_BASE_URL   | http://host.docker.internal:11434 | Ollama API endpoint                                                |
-| OLLAMA_MODEL      | gemma4:e4b                        | Model tag to use with Ollama                                       |
-| OPENAI_API_KEY    | ``                                | OpenAI API key (also reused for TTS/STT when provider is `openai`) |
-| OPENAI_MODEL      | gpt-4o-mini                       | OpenAI chat model                                                  |
-| ANTHROPIC_API_KEY | ``                                | Anthropic API key                                                  |
-| ANTHROPIC_MODEL   | claude-3-5-haiku-latest           | Anthropic chat model                                               |
-| DEEPSEEK_API_KEY  | ``                                | DeepSeek API key                                                   |
-| DEEPSEEK_MODEL    | deepseek-chat                     | DeepSeek chat model                                                |
+- LLM_PROVIDER — Default: ollama; Purpose: `ollama` / `openai` / `anthropic` / `deepseek`
+- OLLAMA_BASE_URL — Default: http://host.docker.internal:11434; Purpose: Ollama API endpoint
+- OLLAMA_MODEL — Default: gemma4:e4b; Purpose: Model tag to use with Ollama
+- OPENAI_API_KEY — Default: ``; Purpose: OpenAI API key (also reused for TTS/STT when provider is `openai`)
+- OPENAI_MODEL — Default: gpt-4o-mini; Purpose: OpenAI chat model
+- ANTHROPIC_API_KEY — Default: ``; Purpose: Anthropic API key
+- ANTHROPIC_MODEL — Default: claude-3-5-haiku-latest; Purpose: Anthropic chat model
+- DEEPSEEK_API_KEY — Default: ``; Purpose: DeepSeek API key
+- DEEPSEEK_MODEL — Default: deepseek-chat; Purpose: DeepSeek chat model
 
 ### TTS
 
-| Variable         | Default            | Purpose                                     |
-| ---------------- | ------------------ | ------------------------------------------- |
-| TTS_PROVIDER     | local              | `local` (Kokoro) or `openai`                |
-| TTS_BASE_URL     | http://kokoro:8880 | Kokoro-FastAPI endpoint (local provider)    |
-| TTS_VOICE        | af_heart           | Kokoro voice ID (local provider)            |
-| OPENAI_TTS_MODEL | tts-1              | OpenAI TTS model (openai provider)          |
-| OPENAI_TTS_VOICE | nova               | OpenAI TTS voice (openai provider)          |
-| OPENAI_TTS_SPEED | 1.0                | OpenAI TTS playback speed (openai provider) |
+- TTS_PROVIDER — Default: local; Purpose: `local` (Kokoro) or `openai`
+- TTS_BASE_URL — Default: http://kokoro:8880; Purpose: Kokoro-FastAPI endpoint (local provider)
+- TTS_VOICE — Default: af_heart; Purpose: Kokoro voice ID (local provider)
+- OPENAI_TTS_MODEL — Default: tts-1; Purpose: OpenAI TTS model (openai provider)
+- OPENAI_TTS_VOICE — Default: nova; Purpose: OpenAI TTS voice (openai provider)
+- OPENAI_TTS_SPEED — Default: 1.0; Purpose: OpenAI TTS playback speed (openai provider)
 
 ### STT
 
-| Variable         | Default             | Purpose                               |
-| ---------------- | ------------------- | ------------------------------------- |
-| STT_PROVIDER     | local               | `local` (faster-whisper) or `openai`  |
-| STT_BASE_URL     | http://whisper:9000 | Whisper ASR endpoint (local provider) |
-| OPENAI_STT_MODEL | whisper-1           | OpenAI STT model (openai provider)    |
+- STT_PROVIDER — Default: local; Purpose: `local` (faster-whisper) or `openai`
+- STT_BASE_URL — Default: http://whisper:9000; Purpose: Whisper ASR endpoint (local provider)
+- OPENAI_STT_MODEL — Default: whisper-1; Purpose: OpenAI STT model (openai provider)
 
 > `STT_MODEL` and `STT_ENGINE` are Docker-level variables passed to the Whisper container — they are **not** consumed by the Python backend.
 
 ### Stripe
 
-| Variable              | Default               | Purpose                                                            |
-| --------------------- | --------------------- | ------------------------------------------------------------------ |
-| STRIPE_ENABLED        | false                 | Enable Stripe paywall; `false` = all active users have full access |
-| STRIPE_SECRET_KEY     | ``                    | Stripe secret key                                                  |
-| STRIPE_WEBHOOK_SECRET | ``                    | Stripe webhook signing secret                                      |
-| STRIPE_PRICE_MONTHLY  | ``                    | Stripe Price ID for monthly plan                                   |
-| STRIPE_PRICE_YEARLY   | ``                    | Stripe Price ID for yearly plan                                    |
-| STRIPE_TRIAL_DAYS     | 7                     | Free trial duration in days                                        |
-| STRIPE_BASE_URL       | http://localhost:3000 | Frontend base URL used in Stripe redirect URLs                     |
+- STRIPE_ENABLED — Default: false; Purpose: Enable Stripe paywall; `false` = all active users have full access
+- STRIPE_SECRET_KEY — Default: ``; Purpose: Stripe secret key
+- STRIPE_WEBHOOK_SECRET — Default: ``; Purpose: Stripe webhook signing secret
+- STRIPE_PRICE_MONTHLY — Default: ``; Purpose: Stripe Price ID for monthly plan; required when `STRIPE_ENABLED=true`
+- STRIPE_PRICE_YEARLY — Default: ``; Purpose: Stripe Price ID for yearly plan; required when `STRIPE_ENABLED=true`
+- STRIPE_TRIAL_DAYS — Default: 7; Purpose: Free trial duration in days
+- STRIPE_BASE_URL — Default: http://localhost:3000; Purpose: Frontend base URL used in Stripe redirect URLs
+
+The app does not create Stripe products or prices automatically; operators configure the Stripe Price IDs from the Stripe Dashboard.
 
 ### Email
 
-| Variable      | Default               | Purpose                                                                             |
-| ------------- | --------------------- | ----------------------------------------------------------------------------------- |
-| EMAIL_ENABLED | false                 | Enable SMTP email (verification, password reset, contact form, admin notifications) |
-| CONTACT_EMAIL | ``                    | Destination address for contact form submissions and admin notifications            |
-| SMTP_HOST     | localhost             | SMTP server hostname                                                                |
-| SMTP_PORT     | 587                   | SMTP server port                                                                    |
-| SMTP_USER     | ``                    | SMTP username                                                                       |
-| SMTP_PASSWORD | ``                    | SMTP password                                                                       |
-| SMTP_FROM     | noreply@freelingo.app | From address for outgoing emails                                                    |
-| SMTP_TLS      | true                  | Use STARTTLS                                                                        |
-| SMTP_SSL      | false                 | Use implicit SSL (port 465)                                                         |
-| APP_BASE_URL  | http://localhost:3000 | Public frontend URL (used in email links)                                           |
+- EMAIL_ENABLED — Default: false; Purpose: Enable SMTP email (verification, password reset, contact form, admin notifications)
+- CONTACT_EMAIL — Default: ``; Purpose: Destination address for contact form submissions and admin notifications
+- SMTP_HOST — Default: localhost; Purpose: SMTP server hostname
+- SMTP_PORT — Default: 587; Purpose: SMTP server port
+- SMTP_USER — Default: ``; Purpose: SMTP username
+- SMTP_PASSWORD — Default: ``; Purpose: SMTP password
+- SMTP_FROM — Default: noreply@freelingo.app; Purpose: From address for outgoing emails
+- SMTP_TLS — Default: true; Purpose: Use STARTTLS
+- SMTP_SSL — Default: false; Purpose: Use implicit SSL (port 465)
+- APP_BASE_URL — Default: http://localhost:3000; Purpose: Public frontend URL (used in email links)
 
 ### Other
 
-| Variable                   | Default                                                                           | Purpose                                                                                                                       |
-| -------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| RATE_LIMIT_ENABLED         | true                                                                              | Enable slowapi rate limiting                                                                                                  |
-| AUDIO_STORAGE_PATH         | /data/audio                                                                       | Docker volume path for generated listening MP3 files                                                                          |
-| AVAILABLE_TARGET_LANGUAGES | ["de-DE","en-GB","en-US","es-ES","fr-FR","it-IT","ja-JP","ko-KR","pt-PT","zh-CN"] | Operator-configured BCP-47 target-language list; entries not present in backend `SUPPORTED_TARGET_LANGUAGES` are filtered out |
+- RATE_LIMIT_ENABLED — Default: true; Purpose: Enable slowapi rate limiting
+- AUDIO_STORAGE_PATH — Default: /data/audio; Purpose: Docker volume path for generated listening MP3 files
+- AVAILABLE_TARGET_LANGUAGES — Default: ["de-DE","en-GB","en-US","es-ES","fr-FR","it-IT","ja-JP","ko-KR","pt-PT","zh-CN"]; Purpose: Operator-configured BCP-47 target-language list; entries not present in backend `SUPPORTED_TARGET_LANGUAGES` are filtered out
 
 ### Docker-level variables (not consumed by Python backend)
 
-| Variable          | Default               | Consumed by                                     |
-| ----------------- | --------------------- | ----------------------------------------------- |
-| POSTGRES_DB       | freelingo             | PostgreSQL container + DATABASE_URL composition |
-| POSTGRES_USER     | freelingo             | PostgreSQL container + DATABASE_URL composition |
-| POSTGRES_PASSWORD | —                     | PostgreSQL container + DATABASE_URL composition |
-| DATA_PATH         | /opt/docker/freelingo | Docker bind mounts for persistent data          |
-| REDIS_PASSWORD    | —                     | Redis container + REDIS_URL composition         |
-| STT_MODEL         | large-v3-turbo        | Whisper Docker container (ASR_MODEL)            |
-| STT_ENGINE        | faster_whisper        | Whisper Docker container (ASR_ENGINE)           |
-| UVICORN_WORKERS   | 4                     | Docker entrypoint command                       |
+- POSTGRES_DB — Default: freelingo; Consumed by: PostgreSQL container + DATABASE_URL composition
+- POSTGRES_USER — Default: freelingo; Consumed by: PostgreSQL container + DATABASE_URL composition
+- POSTGRES_PASSWORD — Default: —; Consumed by: PostgreSQL container + DATABASE_URL composition
+- DATA_PATH — Default: /opt/docker/freelingo; Consumed by: Docker bind mounts for persistent data
+- REDIS_PASSWORD — Default: —; Consumed by: Redis container + REDIS_URL composition
+- STT_MODEL — Default: large-v3-turbo; Consumed by: Whisper Docker container (ASR_MODEL)
+- STT_ENGINE — Default: faster_whisper; Consumed by: Whisper Docker container (ASR_ENGINE)
+- UVICORN_WORKERS — Default: 4; Consumed by: Docker entrypoint command
 
 For Docker configuration details, see [docker.instructions.md](docker.instructions.md).

@@ -98,15 +98,13 @@ The `STTService` class wraps the Whisper HTTP API:
 
 ## Environment variables (`.env` additions)
 
-| Variable       | Default               | Purpose                                                        |
-| -------------- | --------------------- | -------------------------------------------------------------- |
-| `TTS_ENABLED`  | `false`               | Enable Kokoro TTS proxy                                        |
-| `TTS_BASE_URL` | `http://kokoro:8880`  | Kokoro service URL                                             |
-| `TTS_VOICE`    | `af_heart`            | Default TTS voice                                              |
-| `STT_ENABLED`  | `false`               | Enable Whisper STT proxy                                       |
-| `STT_BASE_URL` | `http://whisper:9000` | Whisper service URL                                            |
-| `STT_MODEL`    | `large-v3-turbo`      | Whisper model (also: `tiny.en`, `small`, `medium`, `large-v3`) |
-| `STT_ENGINE`   | `faster_whisper`      | Inference engine (`faster_whisper` or `ctranslate2`)           |
+- `TTS_ENABLED` — Default: `false`; Purpose: Enable Kokoro TTS proxy
+- `TTS_BASE_URL` — Default: `http://kokoro:8880`; Purpose: Kokoro service URL
+- `TTS_VOICE` — Default: `af_heart`; Purpose: Default TTS voice
+- `STT_ENABLED` — Default: `false`; Purpose: Enable Whisper STT proxy
+- `STT_BASE_URL` — Default: `http://whisper:9000`; Purpose: Whisper service URL
+- `STT_MODEL` — Default: `large-v3-turbo`; Purpose: Whisper model (also: `tiny.en`, `small`, `medium`, `large-v3`)
+- `STT_ENGINE` — Default: `faster_whisper`; Purpose: Inference engine (`faster_whisper` or `ctranslate2`)
 
 Both `TTS_ENABLED` and `STT_ENABLED` must be `true` for the Phase 3 voice conversation WebSocket to accept connections.
 
@@ -166,12 +164,10 @@ The pronunciation evaluation prompt (`PRONUNCIATION_EVAL_PROMPT` in `services/le
 
 ### Scoring guidelines
 
-| Score    | Meaning    | Criteria                                        |
-| -------- | ---------- | ----------------------------------------------- |
-| 0.9–1.0  | Excellent  | Near-native pronunciation, all phonemes correct |
-| 0.7–0.89 | Good       | Minor errors, understandable                    |
-| 0.4–0.69 | Needs work | Several phoneme errors, still intelligible      |
-| 0.0–0.39 | Poor       | Mostly unintelligible or no speech detected     |
+- 0.9–1.0 — Meaning: Excellent; Criteria: Near-native pronunciation, all phonemes correct
+- 0.7–0.89 — Meaning: Good; Criteria: Minor errors, understandable
+- 0.4–0.69 — Meaning: Needs work; Criteria: Several phoneme errors, still intelligible
+- 0.0–0.39 — Meaning: Poor; Criteria: Mostly unintelligible or no speech detected
 
 ---
 
@@ -192,10 +188,8 @@ An additional review mode on the `/flashcards` page:
 
 Both TTS and STT use dedicated Next.js Route Handlers to avoid issues with Next.js rewrites buffering or transforming binary/multipart data:
 
-| Proxy | Route Handler              | Purpose                                                 |
-| ----- | -------------------------- | ------------------------------------------------------- |
-| TTS   | `src/app/api/tts/route.ts` | Forwards binary audio without transformation            |
-| STT   | `src/app/api/stt/route.ts` | Forwards multipart form-data preserving file attachment |
+- TTS — Route Handler: `src/app/api/tts/route.ts`; Purpose: Forwards binary audio without transformation
+- STT — Route Handler: `src/app/api/stt/route.ts`; Purpose: Forwards multipart form-data preserving file attachment
 
 Both proxies attach the `Authorization` header from the auth store and forward the response body unchanged.
 
@@ -205,10 +199,8 @@ Both proxies attach the `Authorization` header from the auth store and forward t
 
 Both services default to GPU images with CUDA support. For CPU-only hosts:
 
-| Service     | CPU image                                        | Additional changes                                                                       |
-| ----------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------- |
-| Kokoro TTS  | `ghcr.io/remsky/kokoro-fastapi-cpu:latest`       | Remove the `deploy.resources.reservations.devices` block                                 |
-| Whisper STT | `onerahmet/openai-whisper-asr-webservice:latest` | Remove the `deploy` block; set `STT_MODEL=tiny.en` or `small` for acceptable performance |
+- Kokoro TTS — CPU image: `ghcr.io/remsky/kokoro-fastapi-cpu:latest`; Additional changes: Remove the `deploy.resources.reservations.devices` block
+- Whisper STT — CPU image: `onerahmet/openai-whisper-asr-webservice:latest`; Additional changes: Remove the `deploy` block; set `STT_MODEL=tiny.en` or `small` for acceptable performance
 
 The `deploy` block must be removed entirely on CPU hosts — Docker will error if it references NVIDIA devices without the NVIDIA runtime installed.
 

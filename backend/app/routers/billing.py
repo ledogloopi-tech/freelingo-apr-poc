@@ -26,6 +26,17 @@ from app.services.subscription_service import apply_subscription_quotas
 router = APIRouter(prefix="/api/billing", tags=["billing"])
 logger = get_logger(__name__)
 
+STRIPE_SUBSCRIPTION_STATUSES = {
+    "active",
+    "canceled",
+    "incomplete",
+    "incomplete_expired",
+    "past_due",
+    "paused",
+    "trialing",
+    "unpaid",
+}
+
 
 def _stripe_client() -> None:
     """Set the Stripe API key (called once at router registration time)."""
@@ -42,6 +53,15 @@ def _sget(obj: object, key: str, default=None):
     if isinstance(obj, dict):
         return obj.get(key, default)
     return getattr(obj, key, default)
+
+
+def _normalize_subscription_status(status_value: object, fallback: str = "none") -> str:
+    if not isinstance(status_value, str):
+        return fallback
+    if status_value in STRIPE_SUBSCRIPTION_STATUSES:
+        return status_value
+    logger.warning("[billing] Unknown Stripe subscription status received: %s", status_value)
+    return fallback
 
 
 # ── Request schemas ──────────────────────────────────────────────────────────
@@ -133,7 +153,8 @@ async def stripe_webhook(
     """Handle Stripe webhook events.
 
     Security: Stripe signature is verified before any event data is processed.
-    Returns HTTP 200 on all successfully handled events to prevent Stripe retries.
+    Returns HTTP 200 only after successful processing; transient processing
+    failures return 500 so Stripe can retry the event.
     """
     payload = await request.body()
     sig_header = request.headers.get("stripe-signature", "")
@@ -162,8 +183,12 @@ async def stripe_webhook(
         else:
             logger.debug("[billing] Unhandled event type: %s", event_type)
     except Exception as exc:  # noqa: BLE001
-        # Log but return 200 to prevent Stripe from retrying non-transient errors
-        logger.error("[billing] Error processing event %s: %s", event_type, exc)
+        logger.exception("[billing] Error processing event %s: %s", event_type, exc)
+        await db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Webhook processing failed",
+        ) from exc
 
     return {"received": True}
 
@@ -191,9 +216,55 @@ def _subscription_period_end(sub: object) -> datetime | None:
     return None
 
 
+def _invoice_subscription_id(invoice: object) -> str | None:
+    """Extract the related subscription ID from legacy and current Invoice shapes."""
+    subscription_id = _sget(invoice, "subscription")
+    if subscription_id:
+        return subscription_id
+
+    parent = _sget(invoice, "parent")
+    if not parent:
+        return None
+    subscription_details = _sget(parent, "subscription_details")
+    if not subscription_details:
+        return None
+    return _sget(subscription_details, "subscription")
+
+
 async def _get_user_by_customer_id(db: AsyncSession, customer_id: str) -> User | None:
     result = await db.execute(select(User).where(User.stripe_customer_id == customer_id))
     return result.scalar_one_or_none()
+
+
+def _subscription_event_is_current(
+    user: User,
+    event_subscription_id: str | None,
+    event_type: str,
+    *,
+    bind_if_missing: bool = False,
+) -> bool:
+    """Return False when a webhook belongs to an older subscription.
+
+    Existing users may not have stripe_subscription_id yet, so events without a
+    stored id remain accepted for compatibility. Once the current subscription
+    is known, events for any other subscription are ignored.
+    """
+    if not event_subscription_id:
+        return True
+    if user.stripe_subscription_id:
+        if user.stripe_subscription_id == event_subscription_id:
+            return True
+        logger.info(
+            "[billing] Ignoring stale %s for user %s - event subscription=%s current=%s",
+            event_type,
+            user.id,
+            event_subscription_id,
+            user.stripe_subscription_id,
+        )
+        return False
+    if bind_if_missing:
+        user.stripe_subscription_id = event_subscription_id
+    return True
 
 
 async def _handle_checkout_completed(db: AsyncSession, session: object) -> None:
@@ -218,16 +289,26 @@ async def _handle_checkout_completed(db: AsyncSession, session: object) -> None:
         )
         return
 
-    # Determine current status and period end from the Stripe Subscription object
-    status = "trialing"
-    ends_at: datetime | None = None
     if subscription_id:
-        try:
-            sub = await stripe.Subscription.retrieve_async(subscription_id)
-            status = getattr(sub, "status", "trialing")  # "trialing" | "active"
-            ends_at = _subscription_period_end(sub)
-        except Exception as exc:  # noqa: BLE001
-            logger.warning("[billing] Could not retrieve subscription %s: %s", subscription_id, exc)
+        user.stripe_subscription_id = subscription_id
+
+    if not subscription_id:
+        logger.warning(
+            "[billing] checkout.session.completed missing subscription for customer %s",
+            customer_id,
+        )
+        return
+
+    # Determine current status and period end from Stripe before granting access.
+    try:
+        sub = await stripe.Subscription.retrieve_async(subscription_id)
+    except Exception as exc:  # noqa: BLE001
+        msg = f"Could not retrieve subscription {subscription_id}"
+        logger.warning("[billing] %s: %s", msg, exc)
+        raise RuntimeError(msg) from exc
+
+    status = _normalize_subscription_status(getattr(sub, "status", None), "none")
+    ends_at = _subscription_period_end(sub)
 
     user.subscription_status = status
     user.subscription_ends_at = ends_at
@@ -246,7 +327,18 @@ async def _handle_subscription_updated(db: AsyncSession, subscription: object) -
     if not user:
         return
 
-    user.subscription_status = _sget(subscription, "status") or user.subscription_status
+    event_subscription_id: str | None = _sget(subscription, "id")
+    if not _subscription_event_is_current(
+        user,
+        event_subscription_id,
+        "customer.subscription.updated",
+        bind_if_missing=True,
+    ):
+        return
+
+    user.subscription_status = _normalize_subscription_status(
+        _sget(subscription, "status"), user.subscription_status
+    )
     ends_at = _subscription_period_end(subscription)
     if ends_at is not None:
         user.subscription_ends_at = ends_at
@@ -266,6 +358,14 @@ async def _handle_subscription_deleted(db: AsyncSession, subscription: object) -
     if not user:
         return
 
+    event_subscription_id: str | None = _sget(subscription, "id")
+    if not _subscription_event_is_current(
+        user,
+        event_subscription_id,
+        "customer.subscription.deleted",
+    ):
+        return
+
     user.subscription_status = "canceled"
     await db.commit()
     logger.info("[billing] User %s subscription canceled", user.id)
@@ -278,6 +378,14 @@ async def _handle_payment_failed(db: AsyncSession, invoice: object) -> None:
 
     user = await _get_user_by_customer_id(db, customer_id)
     if not user:
+        return
+
+    event_subscription_id = _invoice_subscription_id(invoice)
+    if not _subscription_event_is_current(
+        user,
+        event_subscription_id,
+        "invoice.payment_failed",
+    ):
         return
 
     user.subscription_status = "past_due"

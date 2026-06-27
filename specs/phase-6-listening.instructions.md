@@ -19,38 +19,32 @@ exercises are not shown again as "new", but remain accessible in a personal hist
 
 ## Milestones
 
-| #   | Milestone                  | What is built                                                      |
-| --- | -------------------------- | ------------------------------------------------------------------ |
-| 1   | DB models & migration      | `listening_exercises` + `listening_attempts` tables                |
-| 2   | Backend service & router   | LLM generation, TTS synthesis, audio serving, answer evaluation    |
-| 3   | Frontend page & components | Exercise card, audio player, question form, results panel, history |
-| 4   | Navigation & i18n          | Sidebar entry, translations in all 10 locale files                 |
+- 1 — Milestone: DB models & migration; What is built: `listening_exercises` + `listening_attempts` tables
+- 2 — Milestone: Backend service & router; What is built: LLM generation, TTS synthesis, audio serving, answer evaluation
+- 3 — Milestone: Frontend page & components; What is built: Exercise card, audio player, question form, results panel, history
+- 4 — Milestone: Navigation & i18n; What is built: Sidebar entry, translations in all 10 locale files
 
 ---
 
 ## Exercise types
 
-| Type           | Description                                    | CEFR range   |
-| -------------- | ---------------------------------------------- | ------------ |
-| `monologue`    | First-person narrative or personal account     | A1–A2, C1–C2 |
-| `announcement` | Public announcement (airport, shop, office)    | A1–B1        |
-| `voicemail`    | Someone leaving a recorded message             | A1–B2        |
-| `dialogue`     | Short informal conversation between two people | A1–B1        |
-| `story`        | Short narrative with characters and plot       | A1–C2        |
-| `podcast`      | Informal presentation or opinion piece         | B1–C2        |
-| `interview`    | Structured Q&A between a host and a guest      | B2–C2        |
-| `news`         | Short news broadcast or report segment         | B2–C2        |
+- `monologue` — Description: First-person narrative or personal account; CEFR range: A1–A2, C1–C2
+- `announcement` — Description: Public announcement (airport, shop, office); CEFR range: A1–B1
+- `voicemail` — Description: Someone leaving a recorded message; CEFR range: A1–B2
+- `dialogue` — Description: Short informal conversation between two people; CEFR range: A1–B1
+- `story` — Description: Short narrative with characters and plot; CEFR range: A1–C2
+- `podcast` — Description: Informal presentation or opinion piece; CEFR range: B1–C2
+- `interview` — Description: Structured Q&A between a host and a guest; CEFR range: B2–C2
+- `news` — Description: Short news broadcast or report segment; CEFR range: B2–C2
 
 Each level has exactly 5 types (`_TYPES_BY_LEVEL` in `listening_service.py`):
 
-| Level | Available types                                               |
-| ----- | ------------------------------------------------------------- |
-| A1    | `monologue`, `announcement`, `voicemail`, `dialogue`, `story` |
-| A2    | `monologue`, `announcement`, `voicemail`, `dialogue`, `story` |
-| B1    | `announcement`, `voicemail`, `story`, `dialogue`, `podcast`   |
-| B2    | `voicemail`, `story`, `podcast`, `interview`, `news`          |
-| C1    | `story`, `podcast`, `interview`, `news`, `monologue`          |
-| C2    | `story`, `podcast`, `interview`, `news`, `monologue`          |
+- A1 — `monologue`, `announcement`, `voicemail`, `dialogue`, `story`
+- A2 — `monologue`, `announcement`, `voicemail`, `dialogue`, `story`
+- B1 — `announcement`, `voicemail`, `story`, `dialogue`, `podcast`
+- B2 — `voicemail`, `story`, `podcast`, `interview`, `news`
+- C1 — `story`, `podcast`, `interview`, `news`, `monologue`
+- C2 — `story`, `podcast`, `interview`, `news`, `monologue`
 
 One type is selected at random from the level-appropriate subset. Types may repeat across levels.
 
@@ -58,14 +52,12 @@ One type is selected at random from the level-appropriate subset. Types may repe
 
 ## Text length by CEFR level
 
-| Level | Target word count |
-| ----- | ----------------- |
-| A1    | ~80 words         |
-| A2    | ~120 words        |
-| B1    | ~180 words        |
-| B2    | ~250 words        |
-| C1    | ~350 words        |
-| C2    | ~450 words        |
+- A1 — ~80 words
+- A2 — ~120 words
+- B1 — ~180 words
+- B2 — ~250 words
+- C1 — ~350 words
+- C2 — ~450 words
 
 ---
 
@@ -379,14 +371,12 @@ Single file — all logic and UI inline, wrapped in `PaywallGate`.
 
 Six UI states controlled by local `PageState` type:
 
-| State        | Description                                                                                       |
-| ------------ | ------------------------------------------------------------------------------------------------- |
-| `loading`    | Initial fetch of `GET /api/listening/next` in progress                                            |
-| `generating` | `POST /api/listening/generate` sent; polls `GET /next` every 3 s until available                  |
-| `idle`       | No exercise available and no generation in progress; shows "Generate" button                      |
-| `exercise`   | Exercise card + `ExerciseAudioPlayer` + question form; "Submit" activates when all 5 answered     |
-| `results`    | Score, XP, per-question feedback, transcript, "Next exercise" / "View history" buttons            |
-| `history`    | Paginated list of past attempts; each row shows topic, score, date, "Review" (expands transcript) |
+- `loading` — Initial fetch of `GET /api/listening/next` in progress
+- `generating` — `POST /api/listening/generate` sent; polls `GET /next` every 3 s until available
+- `idle` — No exercise available and no generation in progress; shows "Generate" button
+- `exercise` — Exercise card + `ExerciseAudioPlayer` + question form; "Submit" activates when all 5 answered
+- `results` — Score, XP, per-question feedback, transcript, "Next exercise" / "View history" buttons
+- `history` — Paginated list of past attempts; each row shows topic, score, date, "Review" (expands transcript)
 
 **`ExerciseAudioPlayer`** — inline component within the same file:
 
@@ -433,18 +423,16 @@ Add to `mainNavItems` between `tutor` (chat) and `conversation`:
 Add `"listening": "..."` under the `nav` key in **all 10 locale files**. The label is
 translated per locale (not kept in English):
 
-| Locale | `nav.listening` |
-| ------ | --------------- |
-| en     | Listening       |
-| es     | Escucha         |
-| de     | Hören           |
-| fr     | Écoute          |
-| it     | Ascolto         |
-| nl     | Luisteren       |
-| pl     | Słuchanie       |
-| pt     | Audição         |
-| ro     | Ascultare       |
-| ru     | Аудирование     |
+- en — Listening
+- es — Escucha
+- de — Hören
+- fr — Écoute
+- it — Ascolto
+- nl — Luisteren
+- pl — Słuchanie
+- pt — Audição
+- ro — Ascultare
+- ru — Аудирование
 
 Also add the page-level strings for buttons, labels, and status messages. Example keys
 under a new `listening` namespace:
@@ -479,14 +467,12 @@ under a new `listening` namespace:
 
 ## XP rewards
 
-| Score | XP awarded |
-| ----- | ---------- |
-| 0/5   | 0 XP       |
-| 1/5   | 10 XP      |
-| 2/5   | 20 XP      |
-| 3/5   | 30 XP      |
-| 4/5   | 40 XP      |
-| 5/5   | 50 XP      |
+- 0/5 — 0 XP
+- 1/5 — 10 XP
+- 2/5 — 20 XP
+- 3/5 — 30 XP
+- 4/5 — 40 XP
+- 5/5 — 50 XP
 
 XP is added to `users.xp` using the same mechanism as lesson completion.
 Replaying an exercise from history awards **no additional XP**.
@@ -532,13 +518,11 @@ Add Listening to the access rules table in `specs/phase-5-stripe-subscriptions.i
 
 ## Rate limiting summary
 
-| Endpoint                        | Limit  |
-| ------------------------------- | ------ |
-| `GET /api/listening/next`       | 10/min |
-| `POST /api/listening/generate`  | 5/min  |
-| `GET /api/listening/audio/{id}` | 60/min |
-| `POST /api/listening/attempt`   | 20/min |
-| `GET /api/listening/history`    | 30/min |
+- `GET /api/listening/next` — 10/min
+- `POST /api/listening/generate` — 5/min
+- `GET /api/listening/audio/{id}` — 60/min
+- `POST /api/listening/attempt` — 20/min
+- `GET /api/listening/history` — 30/min
 
 ---
 
@@ -550,12 +534,10 @@ Add Listening to the access rules table in `specs/phase-5-stripe-subscriptions.i
 
 #### Mocks
 
-| Dependency                    | Mock strategy                                                            |
-| ----------------------------- | ------------------------------------------------------------------------ |
-| `llm_adapter.chat()`          | `AsyncMock` returning deterministic JSON (topic + text + 5 questions)    |
-| `tts_service.synthesise()`    | `AsyncMock` returning `b"FAKEMP3DATA"`                                   |
-| `settings.AUDIO_STORAGE_PATH` | `monkeypatch` on the `listening_client` fixture → `tmp_path`             |
-| Redis generation lock         | Custom `_MockRedis` class defined in the test file (not shared conftest) |
+- `llm_adapter.chat()` — `AsyncMock` returning deterministic JSON (topic + text + 5 questions)
+- `tts_service.synthesise()` — `AsyncMock` returning `b"FAKEMP3DATA"`
+- `settings.AUDIO_STORAGE_PATH` — `monkeypatch` on the `listening_client` fixture → `tmp_path`
+- Redis generation lock — Custom `_MockRedis` class defined in the test file (not shared conftest)
 
 #### Test cases (20 total)
 
@@ -614,33 +596,31 @@ Status: **pending implementation**, consistent with the rest of frontend tests.
 
 ## Files created / modified
 
-| Action | File                                                                                 |
-| ------ | ------------------------------------------------------------------------------------ |
-| Create | `backend/app/models/listening.py`                                                    |
-| Create | `backend/app/schemas/listening.py`                                                   |
-| Create | `backend/app/services/listening_service.py`                                          |
-| Create | `backend/app/routers/listening.py`                                                   |
-| Create | `backend/alembic/versions/0018_listening.py`                                         |
-| Create | `backend/tests/test_listening.py`                                                    |
-| Modify | `backend/app/models/user.py` — add `listening_attempts` relationship                 |
-| Modify | `backend/app/main.py` — register listening router                                    |
-| Modify | `backend/app/core/config.py` — add `AUDIO_STORAGE_PATH`                              |
-| Modify | `docker-compose.yml` — add `AUDIO_STORAGE_PATH` env var + `audio_data` volume        |
-| Modify | `.env.example` — add `AUDIO_STORAGE_PATH`                                            |
-| Create | `frontend/src/app/(app)/listening/page.tsx`                                          |
-| Create | `frontend/src/app/api/listening/audio/[exerciseId]/route.ts`                         |
-| Create | `frontend/src/components/listening/ListeningCard.tsx`                                |
-| Create | `frontend/src/components/listening/ListeningAudioPlayer.tsx`                         |
-| Create | `frontend/src/components/listening/QuestionsList.tsx`                                |
-| Create | `frontend/src/components/listening/QuestionCard.tsx`                                 |
-| Create | `frontend/src/components/listening/ResultsPanel.tsx`                                 |
-| Create | `frontend/src/components/listening/HistoryList.tsx`                                  |
-| Create | `frontend/src/components/listening/GeneratingSpinner.tsx`                            |
-| Modify | `frontend/src/app/(app)/layout.tsx` — add Listening nav item                         |
-| Modify | `messages/*.json` (all 10) — add `nav.listening` + `listening.*` keys                |
-| Modify | `specs/phase-5-stripe-subscriptions.instructions.md` — add Listening to access rules |
-| Modify | `specs/api-endpoints.instructions.md` — add Listening endpoints                      |
-| Modify | `specs/architecture-backend.instructions.md` — add new models and service            |
-| Modify | `specs/rate-limiting.instructions.md` — add Listening rate limits                    |
-| Modify | `AGENTS.md` — update phase table                                                     |
-| Modify | `CHANGELOG.md` + `specs/version.md` — version bump                                   |
+- Create — `backend/app/models/listening.py`
+- Create — `backend/app/schemas/listening.py`
+- Create — `backend/app/services/listening_service.py`
+- Create — `backend/app/routers/listening.py`
+- Create — `backend/alembic/versions/0018_listening.py`
+- Create — `backend/tests/test_listening.py`
+- Modify — `backend/app/models/user.py` — add `listening_attempts` relationship
+- Modify — `backend/app/main.py` — register listening router
+- Modify — `backend/app/core/config.py` — add `AUDIO_STORAGE_PATH`
+- Modify — `docker-compose.yml` — add `AUDIO_STORAGE_PATH` env var + `audio_data` volume
+- Modify — `.env.example` — add `AUDIO_STORAGE_PATH`
+- Create — `frontend/src/app/(app)/listening/page.tsx`
+- Create — `frontend/src/app/api/listening/audio/[exerciseId]/route.ts`
+- Create — `frontend/src/components/listening/ListeningCard.tsx`
+- Create — `frontend/src/components/listening/ListeningAudioPlayer.tsx`
+- Create — `frontend/src/components/listening/QuestionsList.tsx`
+- Create — `frontend/src/components/listening/QuestionCard.tsx`
+- Create — `frontend/src/components/listening/ResultsPanel.tsx`
+- Create — `frontend/src/components/listening/HistoryList.tsx`
+- Create — `frontend/src/components/listening/GeneratingSpinner.tsx`
+- Modify — `frontend/src/app/(app)/layout.tsx` — add Listening nav item
+- Modify — `messages/*.json` (all 10) — add `nav.listening` + `listening.*` keys
+- Modify — `specs/phase-5-stripe-subscriptions.instructions.md` — add Listening to access rules
+- Modify — `specs/api-endpoints.instructions.md` — add Listening endpoints
+- Modify — `specs/architecture-backend.instructions.md` — add new models and service
+- Modify — `specs/rate-limiting.instructions.md` — add Listening rate limits
+- Modify — `AGENTS.md` — update phase table
+- Modify — `CHANGELOG.md` + `specs/version.md` — version bump

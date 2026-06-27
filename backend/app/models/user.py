@@ -36,11 +36,12 @@ class User(Base):
     )
     # Stripe subscription
     stripe_customer_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    stripe_subscription_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
     subscription_status: Mapped[str] = mapped_column(
         String(20),
         nullable=False,
         default="none",
-        # Values: "none" | "trialing" | "active" | "past_due" | "canceled"
+        # Values: "none" plus Stripe Subscription.status values used by Checkout.
     )
     subscription_ends_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     trial_used: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)

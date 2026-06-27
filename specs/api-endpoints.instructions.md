@@ -47,9 +47,9 @@ Requires `role="admin"`. All endpoints return 403 for non-admin users.
 
 - **GET `/stats`** — Rate limit: 60/min. Aggregated admin overview metrics: total/active/inactive users, active/trialing/past_due subscriptions, total feedback, pending feedback, pending bug reports, and reviews pending approval.
 - **GET `/health`** — Rate limit: 60/min. Private admin diagnostic health check. Returns DB, Redis, TTS, and STT dependency status as `{"status":"ok"|"degraded","checks":{...}}`; returns HTTP 503 when any dependency check fails.
-- **GET `/users`** — Rate limit: 60/min. Lists users (paginated). Query params: `skip` (default 0), `limit` (default 10, max 100), `q` (search by username or email), `subscription` (`none`, `trialing`, `active`, `past_due`, `canceled`), `role` (`user`, `admin`), and `is_active` (`true`, `false`). Returns `{items, total, skip, limit}`.
+- **GET `/users`** — Rate limit: 60/min. Lists users (paginated). Query params: `skip` (default 0), `limit` (default 10, max 100), `q` (search by username or email), `subscription` (`none`, `trialing`, `active`, `past_due`, `canceled`, `incomplete`, `incomplete_expired`, `unpaid`, `paused`), `role` (`user`, `admin`), and `is_active` (`true`, `false`). Returns `{items, total, skip, limit}`.
 - **POST `/users`** — Rate limit: 60/min. Creates user directly (bypasses `ALLOW_REGISTRATION`). Body requires `username`, `email`, `password`, `display_name`, `native_language`, `target_language`, and optional `role`; sends verification email if `EMAIL_ENABLED=true`.
-- **GET `/users/{id}`** — Rate limit: 60/min. User detail
+- **GET `/users/{id}`** — Rate limit: 60/min. User detail, including admin-only Stripe identifiers (`stripe_customer_id`, `stripe_subscription_id`) and subscription state.
 - **PATCH `/users/{id}`** — Rate limit: 60/min. Edit role, is_active, is_verified, display_name, conversation quotas
 - **DELETE `/users/{id}`** — Rate limit: 5/min. Deletes account and all associated data (CASCADE)
 - **GET `/users/{id}/stats`** — Rate limit: 60/min. Usage statistics: XP, streak, lessons, exercises, tokens
@@ -70,7 +70,7 @@ Registered only when `STRIPE_ENABLED=true`.
 
 - **POST `/checkout`** — Rate limit: 60/min. Auth: get_current_user. Creates a Stripe Checkout Session for `monthly` or `yearly`. Does not require an existing subscription because unsubscribed users must be able to subscribe.
 - **POST `/portal`** — Rate limit: 60/min. Auth: get_current_user. Creates a Stripe Customer Portal session for users with a `stripe_customer_id`.
-- **POST `/webhook`** — Rate limit: 200/min. Public network access but requires a valid Stripe signature before processing. Handles checkout/session and subscription lifecycle events.
+- **POST `/webhook`** — Rate limit: 200/min. Public network access but requires a valid Stripe signature before processing. Handles checkout/session and subscription lifecycle events. Checkout completion verifies the Stripe Subscription before granting access and persists the current `stripe_subscription_id`; subscription update/delete and invoice payment-failed events are ignored as stale when their subscription ID differs from the user's current `stripe_subscription_id`. Invoice payment-failed handling supports both legacy `invoice.subscription` and current `invoice.parent.subscription_details.subscription` shapes. Subscription updates accept real Stripe statuses (`trialing`, `active`, `past_due`, `canceled`, `incomplete`, `incomplete_expired`, `unpaid`, `paused`) and keep the existing status for unknown values. Valid payload/signature errors return 400; internal processing failures return 500 so Stripe retries the event.
 
 ---
 
@@ -106,10 +106,8 @@ All endpoints require `get_current_user`. These endpoints manage the user's inde
 
 Auth required (`get_current_user`). Returns static curriculum data for all supported target languages.
 
-| Method | Path       | Auth             | Description                                                                               |
-| ------ | ---------- | ---------------- | ----------------------------------------------------------------------------------------- |
-| GET    | ``         | get_current_user | Full curriculum for all 6 CEFR levels. Query param: `language` (BCP-47, default `en-GB`). |
-| GET    | `/{level}` | get_current_user | Units for a specific CEFR level. Query param: `language` (BCP-47).                        |
+- GET — Path: ``; Auth: get_current_user; Description: Full curriculum for all 6 CEFR levels. Query param: `language` (BCP-47, default `en-GB`).
+- GET — Path: `/{level}`; Auth: get_current_user; Description: Units for a specific CEFR level. Query param: `language` (BCP-47).
 
 ---
 
@@ -136,16 +134,14 @@ Auth required (`get_current_user`). Serves static vocabulary data across the bac
 
 ## Lessons — `/api/lessons`
 
-| Method | Path | Rate limit | Description |
-| ------ | ---- | ---------- | ----------- |
-| GET | `/{lesson_id}` | 60/min | Lesson detail with exercises; exercise responses include optional `native_explanation` and `native_hint` copied from generated lesson JSON when available; lesson content may include enriched vocabulary items with optional native-language translation, example translation, note, and reading fields |
-| POST | `/{lesson_id}/start` | 60/min | Marks lesson as in-progress |
-| POST | `/{lesson_id}/complete` | 60/min | Marks as completed, updates progress and competencies |
-| POST | `/{lesson_id}/native-explanation` | 10/min | Generates and caches a native-language explanation for existing lessons at any CEFR level whose `content.native_explanation` is missing; returned support includes translated text, key points, examples, common traps, and a mini-glossary; idempotently returns the cached explanation when already present |
-| POST | `/exercises/{id}/native-explanation` | 10/min | Generates and caches a concise native-language clarification for an exercise whose target-language `explanation` exists but whose generated JSON lacks `native_explanation`; idempotently returns the cached exercise-level explanation when already present |
-| POST | `/exercises/{id}/native-hint` | 10/min | Generates and caches a concise pre-answer native-language hint for an exercise whose generated JSON lacks `native_hint`; hints must help without revealing the correct answer and are idempotently returned when already present |
-| POST | `/exercises/{id}/regenerate` | 5/hour | Regenerates one unanswered, technically invalid exercise on demand while preserving the rest of the lesson; rejects completed lessons, answered exercises, and exercises that pass validation |
-| POST | `/exercises/{id}/answer` | 20/min | Submits answer → evaluates (MC, fill, free_write, pronunciation) → returns score + feedback |
+- **GET `/{lesson_id}`** — Rate limit: 60/min. Lesson detail with exercises. Exercise responses include optional `native_explanation` and `native_hint` copied from generated lesson JSON when available. Lesson content may include enriched vocabulary items with optional native-language translation, example translation, usage note, and reading fields.
+- **POST `/{lesson_id}/start`** — Rate limit: 60/min. Marks lesson as in-progress.
+- **POST `/{lesson_id}/complete`** — Rate limit: 60/min. Marks the lesson as completed and updates progress and competencies.
+- **POST `/{lesson_id}/native-explanation`** — Rate limit: 10/min. Generates and caches a native-language explanation for existing lessons at any CEFR level whose `content.native_explanation` is missing. Returned support includes translated text, key points, examples, common traps, and a mini-glossary. If already present, returns the cached explanation idempotently.
+- **POST `/exercises/{id}/native-explanation`** — Rate limit: 10/min. Generates and caches a concise native-language clarification for an exercise whose target-language `explanation` exists but whose generated JSON lacks `native_explanation`. If already present, returns the cached exercise-level explanation idempotently.
+- **POST `/exercises/{id}/native-hint`** — Rate limit: 10/min. Generates and caches a concise pre-answer native-language hint for an exercise whose generated JSON lacks `native_hint`. Hints must help without revealing the correct answer. If already present, returns the cached hint idempotently.
+- **POST `/exercises/{id}/regenerate`** — Rate limit: 5/hour. Regenerates one unanswered, technically invalid exercise on demand while preserving the rest of the lesson. Rejects completed lessons, answered exercises, and exercises that pass validation.
+- **POST `/exercises/{id}/answer`** — Rate limit: 20/min. Submits an answer, evaluates multiple choice, fill, free-write, or pronunciation exercises, and returns score plus feedback.
 
 ---
 
@@ -175,24 +171,20 @@ All endpoints require `get_current_user`.
 
 ## Chat — `/api/chat`
 
-| Method | Path                           | Description                                                                                                              |
-| ------ | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
-| GET    | `/conversations`               | Rate limit: 60/min. Lists user's conversations (text + voice), ordered by `updated_at` desc. Response includes `source` (`chat` or `voice`). |
-| POST   | `/conversations`               | Rate limit: 60/min. Creates new conversation                                                                             |
-| DELETE | `/conversations/{id}`          | Rate limit: 60/min. Deletes conversation and its messages (CASCADE)                                                      |
-| GET    | `/conversations/{id}/messages` | Rate limit: 60/min. Returns messages for a conversation                                                                  |
-| POST   | `/`                            | Rate limit: 30/min. Sends message → streams AI tutor response (SSE)                                                      |
-| GET    | `/history`                     | Rate limit: 60/min. All chat history (legacy)                                                                            |
+- GET — Path: `/conversations`; Description: Rate limit: 60/min. Lists user's conversations (text + voice), ordered by `updated_at` desc. Response includes `source` (`chat` or `voice`).
+- POST — Path: `/conversations`; Description: Rate limit: 60/min. Creates new conversation
+- DELETE — Path: `/conversations/{id}`; Description: Rate limit: 60/min. Deletes conversation and its messages (CASCADE)
+- GET — Path: `/conversations/{id}/messages`; Description: Rate limit: 60/min. Returns messages for a conversation
+- POST — Path: `/`; Description: Rate limit: 30/min. Sends message → streams AI tutor response (SSE)
+- GET — Path: `/history`; Description: Rate limit: 60/min. All chat history (legacy)
 
 ---
 
 ## Progress — `/api/progress`
 
-| Method | Path            | Description                                   |
-| ------ | --------------- | --------------------------------------------- |
-| GET    | `/summary`      | Streak, XP, skills breakdown, and current-level vocabulary progress for the active study language |
-| GET    | `/history`      | Daily progress for last 90 days               |
-| GET    | `/competencies` | Per-unit competency scores and mastery status |
+- GET — Path: `/summary`; Description: Streak, XP, skills breakdown, and current-level vocabulary progress for the active study language
+- GET — Path: `/history`; Description: Daily progress for last 90 days
+- GET — Path: `/competencies`; Description: Per-unit competency scores and mastery status
 
 `GET /api/progress/summary` returns totals scoped to the active study plan/language: `total_xp`, `current_streak`, `total_lessons`, `total_exercises`, `exercises_correct`, `accuracy`, `skills`, plus vocabulary summary fields for the plan's current CEFR level and `target_language`: `vocabulary_level`, `vocabulary_mastered`, `vocabulary_total`, and `vocabulary_progress`. Vocabulary progress counts words from the current level's backend vocabulary sets whose flashcard exists in the active `study_plan_id` with `repetitions > 0`.
 
@@ -207,9 +199,7 @@ All endpoints require `get_current_user`.
 
 ## STT — `/api/stt`
 
-| Method | Path   | Rate limit | Description                                                                                            |
-| ------ | ------ | ---------- | ------------------------------------------------------------------------------------------------------ |
-| POST   | ``     | 20/min     | Audio → transcribed text. Uses faster-whisper (local) or OpenAI Whisper, controlled by `STT_PROVIDER`. |
+- POST — Path: ``; Rate limit: 20/min; Description: Audio → transcribed text. Uses faster-whisper (local) or OpenAI Whisper, controlled by `STT_PROVIDER`.
 
 ---
 
@@ -310,11 +300,9 @@ User review endpoints. Admin moderation endpoints live under `/api/admin/reviews
 
 All endpoints require `require_subscription`: users still need subscription access when Stripe is enabled, but maintenance mode does not block memory management.
 
-| Method | Path    | Rate limit | Auth                 | Description                                                                                                   |
-| ------ | ------- | ---------- | -------------------- | ------------------------------------------------------------------------------------------------------------- |
-| GET    | ``      | 60/min     | require_subscription | Returns all memories for the authenticated user. Response: `{memories: [{id, content, source, created_at}]}`. |
-| DELETE | `/{id}` | 60/min     | require_subscription | Deletes a single memory by ID. Returns HTTP 204. Returns 404 if not found or not owned by the user.           |
-| DELETE | ``      | 10/min     | require_subscription | Clears all memories for the authenticated user. Response: `{deleted: int}`.                                   |
+- GET — Path: ``; Rate limit: 60/min; Auth: require_subscription; Description: Returns all memories for the authenticated user. Response: `{memories: [{id, content, source, created_at}]}`.
+- DELETE — Path: `/{id}`; Rate limit: 60/min; Auth: require_subscription; Description: Deletes a single memory by ID. Returns HTTP 204. Returns 404 if not found or not owned by the user.
+- DELETE — Path: ``; Rate limit: 10/min; Auth: require_subscription; Description: Clears all memories for the authenticated user. Response: `{deleted: int}`.
 
 ---
 
