@@ -102,14 +102,20 @@ export function PaywallBanner() {
           {t('paywallLabel')}
         </p>
         <h2 className="text-fl-fg mb-3 font-mono text-base font-bold">
-          {t(context?.title ?? 'paywallTitle')}
+          {t(
+            paymentRecovery
+              ? 'premiumBannerPastDueTitle'
+              : (context?.title ?? 'paywallTitle')
+          )}
         </h2>
         <p className="text-fl-muted-1 mb-6 font-mono text-xs leading-relaxed">
-          {t(
-            context?.desc ??
-              (trialEligible ? 'paywallDesc' : 'paywallDescTrialUsed'),
-            { days: trialDays }
-          )}
+          {paymentRecovery
+            ? t('premiumBannerPastDueDesc')
+            : t(
+                context?.desc ??
+                  (trialEligible ? 'paywallDesc' : 'paywallDescTrialUsed'),
+                { days: trialDays }
+              )}
         </p>
 
         {/* Plan buttons */}
@@ -157,9 +163,11 @@ export function PaywallBanner() {
           <p className="text-fl-hint mt-4 font-mono text-red-500">{error}</p>
         )}
 
-        <p className="text-fl-hint text-fl-muted-3 mt-6 font-mono tracking-widest uppercase">
-          {t(trialEligible ? 'paywallNoCharge' : 'paywallNoChargeTrialUsed')}
-        </p>
+        {!paymentRecovery && (
+          <p className="text-fl-hint text-fl-muted-3 mt-6 font-mono tracking-widest uppercase">
+            {t(trialEligible ? 'paywallNoCharge' : 'paywallNoChargeTrialUsed')}
+          </p>
+        )}
 
         <button
           onClick={() => router.push('/dashboard')}

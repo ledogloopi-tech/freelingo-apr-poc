@@ -41,6 +41,7 @@ vi.mock('@/lib/landing-subscription', () => ({
 }))
 
 import PricingSection from '@/components/billing/PricingSection'
+import { PaywallBanner } from '@/components/billing/PaywallBanner'
 import { BillingSection } from '@/components/settings/BillingSection'
 import DashboardPage from '@/app/(app)/dashboard/page'
 import { useAuthStore, type User } from '@/store/auth'
@@ -178,6 +179,33 @@ describe('billing paywall UI', () => {
     )
   })
 
+  it('opens Customer Portal for paused users in Settings instead of showing plan buttons', async () => {
+    useAuthStore.setState({
+      accessToken: 'token',
+      user: user({ subscription_status: 'paused' }),
+    })
+    mockApiFetch.mockResolvedValueOnce(
+      jsonResponse({ url: 'https://billing.stripe.com/session/paused' })
+    )
+
+    render(<BillingSection />)
+
+    expect(screen.getByText('statusPaused')).toBeDefined()
+    expect(screen.getByText('pastDueTitle')).toBeDefined()
+    expect(screen.queryByText('planMonthly')).toBeNull()
+
+    fireEvent.click(screen.getByText('updatePayment'))
+
+    await waitFor(() =>
+      expect(mockApiFetch).toHaveBeenCalledWith('/api/billing/portal', {
+        method: 'POST',
+      })
+    )
+    expect(window.location.assign).toHaveBeenCalledWith(
+      'https://billing.stripe.com/session/paused'
+    )
+  })
+
   it('shows subscription plan buttons for canceled users in Settings', () => {
     useAuthStore.setState({
       accessToken: 'token',
@@ -186,10 +214,34 @@ describe('billing paywall UI', () => {
 
     render(<BillingSection />)
 
+    expect(screen.getByText('statusCanceled')).toBeDefined()
     expect(screen.getByText('planMonthly')).toBeDefined()
     expect(screen.getByText('planYearly')).toBeDefined()
     expect(screen.queryByText('updatePayment')).toBeNull()
   })
+
+  it.each(['incomplete', 'incomplete_expired'] as const)(
+    'shows subscription plan buttons for %s users in Settings',
+    (subscriptionStatus) => {
+      useAuthStore.setState({
+        accessToken: 'token',
+        user: user({ subscription_status: subscriptionStatus }),
+      })
+
+      render(<BillingSection />)
+
+      expect(
+        screen.getByText(
+          subscriptionStatus === 'incomplete'
+            ? 'statusIncomplete'
+            : 'statusIncompleteExpired'
+        )
+      ).toBeDefined()
+      expect(screen.getByText('planMonthly')).toBeDefined()
+      expect(screen.getByText('planYearly')).toBeDefined()
+      expect(screen.queryByText('updatePayment')).toBeNull()
+    }
+  )
 
   it('shows subscription plan buttons for users without a subscription in Settings', () => {
     render(<BillingSection />)
@@ -250,6 +302,89 @@ describe('billing paywall UI', () => {
     )
     expect(window.location.assign).toHaveBeenCalledWith(
       'https://billing.stripe.com/session/dashboard'
+    )
+  })
+
+  it('uses payment-recovery copy and portal action for paused users on dashboard', async () => {
+    useAuthStore.setState({
+      accessToken: 'token',
+      user: user({ subscription_status: 'paused' }),
+    })
+    mockApiFetch
+      .mockResolvedValueOnce(
+        jsonResponse({
+          current_streak: 0,
+          total_xp: 0,
+          skills: {},
+          total_lessons: 0,
+          total_exercises: 0,
+          exercises_correct: 0,
+          accuracy: 0,
+          vocabulary_level: null,
+          vocabulary_mastered: 0,
+          vocabulary_total: 0,
+          vocabulary_progress: 0,
+        })
+      )
+      .mockResolvedValueOnce(
+        jsonResponse({
+          cefr_level: 'A1',
+          progress_day: 0,
+          total_days: 7,
+          pending_count: 0,
+          lessons: [],
+        })
+      )
+      .mockResolvedValueOnce(
+        jsonResponse({ url: 'https://billing.stripe.com/session/paused' })
+      )
+
+    render(<DashboardPage />)
+
+    await waitFor(() =>
+      expect(screen.getByText('premiumBannerPastDueTitle')).toBeDefined()
+    )
+    expect(screen.queryByText('planMonthly')).toBeNull()
+
+    fireEvent.click(screen.getByText('updatePayment'))
+
+    await waitFor(() =>
+      expect(mockApiFetch).toHaveBeenLastCalledWith('/api/billing/portal', {
+        method: 'POST',
+      })
+    )
+    expect(window.location.assign).toHaveBeenCalledWith(
+      'https://billing.stripe.com/session/paused'
+    )
+  })
+
+  it('uses Customer Portal instead of checkout buttons for recovery states in PaywallBanner', async () => {
+    useAuthStore.setState({
+      accessToken: 'token',
+      user: user({ subscription_status: 'unpaid' }),
+    })
+    mockApiFetch.mockResolvedValueOnce(
+      jsonResponse({ url: 'https://billing.stripe.com/session/paywall' })
+    )
+
+    render(<PaywallBanner />)
+
+    expect(screen.getByText('premiumBannerPastDueTitle')).toBeDefined()
+    expect(screen.getByText('premiumBannerPastDueDesc')).toBeDefined()
+    expect(screen.getByText('updatePayment')).toBeDefined()
+    expect(screen.queryByText('planMonthly')).toBeNull()
+    expect(screen.queryByText('paywallNoCharge')).toBeNull()
+    expect(screen.queryByText('paywallNoChargeTrialUsed')).toBeNull()
+
+    fireEvent.click(screen.getByText('updatePayment'))
+
+    await waitFor(() =>
+      expect(mockApiFetch).toHaveBeenCalledWith('/api/billing/portal', {
+        method: 'POST',
+      })
+    )
+    expect(window.location.assign).toHaveBeenCalledWith(
+      'https://billing.stripe.com/session/paywall'
     )
   })
 

@@ -70,9 +70,10 @@ export function BillingSection() {
               tBilling('statusIncomplete')}
             {user?.subscription_status === 'incomplete_expired' &&
               tBilling('statusIncompleteExpired')}
+            {user?.subscription_status === 'canceled' &&
+              tBilling('statusCanceled')}
             {(!user?.subscription_status ||
-              user?.subscription_status === 'none' ||
-              user?.subscription_status === 'canceled') &&
+              user?.subscription_status === 'none') &&
               tBilling('statusNone')}
           </span>
         </div>
