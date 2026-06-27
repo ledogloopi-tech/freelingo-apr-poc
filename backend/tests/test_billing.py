@@ -332,6 +332,45 @@ async def test_webhook_checkout_completed_activates_subscription(client, db_sess
 
 
 @pytest.mark.asyncio
+async def test_webhook_checkout_completed_retries_when_subscription_lookup_fails(
+    client, db_session, test_user
+):
+    """checkout.session.completed returns 500 if the subscription cannot be verified."""
+    user, _ = test_user
+    user.stripe_customer_id = "cus_lookup_fail"
+    user.subscription_status = "none"
+    await db_session.commit()
+
+    event = _make_stripe_event(
+        "checkout.session.completed",
+        {
+            "customer": "cus_lookup_fail",
+            "subscription": "sub_lookup_fail",
+            "metadata": {"user_id": str(user.id)},
+        },
+    )
+
+    with (
+        patch.object(settings, "STRIPE_ENABLED", True),
+        patch("stripe.Webhook.construct_event", return_value=event),
+        patch(
+            "stripe.Subscription.retrieve_async",
+            new_callable=AsyncMock,
+            side_effect=RuntimeError("stripe unavailable"),
+        ),
+    ):
+        res = await client.post(
+            "/api/billing/webhook",
+            content=_make_webhook_body(event),
+            headers=_signed_webhook_headers(),
+        )
+
+    assert res.status_code == 500
+    await db_session.refresh(user)
+    assert user.subscription_status == "none"
+
+
+@pytest.mark.asyncio
 async def test_webhook_subscription_updated(client, db_session, test_user):
     """customer.subscription.updated → subscription_status updated."""
     user, _ = test_user
@@ -594,6 +633,40 @@ async def test_webhook_invoice_payment_failed(client, db_session, test_user):
 
 
 @pytest.mark.asyncio
+async def test_webhook_invoice_payment_failed_uses_current_invoice_parent_shape(
+    client, db_session, test_user
+):
+    """invoice.payment_failed reads subscription from parent.subscription_details."""
+    user, _ = test_user
+    user.stripe_customer_id = "cus_invoice_parent"
+    user.stripe_subscription_id = "sub_parent"
+    user.subscription_status = "active"
+    await db_session.commit()
+
+    event = _make_stripe_event(
+        "invoice.payment_failed",
+        {
+            "customer": "cus_invoice_parent",
+            "parent": {"subscription_details": {"subscription": "sub_parent"}},
+        },
+    )
+
+    with (
+        patch.object(settings, "STRIPE_ENABLED", True),
+        patch("stripe.Webhook.construct_event", return_value=event),
+    ):
+        res = await client.post(
+            "/api/billing/webhook",
+            content=_make_webhook_body(event),
+            headers=_signed_webhook_headers(),
+        )
+
+    assert res.status_code == 200
+    await db_session.refresh(user)
+    assert user.subscription_status == "past_due"
+
+
+@pytest.mark.asyncio
 async def test_webhook_invoice_payment_failed_ignores_stale_subscription(
     client, db_session, test_user
 ):
@@ -607,6 +680,40 @@ async def test_webhook_invoice_payment_failed_ignores_stale_subscription(
     event = _make_stripe_event(
         "invoice.payment_failed",
         {"customer": "cus_stale_invoice", "subscription": "sub_old"},
+    )
+
+    with (
+        patch.object(settings, "STRIPE_ENABLED", True),
+        patch("stripe.Webhook.construct_event", return_value=event),
+    ):
+        res = await client.post(
+            "/api/billing/webhook",
+            content=_make_webhook_body(event),
+            headers=_signed_webhook_headers(),
+        )
+
+    assert res.status_code == 200
+    await db_session.refresh(user)
+    assert user.subscription_status == "active"
+
+
+@pytest.mark.asyncio
+async def test_webhook_invoice_payment_failed_ignores_stale_parent_subscription(
+    client, db_session, test_user
+):
+    """Current Invoice shape still ignores old subscription failures."""
+    user, _ = test_user
+    user.stripe_customer_id = "cus_stale_invoice_parent"
+    user.stripe_subscription_id = "sub_current"
+    user.subscription_status = "active"
+    await db_session.commit()
+
+    event = _make_stripe_event(
+        "invoice.payment_failed",
+        {
+            "customer": "cus_stale_invoice_parent",
+            "parent": {"subscription_details": {"subscription": "sub_old"}},
+        },
     )
 
     with (

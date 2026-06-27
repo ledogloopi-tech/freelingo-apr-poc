@@ -224,12 +224,12 @@ No sensitive keys exposed. Rate limit: 60/minute.
 - Returns 400 immediately if signature invalid.
 - Handles these events:
 
-- `checkout.session.completed` — Set `stripe_customer_id` and `stripe_subscription_id`, sync `subscription_status = "trialing"` or `"active"`, apply quotas; set `trial_used = True` when status is `trialing`
+- `checkout.session.completed` — Set `stripe_customer_id` and `stripe_subscription_id`, retrieve the Stripe Subscription before granting access, sync `subscription_status = "trialing"` or `"active"`, apply quotas; set `trial_used = True` when status is `trialing`. If the Subscription cannot be retrieved, processing fails with HTTP 500 so Stripe retries the webhook instead of granting access from an unverified checkout event.
 - `customer.subscription.updated` — Ignore stale events whose subscription ID differs from `stripe_subscription_id`; otherwise sync `subscription_status` and `subscription_ends_at`; accepts real Stripe subscription statuses (`trialing`, `active`, `past_due`, `canceled`, `incomplete`, `incomplete_expired`, `unpaid`, `paused`) and keeps the previous status for unknown values while logging a warning. Existing users without `stripe_subscription_id` are backfilled from this event.
 - `customer.subscription.deleted` — Ignore stale events whose subscription ID differs from `stripe_subscription_id`; otherwise set `subscription_status = "canceled"`
-- `invoice.payment_failed` — Ignore stale invoice events whose subscription ID differs from `stripe_subscription_id`; otherwise set `subscription_status = "past_due"`
+- `invoice.payment_failed` — Extract the subscription ID from legacy `invoice.subscription` or current `invoice.parent.subscription_details.subscription`; ignore stale invoice events whose subscription ID differs from `stripe_subscription_id`; otherwise set `subscription_status = "past_due"`
 
-- Always returns HTTP 200 to Stripe (even on handled errors) to prevent retries.
+- Returns HTTP 200 only after successful processing or for unsupported event types; invalid payload/signature returns HTTP 400; internal processing failures return HTTP 500 so Stripe retries the event.
 - Rate limit: 200/minute (Stripe can burst).
 
 ### 3.5 Apply `require_subscription` to protected endpoints
