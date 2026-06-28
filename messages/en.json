@@ -1360,18 +1360,6 @@
       "desc": "After creating your study plan, you can try a real-time voice conversation with Lingu for 5 minutes, free. When the demo ends, Premium unlocks full voice practice and the other guided modes."
     },
     "entry2": {
-      "label": "Clearer dashboard",
-      "desc": "Your dashboard now focuses on what to do next, with clearer daily lessons, plan progress, vocabulary progress, and recent performance at a glance."
-    },
-    "entry3": {
-      "label": "More languages to learn",
-      "desc": "<bold>French, German, Italian, Japanese, Korean, Mainland Chinese, Portuguese, and Spanish</bold> are now available — with full learning paths from beginner to advanced, grammar, vocabulary, phrases, Reading, Listening, and more. Add them from Settings → My Languages."
-    },
-    "entry4": {
-      "label": "Add a review from your profile",
-      "desc": "You can now share your thoughts about FreeLingo directly from Settings → Profile. Your review helps other learners discover the platform."
-    },
-    "entry5": {
       "label": "Bug fixes",
       "desc": "Various minor bug fixes and stability improvements across the platform."
     }

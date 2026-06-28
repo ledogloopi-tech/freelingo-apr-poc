@@ -1360,18 +1360,6 @@
       "desc": "Depois de criares o teu plano de estudo, podes experimentar gratuitamente uma conversa de voz em tempo real com a Lingu durante 5 minutos. Quando a demo termina, o Premium desbloqueia a prática de voz completa e os outros modos guiados."
     },
     "entry2": {
-      "label": "Dashboard mais claro",
-      "desc": "O dashboard agora foca no que fazer a seguir, com lições do dia, progresso do plano, progresso de vocabulário e desempenho recente mais fáceis de acompanhar."
-    },
-    "entry3": {
-      "label": "Mais idiomas para aprender",
-      "desc": "<bold>Alemão, chinês continental, coreano, espanhol, francês, italiano, japonês e português</bold> já estão disponíveis, com percursos completos do iniciante ao avançado, gramática, vocabulário, frases, Reading, Listening e mais. Adiciona-os em Definições → Os meus idiomas."
-    },
-    "entry4": {
-      "label": "Adiciona uma avaliação no teu perfil",
-      "desc": "Agora podes partilhar a tua opinião sobre o FreeLingo diretamente em Definições → Perfil. A tua avaliação ajuda outros estudantes a descobrir a plataforma."
-    },
-    "entry5": {
       "label": "Correções de bugs",
       "desc": "Várias correções de bugs menores e melhorias de estabilidade em toda a plataforma."
     }

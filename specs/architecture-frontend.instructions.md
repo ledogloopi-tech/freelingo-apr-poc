@@ -106,7 +106,7 @@ frontend/
 │   │   ├── reviews.ts           # Review API client helpers
 │   │   ├── target-languages.ts  # Target language definitions and helpers
 │   │   ├── utils.ts             # General utility functions
-│   │   └── review-prompt-triggers.ts # Review prompt trigger rules for voice sessions and unit completion
+│   │   └── review-prompt-triggers.ts # Review prompt trigger rules for voice sessions, unit completion, and exercise completion
 │   │
 │   ├── i18n/
 │   │   └── request.ts           # next-intl request locale resolver
@@ -181,8 +181,8 @@ frontend/
 - `/vocabulary` — Vocabulary hub overview.
 - `/vocabulary/[setId]` — Vocabulary set detail. Includes an on-demand native-language helper section that calls `POST /api/vocabulary/{set_id}/native-help`, then renders a summary, study tips, selected word notes, common traps, mini-glossary entries, and practice prompts. The section stays collapsed until requested to avoid LLM calls on page load.
 - `/phrasebook` — Common phrases by category. Each category can show native-language study help generated through `POST /api/phrasebook/{category_id}/native-help`: A1/A2 categories open the helper panel by default but still require a click to generate, while B1-C2 categories stay collapsed until requested. The helper renders summary, usage tips, register notes, phrase notes, common traps, and mini-glossary entries.
-- `/listening` — AI-generated listening comprehension exercises. When gated by Stripe, the shared paywall uses listening-specific copy focused on ear training at the student's level.
-- `/reading` — AI-generated reading comprehension exercises. When gated by Stripe, the shared paywall uses reading-specific copy focused on level-adapted texts and instant feedback.
+- `/listening` — AI-generated listening comprehension exercises. When gated by Stripe, the shared paywall uses listening-specific copy focused on ear training at the student's level. Completing a new listening attempt may open the reusable review prompt, subject to duplicate-review checks and local dismissal cooldown; replay attempts from history do not trigger it.
+- `/reading` — AI-generated reading comprehension exercises. When gated by Stripe, the shared paywall uses reading-specific copy focused on level-adapted texts and instant feedback. Completing a new reading attempt may open the reusable review prompt, subject to duplicate-review checks and local dismissal cooldown; replay attempts from history do not trigger it.
 - `/progress` — Skills tracker with radar chart and multi-level vocabulary progress toggle.
 - `/settings` — Settings hub with an admin-inspired header/nav, quick action cards, and grouped panels. Account contains profile/avatar/password plus legal/session actions; avatars are uploaded/deleted through authenticated profile endpoints and rendered through the authenticated `/api/auth/me/avatar-file` endpoint with a shared client-side blob cache. Avatar fetches retry once through the refresh-token flow after a 401, and UI surfaces use the same initial-letter placeholder while the private image blob is loading or unavailable. Avatar file references are not public static URLs. Learning links to My Languages and Memory; Voice contains conversation and TTS voice preferences; Plan contains billing and usage limits with shared subscription buttons that recommend yearly first for unsubscribed users; `past_due`, `unpaid`, and `paused` subscriptions show payment-recovery copy and a Stripe Customer Portal action instead of new plan buttons. `none`, `incomplete`, `incomplete_expired`, and `canceled` show normal monthly/yearly plan buttons. Community contains review creation/editing.
 - `/faq` — Frequently asked questions.

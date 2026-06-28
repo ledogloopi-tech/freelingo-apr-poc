@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **Post-assessment voice demo**: unsubscribed hosted users who complete the placement assessment now get a one-time 5-minute real-time voice conversation with Lingu. The demo is granted after the study plan is created, uses a Redis-backed token plus the new `users.assessment_voice_trial_used` flag, bypasses the conversation paywall only for that trial session, enforces a backend 300-second max duration, and shows monthly/yearly Premium checkout CTAs when the session ends.
+- **Review prompt after exercises**: users who have not submitted a review yet may now be asked for one after completing a new Reading or Listening exercise, reusing the existing duplicate-review check and local dismissal cooldown. Replays from history do not trigger the prompt.
 
 ## [1.8.19] - 2026-06-27
 

@@ -1360,18 +1360,6 @@
       "desc": "După crearea planului de studiu, poți încerca gratuit o conversație vocală în timp real cu Lingu timp de 5 minute. Când demo-ul se termină, Premium deblochează practica vocală completă și celelalte moduri ghidate."
     },
     "entry2": {
-      "label": "Dashboard mai clar",
-      "desc": "Dashboardul se concentrează acum pe următorul pas, cu lecțiile zilnice, progresul planului, progresul vocabularului și performanța recentă mai ușor de urmărit."
-    },
-    "entry3": {
-      "label": "Mai multe limbi de învățat",
-      "desc": "<bold>Chineză continentală, coreeană, franceză, germană, italiană, japoneză, portugheză și spaniolă</bold> sunt acum disponibile, cu parcursuri complete de la începător la avansat, gramatică, vocabular, fraze, Reading, Listening și mai mult. Adaugă-le din Setări → Limbile mele."
-    },
-    "entry4": {
-      "label": "Adaugă o recenzie din profil",
-      "desc": "Acum poți împărtăși părerea ta despre FreeLingo direct din Setări → Profil. Recenzia ta îi ajută pe alți cursanți să descopere platforma."
-    },
-    "entry5": {
       "label": "Corectări de bug-uri",
       "desc": "Diverse corectări minore de bug-uri și îmbunătățiri de stabilitate pe întreaga platformă."
     }
