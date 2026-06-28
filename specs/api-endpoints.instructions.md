@@ -83,7 +83,7 @@ Registered only when `STRIPE_ENABLED=true`.
 - **POST `/submit`** — Rate limit: 10/min. Legacy: submits answers for CEFR evaluation
 - **POST `/evaluate`** — Rate limit: 60/min. Deterministic CEFR evaluation (no LLM — groups by difficulty)
 - **POST `/free-write`** — Rate limit: 10/min. Evaluates free-write text for CEFR placement (LLM)
-- **POST `/complete`** — Rate limit: 10/min. Persists results and creates a StudyPlan. When `STRIPE_ENABLED=true`, the user is not subscribed, and `assessment_voice_trial_used=false`, the response includes `voice_trial: {available, token, duration_seconds, expires_in_seconds}` for a one-time 5-minute voice demo.
+- **POST `/complete`** — Rate limit: 10/min. Persists results and creates a StudyPlan. When `STRIPE_ENABLED=true`, the user is not subscribed, and `assessment_voice_trial_used=false`, the response includes `voice_trial: {available, token, duration_seconds, expires_in_seconds}` for a one-time voice demo. `duration_seconds` comes from `ASSESSMENT_VOICE_TRIAL_DURATION_SECONDS` (default `300`).
 - **POST `/voice-trial`** — Rate limit: 10/min. Body: `{target_language?}`. Regenerates a fresh post-assessment voice demo token for the user's active study plan in that language when `STRIPE_ENABLED=true`, the user is not subscribed, and `assessment_voice_trial_used=false`. Used when the student previously skipped the demo and returns to the assessment page.
 - **GET `/level-test/questions/{plan_id}`** — Rate limit: 5/min. Generates 20-question level test (LLM, constrained to studied content)
 - **POST `/level-test/submit`** — Rate limit: 10/min. Submits level test answers → score + recommendation
@@ -224,7 +224,7 @@ Both `POST /api/conversation/warmup` and `/ws/conversation` require an authentic
 
 **Client → Server message types:**
 
-- **`auth`** — Payload: `{"type":"auth","token":"<jwt>","voice":"nova","target_language":"en-GB","context":[...],"voice_trial_token":"..."}`. Description: First message — authenticates the session and may include voice preference, target language, optional chat context, and a post-assessment voice trial token. Trial sessions are consumed when the WebSocket starts and are capped to 300 seconds.
+- **`auth`** — Payload: `{"type":"auth","token":"<jwt>","voice":"nova","target_language":"en-GB","context":[...],"voice_trial_token":"..."}`. Description: First message — authenticates the session and may include voice preference, target language, optional chat context, and a post-assessment voice trial token. Trial sessions are consumed when the WebSocket starts and are capped by `ASSESSMENT_VOICE_TRIAL_DURATION_SECONDS` (default `300`).
 - **binary frame** — Payload: raw audio bytes. Description: WAV audio chunk from VAD
 - **`interrupt`** — Payload: `{"type":"interrupt"}`. Description: Optional manual interruption; cancels current generation
 

@@ -97,7 +97,7 @@ At T-60 seconds, a `SessionTimeoutBanner` appears with a countdown. When the tim
 - **Auth**: After the WebSocket handshake is accepted, the client sends a JSON message `{"type": "auth", "token": "<access_token>"}` within 10 seconds. Sending the token in the URL is intentionally avoided to prevent it from appearing in server access logs.
 - **Guard**: rejects connection with code 1008 if the auth message is missing/invalid, or with code 1011 if the configured TTS or STT service is unavailable
 - **Database**: uses an async session context manager for the user lookup (reads `conversation_max_duration`, `conversation_inactivity_timeout`, and `assessment_voice_trial_used` from User model)
-- **Post-assessment demo**: unsubscribed hosted users may connect with a valid `voice_trial_token` from assessment completion or the existing-plan assessment screen; the backend caps that session to 300 seconds and marks `assessment_voice_trial_used=true` when the WebSocket starts.
+- **Post-assessment demo**: unsubscribed hosted users may connect with a valid `voice_trial_token` from assessment completion or the existing-plan assessment screen; the backend caps that session to `ASSESSMENT_VOICE_TRIAL_DURATION_SECONDS` (default `300`) and marks `assessment_voice_trial_used=true` when the WebSocket starts.
 
 ### Message types
 

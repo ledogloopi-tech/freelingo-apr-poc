@@ -2,7 +2,7 @@
 
 ## Project state
 
-**v1.8.20 — Post-assessment voice demo.** Phase 1 (platform), Phase 1+ (resources hub), Phase 2 (TTS/STT), Phase 3 (voice conversation), Phase 4 (multi-language support), Phase 5 (Stripe subscriptions), Phase 6 (Listening exercises), Phase 7 (Reading exercises), Phase 8 (Feedback board), Phase 9 (LLM Memory), Phase 10 (Multi-Language), and Phase 11 (User Reviews) are complete. Japanese (`ja-JP`), Korean (`ko-KR`), and Mainland Chinese (`zh-CN`) now have backend curriculum, grammar, vocabulary, phrasebook, and assessment data. Static grammar, phrasebook, vocabulary resources, lessons, newly generated lesson exercises, exercise hints, and newly generated lesson vocabulary include native-language learning support. Email verification and password reset are also included. Unsubscribed hosted users get one one-time 5-minute voice conversation demo after completing placement assessment. Voice conversations are persisted as text transcripts alongside chat conversations. The AI tutor persona is named Lingu. The repo contains `backend/`, `frontend/`, `docker-compose.yml`, `.env.example`, and CI/CD via GitHub Actions. See [CHANGELOG.md](CHANGELOG.md) for the full version history.
+**v1.8.20 — Post-assessment voice demo.** Phase 1 (platform), Phase 1+ (resources hub), Phase 2 (TTS/STT), Phase 3 (voice conversation), Phase 4 (multi-language support), Phase 5 (Stripe subscriptions), Phase 6 (Listening exercises), Phase 7 (Reading exercises), Phase 8 (Feedback board), Phase 9 (LLM Memory), Phase 10 (Multi-Language), and Phase 11 (User Reviews) are complete. Japanese (`ja-JP`), Korean (`ko-KR`), and Mainland Chinese (`zh-CN`) now have backend curriculum, grammar, vocabulary, phrasebook, and assessment data. Static grammar, phrasebook, vocabulary resources, lessons, newly generated lesson exercises, exercise hints, and newly generated lesson vocabulary include native-language learning support. Email verification and password reset are also included. Unsubscribed hosted users get one one-time post-assessment voice conversation demo, configurable via `ASSESSMENT_VOICE_TRIAL_DURATION_SECONDS` and defaulting to 5 minutes. Voice conversations are persisted as text transcripts alongside chat conversations. The AI tutor persona is named Lingu. The repo contains `backend/`, `frontend/`, `docker-compose.yml`, `.env.example`, and CI/CD via GitHub Actions. See [CHANGELOG.md](CHANGELOG.md) for the full version history.
 
 ## Architecture at a glance
 
@@ -52,7 +52,7 @@ Files most commonly affected by code changes:
 These describe what was built — they are the reference documentation:
 
 - `specs/architecture.instructions.md` — Repository structure, data flows, auth design, test summary
-- `specs/architecture-backend.instructions.md` — Backend architecture: models (21), services (20), routers (23), schemas (15), env vars (51), Python code standards
+- `specs/architecture-backend.instructions.md` — Backend architecture: models (21), services (20), routers (23), schemas (15), env vars (56), Python code standards
 - `specs/architecture-frontend.instructions.md` — Frontend architecture: pages, components, stores (6), lib modules (9), TypeScript code standards
 - `specs/add-target-language.instructions.md` — Canonical checklist for adding new target languages, based on the British English (`en-GB`) data package structure and current dispatchers
 - `specs/database-models.instructions.md` — **21 SQLAlchemy ORM models**: full schema details, relationships, constraints, business rules
