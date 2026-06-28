@@ -3002,7 +3002,12 @@ A1_SETS: list[VocabularySet] = [
                 "A small book for writing notes.",
                 "I write new words in my notebook.",
             ),
-            _entry("pen", "noun", "An object used for writing with ink.", "Can I borrow a pen?"),
+            _entry(
+                "pen",
+                "noun",
+                "An object used for writing with ink.",
+                "Can I borrow a pen?",
+            ),
             _entry(
                 "pencil",
                 "noun",
@@ -3010,7 +3015,12 @@ A1_SETS: list[VocabularySet] = [
                 "Write your answer with a pencil.",
             ),
             _entry("page", "noun", "One side of a sheet in a book.", "Read page ten."),
-            _entry("word", "noun", "A unit of language with meaning.", "This word is new for me."),
+            _entry(
+                "word",
+                "noun",
+                "A unit of language with meaning.",
+                "This word is new for me.",
+            ),
             _entry(
                 "sentence",
                 "noun",

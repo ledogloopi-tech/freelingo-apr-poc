@@ -429,7 +429,11 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             ),
         ],
         common_mistakes=[],
-        related=["estructura-argumentativa", "lenguaje-periodistico", "sintesis-textual"],
+        related=[
+            "estructura-argumentativa",
+            "lenguaje-periodistico",
+            "sintesis-textual",
+        ],
     ),
     GrammarTopic(
         slug="creatividad-linguistica",
@@ -665,7 +669,12 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             ),
         ],
         common_mistakes=[],
-        related=["norma-panhispanica", "lexicon-historico", "indigenismos", "arabismos"],
+        related=[
+            "norma-panhispanica",
+            "lexicon-historico",
+            "indigenismos",
+            "arabismos",
+        ],
     ),
     GrammarTopic(
         slug="politica-linguistica-es",

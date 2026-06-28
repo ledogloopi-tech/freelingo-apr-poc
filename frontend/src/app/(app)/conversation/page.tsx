@@ -36,6 +36,12 @@ export default function ConversationPage() {
   const [autoStart, setAutoStart] = useState(false)
   const [cefrLevel, setCefrLevel] = useState<string | null>(null)
   const [planReady, setPlanReady] = useState(false)
+  const [voiceTrial, setVoiceTrial] = useState<{
+    token: string
+    durationSeconds: number
+    cefrLevel?: string
+    targetLanguage?: string
+  } | null>(null)
 
   useEffect(() => {
     const raw = sessionStorage.getItem('voice_context')
@@ -61,6 +67,45 @@ export default function ConversationPage() {
         // malformed — ignore
       }
     }
+    const trialRaw = sessionStorage.getItem('assessment_voice_trial')
+    if (trialRaw) {
+      sessionStorage.removeItem('assessment_voice_trial')
+      try {
+        const parsed = JSON.parse(trialRaw) as {
+          token?: unknown
+          durationSeconds?: unknown
+          cefrLevel?: unknown
+          targetLanguage?: unknown
+        }
+        if (typeof parsed.token === 'string' && parsed.token.length > 0) {
+          setVoiceTrial({
+            token: parsed.token,
+            durationSeconds:
+              typeof parsed.durationSeconds === 'number'
+                ? parsed.durationSeconds
+                : 300,
+            cefrLevel:
+              typeof parsed.cefrLevel === 'string'
+                ? parsed.cefrLevel
+                : undefined,
+            targetLanguage:
+              typeof parsed.targetLanguage === 'string'
+                ? parsed.targetLanguage
+                : undefined,
+          })
+          setInitialContext([
+            {
+              role: 'user',
+              content:
+                'I just completed the placement assessment. Please start a short, friendly voice conversation adapted to my level.',
+            },
+          ])
+          setAutoStart(true)
+        }
+      } catch {
+        // malformed — ignore
+      }
+    }
     setPlanReady(false)
     apiFetch('/api/study-plan/today')
       .then((res) => (res.ok ? res.json() : null))
@@ -77,14 +122,26 @@ export default function ConversationPage() {
 
   return (
     <MaintenanceGate>
-      <PaywallGate>
+      {voiceTrial ? (
         <ConversationMode
           initialContext={initialContext}
           autoStart={autoStart}
-          cefrLevel={cefrLevel}
-          targetLanguage={activeLanguage?.code}
+          cefrLevel={voiceTrial.cefrLevel ?? cefrLevel}
+          targetLanguage={voiceTrial.targetLanguage ?? activeLanguage?.code}
+          voiceTrialToken={voiceTrial.token}
+          voiceTrialDurationSeconds={voiceTrial.durationSeconds}
+          trialMode
         />
-      </PaywallGate>
+      ) : (
+        <PaywallGate>
+          <ConversationMode
+            initialContext={initialContext}
+            autoStart={autoStart}
+            cefrLevel={cefrLevel}
+            targetLanguage={activeLanguage?.code}
+          />
+        </PaywallGate>
+      )}
     </MaintenanceGate>
   )
 }

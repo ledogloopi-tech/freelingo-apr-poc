@@ -11,6 +11,11 @@ import { WordTooltip, useWordSave } from '@/components/ui/WordTooltip'
 import { PageLoading } from '@/components/ui/page-loading'
 import { ExerciseAudioPlayer } from '@/components/ui/exercise-audio-player'
 import { TargetLanguageText } from '@/components/TargetLanguageText'
+import {
+  ReviewPrompt,
+  getReviewPromptDismissal,
+} from '@/components/reviews/ReviewPrompt'
+import { shouldShowExerciseReviewPrompt } from '@/lib/review-prompt-triggers'
 
 // ---------------------------------------------------------------------------
 // Main page logic
@@ -67,6 +72,7 @@ function ListeningPage() {
   const [historyTotal, setHistoryTotal] = useState(0)
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [reviewPromptOpen, setReviewPromptOpen] = useState(false)
   const [isReplay, setIsReplay] = useState(false)
   const [generatingWarn, setGeneratingWarn] = useState(false)
   const generateAbortRef = useRef<AbortController | null>(null)
@@ -204,6 +210,11 @@ function ListeningPage() {
       const data = (await res.json()) as SubmitResult
       setResult(data)
       setPageState('results')
+      if (
+        shouldShowExerciseReviewPrompt(getReviewPromptDismissal(), !isReplay)
+      ) {
+        setReviewPromptOpen(true)
+      }
     } catch {
       setError(t('errorSubmit'))
     } finally {
@@ -486,6 +497,11 @@ function ListeningPage() {
             }}
           />
         )}
+        <ReviewPrompt
+          open={reviewPromptOpen}
+          onClose={() => setReviewPromptOpen(false)}
+          onSubmitted={() => setReviewPromptOpen(false)}
+        />
       </div>
     )
   }

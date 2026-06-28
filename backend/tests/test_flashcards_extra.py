@@ -158,7 +158,12 @@ async def test_generate_flashcards_success(client, test_user, db_session):
         response = await client.post(
             "/api/flashcards/generate",
             headers=headers,
-            json={"topic": "technology", "count": 2, "cefr_level": "B2", "native_language": "es"},
+            json={
+                "topic": "technology",
+                "count": 2,
+                "cefr_level": "B2",
+                "native_language": "es",
+            },
         )
 
     assert response.status_code == 200
@@ -193,7 +198,12 @@ async def test_generate_flashcards_llm_timeout(client, test_user, db_session):
         response = await client.post(
             "/api/flashcards/generate",
             headers=headers,
-            json={"topic": "animals", "count": 3, "cefr_level": "A2", "native_language": "es"},
+            json={
+                "topic": "animals",
+                "count": 3,
+                "cefr_level": "A2",
+                "native_language": "es",
+            },
         )
 
     assert response.status_code == 504
@@ -215,7 +225,12 @@ async def test_generate_flashcards_llm_unavailable(client, test_user, db_session
         response = await client.post(
             "/api/flashcards/generate",
             headers=headers,
-            json={"topic": "sports", "count": 3, "cefr_level": "B1", "native_language": "es"},
+            json={
+                "topic": "sports",
+                "count": 3,
+                "cefr_level": "B1",
+                "native_language": "es",
+            },
         )
 
     assert response.status_code == 503

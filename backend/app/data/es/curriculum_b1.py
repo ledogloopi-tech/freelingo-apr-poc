@@ -29,7 +29,11 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=2,
         title="Subjuntivo en contexto",
-        grammar_points=["subjuntivo-recomendacion", "subjuntivo-duda", "subjuntivo-valoracion"],
+        grammar_points=[
+            "subjuntivo-recomendacion",
+            "subjuntivo-duda",
+            "subjuntivo-valoracion",
+        ],
         vocabulary_set_ids=["trabajo_b1", "estudios_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -47,7 +51,11 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=3,
         title="Pretérito perfecto y pluscuamperfecto",
-        grammar_points=["preterito-perfecto", "pluscuamperfecto", "marcadores-perfecto"],
+        grammar_points=[
+            "preterito-perfecto",
+            "pluscuamperfecto",
+            "marcadores-perfecto",
+        ],
         vocabulary_set_ids=["experiencias_b1", "logros_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -100,7 +108,11 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=6,
         title="Condicionales y suposiciones",
-        grammar_points=["condicional-compuesto", "si-imperfecto-subjuntivo", "suposiciones-futuro"],
+        grammar_points=[
+            "condicional-compuesto",
+            "si-imperfecto-subjuntivo",
+            "suposiciones-futuro",
+        ],
         vocabulary_set_ids=["viajes_b1", "situaciones_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

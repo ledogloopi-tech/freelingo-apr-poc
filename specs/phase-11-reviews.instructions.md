@@ -7,7 +7,7 @@ applyTo: "backend/**, frontend/**, specs/**"
 
 ## Overview
 
-FreeLingo adds a first-party review system so authenticated users can leave one verified rating for the product. Reviews are stored in PostgreSQL, moderated by admins, and approved positive reviews are displayed on the public landing page as social proof. The reusable review prompt is shown after successful learning moments: when the user manually stops a voice conversation session that has been live for at least five minutes, or when completing a lesson advances them out of the current curriculum unit. Users can also create or edit their review from Settings.
+FreeLingo adds a first-party review system so authenticated users can leave one verified rating for the product. Reviews are stored in PostgreSQL, moderated by admins, and approved positive reviews are displayed on the public landing page as social proof. The reusable review prompt is shown after successful learning moments: when the user manually stops a voice conversation session that has been live for at least five minutes, when completing a lesson advances them out of the current curriculum unit, or after completing a new reading or listening exercise. Users can also create or edit their review from Settings.
 
 ---
 
@@ -29,6 +29,7 @@ FreeLingo adds a first-party review system so authenticated users can leave one 
 - The frontend may store a local prompt cooldown/counter in `localStorage` to avoid asking too often after cancellation.
 - The voice conversation page may ask for a review after a manually stopped voice session that has been connected for at least 5 minutes.
 - The lesson completion page may ask for a review when completing the lesson moves the user into a different curriculum unit, or completes the plan.
+- The reading and listening pages may ask for a review after a successful new exercise attempt; replay attempts from history do not trigger the prompt.
 - The backend remains the source of truth for duplicate prevention; the prompt checks `GET /api/reviews/me` and does not render for users who already have a review.
 
 ---
@@ -41,7 +42,7 @@ FreeLingo adds a first-party review system so authenticated users can leave one 
 - Admin editing of review text.
 - Public display of unapproved reviews.
 - Public display of ratings below 4 stars.
-- Additional dashboard or progress prompt triggers beyond the voice conversation and unit-completion triggers.
+- Additional dashboard or progress prompt triggers beyond the voice conversation, unit-completion, reading-exercise, and listening-exercise triggers.
 
 ---
 
@@ -232,6 +233,13 @@ Implemented unit-completion trigger:
 - The prompt opens when the next unit differs, or when the plan is complete (`progress_day >= total_days`).
 - If the next lesson cannot be generated and the plan is not complete, the prompt is not shown; this avoids asking for a review on transient lesson-generation failures.
 - The trigger uses the shared local dismissal cooldown and maximum dismissal count from `frontend/src/lib/review-prompt-triggers.ts`.
+
+Implemented reading/listening exercise triggers:
+
+- `frontend/src/app/(app)/reading/page.tsx` opens the reusable review prompt after a successful `POST /api/reading/attempt` for a new exercise attempt.
+- `frontend/src/app/(app)/listening/page.tsx` opens the reusable review prompt after a successful `POST /api/listening/attempt` for a new exercise attempt.
+- Attempts started from history set `replay=true`, award no additional XP, and do not trigger the prompt.
+- Both triggers use the shared local dismissal cooldown and maximum dismissal count from `frontend/src/lib/review-prompt-triggers.ts`; duplicate-review prevention still happens through `GET /api/reviews/me` inside `ReviewPrompt`.
 
 ---
 

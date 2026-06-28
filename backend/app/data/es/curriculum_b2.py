@@ -32,7 +32,11 @@ B2_UNITS: list[CurriculumUnit] = [
         level="B2",
         unit_number=2,
         title="Perífrasis verbales",
-        grammar_points=["perifrasis-aspectuales", "perifrasis-modales", "dejar-de-seguir"],
+        grammar_points=[
+            "perifrasis-aspectuales",
+            "perifrasis-modales",
+            "dejar-de-seguir",
+        ],
         vocabulary_set_ids=["hábitos_b2", "cambios_b2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -93,7 +97,11 @@ B2_UNITS: list[CurriculumUnit] = [
         level="B2",
         unit_number=5,
         title="Argumentación y debate",
-        grammar_points=["estructura-argumentativa", "contraargumentacion", "matizadores"],
+        grammar_points=[
+            "estructura-argumentativa",
+            "contraargumentacion",
+            "matizadores",
+        ],
         vocabulary_set_ids=["debates_b2", "temas-sociales_b2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

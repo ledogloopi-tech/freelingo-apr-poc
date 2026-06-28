@@ -195,7 +195,8 @@ async def get_today_lessons(
     )
     if not weekly_plan:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Study plan data is malformed"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Study plan data is malformed",
         )
 
     week = None

@@ -82,7 +82,8 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="I saw a dog in the park.", note="a = first mention; the = specific park"
+                text="I saw a dog in the park.",
+                note="a = first mention; the = specific park",
             ),
             GrammarExample(text="She is an engineer."),
             GrammarExample(text="The sun rises in the east.", note='unique nouns use "the"'),
@@ -377,7 +378,9 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         common_mistakes=[
             GrammarMistake(
-                wrong="She cans drive.", correct="She can drive.", note="Modal verbs never take -s."
+                wrong="She cans drive.",
+                correct="She can drive.",
+                note="Modal verbs never take -s.",
             ),
             GrammarMistake(
                 wrong="I can to swim.",
@@ -443,7 +446,8 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="I'll call you tomorrow.", note="promise"),
             GrammarExample(text="I think she will pass the exam.", note="prediction"),
             GrammarExample(
-                text="A: The phone is ringing. B: I'll get it!", note="spontaneous decision"
+                text="A: The phone is ringing. B: I'll get it!",
+                note="spontaneous decision",
             ),
         ],
         common_mistakes=[
@@ -476,7 +480,8 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="I could speak a little French when I was a child.", note="past ability"
+                text="I could speak a little French when I was a child.",
+                note="past ability",
             ),
             GrammarExample(text="She couldn't drive until she was 25.", note="past inability"),
             GrammarExample(text="Could you help me with this, please?", note="polite request"),
@@ -505,14 +510,16 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="Can I have a glass of water?", note='uncountable — use "a glass of"'
+                text="Can I have a glass of water?",
+                note='uncountable — use "a glass of"',
             ),
             GrammarExample(
                 text="She gave me some useful information.",
                 note="information is always uncountable",
             ),
             GrammarExample(
-                text="I need two kilos of rice.", note="quantity expression for uncountable noun"
+                text="I need two kilos of rice.",
+                note="quantity expression for uncountable noun",
             ),
         ],
         common_mistakes=[
@@ -646,7 +653,8 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
         examples=[
             GrammarExample(text="She sings beautifully."),
             GrammarExample(
-                text="He worked hard all day.", note='"hard" is the same as adjective and adverb'
+                text="He worked hard all day.",
+                note='"hard" is the same as adjective and adverb',
             ),
             GrammarExample(text="Please speak slowly.", note="after the verb"),
             GrammarExample(text="She plays the piano well.", note="irregular: good → well"),
@@ -878,7 +886,8 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text='"I live in Paris." → He said he lived in Paris.', note="tense backshift"
+                text='"I live in Paris." → He said he lived in Paris.',
+                note="tense backshift",
             ),
             GrammarExample(text='"I will call you." → She said she would call me.'),
             GrammarExample(text="\"I can't come.\" → He told me he couldn't come."),
@@ -925,7 +934,8 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note='negative form — "use to" after "didn\'t"',
             ),
             GrammarExample(
-                text="Did you use to have long hair?", note='question form — "use to" after "did"'
+                text="Did you use to have long hair?",
+                note='question form — "use to" after "did"',
             ),
         ],
         common_mistakes=[
@@ -995,10 +1005,12 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note='"However" at sentence start',
             ),
             GrammarExample(
-                text="Although it was raining, we went for a walk.", note='"Although" mid-sentence'
+                text="Although it was raining, we went for a walk.",
+                note='"Although" mid-sentence',
             ),
             GrammarExample(
-                text="Despite the rain, we enjoyed ourselves.", note='"Despite" + noun phrase'
+                text="Despite the rain, we enjoyed ourselves.",
+                note='"Despite" + noun phrase',
             ),
             GrammarExample(
                 text="She studied hard; therefore, she passed.", note="cause and result"
@@ -1035,7 +1047,8 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
         examples=[
             GrammarExample(text="I have been learning English for two years.", note="continuing"),
             GrammarExample(
-                text="He is out of breath because he has been running.", note="recent result"
+                text="He is out of breath because he has been running.",
+                note="recent result",
             ),
             GrammarExample(text="It has been raining all day.", note="duration emphasis"),
         ],
@@ -1070,10 +1083,12 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
         examples=[
             GrammarExample(text="The report has been submitted.", note="present perfect passive"),
             GrammarExample(
-                text="The decision had been made before the meeting.", note="past perfect passive"
+                text="The decision had been made before the meeting.",
+                note="past perfect passive",
             ),
             GrammarExample(
-                text="All tasks will have been completed by Friday.", note="future perfect passive"
+                text="All tasks will have been completed by Friday.",
+                note="future perfect passive",
             ),
         ],
         common_mistakes=[
@@ -1176,7 +1191,8 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="I wish I had more free time.", note="present regret"),
             GrammarExample(text="I wish I had gone to the concert.", note="past regret"),
             GrammarExample(
-                text="If only she would listen to me.", note="emphatic — see B2 for wish+would"
+                text="If only she would listen to me.",
+                note="emphatic — see B2 for wish+would",
             ),
         ],
         common_mistakes=[
@@ -1343,7 +1359,12 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="For past regrets, use past perfect after 'wish', not past simple.",
             ),
         ],
-        related=["wish-if-only", "second-conditional", "third-conditional", "mixed-conditionals"],
+        related=[
+            "wish-if-only",
+            "second-conditional",
+            "third-conditional",
+            "mixed-conditionals",
+        ],
     ),
     GrammarTopic(
         slug="advanced-passive",
@@ -1362,10 +1383,12 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
         examples=[
             GrammarExample(text="We had the office repainted last month.", note="causative have"),
             GrammarExample(
-                text="She got her phone fixed for free.", note="causative get (informal)"
+                text="She got her phone fixed for free.",
+                note="causative get (informal)",
             ),
             GrammarExample(
-                text="He wants to be considered for the promotion.", note="passive infinitive"
+                text="He wants to be considered for the promotion.",
+                note="passive infinitive",
             ),
             GrammarExample(
                 text="The contract is expected to be signed by the end of the week.",
@@ -1409,7 +1432,8 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="remember + gerund = it happened in the past",
             ),
             GrammarExample(
-                text="Remember to lock the door!", note="remember + infinitive = future action"
+                text="Remember to lock the door!",
+                note="remember + infinitive = future action",
             ),
         ],
         common_mistakes=[
@@ -1443,7 +1467,8 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="She must have taken the wrong train.", note="past deduction — almost certain"
+                text="She must have taken the wrong train.",
+                note="past deduction — almost certain",
             ),
             GrammarExample(
                 text="He can't have known about it.",
@@ -1451,7 +1476,8 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
             ),
             GrammarExample(text="I should have left earlier — sorry I'm late.", note="past regret"),
             GrammarExample(
-                text="You could have called me!", note="missed opportunity / mild reproach"
+                text="You could have called me!",
+                note="missed opportunity / mild reproach",
             ),
         ],
         common_mistakes=[
@@ -1488,7 +1514,8 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note='"even though" + clause',
             ),
             GrammarExample(
-                text="Despite studying hard, she failed the test.", note='"despite" + gerund'
+                text="Despite studying hard, she failed the test.",
+                note='"despite" + gerund',
             ),
             GrammarExample(
                 text="The project was expensive. Nevertheless, it was approved.",
@@ -1559,7 +1586,8 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="Rarely does she make mistakes."),
             GrammarExample(text="Not until he read the letter did he understand."),
             GrammarExample(
-                text="Should you need help, please contact us.", note="formal conditional"
+                text="Should you need help, please contact us.",
+                note="formal conditional",
             ),
         ],
         common_mistakes=[
@@ -1633,7 +1661,11 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="The subject of the participle must match the main clause subject.",
             ),
         ],
-        related=["relative-clauses", "advanced-relative-clauses", "gerunds-infinitives"],
+        related=[
+            "relative-clauses",
+            "advanced-relative-clauses",
+            "gerunds-infinitives",
+        ],
     ),
     GrammarTopic(
         slug="hedging-language",
@@ -1829,7 +1861,8 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="fronted adjective + concession",
             ),
             GrammarExample(
-                text="Outside the door stood a tall figure.", note="place adverbial + inversion"
+                text="Outside the door stood a tall figure.",
+                note="place adverbial + inversion",
             ),
         ],
         common_mistakes=[
@@ -1876,6 +1909,11 @@ BASE_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Business correspondence requires formal register.",
             ),
         ],
-        related=["nominalization", "advanced-passive", "fronting-emphasis", "discourse-markers"],
+        related=[
+            "nominalization",
+            "advanced-passive",
+            "fronting-emphasis",
+            "discourse-markers",
+        ],
     ),
 ]

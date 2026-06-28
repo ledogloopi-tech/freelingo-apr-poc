@@ -33,7 +33,11 @@ A2_UNITS: list[CurriculumUnit] = [
         level="A2",
         unit_number=2,
         title="L'imparfait et les récits au passé",
-        grammar_points=["imparfait", "passe-compose-vs-imparfait", "description-passee"],
+        grammar_points=[
+            "imparfait",
+            "passe-compose-vs-imparfait",
+            "description-passee",
+        ],
         vocabulary_set_ids=["enfance_fr_a2", "souvenirs_fr_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -128,7 +132,11 @@ A2_UNITS: list[CurriculumUnit] = [
         level="A2",
         unit_number=7,
         title="Récits et narration",
-        grammar_points=["connecteurs-temporels", "style-indirect-present", "relatifs-simples"],
+        grammar_points=[
+            "connecteurs-temporels",
+            "style-indirect-present",
+            "relatifs-simples",
+        ],
         vocabulary_set_ids=["histoires_fr_a2", "anecdotes_fr_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

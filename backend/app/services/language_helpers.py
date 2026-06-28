@@ -9,8 +9,18 @@ from __future__ import annotations
 from datetime import UTC, datetime
 
 _LANGUAGE_INFO: dict[str, dict[str, str]] = {
-    "en-US": {"name": "English (US)", "self_name": "English (US)", "iso639": "en", "flag": "🇺🇸"},
-    "en-GB": {"name": "English (UK)", "self_name": "English (UK)", "iso639": "en", "flag": "🇬🇧"},
+    "en-US": {
+        "name": "English (US)",
+        "self_name": "English (US)",
+        "iso639": "en",
+        "flag": "🇺🇸",
+    },
+    "en-GB": {
+        "name": "English (UK)",
+        "self_name": "English (UK)",
+        "iso639": "en",
+        "flag": "🇬🇧",
+    },
     "de-DE": {"name": "German", "self_name": "Deutsch", "iso639": "de", "flag": "🇩🇪"},
     "es-ES": {
         "name": "Spanish (Spain)",
@@ -27,7 +37,12 @@ _LANGUAGE_INFO: dict[str, dict[str, str]] = {
         "flag": "🇵🇹",
     },
     "ja-JP": {"name": "Japanese", "self_name": "日本語", "iso639": "ja", "flag": "🇯🇵"},
-    "ko-KR": {"name": "Korean (South Korea)", "self_name": "한국어", "iso639": "ko", "flag": "🇰🇷"},
+    "ko-KR": {
+        "name": "Korean (South Korea)",
+        "self_name": "한국어",
+        "iso639": "ko",
+        "flag": "🇰🇷",
+    },
     "zh-CN": {
         "name": "Chinese (Mainland China)",
         "self_name": "中文（中国）",

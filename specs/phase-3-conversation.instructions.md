@@ -96,7 +96,8 @@ At T-60 seconds, a `SessionTimeoutBanner` appears with a countdown. When the tim
 - **Protocol**: WebSocket
 - **Auth**: After the WebSocket handshake is accepted, the client sends a JSON message `{"type": "auth", "token": "<access_token>"}` within 10 seconds. Sending the token in the URL is intentionally avoided to prevent it from appearing in server access logs.
 - **Guard**: rejects connection with code 1008 if the auth message is missing/invalid, or with code 1011 if the configured TTS or STT service is unavailable
-- **Database**: uses an async session context manager for the user lookup (reads `conversation_max_duration` and `conversation_inactivity_timeout` from User model)
+- **Database**: uses an async session context manager for the user lookup (reads `conversation_max_duration`, `conversation_inactivity_timeout`, and `assessment_voice_trial_used` from User model)
+- **Post-assessment demo**: unsubscribed hosted users may connect with a valid `voice_trial_token` from assessment completion or the existing-plan assessment screen; the backend caps that session to 300 seconds and marks `assessment_voice_trial_used=true` when the WebSocket starts.
 
 ### Message types
 
@@ -148,6 +149,7 @@ Assistant text is not sent to the frontend before at least one TTS audio chunk s
 Two asyncio tasks run concurrently with the main pipeline loop:
 
 - Max duration — Default: 1800 s (30 min); User-configurable: `conversation_max_duration` (from user table); Warning: 60 s warning via `session_warning` message
+- Post-assessment demo duration — 300 s (5 min), enforced by backend regardless of the user's normal `conversation_max_duration`.
 - Inactivity — Default: 180 s (3 min); User-configurable: `conversation_inactivity_timeout` (from user table); Warning: 60 s warning via `session_warning` message
 
 The inactivity timer resets on each received audio chunk. When either timeout fires, a `session_end` message is sent and the WebSocket connection is closed cleanly.

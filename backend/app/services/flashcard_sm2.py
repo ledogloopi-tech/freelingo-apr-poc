@@ -52,7 +52,11 @@ def _get_lang_hint(target_language: str) -> str:
 
 
 async def generate_flashcards(
-    topic: str, count: int, cefr_level: str, native_language: str, target_language: str = "en-GB"
+    topic: str,
+    count: int,
+    cefr_level: str,
+    native_language: str,
+    target_language: str = "en-GB",
 ) -> FlashcardGenerateResponse:
     target_language_name = get_language_name(target_language)
     native_language_name = get_native_language_name(native_language)

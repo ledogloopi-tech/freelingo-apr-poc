@@ -1366,7 +1366,12 @@ A2_SETS: list[VocabularySet] = [
         topic="Soldi e prezzi",
         unit_ref="a2-unit-3",
         words=[
-            _entry("soldi", "noun", "Mezzo usato per comprare cose.", "Non ho soldi in contanti."),
+            _entry(
+                "soldi",
+                "noun",
+                "Mezzo usato per comprare cose.",
+                "Non ho soldi in contanti.",
+            ),
             _entry(
                 "prezzo",
                 "noun",
@@ -1381,11 +1386,19 @@ A2_SETS: list[VocabularySet] = [
             ),
             _entry("pagare", "verb", "Dare soldi per qualcosa.", "Pago con la carta."),
             _entry("costare", "verb", "Avere un prezzo.", "Quanto costa?"),
-            _entry("economico", "adjective", "Che costa poco.", "Questo ristorante è economico."),
+            _entry(
+                "economico",
+                "adjective",
+                "Che costa poco.",
+                "Questo ristorante è economico.",
+            ),
             _entry("caro", "adjective", "Che costa molto.", "L'hotel è caro."),
             _entry("carta", "noun", "Carta bancaria per pagare.", "Pago con carta."),
             _entry(
-                "contanti", "noun", "Soldi in monete o banconote.", "Preferisco pagare in contanti."
+                "contanti",
+                "noun",
+                "Soldi in monete o banconote.",
+                "Preferisco pagare in contanti.",
             ),
             _entry("resto", "noun", "Soldi restituiti dopo un pagamento.", "Ecco il resto."),
         ],
@@ -1403,11 +1416,31 @@ A2_SETS: list[VocabularySet] = [
                 "Animale domestico che spesso vive in casa.",
                 "Il gatto dorme sul divano.",
             ),
-            _entry("uccello", "noun", "Animale con ali e piume.", "C'è un uccello sull'albero."),
-            _entry("albero", "noun", "Pianta grande con tronco e rami.", "L'albero fa ombra."),
+            _entry(
+                "uccello",
+                "noun",
+                "Animale con ali e piume.",
+                "C'è un uccello sull'albero.",
+            ),
+            _entry(
+                "albero",
+                "noun",
+                "Pianta grande con tronco e rami.",
+                "L'albero fa ombra.",
+            ),
             _entry("fiore", "noun", "Parte colorata di molte piante.", "Il fiore è giallo."),
-            _entry("fiume", "noun", "Corso naturale d'acqua.", "Il fiume attraversa la città."),
-            _entry("montagna", "noun", "Grande rilievo del terreno.", "La montagna è innevata."),
+            _entry(
+                "fiume",
+                "noun",
+                "Corso naturale d'acqua.",
+                "Il fiume attraversa la città.",
+            ),
+            _entry(
+                "montagna",
+                "noun",
+                "Grande rilievo del terreno.",
+                "La montagna è innevata.",
+            ),
             _entry(
                 "spiaggia",
                 "noun",

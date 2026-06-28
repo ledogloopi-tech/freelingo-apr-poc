@@ -145,7 +145,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Non confondere imperfetto e trapassato prossimo.",
             ),
         ],
-        related=["passato-prossimo-vs-imperfetto", "marcatori-temporali", "passato-prossimo-avere"],
+        related=[
+            "passato-prossimo-vs-imperfetto",
+            "marcatori-temporali",
+            "passato-prossimo-avere",
+        ],
     ),
     GrammarTopic(
         slug="passato-prossimo-vs-imperfetto",
@@ -523,7 +527,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Preoccuparsi è riflessivo; il pronome va dopo infinito o prima.",
             ),
         ],
-        related=["imperativo-affermativo", "imperativo-informale", "imperativo-pronomi"],
+        related=[
+            "imperativo-affermativo",
+            "imperativo-informale",
+            "imperativo-pronomi",
+        ],
     ),
     GrammarTopic(
         slug="imperativo-pronomi",
@@ -668,7 +676,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Nel periodo ipotetico il se non vuole mai il condizionale.",
             ),
         ],
-        related=["condizionale-presente", "condizionale-cortesia", "congiuntivo-imperfetto"],
+        related=[
+            "condizionale-presente",
+            "condizionale-cortesia",
+            "congiuntivo-imperfetto",
+        ],
     ),
     GrammarTopic(
         slug="connettivi-narrativi",
@@ -792,6 +804,10 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Nel discorso indiretto il soggetto non si ripete.",
             ),
         ],
-        related=["discorso-indiretto-passato", "discorso-riportato", "connettivi-narrativi"],
+        related=[
+            "discorso-indiretto-passato",
+            "discorso-riportato",
+            "connettivi-narrativi",
+        ],
     ),
 ]

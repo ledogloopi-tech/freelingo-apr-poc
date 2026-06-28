@@ -3,12 +3,13 @@
 from __future__ import annotations
 
 import asyncio
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from httpx import ASGITransport, AsyncClient
 from httpx_ws import aconnect_ws
 
+from app.core.config import settings
 from app.core.security import create_access_token
 from app.main import app
 from app.routers import conversation as conversation_router
@@ -135,6 +136,78 @@ async def test_warmup_tts_falls_back_to_synthesis_for_local_service() -> None:
     await conversation_router._warmup_tts(tts_service)
 
     tts_service.synthesize.assert_called_once_with("ready")
+
+
+@pytest.mark.asyncio
+async def test_warmup_allows_valid_assessment_voice_trial(client, test_user, db_session) -> None:
+    """Warmup accepts a valid post-assessment voice trial token without subscription."""
+    user, headers = test_user
+
+    # Import helper from conftest via direct local import is not available; clear plans inline.
+    from sqlalchemy import select
+
+    from app.models.study_plan import StudyPlan
+    from app.models.user_language import UserLanguage
+
+    ul = (
+        await db_session.execute(
+            select(UserLanguage).where(
+                UserLanguage.user_id == user.id,
+                UserLanguage.target_language == "en-US",
+            )
+        )
+    ).scalar_one()
+    plans = (
+        await db_session.execute(
+            select(StudyPlan).where(
+                StudyPlan.user_language_id == ul.id,
+                StudyPlan.is_active.is_(True),
+            )
+        )
+    ).scalars()
+    for plan in plans:
+        plan.is_active = False
+    await db_session.commit()
+
+    with patch.object(settings, "STRIPE_ENABLED", True):
+        complete = await client.post(
+            "/api/assessment/complete",
+            headers=headers,
+            json={
+                "cefr_level": "A1",
+                "strengths": [],
+                "weaknesses": [],
+                "duration_weeks": 4,
+                "days_per_week": 4,
+                "goals": ["grammar"],
+                "target_language": "en-US",
+            },
+        )
+        token = complete.json()["voice_trial"]["token"]
+        response = await client.post(
+            "/api/conversation/warmup",
+            headers=headers,
+            json={"trial_token": token},
+        )
+
+    assert response.status_code == 200
+    assert response.json() == {"status": "ready"}
+
+
+@pytest.mark.asyncio
+async def test_warmup_rejects_invalid_assessment_voice_trial(client, test_user) -> None:
+    """Warmup still requires subscription when the trial token is invalid."""
+    _user, headers = test_user
+
+    with patch.object(settings, "STRIPE_ENABLED", True):
+        response = await client.post(
+            "/api/conversation/warmup",
+            headers=headers,
+            json={"trial_token": "bad-token"},
+        )
+
+    assert response.status_code == 402
+    assert response.json()["detail"] == "subscription_required"
 
 
 # ---------------------------------------------------------------------------
@@ -330,7 +403,10 @@ def test_pipeline_initial_context_valid_entries_populate_history() -> None:
     pipeline = _make_pipeline(initial_context=context)
     assert len(pipeline.history) == 3
     assert pipeline.history[0] == {"role": "user", "content": "Hello, can you help me?"}
-    assert pipeline.history[2] == {"role": "user", "content": "I want to work on past tense."}
+    assert pipeline.history[2] == {
+        "role": "user",
+        "content": "I want to work on past tense.",
+    }
 
 
 def test_pipeline_initial_context_truncates_to_last_10() -> None:

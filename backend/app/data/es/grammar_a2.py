@@ -42,7 +42,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="En general no se usa artículo definido con comidas cuando se habla de consumirlas.",
             ),
         ],
-        related=["preterito-irregular", "marcadores-temporales", "preterito-vs-imperfecto"],
+        related=[
+            "preterito-irregular",
+            "marcadores-temporales",
+            "preterito-vs-imperfecto",
+        ],
     ),
     GrammarTopic(
         slug="marcadores-temporales",
@@ -82,7 +86,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note='"Desde hace" expresa duración desde el pasado hasta ahora.',
             ),
         ],
-        related=["preterito-indefinido-regular", "preterito-irregular", "preterito-perfecto"],
+        related=[
+            "preterito-indefinido-regular",
+            "preterito-irregular",
+            "preterito-perfecto",
+        ],
     ),
     GrammarTopic(
         slug="preterito-irregular",
@@ -221,7 +229,12 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note='Con "ayer" y periodo definido se usa indefinido.',
             ),
         ],
-        related=["imperfecto", "preterito-indefinido-regular", "solia", "marcadores-temporales"],
+        related=[
+            "imperfecto",
+            "preterito-indefinido-regular",
+            "solia",
+            "marcadores-temporales",
+        ],
     ),
     GrammarTopic(
         slug="solia",
@@ -301,7 +314,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note='OD femenino plural → "las", no "le".',
             ),
         ],
-        related=["pronombres-objeto-indirecto", "doble-objeto", "imperativo-afirmativo"],
+        related=[
+            "pronombres-objeto-indirecto",
+            "doble-objeto",
+            "imperativo-afirmativo",
+        ],
     ),
     GrammarTopic(
         slug="pronombres-objeto-indirecto",
@@ -379,7 +396,9 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note='La combinación "le lo" no existe; se convierte en "se lo".',
             ),
             GrammarMistake(
-                wrong="Lo se di.", correct="Se lo di.", note="El OI (se) debe ir antes del OD (lo)."
+                wrong="Lo se di.",
+                correct="Se lo di.",
+                note="El OI (se) debe ir antes del OD (lo).",
             ),
         ],
         related=[
@@ -554,7 +573,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note='El imperativo de vosotros pierde la -d delante de "os": sentad + os → sentaos.',
             ),
         ],
-        related=["imperativo-negativo", "imperativo-irregular", "pronombres-objeto-directo"],
+        related=[
+            "imperativo-negativo",
+            "imperativo-irregular",
+            "pronombres-objeto-directo",
+        ],
     ),
     GrammarTopic(
         slug="imperativo-negativo",
@@ -592,7 +615,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note='En el negativo los pronombres van delante: "no os sentéis".',
             ),
         ],
-        related=["imperativo-afirmativo", "imperativo-irregular", "subjuntivo-presente"],
+        related=[
+            "imperativo-afirmativo",
+            "imperativo-irregular",
+            "subjuntivo-presente",
+        ],
     ),
     GrammarTopic(
         slug="imperativo-irregular",
@@ -785,7 +812,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note='"Después" va directamente con verbo conjugado; "después de" se usa con sustantivo o infinitivo.',
             ),
         ],
-        related=["secuencia-temporal", "preterito-indefinido-regular", "preterito-vs-imperfecto"],
+        related=[
+            "secuencia-temporal",
+            "preterito-indefinido-regular",
+            "preterito-vs-imperfecto",
+        ],
     ),
     GrammarTopic(
         slug="secuencia-temporal",
@@ -830,7 +861,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Acción anterior a otra pasada → pluscuamperfecto.",
             ),
         ],
-        related=["conectores-narrativos", "preterito-vs-imperfecto", "pluscuamperfecto"],
+        related=[
+            "conectores-narrativos",
+            "preterito-vs-imperfecto",
+            "pluscuamperfecto",
+        ],
     ),
     GrammarTopic(
         slug="estilo-indirecto",
@@ -969,7 +1004,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Referencia temporal debe desplazarse al pasado.",
             ),
         ],
-        related=["estilo-indirecto", "estilo-indirecto-pasado", "conectores-narrativos"],
+        related=[
+            "estilo-indirecto",
+            "estilo-indirecto-pasado",
+            "conectores-narrativos",
+        ],
     ),
     GrammarTopic(
         slug="acentuacion-general",
@@ -1037,6 +1076,10 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="El verbo escribir termina en -bir y va con b.",
             ),
         ],
-        related=["imperativo-afirmativo", "preterito-indefinido-regular", "condicional-simple"],
+        related=[
+            "imperativo-afirmativo",
+            "preterito-indefinido-regular",
+            "condicional-simple",
+        ],
     ),
 ]

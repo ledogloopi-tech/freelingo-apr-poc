@@ -25,7 +25,9 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="I'll have [dish], please.", context="Ordering food", register="neutral"
+                text="I'll have [dish], please.",
+                context="Ordering food",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Could I have [dish] instead of [dish]?",
@@ -48,7 +50,9 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="The food is delicious!", context="Complimenting the food", register="neutral"
+                text="The food is delicious!",
+                context="Complimenting the food",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Could we have the check, please?",
@@ -61,7 +65,9 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Could we split the check?", context="Paying separately", register="neutral"
+                text="Could we split the check?",
+                context="Paying separately",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Is the gratuity included?",
@@ -102,7 +108,9 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="I'd like to book a seat.", context="Reserving a seat", register="neutral"
+                text="I'd like to book a seat.",
+                context="Reserving a seat",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="I've missed my train / flight.",
@@ -110,10 +118,14 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Is there a delay?", context="Asking about delays", register="neutral"
+                text="Is there a delay?",
+                context="Asking about delays",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="Where is gate [number]?", context="At an airport", register="neutral"
+                text="Where is gate [number]?",
+                context="At an airport",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="I have a connecting flight at [time].",
@@ -149,7 +161,9 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="It's going to rain later.", context="Predicting weather", register="neutral"
+                text="It's going to rain later.",
+                context="Predicting weather",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="What's the forecast for tomorrow?",
@@ -205,7 +219,9 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="I'd love to!", context="Accepting an invitation", register="neutral"
+                text="I'd love to!",
+                context="Accepting an invitation",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="I'm afraid I can't. I have other plans.",
@@ -226,7 +242,9 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="I'll be there at [time].", context="Confirming attendance", register="neutral"
+                text="I'll be there at [time].",
+                context="Confirming attendance",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Can we change the time / date?",
@@ -234,7 +252,9 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="I'm running late.", context="Warning you will be late", register="informal"
+                text="I'm running late.",
+                context="Warning you will be late",
+                register="informal",
             ),
             PhrasebookEntry(
                 text="I'll be there in about 10 minutes.",
@@ -255,25 +275,37 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="I'm a bit nervous.", context="Expressing nervousness", register="neutral"
+                text="I'm a bit nervous.",
+                context="Expressing nervousness",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="I'm so tired.", context="Expressing fatigue", register="informal"
             ),
             PhrasebookEntry(
-                text="That's great news!", context="Reacting positively to news", register="neutral"
+                text="That's great news!",
+                context="Reacting positively to news",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="I'm sorry to hear that.", context="Expressing sympathy", register="neutral"
+                text="I'm sorry to hear that.",
+                context="Expressing sympathy",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="Are you OK?", context="Checking if someone is alright", register="neutral"
+                text="Are you OK?",
+                context="Checking if someone is alright",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="Don't worry about it.", context="Reassuring someone", register="informal"
+                text="Don't worry about it.",
+                context="Reassuring someone",
+                register="informal",
             ),
             PhrasebookEntry(
-                text="I'm not feeling well.", context="Saying you feel ill", register="neutral"
+                text="I'm not feeling well.",
+                context="Saying you feel ill",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="I feel much better now.",

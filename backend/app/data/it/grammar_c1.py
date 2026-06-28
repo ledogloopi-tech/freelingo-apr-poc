@@ -42,7 +42,11 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Anche se regge l'indicativo, non il congiuntivo.",
             ),
         ],
-        related=["congiuntivo-presente", "congiuntivo-imperfetto", "connettivi-argomentativi"],
+        related=[
+            "congiuntivo-presente",
+            "congiuntivo-imperfetto",
+            "connettivi-argomentativi",
+        ],
     ),
     GrammarTopic(
         slug="congiuntivo-finale",
@@ -83,7 +87,11 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Stesso soggetto → per + infinito.",
             ),
         ],
-        related=["congiuntivo-presente", "congiuntivo-concessivo", "connettivi-argomentativi"],
+        related=[
+            "congiuntivo-presente",
+            "congiuntivo-concessivo",
+            "connettivi-argomentativi",
+        ],
     ),
     GrammarTopic(
         slug="congiuntivo-relativo",
@@ -454,7 +462,11 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Un discorso persuasivo efficace combina tutte e tre le componenti.",
             ),
         ],
-        related=["struttura-argomentativa", "controargomentazione", "tecniche-oratorie"],
+        related=[
+            "struttura-argomentativa",
+            "controargomentazione",
+            "tecniche-oratorie",
+        ],
     ),
     GrammarTopic(
         slug="tecniche-oratorie",

@@ -10,7 +10,11 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=1,
         title="Le subjonctif présent",
-        grammar_points=["subjonctif-present", "subjonctif-necessite", "subjonctif-volonte"],
+        grammar_points=[
+            "subjonctif-present",
+            "subjonctif-necessite",
+            "subjonctif-volonte",
+        ],
         vocabulary_set_ids=["emotions_fr_b1", "souhaits_fr_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -50,7 +54,11 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=3,
         title="Le passé composé approfondi et le plus-que-parfait",
-        grammar_points=["accord-participe-avoir", "plus-que-parfait", "concordance-temps"],
+        grammar_points=[
+            "accord-participe-avoir",
+            "plus-que-parfait",
+            "concordance-temps",
+        ],
         vocabulary_set_ids=["experiences_fr_b1", "reussites_fr_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -86,7 +94,11 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=5,
         title="Les pronoms relatifs approfondis",
-        grammar_points=["pronoms-relatifs-simples", "pronoms-relatifs-composes", "dont"],
+        grammar_points=[
+            "pronoms-relatifs-simples",
+            "pronoms-relatifs-composes",
+            "dont",
+        ],
         vocabulary_set_ids=["descriptions_fr_b1", "personnes_fr_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

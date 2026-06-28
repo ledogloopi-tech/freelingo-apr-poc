@@ -10,6 +10,11 @@ import { type ReadingExercise } from '@/types/api'
 import { WordTooltip, useWordSave } from '@/components/ui/WordTooltip'
 import { PageLoading } from '@/components/ui/page-loading'
 import { TargetLanguageText } from '@/components/TargetLanguageText'
+import {
+  ReviewPrompt,
+  getReviewPromptDismissal,
+} from '@/components/reviews/ReviewPrompt'
+import { shouldShowExerciseReviewPrompt } from '@/lib/review-prompt-triggers'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -69,6 +74,7 @@ function ReadingPage() {
   const [historyTotal, setHistoryTotal] = useState(0)
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [reviewPromptOpen, setReviewPromptOpen] = useState(false)
 
   const textRef = useRef<HTMLDivElement>(null)
   const [isReplay, setIsReplay] = useState(false)
@@ -200,6 +206,11 @@ function ReadingPage() {
       setResult(data)
       dismissTooltip()
       setPageState('results')
+      if (
+        shouldShowExerciseReviewPrompt(getReviewPromptDismissal(), !isReplay)
+      ) {
+        setReviewPromptOpen(true)
+      }
     } catch {
       setError(t('errorSubmit'))
     } finally {
@@ -428,6 +439,11 @@ function ReadingPage() {
             {t('viewHistory')}
           </button>
         </div>
+        <ReviewPrompt
+          open={reviewPromptOpen}
+          onClose={() => setReviewPromptOpen(false)}
+          onSubmitted={() => setReviewPromptOpen(false)}
+        />
       </div>
     )
   }

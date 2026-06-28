@@ -241,7 +241,12 @@ Narrative Distanz: nah (Innerer Monolog) → mittel (Erlebte Rede) → fern (neu
                 note="Unmarkierte Perspektivwechsel verwirren.",
             ),
         ],
-        related=["literarische-mittel", "literarische-erzaehlung", "stilistik", "indirekte-rede"],
+        related=[
+            "literarische-mittel",
+            "literarische-erzaehlung",
+            "stilistik",
+            "indirekte-rede",
+        ],
     ),
     GrammarTopic(
         slug="falsche-freunde",
@@ -324,10 +329,14 @@ Funktionale Äquivalenz: Vielen Dank für Ihre Mühe! → Thank you so much for 
                 note="nicht wörtlich",
             ),
             GrammarExample(
-                text="Ich habe die Nase voll. → I'm fed up.", translation=None, note="idiomatisch"
+                text="Ich habe die Nase voll. → I'm fed up.",
+                translation=None,
+                note="idiomatisch",
             ),
             GrammarExample(
-                text="Mach's gut! → Take care!", translation=None, note="nicht: Make it good!"
+                text="Mach's gut! → Take care!",
+                translation=None,
+                note="nicht: Make it good!",
             ),
             GrammarExample(
                 text="Guten Appetit! → Enjoy your meal!",
@@ -768,7 +777,13 @@ C2 ≠ Perfektion: Auch C2-Sprecher machen Fehler. Entscheidend ist die Geschwin
                 note="Genauigkeit und Angemessenheit sind ebenso zentral.",
             ),
         ],
-        related=["integration-grammatisch", "stilistik", "modalpartikeln", "nuancen", "alle-modi"],
+        related=[
+            "integration-grammatisch",
+            "stilistik",
+            "modalpartikeln",
+            "nuancen",
+            "alle-modi",
+        ],
     ),
     GrammarTopic(
         slug="deutschsprachige-welt",
@@ -815,7 +830,12 @@ Goethe-Institut: 158 Standorte in 98 Ländern, Hauptaufgaben: Sprachkurse, Kultu
                 note="Nur Schweizer Hochdeutsch ist standardisiert.",
             ),
         ],
-        related=["sprachwandel", "sprachgeschichte", "sprachpolitik-de", "digitales-deutsch"],
+        related=[
+            "sprachwandel",
+            "sprachgeschichte",
+            "sprachpolitik-de",
+            "digitales-deutsch",
+        ],
     ),
     GrammarTopic(
         slug="sprachpolitik-de",
@@ -866,7 +886,12 @@ Leichte Sprache und Einfache Sprache als barrierefreie Varianten für Menschen m
                 note="Die deutsche Sprachpolitik ist eine Mischung aus staatlichen und privaten Akteuren.",
             ),
         ],
-        related=["deutschsprachige-welt", "sprachwandel", "sprachgeschichte", "digitales-deutsch"],
+        related=[
+            "deutschsprachige-welt",
+            "sprachwandel",
+            "sprachgeschichte",
+            "digitales-deutsch",
+        ],
     ),
     GrammarTopic(
         slug="digitales-deutsch",
@@ -908,7 +933,12 @@ Zukunft des Deutschen: Dialektsterben? Ja/Nein. Verdrängt Denglisch das Deutsch
                 note="KI und Übersetzung",
             ),
         ],
-        related=["deutschsprachige-welt", "sprachpolitik-de", "sprachwandel", "nuancen"],
+        related=[
+            "deutschsprachige-welt",
+            "sprachpolitik-de",
+            "sprachwandel",
+            "nuancen",
+        ],
     ),
     GrammarTopic(
         slug="mehrsprachigkeit-de",
@@ -960,6 +990,11 @@ Sprachpolitische Fragen: Soll Deutsch in der Verfassung verankert werden? Wie sc
                 note="Code-Switching ist keine 'Halbsprachigkeit', sondern Kompetenz.",
             ),
         ],
-        related=["deutschsprachige-welt", "sprachpolitik-de", "sprachwandel", "digitales-deutsch"],
+        related=[
+            "deutschsprachige-welt",
+            "sprachpolitik-de",
+            "sprachwandel",
+            "digitales-deutsch",
+        ],
     ),
 ]

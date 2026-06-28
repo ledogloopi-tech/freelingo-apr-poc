@@ -9,7 +9,11 @@ from app.core.database import get_db
 from app.core.deps import get_current_user, get_redis
 from app.core.limiter import limiter
 from app.data._types import VocabularySet
-from app.data.vocabulary import get_vocabulary_by_level, get_vocabulary_set, get_vocabulary_sets
+from app.data.vocabulary import (
+    get_vocabulary_by_level,
+    get_vocabulary_set,
+    get_vocabulary_sets,
+)
 from app.models.user import User
 from app.schemas.vocabulary import (
     VocabularyEntryResponse,

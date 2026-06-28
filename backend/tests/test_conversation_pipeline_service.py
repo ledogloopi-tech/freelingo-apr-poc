@@ -704,7 +704,8 @@ async def test_process_memory_save_failure_does_not_crash() -> None:
     pipeline.tts.synthesize = AsyncMock(return_value=b"audio")
 
     with patch(
-        "app.services.conversation_pipeline.save_memories", side_effect=RuntimeError("DB down")
+        "app.services.conversation_pipeline.save_memories",
+        side_effect=RuntimeError("DB down"),
     ):
         ws = FakeWS()
         await pipeline._process(b"audio", ws)

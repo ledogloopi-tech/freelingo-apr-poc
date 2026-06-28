@@ -10,7 +10,11 @@ C1_UNITS: list[CurriculumUnit] = [
         level="C1",
         unit_number=1,
         title="Nuances do subjuntivo",
-        grammar_points=["subjuntivo-concessivo", "subjuntivo-final", "subjuntivo-relativo"],
+        grammar_points=[
+            "subjuntivo-concessivo",
+            "subjuntivo-final",
+            "subjuntivo-relativo",
+        ],
         vocabulary_set_ids=["nuances_c1", "formalidade_c1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -100,7 +104,11 @@ C1_UNITS: list[CurriculumUnit] = [
         level="C1",
         unit_number=6,
         title="Variedades do português",
-        grammar_points=["portugues-brasileiro", "portugues-europeu", "diferencas-regionais"],
+        grammar_points=[
+            "portugues-brasileiro",
+            "portugues-europeu",
+            "diferencas-regionais",
+        ],
         vocabulary_set_ids=["variedades_c1", "dialetos_c1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

@@ -6,17 +6,27 @@ import struct
 from fastapi import APIRouter, Depends, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import JSONResponse
 from jwt.exceptions import PyJWTError
+from pydantic import BaseModel
 from sqlalchemy import select
 
 from app.core.app_logger import get_logger
 from app.core.config import settings
-from app.core.deps import MAINTENANCE_KEY, require_not_maintenance, require_subscription
+from app.core.deps import (
+    MAINTENANCE_KEY,
+    get_current_user,
+    get_redis,
+    require_not_maintenance,
+)
 from app.core.limiter import limiter
 from app.core.security import decode_access_token
 from app.models.conversation import Conversation as ConversationModel
 from app.models.study_plan import StudyPlan
 from app.models.user import User
 from app.models.user_language import UserLanguage
+from app.services.assessment_voice_trial import (
+    consume_assessment_voice_trial_token,
+    validate_assessment_voice_trial_token,
+)
 from app.services.conversation_pipeline import ConversationPipeline
 from app.services.language_helpers import voice_session_title
 from app.services.llm_adapter import llm_adapter
@@ -29,6 +39,10 @@ from app.utils.redis import redis_client as _redis_client
 logger = get_logger(__name__)
 
 router = APIRouter(tags=["conversation"])
+
+
+class ConversationWarmupRequest(BaseModel):
+    trial_token: str | None = None
 
 
 def _make_silence_wav(duration_ms: int = 100, sample_rate: int = 16000) -> bytes:
@@ -59,8 +73,10 @@ def _make_silence_wav(duration_ms: int = 100, sample_rate: int = 16000) -> bytes
 @limiter.limit("20/minute")
 async def conversation_warmup(
     request: Request,
+    data: ConversationWarmupRequest | None = None,
     _maintenance: None = Depends(require_not_maintenance),
-    _current_user: User = Depends(require_subscription),
+    current_user: User = Depends(get_current_user),
+    redis=Depends(get_redis),
 ) -> JSONResponse:
     """Pre-heat TTS and STT services before a conversation session starts.
 
@@ -68,6 +84,16 @@ async def conversation_warmup(
     ready before opening the WebSocket. The frontend must await this call
     and only then connect the WebSocket.
     """
+    if not is_subscribed(current_user, settings.STRIPE_ENABLED):
+        trial = await validate_assessment_voice_trial_token(
+            redis,
+            user=current_user,
+            token=data.trial_token if data else None,
+            stripe_enabled=settings.STRIPE_ENABLED,
+        )
+        if not trial:
+            return JSONResponse({"detail": "subscription_required"}, status_code=402)
+
     tts_service = getattr(request.app.state, "tts_service", None)
     stt_service = getattr(request.app.state, "stt_service", None)
 
@@ -119,13 +145,24 @@ async def conversation_ws(
         token = auth_msg.get("token", "")
         initial_context_raw = auth_msg.get("context")  # optional chat history
         voice_pref: str = auth_msg.get("voice", "") or ""
+        voice_trial_token: str | None = auth_msg.get("voice_trial_token")
         target_language_from_client: str | None = auth_msg.get("target_language")
         client_conversation_id_raw = auth_msg.get(
             "conversation_id"
         )  # optional: reserved for future API use
         if settings.TTS_PROVIDER == "openai":
             _VALID_VOICES = frozenset(
-                {"alloy", "ash", "coral", "echo", "fable", "nova", "onyx", "sage", "shimmer"}
+                {
+                    "alloy",
+                    "ash",
+                    "coral",
+                    "echo",
+                    "fable",
+                    "nova",
+                    "onyx",
+                    "sage",
+                    "shimmer",
+                }
             )
             if voice_pref not in _VALID_VOICES:
                 voice_pref = ""
@@ -145,7 +182,8 @@ async def conversation_ws(
         user = await db.get(User, user_id)
         if not user or not user.is_active:
             logger.warning(
-                "[conversation] User %s not found or inactive — closing WS 1008", user_id
+                "[conversation] User %s not found or inactive — closing WS 1008",
+                user_id,
             )
             await websocket.close(code=1008)
             return
@@ -156,7 +194,8 @@ async def conversation_ws(
                 maintenance = await redis_check.get(MAINTENANCE_KEY)
             if maintenance == "1" and user.role != "admin":
                 logger.info(
-                    "[conversation] Maintenance mode active — closing WS for user %s", user_id
+                    "[conversation] Maintenance mode active — closing WS for user %s",
+                    user_id,
                 )
                 await websocket.send_json(
                     {
@@ -170,10 +209,21 @@ async def conversation_ws(
         except Exception:
             pass  # Redis failure → allow through
 
-        # Check subscription
-        if not is_subscribed(user, settings.STRIPE_ENABLED):
+        # Check subscription, or validate the one-time post-assessment voice trial.
+        voice_trial = None
+        subscribed = is_subscribed(user, settings.STRIPE_ENABLED)
+        if not subscribed:
+            async with _redis_client() as redis_trial:
+                voice_trial = await validate_assessment_voice_trial_token(
+                    redis_trial,
+                    user=user,
+                    token=voice_trial_token,
+                    stripe_enabled=settings.STRIPE_ENABLED,
+                )
+        if not subscribed and not voice_trial:
             logger.info(
-                "[conversation] User %s has no active subscription — closing WS 1008", user_id
+                "[conversation] User %s has no active subscription — closing WS 1008",
+                user_id,
             )
             await websocket.send_json(
                 {
@@ -257,7 +307,9 @@ async def conversation_ws(
             study_plan_id_for_conv = plan.id
 
         # Read user settings before session closes to avoid DetachedInstanceError
-        max_duration = user.conversation_max_duration
+        max_duration = (
+            voice_trial.duration_seconds if voice_trial else user.conversation_max_duration
+        )
         inactivity_timeout = user.conversation_inactivity_timeout
         native_language = user.native_language
         student_name = user.display_name
@@ -317,6 +369,29 @@ async def conversation_ws(
         except Exception as exc:
             logger.error("[conversation] Quota check failed: %s", exc)
             raise
+
+        if voice_trial:
+            try:
+                async with db_session() as db_trial:
+                    trial_user = await db_trial.get(User, user_id)
+                    if trial_user:
+                        await consume_assessment_voice_trial_token(
+                            redis,
+                            user=trial_user,
+                            token=voice_trial.token,
+                        )
+                        await db_trial.commit()
+            except Exception as exc:
+                logger.error("[conversation] Failed to consume voice trial: %s", exc)
+                await websocket.send_json(
+                    {
+                        "type": "error",
+                        "code": "internal_error",
+                        "message": "Failed to initialise trial conversation.",
+                    }
+                )
+                await websocket.close(code=1011)
+                return
 
         # Create or reuse a Conversation record so the full transcript is persisted
         # to the same chat_history table used by text chats — this makes voice

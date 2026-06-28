@@ -30,7 +30,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="의견을 말할 때는 '-다고 생각하다'를 써야 합니다. '-다 생각하다'는 잘못된 인용문입니다.",
             )
         ],
-        related=["quotation-dago-hada", "supposition-eun-ji-moreuda", "debate-eun-geon-munje"],
+        related=[
+            "quotation-dago-hada",
+            "supposition-eun-ji-moreuda",
+            "debate-eun-geon-munje",
+        ],
     ),
     GrammarTopic(
         slug="because-gi-ttaemune",
@@ -88,7 +92,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="간접 인용은 어간에 '-ㄴ/는다고'를 붙입니다. 현재형 종결어미 '-요'를 중간에 넣지 않습니다.",
             )
         ],
-        related=["opinion-eun-geon-gataya", "evidence-e-ttareumyeon", "media-criticism"],
+        related=[
+            "opinion-eun-geon-gataya",
+            "evidence-e-ttareumyeon",
+            "media-criticism",
+        ],
     ),
     GrammarTopic(
         slug="while-myeonseo",
@@ -175,7 +183,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="동사와 '있다/없다'에는 '는데'를 씁니다. 형용사에만 받침에 따라 '은데/ㄴ데'를 구분해 사용합니다.",
             )
         ],
-        related=["geodeun-background", "while-kin-hande", "counterpoint-gineun-hajiman"],
+        related=[
+            "geodeun-background",
+            "while-kin-hande",
+            "counterpoint-gineun-hajiman",
+        ],
     ),
     GrammarTopic(
         slug="suggestion-neun-ge-eottaeyo",
@@ -233,7 +245,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="'것이'의 준말인 '게'를 써야 주어가 됩니다. '거'만 쓰면 주격 조사가 빠져 올바른 문장이 아닙니다.",
             )
         ],
-        related=["suggestion-neun-ge-eottaeyo", "necessity-aya-dwaeyo", "conditional-eumyeon"],
+        related=[
+            "suggestion-neun-ge-eottaeyo",
+            "necessity-aya-dwaeyo",
+            "conditional-eumyeon",
+        ],
     ),
     GrammarTopic(
         slug="necessity-aya-dwaeyo",
@@ -349,7 +365,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="어간에 받침이 없으면 '-ㄹ지도', 받침이 있으면 '-을지도'를 씁니다. '막히다'는 받침이 없으므로 '막힐지도'입니다.",
             )
         ],
-        related=["supposition-eun-ji-moreuda", "apparently-na-boda", "conditional-eumyeon"],
+        related=[
+            "supposition-eun-ji-moreuda",
+            "apparently-na-boda",
+            "conditional-eumyeon",
+        ],
     ),
     GrammarTopic(
         slug="request-eul-juseyo",
@@ -465,7 +485,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="형용사에는 관형형 '~ㄴ/은 반면에'를 씁니다. '편리하다'는 형용사이므로 '편리하는'이 아닌 '편리한'이 맞습니다.",
             )
         ],
-        related=["counterpoint-gineun-hajiman", "while-kin-hande", "contrast-nevertheless"],
+        related=[
+            "counterpoint-gineun-hajiman",
+            "while-kin-hande",
+            "contrast-nevertheless",
+        ],
     ),
     GrammarTopic(
         slug="degree-eul-jeongdo",
@@ -523,7 +547,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="'-기'로 명사화한 구절이 주어일 때는 주격 조사 '이/가'를 붙여야 합니다. '-기' 뒤에 조사가 빠지면 비문이 됩니다.",
             )
         ],
-        related=["academic-eun-bunseok", "because-gi-ttaemune", "counterpoint-gineun-hajiman"],
+        related=[
+            "academic-eun-bunseok",
+            "because-gi-ttaemune",
+            "counterpoint-gineun-hajiman",
+        ],
     ),
     GrammarTopic(
         slug="cause-aseo",

@@ -1,6 +1,9 @@
 """Prompt builders for text chat and real-time voice tutoring."""
 
-from app.services.prompts.common import TUTOR_DISPLAY_NAME, get_memory_system_instruction
+from app.services.prompts.common import (
+    TUTOR_DISPLAY_NAME,
+    get_memory_system_instruction,
+)
 
 
 def build_tutor_system_prompt(

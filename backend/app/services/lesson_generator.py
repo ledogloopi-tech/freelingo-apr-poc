@@ -145,7 +145,10 @@ async def regenerate_exercise(
         raise ValueError("Regenerated exercise type does not match original type")
     if exercise.type == "fill_blank" and "___" not in exercise.question:
         if exercise.explanation and "___" in exercise.explanation:
-            exercise.question, exercise.explanation = exercise.explanation, exercise.question
+            exercise.question, exercise.explanation = (
+                exercise.explanation,
+                exercise.question,
+            )
     if hint_reveals_answer(exercise.native_hint, exercise.correct):
         exercise.native_hint = None
     return exercise

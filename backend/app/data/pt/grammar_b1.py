@@ -234,7 +234,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Ação única passada: pretérito simples, não composto.",
             ),
         ],
-        related=["marcadores-composto", "mais-que-perfeito", "preterito-perfeito-regular"],
+        related=[
+            "marcadores-composto",
+            "mais-que-perfeito",
+            "preterito-perfeito-regular",
+        ],
     ),
     GrammarTopic(
         slug="mais-que-perfeito",
@@ -592,7 +596,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Ação futura: quando + futuro conjuntivo.",
             ),
         ],
-        related=["presente-conjuntivo", "se-imperfeito-subjuntivo", "imperfeito-conjuntivo"],
+        related=[
+            "presente-conjuntivo",
+            "se-imperfeito-subjuntivo",
+            "imperfeito-conjuntivo",
+        ],
     ),
     GrammarTopic(
         slug="discurso-indireto-passado",

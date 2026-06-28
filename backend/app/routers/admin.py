@@ -366,7 +366,8 @@ async def update_user(
     if data.is_active is not None:
         if not data.is_active and user.id == admin.id:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="Cannot deactivate yourself"
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cannot deactivate yourself",
             )
         user.is_active = data.is_active
     if data.is_verified is not None:

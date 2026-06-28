@@ -87,7 +87,11 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Concordanza del participio con il soggetto.",
             ),
         ],
-        related=["condizionale-presente", "condizionale-cortesia", "discorso-riportato"],
+        related=[
+            "condizionale-presente",
+            "condizionale-cortesia",
+            "discorso-riportato",
+        ],
     ),
     GrammarTopic(
         slug="concordanza-di-genere",
@@ -616,7 +620,11 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="La fluidita e comunicazione efficace, non perfezione grammaticale.",
             ),
         ],
-        related=["integrazione-grammaticale", "espressione-sfumata", "italiano-standard"],
+        related=[
+            "integrazione-grammaticale",
+            "espressione-sfumata",
+            "italiano-standard",
+        ],
     ),
     GrammarTopic(
         slug="revisione",
@@ -656,7 +664,12 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Concisione.",
             ),
         ],
-        related=["riformulazione", "sintesi-testuale", "precisione-lessicale", "generi-testuali"],
+        related=[
+            "riformulazione",
+            "sintesi-testuale",
+            "precisione-lessicale",
+            "generi-testuali",
+        ],
     ),
     GrammarTopic(
         slug="italofonia-contemporanea",
@@ -694,7 +707,11 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="L'italofonia non si esaurisce nei confini nazionali.",
             ),
         ],
-        related=["politica-linguistica-it", "prestiti-linguistici", "evoluzione-linguistica"],
+        related=[
+            "politica-linguistica-it",
+            "prestiti-linguistici",
+            "evoluzione-linguistica",
+        ],
     ),
     GrammarTopic(
         slug="politica-linguistica-it",
@@ -738,7 +755,11 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="I dialetti non sono 'errori', sono altre lingue.",
             ),
         ],
-        related=["italofonia-contemporanea", "evoluzione-linguistica", "italiano-standard"],
+        related=[
+            "italofonia-contemporanea",
+            "evoluzione-linguistica",
+            "italiano-standard",
+        ],
     ),
     GrammarTopic(
         slug="evoluzione-digitale-it",
@@ -777,6 +798,10 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Evitare giudizi di valore sulle varietà linguistiche.",
             ),
         ],
-        related=["italofonia-contemporanea", "politica-linguistica-it", "creativita-linguistica"],
+        related=[
+            "italofonia-contemporanea",
+            "politica-linguistica-it",
+            "creativita-linguistica",
+        ],
     ),
 ]

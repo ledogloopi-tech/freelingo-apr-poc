@@ -40,7 +40,9 @@ C1_CATEGORIES: list[PhrasebookCategory] = [
                 register="formal",
             ),
             PhrasebookEntry(
-                text="A modo de conclusi\u00f3n...", context="Empezar el cierre", register="formal"
+                text="A modo de conclusi\u00f3n...",
+                context="Empezar el cierre",
+                register="formal",
             ),
             PhrasebookEntry(
                 text="Estoy a su disposici\u00f3n para cualquier pregunta.",
@@ -169,7 +171,9 @@ C1_CATEGORIES: list[PhrasebookCategory] = [
                 register="informal",
             ),
             PhrasebookEntry(
-                text="Estaremos en contacto.", context="Prometer seguimiento", register="neutral"
+                text="Estaremos en contacto.",
+                context="Prometer seguimiento",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="\u00bfEst\u00e1is en LinkedIn?",

@@ -532,7 +532,12 @@
     "startWarningMessage": "Dacă părăsești evaluarea înainte de a o finaliza, progresul tău va fi pierdut și va trebui să o iei de la capăt.",
     "startWarningMessageLevelTest": "Dacă părăsești testul de nivel înainte de a-l finaliza, progresul tău va fi pierdut și va trebui să îl refaci.",
     "startWarningConfirm": "Începe",
-    "startMyPlan": "Pornește planul meu"
+    "startMyPlan": "Pornește planul meu",
+    "voiceTrialLabel": "Voice trial",
+    "voiceTrialTitle": "Try a real conversation now",
+    "voiceTrialDesc": "Talk with Lingu for {minutes} minutes, free. Your tutor will adapt to the level you just unlocked.",
+    "voiceTrialStart": "Start free conversation",
+    "voiceTrialSkip": "Skip for now"
   },
   "plan": {
     "title": "Planul meu",
@@ -1057,6 +1062,10 @@
     "quotaExceededTokens": "Ai folosit toți tokenii IA lunari.",
     "quotaTokens": "Tokeni luna aceasta",
     "memoryUpdated": "Memorie actualizată",
+    "trialBanner": "Free assessment conversation · {minutes} min",
+    "trialCtaLabel": "Keep speaking",
+    "trialCtaTitle": "Continue practising with Lingu",
+    "trialCtaDesc": "Unlock full voice conversations, tutor chat, listening and reading practice with Premium.",
     "startersHint": "Sau începe cu un subiect",
     "starters": [
       "Artă și creativitate",
@@ -1344,21 +1353,13 @@
   },
   "whatsNew": {
     "title": "Noutăți",
-    "version": "v1.8.19",
+    "version": "v1.8.20",
     "cta": "Am înțeles",
     "entry1": {
-      "label": "Dashboard mai clar",
-      "desc": "Dashboardul se concentrează acum pe următorul pas, cu lecțiile zilnice, progresul planului, progresul vocabularului și performanța recentă mai ușor de urmărit."
+      "label": "Demo vocal gratuit după evaluare",
+      "desc": "După crearea planului de studiu, poți încerca gratuit o conversație vocală în timp real cu Lingu timp de 5 minute. Când demo-ul se termină, Premium deblochează practica vocală completă și celelalte moduri ghidate."
     },
     "entry2": {
-      "label": "Mai multe limbi de învățat",
-      "desc": "<bold>Chineză continentală, coreeană, franceză, germană, italiană, japoneză, portugheză și spaniolă</bold> sunt acum disponibile, cu parcursuri complete de la începător la avansat, gramatică, vocabular, fraze, Reading, Listening și mai mult. Adaugă-le din Setări → Limbile mele."
-    },
-    "entry3": {
-      "label": "Adaugă o recenzie din profil",
-      "desc": "Acum poți împărtăși părerea ta despre FreeLingo direct din Setări → Profil. Recenzia ta îi ajută pe alți cursanți să descopere platforma."
-    },
-    "entry4": {
       "label": "Corectări de bug-uri",
       "desc": "Diverse corectări minore de bug-uri și îmbunătățiri de stabilitate pe întreaga platformă."
     }

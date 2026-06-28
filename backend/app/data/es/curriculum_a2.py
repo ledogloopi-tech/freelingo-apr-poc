@@ -50,7 +50,11 @@ A2_UNITS: list[CurriculumUnit] = [
         level="A2",
         unit_number=3,
         title="Pronombres de objeto directo e indirecto",
-        grammar_points=["pronombres-objeto-directo", "pronombres-objeto-indirecto", "doble-objeto"],
+        grammar_points=[
+            "pronombres-objeto-directo",
+            "pronombres-objeto-indirecto",
+            "doble-objeto",
+        ],
         vocabulary_set_ids=["compras_a2", "regalos_a2", "dinero_precios_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -124,7 +128,11 @@ A2_UNITS: list[CurriculumUnit] = [
         level="A2",
         unit_number=7,
         title="Historias y narraciones",
-        grammar_points=["conectores-narrativos", "secuencia-temporal", "estilo-indirecto"],
+        grammar_points=[
+            "conectores-narrativos",
+            "secuencia-temporal",
+            "estilo-indirecto",
+        ],
         vocabulary_set_ids=["historias_a2", "anécdotas_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

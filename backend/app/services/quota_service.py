@@ -139,7 +139,11 @@ async def check_weekly_minutes(
     if weekly_minutes_limit == 0:
         return True, weekly_minutes_used, 0
 
-    return weekly_minutes_used < weekly_minutes_limit, weekly_minutes_used, weekly_minutes_limit
+    return (
+        weekly_minutes_used < weekly_minutes_limit,
+        weekly_minutes_used,
+        weekly_minutes_limit,
+    )
 
 
 async def record_session_seconds(redis: object, user_id: int, seconds: int) -> None:

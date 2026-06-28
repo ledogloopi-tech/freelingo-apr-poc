@@ -95,7 +95,11 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Con verbo principal en pasado, la final va en imperfecto de subjuntivo.",
             ),
         ],
-        related=["subjuntivo-concesivo", "subjuntivo-relativo", "concordancia-temporal"],
+        related=[
+            "subjuntivo-concesivo",
+            "subjuntivo-relativo",
+            "concordancia-temporal",
+        ],
     ),
     GrammarTopic(
         slug="subjuntivo-relativo",
@@ -143,7 +147,12 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Antecedente negado → subjuntivo.",
             ),
         ],
-        related=["subjuntivo-concesivo", "subjuntivo-final", "que-relativo", "superlativos"],
+        related=[
+            "subjuntivo-concesivo",
+            "subjuntivo-final",
+            "que-relativo",
+            "superlativos",
+        ],
     ),
     GrammarTopic(
         slug="pasiva-refleja",
@@ -465,7 +474,11 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             ),
         ],
         common_mistakes=[],
-        related=["recursos-retoricos", "estructura-argumentativa", "figuras-literarias"],
+        related=[
+            "recursos-retoricos",
+            "estructura-argumentativa",
+            "figuras-literarias",
+        ],
     ),
     GrammarTopic(
         slug="figuras-literarias",
@@ -594,7 +607,11 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             ),
         ],
         common_mistakes=[],
-        related=["espanol-latinoamerica", "diferencias-regionales", "pronombres-sujeto"],
+        related=[
+            "espanol-latinoamerica",
+            "diferencias-regionales",
+            "pronombres-sujeto",
+        ],
     ),
     GrammarTopic(
         slug="sintesis-textual",
@@ -642,7 +659,12 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             ),
         ],
         common_mistakes=[],
-        related=["reformulacion", "sintesis-textual", "condicional-simple", "matizadores"],
+        related=[
+            "reformulacion",
+            "sintesis-textual",
+            "condicional-simple",
+            "matizadores",
+        ],
     ),
     GrammarTopic(
         slug="reformulacion",

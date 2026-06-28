@@ -1180,7 +1180,12 @@ Das Präsens für Zukunft ist völlig korrekt und sogar häufiger als das Futur 
                 note='Die 3. Person Singular von "können" ist "kann" (ohne -t).',
             ),
         ],
-        related=["regelmaessige-verben", "trennbare-verben", "werden-futur", "moegen-gern"],
+        related=[
+            "regelmaessige-verben",
+            "trennbare-verben",
+            "werden-futur",
+            "moegen-gern",
+        ],
     ),
     GrammarTopic(
         slug="wochentage",

@@ -33,6 +33,10 @@ export function mapUser(
     subscription_ends_at:
       data.subscription_ends_at ?? current?.subscription_ends_at ?? null,
     trial_used: data.trial_used ?? current?.trial_used ?? false,
+    assessment_voice_trial_used:
+      data.assessment_voice_trial_used ??
+      current?.assessment_voice_trial_used ??
+      false,
   }
 }
 

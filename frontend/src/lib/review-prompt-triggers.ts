@@ -33,3 +33,12 @@ export function shouldShowUnitReviewPrompt(
   if (!unitCompleted) return false
   return canAskAfterDismissals(dismissal, now)
 }
+
+export function shouldShowExerciseReviewPrompt(
+  dismissal: { count: number; lastDismissedAt: number },
+  exerciseCompleted: boolean,
+  now = Date.now()
+): boolean {
+  if (!exerciseCompleted) return false
+  return canAskAfterDismissals(dismissal, now)
+}

@@ -29,6 +29,7 @@ export interface User {
   subscription_status?: SubscriptionStatus
   subscription_ends_at?: string | null
   trial_used?: boolean
+  assessment_voice_trial_used?: boolean
 }
 
 /** Returns true when the user has an active/trialing subscription, or when Stripe is disabled (self-hosted). */

@@ -109,7 +109,11 @@ B2_UNITS: list[CurriculumUnit] = [
         unit_number=5,
         title="关系、情绪和细微态度",
         grammar_points=["nanmian-inevitable", "haoxiang-appearance", "faner-contrast"],
-        vocabulary_set_ids=["relationships_b2", "emotions_b2", "conflict_resolution_b2"],
+        vocabulary_set_ids=[
+            "relationships_b2",
+            "emotions_b2",
+            "conflict_resolution_b2",
+        ],
         lesson_types=[
             "grammar",
             "vocabulary",
@@ -206,7 +210,12 @@ B2_UNITS: list[CurriculumUnit] = [
             "youyu-cause",
             "zhe-yi-structure",
         ],
-        vocabulary_set_ids=["review_b2", "expanded_b2_1", "expanded_b2_2", "expanded_b2_3"],
+        vocabulary_set_ids=[
+            "review_b2",
+            "expanded_b2_1",
+            "expanded_b2_2",
+            "expanded_b2_3",
+        ],
         lesson_types=[
             "grammar",
             "vocabulary",

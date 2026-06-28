@@ -1127,7 +1127,12 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
         skill="reading",
         difficulty="C1",
         question='Lee: "El texto alterna comillas españolas en citas principales y comillas dobles en citas internas con criterio uniforme".\n\n¿Qué cualidad textual se destaca?',
-        options=["Ambigüedad léxica", "Coherencia ortotipográfica", "Elipsis verbal", "Dequeísmo"],
+        options=[
+            "Ambigüedad léxica",
+            "Coherencia ortotipográfica",
+            "Elipsis verbal",
+            "Dequeísmo",
+        ],
         correct="Coherencia ortotipográfica",
     ),
     AssessmentQuestion(

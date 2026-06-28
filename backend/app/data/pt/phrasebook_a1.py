@@ -10,7 +10,9 @@ A1_CATEGORIES: list[PhrasebookCategory] = [
         icon="\U0001f44b",
         phrases=[
             PhrasebookEntry(
-                text="Ol\u00e1!", context="Sauda\u00e7\u00e3o informal", register="informal"
+                text="Ol\u00e1!",
+                context="Sauda\u00e7\u00e3o informal",
+                register="informal",
             ),
             PhrasebookEntry(
                 text="Bom dia.",
@@ -23,7 +25,9 @@ A1_CATEGORIES: list[PhrasebookCategory] = [
                 register="formal",
             ),
             PhrasebookEntry(
-                text="Boa noite.", context="Sauda\u00e7\u00e3o depois das 18h", register="formal"
+                text="Boa noite.",
+                context="Sauda\u00e7\u00e3o depois das 18h",
+                register="formal",
             ),
             PhrasebookEntry(
                 text="Como est\u00e1s?",
@@ -85,13 +89,19 @@ A1_CATEGORIES: list[PhrasebookCategory] = [
             ),
             PhrasebookEntry(text="Obrigado.", context="Agradecer (masculino)", register="neutral"),
             PhrasebookEntry(
-                text="Muito obrigado!", context="Agradecer com \u00eanfase", register="neutral"
+                text="Muito obrigado!",
+                context="Agradecer com \u00eanfase",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="De nada.", context="Responder a um agradecimento", register="neutral"
+                text="De nada.",
+                context="Responder a um agradecimento",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="Desculpa.", context="Pedir desculpa (informal)", register="informal"
+                text="Desculpa.",
+                context="Pedir desculpa (informal)",
+                register="informal",
             ),
             PhrasebookEntry(text="Desculpe.", context="Pedir desculpa (formal)", register="formal"),
             PhrasebookEntry(text="Lamento.", context="Exprimir pesar", register="neutral"),
@@ -101,10 +111,14 @@ A1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Podes ajudar-me?", context="Pedir ajuda (informal)", register="informal"
+                text="Podes ajudar-me?",
+                context="Pedir ajuda (informal)",
+                register="informal",
             ),
             PhrasebookEntry(
-                text="Pode ajudar-me?", context="Pedir ajuda (formal)", register="formal"
+                text="Pode ajudar-me?",
+                context="Pedir ajuda (formal)",
+                register="formal",
             ),
             PhrasebookEntry(
                 text="Posso...?",
@@ -125,16 +139,24 @@ A1_CATEGORIES: list[PhrasebookCategory] = [
         icon="\U0001f552",
         phrases=[
             PhrasebookEntry(
-                text="Que horas s\u00e3o?", context="Perguntar as horas", register="neutral"
+                text="Que horas s\u00e3o?",
+                context="Perguntar as horas",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="S\u00e3o tr\u00eas horas.", context="Dizer a hora exata", register="neutral"
+                text="S\u00e3o tr\u00eas horas.",
+                context="Dizer a hora exata",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="\u00c9 uma hora.", context="Dizer uma hora (singular)", register="neutral"
+                text="\u00c9 uma hora.",
+                context="Dizer uma hora (singular)",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="S\u00e3o tr\u00eas e meia.", context="Dizer a meia hora", register="neutral"
+                text="S\u00e3o tr\u00eas e meia.",
+                context="Dizer a meia hora",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="S\u00e3o quinze para as quatro.",
@@ -142,13 +164,19 @@ A1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="A que horas parte?", context="Perguntar a hora de partida", register="neutral"
+                text="A que horas parte?",
+                context="Perguntar a hora de partida",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="Quanto custa?", context="Perguntar o pre\u00e7o", register="neutral"
+                text="Quanto custa?",
+                context="Perguntar o pre\u00e7o",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="Custa dez euros.", context="Indicar o pre\u00e7o", register="neutral"
+                text="Custa dez euros.",
+                context="Indicar o pre\u00e7o",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Quantos anos tens?",
@@ -169,10 +197,14 @@ A1_CATEGORIES: list[PhrasebookCategory] = [
         icon="\U0001f6cd\ufe0f",
         phrases=[
             PhrasebookEntry(
-                text="Quanto custa?", context="Perguntar o pre\u00e7o", register="neutral"
+                text="Quanto custa?",
+                context="Perguntar o pre\u00e7o",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="\u00c9 muito caro.", context="Dizer que algo \u00e9 caro", register="neutral"
+                text="\u00c9 muito caro.",
+                context="Dizer que algo \u00e9 caro",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Tem algo mais barato?",
@@ -190,7 +222,9 @@ A1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="D\u00e1-me um recibo, por favor?", context="Pedir o recibo", register="formal"
+                text="D\u00e1-me um recibo, por favor?",
+                context="Pedir o recibo",
+                register="formal",
             ),
             PhrasebookEntry(
                 text="Que tamanho usa?",
@@ -231,7 +265,9 @@ A1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Fica aqui perto.", context="Responder que \u00e9 perto", register="neutral"
+                text="Fica aqui perto.",
+                context="Responder que \u00e9 perto",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Vire \u00e0 direita.",

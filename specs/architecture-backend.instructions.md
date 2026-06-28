@@ -92,9 +92,10 @@ backend/
 │   │   ├── tts.py               # Text-to-speech proxy
 │   │   └── vocabulary.py        # Static vocabulary data (per language + per level)
 │   │
-│   ├── services/                # Business logic + external service clients (19 modules + prompts package)
+│   ├── services/                # Business logic + external service clients (20 modules + prompts package)
 │   │   ├── __init__.py
 │   │   ├── assessment.py        # Adaptive quiz logic, CEFR level estimation
+│   │   ├── assessment_voice_trial.py # One-time post-assessment voice demo token service
 │   │   ├── conversation_pipeline.py  # WebSocket voice orchestrator: STT → LLM → TTS
 │   │   ├── email_service.py     # SMTP email (verification, password reset, contact, admin notifications)
 │   │   ├── flashcard_sm2.py     # SM-2 spaced repetition algorithm
@@ -135,14 +136,14 @@ backend/
 ├── alembic/
 │   └── versions/                # DB migrations (43 migrations)
 │
-└── tests/                       # pytest suite (43 test files, 922 tests)
+└── tests/                       # pytest suite (43 test files, 928 tests)
 ```
 
 ## Database models
 
 The application uses 21 SQLAlchemy ORM model sections organized into 5 domains:
 
-- **Core**: User (authentication, preferences, quotas), Progress (daily XP/streak/skills)
+- **Core**: User (authentication, preferences, quotas, Stripe state, post-assessment voice demo state), Progress (daily XP/streak/skills)
 - **Study plan**: StudyPlan, Lesson, Exercise, UserCompetency (curriculum tracking)
 - **Spaced repetition**: Flashcard (SM-2 algorithm)
 - **Conversations**: Conversation, ChatHistory (text and voice transcripts)

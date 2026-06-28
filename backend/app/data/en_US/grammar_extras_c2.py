@@ -36,7 +36,11 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="After complex prepositions, use a noun phrase or -ing form, not a clause.",
             ),
         ],
-        related=["complex-prepositional-phrases", "dependent-prepositions", "register-and-style"],
+        related=[
+            "complex-prepositional-phrases",
+            "dependent-prepositions",
+            "register-and-style",
+        ],
     ),
     GrammarTopic(
         slug="syntactic-variety",
@@ -165,7 +169,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="The CEO's salary is not exactly modest.", note="litotes = it is very high"
+                text="The CEO's salary is not exactly modest.",
+                note="litotes = it is very high",
             ),
             GrammarExample(
                 text="Winning the World Cup was a not inconsiderable achievement.",
@@ -176,7 +181,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="understatement = he is always late",
             ),
             GrammarExample(
-                text="The test was challenging, to put it mildly.", note="understatement for effect"
+                text="The test was challenging, to put it mildly.",
+                note="understatement for effect",
             ),
         ],
         common_mistakes=[
@@ -211,7 +217,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="found by chance",
             ),
             GrammarExample(
-                text="She broke down the complex problem into manageable steps.", note="analyzed"
+                text="She broke down the complex problem into manageable steps.",
+                note="analyzed",
             ),
             GrammarExample(
                 text="We got through the recession by cutting costs and diversifying.",
@@ -295,7 +302,11 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="The possessive is 'Achilles'' (pronounced like 'Achilles heel', no extra 's').",
             ),
         ],
-        related=["idiomatic-expressions", "metaphorical-language", "register-and-style"],
+        related=[
+            "idiomatic-expressions",
+            "metaphorical-language",
+            "register-and-style",
+        ],
     ),
     GrammarTopic(
         slug="hedging-stance-advanced",
@@ -366,7 +377,11 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Take indirect requests as requests, not as literal questions.",
             ),
         ],
-        related=["hedging-stance-advanced", "irony-understatement", "distancing-language"],
+        related=[
+            "hedging-stance-advanced",
+            "irony-understatement",
+            "distancing-language",
+        ],
     ),
     GrammarTopic(
         slug="american-pragmatics",
@@ -454,7 +469,12 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Rhetorical devices need parallel structure to be effective.",
             ),
         ],
-        related=["syntactic-variety", "parallelism", "coherence-cohesion", "metaphorical-language"],
+        related=[
+            "syntactic-variety",
+            "parallelism",
+            "coherence-cohesion",
+            "metaphorical-language",
+        ],
     ),
     GrammarTopic(
         slug="advanced-concessive-structures",

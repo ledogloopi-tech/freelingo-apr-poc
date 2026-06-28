@@ -1569,6 +1569,11 @@ A2では動詞修飾の基本パターンにも触れ、「買った本」「行
                 note="許可を求めるなら「〜てもいいですか」。禁止の確認なら「〜てはいけませんか」。",
             ),
         ],
-        related=["te-mo-ii-desu", "nakereba-naranai", "hou-ga-ii", "te-form-introduction"],
+        related=[
+            "te-mo-ii-desu",
+            "nakereba-naranai",
+            "hou-ga-ii",
+            "te-form-introduction",
+        ],
     ),
 ]

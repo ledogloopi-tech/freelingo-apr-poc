@@ -39,7 +39,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Après un superlatif, la relative est au subjonctif.",
             ),
         ],
-        related=["subjonctif-conjonctions", "concordance-subjonctif", "subjonctif-present"],
+        related=[
+            "subjonctif-conjonctions",
+            "concordance-subjonctif",
+            "subjonctif-present",
+        ],
     ),
     GrammarTopic(
         slug="concordance-subjonctif",
@@ -63,7 +67,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="subj. passé",
             ),
             GrammarExample(
-                text="Je ne pensais pas qu'elle puisse le faire. (courant)", translation=None
+                text="Je ne pensais pas qu'elle puisse le faire. (courant)",
+                translation=None,
             ),
         ],
         common_mistakes=[
@@ -95,7 +100,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="Je répète pour que tout le monde comprenne.", translation=None),
             GrammarExample(text="Attends ici jusqu'à ce que je revienne.", translation=None),
             GrammarExample(
-                text="Tu peux venir à condition que tu sois à l'heure.", translation=None
+                text="Tu peux venir à condition que tu sois à l'heure.",
+                translation=None,
             ),
         ],
         common_mistakes=[
@@ -129,7 +135,9 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         examples=[
             GrammarExample(text="J'écoute de la musique en travaillant.", translation=None),
             GrammarExample(
-                text="Il est sorti en claquant la porte.", translation=None, note="manière"
+                text="Il est sorti en claquant la porte.",
+                translation=None,
+                note="manière",
             ),
             GrammarExample(
                 text="En faisant du sport, on reste en forme.",
@@ -173,7 +181,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="participe présent, registre soutenu",
             ),
             GrammarExample(
-                text="Ne sachant pas la réponse, j'ai gardé le silence.", translation=None
+                text="Ne sachant pas la réponse, j'ai gardé le silence.",
+                translation=None,
             ),
             GrammarExample(
                 text="C'est une histoire passionnante.",
@@ -232,7 +241,12 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Avec 'étant', le participe passé s'accorde avec le sujet.",
             ),
         ],
-        related=["gerondif", "participe-present", "passe-compose-avoir", "passe-compose-etre"],
+        related=[
+            "gerondif",
+            "participe-present",
+            "passe-compose-avoir",
+            "passe-compose-etre",
+        ],
     ),
     GrammarTopic(
         slug="connecteurs-avances",
@@ -255,10 +269,12 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 translation=None,
             ),
             GrammarExample(
-                text="Certes, le projet est ambitieux, mais il est réalisable.", translation=None
+                text="Certes, le projet est ambitieux, mais il est réalisable.",
+                translation=None,
             ),
             GrammarExample(
-                text="Il n'en reste pas moins que des efforts restent à faire.", translation=None
+                text="Il n'en reste pas moins que des efforts restent à faire.",
+                translation=None,
             ),
         ],
         common_mistakes=[
@@ -290,7 +306,9 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="reprise nominale",
             ),
             GrammarExample(
-                text="Paul aime le tennis ; Marie, le basket.", translation=None, note="ellipse"
+                text="Paul aime le tennis ; Marie, le basket.",
+                translation=None,
+                note="ellipse",
             ),
             GrammarExample(
                 text="Non seulement il est compétent, mais il est aussi très sympathique.",
@@ -304,7 +322,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Répéter 'le président' trois fois est lourd. Utiliser des reprises.",
             ),
         ],
-        related=["connecteurs-avances", "connecteurs-logiques", "structure-argumentative"],
+        related=[
+            "connecteurs-avances",
+            "connecteurs-logiques",
+            "structure-argumentative",
+        ],
     ),
     GrammarTopic(
         slug="registre-formel",
@@ -332,7 +354,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="impersonnel",
             ),
             GrammarExample(
-                text="Les résultats de cette étude seront présentés ci-après.", translation=None
+                text="Les résultats de cette étude seront présentés ci-après.",
+                translation=None,
             ),
             GrammarExample(
                 text="Nous avons procédé à l'analyse des données recueillies.",
@@ -347,7 +370,12 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="À l'écrit formel, on évite 'y a' et 'plein de'.",
             ),
         ],
-        related=["connecteurs-avances", "nominalisation", "impersonalite", "orthotypographie"],
+        related=[
+            "connecteurs-avances",
+            "nominalisation",
+            "impersonalite",
+            "orthotypographie",
+        ],
     ),
     GrammarTopic(
         slug="structure-argumentative",
@@ -406,7 +434,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="Bien qu'il soit tard, je vais continuer à travailler.", translation=None
+                text="Bien qu'il soit tard, je vais continuer à travailler.",
+                translation=None,
             ),
             GrammarExample(text="Même s'il fait froid, je prendrai mon vélo.", translation=None),
             GrammarExample(
@@ -515,13 +544,16 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="Le soleil couchant embrasait les toits de cuivre et d'or.", translation=None
+                text="Le soleil couchant embrasait les toits de cuivre et d'or.",
+                translation=None,
             ),
             GrammarExample(
-                text="Un vent glacial sifflait entre les branches dénudées.", translation=None
+                text="Un vent glacial sifflait entre les branches dénudées.",
+                translation=None,
             ),
             GrammarExample(
-                text="L'air était lourd, chargé de l'odeur sucrée des jasmins.", translation=None
+                text="L'air était lourd, chargé de l'odeur sucrée des jasmins.",
+                translation=None,
             ),
         ],
         common_mistakes=[
@@ -549,7 +581,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="Le conseil des ministres a adopté hier la réforme.", translation=None
+                text="Le conseil des ministres a adopté hier la réforme.",
+                translation=None,
             ),
             GrammarExample(
                 text="Selon des sources proches du dossier, un accord aurait été trouvé.",
@@ -557,7 +590,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="conditionnel journalistique",
             ),
             GrammarExample(
-                text="Le suspect, arrêté mardi, a été placé en garde à vue.", translation=None
+                text="Le suspect, arrêté mardi, a été placé en garde à vue.",
+                translation=None,
             ),
         ],
         common_mistakes=[
@@ -599,7 +633,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 translation=None,
             ),
             GrammarExample(
-                text="Des témoins affirment que le bruit était assourdissant.", translation=None
+                text="Des témoins affirment que le bruit était assourdissant.",
+                translation=None,
             ),
         ],
         common_mistakes=[
@@ -609,7 +644,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Concordance des temps : le présent devient imparfait.",
             ),
         ],
-        related=["concordance-temps", "langage-journalistique", "discours-indirect-passe"],
+        related=[
+            "concordance-temps",
+            "langage-journalistique",
+            "discours-indirect-passe",
+        ],
     ),
     GrammarTopic(
         slug="expressions-idiomatiques",
@@ -632,11 +671,15 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="pas venu au rendez-vous",
             ),
             GrammarExample(
-                text="J'ai le cafard depuis son départ.", translation=None, note="je suis triste"
+                text="J'ai le cafard depuis son départ.",
+                translation=None,
+                note="je suis triste",
             ),
             GrammarExample(text="Allez, donne ta langue au chat !", translation=None),
             GrammarExample(
-                text="Elle est à cheval sur la ponctuation.", translation=None, note="très stricte"
+                text="Elle est à cheval sur la ponctuation.",
+                translation=None,
+                note="très stricte",
             ),
         ],
         common_mistakes=[
@@ -697,7 +740,12 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Après 'j'aurais aimé que', on utilise le subjonctif.",
             ),
         ],
-        related=["conditionnel-present", "passe-compose-avoir", "passe-compose-etre", "nuance"],
+        related=[
+            "conditionnel-present",
+            "passe-compose-avoir",
+            "passe-compose-etre",
+            "nuance",
+        ],
     ),
     GrammarTopic(
         slug="futur-anterieur",
@@ -725,7 +773,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="supposition",
             ),
             GrammarExample(
-                text="Dès que nous serons arrivés, nous vous appellerons.", translation=None
+                text="Dès que nous serons arrivés, nous vous appellerons.",
+                translation=None,
             ),
         ],
         common_mistakes=[
@@ -769,7 +818,9 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="lui + en",
             ),
             GrammarExample(
-                text="Ne le leur dis pas encore.", translation=None, note="impératif négatif"
+                text="Ne le leur dis pas encore.",
+                translation=None,
+                note="impératif négatif",
             ),
         ],
         common_mistakes=[

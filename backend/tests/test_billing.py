@@ -317,7 +317,11 @@ async def test_webhook_checkout_completed_activates_subscription(client, db_sess
     with (
         patch.object(settings, "STRIPE_ENABLED", True),
         patch("stripe.Webhook.construct_event", return_value=event),
-        patch("stripe.Subscription.retrieve_async", new_callable=AsyncMock, return_value=mock_sub),
+        patch(
+            "stripe.Subscription.retrieve_async",
+            new_callable=AsyncMock,
+            return_value=mock_sub,
+        ),
     ):
         res = await client.post(
             "/api/billing/webhook",

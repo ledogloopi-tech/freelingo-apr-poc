@@ -10,7 +10,9 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
         icon="\U0001f37d\ufe0f",
         phrases=[
             PhrasebookEntry(
-                text="Avete un tavolo per due?", context="Chiedere un tavolo", register="neutral"
+                text="Avete un tavolo per due?",
+                context="Chiedere un tavolo",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Ho prenotato a nome Rossi.",
@@ -38,7 +40,9 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Il conto, per favore.", context="Chiedere il conto", register="neutral"
+                text="Il conto, per favore.",
+                context="Chiedere il conto",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="\u00c8 tutto buonissimo!",
@@ -46,7 +50,9 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Sono allergico/a a...", context="Avvisare di un'allergia", register="neutral"
+                text="Sono allergico/a a...",
+                context="Avvisare di un'allergia",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Potrebbe portarmi dell'altro pane?",
@@ -87,7 +93,9 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Da quale binario parte?", context="Chiedere il binario", register="neutral"
+                text="Da quale binario parte?",
+                context="Chiedere il binario",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Il treno \u00e8 in ritardo.",
@@ -120,7 +128,9 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Devo cambiare treno?", context="Chiedere coincidenze", register="neutral"
+                text="Devo cambiare treno?",
+                context="Chiedere coincidenze",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Dove posso comprare i biglietti?",
@@ -136,20 +146,30 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
         icon="\U0001f324\ufe0f",
         phrases=[
             PhrasebookEntry(
-                text="Che tempo fa oggi?", context="Chiedere del meteo", register="neutral"
+                text="Che tempo fa oggi?",
+                context="Chiedere del meteo",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="C'\u00e8 il sole.", context="Dire che \u00e8 soleggiato", register="neutral"
+                text="C'\u00e8 il sole.",
+                context="Dire che \u00e8 soleggiato",
+                register="neutral",
             ),
             PhrasebookEntry(text="Sta piovendo.", context="Dire che piove", register="neutral"),
             PhrasebookEntry(
-                text="Fa molto caldo oggi.", context="Commentare il caldo", register="neutral"
+                text="Fa molto caldo oggi.",
+                context="Commentare il caldo",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="Che freddo fa!", context="Commentare il freddo", register="neutral"
+                text="Che freddo fa!",
+                context="Commentare il freddo",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="\u00c8 nuvoloso.", context="Descrivere cielo nuvoloso", register="neutral"
+                text="\u00c8 nuvoloso.",
+                context="Descrivere cielo nuvoloso",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Che bella giornata!",
@@ -157,10 +177,14 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Domani dovrebbe nevicare.", context="Previsione neve", register="neutral"
+                text="Domani dovrebbe nevicare.",
+                context="Previsione neve",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="C'\u00e8 vento oggi.", context="Dire che c'\u00e8 vento", register="neutral"
+                text="C'\u00e8 vento oggi.",
+                context="Dire che c'\u00e8 vento",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Che tempo fa domani?",
@@ -186,7 +210,9 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="informal",
             ),
             PhrasebookEntry(
-                text="A che ora ci vediamo?", context="Accordarsi sull'orario", register="neutral"
+                text="A che ora ci vediamo?",
+                context="Accordarsi sull'orario",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Ci vediamo in piazza alle otto.",
@@ -194,10 +220,14 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Mi dispiace, non posso.", context="Rifiutare un invito", register="neutral"
+                text="Mi dispiace, non posso.",
+                context="Rifiutare un invito",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="Volentieri! / Con piacere!", context="Accettare un invito", register="neutral"
+                text="Volentieri! / Con piacere!",
+                context="Accettare un invito",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Che ne dici di prendere un caff\u00e8?",
@@ -233,17 +263,23 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
         icon="\U0001f60a",
         phrases=[
             PhrasebookEntry(
-                text="Sono felice.", context="Esprimere felicit\u00e0", register="neutral"
+                text="Sono felice.",
+                context="Esprimere felicit\u00e0",
+                register="neutral",
             ),
             PhrasebookEntry(text="Sono triste.", context="Esprimere tristezza", register="neutral"),
             PhrasebookEntry(
-                text="Sono stanco / stanca.", context="Esprimere stanchezza", register="neutral"
+                text="Sono stanco / stanca.",
+                context="Esprimere stanchezza",
+                register="neutral",
             ),
             PhrasebookEntry(text="Ho fame.", context="Esprimere fame", register="neutral"),
             PhrasebookEntry(text="Ho sete.", context="Esprimere sete", register="neutral"),
             PhrasebookEntry(text="Ho paura.", context="Esprimere paura", register="neutral"),
             PhrasebookEntry(
-                text="Sono arrabbiato / arrabbiata.", context="Esprimere rabbia", register="neutral"
+                text="Sono arrabbiato / arrabbiata.",
+                context="Esprimere rabbia",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Sono preoccupato / preoccupata.",
@@ -256,7 +292,9 @@ A2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Sono annoiato / annoiata.", context="Esprimere noia", register="neutral"
+                text="Sono annoiato / annoiata.",
+                context="Esprimere noia",
+                register="neutral",
             ),
             PhrasebookEntry(text="Che stress!", context="Esprimere stress", register="informal"),
         ],

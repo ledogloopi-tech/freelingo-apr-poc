@@ -10,7 +10,12 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=1,
         title="Saluti e presentazioni",
-        grammar_points=["essere", "avere", "pronomi-soggetto", "articoli-determinativi"],
+        grammar_points=[
+            "essere",
+            "avere",
+            "pronomi-soggetto",
+            "articoli-determinativi",
+        ],
         vocabulary_set_ids=[
             "alfabeto_a1",
             "numeri_a1",
@@ -37,7 +42,11 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=2,
         title="Nazionalità e professioni",
-        grammar_points=["essere-nazionalita", "genere-nomi", "articoli-indeterminativi"],
+        grammar_points=[
+            "essere-nazionalita",
+            "genere-nomi",
+            "articoli-indeterminativi",
+        ],
         vocabulary_set_ids=["nazionalità_a1", "professioni_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -60,7 +69,13 @@ A1_UNITS: list[CurriculumUnit] = [
             "dimostrativi",
             "ce-ci-sono",
         ],
-        vocabulary_set_ids=["famiglia_a1", "descrizioni_a1", "colori_a1", "corpo_a1", "vestiti_a1"],
+        vocabulary_set_ids=[
+            "famiglia_a1",
+            "descrizioni_a1",
+            "colori_a1",
+            "corpo_a1",
+            "vestiti_a1",
+        ],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Usa gli aggettivi possessivi (mio, tuo, suo, nostro, vostro, loro) con l'articolo nella maggior parte dei casi: la mia famiglia, il mio cane — ma omette l'articolo con i nomi di famiglia singolari non modificati: mia madre, tuo fratello, sua sorella",
@@ -76,7 +91,12 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=4,
         title="Routine quotidiana e verbi al presente",
-        grammar_points=["presente-are", "presente-ere", "presente-ire", "verbi-riflessivi"],
+        grammar_points=[
+            "presente-are",
+            "presente-ere",
+            "presente-ire",
+            "verbi-riflessivi",
+        ],
         vocabulary_set_ids=["routine_a1", "orari_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -110,7 +130,11 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=6,
         title="Luoghi e indicazioni",
-        grammar_points=["preposizioni-luogo", "imperativo-informale", "numeri-ordinali"],
+        grammar_points=[
+            "preposizioni-luogo",
+            "imperativo-informale",
+            "numeri-ordinali",
+        ],
         vocabulary_set_ids=["luoghi_a1", "indicazioni_a1", "casa_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

@@ -233,7 +233,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="'-ㄹ 테예요'는 '-ㄹ 터이에요'의 준말입니다. 소리 나는 대로 '대요'로 적지 않도록 주의하세요.",
             )
         ],
-        related=["supposition-eun-ji-moreuda", "conditional-eumyeon", "regret-eul-geol-geuraetda"],
+        related=[
+            "supposition-eun-ji-moreuda",
+            "conditional-eumyeon",
+            "regret-eul-geol-geuraetda",
+        ],
     ),
     GrammarTopic(
         slug="apparently-na-boda",
@@ -262,7 +266,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="동사에는 '-나 보다'를 씁니다. 형용사에만 '-(으)ㄴ가 보다'를 사용합니다. '오다'는 동사이므로 '오나 봐요'가 맞습니다.",
             )
         ],
-        related=["supposition-eun-ji-moreuda", "maybe-euljido-mollayo", "must-eul-teida"],
+        related=[
+            "supposition-eun-ji-moreuda",
+            "maybe-euljido-mollayo",
+            "must-eul-teida",
+        ],
     ),
     GrammarTopic(
         slug="cause-eul-tonghae",
@@ -436,7 +444,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="'-기는 한데'에서 '-기'는 명사화 어미입니다. 관형사형 '-은'을 사용하지 않도록 주의하세요.",
             )
         ],
-        related=["counterpoint-gineun-hajiman", "background-neunde", "polite-refusal-b1"],
+        related=[
+            "counterpoint-gineun-hajiman",
+            "background-neunde",
+            "polite-refusal-b1",
+        ],
     ),
     GrammarTopic(
         slug="definition-ran",
@@ -494,7 +506,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="기준을 나타내는 '~에 따라'는 조사 '에'를 씁니다. '을/를 따라'는 물리적인 경로를 따를 때 사용합니다.",
             )
         ],
-        related=["evidence-e-ttareumyeon", "not-only-eul-ppunman-anira", "academic-eun-bunseok"],
+        related=[
+            "evidence-e-ttareumyeon",
+            "not-only-eul-ppunman-anira",
+            "academic-eun-bunseok",
+        ],
     ),
     GrammarTopic(
         slug="academic-eun-bunseok",
@@ -552,7 +568,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="정책은 스스로 바꾸는 것이 아니라 바뀌는 것입니다. 피동사 '바뀌다'와 능동사 '바꾸다'를 구별하세요.",
             )
         ],
-        related=["evidence-e-ttareumyeon", "quotation-dago-hada", "contrast-nevertheless"],
+        related=[
+            "evidence-e-ttareumyeon",
+            "quotation-dago-hada",
+            "contrast-nevertheless",
+        ],
     ),
     GrammarTopic(
         slug="contrast-nevertheless",

@@ -100,7 +100,11 @@ C2_UNITS: list[CurriculumUnit] = [
         level="C2",
         unit_number=6,
         title="C2 consolidação e maestria",
-        grammar_points=["expressao-matizada", "integracao-gramatical", "fluencia-nativa"],
+        grammar_points=[
+            "expressao-matizada",
+            "integracao-gramatical",
+            "fluencia-nativa",
+        ],
         vocabulary_set_ids=["maestria_c2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

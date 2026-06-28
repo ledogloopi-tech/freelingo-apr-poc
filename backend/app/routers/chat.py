@@ -428,7 +428,11 @@ async def chat(
             if memory_items:
                 try:
                     saved = await save_memories(
-                        db, current_user.id, memory_items, "chat", study_plan_id=study_plan_id
+                        db,
+                        current_user.id,
+                        memory_items,
+                        "chat",
+                        study_plan_id=study_plan_id,
                     )
                     if saved:
                         memory_updated = True
@@ -462,7 +466,9 @@ async def chat(
                     logger.debug("Failed to save LLM usage — ignored")
         except LLMTimeoutError:
             logger.warning(
-                "LLM timeout for user %s conversation %s", current_user.id, conversation_id
+                "LLM timeout for user %s conversation %s",
+                current_user.id,
+                conversation_id,
             )
             yield f"data: {json.dumps({'error': 'The AI model took too long. Please try again.'})}\n\n"
         except LLMUnavailableError:
@@ -470,7 +476,9 @@ async def chat(
             yield f"data: {json.dumps({'error': 'The AI service is currently unavailable.'})}\n\n"
         except LLMError:
             logger.exception(
-                "LLM error for user %s conversation %s", current_user.id, conversation_id
+                "LLM error for user %s conversation %s",
+                current_user.id,
+                conversation_id,
             )
             yield f"data: {json.dumps({'error': 'Something went wrong. Please try again.'})}\n\n"
 

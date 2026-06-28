@@ -2,7 +2,7 @@
 
 ## Project state
 
-**v1.8.19 — Logged-in pricing checkout.** Phase 1 (platform), Phase 1+ (resources hub), Phase 2 (TTS/STT), Phase 3 (voice conversation), Phase 4 (multi-language support), Phase 5 (Stripe subscriptions), Phase 6 (Listening exercises), Phase 7 (Reading exercises), Phase 8 (Feedback board), Phase 9 (LLM Memory), Phase 10 (Multi-Language), and Phase 11 (User Reviews) are complete. Japanese (`ja-JP`), Korean (`ko-KR`), and Mainland Chinese (`zh-CN`) now have backend curriculum, grammar, vocabulary, phrasebook, and assessment data. Static grammar, phrasebook, vocabulary resources, lessons, newly generated lesson exercises, exercise hints, and newly generated lesson vocabulary include native-language learning support. Email verification and password reset are also included. Voice conversations are persisted as text transcripts alongside chat conversations. The AI tutor persona is named Lingu. The repo contains `backend/`, `frontend/`, `docker-compose.yml`, `.env.example`, and CI/CD via GitHub Actions. See [CHANGELOG.md](CHANGELOG.md) for the full version history.
+**v1.8.20 — Post-assessment voice demo.** Phase 1 (platform), Phase 1+ (resources hub), Phase 2 (TTS/STT), Phase 3 (voice conversation), Phase 4 (multi-language support), Phase 5 (Stripe subscriptions), Phase 6 (Listening exercises), Phase 7 (Reading exercises), Phase 8 (Feedback board), Phase 9 (LLM Memory), Phase 10 (Multi-Language), and Phase 11 (User Reviews) are complete. Japanese (`ja-JP`), Korean (`ko-KR`), and Mainland Chinese (`zh-CN`) now have backend curriculum, grammar, vocabulary, phrasebook, and assessment data. Static grammar, phrasebook, vocabulary resources, lessons, newly generated lesson exercises, exercise hints, and newly generated lesson vocabulary include native-language learning support. Email verification and password reset are also included. Unsubscribed hosted users get one one-time 5-minute voice conversation demo after completing placement assessment. Voice conversations are persisted as text transcripts alongside chat conversations. The AI tutor persona is named Lingu. The repo contains `backend/`, `frontend/`, `docker-compose.yml`, `.env.example`, and CI/CD via GitHub Actions. See [CHANGELOG.md](CHANGELOG.md) for the full version history.
 
 ## Architecture at a glance
 
@@ -52,11 +52,11 @@ Files most commonly affected by code changes:
 These describe what was built — they are the reference documentation:
 
 - `specs/architecture.instructions.md` — Repository structure, data flows, auth design, test summary
-- `specs/architecture-backend.instructions.md` — Backend architecture: models (21), services (19), routers (23), schemas (15), env vars (51), Python code standards
+- `specs/architecture-backend.instructions.md` — Backend architecture: models (21), services (20), routers (23), schemas (15), env vars (51), Python code standards
 - `specs/architecture-frontend.instructions.md` — Frontend architecture: pages, components, stores (6), lib modules (9), TypeScript code standards
 - `specs/add-target-language.instructions.md` — Canonical checklist for adding new target languages, based on the British English (`en-GB`) data package structure and current dispatchers
 - `specs/database-models.instructions.md` — **21 SQLAlchemy ORM models**: full schema details, relationships, constraints, business rules
-- `specs/services.instructions.md` — **19 backend services**: LLM, TTS/STT, study plan, lessons, static-resource native help, flashcards, listening, reading, reviews, memory, progress, quotas, subscriptions, voice conversation pipeline
+- `specs/services.instructions.md` — **20 backend services**: LLM, TTS/STT, study plan, lessons, static-resource native help, flashcards, listening, reading, reviews, memory, progress, quotas, subscriptions, post-assessment voice trial, voice conversation pipeline
 - `specs/prompts.instructions.md` — LLM prompt architecture: centralized builders, shared prompt blocks, active prompt inventory, dynamic variables, and maintenance rules
 - `specs/api-endpoints.instructions.md` — All REST endpoints and WebSocket — paths, methods, rate limits, descriptions
 - `specs/study-plan.instructions.md` — **Current-state reference** for the study plan & lesson system: data model, `progress_day` semantics, auto-advance, skip day, pending lessons, lesson lifecycle, frontend integration
@@ -102,6 +102,9 @@ source .venv/bin/activate && cd backend && ruff check --fix . && black .
 # Lint & format frontend
 cd frontend && npx eslint src/ --ext .ts,.tsx --fix && npx prettier --write src/
 
+# Canonical formatter from repo root (preferred)
+./scripts/format.sh
+
 # Run all backend tests (coverage must be ≥70%)
 source .venv/bin/activate && cd backend && pytest -v
 
@@ -121,7 +124,7 @@ docker compose exec backend alembic upgrade head
 - When finishing a feature or task that requires test validation, use only the `pre-push` skill for the final test run.
 - If new backend tests are added, update the documented backend test count and backend coverage percentage wherever those metrics are recorded.
 - If new frontend tests are added, update the documented frontend test count wherever it is recorded. Frontend coverage percentage is not tracked.
-- **If any test fails, STOP and ask the user what to do.** Never modify production code or tests to make them pass without explicit user approval. Report the failures and wait for instructions.
+- **If any test fails after launching a suite, STOP and ask the user what to do.** Never modify production code or tests to make tests pass without explicit user approval. Report the failing test(s), include the relevant error summary, and wait for instructions before changing code or tests.
 
 ## Auth design (do not deviate)
 
@@ -138,6 +141,7 @@ docker compose exec backend alembic upgrade head
 
 - **Python**: ruff with rules `E, W, F, I, UP, B, S, ANN` (ANN101 ignored). Black line-length 100. S and ANN rules disabled in `tests/`.
 - **TypeScript**: no semicolons, single quotes, 2-space tabs, trailing commas es5. `prettier-plugin-tailwindcss` required.
+- **Formatting entrypoint**: use `./scripts/format.sh` from the repository root. It runs the same ruff/black/eslint/prettier commands from fixed backend/frontend directories so formatter results do not depend on the current working directory.
 - **shadcn/ui** components must be installed: `button card input progress badge separator sheet tabs`.
 
 ## TTS & STT services

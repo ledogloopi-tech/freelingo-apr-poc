@@ -57,7 +57,11 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=3,
         title="La famille et les descriptions",
-        grammar_points=["adjectifs-possessifs", "adjectifs-qualificatifs", "accord-adjectifs"],
+        grammar_points=[
+            "adjectifs-possessifs",
+            "adjectifs-qualificatifs",
+            "accord-adjectifs",
+        ],
         vocabulary_set_ids=[
             "famille_fr_a1",
             "descriptions_fr_a1",

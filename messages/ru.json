@@ -532,7 +532,12 @@
     "startWarningMessage": "Если вы покинете оценку до её завершения, ваш прогресс будет утерян и вам придётся начать заново.",
     "startWarningMessageLevelTest": "Если вы покинете тест уровня до его завершения, ваш прогресс будет утерян и вам придётся пройти его повторно.",
     "startWarningConfirm": "Начать",
-    "startMyPlan": "Начать мой план"
+    "startMyPlan": "Начать мой план",
+    "voiceTrialLabel": "Voice trial",
+    "voiceTrialTitle": "Try a real conversation now",
+    "voiceTrialDesc": "Talk with Lingu for {minutes} minutes, free. Your tutor will adapt to the level you just unlocked.",
+    "voiceTrialStart": "Start free conversation",
+    "voiceTrialSkip": "Skip for now"
   },
   "plan": {
     "title": "Мой план",
@@ -1057,6 +1062,10 @@
     "quotaExceededTokens": "Вы использовали все ежемесячные токены ИИ.",
     "quotaTokens": "Токены в этом месяце",
     "memoryUpdated": "Память обновлена",
+    "trialBanner": "Free assessment conversation · {minutes} min",
+    "trialCtaLabel": "Keep speaking",
+    "trialCtaTitle": "Continue practising with Lingu",
+    "trialCtaDesc": "Unlock full voice conversations, tutor chat, listening and reading practice with Premium.",
     "startersHint": "Или начните с темы",
     "starters": [
       "Искусство и творчество",
@@ -1344,21 +1353,13 @@
   },
   "whatsNew": {
     "title": "Что нового",
-    "version": "v1.8.19",
+    "version": "v1.8.20",
     "cta": "Понятно",
     "entry1": {
-      "label": "Более понятный дашборд",
-      "desc": "Дашборд теперь помогает быстрее понять следующий шаг: уроки на сегодня, прогресс плана, прогресс словаря и недавние результаты видны сразу."
+      "label": "Бесплатная голосовая демо-сессия после оценки",
+      "desc": "После создания учебного плана вы можете бесплатно попробовать 5-минутный голосовой разговор с Lingu в реальном времени. После демо Premium открывает полную голосовую практику и другие пошаговые режимы."
     },
     "entry2": {
-      "label": "Больше языков для изучения",
-      "desc": "<bold>Испанский, итальянский, корейский, материковый китайский, немецкий, португальский, французский и японский</bold> теперь доступны — с полными учебными маршрутами от начального до продвинутого уровня, грамматикой, лексикой, фразами, Reading, Listening и многим другим. Добавляйте их в Настройки → Мои языки."
-    },
-    "entry3": {
-      "label": "Добавьте отзыв из профиля",
-      "desc": "Теперь вы можете поделиться мнением о FreeLingo прямо в разделе Настройки → Профиль. Ваш отзыв помогает другим учащимся узнать о платформе."
-    },
-    "entry4": {
       "label": "Исправления ошибок",
       "desc": "Различные незначительные исправления ошибок и улучшения стабильности на всей платформе."
     }

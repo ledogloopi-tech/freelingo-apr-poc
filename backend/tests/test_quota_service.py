@@ -159,7 +159,11 @@ class TestGetQuotaStatus:
     async def test_all_zero_when_empty(self, redis_mock):
         """Fresh Redis returns zeros across all counters."""
         status = await get_quota_status(
-            redis_mock, user_id=1, weekly_limit=5, daily_minutes_limit=30, weekly_minutes_limit=120
+            redis_mock,
+            user_id=1,
+            weekly_limit=5,
+            daily_minutes_limit=30,
+            weekly_minutes_limit=120,
         )
         assert status["sessions_this_week"] == 0
         assert status["sessions_limit"] == 5
@@ -178,7 +182,11 @@ class TestGetQuotaStatus:
         await redis_mock.set(_day_key(1), "120")  # 2 minutes
         await redis_mock.set(_weekly_seconds_key(1), "900")  # 15 minutes
         status = await get_quota_status(
-            redis_mock, user_id=1, weekly_limit=7, daily_minutes_limit=45, weekly_minutes_limit=200
+            redis_mock,
+            user_id=1,
+            weekly_limit=7,
+            daily_minutes_limit=45,
+            weekly_minutes_limit=200,
         )
         assert status["sessions_this_week"] == 3
         assert status["minutes_today"] == 2
@@ -188,7 +196,11 @@ class TestGetQuotaStatus:
     async def test_unlimited_flags_when_limit_is_zero(self, redis_mock):
         """A limit of 0 means unlimited across all three limits."""
         status = await get_quota_status(
-            redis_mock, user_id=1, weekly_limit=0, daily_minutes_limit=0, weekly_minutes_limit=0
+            redis_mock,
+            user_id=1,
+            weekly_limit=0,
+            daily_minutes_limit=0,
+            weekly_minutes_limit=0,
         )
         assert status["sessions_unlimited"] is True
         assert status["time_unlimited"] is True
@@ -201,7 +213,11 @@ class TestGetQuotaStatus:
     async def test_mixed_limits_some_unlimited(self, redis_mock):
         """One limit zero while others have caps still shows correct flags."""
         status = await get_quota_status(
-            redis_mock, user_id=1, weekly_limit=3, daily_minutes_limit=0, weekly_minutes_limit=60
+            redis_mock,
+            user_id=1,
+            weekly_limit=3,
+            daily_minutes_limit=0,
+            weekly_minutes_limit=60,
         )
         assert status["sessions_unlimited"] is False
         assert status["time_unlimited"] is True
@@ -1107,7 +1123,11 @@ class TestQuotaWorkflow:
         user_id = 1
         # Initial: all zeros
         status = await get_quota_status(
-            redis_mock, user_id, weekly_limit=5, daily_minutes_limit=30, weekly_minutes_limit=120
+            redis_mock,
+            user_id,
+            weekly_limit=5,
+            daily_minutes_limit=30,
+            weekly_minutes_limit=120,
         )
         assert status["sessions_this_week"] == 0
         assert status["minutes_today"] == 0

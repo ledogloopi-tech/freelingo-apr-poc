@@ -532,7 +532,12 @@
     "startWarningMessage": "Si sales de la evaluación antes de terminarla, perderás el progreso y tendrás que repetirla desde el principio.",
     "startWarningMessageLevelTest": "Si sales del test de nivel antes de terminarlo, perderás el progreso y tendrás que repetirlo.",
     "startWarningConfirm": "Comenzar",
-    "startMyPlan": "Empezar mi plan"
+    "startMyPlan": "Empezar mi plan",
+    "voiceTrialLabel": "Prueba de voz",
+    "voiceTrialTitle": "Prueba una conversación real ahora",
+    "voiceTrialDesc": "Habla con Lingu durante {minutes} minutos gratis. Tu tutor se adaptará al nivel que acabas de desbloquear.",
+    "voiceTrialStart": "Empezar conversación gratis",
+    "voiceTrialSkip": "Saltar por ahora"
   },
   "plan": {
     "title": "Mi plan",
@@ -1057,6 +1062,10 @@
     "quotaExceededTokens": "Has agotado todos tus tokens de IA mensuales.",
     "quotaTokens": "Tokens este mes",
     "memoryUpdated": "Memoria actualizada",
+    "trialBanner": "Conversación gratuita tras la evaluación · {minutes} min",
+    "trialCtaLabel": "Sigue hablando",
+    "trialCtaTitle": "Continúa practicando con Lingu",
+    "trialCtaDesc": "Desbloquea conversaciones de voz completas, chat con tutor y práctica de listening y reading con Premium.",
     "startersHint": "O empieza con un tema",
     "starters": [
       "Arte y creatividad",
@@ -1344,21 +1353,13 @@
   },
   "whatsNew": {
     "title": "Novedades",
-    "version": "v1.8.19",
+    "version": "v1.8.20",
     "cta": "Entendido",
     "entry1": {
-      "label": "Dashboard más claro",
-      "desc": "Tu dashboard ahora se centra en qué hacer a continuación, con lecciones diarias, progreso del plan, progreso de vocabulario y rendimiento reciente más fáciles de ver."
+      "label": "Prueba gratuita de voz tras la evaluación",
+      "desc": "Después de crear tu plan de estudio, puedes probar una conversación de voz en tiempo real con Lingu durante 5 minutos gratis. Al terminar la demo, Premium desbloquea la práctica de voz completa y los demás modos guiados."
     },
     "entry2": {
-      "label": "Más idiomas para aprender",
-      "desc": "<bold>Alemán, chino continental, coreano, español, francés, italiano, japonés y portugués</bold> ya están disponibles, con rutas completas de aprendizaje de principiante a avanzado, gramática, vocabulario, frases, Reading, Listening y más. Añádelos desde Ajustes → Mis idiomas."
-    },
-    "entry3": {
-      "label": "Añade una reseña desde tu perfil",
-      "desc": "Ahora puedes compartir tu opinión sobre FreeLingo directamente desde Ajustes → Perfil. Tu reseña ayuda a otros estudiantes a conocer la plataforma."
-    },
-    "entry4": {
       "label": "Corrección de errores",
       "desc": "Varias correcciones de errores menores y mejoras de estabilidad en la plataforma."
     }

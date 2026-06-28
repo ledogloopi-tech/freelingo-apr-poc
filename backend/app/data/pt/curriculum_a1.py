@@ -33,7 +33,11 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=2,
         title="Nacionalidades e profissões",
-        grammar_points=["ser-nacionalidade", "genero-substantivos", "artigos-indefinidos"],
+        grammar_points=[
+            "ser-nacionalidade",
+            "genero-substantivos",
+            "artigos-indefinidos",
+        ],
         vocabulary_set_ids=["nacionalidades_a1", "profissões_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -50,8 +54,19 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=3,
         title="A família e descrições",
-        grammar_points=["ter", "adjetivos-possessivos", "adjetivos-descritivos", "demonstrativos"],
-        vocabulary_set_ids=["família_a1", "descrições_a1", "cores_a1", "corpo_a1", "roupa_a1"],
+        grammar_points=[
+            "ter",
+            "adjetivos-possessivos",
+            "adjetivos-descritivos",
+            "demonstrativos",
+        ],
+        vocabulary_set_ids=[
+            "família_a1",
+            "descrições_a1",
+            "cores_a1",
+            "corpo_a1",
+            "roupa_a1",
+        ],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Nomeia membros da família e usa ter para posse e idade: Tenho dois irmãos, A minha mãe tem 55 anos",
@@ -67,7 +82,12 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=4,
         title="Rotina diária e verbos presente",
-        grammar_points=["presente-regular", "verbos-reflexivos", "horas", "numeros-ordinais"],
+        grammar_points=[
+            "presente-regular",
+            "verbos-reflexivos",
+            "horas",
+            "numeros-ordinais",
+        ],
         vocabulary_set_ids=["rotina_a1", "horas_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -101,7 +121,12 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=6,
         title="Lugares e direções",
-        grammar_points=["estar", "haver", "preposicoes-lugar", "contracoes-preposicionais"],
+        grammar_points=[
+            "estar",
+            "haver",
+            "preposicoes-lugar",
+            "contracoes-preposicionais",
+        ],
         vocabulary_set_ids=["lugares_a1", "direções_a1", "casa_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -118,7 +143,12 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=7,
         title="Planos e futuro próximo",
-        grammar_points=["ir-futuro", "querer-poder", "dias-semana", "estar-a-infinitivo"],
+        grammar_points=[
+            "ir-futuro",
+            "querer-poder",
+            "dias-semana",
+            "estar-a-infinitivo",
+        ],
         vocabulary_set_ids=["transporte_a1", "clima_a1", "datas_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

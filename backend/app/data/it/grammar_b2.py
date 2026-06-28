@@ -270,7 +270,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Bensi sostituisce ma, non si usano insieme.",
             ),
         ],
-        related=["connettivi-argomentativi", "controargomentazione", "struttura-argomentativa"],
+        related=[
+            "connettivi-argomentativi",
+            "controargomentazione",
+            "struttura-argomentativa",
+        ],
     ),
     GrammarTopic(
         slug="coesione-testuale",
@@ -358,7 +362,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Espressione fissa: al lupo, non di lupo.",
             ),
         ],
-        related=["espressioni-colloquiali", "proverbi-italiani", "linguaggio-giornalistico"],
+        related=[
+            "espressioni-colloquiali",
+            "proverbi-italiani",
+            "linguaggio-giornalistico",
+        ],
     ),
     GrammarTopic(
         slug="espressioni-colloquiali",
@@ -556,7 +564,12 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Il passato remoto e il tempo della narrazione per eccellenza.",
             ),
         ],
-        related=["imperfetto", "passato-remoto", "trapassato-prossimo", "descrizione-letteraria"],
+        related=[
+            "imperfetto",
+            "passato-remoto",
+            "trapassato-prossimo",
+            "descrizione-letteraria",
+        ],
     ),
     GrammarTopic(
         slug="descrizione-letteraria",
@@ -626,7 +639,12 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Al Nord il passato remoto e sentito come formale/letterario.",
             ),
         ],
-        related=["imperfetto", "tempi-narrativi", "trapassato-prossimo", "concordanza-tempi"],
+        related=[
+            "imperfetto",
+            "tempi-narrativi",
+            "trapassato-prossimo",
+            "concordanza-tempi",
+        ],
     ),
     GrammarTopic(
         slug="linguaggio-giornalistico",

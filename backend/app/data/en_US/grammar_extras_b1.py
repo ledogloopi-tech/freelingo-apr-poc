@@ -89,7 +89,8 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="Could you tell me where the nearest bank is?"),
             GrammarExample(text="Do you know if the museum is open on Sundays?"),
             GrammarExample(
-                text="I wonder what she is doing right now.", note="statement, not question"
+                text="I wonder what she is doing right now.",
+                note="statement, not question",
             ),
             GrammarExample(text="Do you have any idea how much this costs?"),
         ],
@@ -123,13 +124,15 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="The students who passed the exam were very happy.", note="defining"
+                text="The students who passed the exam were very happy.",
+                note="defining",
             ),
             GrammarExample(
                 text="My mother, who is 65, still works full-time.", note="non-defining"
             ),
             GrammarExample(
-                text="The car which I bought last year has already broken down.", note="defining"
+                text="The car which I bought last year has already broken down.",
+                note="defining",
             ),
             GrammarExample(
                 text="Paris, which is the capital of France, is a beautiful city.",
@@ -239,7 +242,8 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="He lives in a charming old stone cottage."),
             GrammarExample(text="It was a cold, wet, miserable day."),
             GrammarExample(
-                text="I found an ancient Chinese porcelain vase.", note="age → origin → material"
+                text="I found an ancient Chinese porcelain vase.",
+                note="age → origin → material",
             ),
         ],
         common_mistakes=[
@@ -309,7 +313,8 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="I used to live in Chicago. Now I live in Austin.", note="past habit"
+                text="I used to live in Chicago. Now I live in Austin.",
+                note="past habit",
             ),
             GrammarExample(text="She is used to working long hours.", note="it is normal for her"),
             GrammarExample(text="It took me a while to get used to driving on freeways."),
@@ -413,7 +418,8 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         examples=[
             GrammarExample(text="I love coffee in the morning.", note="general, uncountable"),
             GrammarExample(
-                text="Children need a lot of sleep.", note="general, plural — no article"
+                text="Children need a lot of sleep.",
+                note="general, plural — no article",
             ),
             GrammarExample(
                 text="She has been in the hospital for a week.",
@@ -454,7 +460,8 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="I can't find my glasses. Can you help me look for them?"),
             GrammarExample(text="She gave up smoking last year."),
             GrammarExample(
-                text="We ran out of milk, so I went to the shop.", note="three-part phrasal"
+                text="We ran out of milk, so I went to the shop.",
+                note="three-part phrasal",
             ),
         ],
         common_mistakes=[
@@ -568,14 +575,17 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="I have a few minutes — shall we talk?", note="a few = some, enough"
+                text="I have a few minutes — shall we talk?",
+                note="a few = some, enough",
             ),
             GrammarExample(
-                text="She has few options in this situation.", note="few = almost none, concerning"
+                text="She has few options in this situation.",
+                note="few = almost none, concerning",
             ),
             GrammarExample(text="Add a little salt to taste.", note="a little = some, sufficient"),
             GrammarExample(
-                text="There is little evidence to support this claim.", note="little = almost none"
+                text="There is little evidence to support this claim.",
+                note="little = almost none",
             ),
         ],
         common_mistakes=[

@@ -2,11 +2,15 @@
 
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { useMicVAD } from '@ricky0123/vad-react'
+import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useAuthStore } from '@/store/auth'
+import { useConfigStore } from '@/store/config'
 import { apiFetch } from '@/lib/api'
 import { float32ToWav, createAudioQueue, type AudioQueue } from '@/lib/audio'
 import { getLogger, silentLogger } from '@/lib/logger'
+import { mapUser } from '@/lib/mappers'
+import { splitYearlyCta, type BillingInterval } from '@/lib/billing-copy'
 import {
   buildConversationWsUrl,
   type WsMessage,
@@ -151,6 +155,92 @@ function QuotaPill({
   )
 }
 
+function TrialPremiumCta() {
+  const t = useTranslations('billing')
+  const tConversation = useTranslations('conversation')
+  const router = useRouter()
+  const priceMonthly = useConfigStore((s) => s.priceMonthly)
+  const priceYearly = useConfigStore((s) => s.priceYearly)
+  const [loading, setLoading] = useState<BillingInterval | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const yearlyCta = splitYearlyCta(
+    t('planYearly', { price: String(priceYearly) })
+  )
+
+  async function handleCheckout(interval: BillingInterval) {
+    setLoading(interval)
+    setError(null)
+    try {
+      const res = await apiFetch('/api/billing/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: interval }),
+      })
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error(data.detail ?? t('checkoutError'))
+      }
+      const { url } = await res.json()
+      window.location.assign(url)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t('checkoutError'))
+      setLoading(null)
+    }
+  }
+
+  return (
+    <div className="border-fl-border bg-fl-surface mb-4 border p-5 text-center">
+      <p className="text-fl-label text-fl-muted-2 mb-2 font-mono tracking-widest uppercase">
+        {tConversation('trialCtaLabel')}
+      </p>
+      <h2 className="text-fl-fg mb-2 font-mono text-base font-bold">
+        {tConversation('trialCtaTitle')}
+      </h2>
+      <p className="text-fl-muted-1 mb-5 font-mono text-xs leading-relaxed">
+        {tConversation('trialCtaDesc')}
+      </p>
+      <div className="flex flex-col gap-3">
+        <button
+          onClick={() => handleCheckout('yearly')}
+          disabled={loading !== null}
+          className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 w-full px-4 py-3 font-mono text-xs tracking-widest uppercase transition-colors disabled:opacity-50"
+        >
+          {loading === 'yearly' ? (
+            '...'
+          ) : (
+            <span className="flex flex-col items-center gap-0.5 leading-relaxed">
+              <span>{yearlyCta.main}</span>
+              {yearlyCta.savings && (
+                <span className="text-fl-accent-fg/80 text-[0.68rem]">
+                  {yearlyCta.savings}
+                </span>
+              )}
+            </span>
+          )}
+        </button>
+        <button
+          onClick={() => handleCheckout('monthly')}
+          disabled={loading !== null}
+          className="border-fl-border text-fl-muted-1 hover:text-fl-fg hover:border-fl-border-2 w-full border px-4 py-3 font-mono text-xs tracking-widest uppercase transition-colors disabled:opacity-50"
+        >
+          {loading === 'monthly'
+            ? '...'
+            : t('planMonthly', { price: String(priceMonthly) })}
+        </button>
+      </div>
+      {error && (
+        <p className="text-fl-hint mt-4 font-mono text-red-500">{error}</p>
+      )}
+      <button
+        onClick={() => router.push('/plan')}
+        className="text-fl-hint text-fl-muted-4 hover:text-fl-muted-2 mt-5 w-full font-mono tracking-widest uppercase transition-colors"
+      >
+        {t('paywallSkip')}
+      </button>
+    </div>
+  )
+}
+
 function vadRedemptionMs(cefrLevel: string | null | undefined): number {
   if (!cefrLevel) return 1000
   if (cefrLevel === 'A1' || cefrLevel === 'A2') return 1300
@@ -175,18 +265,25 @@ export default function ConversationMode({
   autoStart,
   cefrLevel,
   targetLanguage,
+  voiceTrialToken,
+  voiceTrialDurationSeconds,
+  trialMode,
   onClose,
 }: {
   initialContext?: ChatContextItem[]
   autoStart?: boolean
   cefrLevel?: string | null
   targetLanguage?: string
+  voiceTrialToken?: string
+  voiceTrialDurationSeconds?: number
+  trialMode?: boolean
   onClose?: () => void
 }) {
   const t = useTranslations('conversation')
   const tCommon = useTranslations('common')
   const accessToken = useAuthStore((s) => s.accessToken)
   const user = useAuthStore((s) => s.user)
+  const setUser = useAuthStore((s) => s.setUser)
 
   // ─── UI State ────────────────────────────────────────────────────────────
   const [status, setStatus] = useState<ConvStatus>('loading')
@@ -416,6 +513,17 @@ export default function ConversationMode({
     },
   })
 
+  const refreshCurrentUser = useCallback(async () => {
+    try {
+      const res = await apiFetch('/api/auth/me')
+      if (!res.ok) return
+      const data = await res.json()
+      setUser(mapUser(data, useAuthStore.getState().user))
+    } catch {
+      // Non-fatal: the backend remains authoritative and the next /me refresh will sync state.
+    }
+  }, [setUser])
+
   // Transition from loading → ready when VAD finishes initialising
   useEffect(() => {
     if (vad.loading) return
@@ -515,6 +623,7 @@ export default function ConversationMode({
         if (storedVoice) authPayload.voice = storedVoice
         if (context?.length) authPayload.context = context
         if (targetLanguage) authPayload.target_language = targetLanguage
+        if (voiceTrialToken) authPayload.voice_trial_token = voiceTrialToken
         ws.send(JSON.stringify(authPayload))
         sessionStartedAtRef.current = Date.now()
         convLogger.info('ws auth sent', {
@@ -638,6 +747,7 @@ export default function ConversationMode({
               finalizeSession()
               convLogger.info('session end received', { reason: msg.reason })
               setStatus('ended')
+              if (trialMode) void refreshCurrentUser()
               break
 
             case 'error':
@@ -700,7 +810,14 @@ export default function ConversationMode({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [t, targetLanguage, finalizeSession]
+    [
+      t,
+      targetLanguage,
+      voiceTrialToken,
+      trialMode,
+      refreshCurrentUser,
+      finalizeSession,
+    ]
   )
 
   // ─── Session lifecycle ────────────────────────────────────────────────────
@@ -767,6 +884,12 @@ export default function ConversationMode({
 
     const warmupResponsePromise = apiFetch('/api/conversation/warmup', {
       method: 'POST',
+      ...(voiceTrialToken
+        ? {
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ trial_token: voiceTrialToken }),
+          }
+        : {}),
     })
     const warmupTimeout = new Promise<Response>((_, reject) => {
       setTimeout(() => reject(new Error('warmup timeout')), 15_000)
@@ -836,6 +959,7 @@ export default function ConversationMode({
     finalizeSession('manual')
     sessionStartedAtRef.current = null
     setStatus('ended')
+    if (trialMode) void refreshCurrentUser()
     if (
       shouldShowVoiceReviewPrompt(getReviewPromptDismissal(), sessionDurationMs)
     ) {
@@ -874,7 +998,7 @@ export default function ConversationMode({
 
   // ─── Render ───────────────────────────────────────────────────────────────
   return (
-    <div className="mx-auto flex h-full min-h-[calc(100vh-56px)] max-w-4xl flex-col p-4 md:min-h-screen md:p-6">
+    <div className="mx-auto flex h-[calc(100dvh-56px)] max-w-4xl flex-col overflow-hidden p-4 md:h-screen md:p-6">
       {/* Header */}
       <div className="border-fl-border mb-6 flex items-end justify-between border-b pb-4">
         <div>
@@ -895,6 +1019,14 @@ export default function ConversationMode({
         )}
       </div>
 
+      {trialMode && (
+        <div className="border-fl-accent/40 bg-fl-surface text-fl-muted-1 mb-4 border px-4 py-3 text-center font-mono text-xs tracking-widest uppercase">
+          {t('trialBanner', {
+            minutes: Math.round((voiceTrialDurationSeconds ?? 300) / 60),
+          })}
+        </div>
+      )}
+
       {/* Memory updated toast */}
       {memoryToast && (
         <div className="pointer-events-none fixed inset-x-0 top-16 z-50 flex justify-center">
@@ -904,13 +1036,8 @@ export default function ConversationMode({
         </div>
       )}
 
-      {/* Timeout warning */}
-      {warningSeconds !== null && (
-        <SessionTimeoutBanner seconds={warningSeconds} />
-      )}
-
       {/* Transcript area */}
-      <div className="mb-4 min-h-[120px] flex-1 space-y-3 overflow-y-auto px-2">
+      <div className="mb-4 min-h-0 flex-1 space-y-3 overflow-y-auto px-2">
         {transcript.length === 0 && !streamingText && status === 'live' && (
           <p className="text-fl-label text-fl-muted-4 py-8 text-center font-mono">
             {t('tapToStart')}
@@ -960,9 +1087,11 @@ export default function ConversationMode({
           {t('sessionEnded')}
         </div>
       )}
+      {trialMode && status === 'ended' && <TrialPremiumCta />}
 
       {/* Conversation starters — shown when idle, hidden as soon as session starts */}
-      {!sessionActive &&
+      {!trialMode &&
+        !sessionActive &&
         (status === 'ready' || status === 'ended' || status === 'error') && (
           <div className="mb-4">
             <p className="text-fl-hint text-fl-muted-3 mb-3 text-center font-mono tracking-widest uppercase">
@@ -991,19 +1120,27 @@ export default function ConversationMode({
 
       {/* Controls */}
       <div className="flex flex-col items-center gap-4 pb-2">
+        {/* Timeout warning */}
+        {warningSeconds !== null && (
+          <div className="w-full">
+            <SessionTimeoutBanner seconds={warningSeconds} />
+          </div>
+        )}
         {/* Quota pill */}
-        {quota && <QuotaPill quota={quota} t={t} />}
+        {quota && !trialMode && <QuotaPill quota={quota} t={t} />}
         <StatusIndicator
           status={status}
           userSpeaking={userSpeaking}
           assistantSpeaking={assistantSpeaking}
         />
-        <MicButton
-          status={status}
-          sessionActive={sessionActive}
-          onStart={handleStart}
-          onStop={handleStop}
-        />
+        {!(trialMode && status === 'ended') && (
+          <MicButton
+            status={status}
+            sessionActive={sessionActive}
+            onStart={handleStart}
+            onStop={handleStop}
+          />
+        )}
       </div>
       <ReviewPrompt
         open={reviewPromptOpen}

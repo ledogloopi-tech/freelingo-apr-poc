@@ -10,7 +10,11 @@ C1_UNITS: list[CurriculumUnit] = [
         level="C1",
         unit_number=1,
         title="Matices del subjuntivo",
-        grammar_points=["subjuntivo-concesivo", "subjuntivo-final", "subjuntivo-relativo"],
+        grammar_points=[
+            "subjuntivo-concesivo",
+            "subjuntivo-final",
+            "subjuntivo-relativo",
+        ],
         vocabulary_set_ids=["matices_c1", "formalidad_c1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -34,7 +38,11 @@ C1_UNITS: list[CurriculumUnit] = [
             "impersonalidad",
             "ortotipografia-academica",
         ],
-        vocabulary_set_ids=["académico_c1", "investigación_c1", "registro_lingüístico_c1"],
+        vocabulary_set_ids=[
+            "académico_c1",
+            "investigación_c1",
+            "registro_lingüístico_c1",
+        ],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Usa con fluidez la pasiva refleja (se + tercera persona) en escritura formal y técnica como alternativa natural en español a la pasiva con ser",

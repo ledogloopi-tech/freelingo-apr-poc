@@ -82,7 +82,11 @@ C1_UNITS: list[CurriculumUnit] = [
         level="C1",
         unit_number=5,
         title="Ellipsis, Substitution & Textual Cohesion",
-        grammar_points=["ellipsis-substitution", "hedging-language", "participle-clauses"],
+        grammar_points=[
+            "ellipsis-substitution",
+            "hedging-language",
+            "participle-clauses",
+        ],
         vocabulary_set_ids=["academic_discourse_c1"],
         lesson_types=["grammar", "reading", "writing", "listening", "review"],
         competency_checklist=[
@@ -145,7 +149,11 @@ C1_UNITS: list[CurriculumUnit] = [
             "advanced-relative-clauses",
             "hedging-language",
         ],
-        vocabulary_set_ids=["abstract_concepts_c1", "academic_discourse_c1", "debate_rhetoric_c1"],
+        vocabulary_set_ids=[
+            "abstract_concepts_c1",
+            "academic_discourse_c1",
+            "debate_rhetoric_c1",
+        ],
         lesson_types=["grammar", "reading", "writing", "listening", "review"],
         competency_checklist=[
             "Produce a sustained piece of formal writing integrating all C1 grammar structures.",

@@ -30,7 +30,12 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="논증에서는 주장에 앞서 충분한 근거를 제시해야 합니다. 근거 없는 결론은 설득력이 떨어집니다.",
             )
         ],
-        related=["concession-despite", "academic-reading", "source-integration", "stance-markers"],
+        related=[
+            "concession-despite",
+            "academic-reading",
+            "source-integration",
+            "stance-markers",
+        ],
     ),
     GrammarTopic(
         slug="concession-despite",
@@ -175,7 +180,12 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="공손한 요청은 '가능하시다면', '부탁드립니다' 등 상대의 부담을 완화하는 표현을 함께 사용해야 합니다.",
             )
         ],
-        related=["hedging-requests", "speech-level-shifts", "formal-honorifics", "counterproposal"],
+        related=[
+            "hedging-requests",
+            "speech-level-shifts",
+            "formal-honorifics",
+            "counterproposal",
+        ],
     ),
     GrammarTopic(
         slug="academic-reading",

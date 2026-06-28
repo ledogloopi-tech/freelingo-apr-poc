@@ -8,7 +8,11 @@ C2_UNITS: list[CurriculumUnit] = [
         level="C2",
         unit_number=1,
         title="精确表达和细微差别",
-        grammar_points=["semantic-precision-zh", "xuci-nuance", "word-choice-register-zh"],
+        grammar_points=[
+            "semantic-precision-zh",
+            "xuci-nuance",
+            "word-choice-register-zh",
+        ],
         vocabulary_set_ids=["difference_c2", "tone_c2", "terminology_c2"],
         lesson_types=[
             "grammar",
@@ -33,7 +37,11 @@ C2_UNITS: list[CurriculumUnit] = [
         level="C2",
         unit_number=2,
         title="专业话语和中介表达",
-        grammar_points=["expert-mediation-zh", "reformulation-zh", "audience-adaptation-zh"],
+        grammar_points=[
+            "expert-mediation-zh",
+            "reformulation-zh",
+            "audience-adaptation-zh",
+        ],
         vocabulary_set_ids=["explain_c2", "domain_c2", "evaluate_c2"],
         lesson_types=[
             "grammar",
@@ -58,7 +66,11 @@ C2_UNITS: list[CurriculumUnit] = [
         level="C2",
         unit_number=3,
         title="批判评价和反驳结构",
-        grammar_points=["critical-evaluation-zh", "qian-ti-analysis", "fanbo-structure"],
+        grammar_points=[
+            "critical-evaluation-zh",
+            "qian-ti-analysis",
+            "fanbo-structure",
+        ],
         vocabulary_set_ids=["hypothesis_c2", "evidence_c2", "translation_c2"],
         lesson_types=[
             "grammar",
@@ -112,7 +124,11 @@ C2_UNITS: list[CurriculumUnit] = [
         level="C2",
         unit_number=5,
         title="修辞策略和说服力",
-        grammar_points=["rhetorical-strategy-zh", "emphasis-control-zh", "reader-positioning-zh"],
+        grammar_points=[
+            "rhetorical-strategy-zh",
+            "emphasis-control-zh",
+            "reader-positioning-zh",
+        ],
         vocabulary_set_ids=["argument_c2", "editorial_c2", "evolve_c2"],
         lesson_types=[
             "grammar",
@@ -137,7 +153,11 @@ C2_UNITS: list[CurriculumUnit] = [
         level="C2",
         unit_number=6,
         title="语言变化和历史语境",
-        grammar_points=["language-history-zh", "chengyu-register", "diachronic-change-zh"],
+        grammar_points=[
+            "language-history-zh",
+            "chengyu-register",
+            "diachronic-change-zh",
+        ],
         vocabulary_set_ids=["loanword_c2", "variant_c2", "revision_c2"],
         lesson_types=[
             "grammar",
@@ -162,7 +182,11 @@ C2_UNITS: list[CurriculumUnit] = [
         level="C2",
         unit_number=7,
         title="高级编辑和重写",
-        grammar_points=["advanced-editing-zh", "cohesion-coherence-zh", "style-revision-zh"],
+        grammar_points=[
+            "advanced-editing-zh",
+            "cohesion-coherence-zh",
+            "style-revision-zh",
+        ],
         vocabulary_set_ids=["transition_c2", "polish_c2", "coherence_c2"],
         lesson_types=[
             "grammar",
@@ -210,7 +234,12 @@ C2_UNITS: list[CurriculumUnit] = [
             "word-choice-register-zh",
             "xuci-nuance",
         ],
-        vocabulary_set_ids=["review_c2", "expanded_c2_1", "expanded_c2_2", "expanded_c2_3"],
+        vocabulary_set_ids=[
+            "review_c2",
+            "expanded_c2_1",
+            "expanded_c2_2",
+            "expanded_c2_3",
+        ],
         lesson_types=[
             "grammar",
             "vocabulary",
