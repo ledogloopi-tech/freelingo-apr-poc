@@ -28,6 +28,17 @@ def is_assessment_voice_trial_available(user: User, stripe_enabled: bool) -> boo
     return not is_subscribed(user, stripe_enabled) and not user.assessment_voice_trial_used
 
 
+def is_assessment_voice_trial_available_for_values(
+    *,
+    subscription_status: str,
+    assessment_voice_trial_used: bool,
+    stripe_enabled: bool,
+) -> bool:
+    if not stripe_enabled:
+        return False
+    return subscription_status not in ("trialing", "active") and not assessment_voice_trial_used
+
+
 def _token_key(user_id: int, token: str) -> str:
     return f"{_TOKEN_PREFIX}:{user_id}:{token}"
 
@@ -35,25 +46,31 @@ def _token_key(user_id: int, token: str) -> str:
 async def create_assessment_voice_trial_token(
     redis: Redis,
     *,
-    user: User,
+    user_id: int,
+    subscription_status: str,
+    assessment_voice_trial_used: bool,
     stripe_enabled: bool,
     plan_id: int,
     target_language: str,
     cefr_level: str,
 ) -> dict[str, object]:
-    if not is_assessment_voice_trial_available(user, stripe_enabled):
+    if not is_assessment_voice_trial_available_for_values(
+        subscription_status=subscription_status,
+        assessment_voice_trial_used=assessment_voice_trial_used,
+        stripe_enabled=stripe_enabled,
+    ):
         return {"available": False}
 
     token = secrets.token_urlsafe(32)
     payload = {
-        "user_id": user.id,
+        "user_id": user_id,
         "plan_id": plan_id,
         "target_language": target_language,
         "cefr_level": cefr_level,
         "duration_seconds": TRIAL_DURATION_SECONDS,
     }
     await redis.setex(
-        _token_key(user.id, token),
+        _token_key(user_id, token),
         TRIAL_TOKEN_TTL_SECONDS,
         json.dumps(payload),
     )

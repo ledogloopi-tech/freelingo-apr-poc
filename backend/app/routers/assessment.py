@@ -392,13 +392,16 @@ async def complete_assessment(
     # 4. Legacy Redis session: assessment:{user_id}
     # 5. users.target_language (final fallback — always safe for the normal frontend flow)
     target_language: str = data.target_language or current_user.target_language
+    current_user_id = current_user.id
+    current_user_subscription_status = current_user.subscription_status
+    current_user_assessment_voice_trial_used = current_user.assessment_voice_trial_used
 
     # Try to find a Redis session that confirms the language
     session_raw: str | bytes | None = None
     for candidate_key in [
-        f"assessment:{current_user.id}:{target_language}",
-        f"assessment:{current_user.id}:{current_user.target_language}",
-        f"assessment:{current_user.id}",  # legacy key
+        f"assessment:{current_user_id}:{target_language}",
+        f"assessment:{current_user_id}:{current_user.target_language}",
+        f"assessment:{current_user_id}",  # legacy key
     ]:
         session_raw = await redis.get(candidate_key)
         if session_raw:
@@ -410,7 +413,7 @@ async def complete_assessment(
         target_language = session.get("target_language", target_language)
 
     # Ensure a UserLanguage row exists for this language
-    user_lang = await ensure_user_language(db, current_user.id, target_language)
+    user_lang = await ensure_user_language(db, current_user_id, target_language)
 
     # Deactivate existing active plans — scoped to this language only
     old_result = await db.execute(
@@ -440,7 +443,7 @@ async def complete_assessment(
     first_unit_id = units[0].id if units else ""
 
     plan = StudyPlan(
-        user_id=current_user.id,
+        user_id=current_user_id,
         user_language_id=user_lang.id,
         cefr_level=data.cefr_level,
         target_language=target_language,
@@ -456,7 +459,9 @@ async def complete_assessment(
     await db.refresh(plan)
     voice_trial = await create_assessment_voice_trial_token(
         redis,
-        user=current_user,
+        user_id=current_user_id,
+        subscription_status=current_user_subscription_status,
+        assessment_voice_trial_used=current_user_assessment_voice_trial_used,
         stripe_enabled=settings.STRIPE_ENABLED,
         plan_id=plan.id,
         target_language=target_language,
@@ -505,7 +510,9 @@ async def create_voice_trial_for_current_plan(
 
     voice_trial = await create_assessment_voice_trial_token(
         redis,
-        user=current_user,
+        user_id=current_user.id,
+        subscription_status=current_user.subscription_status,
+        assessment_voice_trial_used=current_user.assessment_voice_trial_used,
         stripe_enabled=settings.STRIPE_ENABLED,
         plan_id=plan.id,
         target_language=plan.target_language,
