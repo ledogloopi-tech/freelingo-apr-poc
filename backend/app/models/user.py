@@ -32,7 +32,9 @@ class User(Base):
     conversation_daily_minutes: Mapped[int] = mapped_column(Integer, nullable=False, default=30)
     conversation_weekly_minutes: Mapped[int] = mapped_column(Integer, nullable=False, default=90)
     monthly_tokens_limit: Mapped[int] = mapped_column(
-        Integer, nullable=False, default=1_000_000  # 0 = unlimited; new users get 1M/month
+        Integer,
+        nullable=False,
+        default=1_000_000,  # 0 = unlimited; new users get 1M/month
     )
     # Stripe subscription
     stripe_customer_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
@@ -45,6 +47,9 @@ class User(Base):
     )
     subscription_ends_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     trial_used: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    assessment_voice_trial_used: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, default=False
+    )
     avatar: Mapped[str | None] = mapped_column(Text, nullable=True)
     bio: Mapped[str | None] = mapped_column(Text, nullable=True)
     learning_goals: Mapped[str | None] = mapped_column(Text, nullable=True)  # JSON array string

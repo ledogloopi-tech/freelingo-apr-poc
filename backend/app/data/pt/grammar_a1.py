@@ -150,7 +150,11 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Artigo concorda com o género do substantivo.",
             ),
         ],
-        related=["artigos-indefinidos", "contracoes-preposicionais", "adjetivos-possessivos"],
+        related=[
+            "artigos-indefinidos",
+            "contracoes-preposicionais",
+            "adjetivos-possessivos",
+        ],
     ),
     GrammarTopic(
         slug="ser-nacionalidade",
@@ -219,7 +223,9 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Palavras gregas em -ma são masculinas.",
             ),
             GrammarMistake(
-                wrong="O viagem.", correct="A viagem.", note="Palavras em -gem são femininas."
+                wrong="O viagem.",
+                correct="A viagem.",
+                note="Palavras em -gem são femininas.",
             ),
         ],
         related=["artigos-definidos", "artigos-indefinidos", "adjetivos-descritivos"],
@@ -254,7 +260,11 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Artigo concorda com o substantivo que segue.",
             ),
         ],
-        related=["artigos-definidos", "genero-substantivos", "contracoes-preposicionais"],
+        related=[
+            "artigos-definidos",
+            "genero-substantivos",
+            "contracoes-preposicionais",
+        ],
     ),
     GrammarTopic(
         slug="ter",
@@ -285,10 +295,14 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         common_mistakes=[
             GrammarMistake(
-                wrong="Sou 25 anos.", correct="Tenho 25 anos.", note="Idade usa ter, nunca ser."
+                wrong="Sou 25 anos.",
+                correct="Tenho 25 anos.",
+                note="Idade usa ter, nunca ser.",
             ),
             GrammarMistake(
-                wrong="Estou fome.", correct="Tenho fome.", note="Sensações usam ter, não estar."
+                wrong="Estou fome.",
+                correct="Tenho fome.",
+                note="Sensações usam ter, não estar.",
             ),
         ],
         related=["haver", "querer-poder", "presente-regular"],
@@ -332,7 +346,11 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Usa-se dele para evitar ambiguidade de seu.",
             ),
         ],
-        related=["artigos-definidos", "pronomes-objeto-direto", "pronomes-objeto-indireto"],
+        related=[
+            "artigos-definidos",
+            "pronomes-objeto-direto",
+            "pronomes-objeto-indireto",
+        ],
     ),
     GrammarTopic(
         slug="adjetivos-descritivos",
@@ -806,7 +824,9 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Segunda-feira é feminino: na, não no.",
             ),
             GrammarMistake(
-                wrong="A reunião é em segunda.", correct="A reunião é na segunda.", note="em+a=na."
+                wrong="A reunião é em segunda.",
+                correct="A reunião é na segunda.",
+                note="em+a=na.",
             ),
         ],
         related=["horas", "preposicoes-lugar", "contracoes-preposicionais"],

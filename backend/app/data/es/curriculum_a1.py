@@ -39,7 +39,11 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=2,
         title="Nacionalidades y profesiones",
-        grammar_points=["ser-nacionalidad", "genero-sustantivos", "articulos-indefinidos"],
+        grammar_points=[
+            "ser-nacionalidad",
+            "genero-sustantivos",
+            "articulos-indefinidos",
+        ],
         vocabulary_set_ids=["nacionalidades_a1", "profesiones_a1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -56,8 +60,19 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=3,
         title="La familia y descripciones",
-        grammar_points=["tener", "adjetivos-posesivos", "adjetivos-descriptivos", "demostrativos"],
-        vocabulary_set_ids=["familia_a1", "descripciones_a1", "colores_a1", "cuerpo_a1", "ropa_a1"],
+        grammar_points=[
+            "tener",
+            "adjetivos-posesivos",
+            "adjetivos-descriptivos",
+            "demostrativos",
+        ],
+        vocabulary_set_ids=[
+            "familia_a1",
+            "descripciones_a1",
+            "colores_a1",
+            "cuerpo_a1",
+            "ropa_a1",
+        ],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Nombra miembros de la familia y usa tener para edad y parentesco: Tengo dos hermanos, Mi madre tiene 50 años",

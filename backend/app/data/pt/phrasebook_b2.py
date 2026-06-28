@@ -71,7 +71,9 @@ B2_CATEGORIES: list[PhrasebookCategory] = [
         icon="\U0001f91d",
         phrases=[
             PhrasebookEntry(
-                text="Proponho um compromisso.", context="Propor um compromisso", register="formal"
+                text="Proponho um compromisso.",
+                context="Propor um compromisso",
+                register="formal",
             ),
             PhrasebookEntry(
                 text="Vamos tentar chegar a um acordo.",

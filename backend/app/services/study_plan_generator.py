@@ -1,7 +1,12 @@
 from __future__ import annotations
 
 from app.data.curriculum import distribute_units, get_curriculum_units
-from app.schemas.study_plan import DayPlan, GeneratedPlan, GenerateStudyPlanRequest, WeekPlan
+from app.schemas.study_plan import (
+    DayPlan,
+    GeneratedPlan,
+    GenerateStudyPlanRequest,
+    WeekPlan,
+)
 from app.services.language_helpers import get_language_name
 
 

@@ -345,10 +345,18 @@ A2_SETS.extend(
                     ipa="zuǐ",
                 ),
                 VocabularyEntry(
-                    word="肚子", pos="noun", definition="腹部。", example="我肚子饿了。", ipa="dùzi"
+                    word="肚子",
+                    pos="noun",
+                    definition="腹部。",
+                    example="我肚子饿了。",
+                    ipa="dùzi",
                 ),
                 VocabularyEntry(
-                    word="牙", pos="noun", definition="牙齿。", example="我每天刷两次牙。", ipa="yá"
+                    word="牙",
+                    pos="noun",
+                    definition="牙齿。",
+                    example="我每天刷两次牙。",
+                    ipa="yá",
                 ),
                 VocabularyEntry(
                     word="休息",
@@ -1477,7 +1485,11 @@ A2_SETS.extend(
                     ipa="ránhòu",
                 ),
                 VocabularyEntry(
-                    word="先", pos="adverb", definition="表示率先。", example="你先说。", ipa="xiān"
+                    word="先",
+                    pos="adverb",
+                    definition="表示率先。",
+                    example="你先说。",
+                    ipa="xiān",
                 ),
                 VocabularyEntry(
                     word="一起",

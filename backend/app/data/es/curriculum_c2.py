@@ -10,7 +10,11 @@ C2_UNITS: list[CurriculumUnit] = [
         level="C2",
         unit_number=1,
         title="Dominio de la gramática avanzada",
-        grammar_points=["repaso-subjuntivo", "repaso-condicional", "concordancia-de-tiempos"],
+        grammar_points=[
+            "repaso-subjuntivo",
+            "repaso-condicional",
+            "concordancia-de-tiempos",
+        ],
         vocabulary_set_ids=["excelencia_c2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -89,7 +93,11 @@ C2_UNITS: list[CurriculumUnit] = [
             "edicion",
             "norma-panhispanica",
         ],
-        vocabulary_set_ids=["creación_c2", "publicación_c2", "sociedad_contemporánea_c2"],
+        vocabulary_set_ids=[
+            "creación_c2",
+            "publicación_c2",
+            "sociedad_contemporánea_c2",
+        ],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Produce textos de 500 palabras en distintos géneros (columna de opinión, ensayo personal, relato breve, informe formal), adaptando léxico, tono y estructura a cada convención",

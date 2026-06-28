@@ -10,7 +10,11 @@ C1_UNITS: list[CurriculumUnit] = [
         level="C1",
         unit_number=1,
         title="Nuances du subjonctif",
-        grammar_points=["subjonctif-concessif", "subjonctif-final", "subjonctif-relatives"],
+        grammar_points=[
+            "subjonctif-concessif",
+            "subjonctif-final",
+            "subjonctif-relatives",
+        ],
         vocabulary_set_ids=["nuances_fr_c1", "formalite_fr_c1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

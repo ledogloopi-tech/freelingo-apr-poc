@@ -87,7 +87,11 @@ A2_UNITS: list[CurriculumUnit] = [
         level="A2",
         unit_number=5,
         title="Imperativo e conselhos",
-        grammar_points=["imperativo-afirmativo", "imperativo-negativo", "imperativo-irregular"],
+        grammar_points=[
+            "imperativo-afirmativo",
+            "imperativo-negativo",
+            "imperativo-irregular",
+        ],
         vocabulary_set_ids=["saúde_a2", "conselhos_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -121,7 +125,11 @@ A2_UNITS: list[CurriculumUnit] = [
         level="A2",
         unit_number=7,
         title="Histórias e narrações",
-        grammar_points=["conectores-narrativos", "sequencia-temporal", "discurso-indireto"],
+        grammar_points=[
+            "conectores-narrativos",
+            "sequencia-temporal",
+            "discurso-indireto",
+        ],
         vocabulary_set_ids=["histórias_a2", "anedotas_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

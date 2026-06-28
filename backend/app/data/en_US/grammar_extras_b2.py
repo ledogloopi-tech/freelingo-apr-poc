@@ -55,7 +55,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="At 10 am tomorrow, I will be sitting in a meeting."),
             GrammarExample(text="This time next week, we will be lying on the beach."),
             GrammarExample(
-                text="Will you be going to the party on Saturday?", note="polite enquiry"
+                text="Will you be going to the party on Saturday?",
+                note="polite enquiry",
             ),
             GrammarExample(text="I will be working late tonight, so don't wait up."),
         ],
@@ -141,7 +142,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Stative verbs like 'know' do not use continuous form.",
             ),
         ],
-        related=["future-perfect", "past-perfect-continuous", "present-perfect-continuous"],
+        related=[
+            "future-perfect",
+            "past-perfect-continuous",
+            "present-perfect-continuous",
+        ],
     ),
     GrammarTopic(
         slug="future-in-the-past",
@@ -161,7 +166,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="I was going to cook dinner, but we decided to eat out instead."),
             GrammarExample(text="She was about to leave when the doorbell rang."),
             GrammarExample(
-                text="He promised he would call me the next day.", note="reported speech"
+                text="He promised he would call me the next day.",
+                note="reported speech",
             ),
             GrammarExample(text="Little did I know what was going to happen next."),
         ],
@@ -222,7 +228,12 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Use past perfect for an event completed before another past event.",
             ),
         ],
-        related=["past-simple", "past-continuous", "past-perfect", "past-perfect-continuous"],
+        related=[
+            "past-simple",
+            "past-continuous",
+            "past-perfect",
+            "past-perfect-continuous",
+        ],
     ),
     GrammarTopic(
         slug="need-gerund",
@@ -271,14 +282,17 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="I took a taxi so that I wouldn't be late.", note="purpose + different subject"
+                text="I took a taxi so that I wouldn't be late.",
+                note="purpose + different subject",
             ),
             GrammarExample(text="The flight was delayed due to thick fog.", note="reason"),
             GrammarExample(
-                text="He spoke quietly so as not to wake the baby.", note="negative purpose"
+                text="He spoke quietly so as not to wake the baby.",
+                note="negative purpose",
             ),
             GrammarExample(
-                text="The traffic was terrible; therefore, we missed the start.", note="result"
+                text="The traffic was terrible; therefore, we missed the start.",
+                note="result",
             ),
         ],
         common_mistakes=[
@@ -351,13 +365,16 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         examples=[
             GrammarExample(text="He admitted that he had been wrong.", note="verb + that-clause"),
             GrammarExample(
-                text="She suggested going earlier to avoid the traffic.", note="verb + -ing"
+                text="She suggested going earlier to avoid the traffic.",
+                note="verb + -ing",
             ),
             GrammarExample(
-                text="The doctor advised me to get more rest.", note="verb + object + to-infinitive"
+                text="The doctor advised me to get more rest.",
+                note="verb + object + to-infinitive",
             ),
             GrammarExample(
-                text="He apologized for not calling sooner.", note="verb + preposition + -ing"
+                text="He apologized for not calling sooner.",
+                note="verb + preposition + -ing",
             ),
         ],
         common_mistakes=[
@@ -390,10 +407,12 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         examples=[
             GrammarExample(text="Whales are the largest mammals on Earth.", note="generic, plural"),
             GrammarExample(
-                text="The whale is an endangered species.", note="generic, formal/scientific"
+                text="The whale is an endangered species.",
+                note="generic, formal/scientific",
             ),
             GrammarExample(
-                text="A whale can hold its breath for over an hour.", note="generic, definition"
+                text="A whale can hold its breath for over an hour.",
+                note="generic, definition",
             ),
             GrammarExample(text="The whales we saw in Iceland were magnificent.", note="specific"),
         ],
@@ -498,7 +517,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="As soon as I get home, I will call you."),
             GrammarExample(text="She goes wherever her work takes her."),
             GrammarExample(
-                text="He speaks as if he knew everything.", note="manner + unreal meaning"
+                text="He speaks as if he knew everything.",
+                note="manner + unreal meaning",
             ),
             GrammarExample(text="Now that the exams are over, we can relax.", note="reason"),
         ],
@@ -514,7 +534,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Future time/place clauses use present simple.",
             ),
         ],
-        related=["clauses-purpose-reason", "relative-clauses", "adverbial-clauses-advanced"],
+        related=[
+            "clauses-purpose-reason",
+            "relative-clauses",
+            "adverbial-clauses-advanced",
+        ],
     ),
     GrammarTopic(
         slug="phrasal-verbs-b2",
@@ -570,7 +594,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="I do understand how you feel, but try to stay positive."),
             GrammarExample(text="What really annoys me is when people are late."),
             GrammarExample(
-                text="It was because of the weather that we canceled the trip.", note="it-cleft"
+                text="It was because of the weather that we canceled the trip.",
+                note="it-cleft",
             ),
             GrammarExample(text="She didn't say much, but she did seem interested."),
         ],
@@ -693,7 +718,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="official plan",
             ),
             GrammarExample(
-                text="All employees are to complete the training by Friday.", note="instruction"
+                text="All employees are to complete the training by Friday.",
+                note="instruction",
             ),
             GrammarExample(
                 text="The two senators were to meet in Washington, but the summit was cancelled.",

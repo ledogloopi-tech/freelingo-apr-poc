@@ -31,7 +31,11 @@ A2_UNITS: list[CurriculumUnit] = [
         level="A2",
         unit_number=2,
         title="Imperfetto e narrazione",
-        grammar_points=["imperfetto", "passato-prossimo-vs-imperfetto", "marcatori-temporali"],
+        grammar_points=[
+            "imperfetto",
+            "passato-prossimo-vs-imperfetto",
+            "marcatori-temporali",
+        ],
         vocabulary_set_ids=["infanzia_a2", "storie_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -82,7 +86,11 @@ A2_UNITS: list[CurriculumUnit] = [
         level="A2",
         unit_number=5,
         title="Imperativo e consigli",
-        grammar_points=["imperativo-affermativo", "imperativo-negativo", "imperativo-pronomi"],
+        grammar_points=[
+            "imperativo-affermativo",
+            "imperativo-negativo",
+            "imperativo-pronomi",
+        ],
         vocabulary_set_ids=["salute_a2", "consigli_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -116,7 +124,11 @@ A2_UNITS: list[CurriculumUnit] = [
         level="A2",
         unit_number=7,
         title="Racconti e narrazioni",
-        grammar_points=["connettivi-narrativi", "trapassato-prossimo", "discorso-indiretto"],
+        grammar_points=[
+            "connettivi-narrativi",
+            "trapassato-prossimo",
+            "discorso-indiretto",
+        ],
         vocabulary_set_ids=["storie_a2", "aneddoti_a2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

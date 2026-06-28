@@ -42,6 +42,7 @@ describe('mapUser', () => {
       subscription_status: 'active',
       subscription_ends_at: '2025-12-31',
       trial_used: true,
+      assessment_voice_trial_used: false,
       ui_locale: null,
     })
   })
@@ -102,6 +103,7 @@ describe('mapUser', () => {
     expect(user.subscription_status).toBe('none')
     expect(user.subscription_ends_at).toBeNull()
     expect(user.trial_used).toBe(false)
+    expect(user.assessment_voice_trial_used).toBe(false)
   })
 
   it('prefers API data over current user when both present', () => {

@@ -147,7 +147,12 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Avec aimer/détester, l'article défini est obligatoire devant le nom.",
             ),
         ],
-        related=["articles-indefinis", "articles-partitifs", "genre-noms", "prepositions-lieu"],
+        related=[
+            "articles-indefinis",
+            "articles-partitifs",
+            "genre-noms",
+            "prepositions-lieu",
+        ],
     ),
     GrammarTopic(
         slug="genre-noms",
@@ -572,7 +577,12 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Avec 'aimer', on utilise l'article défini pour les généralités.",
             ),
         ],
-        related=["articles-definis", "articles-indefinis", "negation-simple", "aimer-detester"],
+        related=[
+            "articles-definis",
+            "articles-indefinis",
+            "negation-simple",
+            "aimer-detester",
+        ],
     ),
     GrammarTopic(
         slug="negation-simple",

@@ -31,7 +31,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Condicao hipotetica: imperfeito conjuntivo.",
             ),
         ],
-        related=["presente-conjuntivo", "se-imperfeito-subjuntivo", "mais-que-perfeito-conjuntivo"],
+        related=[
+            "presente-conjuntivo",
+            "se-imperfeito-subjuntivo",
+            "mais-que-perfeito-conjuntivo",
+        ],
     ),
     GrammarTopic(
         slug="mais-que-perfeito-conjuntivo",
@@ -93,7 +97,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Preterito -> imperfeito conjuntivo.",
             ),
         ],
-        related=["presente-conjuntivo", "imperfeito-conjuntivo", "futuro-do-conjuntivo"],
+        related=[
+            "presente-conjuntivo",
+            "imperfeito-conjuntivo",
+            "futuro-do-conjuntivo",
+        ],
     ),
     GrammarTopic(
         slug="perifrases-aspetuais",
@@ -280,7 +288,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             ),
         ],
         common_mistakes=[],
-        related=["expressoes-idiomaticas", "expressoes-coloquiais", "linguagem-jornalistica"],
+        related=[
+            "expressoes-idiomaticas",
+            "expressoes-coloquiais",
+            "linguagem-jornalistica",
+        ],
     ),
     GrammarTopic(
         slug="expressoes-idiomaticas",
@@ -457,7 +469,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="De repente pede acao pontual (perfeito).",
             ),
         ],
-        related=["preterito-imperfeito", "perfeito-vs-imperfeito", "descricao-literaria"],
+        related=[
+            "preterito-imperfeito",
+            "perfeito-vs-imperfeito",
+            "descricao-literaria",
+        ],
     ),
     GrammarTopic(
         slug="descricao-literaria",
@@ -510,7 +526,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Ter + participio (saido).",
             ),
         ],
-        related=["mais-que-perfeito", "preterito-imperfeito", "discurso-indireto-passado"],
+        related=[
+            "mais-que-perfeito",
+            "preterito-imperfeito",
+            "discurso-indireto-passado",
+        ],
     ),
     GrammarTopic(
         slug="linguagem-jornalistica",
@@ -587,6 +607,10 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Citacao indireta adapta tempos.",
             ),
         ],
-        related=["discurso-indireto", "discurso-indireto-passado", "linguagem-jornalistica"],
+        related=[
+            "discurso-indireto",
+            "discurso-indireto-passado",
+            "linguagem-jornalistica",
+        ],
     ),
 ]

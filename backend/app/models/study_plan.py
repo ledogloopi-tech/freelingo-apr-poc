@@ -2,7 +2,16 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Index, Integer, String, text
+from sqlalchemy import (
+    Boolean,
+    DateTime,
+    Float,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    text,
+)
 from sqlalchemy.dialects.postgresql import JSON
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -26,7 +35,10 @@ class StudyPlan(Base):
         Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
     )
     user_language_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("user_languages.id", ondelete="CASCADE"), nullable=False, index=True
+        Integer,
+        ForeignKey("user_languages.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     cefr_level: Mapped[str] = mapped_column(String(10), nullable=False)
     target_language: Mapped[str] = mapped_column(String(10), nullable=False, default="en-GB")

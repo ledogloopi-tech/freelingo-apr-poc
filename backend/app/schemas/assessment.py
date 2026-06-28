@@ -72,6 +72,10 @@ class AssessmentCompleteRequest(BaseModel):
     )
 
 
+class AssessmentVoiceTrialRequest(BaseModel):
+    target_language: str | None = None
+
+
 # ── Level test ─────────────────────────────────────────────────────────────────
 
 

@@ -31,7 +31,11 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Por mais que exige conjuntivo.",
             ),
         ],
-        related=["conectores-avancados", "imperfeito-conjuntivo", "contra-argumentacao"],
+        related=[
+            "conectores-avancados",
+            "imperfeito-conjuntivo",
+            "contra-argumentacao",
+        ],
     ),
     GrammarTopic(
         slug="subjuntivo-final",

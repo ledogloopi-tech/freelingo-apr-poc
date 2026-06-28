@@ -214,7 +214,11 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Mano è femminile nonostante la desinenza in -o.",
             ),
         ],
-        related=["articoli-determinativi", "articoli-indeterminativi", "aggettivi-descrittivi"],
+        related=[
+            "articoli-determinativi",
+            "articoli-indeterminativi",
+            "aggettivi-descrittivi",
+        ],
     ),
     GrammarTopic(
         slug="articoli-indeterminativi",
@@ -613,7 +617,9 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         common_mistakes=[
             GrammarMistake(
-                wrong="Vivo in Roma.", correct="Vivo a Roma.", note="Con le città si usa a, non in."
+                wrong="Vivo in Roma.",
+                correct="Vivo a Roma.",
+                note="Con le città si usa a, non in.",
             ),
             GrammarMistake(
                 wrong="Andiamo a Italia.",
@@ -868,7 +874,11 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Il dimostrativo non vuole l'articolo davanti.",
             ),
         ],
-        related=["aggettivi-descrittivi", "aggettivi-possessivi", "articoli-determinativi"],
+        related=[
+            "aggettivi-descrittivi",
+            "aggettivi-possessivi",
+            "articoli-determinativi",
+        ],
     ),
     GrammarTopic(
         slug="preposizioni-articolate",
@@ -924,9 +934,15 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="di + il = del",
             ),
             GrammarMistake(
-                wrong="Sono in la cucina.", correct="Sono nella cucina.", note="in + la = nella"
+                wrong="Sono in la cucina.",
+                correct="Sono nella cucina.",
+                note="in + la = nella",
             ),
         ],
-        related=["articoli-determinativi", "preposizioni-luogo", "articoli-indeterminativi"],
+        related=[
+            "articoli-determinativi",
+            "preposizioni-luogo",
+            "articoli-indeterminativi",
+        ],
     ),
 ]

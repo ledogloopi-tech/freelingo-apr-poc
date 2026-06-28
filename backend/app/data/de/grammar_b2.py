@@ -207,7 +207,12 @@ Zustandspassiv — alle Zeiten: Präsens: Es ist gemacht. Präteritum: Es war ge
                 note='Futur II Passiv: "wird ... worden sein".',
             ),
         ],
-        related=["passiv-werden", "passiv-zustand", "passiv-modalverben", "passiv-ersatz"],
+        related=[
+            "passiv-werden",
+            "passiv-zustand",
+            "passiv-modalverben",
+            "passiv-ersatz",
+        ],
     ),
     GrammarTopic(
         slug="passiv-ersatz",
@@ -322,7 +327,12 @@ Aus Nebensatz → Nominalphrase: Weil das Wetter schlecht war → Wegen des schl
                 note='Im Nominalstil wird Genitiv statt "von" verwendet.',
             ),
         ],
-        related=["verbalisierung", "genitiv", "genitiv-praepositionen", "nomen-verb-verbindungen"],
+        related=[
+            "verbalisierung",
+            "genitiv",
+            "genitiv-praepositionen",
+            "nomen-verb-verbindungen",
+        ],
     ),
     GrammarTopic(
         slug="verbalisierung",
@@ -505,7 +515,12 @@ Kann in Relativsatz aufgelöst werden: Das von der Regierung geplante Gesetz →
                 note="Die Erweiterung kommt VOR das Partizip, nicht danach.",
             ),
         ],
-        related=["partizip-i-adj", "partizip-ii-adj", "relativsaetze", "relativsaetze-erweitert"],
+        related=[
+            "partizip-i-adj",
+            "partizip-ii-adj",
+            "relativsaetze",
+            "relativsaetze-erweitert",
+        ],
     ),
     GrammarTopic(
         slug="textkonnektoren",

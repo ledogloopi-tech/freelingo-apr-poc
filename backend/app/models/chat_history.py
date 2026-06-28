@@ -16,7 +16,10 @@ class ChatHistory(Base):
         Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
     )
     conversation_id: Mapped[int | None] = mapped_column(
-        Integer, ForeignKey("conversations.id", ondelete="CASCADE"), nullable=True, index=True
+        Integer,
+        ForeignKey("conversations.id", ondelete="CASCADE"),
+        nullable=True,
+        index=True,
     )
     role: Mapped[str] = mapped_column(String(20), nullable=False)
     content: Mapped[str] = mapped_column(Text, nullable=False)
@@ -24,7 +27,10 @@ class ChatHistory(Base):
         DateTime, nullable=False, default=lambda: datetime.now(UTC).replace(tzinfo=None)
     )
     study_plan_id: Mapped[int | None] = mapped_column(
-        Integer, ForeignKey("study_plans.id", ondelete="SET NULL"), nullable=True, index=True
+        Integer,
+        ForeignKey("study_plans.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
     )
     target_language: Mapped[str | None] = mapped_column(String(10), nullable=True, index=True)
 

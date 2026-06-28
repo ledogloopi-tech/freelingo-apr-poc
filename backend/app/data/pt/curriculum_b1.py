@@ -28,7 +28,11 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=2,
         title="Subjuntivo em contexto",
-        grammar_points=["subjuntivo-recomendacao", "subjuntivo-duvida", "subjuntivo-avaliacao"],
+        grammar_points=[
+            "subjuntivo-recomendacao",
+            "subjuntivo-duvida",
+            "subjuntivo-avaliacao",
+        ],
         vocabulary_set_ids=["trabalho_b1", "estudos_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -46,7 +50,11 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=3,
         title="Pretérito perfeito composto e mais-que-perfeito",
-        grammar_points=["preterito-perfeito-composto", "mais-que-perfeito", "marcadores-composto"],
+        grammar_points=[
+            "preterito-perfeito-composto",
+            "mais-que-perfeito",
+            "marcadores-composto",
+        ],
         vocabulary_set_ids=["experiências_b1", "realizações_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -99,7 +107,11 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=6,
         title="Condicionais, futuro do conjuntivo e suposições",
-        grammar_points=["condicional-composto", "se-imperfeito-subjuntivo", "futuro-do-conjuntivo"],
+        grammar_points=[
+            "condicional-composto",
+            "se-imperfeito-subjuntivo",
+            "futuro-do-conjuntivo",
+        ],
         vocabulary_set_ids=["viagens_b1", "situações_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

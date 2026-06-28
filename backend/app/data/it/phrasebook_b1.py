@@ -31,10 +31,14 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="formal",
             ),
             PhrasebookEntry(
-                text="Non prende bene.", context="Segnalare problemi di linea", register="informal"
+                text="Non prende bene.",
+                context="Segnalare problemi di linea",
+                register="informal",
             ),
             PhrasebookEntry(
-                text="Mi sente?", context="Verificare che l'interlocutore senta", register="neutral"
+                text="Mi sente?",
+                context="Verificare che l'interlocutore senta",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Ha sbagliato numero.",
@@ -52,7 +56,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Pronto, chi parla?", context="Chiedere chi sta chiamando", register="neutral"
+                text="Pronto, chi parla?",
+                context="Chiedere chi sta chiamando",
+                register="neutral",
             ),
         ],
     ),
@@ -131,19 +137,29 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Non sono d'accordo.", context="Esprimere disaccordo", register="neutral"
+                text="Non sono d'accordo.",
+                context="Esprimere disaccordo",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="Hai ragione.", context="Dare ragione a qualcuno", register="neutral"
+                text="Hai ragione.",
+                context="Dare ragione a qualcuno",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="Forse hai torto.", context="Esprimere disaccordo gentile", register="neutral"
+                text="Forse hai torto.",
+                context="Esprimere disaccordo gentile",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="Non ne sono sicuro/a.", context="Esprimere incertezza", register="neutral"
+                text="Non ne sono sicuro/a.",
+                context="Esprimere incertezza",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="Dipende.", context="Evitare una risposta categorica", register="neutral"
+                text="Dipende.",
+                context="Evitare una risposta categorica",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Dal mio punto di vista...",
@@ -156,7 +172,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="informal",
             ),
             PhrasebookEntry(
-                text="Cosa ne pensa?", context="Chiedere un'opinione (formale)", register="formal"
+                text="Cosa ne pensa?",
+                context="Chiedere un'opinione (formale)",
+                register="formal",
             ),
             PhrasebookEntry(
                 text="Sono assolutamente contrario/a.",
@@ -192,10 +210,14 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Mi fa male qui.", context="Indicare dove si sente dolore", register="neutral"
+                text="Mi fa male qui.",
+                context="Indicare dove si sente dolore",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="Ho la febbre.", context="Dire di avere la febbre", register="neutral"
+                text="Ho la febbre.",
+                context="Dire di avere la febbre",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Sono allergico/a alla penicillina.",

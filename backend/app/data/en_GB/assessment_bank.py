@@ -1113,7 +1113,12 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
         skill="grammar",
         difficulty="C2",
         question='"Not only ___ the project late, but the final report was also full of errors." (formal inversion)',
-        options=["they delivered", "delivered they", "did they deliver", "had they delivered"],
+        options=[
+            "they delivered",
+            "delivered they",
+            "did they deliver",
+            "had they delivered",
+        ],
         correct="did they deliver",
         grammar_slug="inversion",
     ),

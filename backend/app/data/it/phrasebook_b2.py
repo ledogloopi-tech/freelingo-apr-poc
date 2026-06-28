@@ -45,10 +45,14 @@ B2_CATEGORIES: list[PhrasebookCategory] = [
                 register="formal",
             ),
             PhrasebookEntry(
-                text="Cordiali saluti,", context="Chiusura formale standard", register="formal"
+                text="Cordiali saluti,",
+                context="Chiusura formale standard",
+                register="formal",
             ),
             PhrasebookEntry(
-                text="Distinti saluti,", context="Chiusura molto formale", register="formal"
+                text="Distinti saluti,",
+                context="Chiusura molto formale",
+                register="formal",
             ),
             PhrasebookEntry(
                 text="La prego di scusarmi per il ritardo nella risposta.",

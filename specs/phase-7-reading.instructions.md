@@ -411,7 +411,7 @@ Six UI states controlled by local `PageState` type:
 - `generating` — `POST /api/reading/generate` sent; long-polls `GET /next?wait=true` until available
 - `idle` — No exercise available and no generation in progress; shows "Generate exercise" button
 - `exercise` — Passage text + question form shown simultaneously; "Submit" activates when all 5 answered
-- `results` — Score, XP, per-question feedback (correct/incorrect highlight); "Next exercise" / "View history" buttons
+- `results` — Score, XP, per-question feedback (correct/incorrect highlight); "Next exercise" / "View history" buttons. After a successful new attempt, the page may open the reusable review prompt, subject to duplicate-review checks and local dismissal cooldown. Replay attempts from history do not trigger the prompt.
 - `history` — Paginated list of past attempts; each row shows topic, score, date, "Review" (expands full text + answers)
 
 **Key UX difference from Listening:** there is no audio player and no "I'm ready"

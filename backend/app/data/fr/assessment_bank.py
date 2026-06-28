@@ -860,7 +860,12 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
         skill="vocabulary",
         difficulty="B2",
         question="Que signifie « un bémol » au sens figuré ?",
-        options=["Une objection", "Un instrument", "Une note de musique", "Un musicien"],
+        options=[
+            "Une objection",
+            "Un instrument",
+            "Une note de musique",
+            "Un musicien",
+        ],
         correct="Une objection",
     ),
     AssessmentQuestion(
@@ -897,7 +902,12 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
         skill="vocabulary",
         difficulty="B2",
         question="Que signifie « s'épanouir » dans un contexte professionnel ?",
-        options=["Se développer pleinement", "Fleurir", "Partir en vacances", "Se plaindre"],
+        options=[
+            "Se développer pleinement",
+            "Fleurir",
+            "Partir en vacances",
+            "Se plaindre",
+        ],
         correct="Se développer pleinement",
     ),
     AssessmentQuestion(

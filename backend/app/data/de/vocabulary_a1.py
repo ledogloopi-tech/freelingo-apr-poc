@@ -2100,9 +2100,17 @@ A1_SETS: list[VocabularySet] = [
         unit_ref="a1-unit-3",
         words=[
             _entry(
-                "rot", "adjective", "Farbe wie eine reife Tomate.", "Ich habe ein rotes T-Shirt."
+                "rot",
+                "adjective",
+                "Farbe wie eine reife Tomate.",
+                "Ich habe ein rotes T-Shirt.",
             ),
-            _entry("blau", "adjective", "Farbe wie ein klarer Himmel.", "Das Auto ist blau."),
+            _entry(
+                "blau",
+                "adjective",
+                "Farbe wie ein klarer Himmel.",
+                "Das Auto ist blau.",
+            ),
             _entry("grün", "adjective", "Farbe wie Gras.", "Die Tür ist grün."),
             _entry(
                 "gelb",
@@ -2110,10 +2118,25 @@ A1_SETS: list[VocabularySet] = [
                 "Farbe wie die Sonne oder eine Zitrone.",
                 "Der gelbe Stift ist hier.",
             ),
-            _entry("schwarz", "adjective", "Sehr dunkle Farbe.", "Ich trage schwarze Schuhe."),
+            _entry(
+                "schwarz",
+                "adjective",
+                "Sehr dunkle Farbe.",
+                "Ich trage schwarze Schuhe.",
+            ),
             _entry("weiß", "adjective", "Farbe wie Schnee.", "Das Hemd ist weiß."),
-            _entry("grau", "adjective", "Farbe zwischen weiß und schwarz.", "Der Himmel ist grau."),
-            _entry("braun", "adjective", "Farbe wie Holz oder Schokolade.", "Der Tisch ist braun."),
+            _entry(
+                "grau",
+                "adjective",
+                "Farbe zwischen weiß und schwarz.",
+                "Der Himmel ist grau.",
+            ),
+            _entry(
+                "braun",
+                "adjective",
+                "Farbe wie Holz oder Schokolade.",
+                "Der Tisch ist braun.",
+            ),
             _entry(
                 "orange",
                 "adjective",
@@ -2121,7 +2144,10 @@ A1_SETS: list[VocabularySet] = [
                 "Ich habe einen orangefarbenen Rucksack.",
             ),
             _entry(
-                "rosa", "adjective", "Helle Farbe zwischen rot und weiß.", "Das Kleid ist rosa."
+                "rosa",
+                "adjective",
+                "Helle Farbe zwischen rot und weiß.",
+                "Das Kleid ist rosa.",
             ),
         ],
     ),
@@ -2133,12 +2159,18 @@ A1_SETS: list[VocabularySet] = [
         words=[
             _entry("der Kopf", "noun", "Oberer Teil des Körpers.", "Mir tut der Kopf weh."),
             _entry(
-                "das Gesicht", "noun", "Vorderer Teil des Kopfes.", "Sie hat ein rundes Gesicht."
+                "das Gesicht",
+                "noun",
+                "Vorderer Teil des Kopfes.",
+                "Sie hat ein rundes Gesicht.",
             ),
             _entry("das Auge", "noun", "Organ zum Sehen.", "Er hat grüne Augen."),
             _entry("das Ohr", "noun", "Körperteil zum Hören.", "Mir tut das Ohr weh."),
             _entry(
-                "die Nase", "noun", "Teil des Gesichts zum Riechen.", "Sie hat eine kleine Nase."
+                "die Nase",
+                "noun",
+                "Teil des Gesichts zum Riechen.",
+                "Sie hat eine kleine Nase.",
             ),
             _entry(
                 "der Mund",
@@ -2163,19 +2195,37 @@ A1_SETS: list[VocabularySet] = [
         topic="Kleidung",
         unit_ref="a1-unit-3",
         words=[
-            _entry("das Hemd", "noun", "Kleidungsstück für den Oberkörper.", "Das Hemd ist weiß."),
+            _entry(
+                "das Hemd",
+                "noun",
+                "Kleidungsstück für den Oberkörper.",
+                "Das Hemd ist weiß.",
+            ),
             _entry(
                 "das T-Shirt",
                 "noun",
                 "Informelles Kleidungsstück für den Oberkörper.",
                 "Ich trage ein blaues T-Shirt.",
             ),
-            _entry("die Hose", "noun", "Kleidungsstück für die Beine.", "Die Hose ist schwarz."),
+            _entry(
+                "die Hose",
+                "noun",
+                "Kleidungsstück für die Beine.",
+                "Die Hose ist schwarz.",
+            ),
             _entry("das Kleid", "noun", "Einteiliges Kleidungsstück.", "Das Kleid ist rot."),
             _entry(
-                "der Rock", "noun", "Kleidungsstück von der Taille abwärts.", "Der Rock ist grün."
+                "der Rock",
+                "noun",
+                "Kleidungsstück von der Taille abwärts.",
+                "Der Rock ist grün.",
             ),
-            _entry("die Schuhe", "noun", "Kleidung für die Füße.", "Ich brauche neue Schuhe."),
+            _entry(
+                "die Schuhe",
+                "noun",
+                "Kleidung für die Füße.",
+                "Ich brauche neue Schuhe.",
+            ),
             _entry(
                 "der Mantel",
                 "noun",
@@ -2188,9 +2238,17 @@ A1_SETS: list[VocabularySet] = [
                 "Leichtes Kleidungsstück für draußen.",
                 "Die Jacke liegt auf dem Stuhl.",
             ),
-            _entry("der Hut", "noun", "Kleidung für den Kopf.", "Er trägt einen braunen Hut."),
             _entry(
-                "die Socken", "noun", "Kleidung für die Füße im Schuh.", "Meine Socken sind grau."
+                "der Hut",
+                "noun",
+                "Kleidung für den Kopf.",
+                "Er trägt einen braunen Hut.",
+            ),
+            _entry(
+                "die Socken",
+                "noun",
+                "Kleidung für die Füße im Schuh.",
+                "Meine Socken sind grau.",
             ),
         ],
     ),
@@ -2227,7 +2285,10 @@ A1_SETS: list[VocabularySet] = [
                 "Wir sehen im Wohnzimmer fern.",
             ),
             _entry(
-                "das Schlafzimmer", "noun", "Raum zum Schlafen.", "Das Schlafzimmer hat ein Bett."
+                "das Schlafzimmer",
+                "noun",
+                "Raum zum Schlafen.",
+                "Das Schlafzimmer hat ein Bett.",
             ),
             _entry(
                 "der Tisch",
@@ -2246,7 +2307,10 @@ A1_SETS: list[VocabularySet] = [
         unit_ref="a1-unit-7",
         words=[
             _entry(
-                "Montag", "noun", "Erster Arbeitstag der Woche.", "Am Montag habe ich Unterricht."
+                "Montag",
+                "noun",
+                "Erster Arbeitstag der Woche.",
+                "Am Montag habe ich Unterricht.",
             ),
             _entry("Dienstag", "noun", "Tag nach Montag.", "Am Dienstag arbeite ich."),
             _entry(
@@ -2255,25 +2319,66 @@ A1_SETS: list[VocabularySet] = [
                 "Tag zwischen Dienstag und Donnerstag.",
                 "Am Mittwoch lerne ich.",
             ),
-            _entry("Donnerstag", "noun", "Tag nach Mittwoch.", "Am Donnerstag gehe ich ins Kino."),
+            _entry(
+                "Donnerstag",
+                "noun",
+                "Tag nach Mittwoch.",
+                "Am Donnerstag gehe ich ins Kino.",
+            ),
             _entry("Freitag", "noun", "Tag vor Samstag.", "Am Freitag gehe ich aus."),
             _entry("Samstag", "noun", "Tag am Wochenende.", "Am Samstag ruhe ich mich aus."),
             _entry(
-                "Sonntag", "noun", "Letzter Tag der Woche.", "Am Sonntag besuche ich meine Familie."
+                "Sonntag",
+                "noun",
+                "Letzter Tag der Woche.",
+                "Am Sonntag besuche ich meine Familie.",
             ),
-            _entry("Januar", "noun", "Erster Monat des Jahres.", "Mein Geburtstag ist im Januar."),
+            _entry(
+                "Januar",
+                "noun",
+                "Erster Monat des Jahres.",
+                "Mein Geburtstag ist im Januar.",
+            ),
             _entry("Februar", "noun", "Zweiter Monat des Jahres.", "Februar ist kurz."),
-            _entry("März", "noun", "Dritter Monat des Jahres.", "Im März beginnt der Frühling."),
+            _entry(
+                "März",
+                "noun",
+                "Dritter Monat des Jahres.",
+                "Im März beginnt der Frühling.",
+            ),
             _entry("April", "noun", "Vierter Monat des Jahres.", "Ich reise im April."),
-            _entry("Mai", "noun", "Fünfter Monat des Jahres.", "Im Mai ist das Wetter schön."),
+            _entry(
+                "Mai",
+                "noun",
+                "Fünfter Monat des Jahres.",
+                "Im Mai ist das Wetter schön.",
+            ),
             _entry("Juni", "noun", "Sechster Monat des Jahres.", "Der Kurs endet im Juni."),
             _entry("Juli", "noun", "Siebter Monat des Jahres.", "Im Juli ist es warm."),
-            _entry("August", "noun", "Achter Monat des Jahres.", "Ich habe im August Urlaub."),
-            _entry("September", "noun", "Neunter Monat des Jahres.", "September beginnt bald."),
-            _entry("Oktober", "noun", "Zehnter Monat des Jahres.", "Ich arbeite viel im Oktober."),
+            _entry(
+                "August",
+                "noun",
+                "Achter Monat des Jahres.",
+                "Ich habe im August Urlaub.",
+            ),
+            _entry(
+                "September",
+                "noun",
+                "Neunter Monat des Jahres.",
+                "September beginnt bald.",
+            ),
+            _entry(
+                "Oktober",
+                "noun",
+                "Zehnter Monat des Jahres.",
+                "Ich arbeite viel im Oktober.",
+            ),
             _entry("November", "noun", "Elfter Monat des Jahres.", "November ist kühl."),
             _entry(
-                "Dezember", "noun", "Zwölfter Monat des Jahres.", "Dezember ist der letzte Monat."
+                "Dezember",
+                "noun",
+                "Zwölfter Monat des Jahres.",
+                "Dezember ist der letzte Monat.",
             ),
             _entry("heute", "adverb", "Der aktuelle Tag.", "Heute habe ich Unterricht."),
             _entry("morgen", "adverb", "Der Tag nach heute.", "Morgen arbeite ich."),
@@ -2318,9 +2423,19 @@ A1_SETS: list[VocabularySet] = [
                 "Einheit der Sprache mit Bedeutung.",
                 "Dieses Wort ist neu für mich.",
             ),
-            _entry("der Satz", "noun", "Gruppe von Wörtern mit Sinn.", "Schreib einen Satz."),
+            _entry(
+                "der Satz",
+                "noun",
+                "Gruppe von Wörtern mit Sinn.",
+                "Schreib einen Satz.",
+            ),
             _entry("die Frage", "noun", "Etwas, das man fragt.", "Ich habe eine Frage."),
-            _entry("die Antwort", "noun", "Reaktion auf eine Frage.", "Schreib die Antwort hier."),
+            _entry(
+                "die Antwort",
+                "noun",
+                "Reaktion auf eine Frage.",
+                "Schreib die Antwort hier.",
+            ),
             _entry("die Übung", "noun", "Aufgabe zum Üben.", "Diese Übung ist einfach."),
         ],
     ),

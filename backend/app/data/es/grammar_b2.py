@@ -44,7 +44,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Con verbo introductor en pasado se usa imperfecto de subjuntivo.",
             ),
         ],
-        related=["subjuntivo-presente", "si-imperfecto-subjuntivo", "subjuntivo-pluscuamperfecto"],
+        related=[
+            "subjuntivo-presente",
+            "si-imperfecto-subjuntivo",
+            "subjuntivo-pluscuamperfecto",
+        ],
     ),
     GrammarTopic(
         slug="subjuntivo-pluscuamperfecto",
@@ -90,7 +94,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Deseo sobre pasado incumplido requiere pluscuamperfecto de subjuntivo.",
             ),
         ],
-        related=["subjuntivo-imperfecto", "condicional-compuesto", "si-imperfecto-subjuntivo"],
+        related=[
+            "subjuntivo-imperfecto",
+            "condicional-compuesto",
+            "si-imperfecto-subjuntivo",
+        ],
     ),
     GrammarTopic(
         slug="concordancia-temporal",
@@ -139,7 +147,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Si el principal está en presente, la acción pasada inmediata va en perfecto de subjuntivo.",
             ),
         ],
-        related=["subjuntivo-presente", "subjuntivo-imperfecto", "subjuntivo-pluscuamperfecto"],
+        related=[
+            "subjuntivo-presente",
+            "subjuntivo-imperfecto",
+            "subjuntivo-pluscuamperfecto",
+        ],
     ),
     GrammarTopic(
         slug="perifrasis-aspectuales",
@@ -318,7 +330,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note='"No obstante" es conector oracional, no preposición.',
             ),
         ],
-        related=["cohesion-textual", "conectores-argumentativos", "estructura-argumentativa"],
+        related=[
+            "cohesion-textual",
+            "conectores-argumentativos",
+            "estructura-argumentativa",
+        ],
     ),
     GrammarTopic(
         slug="cohesion-textual",
@@ -406,7 +422,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note='Con un superior o en contexto formal, se usa "usted" y formas de cortesía.',
             ),
         ],
-        related=["modismos-comunes", "expresiones-coloquiales", "estructura-argumentativa"],
+        related=[
+            "modismos-comunes",
+            "expresiones-coloquiales",
+            "estructura-argumentativa",
+        ],
     ),
     GrammarTopic(
         slug="modismos-comunes",
@@ -614,7 +634,11 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             ),
         ],
         common_mistakes=[],
-        related=["estructura-argumentativa", "contraargumentacion", "conectores-avanzados"],
+        related=[
+            "estructura-argumentativa",
+            "contraargumentacion",
+            "conectores-avanzados",
+        ],
     ),
     GrammarTopic(
         slug="tiempos-narrativos",
@@ -641,7 +665,12 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             ),
         ],
         common_mistakes=[],
-        related=["secuencia-temporal", "imperfecto", "preterito-vs-imperfecto", "pluscuamperfecto"],
+        related=[
+            "secuencia-temporal",
+            "imperfecto",
+            "preterito-vs-imperfecto",
+            "pluscuamperfecto",
+        ],
     ),
     GrammarTopic(
         slug="descripcion-literaria",
@@ -684,7 +713,9 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="Está que echa chispas.", translation=None, note="metáfora coloquial"
+                text="Está que echa chispas.",
+                translation=None,
+                note="metáfora coloquial",
             ),
             GrammarExample(text="El tiempo es oro.", translation=None, note="metáfora"),
             GrammarExample(
@@ -813,7 +844,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="La información no coincide con la versión oficial.", translation=None
+                text="La información no coincide con la versión oficial.",
+                translation=None,
             ),
             GrammarExample(text="Conozco bien esa legislación.", translation=None),
             GrammarExample(text="La decisión exige precisión.", translation=None),
@@ -849,7 +881,8 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="A mi juicio, la propuesta es útil, pero incompleta.", translation=None
+                text="A mi juicio, la propuesta es útil, pero incompleta.",
+                translation=None,
             ),
             GrammarExample(
                 text="Hay avances relevantes; no obstante, persisten problemas estructurales.",
@@ -873,6 +906,10 @@ B2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="No se separan sujeto y verbo con coma.",
             ),
         ],
-        related=["conectores-avanzados", "cohesion-textual", "estructura-argumentativa"],
+        related=[
+            "conectores-avanzados",
+            "cohesion-textual",
+            "estructura-argumentativa",
+        ],
     ),
 ]

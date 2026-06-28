@@ -39,6 +39,8 @@ Admin can still override any quota field per user via the admin panel regardless
 
 **Single rule:** `is_subscribed(user) = True` when `STRIPE_ENABLED=false` OR when `subscription_status in ("trialing", "active")`.
 
+**Post-assessment voice demo exception:** When `STRIPE_ENABLED=true`, unsubscribed users can use exactly one 5-minute voice conversation after completing the placement assessment. This does not change `is_subscribed()`, does not grant access to chat/listening/reading, and is tracked separately with `users.assessment_voice_trial_used` plus a Redis `assessment_voice_trial:{user_id}:{token}` credential. The token may expire and be regenerated while unused, including from the assessment page when the user already has a plan but previously skipped the demo; the durable right is consumed only when `/ws/conversation` starts.
+
 ### Maintenance mode
 
 A runtime toggle (Redis flag `maintenance_mode`) that blocks all subscription-gated features for non-admin users regardless of subscription status. This allows the admin to preventively disable LLM-dependent features (chat, voice conversation, listening, reading) without revoking API keys or changing environment variables, while admins can still access the gated sections to verify service health.

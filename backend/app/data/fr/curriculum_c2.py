@@ -10,7 +10,11 @@ C2_UNITS: list[CurriculumUnit] = [
         level="C2",
         unit_number=1,
         title="Maîtrise de la grammaire avancée",
-        grammar_points=["revision-subjonctif", "revision-conditionnel", "concordance-avancee"],
+        grammar_points=[
+            "revision-subjonctif",
+            "revision-conditionnel",
+            "concordance-avancee",
+        ],
         vocabulary_set_ids=["excellence_fr_c2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -28,7 +32,11 @@ C2_UNITS: list[CurriculumUnit] = [
         level="C2",
         unit_number=2,
         title="Stylistique et registre littéraire",
-        grammar_points=["style-litteraire", "voix-narrative", "ressources-stylistiques"],
+        grammar_points=[
+            "style-litteraire",
+            "voix-narrative",
+            "ressources-stylistiques",
+        ],
         vocabulary_set_ids=["litterature_fr_c2", "style_fr_c2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -100,7 +108,11 @@ C2_UNITS: list[CurriculumUnit] = [
         level="C2",
         unit_number=6,
         title="C2 consolidation et maîtrise",
-        grammar_points=["expression-nuancee", "integration-grammaticale", "fluidite-native"],
+        grammar_points=[
+            "expression-nuancee",
+            "integration-grammaticale",
+            "fluidite-native",
+        ],
         vocabulary_set_ids=["maitrise_fr_c2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

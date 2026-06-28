@@ -10,7 +10,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.listening import ListeningAttempt, ListeningExercise
 from app.schemas.listening import ListeningGenerationResponse
-from app.services.language_helpers import get_comprehension_length_guidance, get_language_name
+from app.services.language_helpers import (
+    get_comprehension_length_guidance,
+    get_language_name,
+)
 from app.services.llm_adapter import LLMResponseError, llm_adapter
 from app.services.progress_service import update_daily_progress
 from app.services.prompts.common import get_language_prompt_overlay

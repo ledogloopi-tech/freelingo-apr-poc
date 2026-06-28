@@ -247,7 +247,11 @@ A1_SETS.extend(
                     ipa="māma",
                 ),
                 VocabularyEntry(
-                    word="爸爸", pos="noun", definition="父亲。", example="我爸爸很高。", ipa="bàba"
+                    word="爸爸",
+                    pos="noun",
+                    definition="父亲。",
+                    example="我爸爸很高。",
+                    ipa="bàba",
                 ),
                 VocabularyEntry(
                     word="哥哥",
@@ -531,7 +535,11 @@ A1_SETS.extend(
                     ipa="yuè",
                 ),
                 VocabularyEntry(
-                    word="年", pos="noun", definition="年份。", example="今年是2025年。", ipa="nián"
+                    word="年",
+                    pos="noun",
+                    definition="年份。",
+                    example="今年是2025年。",
+                    ipa="nián",
                 ),
                 VocabularyEntry(
                     word="点",
@@ -541,7 +549,11 @@ A1_SETS.extend(
                     ipa="diǎn",
                 ),
                 VocabularyEntry(
-                    word="分", pos="noun", definition="分钟。", example="等我五分。", ipa="fēn"
+                    word="分",
+                    pos="noun",
+                    definition="分钟。",
+                    example="等我五分。",
+                    ipa="fēn",
                 ),
                 VocabularyEntry(
                     word="半",
@@ -601,7 +613,11 @@ A1_SETS.extend(
                     ipa="chī",
                 ),
                 VocabularyEntry(
-                    word="喝", pos="verb", definition="饮用液体。", example="你想喝什么？", ipa="hē"
+                    word="喝",
+                    pos="verb",
+                    definition="饮用液体。",
+                    example="你想喝什么？",
+                    ipa="hē",
                 ),
                 VocabularyEntry(
                     word="水",
@@ -871,7 +887,11 @@ A1_SETS.extend(
                     ipa="pángbiān",
                 ),
                 VocabularyEntry(
-                    word="车", pos="noun", definition="汽车。", example="我开车去上班。", ipa="chē"
+                    word="车",
+                    pos="noun",
+                    definition="汽车。",
+                    example="我开车去上班。",
+                    ipa="chē",
                 ),
                 VocabularyEntry(
                     word="公共汽车",
@@ -930,7 +950,11 @@ A1_SETS.extend(
                     ipa="yòubiān",
                 ),
                 VocabularyEntry(
-                    word="路", pos="noun", definition="道路。", example="这条路很长。", ipa="lù"
+                    word="路",
+                    pos="noun",
+                    definition="道路。",
+                    example="这条路很长。",
+                    ipa="lù",
                 ),
                 VocabularyEntry(
                     word="车站",
@@ -1046,7 +1070,11 @@ A1_SETS.extend(
                     ipa="shān",
                 ),
                 VocabularyEntry(
-                    word="河", pos="noun", definition="自然水道。", example="这条河很长。", ipa="hé"
+                    word="河",
+                    pos="noun",
+                    definition="自然水道。",
+                    example="这条河很长。",
+                    ipa="hé",
                 ),
                 VocabularyEntry(
                     word="太阳",
@@ -1091,7 +1119,11 @@ A1_SETS.extend(
                     ipa="niǎo",
                 ),
                 VocabularyEntry(
-                    word="鱼", pos="noun", definition="水生动物。", example="河里有鱼。", ipa="yú"
+                    word="鱼",
+                    pos="noun",
+                    definition="水生动物。",
+                    example="河里有鱼。",
+                    ipa="yú",
                 ),
                 VocabularyEntry(
                     word="马",
@@ -1130,10 +1162,18 @@ A1_SETS.extend(
                     ipa="mǎi",
                 ),
                 VocabularyEntry(
-                    word="卖", pos="verb", definition="出售。", example="这家店卖衣服。", ipa="mài"
+                    word="卖",
+                    pos="verb",
+                    definition="出售。",
+                    example="这家店卖衣服。",
+                    ipa="mài",
                 ),
                 VocabularyEntry(
-                    word="钱", pos="noun", definition="货币。", example="我忘了带钱。", ipa="qián"
+                    word="钱",
+                    pos="noun",
+                    definition="货币。",
+                    example="我忘了带钱。",
+                    ipa="qián",
                 ),
                 VocabularyEntry(
                     word="元",
@@ -1354,10 +1394,18 @@ A1_SETS.extend(
                     ipa="qù",
                 ),
                 VocabularyEntry(
-                    word="回", pos="verb", definition="返回。", example="我晚上回家。", ipa="huí"
+                    word="回",
+                    pos="verb",
+                    definition="返回。",
+                    example="我晚上回家。",
+                    ipa="huí",
                 ),
                 VocabularyEntry(
-                    word="住", pos="verb", definition="居住。", example="我住在上海。", ipa="zhù"
+                    word="住",
+                    pos="verb",
+                    definition="居住。",
+                    example="我住在上海。",
+                    ipa="zhù",
                 ),
                 VocabularyEntry(
                     word="工作",

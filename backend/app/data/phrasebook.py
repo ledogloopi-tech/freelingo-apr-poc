@@ -39,7 +39,9 @@ def _resolve_categories(target_language: str) -> list[PhrasebookCategory]:
     return _CACHE[module_name]
 
 
-def get_phrasebook_categories(target_language: str = "en-GB") -> list[PhrasebookCategory]:
+def get_phrasebook_categories(
+    target_language: str = "en-GB",
+) -> list[PhrasebookCategory]:
     """Return all phrasebook categories for the given target language."""
     return _resolve_categories(target_language)
 

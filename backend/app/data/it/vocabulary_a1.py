@@ -1920,12 +1920,23 @@ A1_SETS: list[VocabularySet] = [
         unit_ref="a1-unit-3",
         words=[
             _entry(
-                "rosso", "adjective", "Colore come il pomodoro maturo.", "Ho una maglietta rossa."
+                "rosso",
+                "adjective",
+                "Colore come il pomodoro maturo.",
+                "Ho una maglietta rossa.",
             ),
-            _entry("blu", "adjective", "Colore come il mare profondo.", "La macchina è blu."),
+            _entry(
+                "blu",
+                "adjective",
+                "Colore come il mare profondo.",
+                "La macchina è blu.",
+            ),
             _entry("verde", "adjective", "Colore come l'erba.", "La porta è verde."),
             _entry(
-                "giallo", "adjective", "Colore come il sole o il limone.", "La matita gialla è qui."
+                "giallo",
+                "adjective",
+                "Colore come il sole o il limone.",
+                "La matita gialla è qui.",
             ),
             _entry("nero", "adjective", "Colore molto scuro.", "Porto scarpe nere."),
             _entry("bianco", "adjective", "Colore come la neve.", "La camicia è bianca."),
@@ -1936,8 +1947,18 @@ A1_SETS: list[VocabularySet] = [
                 "Colore come il legno o il cioccolato.",
                 "Il tavolo è marrone.",
             ),
-            _entry("arancione", "adjective", "Colore come l'arancia.", "Ho uno zaino arancione."),
-            _entry("rosa", "adjective", "Colore chiaro tra rosso e bianco.", "Il vestito è rosa."),
+            _entry(
+                "arancione",
+                "adjective",
+                "Colore come l'arancia.",
+                "Ho uno zaino arancione.",
+            ),
+            _entry(
+                "rosa",
+                "adjective",
+                "Colore chiaro tra rosso e bianco.",
+                "Il vestito è rosa.",
+            ),
         ],
     ),
     VocabularySet(
@@ -1949,8 +1970,18 @@ A1_SETS: list[VocabularySet] = [
             _entry("testa", "noun", "Parte superiore del corpo.", "Mi fa male la testa."),
             _entry("viso", "noun", "Parte frontale della testa.", "Ha il viso rotondo."),
             _entry("occhio", "noun", "Organo per vedere.", "Ha gli occhi verdi."),
-            _entry("orecchio", "noun", "Parte del corpo per sentire.", "Mi fa male l'orecchio."),
-            _entry("naso", "noun", "Parte del viso per sentire gli odori.", "Ha il naso piccolo."),
+            _entry(
+                "orecchio",
+                "noun",
+                "Parte del corpo per sentire.",
+                "Mi fa male l'orecchio.",
+            ),
+            _entry(
+                "naso",
+                "noun",
+                "Parte del viso per sentire gli odori.",
+                "Ha il naso piccolo.",
+            ),
             _entry(
                 "bocca",
                 "noun",
@@ -1986,19 +2017,47 @@ A1_SETS: list[VocabularySet] = [
                 "Indumento informale a maniche corte o lunghe.",
                 "Porto una maglietta blu.",
             ),
-            _entry("pantaloni", "noun", "Indumento che copre le gambe.", "I pantaloni sono neri."),
-            _entry("vestito", "noun", "Indumento intero, spesso femminile.", "Il vestito è rosso."),
-            _entry("gonna", "noun", "Indumento dalla vita verso il basso.", "La gonna è verde."),
-            _entry("scarpe", "noun", "Indumento per i piedi.", "Ho bisogno di scarpe nuove."),
+            _entry(
+                "pantaloni",
+                "noun",
+                "Indumento che copre le gambe.",
+                "I pantaloni sono neri.",
+            ),
+            _entry(
+                "vestito",
+                "noun",
+                "Indumento intero, spesso femminile.",
+                "Il vestito è rosso.",
+            ),
+            _entry(
+                "gonna",
+                "noun",
+                "Indumento dalla vita verso il basso.",
+                "La gonna è verde.",
+            ),
+            _entry(
+                "scarpe",
+                "noun",
+                "Indumento per i piedi.",
+                "Ho bisogno di scarpe nuove.",
+            ),
             _entry(
                 "cappotto",
                 "noun",
                 "Indumento pesante per il freddo.",
                 "Uso il cappotto in inverno.",
             ),
-            _entry("giacca", "noun", "Indumento esterno leggero.", "La giacca è sulla sedia."),
             _entry(
-                "cappello", "noun", "Indumento per coprire la testa.", "Porta un cappello marrone."
+                "giacca",
+                "noun",
+                "Indumento esterno leggero.",
+                "La giacca è sulla sedia.",
+            ),
+            _entry(
+                "cappello",
+                "noun",
+                "Indumento per coprire la testa.",
+                "Porta un cappello marrone.",
             ),
             _entry(
                 "calzini",
@@ -2027,7 +2086,12 @@ A1_SETS: list[VocabularySet] = [
                 "Vivo in un appartamento piccolo.",
             ),
             _entry("stanza", "noun", "Spazio dentro una casa.", "La mia stanza è grande."),
-            _entry("cucina", "noun", "Luogo dove si prepara il cibo.", "La cucina è pulita."),
+            _entry(
+                "cucina",
+                "noun",
+                "Luogo dove si prepara il cibo.",
+                "La cucina è pulita.",
+            ),
             _entry("bagno", "noun", "Stanza per lavarsi.", "Il bagno è in fondo."),
             _entry(
                 "soggiorno",
@@ -2036,9 +2100,17 @@ A1_SETS: list[VocabularySet] = [
                 "Guardiamo la TV in soggiorno.",
             ),
             _entry(
-                "camera da letto", "noun", "Stanza per dormire.", "La camera da letto ha un letto."
+                "camera da letto",
+                "noun",
+                "Stanza per dormire.",
+                "La camera da letto ha un letto.",
             ),
-            _entry("tavolo", "noun", "Mobile con una superficie piana.", "Il tavolo è in cucina."),
+            _entry(
+                "tavolo",
+                "noun",
+                "Mobile con una superficie piana.",
+                "Il tavolo è in cucina.",
+            ),
             _entry("sedia", "noun", "Mobile per sedersi.", "Ci sono quattro sedie."),
             _entry("letto", "noun", "Mobile per dormire.", "Il letto è comodo."),
         ],
@@ -2050,17 +2122,33 @@ A1_SETS: list[VocabularySet] = [
         unit_ref="a1-unit-7",
         words=[
             _entry(
-                "lunedì", "noun", "Primo giorno lavorativo della settimana.", "Lunedì ho lezione."
+                "lunedì",
+                "noun",
+                "Primo giorno lavorativo della settimana.",
+                "Lunedì ho lezione.",
             ),
             _entry("martedì", "noun", "Giorno dopo lunedì.", "Martedì lavoro."),
-            _entry("mercoledì", "noun", "Giorno tra martedì e giovedì.", "Mercoledì studio."),
+            _entry(
+                "mercoledì",
+                "noun",
+                "Giorno tra martedì e giovedì.",
+                "Mercoledì studio.",
+            ),
             _entry("giovedì", "noun", "Giorno dopo mercoledì.", "Giovedì vado al cinema."),
             _entry("venerdì", "noun", "Giorno prima del sabato.", "Venerdì esco."),
             _entry("sabato", "noun", "Giorno del fine settimana.", "Sabato riposo."),
             _entry(
-                "domenica", "noun", "Ultimo giorno della settimana.", "Domenica visito la famiglia."
+                "domenica",
+                "noun",
+                "Ultimo giorno della settimana.",
+                "Domenica visito la famiglia.",
             ),
-            _entry("gennaio", "noun", "Primo mese dell'anno.", "Il mio compleanno è a gennaio."),
+            _entry(
+                "gennaio",
+                "noun",
+                "Primo mese dell'anno.",
+                "Il mio compleanno è a gennaio.",
+            ),
             _entry("febbraio", "noun", "Secondo mese dell'anno.", "Febbraio è corto."),
             _entry("marzo", "noun", "Terzo mese dell'anno.", "A marzo inizia la primavera."),
             _entry("aprile", "noun", "Quarto mese dell'anno.", "Viaggio ad aprile."),
@@ -2071,11 +2159,21 @@ A1_SETS: list[VocabularySet] = [
             _entry("settembre", "noun", "Nono mese dell'anno.", "Settembre inizia presto."),
             _entry("ottobre", "noun", "Decimo mese dell'anno.", "Lavoro molto a ottobre."),
             _entry("novembre", "noun", "Undicesimo mese dell'anno.", "Novembre è fresco."),
-            _entry("dicembre", "noun", "Dodicesimo mese dell'anno.", "Dicembre è l'ultimo mese."),
+            _entry(
+                "dicembre",
+                "noun",
+                "Dodicesimo mese dell'anno.",
+                "Dicembre è l'ultimo mese.",
+            ),
             _entry("oggi", "adverb", "Il giorno attuale.", "Oggi ho lezione."),
             _entry("domani", "adverb", "Il giorno dopo oggi.", "Domani lavoro."),
             _entry("ieri", "adverb", "Il giorno prima di oggi.", "Ieri ho studiato."),
-            _entry("data", "noun", "Giorno, mese e anno di un evento.", "Qual è la data di oggi?"),
+            _entry(
+                "data",
+                "noun",
+                "Giorno, mese e anno di un evento.",
+                "Qual è la data di oggi?",
+            ),
         ],
     ),
     VocabularySet(
@@ -2084,21 +2182,36 @@ A1_SETS: list[VocabularySet] = [
         topic="Oggetti di classe e apprendimento",
         unit_ref="a1-unit-1",
         words=[
-            _entry("libro", "noun", "Insieme di pagine da leggere.", "Apri il libro, per favore."),
+            _entry(
+                "libro",
+                "noun",
+                "Insieme di pagine da leggere.",
+                "Apri il libro, per favore.",
+            ),
             _entry(
                 "quaderno",
                 "noun",
                 "Oggetto per scrivere appunti.",
                 "Scrivo parole nuove nel quaderno.",
             ),
-            _entry("penna", "noun", "Oggetto per scrivere con inchiostro.", "Hai una penna?"),
+            _entry(
+                "penna",
+                "noun",
+                "Oggetto per scrivere con inchiostro.",
+                "Hai una penna?",
+            ),
             _entry(
                 "matita",
                 "noun",
                 "Oggetto per scrivere o disegnare.",
                 "Scrivi la risposta con la matita.",
             ),
-            _entry("pagina", "noun", "Un lato di un foglio in un libro.", "Leggi pagina dieci."),
+            _entry(
+                "pagina",
+                "noun",
+                "Un lato di un foglio in un libro.",
+                "Leggi pagina dieci.",
+            ),
             _entry(
                 "parola",
                 "noun",
@@ -2108,7 +2221,12 @@ A1_SETS: list[VocabularySet] = [
             _entry("frase", "noun", "Gruppo di parole con senso.", "Scrivi una frase."),
             _entry("domanda", "noun", "Qualcosa che si chiede.", "Ho una domanda."),
             _entry("risposta", "noun", "Replica a una domanda.", "Scrivi la risposta qui."),
-            _entry("esercizio", "noun", "Attività per praticare.", "Questo esercizio è facile."),
+            _entry(
+                "esercizio",
+                "noun",
+                "Attività per praticare.",
+                "Questo esercizio è facile.",
+            ),
         ],
     ),
     VocabularySet(

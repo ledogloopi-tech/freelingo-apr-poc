@@ -48,7 +48,12 @@ ich habe gemacht · du hast gemacht · er/es/sie hat gemacht · wir haben gemach
                 note='Das Partizip II von "spielen" ist "gespielt" (regelmäßig: ge + Stamm + t).',
             ),
         ],
-        related=["perfekt-mit-sein", "partizip-ii", "perfekt-vs-praeteritum", "verb-haben"],
+        related=[
+            "perfekt-mit-sein",
+            "partizip-ii",
+            "perfekt-vs-praeteritum",
+            "verb-haben",
+        ],
     ),
     GrammarTopic(
         slug="perfekt-mit-sein",
@@ -99,7 +104,12 @@ ich bin gegangen · du bist gegangen · er ist gegangen · wir sind gegangen · 
                 note='"Werden" bildet das Perfekt mit "sein".',
             ),
         ],
-        related=["perfekt-mit-haben", "partizip-ii", "perfekt-vs-praeteritum", "verb-sein"],
+        related=[
+            "perfekt-mit-haben",
+            "partizip-ii",
+            "perfekt-vs-praeteritum",
+            "verb-sein",
+        ],
     ),
     GrammarTopic(
         slug="partizip-ii",
@@ -665,7 +675,12 @@ schnell → schneller, groß → größer, klein → kleiner, schön → schöne
                 note='"Am besten" ist prädikativ, "das beste" ist attributiv.',
             ),
         ],
-        related=["komparativ", "vergleich-als-wie", "adjektive", "adjektivdeklination-best"],
+        related=[
+            "komparativ",
+            "vergleich-als-wie",
+            "adjektive",
+            "adjektivdeklination-best",
+        ],
     ),
     GrammarTopic(
         slug="vergleich-als-wie",
@@ -928,7 +943,12 @@ Nach **viel, wenig, etwas, nichts** nominalisiert und **großgeschrieben**: *etw
                 note='Nach "etwas" wird das Adjektiv nominalisiert und großgeschrieben.',
             ),
         ],
-        related=["adjektivdeklination-best", "adjektivdeklination-unbest", "adjektive", "genus"],
+        related=[
+            "adjektivdeklination-best",
+            "adjektivdeklination-unbest",
+            "adjektive",
+            "genus",
+        ],
     ),
     GrammarTopic(
         slug="nebensatz-dass",
@@ -1180,7 +1200,12 @@ Steht der obwohl-Satz vorne, beginnt der Hauptsatz mit dem Verb: *Obwohl es regn
                 note='Im obwohl-Satz steht das Verb am Ende: "krank ist".',
             ),
         ],
-        related=["nebensatz-weil", "nebensatz-dass", "wortstellung-nebensatz", "nebensatz-wenn"],
+        related=[
+            "nebensatz-weil",
+            "nebensatz-dass",
+            "wortstellung-nebensatz",
+            "nebensatz-wenn",
+        ],
     ),
     GrammarTopic(
         slug="wortstellung-nebensatz",

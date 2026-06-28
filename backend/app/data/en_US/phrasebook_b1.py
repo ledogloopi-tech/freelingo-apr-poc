@@ -35,7 +35,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="formal",
             ),
             PhrasebookEntry(
-                text="I'll call back later.", context="Saying you'll call again", register="neutral"
+                text="I'll call back later.",
+                context="Saying you'll call again",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="I'm calling about [topic].",
@@ -43,7 +45,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="I'm sorry, you're breaking up.", context="Poor signal", register="neutral"
+                text="I'm sorry, you're breaking up.",
+                context="Poor signal",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Could you speak up, please?",
@@ -127,7 +131,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
         icon="\U0001f4ac",
         phrases=[
             PhrasebookEntry(
-                text="In my opinion, ...", context="Introducing your view", register="neutral"
+                text="In my opinion, ...",
+                context="Introducing your view",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Personally, I think that...",
@@ -135,13 +141,19 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="I agree with you completely.", context="Full agreement", register="neutral"
+                text="I agree with you completely.",
+                context="Full agreement",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="I partially agree, but...", context="Partial agreement", register="neutral"
+                text="I partially agree, but...",
+                context="Partial agreement",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="I'm afraid I don't agree.", context="Polite disagreement", register="neutral"
+                text="I'm afraid I don't agree.",
+                context="Polite disagreement",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="That's a good point, but...",
@@ -157,7 +169,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 text="It depends on...", context="Qualified answer", register="neutral"
             ),
             PhrasebookEntry(
-                text="I'm not sure about that.", context="Expressing doubt", register="neutral"
+                text="I'm not sure about that.",
+                context="Expressing doubt",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Could you clarify what you mean?",
@@ -165,7 +179,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="As far as I know, ...", context="Limited certainty", register="neutral"
+                text="As far as I know, ...",
+                context="Limited certainty",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="I'd like to add that...",

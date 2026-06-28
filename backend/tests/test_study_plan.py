@@ -162,7 +162,12 @@ async def test_today_passes_native_language_only_for_beginner_lessons(
 async def test_generate_requires_auth(client):
     response = await client.post(
         "/api/study-plan/generate",
-        json={"cefr_level": "A1", "goals": ["grammar"], "weeks": 4, "minutes_per_day": 30},
+        json={
+            "cefr_level": "A1",
+            "goals": ["grammar"],
+            "weeks": 4,
+            "minutes_per_day": 30,
+        },
     )
     assert response.status_code == 401
 

@@ -54,7 +54,12 @@ sollen: unpersönliches Gerücht (Der Politiker soll zurücktreten). wollen: Beh
                 note="Subjektive Modalverben haben unterschiedliche Quellenbezüge.",
             ),
         ],
-        related=["subjektive-modalverben", "konjunktiv-i", "indirekte-rede", "modalverben"],
+        related=[
+            "subjektive-modalverben",
+            "konjunktiv-i",
+            "indirekte-rede",
+            "modalverben",
+        ],
     ),
     GrammarTopic(
         slug="gehobene-sprache",
@@ -243,7 +248,9 @@ Fugenelemente: -s-, -en-, -es- zwischen Kompositionsteilen: Arbeit**s**platz, Hu
                 note="Komposition",
             ),
             GrammarExample(
-                text="die Kindheit = das Kind + -heit", translation=None, note="Derivation"
+                text="die Kindheit = das Kind + -heit",
+                translation=None,
+                note="Derivation",
             ),
             GrammarExample(
                 text="das Essen (vom Verb essen)",
@@ -512,7 +519,12 @@ Typische Phrasen: Es stellt sich die Frage, ob... / Man muss jedoch bedenken, da
                 note="Im Deutschen wird Unbegründetes schnell als unüberzeugend abgetan.",
             ),
         ],
-        related=["textkonnektoren", "zweiteilige-konnektoren", "synthese", "wissenschaftssprache"],
+        related=[
+            "textkonnektoren",
+            "zweiteilige-konnektoren",
+            "synthese",
+            "wissenschaftssprache",
+        ],
     ),
     GrammarTopic(
         slug="oesterreich-schweiz",
@@ -850,7 +862,9 @@ Kein Apostroph bei Genitiv: Peters Auto (nicht: Peter's Auto). Apostroph nur bei
                 note="korrekte Anführungszeichen",
             ),
             GrammarExample(
-                text="Die Straße ist lang. — Der Fluss ist kurz.", translation=None, note="ß vs ss"
+                text="Die Straße ist lang. — Der Fluss ist kurz.",
+                translation=None,
+                note="ß vs ss",
             ),
             GrammarExample(
                 text="Peters Auto, nicht: Peter's Auto",
@@ -858,7 +872,9 @@ Kein Apostroph bei Genitiv: Peters Auto (nicht: Peter's Auto). Apostroph nur bei
                 note="kein Apostroph bei Genitiv",
             ),
             GrammarExample(
-                text="Wie geht's dir?", translation=None, note="Apostroph nur bei Auslassung"
+                text="Wie geht's dir?",
+                translation=None,
+                note="Apostroph nur bei Auslassung",
             ),
         ],
         common_mistakes=[
@@ -911,7 +927,12 @@ Wichtig: Die Grenze zwischen Fachwort und Allgemeinwort ist fließend (z.B. Stre
                 note="Fachjargon wirkt sonst unverständlich oder angeberisch.",
             ),
         ],
-        related=["wissenschaftssprache", "nominalstil", "konnotationen", "gehobene-sprache"],
+        related=[
+            "wissenschaftssprache",
+            "nominalstil",
+            "konnotationen",
+            "gehobene-sprache",
+        ],
     ),
     GrammarTopic(
         slug="sprachkritik",

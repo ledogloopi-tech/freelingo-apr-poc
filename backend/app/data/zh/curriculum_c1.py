@@ -8,7 +8,11 @@ C1_UNITS: list[CurriculumUnit] = [
         level="C1",
         unit_number=1,
         title="复杂论证和含义推断",
-        grammar_points=["lunzheng-structure", "jishi-ye-concession", "han-yi-implication"],
+        grammar_points=[
+            "lunzheng-structure",
+            "jishi-ye-concession",
+            "han-yi-implication",
+        ],
         vocabulary_set_ids=["argumentation_c1", "premise_c1", "address_c1"],
         lesson_types=[
             "grammar",
@@ -108,7 +112,11 @@ C1_UNITS: list[CurriculumUnit] = [
         level="C1",
         unit_number=5,
         title="文体、体裁和正式写作",
-        grammar_points=["genre-conventions-zh", "written-style-formal", "nominalization-zh"],
+        grammar_points=[
+            "genre-conventions-zh",
+            "written-style-formal",
+            "nominalization-zh",
+        ],
         vocabulary_set_ids=["paragraph_c1", "image_c1", "theme_c1"],
         lesson_types=[
             "grammar",
@@ -206,7 +214,12 @@ C1_UNITS: list[CurriculumUnit] = [
             "written-style-formal",
             "yinwen-source",
         ],
-        vocabulary_set_ids=["review_c1", "expanded_c1_1", "expanded_c1_2", "expanded_c1_3"],
+        vocabulary_set_ids=[
+            "review_c1",
+            "expanded_c1_1",
+            "expanded_c1_2",
+            "expanded_c1_3",
+        ],
         lesson_types=[
             "grammar",
             "vocabulary",

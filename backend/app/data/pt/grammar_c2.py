@@ -26,7 +26,11 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Qualquer que + conjuntivo.",
             ),
         ],
-        related=["presente-conjuntivo", "imperfeito-conjuntivo", "futuro-do-conjuntivo"],
+        related=[
+            "presente-conjuntivo",
+            "imperfeito-conjuntivo",
+            "futuro-do-conjuntivo",
+        ],
     ),
     GrammarTopic(
         slug="revisao-condicional",
@@ -131,7 +135,9 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         common_mistakes=[
             GrammarMistake(
-                wrong="Alternar voz sem necessidade.", correct="Manter consistencia.", note=""
+                wrong="Alternar voz sem necessidade.",
+                correct="Manter consistencia.",
+                note="",
             ),
         ],
         related=["estilo-literario", "descricao-literaria"],
@@ -374,7 +380,9 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         common_mistakes=[
             GrammarMistake(
-                wrong="Neologismos incompreensiveis.", correct="Devem ser intuitivos.", note=""
+                wrong="Neologismos incompreensiveis.",
+                correct="Devem ser intuitivos.",
+                note="",
             ),
         ],
         related=["derivacao", "expressoes-coloquiais", "expressao-matizada"],
@@ -391,12 +399,15 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="Rever: Os aluno terminou -> Os alunos terminaram.", translation=None
+                text="Rever: Os aluno terminou -> Os alunos terminaram.",
+                translation=None,
             ),
         ],
         common_mistakes=[
             GrammarMistake(
-                wrong="Rever apenas gramatica.", correct="Edicao eficaz reve tudo.", note=""
+                wrong="Rever apenas gramatica.",
+                correct="Edicao eficaz reve tudo.",
+                note="",
             ),
         ],
         related=["reformulacao", "coesao-textual", "expressao-matizada"],
@@ -480,7 +491,9 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         common_mistakes=[
             GrammarMistake(
-                wrong="Achar que C2 e o fim.", correct="A aprendizagem nunca termina.", note=""
+                wrong="Achar que C2 e o fim.",
+                correct="A aprendizagem nunca termina.",
+                note="",
             ),
         ],
         related=["integracao-gramatical", "expressao-matizada"],
@@ -524,7 +537,11 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Distinção botânica.",
             ),
         ],
-        related=["arabismos-portugueses", "evolucao-linguistica", "portugues-brasileiro"],
+        related=[
+            "arabismos-portugueses",
+            "evolucao-linguistica",
+            "portugues-brasileiro",
+        ],
     ),
     GrammarTopic(
         slug="lusofonia-contemporanea",

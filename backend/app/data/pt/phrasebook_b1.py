@@ -10,7 +10,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
         icon="\U0001f4de",
         phrases=[
             PhrasebookEntry(
-                text="Estou? / Est\u00e1 l\u00e1?", context="Atender o telefone", register="neutral"
+                text="Estou? / Est\u00e1 l\u00e1?",
+                context="Atender o telefone",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Posso falar com o senhor Silva?",
@@ -58,7 +60,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Quem fala?", context="Perguntar quem est\u00e1 a ligar", register="neutral"
+                text="Quem fala?",
+                context="Perguntar quem est\u00e1 a ligar",
+                register="neutral",
             ),
         ],
     ),
@@ -137,10 +141,14 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="N\u00e3o concordo.", context="Exprimir desacordo", register="neutral"
+                text="N\u00e3o concordo.",
+                context="Exprimir desacordo",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="Tens raz\u00e3o.", context="Dar raz\u00e3o a algu\u00e9m", register="neutral"
+                text="Tens raz\u00e3o.",
+                context="Dar raz\u00e3o a algu\u00e9m",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Talvez estejas enganado.",
@@ -148,10 +156,14 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="N\u00e3o tenho a certeza.", context="Exprimir incerteza", register="neutral"
+                text="N\u00e3o tenho a certeza.",
+                context="Exprimir incerteza",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="Depende.", context="Evitar uma resposta categ\u00f3rica", register="neutral"
+                text="Depende.",
+                context="Evitar uma resposta categ\u00f3rica",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Do meu ponto de vista...",
@@ -164,7 +176,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="informal",
             ),
             PhrasebookEntry(
-                text="O que acha?", context="Pedir uma opini\u00e3o (formal)", register="formal"
+                text="O que acha?",
+                context="Pedir uma opini\u00e3o (formal)",
+                register="formal",
             ),
             PhrasebookEntry(
                 text="Discordo completamente.",
@@ -200,10 +214,14 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="D\u00f3i-me aqui.", context="Indicar onde se sente dor", register="neutral"
+                text="D\u00f3i-me aqui.",
+                context="Indicar onde se sente dor",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="Tenho febre.", context="Dizer que se tem febre", register="neutral"
+                text="Tenho febre.",
+                context="Dizer que se tem febre",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Sou al\u00e9rgico/a \u00e0 penicilina.",
@@ -231,7 +249,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="formal",
             ),
             PhrasebookEntry(
-                text="\u00c9 urgente.", context="Indicar urg\u00eancia", register="neutral"
+                text="\u00c9 urgente.",
+                context="Indicar urg\u00eancia",
+                register="neutral",
             ),
         ],
     ),

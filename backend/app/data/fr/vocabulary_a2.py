@@ -1616,14 +1616,25 @@ A2_SETS: list[VocabularySet] = [
             ),
             _entry("coûter", "verb", "Avoir un prix.", "Combien ça coûte ?"),
             _entry(
-                "bon marché", "adjective", "Qui ne coûte pas cher.", "Ce restaurant est bon marché."
+                "bon marché",
+                "adjective",
+                "Qui ne coûte pas cher.",
+                "Ce restaurant est bon marché.",
             ),
             _entry("cher", "adjective", "Qui coûte beaucoup d'argent.", "L'hôtel est cher."),
             _entry("la carte", "noun", "Carte bancaire pour payer.", "Je paie par carte."),
             _entry(
-                "le liquide", "noun", "Argent en pièces ou billets.", "Je préfère payer en liquide."
+                "le liquide",
+                "noun",
+                "Argent en pièces ou billets.",
+                "Je préfère payer en liquide.",
             ),
-            _entry("la monnaie", "noun", "Argent rendu après un paiement.", "Voici votre monnaie."),
+            _entry(
+                "la monnaie",
+                "noun",
+                "Argent rendu après un paiement.",
+                "Voici votre monnaie.",
+            ),
         ],
     ),
     VocabularySet(
@@ -1652,11 +1663,22 @@ A2_SETS: list[VocabularySet] = [
                 "L'arbre donne de l'ombre.",
             ),
             _entry(
-                "la fleur", "noun", "Partie colorée de nombreuses plantes.", "La fleur est jaune."
+                "la fleur",
+                "noun",
+                "Partie colorée de nombreuses plantes.",
+                "La fleur est jaune.",
             ),
-            _entry("la rivière", "noun", "Cours d'eau naturel.", "La rivière traverse la ville."),
             _entry(
-                "la montagne", "noun", "Grande élévation de terrain.", "La montagne est enneigée."
+                "la rivière",
+                "noun",
+                "Cours d'eau naturel.",
+                "La rivière traverse la ville.",
+            ),
+            _entry(
+                "la montagne",
+                "noun",
+                "Grande élévation de terrain.",
+                "La montagne est enneigée.",
             ),
             _entry(
                 "la plage",
@@ -1665,7 +1687,10 @@ A2_SETS: list[VocabularySet] = [
                 "Nous allons à la plage en été.",
             ),
             _entry(
-                "la forêt", "noun", "Lieu avec beaucoup d'arbres.", "Nous marchons dans la forêt."
+                "la forêt",
+                "noun",
+                "Lieu avec beaucoup d'arbres.",
+                "Nous marchons dans la forêt.",
             ),
             _entry("la mer", "noun", "Grande masse d'eau salée.", "La mer est calme."),
         ],

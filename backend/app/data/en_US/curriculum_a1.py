@@ -10,7 +10,12 @@ A1_UNITS: list[CurriculumUnit] = [
         level="A1",
         unit_number=1,
         title="Identity & Greetings",
-        grammar_points=["to-be", "subject-pronouns", "questions-yes-no", "american-spelling"],
+        grammar_points=[
+            "to-be",
+            "subject-pronouns",
+            "questions-yes-no",
+            "american-spelling",
+        ],
         vocabulary_set_ids=[
             "alphabet_a1",
             "identity_a1",
@@ -35,7 +40,12 @@ A1_UNITS: list[CurriculumUnit] = [
         unit_number=2,
         title="My World",
         grammar_points=["articles", "possessive-adjectives", "present-simple"],
-        vocabulary_set_ids=["family_a1", "colors_a1", "adjectives_basic_a1", "body_parts_a1"],
+        vocabulary_set_ids=[
+            "family_a1",
+            "colors_a1",
+            "adjectives_basic_a1",
+            "body_parts_a1",
+        ],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
             "Describe family members and possessions",

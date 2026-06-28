@@ -310,7 +310,12 @@ async def test_regenerate_invalid_multiple_choice_exercise(client, test_user, db
     await db_session.refresh(exercise)
     await db_session.refresh(lesson)
     assert exercise.options == ["stehe", "steht", "stehen", "stehst"]
-    assert lesson.content["exercises"][0]["options"] == ["stehe", "steht", "stehen", "stehst"]
+    assert lesson.content["exercises"][0]["options"] == [
+        "stehe",
+        "steht",
+        "stehen",
+        "stehst",
+    ]
 
 
 @pytest.mark.asyncio

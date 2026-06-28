@@ -16,7 +16,13 @@ _SPECS = [
                 "b1-unit-1",
                 "Wǒ rènwéi zhège bànfǎ bǐjiào héshì.",
             ),
-            ("我的理由有两个。", "组织论据", "neutral", "b1-unit-1", "Wǒ de lǐyóu yǒu liǎng ge."),
+            (
+                "我的理由有两个。",
+                "组织论据",
+                "neutral",
+                "b1-unit-1",
+                "Wǒ de lǐyóu yǒu liǎng ge.",
+            ),
             (
                 "我同意一部分，但还有一个问题。",
                 "部分同意并补充",
@@ -213,8 +219,20 @@ _SPECS = [
                 "b1-unit-8",
                 "Zuìhòu wǒ zǒngjié yíxià zhòngdiǎn.",
             ),
-            ("第一是时间问题。", "列举要点", "neutral", "b1-unit-8", "Dì-yī shì shíjiān wèntí."),
-            ("第二是费用问题。", "继续列举", "neutral", "b1-unit-8", "Dì-èr shì fèiyòng wèntí."),
+            (
+                "第一是时间问题。",
+                "列举要点",
+                "neutral",
+                "b1-unit-8",
+                "Dì-yī shì shíjiān wèntí.",
+            ),
+            (
+                "第二是费用问题。",
+                "继续列举",
+                "neutral",
+                "b1-unit-8",
+                "Dì-èr shì fèiyòng wèntí.",
+            ),
             (
                 "所以最好分阶段进行。",
                 "提出建议",
@@ -236,7 +254,13 @@ _SPECS = [
         "解释和澄清",
         "💡",
         [
-            ("可能有一些误会。", "指出误会时", "neutral", "b1-unit-8", "Kěnéng yǒu yìxiē wùhuì."),
+            (
+                "可能有一些误会。",
+                "指出误会时",
+                "neutral",
+                "b1-unit-8",
+                "Kěnéng yǒu yìxiē wùhuì.",
+            ),
             (
                 "也许是我理解错了。",
                 "承认可能理解错误",
@@ -244,7 +268,13 @@ _SPECS = [
                 "b1-unit-8",
                 "Wǒ yěxǔ shì wǒ lǐjiě cuò le.",
             ),
-            ("我再确认一下。", "表达再确认", "neutral", "b1-unit-8", "Wǒ zài quèrèn yíxià."),
+            (
+                "我再确认一下。",
+                "表达再确认",
+                "neutral",
+                "b1-unit-8",
+                "Wǒ zài quèrèn yíxià.",
+            ),
             (
                 "这一部分我再说明一下。",
                 "补充说明时",
@@ -252,7 +282,13 @@ _SPECS = [
                 "b1-unit-8",
                 "Zhè yí bùfen wǒ zài shuōmíng yíxià.",
             ),
-            ("请先确认资料。", "要求先行确认", "formal", "b1-unit-8", "Qǐng xiān quèrèn zīliào."),
+            (
+                "请先确认资料。",
+                "要求先行确认",
+                "formal",
+                "b1-unit-8",
+                "Qǐng xiān quèrèn zīliào.",
+            ),
             (
                 "我基本理解你的说明了。",
                 "表示大致理解",

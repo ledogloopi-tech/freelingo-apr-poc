@@ -27,7 +27,7 @@ Most REST endpoints are prefixed under `/api`. The public health check is at `/h
 - **POST `/login`** — Rate limit: 10/min. Returns access_token (JWT, 15 min) + refresh_token in httpOnly cookie (30 days)
 - **POST `/refresh`** — Rate limit: 60/min. Rotates refresh token, returns new access_token
 - **POST `/logout`** — Rate limit: 60/min. Deletes refresh token from Redis, clears cookie
-- **GET `/me`** — Rate limit: 60/min. Returns authenticated user profile, including subscription fields (`subscription_status`, `subscription_ends_at`, `trial_used`) so the frontend can distinguish trial eligibility from active subscription state.
+- **GET `/me`** — Rate limit: 60/min. Returns authenticated user profile, including subscription fields (`subscription_status`, `subscription_ends_at`, `trial_used`, `assessment_voice_trial_used`) so the frontend can distinguish Stripe trial eligibility, post-assessment voice-demo eligibility, and active subscription state.
 - **PATCH `/me`** — Rate limit: 60/min. Updates display_name, email, password, target_language, conversation settings
 - **POST `/me/avatar`** — Rate limit: 60/min. Uploads the authenticated user's profile avatar (JPEG/PNG, max 2 MB). Validates the declared content type, image signature, and minimal image structure, stores the image on disk under `/app/avatars` using a non-predictable UUID filename, and returns the user profile with `avatar` set to a cache-busted internal reference (`/api/avatars/{uuid}.{ext}?v={ms}`). The file reference is not publicly served.
 - **GET `/me/avatar-file`** — Rate limit: 60/min. Authenticated current-user avatar retrieval endpoint. Returns only the authenticated user's own avatar file; this is the supported image retrieval path used by the frontend. Responses are marked `Cache-Control: private, no-store`; client-side avatar reuse is handled by the frontend blob cache keyed by the stored avatar reference.
@@ -83,7 +83,8 @@ Registered only when `STRIPE_ENABLED=true`.
 - **POST `/submit`** — Rate limit: 10/min. Legacy: submits answers for CEFR evaluation
 - **POST `/evaluate`** — Rate limit: 60/min. Deterministic CEFR evaluation (no LLM — groups by difficulty)
 - **POST `/free-write`** — Rate limit: 10/min. Evaluates free-write text for CEFR placement (LLM)
-- **POST `/complete`** — Rate limit: 10/min. Persists results, creates StudyPlan
+- **POST `/complete`** — Rate limit: 10/min. Persists results and creates a StudyPlan. When `STRIPE_ENABLED=true`, the user is not subscribed, and `assessment_voice_trial_used=false`, the response includes `voice_trial: {available, token, duration_seconds, expires_in_seconds}` for a one-time 5-minute voice demo.
+- **POST `/voice-trial`** — Rate limit: 10/min. Body: `{target_language?}`. Regenerates a fresh post-assessment voice demo token for the user's active study plan in that language when `STRIPE_ENABLED=true`, the user is not subscribed, and `assessment_voice_trial_used=false`. Used when the student previously skipped the demo and returns to the assessment page.
 - **GET `/level-test/questions/{plan_id}`** — Rate limit: 5/min. Generates 20-question level test (LLM, constrained to studied content)
 - **POST `/level-test/submit`** — Rate limit: 10/min. Submits level test answers → score + recommendation
 - **GET `/level-test/result/{plan_id}`** — Rate limit: 60/min. Returns test result and recommendation (`"advance"`, `"extend"`, or `"repeat"`)
@@ -213,9 +214,9 @@ All endpoints require `get_current_user`.
 
 Full-duplex voice conversation pipeline.
 
-Both `POST /api/conversation/warmup` and `/ws/conversation` require an authenticated user with subscription access when `STRIPE_ENABLED=true`; both reject non-admin users while maintenance mode is active.
+Both `POST /api/conversation/warmup` and `/ws/conversation` require an authenticated user with subscription access when `STRIPE_ENABLED=true`, except for a valid post-assessment voice trial token. Both reject non-admin users while maintenance mode is active.
 
-- **POST `/api/conversation/warmup`** — Rate limit: 20/min. Pre-heats TTS and STT models before opening the WebSocket.
+- **POST `/api/conversation/warmup`** — Rate limit: 20/min. Pre-heats TTS and STT models before opening the WebSocket. Optional body: `{trial_token}` for the post-assessment demo.
 
 **Authentication**: After the WebSocket handshake is accepted, the client must send a JSON message `{"type": "auth", "token": "<access_token>"}` within 10 seconds. If missing, malformed, or invalid, the server closes the connection with code 1008.
 
@@ -223,7 +224,7 @@ Both `POST /api/conversation/warmup` and `/ws/conversation` require an authentic
 
 **Client → Server message types:**
 
-- **`auth`** — Payload: `{"type":"auth","token":"<jwt>","voice":"nova","target_language":"en-GB","context":[...]}`. Description: First message — authenticates the session and may include voice preference, target language, and optional chat context
+- **`auth`** — Payload: `{"type":"auth","token":"<jwt>","voice":"nova","target_language":"en-GB","context":[...],"voice_trial_token":"..."}`. Description: First message — authenticates the session and may include voice preference, target language, optional chat context, and a post-assessment voice trial token. Trial sessions are consumed when the WebSocket starts and are capped to 300 seconds.
 - **binary frame** — Payload: raw audio bytes. Description: WAV audio chunk from VAD
 - **`interrupt`** — Payload: `{"type":"interrupt"}`. Description: Optional manual interruption; cancels current generation
 

@@ -31,7 +31,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="No se oye bien.", context="Decir que hay mala cobertura", register="neutral"
+                text="No se oye bien.",
+                context="Decir que hay mala cobertura",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="\u00bfPuede llamar m\u00e1s tarde?",
@@ -49,7 +51,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Un momento, ahora se pone.", context="Pedir que espere", register="neutral"
+                text="Un momento, ahora se pone.",
+                context="Pedir que espere",
+                register="neutral",
             ),
         ],
     ),
@@ -128,7 +132,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Yo creo que...", context="Expresar una creencia", register="neutral"
+                text="Yo creo que...",
+                context="Expresar una creencia",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="A m\u00ed me parece que...",
@@ -136,7 +142,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="No estoy de acuerdo.", context="Expresar desacuerdo", register="neutral"
+                text="No estoy de acuerdo.",
+                context="Expresar desacuerdo",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Tienes toda la raz\u00f3n.",
@@ -197,7 +205,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="Tengo fiebre.", context="Decir que tienes fiebre", register="neutral"
+                text="Tengo fiebre.",
+                context="Decir que tienes fiebre",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="No me encuentro bien.",
@@ -205,10 +215,14 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="\u00bfTiene cita?", context="Preguntar si hay cita previa", register="neutral"
+                text="\u00bfTiene cita?",
+                context="Preguntar si hay cita previa",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="\u00bfEs grave?", context="Preguntar por la gravedad", register="neutral"
+                text="\u00bfEs grave?",
+                context="Preguntar por la gravedad",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Tengo que hacerme un an\u00e1lisis de sangre.",
@@ -226,7 +240,9 @@ B1_CATEGORIES: list[PhrasebookCategory] = [
                 register="formal",
             ),
             PhrasebookEntry(
-                text="\u00bfMe puede recetar algo?", context="Pedir una receta", register="neutral"
+                text="\u00bfMe puede recetar algo?",
+                context="Pedir una receta",
+                register="neutral",
             ),
             PhrasebookEntry(
                 text="Necesito un volante para el especialista.",
