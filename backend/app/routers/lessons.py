@@ -158,7 +158,8 @@ async def _get_exercise_content_entry(
     )
     lesson_exercises = result.scalars().all()
     exercise_index = next(
-        (index for index, item in enumerate(lesson_exercises) if item.id == exercise.id), None
+        (index for index, item in enumerate(lesson_exercises) if item.id == exercise.id),
+        None,
     )
     if exercise_index is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Exercise not found")
@@ -184,7 +185,8 @@ async def _get_exercise_index(exercise: Exercise, lesson: Lesson, db: AsyncSessi
     )
     lesson_exercises = result.scalars().all()
     exercise_index = next(
-        (index for index, item in enumerate(lesson_exercises) if item.id == exercise.id), None
+        (index for index, item in enumerate(lesson_exercises) if item.id == exercise.id),
+        None,
     )
     if exercise_index is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Exercise not found")
@@ -527,8 +529,8 @@ async def regenerate_invalid_exercise(
             lesson_type=lesson.lesson_type,
             topic=lesson.title,
             exercise_type=exercise.exercise_type,
-            lesson_explanation=content.get("explanation") if isinstance(content, dict) else {},
-            lesson_vocabulary=content.get("vocabulary") if isinstance(content, dict) else [],
+            lesson_explanation=(content.get("explanation") if isinstance(content, dict) else {}),
+            lesson_vocabulary=(content.get("vocabulary") if isinstance(content, dict) else []),
             invalid_exercise=invalid_exercise,
             target_language=plan.target_language,
             native_language=current_user.native_language,
@@ -602,7 +604,9 @@ async def generate_exercise_native_explanation(
     plan = await db.get(StudyPlan, lesson.study_plan_id)
     target_language = plan.target_language if plan else "en-GB"
 
-    from app.services.prompts.lesson import build_native_exercise_explanation_on_demand_prompt
+    from app.services.prompts.lesson import (
+        build_native_exercise_explanation_on_demand_prompt,
+    )
 
     prompt = build_native_exercise_explanation_on_demand_prompt(
         target_language_name=get_language_name(target_language),

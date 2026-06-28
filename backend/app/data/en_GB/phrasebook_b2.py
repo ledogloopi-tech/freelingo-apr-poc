@@ -118,10 +118,14 @@ B2_CATEGORIES: list[PhrasebookCategory] = [
                 register="neutral",
             ),
             PhrasebookEntry(
-                text="That seems fair.", context="Agreeing to a proposal", register="neutral"
+                text="That seems fair.",
+                context="Agreeing to a proposal",
+                register="neutral",
             ),
             PhrasebookEntry(
-                text="We have a deal.", context="Finalising an agreement", register="neutral"
+                text="We have a deal.",
+                context="Finalising an agreement",
+                register="neutral",
             ),
         ],
     ),
@@ -132,10 +136,14 @@ B2_CATEGORIES: list[PhrasebookCategory] = [
         icon="\U0001f393",
         phrases=[
             PhrasebookEntry(
-                text="Evidence suggests that...", context="Presenting evidence", register="formal"
+                text="Evidence suggests that...",
+                context="Presenting evidence",
+                register="formal",
             ),
             PhrasebookEntry(
-                text="According to [source], ...", context="Citing a source", register="formal"
+                text="According to [source], ...",
+                context="Citing a source",
+                register="formal",
             ),
             PhrasebookEntry(
                 text="It could be argued that...",
@@ -148,7 +156,9 @@ B2_CATEGORIES: list[PhrasebookCategory] = [
                 register="formal",
             ),
             PhrasebookEntry(
-                text="To a certain extent, ...", context="Qualified agreement", register="formal"
+                text="To a certain extent, ...",
+                context="Qualified agreement",
+                register="formal",
             ),
             PhrasebookEntry(
                 text="This raises the question of...",

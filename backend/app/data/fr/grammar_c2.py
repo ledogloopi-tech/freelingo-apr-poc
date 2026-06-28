@@ -185,10 +185,12 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         examples=[
             GrammarExample(text="Les dés pipés du destin. (hypallage)", translation=None),
             GrammarExample(
-                text="Un affreux plaisir, une douce violence. (oxymores)", translation=None
+                text="Un affreux plaisir, une douce violence. (oxymores)",
+                translation=None,
             ),
             GrammarExample(
-                text="Il marchait. Le vent soufflait. La nuit tombait. (parataxe)", translation=None
+                text="Il marchait. Le vent soufflait. La nuit tombait. (parataxe)",
+                translation=None,
             ),
         ],
         common_mistakes=[],
@@ -213,7 +215,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 translation=None,
             ),
             GrammarExample(
-                text="Tu me manques. → I miss you. (pas You are missing to me)", translation=None
+                text="Tu me manques. → I miss you. (pas You are missing to me)",
+                translation=None,
             ),
             GrammarExample(
                 text="It's a piece of cake. → C'est un jeu d'enfant. (pas c'est un morceau de gâteau)",
@@ -300,7 +303,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="alcool, sucre, zéro, chiffre — emprunts à l'arabe médiéval", translation=None
+                text="alcool, sucre, zéro, chiffre — emprunts à l'arabe médiéval",
+                translation=None,
             ),
             GrammarExample(
                 text="balcon, concert, banque — emprunts à l'italien de la Renaissance",
@@ -455,7 +459,8 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 translation=None,
             ),
             GrammarExample(
-                text="Je me permets de vous signaler que... (atténuation polie)", translation=None
+                text="Je me permets de vous signaler que... (atténuation polie)",
+                translation=None,
             ),
             GrammarExample(
                 text="Autant le dire tout de suite : ce projet est voué à l'échec. (emphase)",

@@ -195,7 +195,11 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note='"Día" es masculino aunque termine en -a. El adjetivo debe concordar.',
             ),
         ],
-        related=["articulos-definidos", "articulos-indefinidos", "adjetivos-descriptivos"],
+        related=[
+            "articulos-definidos",
+            "articulos-indefinidos",
+            "adjetivos-descriptivos",
+        ],
     ),
     GrammarTopic(
         slug="articulos-indefinidos",
@@ -843,7 +847,11 @@ A1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Desde 2010, la RAE recomienda no tildar los pronombres demostrativos.",
             ),
         ],
-        related=["adjetivos-descriptivos", "adjetivos-posesivos", "articulos-definidos"],
+        related=[
+            "adjetivos-descriptivos",
+            "adjetivos-posesivos",
+            "articulos-definidos",
+        ],
     ),
     GrammarTopic(
         slug="signos-interrogacion-exclamacion",

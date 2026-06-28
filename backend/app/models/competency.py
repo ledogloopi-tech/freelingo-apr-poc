@@ -2,7 +2,15 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, UniqueConstraint
+from sqlalchemy import (
+    Boolean,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    String,
+    UniqueConstraint,
+)
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.core.database import Base
@@ -35,5 +43,8 @@ class UserCompetency(Base):
         onupdate=lambda: datetime.now(UTC).replace(tzinfo=None),
     )
     study_plan_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("study_plans.id", ondelete="CASCADE"), nullable=False, index=True
+        Integer,
+        ForeignKey("study_plans.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )

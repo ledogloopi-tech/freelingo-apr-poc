@@ -298,7 +298,11 @@ async def test_create_flashcard_from_word(client, test_user, db_session, monkeyp
     response = await client.post(
         "/api/flashcards/from-word",
         headers=headers,
-        json={"word": "fleeting", "context": "The fame was fleeting.", "cefr_level": "B2"},
+        json={
+            "word": "fleeting",
+            "context": "The fame was fleeting.",
+            "cefr_level": "B2",
+        },
     )
     assert response.status_code == 200
     data = response.json()

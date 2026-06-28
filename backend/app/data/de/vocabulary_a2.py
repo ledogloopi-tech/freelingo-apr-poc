@@ -1583,7 +1583,10 @@ A2_SETS: list[VocabularySet] = [
         unit_ref="a2-unit-3",
         words=[
             _entry(
-                "das Geld", "noun", "Mittel zum Kaufen von Dingen.", "Ich habe kein Bargeld dabei."
+                "das Geld",
+                "noun",
+                "Mittel zum Kaufen von Dingen.",
+                "Ich habe kein Bargeld dabei.",
             ),
             _entry(
                 "der Preis",
@@ -1602,7 +1605,12 @@ A2_SETS: list[VocabularySet] = [
             _entry("billig", "adjective", "Nicht teuer.", "Dieses Restaurant ist billig."),
             _entry("teuer", "adjective", "Viel Geld kostend.", "Das Hotel ist teuer."),
             _entry("die Karte", "noun", "Bankkarte zum Bezahlen.", "Ich zahle mit Karte."),
-            _entry("das Bargeld", "noun", "Geld in Münzen oder Scheinen.", "Ich zahle lieber bar."),
+            _entry(
+                "das Bargeld",
+                "noun",
+                "Geld in Münzen oder Scheinen.",
+                "Ich zahle lieber bar.",
+            ),
             _entry(
                 "das Wechselgeld",
                 "noun",
@@ -1624,20 +1632,49 @@ A2_SETS: list[VocabularySet] = [
                 "Haustier, das oft im Haus lebt.",
                 "Die Katze schläft auf dem Sofa.",
             ),
-            _entry("der Vogel", "noun", "Tier mit Flügeln und Federn.", "Ein Vogel sitzt im Baum."),
             _entry(
-                "der Baum", "noun", "Große Pflanze mit Stamm und Ästen.", "Der Baum gibt Schatten."
+                "der Vogel",
+                "noun",
+                "Tier mit Flügeln und Federn.",
+                "Ein Vogel sitzt im Baum.",
             ),
-            _entry("die Blume", "noun", "Bunter Teil vieler Pflanzen.", "Die Blume ist gelb."),
             _entry(
-                "der Fluss", "noun", "Natürlicher Wasserlauf.", "Der Fluss fließt durch die Stadt."
+                "der Baum",
+                "noun",
+                "Große Pflanze mit Stamm und Ästen.",
+                "Der Baum gibt Schatten.",
             ),
-            _entry("der Berg", "noun", "Große Erhebung im Gelände.", "Der Berg ist verschneit."),
             _entry(
-                "der Strand", "noun", "Ort mit Sand am Meer.", "Wir gehen im Sommer an den Strand."
+                "die Blume",
+                "noun",
+                "Bunter Teil vieler Pflanzen.",
+                "Die Blume ist gelb.",
+            ),
+            _entry(
+                "der Fluss",
+                "noun",
+                "Natürlicher Wasserlauf.",
+                "Der Fluss fließt durch die Stadt.",
+            ),
+            _entry(
+                "der Berg",
+                "noun",
+                "Große Erhebung im Gelände.",
+                "Der Berg ist verschneit.",
+            ),
+            _entry(
+                "der Strand",
+                "noun",
+                "Ort mit Sand am Meer.",
+                "Wir gehen im Sommer an den Strand.",
             ),
             _entry("der Wald", "noun", "Ort mit vielen Bäumen.", "Wir wandern im Wald."),
-            _entry("das Meer", "noun", "Große Menge salzigen Wassers.", "Das Meer ist ruhig."),
+            _entry(
+                "das Meer",
+                "noun",
+                "Große Menge salzigen Wassers.",
+                "Das Meer ist ruhig.",
+            ),
         ],
     ),
     VocabularySet(

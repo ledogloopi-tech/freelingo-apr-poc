@@ -51,7 +51,8 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="J'explique lentement pour que tout le monde suive.", translation=None
+                text="J'explique lentement pour que tout le monde suive.",
+                translation=None,
             ),
             GrammarExample(
                 text="Il est sorti discrètement de peur qu'on ne le remarque.",
@@ -60,7 +61,8 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             ),
             GrammarExample(text="Rentre avant qu'il ne fasse nuit.", translation=None),
             GrammarExample(
-                text="Je te prête ce livre afin que tu puisses préparer l'examen.", translation=None
+                text="Je te prête ce livre afin que tu puisses préparer l'examen.",
+                translation=None,
             ),
         ],
         common_mistakes=[
@@ -70,7 +72,11 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="'Pour que' est suivi du subjonctif.",
             ),
         ],
-        related=["subjonctif-conjonctions", "subjonctif-concessif", "subjonctif-present"],
+        related=[
+            "subjonctif-conjonctions",
+            "subjonctif-concessif",
+            "subjonctif-present",
+        ],
     ),
     GrammarTopic(
         slug="subjonctif-relatives",
@@ -98,10 +104,12 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="défini → indicatif",
             ),
             GrammarExample(
-                text="C'est le plus beau spectacle que j'aie jamais vu.", translation=None
+                text="C'est le plus beau spectacle que j'aie jamais vu.",
+                translation=None,
             ),
             GrammarExample(
-                text="Il n'y a personne ici qui sache parler japonais.", translation=None
+                text="Il n'y a personne ici qui sache parler japonais.",
+                translation=None,
             ),
         ],
         common_mistakes=[
@@ -167,10 +175,12 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="Il convient de souligner l'importance de ces résultats.", translation=None
+                text="Il convient de souligner l'importance de ces résultats.",
+                translation=None,
             ),
             GrammarExample(
-                text="Force est de constater que les progrès sont insuffisants.", translation=None
+                text="Force est de constater que les progrès sont insuffisants.",
+                translation=None,
             ),
             GrammarExample(
                 text="Il ressort de l'enquête que la majorité des sondés approuvent la mesure.",
@@ -202,7 +212,8 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="« Cette découverte est majeure », a déclaré le chercheur.", translation=None
+                text="« Cette découverte est majeure », a déclaré le chercheur.",
+                translation=None,
             ),
             GrammarExample(
                 text="Trois options s'offrent à nous : négocier, résister ou céder.",
@@ -238,13 +249,16 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="créer → création, créateur, créatif, créativité, recréer", translation=None
+                text="créer → création, créateur, créatif, créativité, recréer",
+                translation=None,
             ),
             GrammarExample(
-                text="égal → égalité, inégal, inégalité, égaliser, égalitaire", translation=None
+                text="égal → égalité, inégal, inégalité, égaliser, égalitaire",
+                translation=None,
             ),
             GrammarExample(
-                text="faire → défaire, refaire, surfaire, parfaire, contrefaire", translation=None
+                text="faire → défaire, refaire, surfaire, parfaire, contrefaire",
+                translation=None,
             ),
         ],
         common_mistakes=[
@@ -403,7 +417,8 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="Ce politicien a de l'avenir... derrière lui. (double sens)", translation=None
+                text="Ce politicien a de l'avenir... derrière lui. (double sens)",
+                translation=None,
             ),
             GrammarExample(
                 text="Il est parti. (selon le contexte : il a quitté la pièce ou il est décédé)",
@@ -534,11 +549,13 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="magasiner = faire du shopping",
             ),
             GrammarExample(
-                text="En Belgique : Il drache ! On va goûter une fois.", translation=None
+                text="En Belgique : Il drache ! On va goûter une fois.",
+                translation=None,
             ),
             GrammarExample(text="En Suisse : Mon natel n'a plus de batterie.", translation=None),
             GrammarExample(
-                text="Au Sénégal : On va à l'essencerie avant de partir.", translation=None
+                text="Au Sénégal : On va à l'essencerie avant de partir.",
+                translation=None,
             ),
         ],
         common_mistakes=[],
@@ -564,10 +581,12 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="particule interrogative -tu",
             ),
             GrammarExample(
-                text="Marseille : Eh bé ! Il fait chaud aujourd'hui, con !", translation=None
+                text="Marseille : Eh bé ! Il fait chaud aujourd'hui, con !",
+                translation=None,
             ),
             GrammarExample(
-                text="Côte d'Ivoire : Il y a un maquis juste là, on y va ?", translation=None
+                text="Côte d'Ivoire : Il y a un maquis juste là, on y va ?",
+                translation=None,
             ),
         ],
         common_mistakes=[],
@@ -594,7 +613,8 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="pain au chocolat",
             ),
             GrammarExample(
-                text="À Marseille : T'as vu cette tchatche, il est fort lui !", translation=None
+                text="À Marseille : T'as vu cette tchatche, il est fort lui !",
+                translation=None,
             ),
         ],
         common_mistakes=[],
@@ -677,7 +697,8 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 translation=None,
             ),
             GrammarExample(
-                text="Il souffre d'anosmie, c'est-à-dire qu'il a perdu l'odorat.", translation=None
+                text="Il souffre d'anosmie, c'est-à-dire qu'il a perdu l'odorat.",
+                translation=None,
             ),
         ],
         common_mistakes=[],

@@ -69,7 +69,13 @@ class TestGenerateLesson:
                     explanation="Use base form after 'I'.",
                 ),
             ],
-            vocabulary=[{"word": "walk", "definition": "caminar", "example": "I walk to school."}],
+            vocabulary=[
+                {
+                    "word": "walk",
+                    "definition": "caminar",
+                    "example": "I walk to school.",
+                }
+            ],
             grammar_refs=["present-simple"],
         )
 
@@ -172,7 +178,10 @@ class TestGenerateLesson:
 
     @pytest.mark.asyncio
     async def test_filters_invalid_grammar_refs(self):
-        from app.services.lesson_generator import generate_lesson, get_valid_grammar_slugs
+        from app.services.lesson_generator import (
+            generate_lesson,
+            get_valid_grammar_slugs,
+        )
 
         _ = get_valid_grammar_slugs("en-GB")
 

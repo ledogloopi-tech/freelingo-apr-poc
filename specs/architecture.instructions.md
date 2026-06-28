@@ -19,7 +19,7 @@ freelingo/
 │   │   ├── models/              # SQLAlchemy 2.0 ORM models (16 files, 22 model classes)
 │   │   ├── schemas/             # Pydantic v2 request/response schemas (15 modules)
 │   │   ├── routers/             # 23 routers (22 REST + 1 WebSocket)
-│   │   ├── services/            # Business logic + external service clients (19 modules + prompts package)
+│   │   ├── services/            # Business logic + external service clients (20 modules + prompts package)
 │   │   └── data/                # Static curriculum and content data (9 language modules)
 │   │       ├── en/              # English curriculum (A1–C2)
 │   │       ├── es/              # Spanish curriculum (A1–C2)
@@ -27,7 +27,7 @@ freelingo/
 │   │       └── pt/              # Portuguese curriculum (A1–C2)
 │   ├── alembic/
 │   │   └── versions/            # DB migrations (43)
-│   └── tests/                   # pytest suite (43 test files, 922 tests)
+│   └── tests/                   # pytest suite (43 test files, 928 tests)
 │
 ├── frontend/                    # Next.js 16 App Router
 │   ├── src/
@@ -172,6 +172,6 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 
 **Summary:**
 
-- **Backend**: pytest + pytest-asyncio, 43 test files, 922 tests, 85.09% last measured coverage (target: 70%)
+- **Backend**: pytest + pytest-asyncio, 43 test files, 928 tests, 85.09% last measured coverage (target: 70%)
 - **Frontend**: Vitest, 32 test files, 419 tests covering stores, components, hooks, lib, i18n, app pages, billing paywall UI, billing success verification, and middleware; coverage is not configured/reported
 - **E2E**: Playwright (planned, not yet implemented)

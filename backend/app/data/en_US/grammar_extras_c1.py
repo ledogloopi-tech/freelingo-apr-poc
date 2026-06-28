@@ -35,7 +35,11 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="In formal subjunctive, use 'be', not 'is'.",
             ),
         ],
-        related=["distancing-language", "hedging-language", "reported-speech-reporting-verbs"],
+        related=[
+            "distancing-language",
+            "hedging-language",
+            "reported-speech-reporting-verbs",
+        ],
     ),
     GrammarTopic(
         slug="conditionals-alternatives",
@@ -52,14 +56,17 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="Unless you start now, you won't finish on time.", note="if you don't start"
+                text="Unless you start now, you won't finish on time.",
+                note="if you don't start",
             ),
             GrammarExample(text="You can borrow the car provided that you fill it up afterwards."),
             GrammarExample(
-                text="Supposing you lost your job, what would you do?", note="hypothetical"
+                text="Supposing you lost your job, what would you do?",
+                note="hypothetical",
             ),
             GrammarExample(
-                text="Take your phone in case you get lost.", note="precaution, not condition"
+                text="Take your phone in case you get lost.",
+                note="precaution, not condition",
             ),
         ],
         common_mistakes=[
@@ -107,7 +114,11 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="'Allegedly' usually modifies the verb, not the whole sentence as a standalone.",
             ),
         ],
-        related=["passive-reporting-verbs", "hedging-language", "reported-speech-reporting-verbs"],
+        related=[
+            "passive-reporting-verbs",
+            "hedging-language",
+            "reported-speech-reporting-verbs",
+        ],
     ),
     GrammarTopic(
         slug="coherence-cohesion",
@@ -150,7 +161,11 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Start a new sentence with 'However' — or use 'but' within the same sentence.",
             ),
         ],
-        related=["discourse-connectors-b1", "discourse-markers", "ellipsis-substitution"],
+        related=[
+            "discourse-connectors-b1",
+            "discourse-markers",
+            "ellipsis-substitution",
+        ],
     ),
     GrammarTopic(
         slug="parallelism",
@@ -175,7 +190,8 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="noun + noun",
             ),
             GrammarExample(
-                text="Asking for help is better than struggling alone.", note="gerund + gerund"
+                text="Asking for help is better than struggling alone.",
+                note="gerund + gerund",
             ),
             GrammarExample(
                 text="The proposal is ambitious, innovative, and cost-effective.",
@@ -211,17 +227,20 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="I got caught in the rain without an umbrella.", note="informal, negative"
+                text="I got caught in the rain without an umbrella.",
+                note="informal, negative",
             ),
             GrammarExample(
-                text="She got promoted after only six months.", note="informal, positive"
+                text="She got promoted after only six months.",
+                note="informal, positive",
             ),
             GrammarExample(
                 text="The contract is expected to be signed by the end of the week.",
                 note="double passive",
             ),
             GrammarExample(
-                text="His proposal was turned down by the committee.", note="phrasal verb passive"
+                text="His proposal was turned down by the committee.",
+                note="phrasal verb passive",
             ),
         ],
         common_mistakes=[
@@ -274,7 +293,11 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Each layer of reporting needs its own backshift.",
             ),
         ],
-        related=["reported-speech", "reported-speech-reporting-verbs", "distancing-language"],
+        related=[
+            "reported-speech",
+            "reported-speech-reporting-verbs",
+            "distancing-language",
+        ],
     ),
     GrammarTopic(
         slug="complex-prepositional-phrases",
@@ -309,7 +332,11 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="'Despite' is not followed by 'of'. 'In spite of' is.",
             ),
         ],
-        related=["prepositions-place", "dependent-prepositions", "complex-prepositions-c2"],
+        related=[
+            "prepositions-place",
+            "dependent-prepositions",
+            "complex-prepositions-c2",
+        ],
     ),
     GrammarTopic(
         slug="articles-subtle-distinctions",
@@ -326,11 +353,13 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="She was appointed chair of the committee.", note="unique role — no article"
+                text="She was appointed chair of the committee.",
+                note="unique role — no article",
             ),
             GrammarExample(text="We sailed across the Atlantic in a small boat."),
             GrammarExample(
-                text="I visited Lake Como last summer.", note="individual lake — no article"
+                text="I visited Lake Como last summer.",
+                note="individual lake — no article",
             ),
             GrammarExample(text="The United Arab Emirates is a federation of seven emirates."),
         ],
@@ -383,7 +412,11 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Avoid excessive relative clause nesting — simplify where possible.",
             ),
         ],
-        related=["order-of-adjectives", "relative-clauses", "advanced-relative-clauses"],
+        related=[
+            "order-of-adjectives",
+            "relative-clauses",
+            "advanced-relative-clauses",
+        ],
     ),
     GrammarTopic(
         slug="phrasal-verbs-c1",
@@ -441,7 +474,8 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="Hard though she worked, she didn't get the promotion."),
             GrammarExample(text="Even if we leave now, we will still be late."),
             GrammarExample(
-                text="Try as he might, he could not open the door.", note="inversion in concessive"
+                text="Try as he might, he could not open the door.",
+                note="inversion in concessive",
             ),
         ],
         common_mistakes=[
@@ -474,7 +508,8 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         examples=[
             GrammarExample(text="She must have been sleeping — she didn't hear the phone."),
             GrammarExample(
-                text="You will have noticed the new system by now.", note="confident assumption"
+                text="You will have noticed the new system by now.",
+                note="confident assumption",
             ),
             GrammarExample(
                 text="He may well have decided not to come. It is typical of him.",
@@ -515,10 +550,12 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="We need to make a decision by Friday.", note="make + decision"),
             GrammarExample(text="She did her best to finish on time.", note="do + best"),
             GrammarExample(
-                text="There is a strong possibility of rain tomorrow.", note="strong + possibility"
+                text="There is a strong possibility of rain tomorrow.",
+                note="strong + possibility",
             ),
             GrammarExample(
-                text="He has a deep understanding of the subject.", note="deep + understanding"
+                text="He has a deep understanding of the subject.",
+                note="deep + understanding",
             ),
         ],
         common_mistakes=[
@@ -550,11 +587,13 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="It is absolutely freezing outside.", note="freezing = non-gradable"
+                text="It is absolutely freezing outside.",
+                note="freezing = non-gradable",
             ),
             GrammarExample(text="She was utterly exhausted after the marathon."),
             GrammarExample(
-                text="The film was very good, but not perfect.", note="gradable + absolute"
+                text="The film was very good, but not perfect.",
+                note="gradable + absolute",
             ),
             GrammarExample(text="This vase is completely unique — there is nothing else like it."),
         ],
@@ -588,10 +627,12 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         examples=[
             GrammarExample(text="The results were remarkably consistent across all groups."),
             GrammarExample(
-                text="I was somewhat disappointed by the ending.", note="polite criticism"
+                text="I was somewhat disappointed by the ending.",
+                note="polite criticism",
             ),
             GrammarExample(
-                text="It is rather cold today, don't you think?", note="more than expected"
+                text="It is rather cold today, don't you think?",
+                note="more than expected",
             ),
             GrammarExample(text="The task was relatively straightforward, given the instructions."),
         ],
@@ -624,7 +665,8 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="What the report reveals is deeply concerning.", note="wh-clause as subject"
+                text="What the report reveals is deeply concerning.",
+                note="wh-clause as subject",
             ),
             GrammarExample(text="I am not sure whether the figures are accurate."),
             GrammarExample(
@@ -667,7 +709,8 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="She is a colleague of my father's.", note="double genitive"),
             GrammarExample(text="That idea of yours is brilliant!", note="double genitive"),
             GrammarExample(
-                text="The roof of the building needs repairing.", note="of for inanimate objects"
+                text="The roof of the building needs repairing.",
+                note="of for inanimate objects",
             ),
         ],
         common_mistakes=[
@@ -682,7 +725,11 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="With plural time expressions, the apostrophe goes after the 's'.",
             ),
         ],
-        related=["possessive-adjectives", "possessive-pronouns", "complex-noun-phrases"],
+        related=[
+            "possessive-adjectives",
+            "possessive-pronouns",
+            "complex-noun-phrases",
+        ],
     ),
     GrammarTopic(
         slug="word-formation",

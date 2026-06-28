@@ -59,7 +59,11 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="문법 오류는 아니지만, 다른 일정과 대조하려는 맥락에서는 '행사는'이 더 정확합니다.",
             )
         ],
-        related=["semantic-precision", "implicit-subjects-korean", "cohesion-coherence"],
+        related=[
+            "semantic-precision",
+            "implicit-subjects-korean",
+            "cohesion-coherence",
+        ],
     ),
     GrammarTopic(
         slug="lexical-choice-register",
@@ -610,6 +614,11 @@ C2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="문체 재작성은 단순히 어미만 바꾸는 것이 아니라 어휘, 문장 길이, 격식 수준을 전체적으로 조정해야 합니다.",
             )
         ],
-        related=["advanced-editing", "cohesion-coherence", "register-genre", "reformulation"],
+        related=[
+            "advanced-editing",
+            "cohesion-coherence",
+            "register-genre",
+            "reformulation",
+        ],
     ),
 ]

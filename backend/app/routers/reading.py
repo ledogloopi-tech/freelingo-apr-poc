@@ -140,7 +140,9 @@ async def get_next_exercise(
 
 
 @router.post(
-    "/generate", response_model=ReadingGeneratingResponse, status_code=status.HTTP_202_ACCEPTED
+    "/generate",
+    response_model=ReadingGeneratingResponse,
+    status_code=status.HTTP_202_ACCEPTED,
 )
 @limiter.limit("5/minute")
 async def generate_exercise(
@@ -232,7 +234,11 @@ async def get_reading_history(
     limit = min(limit, 50)  # hard cap
 
     rows, total = await get_user_history(
-        current_user.id, db, skip=skip, limit=limit, target_language=plan.target_language
+        current_user.id,
+        db,
+        skip=skip,
+        limit=limit,
+        target_language=plan.target_language,
     )
     items = [
         ReadingAttemptOut(

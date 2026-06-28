@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { apiFetch } from '@/lib/api'
 import { useLanguageStore } from '@/store/language'
+import { isSubscribed, useAuthStore } from '@/store/auth'
+import { useConfigStore } from '@/store/config'
 import BeginnerGate from '@/components/assessment/BeginnerGate'
 import AdaptiveQuizCard from '@/components/assessment/AdaptiveQuizCard'
 import DurationSelector, {
@@ -38,6 +40,18 @@ interface ExistingPlan {
   created_at: string
 }
 
+interface VoiceTrialOffer {
+  available: boolean
+  token?: string
+  duration_seconds?: number
+}
+
+interface AssessmentCompleteResponse {
+  plan_id: number
+  cefr_level: string
+  voice_trial?: VoiceTrialOffer
+}
+
 type FlowStep =
   | 'checking'
   | 'existing'
@@ -45,6 +59,7 @@ type FlowStep =
   | 'quiz'
   | 'result'
   | 'duration'
+  | 'voice-trial-offer'
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 
@@ -80,6 +95,10 @@ export default function AssessmentPage() {
   const tCommon = useTranslations('common')
   const router = useRouter()
   const activeLanguage = useLanguageStore((s) => s.activeLanguage)
+  const user = useAuthStore((s) => s.user)
+  const stripeEnabled = useConfigStore((s) => s.stripeEnabled)
+  const configLoaded = useConfigStore((s) => s.loaded)
+  const loadConfig = useConfigStore((s) => s.load)
 
   const [step, setStep] = useState<FlowStep>('checking')
   const [existingPlan, setExistingPlan] = useState<ExistingPlan | null>(null)
@@ -107,9 +126,16 @@ export default function AssessmentPage() {
     'vocabulary',
   ])
   const [submitting, setSubmitting] = useState(false)
+  const [trialLoading, setTrialLoading] = useState(false)
+  const [createdPlanId, setCreatedPlanId] = useState<number | null>(null)
+  const [voiceTrial, setVoiceTrial] = useState<VoiceTrialOffer | null>(null)
 
   // Warning dialog shown before the adaptive quiz starts
   const [showStartWarning, setShowStartWarning] = useState(false)
+
+  useEffect(() => {
+    void loadConfig()
+  }, [loadConfig])
 
   useEffect(() => {
     async function check() {
@@ -140,6 +166,13 @@ export default function AssessmentPage() {
     }
     void check()
   }, [activeLanguage?.code])
+
+  const canOfferVoiceTrial =
+    configLoaded &&
+    stripeEnabled &&
+    user !== null &&
+    !isSubscribed(user, stripeEnabled) &&
+    !user.assessment_voice_trial_used
 
   function loadNextQuestion(level: CEFRLevel, usedSet: Set<string>) {
     const q = pickNextQuestion(bank, usedSet, level)
@@ -275,6 +308,14 @@ export default function AssessmentPage() {
           (d as { detail?: string }).detail ?? `Error ${res.status}`
         )
       }
+      const data = (await res.json()) as AssessmentCompleteResponse
+      setCreatedPlanId(data.plan_id)
+      if (data.voice_trial?.available && data.voice_trial.token) {
+        setVoiceTrial(data.voice_trial)
+        setStep('voice-trial-offer')
+        setSubmitting(false)
+        return
+      }
       router.push('/plan')
     } catch (err) {
       const msg = err instanceof Error ? err.message : ''
@@ -284,6 +325,54 @@ export default function AssessmentPage() {
           : msg || 'Failed to create plan'
       )
       setSubmitting(false)
+    }
+  }
+
+  function startVoiceTrial() {
+    if (!voiceTrial?.token) return
+    sessionStorage.setItem(
+      'assessment_voice_trial',
+      JSON.stringify({
+        token: voiceTrial.token,
+        durationSeconds: voiceTrial.duration_seconds ?? 300,
+        cefrLevel: selectedLevel,
+        planId: createdPlanId,
+        targetLanguage: activeLanguage?.code,
+      })
+    )
+    router.push('/conversation')
+  }
+
+  async function requestVoiceTrial() {
+    if (!existingPlan) return
+    setTrialLoading(true)
+    setError('')
+    try {
+      const res = await apiFetch('/api/assessment/voice-trial', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target_language: activeLanguage?.code }),
+      })
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}))
+        throw new Error(
+          (d as { detail?: string }).detail ?? `Error ${res.status}`
+        )
+      }
+      const data = (await res.json()) as AssessmentCompleteResponse
+      if (data.voice_trial?.available && data.voice_trial.token) {
+        setCreatedPlanId(data.plan_id)
+        setSelectedLevel(data.cefr_level as CEFRLevel)
+        setVoiceTrial(data.voice_trial)
+        setStep('voice-trial-offer')
+        return
+      }
+      setError(tCommon('errorMessage'))
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : ''
+      setError(msg || tCommon('errorMessage'))
+    } finally {
+      setTrialLoading(false)
     }
   }
 
@@ -336,6 +425,28 @@ export default function AssessmentPage() {
             <p className="text-fl-label text-fl-muted-3 font-mono leading-relaxed">
               {t('alreadyHasPlan')}
             </p>
+            {canOfferVoiceTrial && (
+              <div className="border-fl-border bg-fl-surface-2 space-y-3 border px-4 py-5">
+                <p className="text-fl-fg font-mono text-sm font-bold">
+                  {t('voiceTrialTitle')}
+                </p>
+                <p className="text-fl-muted-1 font-mono text-xs leading-relaxed">
+                  {t('voiceTrialDesc', { minutes: 5 })}
+                </p>
+                <button
+                  onClick={requestVoiceTrial}
+                  disabled={trialLoading}
+                  className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 w-full py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors disabled:opacity-50"
+                >
+                  {trialLoading ? '...' : `${t('voiceTrialStart')} →`}
+                </button>
+              </div>
+            )}
+            {error && (
+              <div className="border-fl-error/40 text-fl-error-fg border px-4 py-3 font-mono text-xs">
+                ✕ {error}
+              </div>
+            )}
             <div className="flex gap-2">
               <button
                 onClick={() => router.push('/dashboard')}
@@ -534,6 +645,53 @@ export default function AssessmentPage() {
         cefr_level={selectedLevel}
         loading={submitting}
       />
+    )
+  }
+
+  // ── Voice trial offer ─────────────────────────────────────────────────────
+  if (step === 'voice-trial-offer') {
+    const minutes = Math.round((voiceTrial?.duration_seconds ?? 300) / 60)
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center p-6">
+        <div className="border-fl-border bg-fl-surface w-full max-w-md border">
+          <div className="border-fl-border flex items-center gap-2 border-b px-6 py-4">
+            <span className="text-fl-label text-fl-muted-3">●</span>
+            <span className="text-fl-label text-fl-muted-2 font-mono tracking-widest uppercase">
+              {t('voiceTrialLabel')}
+            </span>
+          </div>
+          <div className="space-y-6 p-8 text-center">
+            <div>
+              <p className="text-fl-label text-fl-muted-3 mb-2 font-mono tracking-widest uppercase">
+                {t('cefrLevel')}
+              </p>
+              <p className="text-fl-fg font-mono text-6xl font-bold tracking-widest">
+                {selectedLevel}
+              </p>
+            </div>
+            <div className="border-fl-border bg-fl-surface-2 border px-4 py-5">
+              <p className="text-fl-fg mb-2 font-mono text-base font-bold">
+                {t('voiceTrialTitle')}
+              </p>
+              <p className="text-fl-muted-1 font-mono text-xs leading-relaxed">
+                {t('voiceTrialDesc', { minutes })}
+              </p>
+            </div>
+            <button
+              onClick={startVoiceTrial}
+              className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 w-full py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
+            >
+              {t('voiceTrialStart')} →
+            </button>
+            <button
+              onClick={() => router.push('/plan')}
+              className="text-fl-hint text-fl-muted-4 hover:text-fl-muted-2 w-full font-mono tracking-widest uppercase transition-colors"
+            >
+              {t('voiceTrialSkip')}
+            </button>
+          </div>
+        </div>
+      </div>
     )
   }
 

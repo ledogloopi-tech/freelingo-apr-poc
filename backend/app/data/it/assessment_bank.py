@@ -1039,7 +1039,12 @@ ASSESSMENT_BANK: list[AssessmentQuestion] = [
         skill="grammar",
         difficulty="C2",
         question='Nel contesto italiano, "eventualmente" significa:',
-        options=["Se necessario / nel caso", "Alla fine", "Certamente", "In modo rapido"],
+        options=[
+            "Se necessario / nel caso",
+            "Alla fine",
+            "Certamente",
+            "In modo rapido",
+        ],
         correct="Se necessario / nel caso",
         grammar_slug="falsi-amici",
     ),

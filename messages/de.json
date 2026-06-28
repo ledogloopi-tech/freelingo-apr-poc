@@ -532,7 +532,12 @@
     "startWarningMessage": "Wenn Sie die Bewertung vor dem Abschluss verlassen, geht Ihr Fortschritt verloren und Sie müssen von vorne beginnen.",
     "startWarningMessageLevelTest": "Wenn Sie den Stufentest vor dem Abschluss verlassen, geht Ihr Fortschritt verloren und Sie müssen ihn wiederholen.",
     "startWarningConfirm": "Beginnen",
-    "startMyPlan": "Meinen Plan starten"
+    "startMyPlan": "Meinen Plan starten",
+    "voiceTrialLabel": "Voice trial",
+    "voiceTrialTitle": "Try a real conversation now",
+    "voiceTrialDesc": "Talk with Lingu for {minutes} minutes, free. Your tutor will adapt to the level you just unlocked.",
+    "voiceTrialStart": "Start free conversation",
+    "voiceTrialSkip": "Skip for now"
   },
   "plan": {
     "title": "Mein Plan",
@@ -1057,6 +1062,10 @@
     "quotaExceededTokens": "Du hast alle monatlichen KI-Token aufgebraucht.",
     "quotaTokens": "Token diesen Monat",
     "memoryUpdated": "Erinnerung gespeichert",
+    "trialBanner": "Free assessment conversation · {minutes} min",
+    "trialCtaLabel": "Keep speaking",
+    "trialCtaTitle": "Continue practising with Lingu",
+    "trialCtaDesc": "Unlock full voice conversations, tutor chat, listening and reading practice with Premium.",
     "startersHint": "Oder mit einem Thema beginnen",
     "starters": [
       "Kunst und Kreativität",
@@ -1344,21 +1353,25 @@
   },
   "whatsNew": {
     "title": "Neuigkeiten",
-    "version": "v1.8.19",
+    "version": "v1.8.20",
     "cta": "Verstanden",
     "entry1": {
+      "label": "Kostenlose Sprachdemo nach der Einstufung",
+      "desc": "Nach dem Erstellen deines Lernplans kannst du 5 Minuten lang kostenlos ein Echtzeit-Sprachgespräch mit Lingu ausprobieren. Nach der Demo schaltet Premium die vollständige Sprachpraxis und die weiteren geführten Modi frei."
+    },
+    "entry2": {
       "label": "Klareres Dashboard",
       "desc": "Dein Dashboard zeigt jetzt deutlicher, was als Nächstes ansteht: tägliche Lektionen, Planfortschritt, Wortschatzfortschritt und aktuelle Leistung auf einen Blick."
     },
-    "entry2": {
+    "entry3": {
       "label": "Mehr Sprachen zum Lernen",
       "desc": "<bold>Deutsch, Französisch, Italienisch, Japanisch, Koreanisch, Portugiesisch, Spanisch und Chinesisch (Festland)</bold> sind jetzt verfügbar — mit vollständigen Lernpfaden von Anfänger bis Fortgeschritten, Grammatik, Wortschatz, Redewendungen, Reading, Listening und mehr. Füge sie unter Einstellungen → Meine Sprachen hinzu."
     },
-    "entry3": {
+    "entry4": {
       "label": "Bewertung im Profil hinzufügen",
       "desc": "Du kannst deine Meinung zu FreeLingo jetzt direkt unter Einstellungen → Profil teilen. Deine Bewertung hilft anderen Lernenden, die Plattform zu entdecken."
     },
-    "entry4": {
+    "entry5": {
       "label": "Fehlerbehebungen",
       "desc": "Verschiedene kleinere Fehlerbehebungen und Stabilitätsverbesserungen in der gesamten Plattform."
     }

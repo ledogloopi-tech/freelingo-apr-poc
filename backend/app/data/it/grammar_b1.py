@@ -84,7 +84,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Stesso soggetto → di + infinito.",
             ),
         ],
-        related=["congiuntivo-presente", "espressioni-impersonali", "congiuntivo-dubbi"],
+        related=[
+            "congiuntivo-presente",
+            "espressioni-impersonali",
+            "congiuntivo-dubbi",
+        ],
     ),
     GrammarTopic(
         slug="espressioni-impersonali",
@@ -154,7 +158,12 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Stesso soggetto → infinito.",
             ),
         ],
-        related=["congiuntivo-presente", "verbi-opinione", "congiuntivo-emozioni", "vorrei"],
+        related=[
+            "congiuntivo-presente",
+            "verbi-opinione",
+            "congiuntivo-emozioni",
+            "vorrei",
+        ],
     ),
     GrammarTopic(
         slug="congiuntivo-emozioni",
@@ -345,7 +354,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Futuro nel passato → condizionale passato.",
             ),
         ],
-        related=["congiuntivo-presente", "congiuntivo-imperfetto", "discorso-indiretto-passato"],
+        related=[
+            "congiuntivo-presente",
+            "congiuntivo-imperfetto",
+            "discorso-indiretto-passato",
+        ],
     ),
     GrammarTopic(
         slug="forma-passiva",
@@ -824,6 +837,10 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Adattare il riferimento temporale al momento del discorso indiretto.",
             ),
         ],
-        related=["discorso-indiretto-passato", "discorso-indiretto", "marcatori-temporali"],
+        related=[
+            "discorso-indiretto-passato",
+            "discorso-indiretto",
+            "marcatori-temporali",
+        ],
     ),
 ]

@@ -532,7 +532,12 @@
     "startWarningMessage": "Als u de beoordeling verlaat voordat u klaar bent, gaat uw voortgang verloren en moet u opnieuw beginnen.",
     "startWarningMessageLevelTest": "Als u de niveautest verlaat voordat u klaar bent, gaat uw voortgang verloren en moet u hem opnieuw afleggen.",
     "startWarningConfirm": "Beginnen",
-    "startMyPlan": "Mijn plan starten"
+    "startMyPlan": "Mijn plan starten",
+    "voiceTrialLabel": "Voice trial",
+    "voiceTrialTitle": "Try a real conversation now",
+    "voiceTrialDesc": "Talk with Lingu for {minutes} minutes, free. Your tutor will adapt to the level you just unlocked.",
+    "voiceTrialStart": "Start free conversation",
+    "voiceTrialSkip": "Skip for now"
   },
   "plan": {
     "title": "Mijn plan",
@@ -1057,6 +1062,10 @@
     "quotaExceededTokens": "Je hebt al je maandelijkse AI-tokens gebruikt.",
     "quotaTokens": "Tokens deze maand",
     "memoryUpdated": "Geheugen bijgewerkt",
+    "trialBanner": "Free assessment conversation · {minutes} min",
+    "trialCtaLabel": "Keep speaking",
+    "trialCtaTitle": "Continue practising with Lingu",
+    "trialCtaDesc": "Unlock full voice conversations, tutor chat, listening and reading practice with Premium.",
     "startersHint": "Of begin met een onderwerp",
     "starters": [
       "Kunst en creativiteit",
@@ -1344,21 +1353,25 @@
   },
   "whatsNew": {
     "title": "Nieuw",
-    "version": "v1.8.19",
+    "version": "v1.8.20",
     "cta": "Begrepen",
     "entry1": {
+      "label": "Gratis voice-demo na de beoordeling",
+      "desc": "Nadat je studieplan is gemaakt, kun je 5 minuten gratis een realtime spraakgesprek met Lingu proberen. Wanneer de demo eindigt, ontgrendelt Premium volledige spraaktraining en de andere begeleide modi."
+    },
+    "entry2": {
       "label": "Duidelijker dashboard",
       "desc": "Je dashboard richt zich nu op wat je hierna kunt doen, met duidelijkere lessen van vandaag, planvoortgang, woordenschatvoortgang en recente prestaties in één oogopslag."
     },
-    "entry2": {
+    "entry3": {
       "label": "Meer talen om te leren",
       "desc": "<bold>Duits, Frans, Italiaans, Japans, Koreaans, Portugees, Spaans en Chinees (vasteland)</bold> zijn nu beschikbaar — met volledige leerpaden van beginner tot gevorderd, grammatica, woordenschat, zinnen, Reading, Listening en meer. Voeg ze toe via Instellingen → Mijn talen."
     },
-    "entry3": {
+    "entry4": {
       "label": "Voeg een review toe vanuit je profiel",
       "desc": "Je kunt nu je mening over FreeLingo direct delen via Instellingen → Profiel. Je review helpt andere leerlingen het platform te ontdekken."
     },
-    "entry4": {
+    "entry5": {
       "label": "Bugfixes",
       "desc": "Diverse kleine bugfixes en stabiliteitsverbeteringen in het hele platform."
     }

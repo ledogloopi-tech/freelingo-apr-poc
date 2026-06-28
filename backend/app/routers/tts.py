@@ -40,7 +40,8 @@ async def text_to_speech(
     tts_service = getattr(request.app.state, "tts_service", None)
     if tts_service is None:
         raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="TTS service is not enabled"
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="TTS service is not enabled",
         )
 
     synth_t0 = time.perf_counter()
@@ -99,7 +100,8 @@ async def voice_preview(
     tts_service = getattr(request.app.state, "tts_service", None)
     if tts_service is None:
         raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="TTS service is not enabled"
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="TTS service is not enabled",
         )
 
     cache_path = os.path.join(_PREVIEW_DIR, f"{voice}.mp3")

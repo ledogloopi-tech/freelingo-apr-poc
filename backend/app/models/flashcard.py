@@ -29,5 +29,8 @@ class Flashcard(Base):
         DateTime, nullable=False, default=lambda: datetime.now(UTC).replace(tzinfo=None)
     )
     study_plan_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("study_plans.id", ondelete="CASCADE"), nullable=False, index=True
+        Integer,
+        ForeignKey("study_plans.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )

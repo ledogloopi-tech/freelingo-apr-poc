@@ -11,6 +11,7 @@ from unittest.mock import patch
 import pytest
 from httpx import AsyncClient
 
+from app.core.config import settings
 from app.services.llm_adapter import (
     LLMError,
     LLMTimeoutError,
@@ -341,12 +342,42 @@ async def test_evaluate_all_correct_a2(client: AsyncClient, test_user):
         json={
             "answers": [
                 # All three skills at A2, all correct
-                {"question_id": "q1", "skill": "grammar", "difficulty": "A2", "correct": True},
-                {"question_id": "q2", "skill": "grammar", "difficulty": "A2", "correct": True},
-                {"question_id": "q3", "skill": "vocabulary", "difficulty": "A2", "correct": True},
-                {"question_id": "q4", "skill": "vocabulary", "difficulty": "A2", "correct": True},
-                {"question_id": "q5", "skill": "reading", "difficulty": "A2", "correct": True},
-                {"question_id": "q6", "skill": "reading", "difficulty": "A2", "correct": True},
+                {
+                    "question_id": "q1",
+                    "skill": "grammar",
+                    "difficulty": "A2",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q2",
+                    "skill": "grammar",
+                    "difficulty": "A2",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q3",
+                    "skill": "vocabulary",
+                    "difficulty": "A2",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q4",
+                    "skill": "vocabulary",
+                    "difficulty": "A2",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q5",
+                    "skill": "reading",
+                    "difficulty": "A2",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q6",
+                    "skill": "reading",
+                    "difficulty": "A2",
+                    "correct": True,
+                },
             ]
         },
     )
@@ -365,15 +396,50 @@ async def test_evaluate_mixed_level_advances_to_highest_passing(client: AsyncCli
         json={
             "answers": [
                 # A1: 2/2 correct => 100% → A1 passes
-                {"question_id": "q1", "skill": "grammar", "difficulty": "A1", "correct": True},
-                {"question_id": "q2", "skill": "vocabulary", "difficulty": "A1", "correct": True},
+                {
+                    "question_id": "q1",
+                    "skill": "grammar",
+                    "difficulty": "A1",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q2",
+                    "skill": "vocabulary",
+                    "difficulty": "A1",
+                    "correct": True,
+                },
                 # A2: 2/3 correct => 66% → A2 passes
-                {"question_id": "q3", "skill": "grammar", "difficulty": "A2", "correct": True},
-                {"question_id": "q4", "skill": "vocabulary", "difficulty": "A2", "correct": True},
-                {"question_id": "q5", "skill": "reading", "difficulty": "A2", "correct": False},
+                {
+                    "question_id": "q3",
+                    "skill": "grammar",
+                    "difficulty": "A2",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q4",
+                    "skill": "vocabulary",
+                    "difficulty": "A2",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q5",
+                    "skill": "reading",
+                    "difficulty": "A2",
+                    "correct": False,
+                },
                 # B1: 1/2 correct => 50% → B1 fails
-                {"question_id": "q6", "skill": "grammar", "difficulty": "B1", "correct": True},
-                {"question_id": "q7", "skill": "reading", "difficulty": "B1", "correct": False},
+                {
+                    "question_id": "q6",
+                    "skill": "grammar",
+                    "difficulty": "B1",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q7",
+                    "skill": "reading",
+                    "difficulty": "B1",
+                    "correct": False,
+                },
             ]
         },
     )
@@ -391,7 +457,12 @@ async def test_evaluate_single_question_insufficient(client: AsyncClient, test_u
         headers=headers,
         json={
             "answers": [
-                {"question_id": "q1", "skill": "grammar", "difficulty": "B1", "correct": True},
+                {
+                    "question_id": "q1",
+                    "skill": "grammar",
+                    "difficulty": "B1",
+                    "correct": True,
+                },
             ]
         },
     )
@@ -409,11 +480,36 @@ async def test_evaluate_skill_profile_structure(client: AsyncClient, test_user):
         headers=headers,
         json={
             "answers": [
-                {"question_id": "q1", "skill": "grammar", "difficulty": "A1", "correct": True},
-                {"question_id": "q2", "skill": "grammar", "difficulty": "A1", "correct": False},
-                {"question_id": "q3", "skill": "vocabulary", "difficulty": "A1", "correct": True},
-                {"question_id": "q4", "skill": "reading", "difficulty": "A1", "correct": True},
-                {"question_id": "q5", "skill": "reading", "difficulty": "A1", "correct": False},
+                {
+                    "question_id": "q1",
+                    "skill": "grammar",
+                    "difficulty": "A1",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q2",
+                    "skill": "grammar",
+                    "difficulty": "A1",
+                    "correct": False,
+                },
+                {
+                    "question_id": "q3",
+                    "skill": "vocabulary",
+                    "difficulty": "A1",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q4",
+                    "skill": "reading",
+                    "difficulty": "A1",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q5",
+                    "skill": "reading",
+                    "difficulty": "A1",
+                    "correct": False,
+                },
             ]
         },
     )
@@ -437,15 +533,50 @@ async def test_evaluate_strengths_and_weaknesses(client: AsyncClient, test_user)
         json={
             "answers": [
                 # Grammar: 3/3 = 1.0 → strength
-                {"question_id": "q1", "skill": "grammar", "difficulty": "A1", "correct": True},
-                {"question_id": "q2", "skill": "grammar", "difficulty": "A1", "correct": True},
-                {"question_id": "q3", "skill": "grammar", "difficulty": "A1", "correct": True},
+                {
+                    "question_id": "q1",
+                    "skill": "grammar",
+                    "difficulty": "A1",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q2",
+                    "skill": "grammar",
+                    "difficulty": "A1",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q3",
+                    "skill": "grammar",
+                    "difficulty": "A1",
+                    "correct": True,
+                },
                 # Vocabulary: 0/2 = 0.0 → weakness
-                {"question_id": "q4", "skill": "vocabulary", "difficulty": "A1", "correct": False},
-                {"question_id": "q5", "skill": "vocabulary", "difficulty": "A1", "correct": False},
+                {
+                    "question_id": "q4",
+                    "skill": "vocabulary",
+                    "difficulty": "A1",
+                    "correct": False,
+                },
+                {
+                    "question_id": "q5",
+                    "skill": "vocabulary",
+                    "difficulty": "A1",
+                    "correct": False,
+                },
                 # Reading: 1/2 = 0.5 → neither
-                {"question_id": "q6", "skill": "reading", "difficulty": "A1", "correct": True},
-                {"question_id": "q7", "skill": "reading", "difficulty": "A1", "correct": False},
+                {
+                    "question_id": "q6",
+                    "skill": "reading",
+                    "difficulty": "A1",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q7",
+                    "skill": "reading",
+                    "difficulty": "A1",
+                    "correct": False,
+                },
             ]
         },
     )
@@ -465,9 +596,24 @@ async def test_evaluate_unknown_skill_ignored(client: AsyncClient, test_user):
         headers=headers,
         json={
             "answers": [
-                {"question_id": "q1", "skill": "grammar", "difficulty": "A1", "correct": True},
-                {"question_id": "q2", "skill": "grammar", "difficulty": "A1", "correct": True},
-                {"question_id": "q3", "skill": "writing", "difficulty": "A1", "correct": True},
+                {
+                    "question_id": "q1",
+                    "skill": "grammar",
+                    "difficulty": "A1",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q2",
+                    "skill": "grammar",
+                    "difficulty": "A1",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q3",
+                    "skill": "writing",
+                    "difficulty": "A1",
+                    "correct": True,
+                },
             ]
         },
     )
@@ -486,10 +632,30 @@ async def test_evaluate_case_insensitive_skills(client: AsyncClient, test_user):
         headers=headers,
         json={
             "answers": [
-                {"question_id": "q1", "skill": "GRAMMAR", "difficulty": "A1", "correct": True},
-                {"question_id": "q2", "skill": "Grammar", "difficulty": "A1", "correct": True},
-                {"question_id": "q3", "skill": "Reading", "difficulty": "A1", "correct": False},
-                {"question_id": "q4", "skill": "reading", "difficulty": "A1", "correct": False},
+                {
+                    "question_id": "q1",
+                    "skill": "GRAMMAR",
+                    "difficulty": "A1",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q2",
+                    "skill": "Grammar",
+                    "difficulty": "A1",
+                    "correct": True,
+                },
+                {
+                    "question_id": "q3",
+                    "skill": "Reading",
+                    "difficulty": "A1",
+                    "correct": False,
+                },
+                {
+                    "question_id": "q4",
+                    "skill": "reading",
+                    "difficulty": "A1",
+                    "correct": False,
+                },
             ]
         },
     )
@@ -721,6 +887,133 @@ async def test_complete_success_creates_plan(client: AsyncClient, test_user, db_
     assert "plan_id" in result
     assert result["cefr_level"] == "A1"
     assert isinstance(result["plan_id"], int)
+
+
+async def test_complete_returns_voice_trial_for_unsubscribed_user(
+    client: AsyncClient, test_user, db_session
+):
+    """POST /complete grants a one-time voice trial when hosted paywall is active."""
+    user, headers = test_user
+    await deactivate_active_plans(db_session, user.id, "en-US")
+
+    with patch.object(settings, "STRIPE_ENABLED", True):
+        response = await client.post(
+            "/api/assessment/complete",
+            headers=headers,
+            json={
+                "cefr_level": "A1",
+                "strengths": ["grammar"],
+                "weaknesses": [],
+                "duration_weeks": 4,
+                "days_per_week": 4,
+                "goals": ["grammar"],
+                "target_language": "en-US",
+            },
+        )
+
+    assert response.status_code == 200
+    trial = response.json()["voice_trial"]
+    assert trial["available"] is True
+    assert trial["token"]
+    assert trial["duration_seconds"] == 300
+
+
+async def test_complete_does_not_return_voice_trial_after_used(
+    client: AsyncClient, test_user, db_session
+):
+    """The post-assessment voice trial is one-time per user."""
+    user, headers = test_user
+    user.assessment_voice_trial_used = True
+    await db_session.commit()
+    await deactivate_active_plans(db_session, user.id, "en-US")
+
+    with patch.object(settings, "STRIPE_ENABLED", True):
+        response = await client.post(
+            "/api/assessment/complete",
+            headers=headers,
+            json={
+                "cefr_level": "A1",
+                "strengths": ["grammar"],
+                "weaknesses": [],
+                "duration_weeks": 4,
+                "days_per_week": 4,
+                "goals": ["grammar"],
+                "target_language": "en-US",
+            },
+        )
+
+    assert response.status_code == 200
+    assert response.json()["voice_trial"] == {"available": False}
+
+
+async def test_voice_trial_endpoint_returns_token_for_existing_plan(
+    client: AsyncClient, test_user, db_session
+):
+    """POST /voice-trial regenerates a token when the one-time demo is still unused."""
+    user, headers = test_user
+    await deactivate_active_plans(db_session, user.id, "en-US")
+
+    await client.post(
+        "/api/assessment/complete",
+        headers=headers,
+        json={
+            "cefr_level": "A1",
+            "strengths": ["grammar"],
+            "weaknesses": [],
+            "duration_weeks": 4,
+            "days_per_week": 4,
+            "goals": ["grammar"],
+            "target_language": "en-US",
+        },
+    )
+
+    with patch.object(settings, "STRIPE_ENABLED", True):
+        response = await client.post(
+            "/api/assessment/voice-trial",
+            headers=headers,
+            json={"target_language": "en-US"},
+        )
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["cefr_level"] == "A1"
+    assert data["voice_trial"]["available"] is True
+    assert data["voice_trial"]["token"]
+    assert data["voice_trial"]["duration_seconds"] == 300
+
+
+async def test_voice_trial_endpoint_does_not_return_token_after_used(
+    client: AsyncClient, test_user, db_session
+):
+    """POST /voice-trial respects the durable one-time used flag."""
+    user, headers = test_user
+    await deactivate_active_plans(db_session, user.id, "en-US")
+
+    await client.post(
+        "/api/assessment/complete",
+        headers=headers,
+        json={
+            "cefr_level": "A1",
+            "strengths": ["grammar"],
+            "weaknesses": [],
+            "duration_weeks": 4,
+            "days_per_week": 4,
+            "goals": ["grammar"],
+            "target_language": "en-US",
+        },
+    )
+    user.assessment_voice_trial_used = True
+    await db_session.commit()
+
+    with patch.object(settings, "STRIPE_ENABLED", True):
+        response = await client.post(
+            "/api/assessment/voice-trial",
+            headers=headers,
+            json={"target_language": "en-US"},
+        )
+
+    assert response.status_code == 200
+    assert response.json()["voice_trial"] == {"available": False}
 
 
 async def test_complete_with_language_in_session(

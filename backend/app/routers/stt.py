@@ -19,7 +19,8 @@ async def speech_to_text(
     stt_service = getattr(request.app.state, "stt_service", None)
     if stt_service is None:
         raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="STT service is not enabled"
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="STT service is not enabled",
         )
     audio_bytes = await audio.read()
     if len(audio_bytes) > 50 * 1024 * 1024:  # 50 MB

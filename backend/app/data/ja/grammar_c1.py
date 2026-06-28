@@ -1009,7 +1009,11 @@ C1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="会議で全く発言しないのは「無関心」または「能力不足」と見なされることがある。最低限、あいづちや同意を示す短い発言で参加を表明する。",
             ),
         ],
-        related=["presentation-structure", "pragmatic-implicature", "business-register"],
+        related=[
+            "presentation-structure",
+            "pragmatic-implicature",
+            "business-register",
+        ],
     ),
     GrammarTopic(
         slug="counterargument",

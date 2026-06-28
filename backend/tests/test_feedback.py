@@ -1062,7 +1062,12 @@ async def test_delete_comment_wrong_entry(client, test_user, db_session):
         created_at=now,
     )
     e2 = FeedbackEntry(
-        type="bug", title="E2", description="d", status="pending", author_id=user.id, created_at=now
+        type="bug",
+        title="E2",
+        description="d",
+        status="pending",
+        author_id=user.id,
+        created_at=now,
     )
     db_session.add_all([e1, e2])
     await db_session.commit()
@@ -1221,7 +1226,11 @@ async def test_create_bug_sends_admin_email(client, test_user):
         resp = await client.post(
             "/api/feedback",
             headers=headers,
-            json={"type": "bug", "title": "Crash on login", "description": "App crashes."},
+            json={
+                "type": "bug",
+                "title": "Crash on login",
+                "description": "App crashes.",
+            },
         )
     assert resp.status_code == 201
     mock_notify.assert_awaited_once()

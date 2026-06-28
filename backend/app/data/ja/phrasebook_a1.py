@@ -254,7 +254,13 @@ A1_CATEGORIES: list[PhrasebookCategory] = [
         situation="レストラン",
         icon="🍜",
         phrases=[
-            _p("二人です。", "人数を伝える", "neutral", "a1-unit-5", romanization="futari desu"),
+            _p(
+                "二人です。",
+                "人数を伝える",
+                "neutral",
+                "a1-unit-5",
+                romanization="futari desu",
+            ),
             _p(
                 "メニューをお願いします。",
                 "メニューを頼む",

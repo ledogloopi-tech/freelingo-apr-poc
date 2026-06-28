@@ -10,7 +10,11 @@ C2_UNITS: list[CurriculumUnit] = [
         level="C2",
         unit_number=1,
         title="Padronanza della grammatica avanzata",
-        grammar_points=["ripasso-congiuntivo", "ripasso-condizionale", "concordanza-di-genere"],
+        grammar_points=[
+            "ripasso-congiuntivo",
+            "ripasso-condizionale",
+            "concordanza-di-genere",
+        ],
         vocabulary_set_ids=["eccellenza_c2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -82,7 +86,12 @@ C2_UNITS: list[CurriculumUnit] = [
         level="C2",
         unit_number=5,
         title="Creazione di contenuti avanzati",
-        grammar_points=["generi-testuali", "creativita-linguistica", "editing", "revisione"],
+        grammar_points=[
+            "generi-testuali",
+            "creativita-linguistica",
+            "editing",
+            "revisione",
+        ],
         vocabulary_set_ids=["creazione_c2", "pubblicazione_c2", "scienza_ricerca_c2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -100,7 +109,11 @@ C2_UNITS: list[CurriculumUnit] = [
         level="C2",
         unit_number=6,
         title="C2 consolidamento e maestria",
-        grammar_points=["espressione-sfumata", "integrazione-grammaticale", "fluidita-nativa"],
+        grammar_points=[
+            "espressione-sfumata",
+            "integrazione-grammaticale",
+            "fluidita-nativa",
+        ],
         vocabulary_set_ids=["maestria_c2"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

@@ -10,7 +10,11 @@ C1_UNITS: list[CurriculumUnit] = [
         level="C1",
         unit_number=1,
         title="Sfumature del congiuntivo",
-        grammar_points=["congiuntivo-concessivo", "congiuntivo-finale", "congiuntivo-relativo"],
+        grammar_points=[
+            "congiuntivo-concessivo",
+            "congiuntivo-finale",
+            "congiuntivo-relativo",
+        ],
         vocabulary_set_ids=["sfumature_c1", "formalità_c1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

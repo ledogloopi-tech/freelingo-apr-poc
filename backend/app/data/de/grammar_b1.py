@@ -175,7 +175,12 @@ Im Deutschen wird Höflichkeit nicht nur über *bitte* und *danke* ausgedrückt,
                 note="Der Konjunktiv II macht die Bitte höflicher und indirekter als der Indikativ.",
             ),
         ],
-        related=["konjunktiv-ii-wuerde", "konjunktiv-ii-haette-waere", "modalverben", "imperativ"],
+        related=[
+            "konjunktiv-ii-wuerde",
+            "konjunktiv-ii-haette-waere",
+            "modalverben",
+            "imperativ",
+        ],
     ),
     GrammarTopic(
         slug="konjunktiv-ii-wunsch",
@@ -235,7 +240,11 @@ Irreale Wünsche für die Gegenwart: Konjunktiv II Präsens (wäre, hätte, wür
                 note='Irreale Wünsche brauchen Konjunktiv II. "Wünschte" ist die Konjunktiv II-Form von "wünschen".',
             ),
         ],
-        related=["konjunktiv-ii-wuerde", "konjunktiv-ii-haette-waere", "nebensatz-wenn"],
+        related=[
+            "konjunktiv-ii-wuerde",
+            "konjunktiv-ii-haette-waere",
+            "nebensatz-wenn",
+        ],
     ),
     GrammarTopic(
         slug="passiv-werden",
@@ -552,7 +561,12 @@ Im Nebensatz steht das Modalverb am Ende: *..., dass das Auto repariert werden m
                 note='"Nachdem" drückt Vorzeitigkeit aus → Perfekt/Plusquamperfekt.',
             ),
         ],
-        related=["nebensatz-wenn", "wortstellung-nebensatz", "plusquamperfekt", "nebensatz-weil"],
+        related=[
+            "nebensatz-wenn",
+            "wortstellung-nebensatz",
+            "plusquamperfekt",
+            "nebensatz-weil",
+        ],
     ),
     GrammarTopic(
         slug="infinitiv-mit-zu",
@@ -616,7 +630,12 @@ Im Nebensatz steht das Modalverb am Ende: *..., dass das Auto repariert werden m
                 note="Der Infinitiv mit zu steht am Satzende.",
             ),
         ],
-        related=["final-um-zu", "modalverben", "trennbare-verben", "wortstellung-nebensatz"],
+        related=[
+            "final-um-zu",
+            "modalverben",
+            "trennbare-verben",
+            "wortstellung-nebensatz",
+        ],
     ),
     GrammarTopic(
         slug="final-um-zu",
@@ -682,7 +701,12 @@ Im Nebensatz steht das Modalverb am Ende: *..., dass das Auto repariert werden m
                 note='Verschiedene Subjekte → "damit". "Um ... zu" funktioniert nur bei gleichem Subjekt.',
             ),
         ],
-        related=["infinitiv-mit-zu", "nebensatz-dass", "wortstellung-nebensatz", "final-um-zu"],
+        related=[
+            "infinitiv-mit-zu",
+            "nebensatz-dass",
+            "wortstellung-nebensatz",
+            "final-um-zu",
+        ],
     ),
     GrammarTopic(
         slug="genitiv",

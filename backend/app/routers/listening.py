@@ -4,7 +4,15 @@ import asyncio
 import logging
 import os
 
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, Request, status
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    Depends,
+    HTTPException,
+    Query,
+    Request,
+    status,
+)
 from fastapi.responses import FileResponse
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -154,7 +162,9 @@ async def get_next_exercise(
 
 
 @router.post(
-    "/generate", response_model=ListeningGeneratingResponse, status_code=status.HTTP_202_ACCEPTED
+    "/generate",
+    response_model=ListeningGeneratingResponse,
+    status_code=status.HTTP_202_ACCEPTED,
 )
 @limiter.limit("5/minute")
 async def generate_exercise(
@@ -287,7 +297,11 @@ async def get_listening_history(
     limit = min(limit, 50)  # hard cap
 
     rows, total = await get_user_history(
-        current_user.id, db, skip=skip, limit=limit, target_language=plan.target_language
+        current_user.id,
+        db,
+        skip=skip,
+        limit=limit,
+        target_language=plan.target_language,
     )
     items = [
         ListeningAttemptOut(

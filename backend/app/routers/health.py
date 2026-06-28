@@ -64,5 +64,6 @@ async def admin_health(
 
     status_code = 200 if ok else 503
     return JSONResponse(
-        {"status": "ok" if ok else "degraded", "checks": checks}, status_code=status_code
+        {"status": "ok" if ok else "degraded", "checks": checks},
+        status_code=status_code,
     )

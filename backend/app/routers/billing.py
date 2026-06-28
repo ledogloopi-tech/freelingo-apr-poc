@@ -92,7 +92,8 @@ async def create_checkout_session(
     )
     if not price_id:
         raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Stripe prices not configured"
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Stripe prices not configured",
         )
 
     # Get or create Stripe Customer
@@ -134,7 +135,8 @@ async def create_portal_session(
     """Create a Stripe Customer Portal session for subscription management."""
     if not current_user.stripe_customer_id:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="No active subscription found"
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No active subscription found",
         )
 
     session = stripe.billing_portal.Session.create(
@@ -285,7 +287,8 @@ async def _handle_checkout_completed(db: AsyncSession, session: object) -> None:
 
     if not user:
         logger.warning(
-            "[billing] checkout.session.completed — no user found for customer %s", customer_id
+            "[billing] checkout.session.completed — no user found for customer %s",
+            customer_id,
         )
         return
 
@@ -345,7 +348,9 @@ async def _handle_subscription_updated(db: AsyncSession, subscription: object) -
 
     await db.commit()
     logger.info(
-        "[billing] User %s subscription updated — status=%s", user.id, user.subscription_status
+        "[billing] User %s subscription updated — status=%s",
+        user.id,
+        user.subscription_status,
     )
 
 

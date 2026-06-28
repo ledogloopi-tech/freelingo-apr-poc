@@ -40,7 +40,10 @@ class FeedbackVote(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     entry_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("feedback_entries.id", ondelete="CASCADE"), nullable=False, index=True
+        Integer,
+        ForeignKey("feedback_entries.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     user_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
@@ -59,7 +62,10 @@ class FeedbackComment(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     entry_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("feedback_entries.id", ondelete="CASCADE"), nullable=False, index=True
+        Integer,
+        ForeignKey("feedback_entries.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     author_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True

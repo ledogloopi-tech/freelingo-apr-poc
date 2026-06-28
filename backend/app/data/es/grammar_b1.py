@@ -305,7 +305,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note='El participio de romper es "roto", irregular.',
             ),
         ],
-        related=["pluscuamperfecto", "marcadores-perfecto", "preterito-indefinido-regular"],
+        related=[
+            "pluscuamperfecto",
+            "marcadores-perfecto",
+            "preterito-indefinido-regular",
+        ],
     ),
     GrammarTopic(
         slug="pluscuamperfecto",
@@ -740,7 +744,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note='"Si yo fuera" es la forma correcta, con imperfecto de subjuntivo de ser.',
             ),
         ],
-        related=["subjuntivo-imperfecto", "condicional-simple", "condicional-compuesto"],
+        related=[
+            "subjuntivo-imperfecto",
+            "condicional-simple",
+            "condicional-compuesto",
+        ],
     ),
     GrammarTopic(
         slug="suposiciones-futuro",
@@ -915,7 +923,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Sé (verbo saber) y qué interrogativo llevan tilde.",
             ),
         ],
-        related=["conectores-argumentativos", "estilo-indirecto-pasado", "acentuacion-general"],
+        related=[
+            "conectores-argumentativos",
+            "estilo-indirecto-pasado",
+            "acentuacion-general",
+        ],
     ),
     GrammarTopic(
         slug="g-j-h",

@@ -35,7 +35,9 @@ def upgrade() -> None:
     )
     op.create_index("ix_listening_exercises_level", "listening_exercises", ["level"])
     op.create_index(
-        "ix_listening_exercises_target_language", "listening_exercises", ["target_language"]
+        "ix_listening_exercises_target_language",
+        "listening_exercises",
+        ["target_language"],
     )
     # Composite index for pool lookup: find exercises by (level, target_language)
     op.create_index(

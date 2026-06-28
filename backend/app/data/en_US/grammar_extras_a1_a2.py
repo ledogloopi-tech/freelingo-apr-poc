@@ -157,7 +157,8 @@ A1_A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="I always brush my teeth before bed."),
             GrammarExample(text="She is usually at home in the evening."),
             GrammarExample(
-                text="We sometimes go to the movies.", note="sometimes can start the sentence"
+                text="We sometimes go to the movies.",
+                note="sometimes can start the sentence",
             ),
             GrammarExample(text="He never eats meat."),
         ],
@@ -362,7 +363,8 @@ A1_A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="Is this pen yours or his?"),
             GrammarExample(text="Our house is smaller than theirs."),
             GrammarExample(
-                text="I forgot my keys. Can I borrow hers?", note="'hers' refers to her keys"
+                text="I forgot my keys. Can I borrow hers?",
+                note="'hers' refers to her keys",
             ),
         ],
         common_mistakes=[
@@ -453,7 +455,8 @@ A1_A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="AmE: realized / BrE: realised",
             ),
             GrammarExample(
-                text="I canceled the appointment.", note="AmE: canceled (single l) / BrE: cancelled"
+                text="I canceled the appointment.",
+                note="AmE: canceled (single l) / BrE: cancelled",
             ),
         ],
         common_mistakes=[

@@ -10,7 +10,11 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=1,
         title="Congiuntivo presente",
-        grammar_points=["congiuntivo-presente", "verbi-opinione", "espressioni-impersonali"],
+        grammar_points=[
+            "congiuntivo-presente",
+            "verbi-opinione",
+            "espressioni-impersonali",
+        ],
         vocabulary_set_ids=["emozioni_b1", "opinioni_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -28,7 +32,11 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=2,
         title="Congiuntivo in contesto",
-        grammar_points=["congiuntivo-volonta", "congiuntivo-emozioni", "congiuntivo-dubbi"],
+        grammar_points=[
+            "congiuntivo-volonta",
+            "congiuntivo-emozioni",
+            "congiuntivo-dubbi",
+        ],
         vocabulary_set_ids=["lavoro_b1", "studio_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[
@@ -46,7 +54,11 @@ B1_UNITS: list[CurriculumUnit] = [
         level="B1",
         unit_number=3,
         title="Trapassato prossimo e futuro anteriore",
-        grammar_points=["trapassato-prossimo-b1", "futuro-anteriore", "concordanza-tempi"],
+        grammar_points=[
+            "trapassato-prossimo-b1",
+            "futuro-anteriore",
+            "concordanza-tempi",
+        ],
         vocabulary_set_ids=["esperienze_b1", "progetti_b1"],
         lesson_types=["grammar", "vocabulary", "reading", "writing", "review"],
         competency_checklist=[

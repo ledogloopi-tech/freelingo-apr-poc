@@ -4,7 +4,16 @@ import os
 import uuid
 from datetime import UTC, datetime
 
-from fastapi import APIRouter, Depends, File, HTTPException, Request, Response, UploadFile, status
+from fastapi import (
+    APIRouter,
+    Depends,
+    File,
+    HTTPException,
+    Request,
+    Response,
+    UploadFile,
+    status,
+)
 from fastapi.responses import FileResponse
 from redis.asyncio import Redis
 from sqlalchemy import func, select, update
@@ -55,7 +64,8 @@ async def register(
             valid = await redis.get(f"invite:{data.invite_token}")
             if not valid:
                 raise HTTPException(
-                    status_code=status.HTTP_403_FORBIDDEN, detail="Invalid or expired invite"
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="Invalid or expired invite",
                 )
             await redis.delete(f"invite:{data.invite_token}")
         else:
@@ -69,7 +79,8 @@ async def register(
         email_domain = data.email.split("@")[-1].lower()
         if email_domain in [d.lower() for d in settings.BLOCKED_EMAIL_DOMAINS]:
             raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Email domain not allowed"
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="Email domain not allowed",
             )
 
     existing = await db.execute(select(User).where(User.username == data.username))
@@ -194,7 +205,8 @@ async def refresh(
     user_id = await redis.get(f"refresh:{token}")
     if not user_id:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired refresh token"
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired refresh token",
         )
 
     await redis.delete(f"refresh:{token}")
@@ -216,7 +228,10 @@ async def refresh(
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
 
-    return {"access_token": create_access_token(user.id, user.role), "token_type": "bearer"}
+    return {
+        "access_token": create_access_token(user.id, user.role),
+        "token_type": "bearer",
+    }
 
 
 @router.post("/logout")
@@ -261,14 +276,19 @@ async def update_me(
     if data.target_language is not None:
         current_user.target_language = data.target_language
         # Sync with user_languages: if the user already has this language, activate it.
-        from app.services.user_language_service import get_user_languages  # noqa: PLC0415
+        from app.services.user_language_service import (
+            get_user_languages,
+        )  # noqa: PLC0415
 
         user_langs = await get_user_languages(db, current_user.id)
         existing = next(
-            (ul for ul in user_langs if ul.target_language == data.target_language), None
+            (ul for ul in user_langs if ul.target_language == data.target_language),
+            None,
         )
         if existing:
-            from app.services.user_language_service import switch_language  # noqa: PLC0415
+            from app.services.user_language_service import (
+                switch_language,
+            )  # noqa: PLC0415
 
             await switch_language(db, current_user.id, data.target_language)
         else:
@@ -292,7 +312,9 @@ async def update_me(
                 same_base.target_language = data.target_language
                 same_base.is_active = True
             else:
-                from app.services.user_language_service import add_language  # noqa: PLC0415
+                from app.services.user_language_service import (
+                    add_language,
+                )  # noqa: PLC0415
 
                 await add_language(db, current_user.id, data.target_language)
     if data.ui_locale is not None:
@@ -328,7 +350,8 @@ def _avatar_path_from_reference(avatar: str | None) -> str | None:
 def _validate_avatar_bytes(content_type: str | None, data: bytes) -> str:
     if content_type not in _ALLOWED_AVATAR_TYPES:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Only JPEG and PNG images are allowed"
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Only JPEG and PNG images are allowed",
         )
     if content_type == "image/jpeg" and data.startswith(b"\xff\xd8\xff"):
         if len(data) < 4 or not data.endswith(b"\xff\xd9"):
@@ -449,7 +472,8 @@ async def delete_me(
 ):
     if current_user.role == "admin":
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="Admin accounts cannot be self-deleted"
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin accounts cannot be self-deleted",
         )
     token = request.cookies.get("refresh_token")
     if token:
@@ -514,7 +538,8 @@ async def verify_email(
     user_id_str = await redis.get(f"verify_email:{token}")
     if not user_id_str:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid or expired verification token"
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid or expired verification token",
         )
     user = await db.get(User, int(user_id_str))
     if not user:
@@ -540,7 +565,8 @@ async def resend_verification(
         )
     if not settings.EMAIL_ENABLED:
         raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Email not configured"
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Email not configured",
         )
     verify_token = str(uuid.uuid4())
     await redis.setex(f"verify_email:{verify_token}", 86400, str(current_user.id))
@@ -589,7 +615,8 @@ async def reset_password(
     user_id_str = await redis.get(f"reset_password:{data.token}")
     if not user_id_str:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid or expired reset token"
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid or expired reset token",
         )
     user = await db.get(User, int(user_id_str))
     if not user:

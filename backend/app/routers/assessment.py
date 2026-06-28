@@ -9,6 +9,7 @@ from redis.asyncio import Redis
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.config import settings
 from app.core.database import get_db
 from app.core.deps import get_current_user, get_redis
 from app.core.limiter import limiter
@@ -20,6 +21,7 @@ from app.schemas.assessment import (
     AssessmentCompleteRequest,
     AssessmentResult,
     AssessmentSubmitRequest,
+    AssessmentVoiceTrialRequest,
     FreeWriteEvalRequest,
     LevelTestResult,
     LevelTestSubmitRequest,
@@ -31,6 +33,7 @@ from app.services.assessment import (
     evaluate_free_write,
     generate_level_test_questions,
 )
+from app.services.assessment_voice_trial import create_assessment_voice_trial_token
 from app.services.language_helpers import get_language_name
 from app.services.llm_adapter import (
     LLMError,
@@ -116,7 +119,9 @@ async def start_assessment(
         target_language = language
         target_language_name = get_language_name(target_language)
     else:
-        from app.services.user_language_service import get_active_language  # noqa: PLC0415
+        from app.services.user_language_service import (
+            get_active_language,
+        )  # noqa: PLC0415
 
         active_lang = await get_active_language(db, current_user.id)
         target_language = (
@@ -144,7 +149,8 @@ async def start_assessment(
         )
     except LLMUnavailableError:
         raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="ai_service_unavailable"
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="ai_service_unavailable",
         )
     except LLMError:
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="ai_service_error")
@@ -176,7 +182,9 @@ async def get_assessment_bank(
     adaptive quiz logic. The backend re-evaluates answers server-side
     via POST /api/assessment/evaluate.
     """
-    from app.data.assessment_bank import get_assessment_bank as _get_bank  # noqa: PLC0415
+    from app.data.assessment_bank import (
+        get_assessment_bank as _get_bank,
+    )  # noqa: PLC0415
 
     questions = _get_bank(language)
     return AssessmentBankResponse(
@@ -219,7 +227,9 @@ async def submit_assessment(
 
     if not session_raw:
         # Try scoped key using active language
-        from app.services.user_language_service import get_active_language  # noqa: PLC0415
+        from app.services.user_language_service import (
+            get_active_language,
+        )  # noqa: PLC0415
 
         active_lang = await get_active_language(db, current_user.id)
         if active_lang:
@@ -237,7 +247,8 @@ async def submit_assessment(
 
     if not session_raw or not redis_key:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="No active assessment session."
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No active assessment session.",
         )
     session = json.loads(session_raw)
     target_language = session.get("target_language") or data.target_language or "en-GB"
@@ -273,7 +284,8 @@ async def submit_assessment(
         )
     except LLMUnavailableError:
         raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="ai_service_unavailable"
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="ai_service_unavailable",
         )
     except LLMError:
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="ai_service_error")
@@ -353,7 +365,8 @@ async def evaluate_free_write_endpoint(
         )
     except LLMUnavailableError:
         raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="ai_service_unavailable"
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="ai_service_unavailable",
         )
     except LLMError:
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="ai_service_error")
@@ -441,7 +454,68 @@ async def complete_assessment(
     db.add(plan)
     await db.commit()
     await db.refresh(plan)
-    return {"plan_id": plan.id, "cefr_level": plan.cefr_level}
+    voice_trial = await create_assessment_voice_trial_token(
+        redis,
+        user=current_user,
+        stripe_enabled=settings.STRIPE_ENABLED,
+        plan_id=plan.id,
+        target_language=target_language,
+        cefr_level=plan.cefr_level,
+    )
+    return {
+        "plan_id": plan.id,
+        "cefr_level": plan.cefr_level,
+        "voice_trial": voice_trial,
+    }
+
+
+@router.post("/voice-trial", response_model=dict)
+@limiter.limit("10/minute")
+async def create_voice_trial_for_current_plan(
+    request: Request,
+    data: AssessmentVoiceTrialRequest,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+    redis: Redis = Depends(get_redis),
+):
+    """Generate a fresh post-assessment voice trial token for an existing plan."""
+    target_language = data.target_language or current_user.target_language
+    user_lang_result = await db.execute(
+        select(UserLanguage).where(
+            UserLanguage.user_id == current_user.id,
+            UserLanguage.target_language == target_language,
+        )
+    )
+    user_lang = user_lang_result.scalar_one_or_none()
+    if user_lang is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Study plan not found.")
+
+    plan_result = await db.execute(
+        select(StudyPlan)
+        .where(
+            StudyPlan.user_language_id == user_lang.id,
+            StudyPlan.is_active.is_(True),
+        )
+        .order_by(StudyPlan.created_at.desc())
+        .limit(1)
+    )
+    plan = plan_result.scalar_one_or_none()
+    if plan is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Study plan not found.")
+
+    voice_trial = await create_assessment_voice_trial_token(
+        redis,
+        user=current_user,
+        stripe_enabled=settings.STRIPE_ENABLED,
+        plan_id=plan.id,
+        target_language=plan.target_language,
+        cefr_level=plan.cefr_level,
+    )
+    return {
+        "plan_id": plan.id,
+        "cefr_level": plan.cefr_level,
+        "voice_trial": voice_trial,
+    }
 
 
 @router.get("/level-test/questions/{plan_id}", response_model=dict)
@@ -492,7 +566,8 @@ async def get_level_test_questions(
         )
     except LLMUnavailableError:
         raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="ai_service_unavailable"
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="ai_service_unavailable",
         )
     except LLMError:
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="ai_service_error")
@@ -580,5 +655,5 @@ async def get_level_test_result(
     return LevelTestResult(
         score=plan.completion_test_score or 0.0,
         recommendation=plan.completion_test_recommendation or "repeat",
-        next_level=next_level if plan.completion_test_recommendation == "advance" else None,
+        next_level=(next_level if plan.completion_test_recommendation == "advance" else None),
     )

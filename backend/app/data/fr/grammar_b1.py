@@ -58,7 +58,8 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         examples=[
             GrammarExample(text="Il faut que tu finisses tes devoirs.", translation=None),
             GrammarExample(
-                text="Il est nécessaire que nous réservions à l'avance.", translation=None
+                text="Il est nécessaire que nous réservions à l'avance.",
+                translation=None,
             ),
             GrammarExample(
                 text="Il faut être patient. (pas de changement de sujet)",
@@ -66,7 +67,8 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="infinitif",
             ),
             GrammarExample(
-                text="Il est indispensable qu'elle prenne ce médicament.", translation=None
+                text="Il est indispensable qu'elle prenne ce médicament.",
+                translation=None,
             ),
         ],
         common_mistakes=[
@@ -100,7 +102,8 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="Je veux que tu m'accompagnes.", translation=None),
             GrammarExample(text="Elle souhaite que son fils fasse des études.", translation=None),
             GrammarExample(
-                text="Le directeur exige que tout le monde soit présent.", translation=None
+                text="Le directeur exige que tout le monde soit présent.",
+                translation=None,
             ),
             GrammarExample(text="J'aimerais que vous m'expliquiez ce problème.", translation=None),
         ],
@@ -116,7 +119,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Après 'souhaiter que', on utilise le subjonctif.",
             ),
         ],
-        related=["subjonctif-present", "subjonctif-necessite", "vouloir-pouvoir-devoir"],
+        related=[
+            "subjonctif-present",
+            "subjonctif-necessite",
+            "vouloir-pouvoir-devoir",
+        ],
     ),
     GrammarTopic(
         slug="subjonctif-emotion",
@@ -252,7 +259,9 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="l' = la lettre → fém. sing.",
             ),
             GrammarExample(
-                text="J'ai acheté des fleurs.", translation=None, note="COD après → pas d'accord"
+                text="J'ai acheté des fleurs.",
+                translation=None,
+                note="COD après → pas d'accord",
             ),
             GrammarExample(text="Les filles que j'ai rencontrées sont sympas.", translation=None),
         ],
@@ -268,7 +277,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="'Que' = 'les décisions' (fém. plur.) → 'prises'.",
             ),
         ],
-        related=["passe-compose-avoir", "accord-participe-etre", "pronoms-relatifs-simples"],
+        related=[
+            "passe-compose-avoir",
+            "accord-participe-etre",
+            "pronoms-relatifs-simples",
+        ],
     ),
     GrammarTopic(
         slug="plus-que-parfait",
@@ -288,7 +301,9 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="Quand je suis arrivé, il était déjà parti.", translation=None),
             GrammarExample(text="Elle avait réservé une table avant de venir.", translation=None),
             GrammarExample(
-                text="Si j'avais su, je ne serais pas venu.", translation=None, note="regret"
+                text="Si j'avais su, je ne serais pas venu.",
+                translation=None,
+                note="regret",
             ),
             GrammarExample(
                 text="Il m'a dit qu'il n'avait pas reçu mon message.",
@@ -308,7 +323,12 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Après 'si' conditionnel, pas de conditionnel. On utilise le plus-que-parfait.",
             ),
         ],
-        related=["passe-compose-avoir", "passe-compose-etre", "imparfait", "concordance-temps"],
+        related=[
+            "passe-compose-avoir",
+            "passe-compose-etre",
+            "imparfait",
+            "concordance-temps",
+        ],
     ),
     GrammarTopic(
         slug="passif",
@@ -367,7 +387,9 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="On m'a dit que tu déménageais.", translation=None),
             GrammarExample(text="On va au restaurant ce soir ?", translation=None, note="nous"),
             GrammarExample(
-                text="On ne peut pas toujours gagner.", translation=None, note="généralité"
+                text="On ne peut pas toujours gagner.",
+                translation=None,
+                note="généralité",
             ),
         ],
         common_mistakes=[
@@ -433,7 +455,8 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="Le monsieur qui porte un chapeau est mon voisin.", translation=None
+                text="Le monsieur qui porte un chapeau est mon voisin.",
+                translation=None,
             ),
             GrammarExample(text="La chanson que tu écoutes est très belle.", translation=None),
             GrammarExample(text="La ville où j'habite est très animée.", translation=None),
@@ -469,7 +492,8 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="Le projet sur lequel je travaille est confidentiel.", translation=None
+                text="Le projet sur lequel je travaille est confidentiel.",
+                translation=None,
             ),
             GrammarExample(text="La table sous laquelle le chat s'est caché.", translation=None),
             GrammarExample(
@@ -478,7 +502,9 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="personnes aussi possible",
             ),
             GrammarExample(
-                text="Le problème auquel je pense.", translation=None, note="à + lequel → auquel"
+                text="Le problème auquel je pense.",
+                translation=None,
+                note="à + lequel → auquel",
             ),
         ],
         common_mistakes=[
@@ -511,13 +537,19 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="Le film dont je t'ai parlé est en salle.", translation=None, note="parler de"
+                text="Le film dont je t'ai parlé est en salle.",
+                translation=None,
+                note="parler de",
             ),
             GrammarExample(
-                text="L'auteur dont j'admire l'œuvre.", translation=None, note="admirer l'œuvre de"
+                text="L'auteur dont j'admire l'œuvre.",
+                translation=None,
+                note="admirer l'œuvre de",
             ),
             GrammarExample(
-                text="C'est un résultat dont je suis fier.", translation=None, note="fier de"
+                text="C'est un résultat dont je suis fier.",
+                translation=None,
+                note="fier de",
             ),
             GrammarExample(text="La ville dont je viens.", translation=None, note="venir de"),
         ],
@@ -551,13 +583,17 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="Si j'avais plus de temps, j'apprendrais le piano.", translation=None
+                text="Si j'avais plus de temps, j'apprendrais le piano.",
+                translation=None,
             ),
             GrammarExample(
-                text="Si tu habitais plus près, on se verrait plus souvent.", translation=None
+                text="Si tu habitais plus près, on se verrait plus souvent.",
+                translation=None,
             ),
             GrammarExample(
-                text="Si j'étais toi, j'accepterais cette offre.", translation=None, note="conseil"
+                text="Si j'étais toi, j'accepterais cette offre.",
+                translation=None,
+                note="conseil",
             ),
             GrammarExample(text="S'il faisait beau, on irait à la plage.", translation=None),
         ],
@@ -573,7 +609,12 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="'Si' + imparfait, pas 'si' + conditionnel.",
             ),
         ],
-        related=["conditionnel-present", "imparfait", "conditionnel-passe", "si-present-futur"],
+        related=[
+            "conditionnel-present",
+            "imparfait",
+            "conditionnel-passe",
+            "si-present-futur",
+        ],
     ),
     GrammarTopic(
         slug="conditionnel-passe",
@@ -592,10 +633,14 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         examples=[
             GrammarExample(text="J'aurais dû t'écouter.", translation=None, note="regret"),
             GrammarExample(
-                text="Tu aurais pu me le dire plus tôt !", translation=None, note="reproche"
+                text="Tu aurais pu me le dire plus tôt !",
+                translation=None,
+                note="reproche",
             ),
             GrammarExample(
-                text="Si j'avais su, je serais venu(e).", translation=None, note="hypothèse passée"
+                text="Si j'avais su, je serais venu(e).",
+                translation=None,
+                note="hypothèse passée",
             ),
             GrammarExample(text="Elle aurait aimé être là.", translation=None),
         ],
@@ -611,7 +656,11 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Après 'si', c'est le plus-que-parfait, pas le conditionnel.",
             ),
         ],
-        related=["conditionnel-present", "si-imparfait-conditionnel", "plus-que-parfait"],
+        related=[
+            "conditionnel-present",
+            "si-imparfait-conditionnel",
+            "plus-que-parfait",
+        ],
     ),
     GrammarTopic(
         slug="concordance-temps",
@@ -629,7 +678,9 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="Il a dit qu'il était malade.", translation=None, note="présent → imparfait"
+                text="Il a dit qu'il était malade.",
+                translation=None,
+                note="présent → imparfait",
             ),
             GrammarExample(
                 text="Elle m'a dit qu'elle avait fini son travail.",
@@ -677,7 +728,9 @@ B1_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="Je suis resté chez moi parce qu'il pleuvait.", translation=None, note="cause"
+                text="Je suis resté chez moi parce qu'il pleuvait.",
+                translation=None,
+                note="cause",
             ),
             GrammarExample(
                 text="Il a beaucoup travaillé, donc il a réussi.",

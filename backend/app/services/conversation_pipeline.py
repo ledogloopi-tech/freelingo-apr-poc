@@ -8,8 +8,17 @@ from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
 from app.core.app_logger import get_logger
-from app.services.language_helpers import get_iso639, get_language_name, get_native_language_name
-from app.services.llm_adapter import LLMError, LLMStream, LLMTimeoutError, LLMUnavailableError
+from app.services.language_helpers import (
+    get_iso639,
+    get_language_name,
+    get_native_language_name,
+)
+from app.services.llm_adapter import (
+    LLMError,
+    LLMStream,
+    LLMTimeoutError,
+    LLMUnavailableError,
+)
 from app.services.memory_service import (
     build_memory_context,
     parse_memory_marker,
@@ -826,7 +835,10 @@ class ConversationPipeline:
         warn_at = self.max_duration - WARNING_ADVANCE_SECONDS
         if warn_at > 0:
             await asyncio.sleep(warn_at)
-            logger.info("[pipeline] Max duration warning — %ss remaining", WARNING_ADVANCE_SECONDS)
+            logger.info(
+                "[pipeline] Max duration warning — %ss remaining",
+                WARNING_ADVANCE_SECONDS,
+            )
             await self._send_json(
                 ws,
                 {

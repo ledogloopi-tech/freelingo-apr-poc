@@ -38,7 +38,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Falemos é conjuntivo/imperativo, não pretérito.",
             ),
         ],
-        related=["marcadores-temporais", "preterito-imperfeito", "perfeito-vs-imperfeito"],
+        related=[
+            "marcadores-temporais",
+            "preterito-imperfeito",
+            "perfeito-vs-imperfeito",
+        ],
     ),
     GrammarTopic(
         slug="marcadores-temporais",
@@ -73,7 +77,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Ontem requer passado.",
             ),
         ],
-        related=["preterito-perfeito-regular", "preterito-imperfeito", "perfeito-vs-imperfeito"],
+        related=[
+            "preterito-perfeito-regular",
+            "preterito-imperfeito",
+            "perfeito-vs-imperfeito",
+        ],
     ),
     GrammarTopic(
         slug="preterito-perfeito-irregular",
@@ -106,7 +114,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Fazer no pretérito: fiz, fizeste, fez...",
             ),
         ],
-        related=["preterito-perfeito-regular", "marcadores-temporais", "perfeito-vs-imperfeito"],
+        related=[
+            "preterito-perfeito-regular",
+            "marcadores-temporais",
+            "perfeito-vs-imperfeito",
+        ],
     ),
     GrammarTopic(
         slug="preterito-imperfeito",
@@ -205,7 +217,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Hábitos passados usam imperfeito, não perfeito.",
             ),
         ],
-        related=["preterito-imperfeito", "perfeito-vs-imperfeito", "marcadores-temporais"],
+        related=[
+            "preterito-imperfeito",
+            "perfeito-vs-imperfeito",
+            "marcadores-temporais",
+        ],
     ),
     GrammarTopic(
         slug="pronomes-objeto-direto",
@@ -319,7 +335,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="EP não começa frase com pronome átono.",
             ),
         ],
-        related=["pronomes-objeto-direto", "pronomes-objeto-indireto", "verbos-reflexivos"],
+        related=[
+            "pronomes-objeto-direto",
+            "pronomes-objeto-indireto",
+            "verbos-reflexivos",
+        ],
     ),
     GrammarTopic(
         slug="comparativos",
@@ -355,7 +375,9 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         common_mistakes=[
             GrammarMistake(
-                wrong="É mais bom.", correct="É melhor.", note="Comparativo de bom é melhor."
+                wrong="É mais bom.",
+                correct="É melhor.",
+                note="Comparativo de bom é melhor.",
             ),
         ],
         related=["superlativos", "tao-como", "adjetivos-descritivos"],
@@ -468,7 +490,9 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Imperativo tu perde o -s.",
             ),
             GrammarMistake(
-                wrong="Senta-se! (para tu)", correct="Senta-te!", note="Para tu, o pronome é te."
+                wrong="Senta-se! (para tu)",
+                correct="Senta-te!",
+                note="Para tu, o pronome é te.",
             ),
         ],
         related=["imperativo-negativo", "imperativo-irregular", "colocacao-pronominal"],
@@ -508,7 +532,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Com negação, pronome vai antes do verbo.",
             ),
         ],
-        related=["imperativo-afirmativo", "imperativo-irregular", "presente-conjuntivo"],
+        related=[
+            "imperativo-afirmativo",
+            "imperativo-irregular",
+            "presente-conjuntivo",
+        ],
     ),
     GrammarTopic(
         slug="imperativo-irregular",
@@ -540,7 +568,9 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Para tu, imperativo de ser é sê.",
             ),
             GrammarMistake(
-                wrong="Não faz isso!", correct="Não faças isso!", note="Negativo: não faças (tu)."
+                wrong="Não faz isso!",
+                correct="Não faças isso!",
+                note="Negativo: não faças (tu).",
             ),
         ],
         related=["imperativo-afirmativo", "imperativo-negativo", "presente-conjuntivo"],
@@ -618,7 +648,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Gostaria é mais cordial.",
             ),
         ],
-        related=["futuro-do-presente", "condicional-composto", "se-imperfeito-subjuntivo"],
+        related=[
+            "futuro-do-presente",
+            "condicional-composto",
+            "se-imperfeito-subjuntivo",
+        ],
     ),
     GrammarTopic(
         slug="futuro-composto",
@@ -771,7 +805,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Perguntas sim/não usam se.",
             ),
         ],
-        related=["mudancas-temporais", "discurso-indireto-passado", "discurso-reportado"],
+        related=[
+            "mudancas-temporais",
+            "discurso-indireto-passado",
+            "discurso-reportado",
+        ],
     ),
     GrammarTopic(
         slug="mudancas-temporais",
@@ -848,7 +886,9 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         common_mistakes=[
             GrammarMistake(
-                wrong="Deu-me-o.", correct="Deu-mo.", note="Os pronomes devem fundir-se: me+o → mo."
+                wrong="Deu-me-o.",
+                correct="Deu-mo.",
+                note="Os pronomes devem fundir-se: me+o → mo.",
             ),
             GrammarMistake(
                 wrong="Não deu-mo.",
@@ -856,6 +896,10 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Com negação, o pronome vai antes do verbo.",
             ),
         ],
-        related=["pronomes-objeto-direto", "pronomes-objeto-indireto", "colocacao-pronominal"],
+        related=[
+            "pronomes-objeto-direto",
+            "pronomes-objeto-indireto",
+            "colocacao-pronominal",
+        ],
     ),
 ]

@@ -121,7 +121,14 @@ async def save_memories(
         )
 
     for item in new_items:
-        db.add(Memory(user_id=user_id, content=item, source=source, study_plan_id=study_plan_id))
+        db.add(
+            Memory(
+                user_id=user_id,
+                content=item,
+                source=source,
+                study_plan_id=study_plan_id,
+            )
+        )
 
     await db.commit()
     logger.info("Saved %d new memories for user %d", len(new_items), user_id)

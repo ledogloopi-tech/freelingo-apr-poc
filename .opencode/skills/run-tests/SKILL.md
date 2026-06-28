@@ -83,3 +83,18 @@ cd frontend && npx prettier --check src/        # Format check
 ```bash
 source .venv/bin/activate && cd backend && ruff check . && black --check .
 ```
+
+## If a suite fails
+
+- If any backend or frontend test fails after launching a suite, STOP immediately, report the failing test(s), and ask the user how to proceed.
+- Do not modify production code or tests to make the suite pass without explicit user approval.
+- If lint, typecheck, or format checks fail without test failures, report the error and ask before making non-formatting code changes.
+- After the user approves a fix, re-run only the failing command unless they request the full suite.
+
+## Canonical format script
+
+```bash
+./scripts/format.sh
+```
+
+Runs the same backend/frontend style tools from fixed project paths, so results do not depend on the current working directory.

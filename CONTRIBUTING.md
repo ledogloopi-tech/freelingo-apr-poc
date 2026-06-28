@@ -40,7 +40,7 @@ Do not open PRs directly against `main`.
 4. Run validation before pushing:
    ```bash
    # Auto-format backend and frontend
-   source .venv/bin/activate && cd backend && ruff check --fix . && black . && cd ../frontend && npx eslint src/ --ext .ts,.tsx --fix && npx prettier --write src/
+   ./scripts/format.sh
 
    # Backend tests
    source .venv/bin/activate && cd backend && pytest -v
@@ -58,6 +58,8 @@ Do not open PRs directly against `main`.
 | TypeScript | No semicolons, single quotes, 2-space indent, trailing commas (es5), `prettier-plugin-tailwindcss` |
 
 S and ANN rules are disabled in `tests/`.
+
+The canonical formatter entry point is `./scripts/format.sh`. It uses `backend/pyproject.toml`, `frontend/.prettierrc`, and `frontend/eslint.config.mjs`; do not run equivalent long commands from arbitrary directories.
 
 ## Running tests locally
 

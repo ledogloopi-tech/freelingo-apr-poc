@@ -36,7 +36,12 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Le participe passé de 'finir' est 'fini', pas 'finit' (qui est le présent).",
             ),
         ],
-        related=["passe-compose-etre", "participes-passes", "imparfait", "accord-participe-etre"],
+        related=[
+            "passe-compose-etre",
+            "participes-passes",
+            "imparfait",
+            "accord-participe-etre",
+        ],
     ),
     GrammarTopic(
         slug="passe-compose-etre",
@@ -56,7 +61,9 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="Je suis allé au cinéma.", translation=None, note="masc. sing."),
             GrammarExample(text="Elle est partie hier soir.", translation=None, note="fém. sing."),
             GrammarExample(
-                text="Nous sommes arrivés en retard.", translation=None, note="masc. plur."
+                text="Nous sommes arrivés en retard.",
+                translation=None,
+                note="masc. plur.",
             ),
             GrammarExample(text="Elles sont nées en France.", translation=None, note="fém. plur."),
         ],
@@ -128,13 +135,19 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         ],
         examples=[
             GrammarExample(
-                text="Marie est arrivée à huit heures.", translation=None, note="fém. sing."
+                text="Marie est arrivée à huit heures.",
+                translation=None,
+                note="fém. sing.",
             ),
             GrammarExample(
-                text="Pierre et Paul sont partis ensemble.", translation=None, note="masc. plur."
+                text="Pierre et Paul sont partis ensemble.",
+                translation=None,
+                note="masc. plur.",
             ),
             GrammarExample(
-                text="Mes sœurs sont nées en Italie.", translation=None, note="fém. plur."
+                text="Mes sœurs sont nées en Italie.",
+                translation=None,
+                note="fém. plur.",
             ),
             GrammarExample(text="Elle s'est réveillée tôt.", translation=None, note="pronominal"),
         ],
@@ -184,7 +197,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="La terminaison est '-ions', pas '-iont'.",
             ),
         ],
-        related=["passe-compose-vs-imparfait", "passe-compose-avoir", "passe-compose-etre"],
+        related=[
+            "passe-compose-vs-imparfait",
+            "passe-compose-avoir",
+            "passe-compose-etre",
+        ],
     ),
     GrammarTopic(
         slug="passe-compose-vs-imparfait",
@@ -204,7 +221,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="Il faisait beau, je suis allé me promener.", translation=None),
             GrammarExample(text="Je lisais quand quelqu'un a frappé à la porte.", translation=None),
             GrammarExample(
-                text="Avant, j'habitais à Paris, puis j'ai déménagé à Lyon.", translation=None
+                text="Avant, j'habitais à Paris, puis j'ai déménagé à Lyon.",
+                translation=None,
             ),
             GrammarExample(text="Quand elle est entrée, tout le monde parlait.", translation=None),
         ],
@@ -220,7 +238,12 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="L'action en cours (dormir) doit être à l'imparfait.",
             ),
         ],
-        related=["imparfait", "passe-compose-avoir", "passe-compose-etre", "description-passee"],
+        related=[
+            "imparfait",
+            "passe-compose-avoir",
+            "passe-compose-etre",
+            "description-passee",
+        ],
     ),
     GrammarTopic(
         slug="description-passee",
@@ -239,10 +262,12 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
         examples=[
             GrammarExample(text="Il faisait nuit, la rue était déserte.", translation=None),
             GrammarExample(
-                text="Elle portait un manteau noir et avait l'air fatiguée.", translation=None
+                text="Elle portait un manteau noir et avait l'air fatiguée.",
+                translation=None,
             ),
             GrammarExample(
-                text="Dans le jardin, il y avait des roses magnifiques.", translation=None
+                text="Dans le jardin, il y avait des roses magnifiques.",
+                translation=None,
             ),
             GrammarExample(text="Je me sentais heureux ce jour-là.", translation=None),
         ],
@@ -279,7 +304,9 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="Il lit le journal tous les jours. — Il le lit.", translation=None),
             GrammarExample(text="Vous prenez les clés ? — Oui, je les prends.", translation=None),
             GrammarExample(
-                text="Je ne l'aime pas, ce film.", translation=None, note="l' devant voyelle"
+                text="Je ne l'aime pas, ce film.",
+                translation=None,
+                note="l' devant voyelle",
             ),
         ],
         common_mistakes=[
@@ -294,7 +321,12 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Devant une voyelle, 'le' ou 'la' devient l'.",
             ),
         ],
-        related=["pronoms-coi", "pronoms-y-en", "ordre-pronoms", "imperatif-affirmatif"],
+        related=[
+            "pronoms-coi",
+            "pronoms-y-en",
+            "ordre-pronoms",
+            "imperatif-affirmatif",
+        ],
     ),
     GrammarTopic(
         slug="pronoms-coi",
@@ -488,7 +520,9 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="bon → meilleur",
             ),
             GrammarExample(
-                text="Elle cuisine mieux que moi.", translation=None, note="bien → mieux"
+                text="Elle cuisine mieux que moi.",
+                translation=None,
+                note="bien → mieux",
             ),
             GrammarExample(text="Ce sont les meilleures vacances de ma vie !", translation=None),
             GrammarExample(text="Il va mieux aujourd'hui.", translation=None, note="santé"),
@@ -526,7 +560,9 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="Allons au cinéma !", translation=None),
             GrammarExample(text="Finissez vos devoirs !", translation=None),
             GrammarExample(
-                text="Sois gentil avec ta sœur !", translation=None, note="être irrégulier"
+                text="Sois gentil avec ta sœur !",
+                translation=None,
+                note="être irrégulier",
             ),
         ],
         common_mistakes=[
@@ -560,7 +596,9 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="Ne parle pas si vite !", translation=None),
             GrammarExample(text="N'oubliez pas vos clés !", translation=None),
             GrammarExample(
-                text="Ne te lève pas, je t'en prie.", translation=None, note="pronom avant le verbe"
+                text="Ne te lève pas, je t'en prie.",
+                translation=None,
+                note="pronom avant le verbe",
             ),
             GrammarExample(text="Ne me le dites pas !", translation=None),
         ],
@@ -630,7 +668,9 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="Ayez un peu de patience !", translation=None),
             GrammarExample(text="Sache que je t'attendrai.", translation=None),
             GrammarExample(
-                text="Veuillez remplir ce formulaire.", translation=None, note="politesse"
+                text="Veuillez remplir ce formulaire.",
+                translation=None,
+                note="politesse",
             ),
         ],
         common_mistakes=[
@@ -702,13 +742,19 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="politesse",
             ),
             GrammarExample(
-                text="J'aimerais apprendre le français.", translation=None, note="souhait"
+                text="J'aimerais apprendre le français.",
+                translation=None,
+                note="souhait",
             ),
             GrammarExample(
-                text="Tu devrais voir ce film, il est excellent.", translation=None, note="conseil"
+                text="Tu devrais voir ce film, il est excellent.",
+                translation=None,
+                note="conseil",
             ),
             GrammarExample(
-                text="Si je pouvais, je partirais en vacances.", translation=None, note="hypothèse"
+                text="Si je pouvais, je partirais en vacances.",
+                translation=None,
+                note="hypothèse",
             ),
         ],
         common_mistakes=[
@@ -744,7 +790,8 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="Si tu as soif, il y a de l'eau dans le frigo.", translation=None),
             GrammarExample(text="Si vous êtes perdus, appelez-moi !", translation=None),
             GrammarExample(
-                text="Si elle arrive en retard, on commencera sans elle.", translation=None
+                text="Si elle arrive en retard, on commencera sans elle.",
+                translation=None,
             ),
         ],
         common_mistakes=[
@@ -836,7 +883,11 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
                 note="Au discours indirect, on n'utilise pas 'est-ce que'.",
             ),
         ],
-        related=["discours-indirect-passe", "concordance-temps", "connecteurs-temporels"],
+        related=[
+            "discours-indirect-passe",
+            "concordance-temps",
+            "connecteurs-temporels",
+        ],
     ),
     GrammarTopic(
         slug="relatifs-simples",
@@ -857,7 +908,9 @@ A2_GRAMMAR_TOPICS: list[GrammarTopic] = [
             GrammarExample(text="Le film que j'ai vu hier était ennuyeux.", translation=None),
             GrammarExample(text="C'est le village où je suis né.", translation=None),
             GrammarExample(
-                text="Le jour où on s'est rencontrés, il pleuvait.", translation=None, note="temps"
+                text="Le jour où on s'est rencontrés, il pleuvait.",
+                translation=None,
+                note="temps",
             ),
         ],
         common_mistakes=[

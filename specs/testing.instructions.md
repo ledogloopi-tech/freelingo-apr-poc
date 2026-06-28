@@ -1,5 +1,5 @@
 ---
-description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 922 tests, 85.09% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (32 test files, 419 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, billing paywall UI, billing success verification, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
+description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 928 tests, 85.09% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (32 test files, 419 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, billing paywall UI, billing success verification, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
 applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 ---
 
@@ -35,7 +35,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_admin_extra.py`** — Lines: 149. What it covers: Additional admin operations and permission checks
 - **`test_avatar.py`** — Lines: 366. What it covers: Avatar upload, content-type/signature validation, UUID reference storage, private retrieval, non-public reference guard, replacement, deletion, and legacy retrieval compatibility
 - **`test_assessment.py`** — Lines: 165. What it covers: Quiz start (mocked LLM), submit and deterministic evaluation, legacy endpoints, LLM error handling
-- **`test_assessment_router.py`** — Lines: —. What it covers: Full assessment router: start, submit, evaluate, free-write, complete, level-test questions/submit/result (54 tests, 51%→98% coverage)
+- **`test_assessment_router.py`** — Lines: —. What it covers: Full assessment router: start, submit, evaluate, free-write, complete, post-assessment voice trial grant/regeneration, level-test questions/submit/result (58 tests, 51%→98% coverage)
 - **`test_study_plan.py`** — Lines: 459. What it covers: Plan generation, today's lessons, auto-generation on access, native-language lesson-generation context, unit progression
 - **`test_lessons.py`** — Lines: 400+. What it covers: Lesson CRUD, exercise answering (multiple_choice, free_write, pronunciation), invalid exercise regeneration, completion flow, progress update on complete
 - **`test_lessons_extra.py`** — Lines: 106. What it covers: Additional lesson scenarios and edge cases
@@ -47,7 +47,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_contact.py`** — Lines: —. What it covers: Contact form forwarding, admin-locale selection, email disabled/missing-destination no-op behavior, and email failure mapping to HTTP 502 (4 tests)
 - **`test_progress.py`** — Lines: 48. What it covers: Progress summary and history with empty and populated data
 - **`test_progress_extra.py`** — Lines: 83. What it covers: Additional progress tracking scenarios
-- **`test_conversation.py`** — Lines: 555. What it covers: WebSocket authentication, TTS/STT disabled rejection, pipeline lifecycle, session management
+- **`test_conversation.py`** — Lines: 555+. What it covers: WebSocket authentication, TTS/STT disabled rejection, conversation warmup, post-assessment voice trial token acceptance/rejection, pipeline lifecycle, session management
 - **`test_conversation_pipeline_service.py`** — Lines: —. What it covers: Conversation pipeline service: system prompt, native-language name injection, sentence cleaning, TTS queue, greet, audio processing, barge-in, usage tracking, inactivity watcher, max-duration watcher, full lifecycle
 - **`test_email_service.py`** — Lines: —. What it covers: Email template rendering escapes user-controlled values by default while preserving explicitly trusted internal HTML, including contact/review templates (3 tests)
 - **`test_frontend_data_integrity.py`** — Lines: 168+. What it covers: Cross-reference validation for grammar, vocabulary, related grammar slugs, and vocabulary IDs across backend language data, including Japanese, Korean, and Mainland Chinese.
@@ -73,7 +73,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_lesson_generator.py`** — Lines: —. What it covers: Lesson generator service: `get_valid_grammar_slugs`, `generate_lesson`, exercise schema validation, fill-blank sanitization, grammar refs filtering, `evaluate_free_write`, `evaluate_pronunciation`, `evaluate_fill_blank` (16 tests, 51%→100% coverage)
 - **`test_listening_service.py`** — Lines: —. What it covers: Listening service DB layer and generation: `structured_output()` generation persistence, language-aware CJK length guidance, `get_available_exercise`, `submit_attempt` (correct/partial/duplicate/replay/not-found), `get_user_history` (empty/attempts/limit/language filter)
 
-**Total: 43 test files, 922 tests.**
+**Total: 43 test files, 928 tests.**
 
 ### Coverage
 
@@ -262,9 +262,9 @@ CI runs on GitHub Actions, triggered on pushes and pull requests. The project is
 
 The `run-tests` opencode skill is available for requested test, lint, typecheck, or targeted verification runs.
 
-The `pre-push` opencode skill mirrors CI locally and also auto-formats before running checks. Run order:
+The `pre-push` opencode skill mirrors CI locally and also auto-formats before running checks. The canonical all-in-one command is `./scripts/pre-push.sh`; the canonical formatter-only command is `./scripts/format.sh`. Run order:
 
-1. Auto-format (ruff --fix, black, eslint --fix, prettier --write)
+1. Auto-format (`./scripts/format.sh`: ruff --fix, black, eslint --fix, prettier --write from fixed backend/frontend directories)
 2. Backend tests (pytest)
 3. Frontend lint (npm run lint)
 4. Frontend typecheck (tsc --noEmit)
@@ -288,3 +288,4 @@ The `pre-push` opencode skill mirrors CI locally and also auto-formats before ru
 - **Frontend: mock `localStorage` and `next/navigation` globally** in `tests/setup.ts` — individual test files should not re-mock these
 - **Frontend: tests live in `frontend/tests/`** — not co-located with source files, mirroring the backend `tests/` convention
 - **Frontend: Component tests use vitest + @testing-library/react** — mock browser APIs (AudioContext, getUserMedia, FileReader) and external dependencies (next-intl, next/image, next/navigation)
+- **Failure handling** — if any backend or frontend test fails after launching a suite, stop, report the failing test(s), and ask the user how to proceed before modifying production code or tests. After approval, re-run only the failing command unless the user requests the full suite.
