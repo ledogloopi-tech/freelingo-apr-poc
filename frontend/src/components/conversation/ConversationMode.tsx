@@ -998,7 +998,7 @@ export default function ConversationMode({
 
   // ─── Render ───────────────────────────────────────────────────────────────
   return (
-    <div className="mx-auto flex h-full min-h-[calc(100vh-56px)] max-w-4xl flex-col p-4 md:min-h-screen md:p-6">
+    <div className="mx-auto flex h-[calc(100dvh-56px)] max-w-4xl flex-col overflow-hidden p-4 md:h-screen md:p-6">
       {/* Header */}
       <div className="border-fl-border mb-6 flex items-end justify-between border-b pb-4">
         <div>
@@ -1036,13 +1036,8 @@ export default function ConversationMode({
         </div>
       )}
 
-      {/* Timeout warning */}
-      {warningSeconds !== null && (
-        <SessionTimeoutBanner seconds={warningSeconds} />
-      )}
-
       {/* Transcript area */}
-      <div className="mb-4 min-h-[120px] flex-1 space-y-3 overflow-y-auto px-2">
+      <div className="mb-4 min-h-0 flex-1 space-y-3 overflow-y-auto px-2">
         {transcript.length === 0 && !streamingText && status === 'live' && (
           <p className="text-fl-label text-fl-muted-4 py-8 text-center font-mono">
             {t('tapToStart')}
@@ -1125,6 +1120,12 @@ export default function ConversationMode({
 
       {/* Controls */}
       <div className="flex flex-col items-center gap-4 pb-2">
+        {/* Timeout warning */}
+        {warningSeconds !== null && (
+          <div className="w-full">
+            <SessionTimeoutBanner seconds={warningSeconds} />
+          </div>
+        )}
         {/* Quota pill */}
         {quota && !trialMode && <QuotaPill quota={quota} t={t} />}
         <StatusIndicator
