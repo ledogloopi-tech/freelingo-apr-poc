@@ -6,6 +6,8 @@ from typing import Literal
 
 from pydantic import BaseModel, EmailStr, Field, field_serializer, field_validator
 
+from app.core.config import settings
+
 SUPPORTED_LANGUAGES = {
     "en",
     "es",
@@ -100,10 +102,10 @@ class AdminUserResponse(BaseModel):
     native_language: str
     is_active: bool
     is_verified: bool
-    conversation_weekly_sessions: int = 0
-    conversation_daily_minutes: int = 0
-    conversation_weekly_minutes: int = 90
-    monthly_tokens_limit: int = 0
+    conversation_weekly_sessions: int = settings.DEFAULT_CONVERSATION_WEEKLY_SESSIONS
+    conversation_daily_minutes: int = settings.DEFAULT_CONVERSATION_DAILY_MINUTES
+    conversation_weekly_minutes: int = settings.DEFAULT_CONVERSATION_WEEKLY_MINUTES
+    monthly_tokens_limit: int = settings.DEFAULT_MONTHLY_TOKENS_LIMIT
     stripe_customer_id: str | None = None
     stripe_subscription_id: str | None = None
     subscription_status: str = "none"

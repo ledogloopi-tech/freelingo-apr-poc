@@ -23,12 +23,12 @@ Registration, authentication, and user preferences.
 - `target_language` — BCP-47 tag such as `"en-GB"` (default) or `"en-US"`; the language the user is learning.
 - `is_active` — boolean; `false` means the account is disabled by an admin.
 - `is_verified` — boolean; `false` until email verification. Existing users were set to `true` on migration.
-- `conversation_max_duration` — integer max voice session duration in seconds. Default: `1800`.
-- `conversation_inactivity_timeout` — integer seconds of silence before disconnect. Default: `180`.
-- `conversation_weekly_sessions` — integer weekly session counter. Default: `0`.
-- `conversation_daily_minutes` — integer daily voice limit in minutes. Default: `30`.
-- `conversation_weekly_minutes` — integer weekly voice limit in minutes. Default: `90`.
-- `monthly_tokens_limit` — integer max LLM tokens per billing period. Default: `1 000 000`.
+- `conversation_max_duration` — integer max voice session duration in seconds. Default comes from `DEFAULT_CONVERSATION_MAX_DURATION` (`1800`).
+- `conversation_inactivity_timeout` — integer seconds of silence before disconnect. Default comes from `DEFAULT_CONVERSATION_INACTIVITY_TIMEOUT` (`180`).
+- `conversation_weekly_sessions` — integer weekly session counter. Default comes from `DEFAULT_CONVERSATION_WEEKLY_SESSIONS` (`0`, unlimited).
+- `conversation_daily_minutes` — integer daily voice limit in minutes. Default comes from `DEFAULT_CONVERSATION_DAILY_MINUTES` (`30`).
+- `conversation_weekly_minutes` — integer weekly voice limit in minutes. Default comes from `DEFAULT_CONVERSATION_WEEKLY_MINUTES` (`90`).
+- `monthly_tokens_limit` — integer max LLM tokens per billing period. Default comes from `DEFAULT_MONTHLY_TOKENS_LIMIT` (`1 000 000`; `0` means unlimited).
 - `stripe_customer_id` — nullable string Stripe customer ID, set when a subscription is created.
 - `stripe_subscription_id` — nullable string current Stripe subscription ID. Used to ignore stale webhook events from older subscriptions for the same customer.
 - `subscription_status` — string subscription state: `none` by default, plus Stripe states `trialing`, `active`, `past_due`, `canceled`, `incomplete`, `incomplete_expired`, `unpaid`, and `paused`.
@@ -49,7 +49,7 @@ Registration, authentication, and user preferences.
 - `POST /register` returns an `access_token` + sets the refresh token cookie so the frontend can redirect directly to `/onboarding` without an intermediate login.
 - On `/onboarding` the user chooses their `target_language`; the choice is saved via `PATCH /me` before accessing the app.
 - `trial_used` is surfaced through authenticated user profile responses and remains backend-authoritative: Stripe Checkout only receives `trial_period_days` when `STRIPE_TRIAL_DAYS > 0` and `trial_used=false`; webhooks set it to `true` once a trialing subscription starts.
-- `assessment_voice_trial_used` is surfaced through authenticated user profile responses and is separate from Stripe trial eligibility. It gates only the one-time 5-minute voice demo shown after placement assessment for unsubscribed hosted users.
+- `assessment_voice_trial_used` is surfaced through authenticated user profile responses and is separate from Stripe trial eligibility. It gates only the one-time post-assessment voice demo shown for unsubscribed hosted users; demo duration comes from `ASSESSMENT_VOICE_TRIAL_DURATION_SECONDS` (`300`, 5 minutes by default).
 - `stripe_subscription_id` is set from `checkout.session.completed` and backfilled from `customer.subscription.updated` for existing users when missing. Once present, subscription update/delete and invoice payment-failed webhooks whose subscription ID does not match are ignored as stale events.
 - Only `trialing` and `active` grant premium access. `past_due`, `unpaid`, and `paused` route users to payment recovery through Stripe Customer Portal. `none`, `incomplete`, `incomplete_expired`, and `canceled` show normal monthly/yearly plan-selection UI.
 

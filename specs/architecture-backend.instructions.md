@@ -210,7 +210,7 @@ Testing infrastructure and strategy are documented in [testing.instructions.md](
 
 ## Environment variables
 
-All configuration is environment-driven. Variables are defined in `app/core/config.py` (Pydantic Settings). 49 variables total — the complete list below.
+All configuration is environment-driven. Variables are defined in `app/core/config.py` (Pydantic Settings). 56 variables total — the complete list below.
 
 ### Core
 
@@ -222,6 +222,16 @@ All configuration is environment-driven. Variables are defined in `app/core/conf
 - CORS_ORIGINS — Default: ["http://localhost:3000"]; Purpose: Allowed CORS origins (JSON array)
 - COOKIE_SECURE — Default: false; Purpose: Set `Secure` flag on cookies
 - LOG_LEVEL — Default: INFO; Purpose: Application log level (`DEBUG`, `INFO`, `WARNING`, `ERROR`)
+
+### Default usage quotas
+
+- DEFAULT_CONVERSATION_MAX_DURATION — Default: 1800; Purpose: default max voice session duration in seconds for new users; supported values: `900`, `1800`
+- DEFAULT_CONVERSATION_INACTIVITY_TIMEOUT — Default: 180; Purpose: default inactivity disconnect timeout in seconds for new users; supported values: `60`, `180`, `300`
+- DEFAULT_CONVERSATION_WEEKLY_SESSIONS — Default: 0; Purpose: default weekly voice session quota; `0` means unlimited
+- DEFAULT_CONVERSATION_DAILY_MINUTES — Default: 30; Purpose: default daily voice conversation minutes
+- DEFAULT_CONVERSATION_WEEKLY_MINUTES — Default: 90; Purpose: default weekly voice conversation minutes
+- DEFAULT_MONTHLY_TOKENS_LIMIT — Default: 1000000; Purpose: default monthly LLM token quota; `0` means unlimited
+- ASSESSMENT_VOICE_TRIAL_DURATION_SECONDS — Default: 300; Purpose: post-assessment voice demo duration in seconds
 
 ### Auth & registration
 

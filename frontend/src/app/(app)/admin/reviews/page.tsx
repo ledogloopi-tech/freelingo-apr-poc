@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import {
   CheckCircle2,
@@ -145,6 +145,17 @@ export default function AdminReviewsPage() {
 
   const approvedCount = reviews.filter((review) => review.is_approved).length
   const pendingCount = reviews.filter((review) => !review.is_approved).length
+  const approvalFilterOptions: { value: ApprovalFilter; label: string }[] =
+    useMemo(
+      () => [
+        { value: 'all', label: t('allReviews') },
+        ...[
+          { value: 'pending' as const, label: t('pending') },
+          { value: 'approved' as const, label: t('approved') },
+        ].sort((a, b) => a.label.localeCompare(b.label)),
+      ],
+      [t]
+    )
 
   return (
     <div className="mx-auto max-w-6xl space-y-4 p-6">
@@ -179,9 +190,11 @@ export default function AdminReviewsPage() {
             className="border-fl-border bg-fl-bg text-fl-fg border px-3 py-2 font-mono text-sm"
             aria-label={t('approvalFilter')}
           >
-            <option value="all">{t('allReviews')}</option>
-            <option value="pending">{t('pending')}</option>
-            <option value="approved">{t('approved')}</option>
+            {approvalFilterOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
           <select
             value={ratingFilter}

@@ -6,10 +6,11 @@ from dataclasses import dataclass
 
 from redis.asyncio import Redis
 
+from app.core.config import settings
 from app.models.user import User
 from app.services.subscription_service import is_subscribed
 
-TRIAL_DURATION_SECONDS = 300
+TRIAL_DURATION_SECONDS = settings.ASSESSMENT_VOICE_TRIAL_DURATION_SECONDS
 TRIAL_TOKEN_TTL_SECONDS = 86_400
 _TOKEN_PREFIX = "assessment_voice_trial"  # noqa: S105 - Redis key prefix, not a secret.
 
