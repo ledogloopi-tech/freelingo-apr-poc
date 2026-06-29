@@ -14,6 +14,7 @@ import {
   Plus,
   Search,
   ShieldAlert,
+  X,
   UserPlus,
 } from 'lucide-react'
 import { AdminNav } from '@/components/admin/AdminNav'
@@ -21,14 +22,6 @@ import { AdminPageHeader } from '@/components/admin/AdminShell'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { PageLoading } from '@/components/ui/page-loading'
 import { Pagination } from '@/components/ui/pagination'
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet'
 import { apiFetch } from '@/lib/api'
 import {
   DEFAULT_TARGET_LANGUAGE,
@@ -157,6 +150,15 @@ export default function AdminUsersPage() {
     }
   }, [])
 
+  useEffect(() => {
+    if (!showCreate) return
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') setShowCreate(false)
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [showCreate])
+
   const visibleTargetLanguages = useMemo(() => {
     if (availableLanguageCodes.length === 0) return SUPPORTED_TARGET_LANGUAGES
     return TARGET_LANGUAGE_CATALOG.filter((l) =>
@@ -272,6 +274,11 @@ export default function AdminUsersPage() {
     } else {
       loadUsers(0, '', '', '', '')
     }
+  }
+
+  function openCreateUser() {
+    setError('')
+    setShowCreate(true)
   }
 
   async function createUser(e: React.FormEvent) {
@@ -452,7 +459,7 @@ export default function AdminUsersPage() {
               {t('inviteBtn')}
             </button>
             <button
-              onClick={() => setShowCreate(true)}
+              onClick={openCreateUser}
               className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 inline-flex items-center gap-2 px-3 py-2 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
             >
               <Plus className="size-3.5" aria-hidden="true" />
@@ -882,154 +889,198 @@ export default function AdminUsersPage() {
         nextLabel={t('nextPage')}
       />
 
-      <Sheet open={showCreate} onOpenChange={setShowCreate}>
-        <SheetContent
-          className="border-fl-border bg-fl-surface w-full overflow-y-auto sm:max-w-md"
-          showCloseButton={false}
+      {showCreate && (
+        <div
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+          onClick={() => setShowCreate(false)}
         >
-          <SheetHeader className="border-fl-border border-b px-6 py-5">
-            <div className="flex items-center gap-2">
-              <UserPlus className="text-fl-muted-2 size-4" aria-hidden="true" />
-              <SheetTitle className="text-fl-fg font-mono text-sm tracking-widest uppercase">
-                {t('createUser')}
-              </SheetTitle>
-            </div>
-            <SheetDescription className="text-fl-muted-2 font-mono text-xs">
-              {t('createUserSheetDesc')}
-            </SheetDescription>
-          </SheetHeader>
-
-          <form
-            id="admin-create-user-form"
-            onSubmit={createUser}
-            className="space-y-4 px-6 py-5"
+          <div
+            className="border-fl-border bg-fl-surface max-h-[calc(100vh-2rem)] w-full max-w-md overflow-y-auto border shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="admin-create-user-title"
+            aria-describedby="admin-create-user-description"
           >
-            {[
-              {
-                key: 'username',
-                label: t('fieldUsername'),
-                required: true,
-                type: 'text',
-              },
-              {
-                key: 'email',
-                label: t('fieldEmail'),
-                required: true,
-                type: 'email',
-              },
-              {
-                key: 'password',
-                label: t('fieldPassword'),
-                required: true,
-                type: 'password',
-              },
-              {
-                key: 'display_name',
-                label: t('fieldDisplayName'),
-                required: true,
-                type: 'text',
-              },
-            ].map(({ key, label, required, type }) => (
-              <label key={key} className="block">
-                <span className="text-fl-label text-fl-muted-3 mb-1 block font-mono text-xs tracking-widest uppercase">
-                  {label}
-                </span>
-                <input
-                  type={type}
-                  required={required}
-                  value={form[key as keyof typeof form]}
-                  onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                  autoCorrect={
-                    type === 'email' || type === 'password' ? 'off' : undefined
-                  }
-                  autoCapitalize={
-                    type === 'email' || type === 'password' ? 'none' : undefined
-                  }
-                  spellCheck={
-                    type === 'email' || type === 'password' ? false : undefined
-                  }
-                  className={inputCls}
-                />
-              </label>
-            ))}
-            <label className="block">
-              <span className="text-fl-label text-fl-muted-3 mb-1 block font-mono text-xs tracking-widest uppercase">
-                {t('fieldNativeLanguage')}
-              </span>
-              <select
-                value={form.native_language}
-                onChange={(e) =>
-                  setForm({ ...form, native_language: e.target.value })
-                }
-                className={inputCls + ' appearance-none'}
+            <div className="border-fl-border flex items-start justify-between gap-4 border-b px-6 py-5">
+              <div>
+                <div className="flex items-center gap-2">
+                  <UserPlus
+                    className="text-fl-muted-2 size-4"
+                    aria-hidden="true"
+                  />
+                  <h2
+                    id="admin-create-user-title"
+                    className="text-fl-fg font-mono text-sm tracking-widest uppercase"
+                  >
+                    {t('createUser')}
+                  </h2>
+                </div>
+                <p
+                  id="admin-create-user-description"
+                  className="text-fl-muted-2 mt-2 font-mono text-xs"
+                >
+                  {t('createUserSheetDesc')}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowCreate(false)}
+                className="text-fl-muted-2 hover:text-fl-fg p-1 transition-colors"
+                aria-label={tCommon('cancel')}
               >
-                {[...LANGUAGES]
-                  .sort((a, b) => tLang(a).localeCompare(tLang(b)))
-                  .map((code) => (
-                    <option key={code} value={code}>
-                      {tLang(code)}
+                <X className="size-4" aria-hidden="true" />
+              </button>
+            </div>
+
+            <form
+              id="admin-create-user-form"
+              onSubmit={createUser}
+              className="space-y-4 px-6 py-5"
+            >
+              {error && (
+                <div className="border-fl-error/40 text-fl-error border px-4 py-3 font-mono text-xs">
+                  {error}
+                </div>
+              )}
+              {[
+                {
+                  key: 'username',
+                  label: t('fieldUsername'),
+                  required: true,
+                  type: 'text',
+                },
+                {
+                  key: 'email',
+                  label: t('fieldEmail'),
+                  required: true,
+                  type: 'email',
+                },
+                {
+                  key: 'password',
+                  label: t('fieldPassword'),
+                  required: true,
+                  type: 'password',
+                },
+                {
+                  key: 'display_name',
+                  label: t('fieldDisplayName'),
+                  required: true,
+                  type: 'text',
+                },
+              ].map(({ key, label, required, type }) => (
+                <label key={key} className="block">
+                  <span className="text-fl-label text-fl-muted-3 mb-1 block font-mono text-xs tracking-widest uppercase">
+                    {label}
+                  </span>
+                  <input
+                    type={type}
+                    required={required}
+                    value={form[key as keyof typeof form]}
+                    onChange={(e) =>
+                      setForm({ ...form, [key]: e.target.value })
+                    }
+                    autoCorrect={
+                      type === 'email' || type === 'password'
+                        ? 'off'
+                        : undefined
+                    }
+                    autoCapitalize={
+                      type === 'email' || type === 'password'
+                        ? 'none'
+                        : undefined
+                    }
+                    spellCheck={
+                      type === 'email' || type === 'password'
+                        ? false
+                        : undefined
+                    }
+                    className={inputCls}
+                  />
+                </label>
+              ))}
+              <label className="block">
+                <span className="text-fl-label text-fl-muted-3 mb-1 block font-mono text-xs tracking-widest uppercase">
+                  {t('fieldNativeLanguage')}
+                </span>
+                <select
+                  value={form.native_language}
+                  onChange={(e) =>
+                    setForm({ ...form, native_language: e.target.value })
+                  }
+                  className={inputCls + ' appearance-none'}
+                >
+                  {[...LANGUAGES]
+                    .sort((a, b) => tLang(a).localeCompare(tLang(b)))
+                    .map((code) => (
+                      <option key={code} value={code}>
+                        {tLang(code)}
+                      </option>
+                    ))}
+                </select>
+              </label>
+              <label className="block">
+                <span className="text-fl-label text-fl-muted-3 mb-1 block font-mono text-xs tracking-widest uppercase">
+                  {t('fieldTargetLanguage')}
+                </span>
+                <select
+                  value={form.target_language}
+                  onChange={(e) =>
+                    setForm({ ...form, target_language: e.target.value })
+                  }
+                  className={inputCls + ' appearance-none'}
+                >
+                  {visibleTargetLanguages.map((lang) => (
+                    <option key={lang.code} value={lang.code}>
+                      {tTarget(lang.code)}
                     </option>
                   ))}
-              </select>
-            </label>
-            <label className="block">
-              <span className="text-fl-label text-fl-muted-3 mb-1 block font-mono text-xs tracking-widest uppercase">
-                {t('fieldTargetLanguage')}
-              </span>
-              <select
-                value={form.target_language}
-                onChange={(e) =>
-                  setForm({ ...form, target_language: e.target.value })
-                }
-                className={inputCls + ' appearance-none'}
-              >
-                {visibleTargetLanguages.map((lang) => (
-                  <option key={lang.code} value={lang.code}>
-                    {tTarget(lang.code)}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="block">
-              <span className="text-fl-label text-fl-muted-3 mb-1 block font-mono text-xs tracking-widest uppercase">
-                {t('fieldRole')}
-              </span>
-              <select
-                value={form.role}
-                onChange={(e) => setForm({ ...form, role: e.target.value })}
-                className={inputCls + ' appearance-none'}
-              >
-                {roleOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </form>
+                </select>
+              </label>
+              <label className="block">
+                <span className="text-fl-label text-fl-muted-3 mb-1 block font-mono text-xs tracking-widest uppercase">
+                  {t('fieldRole')}
+                </span>
+                <select
+                  value={form.role}
+                  onChange={(e) => setForm({ ...form, role: e.target.value })}
+                  className={inputCls + ' appearance-none'}
+                >
+                  {roleOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </form>
 
-          <SheetFooter className="border-fl-border border-t px-6 py-5">
-            <button
-              type="button"
-              onClick={() => setShowCreate(false)}
-              className="border-fl-border text-fl-label text-fl-muted-2 hover:border-fl-border-2 hover:text-fl-fg border py-3 font-mono font-bold tracking-widest uppercase transition-colors"
-            >
-              {tCommon('cancel')}
-            </button>
-            <button
-              type="submit"
-              form="admin-create-user-form"
-              disabled={createSaving}
-              className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 inline-flex items-center justify-center gap-2 py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors disabled:opacity-50"
-            >
-              {createSaving && (
-                <Loader2 className="size-3.5 animate-spin" aria-hidden="true" />
-              )}
-              {t('submitCreate')}
-            </button>
-          </SheetFooter>
-        </SheetContent>
-      </Sheet>
+            <div className="border-fl-border grid grid-cols-2 gap-2 border-t px-6 py-5">
+              <button
+                type="button"
+                onClick={() => setShowCreate(false)}
+                className="border-fl-border text-fl-label text-fl-muted-2 hover:border-fl-border-2 hover:text-fl-fg border py-3 font-mono font-bold tracking-widest uppercase transition-colors"
+              >
+                {tCommon('cancel')}
+              </button>
+              <button
+                type="submit"
+                form="admin-create-user-form"
+                disabled={createSaving}
+                className="bg-fl-accent text-fl-accent-fg hover:bg-fl-accent/90 inline-flex items-center justify-center gap-2 py-3 font-mono text-xs font-bold tracking-widest uppercase transition-colors disabled:opacity-50"
+              >
+                {createSaving && (
+                  <Loader2
+                    className="size-3.5 animate-spin"
+                    aria-hidden="true"
+                  />
+                )}
+                {t('submitCreate')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <ConfirmDialog
         open={activePending !== null}
