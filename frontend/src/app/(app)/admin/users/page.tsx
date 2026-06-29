@@ -166,6 +166,14 @@ export default function AdminUsersPage() {
     )
   }, [availableLanguageCodes])
 
+  const targetLanguageOptions = useMemo(
+    () =>
+      [...visibleTargetLanguages].sort((a, b) =>
+        tTarget(a.code).localeCompare(tTarget(b.code))
+      ),
+    [tTarget, visibleTargetLanguages]
+  )
+
   const roleOptions = useMemo(
     () =>
       [
@@ -1030,7 +1038,7 @@ export default function AdminUsersPage() {
                   }
                   className={inputCls + ' appearance-none'}
                 >
-                  {visibleTargetLanguages.map((lang) => (
+                  {targetLanguageOptions.map((lang) => (
                     <option key={lang.code} value={lang.code}>
                       {tTarget(lang.code)}
                     </option>
