@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { apiFetch } from '@/lib/api'
 import { useAuthStore } from '@/store/auth'
@@ -575,14 +575,19 @@ export default function FeedbackPage() {
     handleEntryDeleted(entry.id)
   }
 
-  const statusOptions = [
-    { value: '', label: t('filterAll') },
-    { value: 'pending', label: t('statusPending') },
-    { value: 'planned', label: t('statusPlanned') },
-    { value: 'in_progress', label: t('statusInProgress') },
-    { value: 'done', label: t('statusDone') },
-    { value: 'declined', label: t('statusDeclined') },
-  ]
+  const statusOptions = useMemo(
+    () => [
+      { value: '', label: t('filterAll') },
+      ...[
+        { value: 'pending', label: t('statusPending') },
+        { value: 'planned', label: t('statusPlanned') },
+        { value: 'in_progress', label: t('statusInProgress') },
+        { value: 'done', label: t('statusDone') },
+        { value: 'declined', label: t('statusDeclined') },
+      ].sort((a, b) => a.label.localeCompare(b.label)),
+    ],
+    [t]
+  )
 
   function getStatusLabel(status: string) {
     return statusOptions.find((o) => o.value === status)?.label ?? status

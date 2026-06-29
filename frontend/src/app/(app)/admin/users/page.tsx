@@ -164,6 +164,43 @@ export default function AdminUsersPage() {
     )
   }, [availableLanguageCodes])
 
+  const roleOptions = useMemo(
+    () =>
+      [
+        { value: 'user', label: t('roleUser') },
+        { value: 'admin', label: t('roleAdmin') },
+      ].sort((a, b) => a.label.localeCompare(b.label)),
+    [t]
+  )
+
+  const statusOptions = useMemo(
+    () =>
+      [
+        { value: 'true', label: t('active') },
+        { value: 'false', label: t('inactive') },
+      ].sort((a, b) => a.label.localeCompare(b.label)),
+    [t]
+  )
+
+  const subscriptionOptions = useMemo(
+    () =>
+      [
+        { value: 'none', label: tBilling('statusNone') },
+        { value: 'active', label: tBilling('statusActive') },
+        { value: 'trialing', label: tBilling('statusTrialing') },
+        { value: 'past_due', label: tBilling('statusPastDue') },
+        { value: 'unpaid', label: tBilling('statusUnpaid') },
+        { value: 'paused', label: tBilling('statusPaused') },
+        { value: 'incomplete', label: tBilling('statusIncomplete') },
+        {
+          value: 'incomplete_expired',
+          label: tBilling('statusIncompleteExpired'),
+        },
+        { value: 'canceled', label: tBilling('statusCanceled') },
+      ].sort((a, b) => a.label.localeCompare(b.label)),
+    [tBilling]
+  )
+
   const loadUsers = useCallback(
     async (
       pageIndex: number,
@@ -554,8 +591,11 @@ export default function AdminUsersPage() {
             aria-label={t('roleFilter')}
           >
             <option value="">{t('allRoles')}</option>
-            <option value="user">{t('roleUser')}</option>
-            <option value="admin">{t('roleAdmin')}</option>
+            {roleOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
           <select
             value={activeFilter}
@@ -564,8 +604,11 @@ export default function AdminUsersPage() {
             aria-label={t('statusFilter')}
           >
             <option value="">{t('allStatuses')}</option>
-            <option value="true">{t('active')}</option>
-            <option value="false">{t('inactive')}</option>
+            {statusOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
           <select
             value={subscriptionFilter}
@@ -574,17 +617,11 @@ export default function AdminUsersPage() {
             aria-label={t('subscriptionFilter')}
           >
             <option value="">{t('allSubscriptions')}</option>
-            <option value="none">{tBilling('statusNone')}</option>
-            <option value="active">{tBilling('statusActive')}</option>
-            <option value="trialing">{tBilling('statusTrialing')}</option>
-            <option value="past_due">{tBilling('statusPastDue')}</option>
-            <option value="unpaid">{tBilling('statusUnpaid')}</option>
-            <option value="paused">{tBilling('statusPaused')}</option>
-            <option value="incomplete">{tBilling('statusIncomplete')}</option>
-            <option value="incomplete_expired">
-              {tBilling('statusIncompleteExpired')}
-            </option>
-            <option value="canceled">{tBilling('statusCanceled')}</option>
+            {subscriptionOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
           <button
             type="button"
@@ -962,8 +999,11 @@ export default function AdminUsersPage() {
                 onChange={(e) => setForm({ ...form, role: e.target.value })}
                 className={inputCls + ' appearance-none'}
               >
-                <option value="user">{t('roleUser')}</option>
-                <option value="admin">{t('roleAdmin')}</option>
+                {roleOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
             </label>
           </form>
