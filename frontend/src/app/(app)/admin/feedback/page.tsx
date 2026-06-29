@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import {
@@ -277,16 +277,39 @@ export default function AdminFeedbackPage() {
     }
   }
 
-  const typeFilterOptions: { value: TypeFilter; label: string }[] = [
-    { value: 'all', label: tAdmin('allFeedback') },
-    { value: 'feature', label: t('tabFeatures') },
-    { value: 'bug', label: t('tabBugs') },
-  ]
+  const typeFilterOptions: { value: TypeFilter; label: string }[] = useMemo(
+    () => [
+      { value: 'all', label: tAdmin('allFeedback') },
+      ...[
+        { value: 'feature' as const, label: t('tabFeatures') },
+        { value: 'bug' as const, label: t('tabBugs') },
+      ].sort((a, b) => a.label.localeCompare(b.label)),
+    ],
+    [t, tAdmin]
+  )
 
-  const statusFilterOptions = [
-    { value: '', label: t('filterAll') },
-    ...STATUS_OPTIONS.map((s) => ({ value: s, label: getStatusLabel(s) })),
-  ]
+  const feedbackStatusOptions = useMemo(
+    () =>
+      STATUS_OPTIONS.map((s) => ({
+        value: s,
+        label: getStatusLabel(s),
+      })).sort((a, b) => a.label.localeCompare(b.label)),
+    [getStatusLabel]
+  )
+
+  const statusFilterOptions = useMemo(
+    () => [{ value: '', label: t('filterAll') }, ...feedbackStatusOptions],
+    [feedbackStatusOptions, t]
+  )
+
+  const sortFilterOptions: { value: SortFilter; label: string }[] = useMemo(
+    () =>
+      [
+        { value: 'date' as const, label: t('sortDate') },
+        { value: 'votes' as const, label: t('sortVotes') },
+      ].sort((a, b) => a.label.localeCompare(b.label)),
+    [t]
+  )
 
   const hasFilters =
     searchInput ||
@@ -406,8 +429,11 @@ export default function AdminFeedbackPage() {
             className="bg-fl-bg border-fl-border text-fl-fg focus:border-fl-border-2 appearance-none border px-4 py-2 font-mono text-xs transition-colors focus:outline-none"
             aria-label={t('sortBy')}
           >
-            <option value="date">{t('sortDate')}</option>
-            <option value="votes">{t('sortVotes')}</option>
+            {sortFilterOptions.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
           </select>
 
           <button
@@ -493,9 +519,9 @@ export default function AdminFeedbackPage() {
                             className="bg-fl-bg border-fl-border text-fl-fg focus:border-fl-border-2 appearance-none border px-3 py-2 font-mono text-xs transition-colors focus:outline-none disabled:opacity-50"
                             aria-label={tAdmin('feedbackStatusAction')}
                           >
-                            {STATUS_OPTIONS.map((s) => (
-                              <option key={s} value={s}>
-                                {getStatusLabel(s)}
+                            {feedbackStatusOptions.map((option) => (
+                              <option key={option.value} value={option.value}>
+                                {option.label}
                               </option>
                             ))}
                           </select>
@@ -580,9 +606,9 @@ export default function AdminFeedbackPage() {
                       className="bg-fl-bg border-fl-border text-fl-fg focus:border-fl-border-2 appearance-none border px-3 py-2 font-mono text-xs transition-colors focus:outline-none disabled:opacity-50"
                       aria-label={tAdmin('feedbackStatusAction')}
                     >
-                      {STATUS_OPTIONS.map((s) => (
-                        <option key={s} value={s}>
-                          {getStatusLabel(s)}
+                      {feedbackStatusOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
                         </option>
                       ))}
                     </select>

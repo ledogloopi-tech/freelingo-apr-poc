@@ -5,6 +5,7 @@ from datetime import UTC, datetime
 from sqlalchemy import Boolean, DateTime, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
+from app.core.config import settings
 from app.core.database import Base
 
 
@@ -23,18 +24,34 @@ class User(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     is_verified: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     conversation_max_duration: Mapped[int] = mapped_column(
-        Integer, nullable=False, default=1800  # 1800=30min, options: 900|1800
+        Integer,
+        nullable=False,
+        default=settings.DEFAULT_CONVERSATION_MAX_DURATION,
     )
     conversation_inactivity_timeout: Mapped[int] = mapped_column(
-        Integer, nullable=False, default=180  # 180=3min, options: 60|180|300
+        Integer,
+        nullable=False,
+        default=settings.DEFAULT_CONVERSATION_INACTIVITY_TIMEOUT,
     )
-    conversation_weekly_sessions: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    conversation_daily_minutes: Mapped[int] = mapped_column(Integer, nullable=False, default=30)
-    conversation_weekly_minutes: Mapped[int] = mapped_column(Integer, nullable=False, default=90)
+    conversation_weekly_sessions: Mapped[int] = mapped_column(
+        Integer,
+        nullable=False,
+        default=settings.DEFAULT_CONVERSATION_WEEKLY_SESSIONS,
+    )
+    conversation_daily_minutes: Mapped[int] = mapped_column(
+        Integer,
+        nullable=False,
+        default=settings.DEFAULT_CONVERSATION_DAILY_MINUTES,
+    )
+    conversation_weekly_minutes: Mapped[int] = mapped_column(
+        Integer,
+        nullable=False,
+        default=settings.DEFAULT_CONVERSATION_WEEKLY_MINUTES,
+    )
     monthly_tokens_limit: Mapped[int] = mapped_column(
         Integer,
         nullable=False,
-        default=1_000_000,  # 0 = unlimited; new users get 1M/month
+        default=settings.DEFAULT_MONTHLY_TOKENS_LIMIT,
     )
     # Stripe subscription
     stripe_customer_id: Mapped[str | None] = mapped_column(String(255), nullable=True)

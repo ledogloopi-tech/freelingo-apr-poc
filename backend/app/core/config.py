@@ -1,3 +1,4 @@
+from pydantic import field_validator
 from pydantic_settings import BaseSettings
 
 
@@ -32,6 +33,15 @@ class Settings(BaseSettings):
     CORS_ORIGINS: list[str] = ["http://localhost:3000"]
     COOKIE_SECURE: bool = False
     LOG_LEVEL: str = "INFO"
+
+    # Default AI usage quotas for new/subscribed users. A quota value of 0 means unlimited.
+    DEFAULT_CONVERSATION_MAX_DURATION: int = 1800
+    DEFAULT_CONVERSATION_INACTIVITY_TIMEOUT: int = 180
+    DEFAULT_CONVERSATION_WEEKLY_SESSIONS: int = 0
+    DEFAULT_CONVERSATION_DAILY_MINUTES: int = 30
+    DEFAULT_CONVERSATION_WEEKLY_MINUTES: int = 90
+    DEFAULT_MONTHLY_TOKENS_LIMIT: int = 1_000_000
+    ASSESSMENT_VOICE_TRIAL_DURATION_SECONDS: int = 300
 
     # Stripe (for paid plans and billing management)
     STRIPE_ENABLED: bool = False
@@ -76,6 +86,39 @@ class Settings(BaseSettings):
         "pt-PT",
         "zh-CN",
     ]
+
+    @field_validator(
+        "DEFAULT_CONVERSATION_WEEKLY_SESSIONS",
+        "DEFAULT_CONVERSATION_DAILY_MINUTES",
+        "DEFAULT_CONVERSATION_WEEKLY_MINUTES",
+        "DEFAULT_MONTHLY_TOKENS_LIMIT",
+    )
+    @classmethod
+    def validate_unlimited_quota(cls, value: int) -> int:
+        if value < 0:
+            raise ValueError("Quota defaults must be greater than or equal to 0")
+        return value
+
+    @field_validator("DEFAULT_CONVERSATION_MAX_DURATION")
+    @classmethod
+    def validate_default_max_duration(cls, value: int) -> int:
+        if value not in (900, 1800):
+            raise ValueError("DEFAULT_CONVERSATION_MAX_DURATION must be 900 or 1800")
+        return value
+
+    @field_validator("DEFAULT_CONVERSATION_INACTIVITY_TIMEOUT")
+    @classmethod
+    def validate_default_inactivity_timeout(cls, value: int) -> int:
+        if value not in (60, 180, 300):
+            raise ValueError("DEFAULT_CONVERSATION_INACTIVITY_TIMEOUT must be 60, 180, or 300")
+        return value
+
+    @field_validator("ASSESSMENT_VOICE_TRIAL_DURATION_SECONDS")
+    @classmethod
+    def validate_positive_duration(cls, value: int) -> int:
+        if value <= 0:
+            raise ValueError("Duration defaults must be greater than 0")
+        return value
 
     model_config = {"env_file": ".env"}
 

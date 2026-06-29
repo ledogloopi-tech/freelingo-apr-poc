@@ -18,10 +18,12 @@ Introduce an optional, fully configurable subscription layer backed by Stripe. W
 
 ### Quotas applied on subscription activation
 
-- `conversation_weekly_sessions` — 0 (unlimited)
-- `conversation_weekly_minutes` — 90
-- `conversation_daily_minutes` — 30
-- `monthly_tokens_limit` — 1 000 000
+Subscription activation applies the environment-configured defaults from `DEFAULT_CONVERSATION_*` and `DEFAULT_MONTHLY_TOKENS_LIMIT`:
+
+- `conversation_weekly_sessions` — default `0` (unlimited)
+- `conversation_weekly_minutes` — default `90`
+- `conversation_daily_minutes` — default `30`
+- `monthly_tokens_limit` — default `1 000 000`
 
 Admin can still override any quota field per user via the admin panel regardless of subscription status.
 
@@ -39,7 +41,7 @@ Admin can still override any quota field per user via the admin panel regardless
 
 **Single rule:** `is_subscribed(user) = True` when `STRIPE_ENABLED=false` OR when `subscription_status in ("trialing", "active")`.
 
-**Post-assessment voice demo exception:** When `STRIPE_ENABLED=true`, unsubscribed users can use exactly one 5-minute voice conversation after completing the placement assessment. This does not change `is_subscribed()`, does not grant access to chat/listening/reading, and is tracked separately with `users.assessment_voice_trial_used` plus a Redis `assessment_voice_trial:{user_id}:{token}` credential. The token may expire and be regenerated while unused, including from the assessment page when the user already has a plan but previously skipped the demo; the durable right is consumed only when `/ws/conversation` starts.
+**Post-assessment voice demo exception:** When `STRIPE_ENABLED=true`, unsubscribed users can use exactly one voice conversation demo after completing the placement assessment. The demo duration comes from `ASSESSMENT_VOICE_TRIAL_DURATION_SECONDS` (default `300`, 5 minutes). This does not change `is_subscribed()`, does not grant access to chat/listening/reading, and is tracked separately with `users.assessment_voice_trial_used` plus a Redis `assessment_voice_trial:{user_id}:{token}` credential. The token may expire and be regenerated while unused, including from the assessment page when the user already has a plan but previously skipped the demo; the durable right is consumed only when `/ws/conversation` starts.
 
 ### Maintenance mode
 
@@ -166,10 +168,10 @@ def is_subscribed(user: User, stripe_enabled: bool) -> bool:
 
 async def apply_subscription_quotas(user: User, db: AsyncSession) -> None:
     """Set default quotas when a subscription becomes active."""
-    user.conversation_weekly_sessions = 3
-    user.conversation_weekly_minutes = 90
-    user.conversation_daily_minutes = 30
-    user.monthly_tokens_limit = 1_000_000
+    user.conversation_weekly_sessions = settings.DEFAULT_CONVERSATION_WEEKLY_SESSIONS
+    user.conversation_weekly_minutes = settings.DEFAULT_CONVERSATION_WEEKLY_MINUTES
+    user.conversation_daily_minutes = settings.DEFAULT_CONVERSATION_DAILY_MINUTES
+    user.monthly_tokens_limit = settings.DEFAULT_MONTHLY_TOKENS_LIMIT
     await db.commit()
 ```
 
