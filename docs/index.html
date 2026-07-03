@@ -4,142 +4,350 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FreeLingo: AI-powered language learning, self-hosted</title>
+  <title>FreeLingo: AI-powered language learning</title>
   <meta name="description"
-    content="Open source, self-hosted language learning platform powered by local AI. CEFR placement test, personalized study plans, spaced repetition flashcards, AI tutor chat, voice conversation, listening exercises, reading practice, and a full learning resources hub." />
+    content="FreeLingo is an open-source AI language learning platform with CEFR placement, personalized study plans, multi-language learning, flashcards, AI tutor chat, voice conversation, listening and reading exercises, and a hosted web at freelingo.app." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://arturocarreterocalvo.com/freelingo/" />
   <link rel="icon" href="assets/logo.png" />
   <link rel="stylesheet" href="css/style.css" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="FreeLingo" />
+  <meta property="og:title" content="FreeLingo: AI-powered language learning" />
+  <meta property="og:description"
+    content="Learn languages with an AI tutor, real-time voice conversations, spaced-repetition flashcards, structured lessons, and self-hosted or hosted deployment options." />
+  <meta property="og:url" content="https://arturocarreterocalvo.com/freelingo/" />
+  <meta property="og:image" content="https://arturocarreterocalvo.com/freelingo/assets/logo.png" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="FreeLingo: AI-powered language learning" />
+  <meta name="twitter:description"
+    content="Open-source and hosted AI language learning with voice, flashcards, grammar, listening, reading, and multi-language study plans." />
+  <meta name="twitter:image" content="https://arturocarreterocalvo.com/freelingo/assets/logo.png" />
+
+  <script>
+    (function () {
+      var storedMode = null
+      try {
+        storedMode = localStorage.getItem('freelingo-docs-theme-mode')
+      } catch (_error) {
+        storedMode = null
+      }
+      var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches
+      document.documentElement.dataset.themeMode = storedMode || 'auto'
+      document.documentElement.dataset.theme = storedMode === 'light' || storedMode === 'dark'
+        ? storedMode
+        : prefersLight ? 'light' : 'dark'
+    })()
+  </script>
 </head>
 
 <body>
-  <nav>
-    <a class="nav-logo" href="#">
-      <img src="assets/logo.png" alt="FreeLingo" />
-      FreeLingo
-    </a>
-    <ul class="nav-links">
-      <li><a href="#features">Features</a></li>
-      <li><a href="https://github.com/ArtCC/freelingo" target="_blank" rel="noopener"><svg class="gh-icon"
-            viewBox="0 0 16 16" aria-hidden="true">
-            <path
-              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
-          </svg> GitHub</a></li>
-    </ul>
+  <nav class="site-nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a class="brand" href="#top" aria-label="FreeLingo home">
+        <img src="assets/logo.png" alt="" />
+        <span>FreeLingo</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+        <svg class="menu-icon-open" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 7h16" />
+          <path d="M4 12h16" />
+          <path d="M4 17h16" />
+        </svg>
+        <svg class="menu-icon-close" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 6l12 12" />
+          <path d="M18 6 6 18" />
+        </svg>
+      </button>
+      <div class="nav-actions">
+        <div class="nav-links" aria-label="Primary links">
+          <a href="#features">Features</a>
+          <a href="#deploy">Deploy</a>
+          <a href="#source">Open Source</a>
+          <a href="https://freelingo.app" target="_blank" rel="noopener noreferrer">Web</a>
+        </div>
+        <div class="theme-menu">
+          <button class="theme-current" type="button" aria-label="Change color theme" aria-expanded="false">
+            <svg class="theme-current-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 5h16v10H4z" />
+              <path d="M9 19h6" />
+              <path d="M12 15v4" />
+            </svg>
+          </button>
+          <div class="theme-options" role="group" aria-label="Color theme">
+            <button type="button" data-theme-mode="auto" aria-label="Use system theme" aria-pressed="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 5h16v10H4z" />
+              <path d="M9 19h6" />
+              <path d="M12 15v4" />
+            </svg>
+            </button>
+            <button type="button" data-theme-mode="light" aria-label="Use light theme" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 4v2" />
+              <path d="M12 18v2" />
+              <path d="M4 12h2" />
+              <path d="M18 12h2" />
+              <path d="m6.34 6.34 1.42 1.42" />
+              <path d="m16.24 16.24 1.42 1.42" />
+              <path d="m17.66 6.34-1.42 1.42" />
+              <path d="m7.76 16.24-1.42 1.42" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            </button>
+            <button type="button" data-theme-mode="dark" aria-label="Use dark theme" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 14.5A7.5 7.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z" />
+            </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </nav>
 
-  <main>
-
-    <!-- HERO -->
-    <section class="hero">
-      <img class="hero-logo" src="assets/logo.png" alt="FreeLingo logo" />
-      <h1>FreeLingo</h1>
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="language-orbit" aria-label="FreeLingo supported languages">
+        <img class="orbit-logo" src="assets/logo.png" alt="FreeLingo" />
+        <div class="language-bubble bubble-1"><span aria-hidden="true">🇬🇧</span> Hello</div>
+        <div class="language-bubble bubble-2"><span aria-hidden="true">🇺🇸</span> Hi</div>
+        <div class="language-bubble bubble-3"><span aria-hidden="true">🇪🇸</span> Hola</div>
+        <div class="language-bubble bubble-4"><span aria-hidden="true">🇮🇹</span> Ciao</div>
+        <div class="language-bubble bubble-5"><span aria-hidden="true">🇵🇹</span> Ola</div>
+        <div class="language-bubble bubble-6"><span aria-hidden="true">🇩🇪</span> Hallo</div>
+        <div class="language-bubble bubble-7"><span aria-hidden="true">🇫🇷</span> Bonjour</div>
+        <div class="language-bubble bubble-8"><span aria-hidden="true">🇯🇵</span> こんにちは</div>
+        <div class="language-bubble bubble-9"><span aria-hidden="true">🇰🇷</span> 안녕하세요</div>
+        <div class="language-bubble bubble-10"><span aria-hidden="true">🇨🇳</span> 你好</div>
+      </div>
+      <p class="eyebrow">AI language learning platform</p>
+      <h1 id="hero-title">Learn with Lingu, your AI language tutor.</h1>
       <p class="hero-subtitle">
-        Open source, self-hosted language learning with AI.<br />
-        A local LLM evaluates your CEFR level, builds a personalized study plan,
-        and guides you through lessons, spaced-repetition flashcards, AI tutor chat,
-        voice conversation, listening exercises, reading practice, and a full learning resources hub.
+        FreeLingo combines CEFR placement, personalized study plans, multi-language progress,
+        flashcards, voice conversation, listening and reading exercises, and native-language learning support.
       </p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="https://freelingo.app" target="_blank" rel="noopener">Try the Hosted
-          Version</a>
-        <a class="btn btn-secondary" href="https://github.com/ArtCC/freelingo" target="_blank" rel="noopener"><svg
-            class="gh-icon" viewBox="0 0 16 16" aria-hidden="true">
-            <path
-              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
-          </svg> View on GitHub</a>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://freelingo.app" target="_blank" rel="noopener noreferrer">
+          Try FreeLingo
+        </a>
+        <a class="btn btn-secondary" href="#features">How it works</a>
       </div>
     </section>
 
-    <!-- FEATURES -->
-    <section id="features">
-      <p class="section-label">Features</p>
-      <h2 class="section-title">Everything you need to learn a language</h2>
+    <section id="features" class="section" aria-labelledby="features-title">
+      <p class="eyebrow">Features</p>
+      <h2 id="features-title">Everything in one structured learning loop.</h2>
       <div class="features-grid">
-
-        <div class="feature-card">
-          <div class="feature-icon">🎯</div>
-          <h3>CEFR Placement Test</h3>
-          <p>Adaptive quiz determines your A1–C2 level automatically before building your plan.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">📚</div>
-          <h3>Personalized Study Plan</h3>
-          <p>Curriculum-driven weekly roadmap based on your level and schedule intensity (4–16 weeks).</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">✍️</div>
-          <h3>AI-Generated Lessons</h3>
-          <p>Grammar, vocabulary, reading, and writing lessons generated within strict CEFR boundaries.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">🃏</div>
-          <h3>Spaced Repetition Flashcards</h3>
-          <p>SM-2 algorithm schedules reviews at exactly the right time. Cards include native-language translations.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">💬</div>
-          <h3>AI Tutor Chat</h3>
-          <p>Streaming SSE tutor with real-time feedback, fully aware of your current unit and progress.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">🎙️</div>
-          <h3>Voice Conversation</h3>
-          <p>Real-time voice pipeline with TTS/STT, VAD, and barge-in for live speaking practice with the AI tutor.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">📖</div>
-          <h3>Learning Resources Hub</h3>
-          <p>Grammar reference, vocabulary hub, phrasebook, and skills tracker — all in one place.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">🎧</div>
-          <h3>Listening &amp; Reading Exercises</h3>
-          <p>AI-generated audio and reading comprehension exercises to train your skills at your CEFR level.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">🔒</div>
-          <h3>Privacy First &amp; Any LLM</h3>
-          <p>100% self-hosted with Ollama, OpenAI, Anthropic, or DeepSeek. Your data, your server, your rules.</p>
-        </div>
-
+        <article class="feature-card">
+          <div class="card-heading">
+            <span class="card-icon" aria-hidden="true">01</span>
+            <h3>Placement and study plans</h3>
+          </div>
+          <p>Start with a CEFR assessment, then get a weekly roadmap adapted to your level, target language, and pace.</p>
+        </article>
+        <article class="feature-card">
+          <div class="card-heading">
+            <span class="card-icon" aria-hidden="true">02</span>
+            <h3>AI tutor chat and memory</h3>
+          </div>
+          <p>Lingu streams feedback in context, remembers useful learner details, and keeps conversations tied to your plan.</p>
+        </article>
+        <article class="feature-card">
+          <div class="card-heading">
+            <span class="card-icon" aria-hidden="true">03</span>
+            <h3>Voice conversations</h3>
+          </div>
+          <p>Practice speaking with TTS/STT, voice activity detection, barge-in, persisted transcripts, and a post-assessment demo.</p>
+        </article>
+        <article class="feature-card">
+          <div class="card-heading">
+            <span class="card-icon" aria-hidden="true">04</span>
+            <h3>Listening and reading</h3>
+          </div>
+          <p>Generate level-aware audio and reading comprehension exercises that match your current study language.</p>
+        </article>
+        <article class="feature-card">
+          <div class="card-heading">
+            <span class="card-icon" aria-hidden="true">05</span>
+            <h3>Resources and flashcards</h3>
+          </div>
+          <p>Use grammar, vocabulary, phrasebook, skills tracking, and SM-2 flashcards with native-language translations.</p>
+        </article>
+        <article class="feature-card">
+          <div class="card-heading">
+            <span class="card-icon" aria-hidden="true">06</span>
+            <h3>Multi-language progress</h3>
+          </div>
+          <p>Study English, Spanish, Italian, Portuguese, German, French, Japanese, Korean, and Mainland Chinese side by side.</p>
+        </article>
       </div>
     </section>
 
-    <!-- OPEN SOURCE -->
-    <section class="opensource">
-      <p class="section-label">Open Source</p>
-      <h2>Built in the open, auditable by anyone</h2>
-      <p>
-        FreeLingo is free and open source under the AGPL-3.0 license.<br />
-        Browse the code, report issues, or contribute on GitHub.<br />
-        Prefer a managed experience? Use the hosted service at <a href="https://freelingo.app" target="_blank"
-          rel="noopener">freelingo.app</a> — no server required.<br />
-        Need to deploy without open-source obligations? A commercial licence is available for organisations.
-      </p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="https://github.com/ArtCC/freelingo" target="_blank" rel="noopener"><svg
-            class="gh-icon" viewBox="0 0 16 16" aria-hidden="true">
-            <path
-              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
-          </svg> View on GitHub</a>
+    <section id="deploy" class="section split" aria-labelledby="deploy-title">
+      <div>
+        <p class="eyebrow">Hosted or self-hosted</p>
+        <h2 id="deploy-title">Use the hosted web, or run the full stack yourself.</h2>
+      </div>
+      <div class="stacked-cards">
+        <article class="info-card">
+          <span>Hosted</span>
+          <h3>freelingo.app</h3>
+          <p>Sign up and learn immediately with the managed service. No server, GPU, Docker, or maintenance required.</p>
+          <a href="https://freelingo.app" target="_blank" rel="noopener noreferrer">Open hosted web</a>
+        </article>
+        <article class="info-card">
+          <span>Self-hosted</span>
+          <h3>Your server, your data</h3>
+          <p>Deploy the AGPL-3.0 stack with PostgreSQL, Redis, FastAPI, Next.js, Ollama or external LLMs, TTS, and STT.</p>
+          <a href="https://github.com/ArtCC/freelingo" target="_blank" rel="noopener noreferrer">View repository</a>
+        </article>
       </div>
     </section>
 
+    <section id="source" class="section source-panel" aria-labelledby="source-title">
+      <div class="source-copy">
+        <p class="eyebrow">Open Source</p>
+        <h2 id="source-title">Built in the open, auditable by anyone.</h2>
+        <p>
+          FreeLingo is free and open source under AGPL-3.0. Organisations that need a customised or white-labelled deployment
+          without AGPL obligations can use the commercial licence option.
+        </p>
+      </div>
+      <a class="btn btn-secondary" href="https://github.com/ArtCC/freelingo" target="_blank" rel="noopener noreferrer"
+        aria-label="View FreeLingo on GitHub">
+        View on GitHub
+      </a>
+    </section>
   </main>
 
-  <!-- FOOTER -->
   <footer>
-    <p>Made by <a href="https://github.com/ArtCC" target="_blank" rel="noopener">Arturo Carretero Calvo</a></p>
+    <div class="footer-grid">
+      <div>
+        <span class="footer-label">FreeLingo</span>
+        <span class="footer-muted">© 2026</span>
+      </div>
+      <div>
+        <span class="footer-label">Product</span>
+        <a href="https://freelingo.app" target="_blank" rel="noopener noreferrer">Hosted web</a>
+        <a href="https://github.com/ArtCC/freelingo" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <div>
+        <span class="footer-label">Author</span>
+        <a href="https://arturocarreterocalvo.com" target="_blank" rel="noopener noreferrer">Arturo Carretero Calvo</a>
+        <a href="https://github.com/ArtCC" target="_blank" rel="noopener noreferrer">ArtCC</a>
+      </div>
+    </div>
   </footer>
 
+  <script>
+    var themeButtons = document.querySelectorAll('[data-theme-mode]')
+    var themeMenu = document.querySelector('.theme-menu')
+    var themeCurrent = document.querySelector('.theme-current')
+    var themeCurrentIcon = document.querySelector('.theme-current-icon')
+    var themeOptions = document.querySelector('.theme-options')
+    var menuToggle = document.querySelector('.menu-toggle')
+    var navActions = document.querySelector('.nav-actions')
+    var mediaQuery = window.matchMedia('(prefers-color-scheme: light)')
+
+    function resolveTheme(mode) {
+      if (mode === 'light' || mode === 'dark') return mode
+      return mediaQuery.matches ? 'light' : 'dark'
+    }
+
+    function setThemeMode(mode) {
+      document.documentElement.dataset.themeMode = mode
+      document.documentElement.dataset.theme = resolveTheme(mode)
+      try {
+        if (mode === 'auto') {
+          localStorage.removeItem('freelingo-docs-theme-mode')
+        } else {
+          localStorage.setItem('freelingo-docs-theme-mode', mode)
+        }
+      } catch (_error) {
+        // Theme still changes for the current page view if persistence is blocked.
+      }
+      syncThemeButtons()
+    }
+
+    function setThemeMenuOpen(open) {
+      themeMenu.classList.toggle('is-open', open)
+      themeCurrent.setAttribute('aria-expanded', String(open))
+    }
+
+    function setNavMenuOpen(open) {
+      navActions.classList.toggle('is-open', open)
+      menuToggle.setAttribute('aria-expanded', String(open))
+    }
+
+    function syncThemeButtons() {
+      var currentMode = document.documentElement.dataset.themeMode || 'auto'
+      themeButtons.forEach(function (button) {
+        var selected = button.dataset.themeMode === currentMode
+        button.setAttribute('aria-pressed', String(selected))
+        if (selected) {
+          themeCurrentIcon.innerHTML = button.querySelector('svg').innerHTML
+        }
+      })
+    }
+
+    themeCurrent.addEventListener('click', function (event) {
+      event.stopPropagation()
+      setThemeMenuOpen(!themeMenu.classList.contains('is-open'))
+    })
+
+    themeButtons.forEach(function (button) {
+      button.addEventListener('click', function (event) {
+        event.stopPropagation()
+        setThemeMode(button.dataset.themeMode)
+        setThemeMenuOpen(false)
+      })
+    })
+
+    menuToggle.addEventListener('click', function (event) {
+      event.stopPropagation()
+      setNavMenuOpen(!navActions.classList.contains('is-open'))
+      setThemeMenuOpen(false)
+    })
+
+    navActions.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        setNavMenuOpen(false)
+      })
+    })
+
+    document.addEventListener('click', function (event) {
+      if (!themeMenu.contains(event.target)) {
+        setThemeMenuOpen(false)
+      }
+      if (!navActions.contains(event.target) && !menuToggle.contains(event.target)) {
+        setNavMenuOpen(false)
+      }
+    })
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        setThemeMenuOpen(false)
+        setNavMenuOpen(false)
+      }
+    })
+
+    function handleSystemThemeChange() {
+      if ((document.documentElement.dataset.themeMode || 'auto') === 'auto') {
+        document.documentElement.dataset.theme = resolveTheme('auto')
+      }
+    }
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleSystemThemeChange)
+    } else if (mediaQuery.addListener) {
+      mediaQuery.addListener(handleSystemThemeChange)
+    }
+
+    syncThemeButtons()
+  </script>
 </body>
 
 </html>
