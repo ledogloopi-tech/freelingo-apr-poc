@@ -27,6 +27,7 @@ interface FeedbackEntry {
   author: FeedbackAuthor
   vote_count: number
   voted_by_me: boolean
+  unread_by_me: boolean
   comment_count: number
   created_at: string
 }
@@ -240,6 +241,7 @@ interface DetailViewProps {
   getStatusLabel: (status: string) => string
   onBack: () => void
   onVoteToggled: (entryId: number, voted: boolean, voteCount: number) => void
+  onEntryRead: (entryId: number) => void
   onEntryDeleted: (entryId: number) => void
 }
 
@@ -250,6 +252,7 @@ function DetailView({
   getStatusLabel,
   onBack,
   onVoteToggled,
+  onEntryRead,
   onEntryDeleted,
 }: DetailViewProps) {
   const t = useTranslations('feedback')
@@ -267,7 +270,10 @@ function DetailView({
   useEffect(() => {
     apiFetch(`/api/feedback/${entry.id}/read`, { method: 'POST' })
       .then((r) => {
-        if (r.ok) window.dispatchEvent(new Event('freelingo:feedback-read'))
+        if (r.ok) {
+          onEntryRead(entry.id)
+          window.dispatchEvent(new Event('freelingo:feedback-read'))
+        }
       })
       .catch(() => {})
 
@@ -275,7 +281,7 @@ function DetailView({
       .then((r) => r.json())
       .then((d) => setComments(d.items ?? []))
       .catch(() => {})
-  }, [entry.id])
+  }, [entry.id, onEntryRead])
 
   async function handleVote() {
     if (voting) return
@@ -562,6 +568,15 @@ export default function FeedbackPage() {
     )
   }
 
+  const handleEntryRead = useCallback((entryId: number) => {
+    setEntries((prev) =>
+      prev.map((e) => (e.id === entryId ? { ...e, unread_by_me: false } : e))
+    )
+    setSelectedEntry((entry) =>
+      entry?.id === entryId ? { ...entry, unread_by_me: false } : entry
+    )
+  }, [])
+
   function handleEntryDeleted(entryId: number) {
     const newTotal = total - 1
     setTotal(newTotal)
@@ -610,6 +625,7 @@ export default function FeedbackPage() {
           getStatusLabel={getStatusLabel}
           onBack={() => setSelectedEntry(null)}
           onVoteToggled={handleVoteToggled}
+          onEntryRead={handleEntryRead}
           onEntryDeleted={handleEntryDeleted}
         />
       </div>
@@ -768,6 +784,11 @@ export default function FeedbackPage() {
                         status={entry.status}
                         label={getStatusLabel(entry.status)}
                       />
+                      {entry.unread_by_me && (
+                        <span className="border border-red-500/40 px-2 py-0.5 font-mono text-[10px] leading-none font-bold tracking-widest text-red-400 uppercase">
+                          {t('unread')}
+                        </span>
+                      )}
                     </div>
                     <p className="text-fl-muted-2 line-clamp-2 font-mono text-xs leading-relaxed">
                       {entry.description}

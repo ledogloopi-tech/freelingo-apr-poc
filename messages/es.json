@@ -1353,7 +1353,7 @@
   },
   "whatsNew": {
     "title": "Novedades",
-    "version": "v1.8.21",
+    "version": "v1.8.22",
     "cta": "Entendido",
     "entry1": {
       "label": "Notificaciones de feedback sin leer",
@@ -1459,6 +1459,7 @@
     "statusInProgress": "En progreso",
     "statusDone": "Hecho",
     "statusDeclined": "Rechazado",
+    "unread": "Sin leer",
     "modalCreateTitleFeature": "Nueva sugerencia",
     "modalCreateTitleBug": "Reportar un error",
     "labelTitle": "Título",

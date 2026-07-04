@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.22] - 2026-07-04
+
+### Added
+
+- **Feedback unread labels**: feedback list items now expose and display a red `Unread` label next to the status badge when that specific suggestion or bug report has unread activity for the current user.
+
 ## [1.8.21] - 2026-07-04
 
 ### Added

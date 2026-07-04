@@ -77,6 +77,7 @@ class FeedbackEntryOut(BaseModel):
     author: FeedbackAuthor
     vote_count: int
     voted_by_me: bool = False  # injected per-request, not from ORM directly
+    unread_by_me: bool = False  # injected per-request
     comment_count: int = 0  # injected per-request
     created_at: datetime
 

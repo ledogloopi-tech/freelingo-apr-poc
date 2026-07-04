@@ -1353,7 +1353,7 @@
   },
   "whatsNew": {
     "title": "What's New",
-    "version": "v1.8.21",
+    "version": "v1.8.22",
     "cta": "Got it",
     "entry1": {
       "label": "Unread feedback notifications",
@@ -1459,6 +1459,7 @@
     "statusInProgress": "In progress",
     "statusDone": "Done",
     "statusDeclined": "Declined",
+    "unread": "Unread",
     "modalCreateTitleFeature": "New suggestion",
     "modalCreateTitleBug": "Report a bug",
     "labelTitle": "Title",
