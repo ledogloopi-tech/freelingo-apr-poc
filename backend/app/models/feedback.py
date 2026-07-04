@@ -76,3 +76,26 @@ class FeedbackComment(Base):
         nullable=False,
         default=lambda: datetime.now(UTC).replace(tzinfo=None),
     )
+
+
+class FeedbackReadState(Base):
+    """Per-user read marker for feedback thread activity."""
+
+    __tablename__ = "feedback_read_states"
+    __table_args__ = (UniqueConstraint("entry_id", "user_id", name="uq_feedback_read_state"),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    entry_id: Mapped[int] = mapped_column(
+        Integer,
+        ForeignKey("feedback_entries.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    user_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    last_read_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        nullable=False,
+        default=lambda: datetime.now(UTC).replace(tzinfo=None),
+    )

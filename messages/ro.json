@@ -1353,13 +1353,17 @@
   },
   "whatsNew": {
     "title": "Noutăți",
-    "version": "v1.8.20",
+    "version": "v1.8.21",
     "cta": "Am înțeles",
     "entry1": {
+      "label": "Notificări de feedback necitit",
+      "desc": "Feedback afișează acum un mic contor de necitite în meniul lateral, ca să vezi sugestiile, bug-urile și răspunsurile noi fără emailuri suplimentare. Când deschizi un fir de feedback, doar acel fir este marcat ca citit."
+    },
+    "entry2": {
       "label": "Demo vocal gratuit după evaluare",
       "desc": "După crearea planului de studiu, poți încerca gratuit o conversație vocală în timp real cu Lingu timp de 5 minute. Când demo-ul se termină, Premium deblochează practica vocală completă și celelalte moduri ghidate."
     },
-    "entry2": {
+    "entry3": {
       "label": "Corectări de bug-uri",
       "desc": "Diverse corectări minore de bug-uri și îmbunătățiri de stabilitate pe întreaga platformă."
     }

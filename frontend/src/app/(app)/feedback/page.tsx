@@ -265,6 +265,12 @@ function DetailView({
 
   // Load comments on mount
   useEffect(() => {
+    apiFetch(`/api/feedback/${entry.id}/read`, { method: 'POST' })
+      .then((r) => {
+        if (r.ok) window.dispatchEvent(new Event('freelingo:feedback-read'))
+      })
+      .catch(() => {})
+
     apiFetch(`/api/feedback/${entry.id}/comments`)
       .then((r) => r.json())
       .then((d) => setComments(d.items ?? []))

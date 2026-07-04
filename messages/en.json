@@ -1353,13 +1353,17 @@
   },
   "whatsNew": {
     "title": "What's New",
-    "version": "v1.8.20",
+    "version": "v1.8.21",
     "cta": "Got it",
     "entry1": {
+      "label": "Unread feedback notifications",
+      "desc": "Feedback now shows a small unread counter in the sidebar, so you can spot new suggestions, bug reports, and replies without extra emails. Opening a feedback thread marks just that thread as read."
+    },
+    "entry2": {
       "label": "Free voice trial after assessment",
       "desc": "After creating your study plan, you can try a real-time voice conversation with Lingu for 5 minutes, free. When the demo ends, Premium unlocks full voice practice and the other guided modes."
     },
-    "entry2": {
+    "entry3": {
       "label": "Bug fixes",
       "desc": "Various minor bug fixes and stability improvements across the platform."
     }

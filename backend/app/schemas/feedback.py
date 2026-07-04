@@ -50,6 +50,19 @@ class FeedbackCommentsResponse(BaseModel):
     total: int
 
 
+class FeedbackUnreadSummary(BaseModel):
+    unread_count: int
+
+
+class FeedbackReadResponse(BaseModel):
+    entry_id: int
+    last_read_at: datetime
+
+    @field_serializer("last_read_at")
+    def serialize_last_read_at(self, v: datetime, _info: object) -> str:
+        return v.isoformat()
+
+
 # ---------------------------------------------------------------------------
 # FeedbackEntry — response schemas
 # ---------------------------------------------------------------------------

@@ -247,6 +247,11 @@ Six Zustand stores hold all client-side state. No React Context is used for glob
 - `tour/` — `OnboardingTour` step-by-step walkthrough
 - `whats-new/` — Version-aware changelog overlay modal
 
+### App shell notifications
+
+- `frontend/src/app/(app)/layout.tsx` fetches `GET /api/feedback/unread-summary` after authenticated initialization and renders a fixed circular red badge on the Feedback navigation item in both desktop and mobile menus. The display is capped at `99+` and hidden at zero.
+- `frontend/src/app/(app)/feedback/page.tsx` marks only the opened feedback detail thread as read with `POST /api/feedback/{entry_id}/read`, then dispatches `freelingo:feedback-read` so the app shell refreshes the badge.
+
 ### Shared/generic components
 
 - **`ThemeProvider.tsx`** — Dark/light/system theme via `next-themes`

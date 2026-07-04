@@ -1353,13 +1353,17 @@
   },
   "whatsNew": {
     "title": "Co nowego",
-    "version": "v1.8.20",
+    "version": "v1.8.21",
     "cta": "Rozumiem",
     "entry1": {
+      "label": "Nieprzeczytane powiadomienia z feedbacku",
+      "desc": "Feedback pokazuje teraz mały licznik nieprzeczytanych elementów w menu bocznym, więc zobaczysz nowe sugestie, błędy i odpowiedzi bez dodatkowych e-maili. Otwarcie wątku feedbacku oznacza jako przeczytany tylko ten wątek."
+    },
+    "entry2": {
       "label": "Darmowa demo głosowe po ocenie",
       "desc": "Po utworzeniu planu nauki możesz bezpłatnie wypróbować 5-minutową rozmowę głosową w czasie rzeczywistym z Lingu. Po zakończeniu demo Premium odblokowuje pełną praktykę mówienia i pozostałe tryby prowadzone."
     },
-    "entry2": {
+    "entry3": {
       "label": "Poprawki błędów",
       "desc": "Różne drobne poprawki błędów i ulepszenia stabilności na całej platformie."
     }
