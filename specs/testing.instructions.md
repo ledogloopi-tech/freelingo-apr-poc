@@ -1,5 +1,5 @@
 ---
-description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 928 tests, 85.09% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (32 test files, 419 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, billing paywall UI, billing success verification, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
+description: "Testing strategy for FreeLingo: backend pytest suite (43 test files, 935 tests, 85.09% last measured coverage, with SQLite in-memory DB and Redis mocking), frontend Vitest suite (32 test files, 419 tests, no configured coverage, covering stores, components, lib, hooks, app pages, i18n, billing paywall UI, billing success verification, and middleware), E2E plan (Playwright, pending), CI integration, and coverage requirements."
 applyTo: "**/*.test.*, **/*.spec.*, **/tests/**, **/__tests__/**"
 ---
 
@@ -57,7 +57,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_reading.py`** — Lines: 400+. What it covers: Reading exercise generation with `structured_output()`, language-aware CJK length guidance, comprehension questions, answer evaluation, XP calculation
 - **`test_reading_extra.py`** — Lines: 255. What it covers: Additional reading exercise scenarios
 - **`test_vocabulary.py`** — Lines: 175+. What it covers: Vocabulary API: list sets, by-level, set detail, language switching, auth, error cases, Japanese/Korean/Mainland Chinese data resolution, and native-help generation/cache refresh.
-- **`test_feedback.py`** — Lines: 1261. What it covers: Feedback board: feature requests, bug reports, default exclusion of done entries, voting, comments, admin moderation
+- **`test_feedback.py`** — Lines: 1400+. What it covers: Feedback board: feature requests, bug reports, default exclusion of done entries, voting, comments, admin moderation, unread thread counters, per-thread read markers
 - **`test_billing.py`** — Lines: 381+. What it covers: Stripe subscriptions, Checkout customer reuse, Customer Portal access including payment-recovery states, webhooks, payment status, real Stripe subscription statuses, unknown-status fallback, subscription lifecycle, webhook retry behavior on processing failure, current Stripe Invoice subscription shape, `stripe_subscription_id` persistence/backfill, and stale subscription-event ignoring
 - **`test_maintenance.py`** — Lines: 153. What it covers: Maintenance mode toggle, API behavior during maintenance
 - **`test_memories.py`** — Lines: 362. What it covers: LLM memory (Phase 9): memory creation, retrieval, update, deletion
@@ -73,7 +73,7 @@ All tests pass on every push. Backend coverage threshold configured at 70%, last
 - **`test_lesson_generator.py`** — Lines: —. What it covers: Lesson generator service: `get_valid_grammar_slugs`, `generate_lesson`, exercise schema validation, fill-blank sanitization, grammar refs filtering, `evaluate_free_write`, `evaluate_pronunciation`, `evaluate_fill_blank` (16 tests, 51%→100% coverage)
 - **`test_listening_service.py`** — Lines: —. What it covers: Listening service DB layer and generation: `structured_output()` generation persistence, language-aware CJK length guidance, `get_available_exercise`, `submit_attempt` (correct/partial/duplicate/replay/not-found), `get_user_history` (empty/attempts/limit/language filter)
 
-**Total: 43 test files, 928 tests.**
+**Total: 43 test files, 935 tests.**
 
 ### Coverage
 

@@ -1,7 +1,7 @@
 from app.models.chat_history import ChatHistory
 from app.models.competency import UserCompetency
 from app.models.conversation import Conversation
-from app.models.feedback import FeedbackComment, FeedbackEntry, FeedbackVote
+from app.models.feedback import FeedbackComment, FeedbackEntry, FeedbackReadState, FeedbackVote
 from app.models.flashcard import Flashcard
 from app.models.lesson import Exercise, Lesson
 from app.models.listening import ListeningAttempt, ListeningExercise
@@ -21,6 +21,7 @@ __all__ = [
     "Conversation",
     "FeedbackComment",
     "FeedbackEntry",
+    "FeedbackReadState",
     "FeedbackVote",
     "Flashcard",
     "Exercise",

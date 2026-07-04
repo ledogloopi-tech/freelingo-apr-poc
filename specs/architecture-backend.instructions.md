@@ -25,7 +25,7 @@ backend/
 │   │   ├── app_logger.py        # Structured logging (structlog)
 │   │   └── limiter.py           # slowapi rate limiter setup
 │   │
-│   ├── models/                  # SQLAlchemy 2.0 ORM models (16 files, 22 model classes)
+│   ├── models/                  # SQLAlchemy 2.0 ORM models (16 files, 23 model classes)
 │   │   ├── __init__.py
 │   │   ├── user.py              # User, UserPreferences, user quotas, avatar
 │   │   ├── user_language.py     # UserLanguage (phase 10: multi-language learning)
@@ -38,7 +38,7 @@ backend/
 │   │   ├── chat_history.py      # ChatHistory (text chat messages)
 │   │   ├── listening.py         # ListeningExercise, ListeningAttempt
 │   │   ├── reading.py           # ReadingExercise, ReadingAttempt
-│   │   ├── feedback.py          # FeedbackEntry, FeedbackVote, FeedbackComment
+│   │   ├── feedback.py          # FeedbackEntry, FeedbackVote, FeedbackComment, FeedbackReadState
 │   │   ├── review.py            # Review (one moderated product review per user)
 │   │   ├── resource_native_help.py # ResourceNativeHelp (global native-help cache for static resources)
 │   │   ├── memory.py            # Memory (persistent LLM context)
@@ -75,7 +75,7 @@ backend/
 │   │   ├── contact.py           # Contact form submission
 │   │   ├── conversation.py      # WebSocket voice conversation
 │   │   ├── curriculum.py        # Curriculum data (now auth-required)
-│   │   ├── feedback.py          # Feedback board CRUD, filters, search, admin status management
+│   │   ├── feedback.py          # Feedback board CRUD, filters, search, unread counters, admin status management
 │   │   ├── flashcards.py        # Spaced-repetition flashcard CRUD + review
 │   │   ├── grammar.py            # Grammar reference topics by language and CEFR level
 │   │   ├── health.py            # Public minimal liveness check + private admin diagnostics

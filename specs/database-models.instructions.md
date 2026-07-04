@@ -307,6 +307,17 @@ A flat comment on a feedback entry. No nesting.
 - body — Type: text; Notes: Comment body (max 2000 chars via schema)
 - created_at — Type: datetime; Notes: Auto-set on creation
 
+## FeedbackReadState (`feedback_read_states`)
+
+Per-user read marker for feedback thread activity. Used by the sidebar unread counter.
+
+- id — Type: integer; Notes: Primary key
+- entry_id — Type: integer; Notes: FK → feedback_entries (CASCADE DELETE), indexed
+- user_id — Type: integer; Notes: FK → users (CASCADE DELETE), indexed
+- last_read_at — Type: datetime; Notes: Last time this user opened or created activity in this thread
+
+Unique constraint: `UNIQUE(entry_id, user_id)` — enforced at DB level (`uq_feedback_read_state`). Read state is private to each user and is never exposed for other users.
+
 ## Review (`reviews`)
 
 One moderated product review per user. Added in Phase 11.
