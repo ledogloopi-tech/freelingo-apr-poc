@@ -145,7 +145,9 @@ Only endpoints with explicit `@limiter.limit()` decorators are listed here. Ever
 - `DELETE /api/memories` — Limit: 10/minute; Access: Subscription; Rationale: Bulk memory deletion
 - `GET /api/feedback` — Limit: 60/minute; Access: Authenticated; Rationale: Feedback list
 - `POST /api/feedback` — Limit: 10/hour; Access: Authenticated; Rationale: Feedback creation
+- `GET /api/feedback/unread-summary` — Limit: 60/minute; Access: Authenticated; Rationale: Feedback unread thread counter
 - `GET /api/feedback/{entry_id}` — Limit: 60/minute; Access: Authenticated; Rationale: Feedback detail
+- `POST /api/feedback/{entry_id}/read` — Limit: 60/minute; Access: Authenticated; Rationale: Mark one feedback thread as read
 - `DELETE /api/feedback/{entry_id}` — Limit: 60/minute; Access: Authenticated; Rationale: Feedback deletion
 - `POST /api/feedback/{entry_id}/vote` — Limit: 60/minute; Access: Authenticated; Rationale: Vote toggle
 - `PATCH /api/feedback/{entry_id}/status` — Limit: 60/minute; Access: Admin; Rationale: Status update

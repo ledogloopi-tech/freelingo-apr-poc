@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.21] - 2026-07-04
+
+### Added
+
+- **Feedback unread counter**: the authenticated app sidebar now shows a red circular unread counter on the Feedback item for all users, including admins. The counter tracks feedback threads with new entries or comments from other users, caps the display at `99+`, and marks only the opened thread as read from the feedback detail view. New authenticated endpoints expose the unread summary and per-thread read marker, backed by the new `feedback_read_states` table.
+
 ## [1.8.20] - 2026-06-28
 
 ### Added

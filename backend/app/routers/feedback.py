@@ -6,13 +6,13 @@ import asyncio
 from datetime import UTC, datetime
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
-from sqlalchemy import func, or_, select
+from sqlalchemy import and_, exists, func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
 from app.core.deps import get_current_user, require_admin
 from app.core.limiter import limiter
-from app.models.feedback import FeedbackComment, FeedbackEntry, FeedbackVote
+from app.models.feedback import FeedbackComment, FeedbackEntry, FeedbackReadState, FeedbackVote
 from app.models.user import User
 from app.schemas.feedback import (
     FeedbackAuthor,
@@ -22,7 +22,9 @@ from app.schemas.feedback import (
     FeedbackEntryCreate,
     FeedbackEntryDetail,
     FeedbackEntryOut,
+    FeedbackReadResponse,
     FeedbackStatusUpdate,
+    FeedbackUnreadSummary,
     FeedbackVoteResponse,
     PaginatedFeedbackResponse,
 )
@@ -46,6 +48,57 @@ async def _get_entry_or_404(entry_id: int, db: AsyncSession) -> FeedbackEntry:
     if not entry:
         raise HTTPException(status_code=404, detail="feedback_entry_not_found")
     return entry
+
+
+async def _mark_entry_read(
+    entry_id: int,
+    user_id: int,
+    db: AsyncSession,
+    read_at: datetime | None = None,
+) -> FeedbackReadState:
+    now = read_at or _utcnow()
+    read_state = await db.scalar(
+        select(FeedbackReadState).where(
+            FeedbackReadState.entry_id == entry_id,
+            FeedbackReadState.user_id == user_id,
+        )
+    )
+    if read_state:
+        read_state.last_read_at = now
+    else:
+        read_state = FeedbackReadState(entry_id=entry_id, user_id=user_id, last_read_at=now)
+        db.add(read_state)
+    return read_state
+
+
+async def _get_unread_count(user_id: int, db: AsyncSession) -> int:
+    read_state = FeedbackReadState
+    comment_activity = exists().where(
+        FeedbackComment.entry_id == FeedbackEntry.id,
+        FeedbackComment.author_id != user_id,
+        or_(
+            read_state.last_read_at.is_(None),
+            FeedbackComment.created_at > read_state.last_read_at,
+        ),
+    )
+    entry_activity = or_(
+        read_state.last_read_at.is_(None),
+        FeedbackEntry.created_at > read_state.last_read_at,
+    )
+    stmt = (
+        select(func.count(FeedbackEntry.id))
+        .outerjoin(
+            read_state,
+            (read_state.entry_id == FeedbackEntry.id) & (read_state.user_id == user_id),
+        )
+        .where(
+            or_(
+                and_(FeedbackEntry.author_id != user_id, entry_activity),
+                comment_activity,
+            )
+        )
+    )
+    return await db.scalar(stmt) or 0
 
 
 async def _build_entry_out(
@@ -199,6 +252,22 @@ async def _build_comments_out(
 
 
 # ---------------------------------------------------------------------------
+# GET /api/feedback/unread-summary — unread activity count
+# ---------------------------------------------------------------------------
+
+
+@router.get("/unread-summary", response_model=FeedbackUnreadSummary)
+@limiter.limit("60/minute")
+async def get_unread_summary(
+    request: Request,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> FeedbackUnreadSummary:
+    """Return the number of feedback threads with unread activity for the current user."""
+    return FeedbackUnreadSummary(unread_count=await _get_unread_count(current_user.id, db))
+
+
+# ---------------------------------------------------------------------------
 # GET /api/feedback — list entries (paginated, filtered, sorted)
 # ---------------------------------------------------------------------------
 
@@ -279,6 +348,8 @@ async def create_feedback(
         created_at=_utcnow(),
     )
     db.add(entry)
+    await db.flush()
+    await _mark_entry_read(entry.id, current_user.id, db, entry.created_at)
     await db.commit()
     await db.refresh(entry)
     admin_locale = await db.scalar(
@@ -295,6 +366,27 @@ async def create_feedback(
         )
     )
     return await _build_entry_out(entry, current_user, db)
+
+
+# ---------------------------------------------------------------------------
+# POST /api/feedback/{entry_id}/read — mark entry read
+# ---------------------------------------------------------------------------
+
+
+@router.post("/{entry_id}/read", response_model=FeedbackReadResponse)
+@limiter.limit("60/minute")
+async def mark_feedback_read(
+    request: Request,
+    entry_id: int,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> FeedbackReadResponse:
+    """Mark a single feedback thread as read for the current user."""
+    await _get_entry_or_404(entry_id, db)
+    read_state = await _mark_entry_read(entry_id, current_user.id, db)
+    await db.commit()
+    await db.refresh(read_state)
+    return FeedbackReadResponse(entry_id=entry_id, last_read_at=read_state.last_read_at)
 
 
 # ---------------------------------------------------------------------------
@@ -465,6 +557,8 @@ async def add_comment(
         created_at=_utcnow(),
     )
     db.add(comment)
+    await db.flush()
+    await _mark_entry_read(entry_id, current_user.id, db, comment.created_at)
     await db.commit()
     await db.refresh(comment)
 

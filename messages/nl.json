@@ -1353,13 +1353,17 @@
   },
   "whatsNew": {
     "title": "Nieuw",
-    "version": "v1.8.20",
+    "version": "v1.8.21",
     "cta": "Begrepen",
     "entry1": {
+      "label": "Ongelezen feedbackmeldingen",
+      "desc": "Feedback toont nu een kleine ongelezen teller in de zijbalk, zodat je nieuwe suggesties, bugs en reacties ziet zonder extra e-mails. Als je een feedbackthread opent, wordt alleen die thread als gelezen gemarkeerd."
+    },
+    "entry2": {
       "label": "Gratis voice-demo na de beoordeling",
       "desc": "Nadat je studieplan is gemaakt, kun je 5 minuten gratis een realtime spraakgesprek met Lingu proberen. Wanneer de demo eindigt, ontgrendelt Premium volledige spraaktraining en de andere begeleide modi."
     },
-    "entry2": {
+    "entry3": {
       "label": "Bugfixes",
       "desc": "Diverse kleine bugfixes en stabiliteitsverbeteringen in het hele platform."
     }

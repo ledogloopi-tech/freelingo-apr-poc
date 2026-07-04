@@ -60,6 +60,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [resourcesOpen, setResourcesOpen] = useState(false)
   const [contactOpen, setContactOpen] = useState(false)
   const [resendSent, setResendSent] = useState(false)
+  const [feedbackUnreadCount, setFeedbackUnreadCount] = useState(0)
 
   const PREMIUM_HREFS = new Set([
     '/chat',
@@ -142,6 +143,30 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     }
   }, [user?.subscription_status, user?.subscription_ends_at, stripeEnabled])
 
+  useEffect(() => {
+    if (initializing) return
+
+    async function loadFeedbackUnreadCount() {
+      try {
+        const res = await apiFetch('/api/feedback/unread-summary')
+        if (!res.ok) return
+        const data = await res.json()
+        setFeedbackUnreadCount(data.unread_count ?? 0)
+      } catch {
+        setFeedbackUnreadCount(0)
+      }
+    }
+
+    loadFeedbackUnreadCount()
+    window.addEventListener('freelingo:feedback-read', loadFeedbackUnreadCount)
+    return () => {
+      window.removeEventListener(
+        'freelingo:feedback-read',
+        loadFeedbackUnreadCount
+      )
+    }
+  }, [initializing])
+
   if (initializing) {
     return (
       <PageLoading
@@ -151,6 +176,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       />
     )
   }
+
+  const feedbackBadgeText =
+    feedbackUnreadCount > 99
+      ? '99+'
+      : feedbackUnreadCount > 0
+        ? String(feedbackUnreadCount)
+        : ''
 
   return (
     <div className="bg-fl-bg flex min-h-screen">
@@ -253,6 +285,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                     ●
                   </span>
                   {item.label}
+                  {item.href === '/feedback' && feedbackBadgeText && (
+                    <span className="ml-auto flex h-6 w-6 -translate-y-0.5 items-center justify-center rounded-full bg-red-600 text-[9px] leading-none font-bold text-white">
+                      {feedbackBadgeText}
+                    </span>
+                  )}
                 </Link>
               )
             })}
@@ -319,7 +356,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </div>
           </div>
           <p className="text-fl-label text-fl-muted-4 mb-2 font-mono tracking-wider">
-            v1.8.20
+            v1.8.21
           </p>
           <button
             onClick={() => setContactOpen(true)}
@@ -445,6 +482,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                     ●
                   </span>
                   {item.label}
+                  {item.href === '/feedback' && feedbackBadgeText && (
+                    <span className="ml-auto flex h-6 w-6 -translate-y-0.5 items-center justify-center rounded-full bg-red-600 text-[9px] leading-none font-bold text-white">
+                      {feedbackBadgeText}
+                    </span>
+                  )}
                 </Link>
               )
             })}
@@ -508,7 +550,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 </p>
               )}
               <p className="text-fl-label text-fl-muted-4 mb-2 font-mono tracking-wider">
-                v1.8.20
+                v1.8.21
               </p>
               <button
                 onClick={() => {

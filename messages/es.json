@@ -1353,13 +1353,17 @@
   },
   "whatsNew": {
     "title": "Novedades",
-    "version": "v1.8.20",
+    "version": "v1.8.21",
     "cta": "Entendido",
     "entry1": {
+      "label": "Notificaciones de feedback sin leer",
+      "desc": "Feedback ahora muestra un pequeño contador de no leídos en el menú lateral, para que veas nuevas sugerencias, errores y respuestas sin recibir más correos. Al abrir un hilo de feedback, solo ese hilo se marca como leído."
+    },
+    "entry2": {
       "label": "Prueba gratuita de voz tras la evaluación",
       "desc": "Después de crear tu plan de estudio, puedes probar una conversación de voz en tiempo real con Lingu durante 5 minutos gratis. Al terminar la demo, Premium desbloquea la práctica de voz completa y los demás modos guiados."
     },
-    "entry2": {
+    "entry3": {
       "label": "Corrección de errores",
       "desc": "Varias correcciones de errores menores y mejoras de estabilidad en la plataforma."
     }

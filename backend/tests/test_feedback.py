@@ -1106,6 +1106,251 @@ async def test_add_comment_not_found(client, test_user):
     assert resp.status_code == 404
 
 
+# ── Unread activity ────────────────────────────────────────────────────────────
+
+
+@pytest.mark.asyncio
+async def test_feedback_unread_summary_requires_auth(client):
+    """Unread summary is private."""
+    resp = await client.get("/api/feedback/unread-summary")
+    assert resp.status_code == 401
+
+
+@pytest.mark.asyncio
+async def test_mark_feedback_read_requires_auth(client):
+    """Marking a feedback thread as read is private."""
+    resp = await client.post("/api/feedback/1/read")
+    assert resp.status_code == 401
+
+
+@pytest.mark.asyncio
+async def test_feedback_unread_summary_counts_other_user_entry(client, test_user, db_session):
+    """A feedback entry created by another user counts as one unread thread."""
+    from datetime import datetime, timezone
+
+    from app.core.security import hash_password
+    from app.models.feedback import FeedbackEntry
+    from app.models.user import User
+
+    _, headers = test_user
+    other = User(
+        username="unreadauthor",
+        email="unreadauthor@test.com",
+        display_name="Unread Author",
+        hashed_password=hash_password("pass1234"),
+        role="user",
+        native_language="en",
+        is_active=True,
+    )
+    db_session.add(other)
+    await db_session.commit()
+    await db_session.refresh(other)
+
+    db_session.add(
+        FeedbackEntry(
+            type="feature",
+            title="Unread feature",
+            description="d",
+            status="pending",
+            author_id=other.id,
+            created_at=datetime.now(timezone.utc).replace(tzinfo=None),
+        )
+    )
+    await db_session.commit()
+
+    resp = await client.get("/api/feedback/unread-summary", headers=headers)
+    assert resp.status_code == 200
+    assert resp.json() == {"unread_count": 1}
+
+
+@pytest.mark.asyncio
+async def test_feedback_unread_summary_ignores_own_activity(client, test_user):
+    """Creating and commenting on your own feedback does not create unread activity."""
+    from unittest.mock import AsyncMock, patch
+
+    _, headers = test_user
+    with patch(
+        "app.routers.feedback.email_service.send_feedback_notification",
+        new_callable=AsyncMock,
+    ):
+        created = await client.post(
+            "/api/feedback",
+            headers=headers,
+            json={
+                "type": "feature",
+                "title": "Own activity",
+                "description": "d",
+            },
+        )
+    assert created.status_code == 201
+    entry_id = created.json()["id"]
+
+    comment = await client.post(
+        f"/api/feedback/{entry_id}/comments",
+        headers=headers,
+        json={"body": "My comment"},
+    )
+    assert comment.status_code == 201
+
+    resp = await client.get("/api/feedback/unread-summary", headers=headers)
+    assert resp.status_code == 200
+    assert resp.json() == {"unread_count": 0}
+
+
+@pytest.mark.asyncio
+async def test_feedback_unread_summary_counts_other_comment(client, test_user, db_session):
+    """A comment by another user makes that thread unread again."""
+    from datetime import datetime, timedelta, timezone
+
+    from app.core.security import hash_password
+    from app.models.feedback import FeedbackComment, FeedbackEntry, FeedbackReadState
+    from app.models.user import User
+
+    user, headers = test_user
+    other = User(
+        username="commenter",
+        email="commenter@test.com",
+        display_name="Commenter",
+        hashed_password=hash_password("pass1234"),
+        role="user",
+        native_language="en",
+        is_active=True,
+    )
+    db_session.add(other)
+    await db_session.commit()
+    await db_session.refresh(other)
+
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
+    entry = FeedbackEntry(
+        type="bug",
+        title="Comment activity",
+        description="d",
+        status="pending",
+        author_id=user.id,
+        created_at=now,
+    )
+    db_session.add(entry)
+    await db_session.commit()
+    await db_session.refresh(entry)
+    db_session.add(
+        FeedbackReadState(
+            entry_id=entry.id,
+            user_id=user.id,
+            last_read_at=now + timedelta(seconds=1),
+        )
+    )
+    db_session.add(
+        FeedbackComment(
+            entry_id=entry.id,
+            author_id=other.id,
+            body="Other comment",
+            created_at=now + timedelta(seconds=2),
+        )
+    )
+    await db_session.commit()
+
+    resp = await client.get("/api/feedback/unread-summary", headers=headers)
+    assert resp.status_code == 200
+    assert resp.json() == {"unread_count": 1}
+
+
+@pytest.mark.asyncio
+async def test_feedback_unread_summary_counts_done_thread_activity(client, test_user, db_session):
+    """A done feedback thread still counts when it has unread activity."""
+    from datetime import datetime, timezone
+
+    from app.core.security import hash_password
+    from app.models.feedback import FeedbackEntry
+    from app.models.user import User
+
+    _, headers = test_user
+    other = User(
+        username="doneunread",
+        email="doneunread@test.com",
+        display_name="Done Unread",
+        hashed_password=hash_password("pass1234"),
+        role="user",
+        native_language="en",
+        is_active=True,
+    )
+    db_session.add(other)
+    await db_session.commit()
+    await db_session.refresh(other)
+
+    db_session.add(
+        FeedbackEntry(
+            type="bug",
+            title="Done but unread",
+            description="d",
+            status="done",
+            author_id=other.id,
+            created_at=datetime.now(timezone.utc).replace(tzinfo=None),
+        )
+    )
+    await db_session.commit()
+
+    resp = await client.get("/api/feedback/unread-summary", headers=headers)
+    assert resp.status_code == 200
+    assert resp.json() == {"unread_count": 1}
+
+
+@pytest.mark.asyncio
+async def test_mark_feedback_read_clears_only_that_thread(client, test_user, db_session):
+    """Marking one feedback entry as read leaves other unread threads untouched."""
+    from datetime import datetime, timezone
+
+    from app.core.security import hash_password
+    from app.models.feedback import FeedbackEntry
+    from app.models.user import User
+
+    _, headers = test_user
+    other = User(
+        username="multiunread",
+        email="multiunread@test.com",
+        display_name="Multi Unread",
+        hashed_password=hash_password("pass1234"),
+        role="user",
+        native_language="en",
+        is_active=True,
+    )
+    db_session.add(other)
+    await db_session.commit()
+    await db_session.refresh(other)
+
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
+    first = FeedbackEntry(
+        type="feature",
+        title="First unread",
+        description="d",
+        status="pending",
+        author_id=other.id,
+        created_at=now,
+    )
+    second = FeedbackEntry(
+        type="bug",
+        title="Second unread",
+        description="d",
+        status="pending",
+        author_id=other.id,
+        created_at=now,
+    )
+    db_session.add_all([first, second])
+    await db_session.commit()
+    await db_session.refresh(first)
+
+    before = await client.get("/api/feedback/unread-summary", headers=headers)
+    assert before.status_code == 200
+    assert before.json() == {"unread_count": 2}
+
+    marked = await client.post(f"/api/feedback/{first.id}/read", headers=headers)
+    assert marked.status_code == 200
+    assert marked.json()["entry_id"] == first.id
+
+    after = await client.get("/api/feedback/unread-summary", headers=headers)
+    assert after.status_code == 200
+    assert after.json() == {"unread_count": 1}
+
+
 # ── Response shape assertions ─────────────────────────────────────────────────
 
 

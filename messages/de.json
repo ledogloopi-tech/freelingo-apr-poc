@@ -1353,13 +1353,17 @@
   },
   "whatsNew": {
     "title": "Neuigkeiten",
-    "version": "v1.8.20",
+    "version": "v1.8.21",
     "cta": "Verstanden",
     "entry1": {
+      "label": "Ungelesene Feedback-Hinweise",
+      "desc": "Feedback zeigt jetzt einen kleinen Zähler für ungelesene Aktivitäten in der Seitenleiste, damit du neue Vorschläge, Fehlerberichte und Antworten ohne zusätzliche E-Mails siehst. Wenn du einen Feedback-Thread öffnest, wird nur dieser Thread als gelesen markiert."
+    },
+    "entry2": {
       "label": "Kostenlose Sprachdemo nach der Einstufung",
       "desc": "Nach dem Erstellen deines Lernplans kannst du 5 Minuten lang kostenlos ein Echtzeit-Sprachgespräch mit Lingu ausprobieren. Nach der Demo schaltet Premium die vollständige Sprachpraxis und die weiteren geführten Modi frei."
     },
-    "entry2": {
+    "entry3": {
       "label": "Fehlerbehebungen",
       "desc": "Verschiedene kleinere Fehlerbehebungen und Stabilitätsverbesserungen in der gesamten Plattform."
     }

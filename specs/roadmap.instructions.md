@@ -281,11 +281,11 @@ This document records what was built and the completion criteria met.
 ✅ Status: Complete (v1.5.7)
 
 > Community feedback board where users submit feature requests and bug reports, vote on
-> suggestions, and discuss entries via flat comment threads. Admins manage entry status
-> and can delete any entry or comment.
+> suggestions, discuss entries via flat comment threads, and see unread feedback activity
+> in the app sidebar. Admins manage entry status and can delete any entry or comment.
 
-- 1 — Milestone: DB models — `feedback_entries` + `feedback_votes` + `feedback_comments` + migration `0020`; Status: ✅
-- 2 — Milestone: Backend router — 9 endpoints: list, create, get, vote toggle, add comment, delete comment, delete entry, admin status update; Status: ✅
+- 1 — Milestone: DB models — `feedback_entries` + `feedback_votes` + `feedback_comments` + `feedback_read_states` + migrations `0020` and `0046`; Status: ✅
+- 2 — Milestone: Backend router — 11 endpoints: list, create, unread summary, get, mark read, vote toggle, add comment, delete comment, delete entry, admin status update; Status: ✅
 - 3 — Milestone: Admin frontend page — `/admin/feedback` with status management; Status: ✅
 - 4 — Milestone: User frontend page — `/feedback` with list + detail view, tabs (feature/bug), sort, status filter, pagination; Status: ✅
 - 5 — Milestone: Vote toggle inline on list cards and in detail view; Status: ✅
@@ -303,6 +303,7 @@ This document records what was built and the completion criteria met.
 - [x] Author or admin can delete an entry; cascade removes all votes and comments
 - [x] Author or admin can delete a comment
 - [x] `voted_by_me` and `comment_count` correctly populated per authenticated user
+- [x] Feedback unread counter counts threads with activity by other users and `POST /api/feedback/{entry_id}/read` clears only that thread for the current user
 - [x] `tsc --noEmit` and `python3 -m compileall` pass clean
 - [x] No regressions in Phases 1–7
 
