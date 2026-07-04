@@ -1353,7 +1353,7 @@
   },
   "whatsNew": {
     "title": "Nieuw",
-    "version": "v1.8.21",
+    "version": "v1.8.22",
     "cta": "Begrepen",
     "entry1": {
       "label": "Ongelezen feedbackmeldingen",
@@ -1459,6 +1459,7 @@
     "statusInProgress": "In uitvoering",
     "statusDone": "Klaar",
     "statusDeclined": "Afgewezen",
+    "unread": "Ongelezen",
     "modalCreateTitleFeature": "Nieuwe suggestie",
     "modalCreateTitleBug": "Bug melden",
     "labelTitle": "Titel",

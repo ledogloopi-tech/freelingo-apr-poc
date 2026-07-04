@@ -1162,6 +1162,10 @@ async def test_feedback_unread_summary_counts_other_user_entry(client, test_user
     assert resp.status_code == 200
     assert resp.json() == {"unread_count": 1}
 
+    list_resp = await client.get("/api/feedback", headers=headers)
+    assert list_resp.status_code == 200
+    assert list_resp.json()["items"][0]["unread_by_me"] is True
+
 
 @pytest.mark.asyncio
 async def test_feedback_unread_summary_ignores_own_activity(client, test_user):
@@ -1351,6 +1355,53 @@ async def test_mark_feedback_read_clears_only_that_thread(client, test_user, db_
     assert after.json() == {"unread_count": 1}
 
 
+@pytest.mark.asyncio
+async def test_feedback_detail_unread_by_me_clears_after_mark_read(client, test_user, db_session):
+    """Detail responses expose unread_by_me and reflect the read marker after opening."""
+    from datetime import datetime, timezone
+
+    from app.core.security import hash_password
+    from app.models.feedback import FeedbackEntry
+    from app.models.user import User
+
+    _, headers = test_user
+    other = User(
+        username="detailunread",
+        email="detailunread@test.com",
+        display_name="Detail Unread",
+        hashed_password=hash_password("pass1234"),
+        role="user",
+        native_language="en",
+        is_active=True,
+    )
+    db_session.add(other)
+    await db_session.commit()
+    await db_session.refresh(other)
+
+    entry = FeedbackEntry(
+        type="bug",
+        title="Detail unread",
+        description="d",
+        status="pending",
+        author_id=other.id,
+        created_at=datetime.now(timezone.utc).replace(tzinfo=None),
+    )
+    db_session.add(entry)
+    await db_session.commit()
+    await db_session.refresh(entry)
+
+    before = await client.get(f"/api/feedback/{entry.id}", headers=headers)
+    assert before.status_code == 200
+    assert before.json()["unread_by_me"] is True
+
+    marked = await client.post(f"/api/feedback/{entry.id}/read", headers=headers)
+    assert marked.status_code == 200
+
+    after = await client.get(f"/api/feedback/{entry.id}", headers=headers)
+    assert after.status_code == 200
+    assert after.json()["unread_by_me"] is False
+
+
 # ── Response shape assertions ─────────────────────────────────────────────────
 
 
@@ -1387,6 +1438,7 @@ async def test_feedback_entry_out_shape(client, test_user, db_session):
     assert "display_name" in item["author"]
     assert "vote_count" in item
     assert "voted_by_me" in item
+    assert "unread_by_me" in item
     assert "comment_count" in item
     assert "created_at" in item
     assert isinstance(item["created_at"], str)

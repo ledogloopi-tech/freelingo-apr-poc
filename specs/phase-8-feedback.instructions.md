@@ -78,7 +78,8 @@ Creates `feedback_read_states` with `entry_id` and `user_id` indexes plus the un
 - `_get_entry_or_404(entry_id, db)` — fetches `FeedbackEntry` by PK or raises HTTP 404.
 - `_mark_entry_read(entry_id, user_id, db, read_at=None)` — creates or updates the current user's read marker for one feedback thread only.
 - `_get_unread_count(user_id, db)` — counts feedback threads with unread activity from other users, including entries marked `done`. Counts threads, not individual comments.
-- `_build_entry_out(entry, current_user, db)` — enriches an ORM entry with `FeedbackAuthor` (fetched by PK), `voted_by_me` (scalar query), and `comment_count` (count query with `select_from`).
+- `_get_unread_entry_ids(user_id, entry_ids, db)` — batched helper used by list/detail mappers to expose `unread_by_me` on visible entries.
+- `_build_entry_out(entry, current_user, db)` — enriches an ORM entry with `FeedbackAuthor` (fetched by PK), `voted_by_me` (scalar query), `unread_by_me` (read-state query), and `comment_count` (count query with `select_from`).
 
 ### Endpoints
 
@@ -103,7 +104,7 @@ Creates `feedback_read_states` with `entry_id` and `user_id` indexes plus the un
 - `FeedbackCommentOut` — **defined before** `FeedbackEntryDetail` to avoid forward reference issues with Pydantic.
 - `FeedbackUnreadSummary` — `{unread_count: int}`.
 - `FeedbackReadResponse` — `{entry_id, last_read_at}`.
-- `FeedbackEntryOut` — includes `voted_by_me: bool = False` and `comment_count: int = 0` (injected server-side, not from ORM).
+- `FeedbackEntryOut` — includes `voted_by_me: bool = False`, `unread_by_me: bool = False`, and `comment_count: int = 0` (injected server-side, not from ORM).
 - `FeedbackEntryDetail(FeedbackEntryOut)` — adds `comments: list[FeedbackCommentOut] = []`. Built with `FeedbackEntryOut.model_dump()` + comment list.
 - `PaginatedFeedbackResponse` — `{items, total, skip, limit}` — identical pattern to `PaginatedAdminUsersResponse`.
 - `FeedbackVoteResponse` — `{voted: bool, vote_count: int}`.
@@ -132,6 +133,7 @@ Creates `feedback_read_states` with `entry_id` and `user_id` indexes plus the un
 - Pagination: identical two-effect pattern as `admin/users/page.tsx` — one effect on `page`, one effect on filters that resets to page 0 before loading.
 - Default listing behavior: entries with `status=done` are hidden unless the status dropdown is set to Done.
 - Admin users see delete button on all entries in both list and detail views; regular users only see it on their own entries.
+- Feedback list items show a red unread label immediately to the right of the status badge when `unread_by_me` is true. This is independent from the feedback status and only reflects the current user's read state.
 - Opening a detail view calls `POST /api/feedback/{entry_id}/read` and marks only that thread as read for the current user.
 
 **Status badge colours (consistent with admin users page):**
@@ -151,7 +153,7 @@ Paginated feedback queue for admins. Filters: `q` search, type (all/feature/bug)
 ## Navigation
 
 - `/feedback` added to `bottomNavItems` in `frontend/src/app/(app)/layout.tsx` (alongside Settings and FAQ).
-- The Feedback nav item shows a fixed circular red unread badge in desktop and mobile menus when `GET /api/feedback/unread-summary` returns a non-zero count. The display caps at `99+`.
+- The Feedback nav item shows a fixed circular red unread badge in desktop and mobile menus when `GET /api/feedback/unread-summary` returns a non-zero count. The display caps at `99+`. The feedback list also shows per-item unread labels beside status badges.
 - `/feedback` added to `PROTECTED_ROUTES` in `frontend/src/middleware.ts`.
 - `/admin/feedback` is protected by the `/admin` prefix already in `PROTECTED_ROUTES`.
 
@@ -159,7 +161,7 @@ Paginated feedback queue for admins. Filters: `q` search, type (all/feature/bug)
 
 ## i18n
 
-`feedback` namespace (44 keys) added to all 10 locale files: `en`, `es`, `fr`, `de`, `it`, `nl`, `pl`, `pt`, `ro`, `ru`. `nav.feedback` key added to all 10 locales. Admin feedback queue labels live in the `admin` namespace. All non-English locales have full native translations for UI strings and status labels.
+`feedback` namespace (45 keys) added to all 10 locale files: `en`, `es`, `fr`, `de`, `it`, `nl`, `pl`, `pt`, `ro`, `ru`. `nav.feedback` key added to all 10 locales. Admin feedback queue labels live in the `admin` namespace. All non-English locales have full native translations for UI strings, status labels, and unread labels.
 
 ---
 

@@ -101,6 +101,44 @@ async def _get_unread_count(user_id: int, db: AsyncSession) -> int:
     return await db.scalar(stmt) or 0
 
 
+async def _get_unread_entry_ids(
+    user_id: int,
+    entry_ids: list[int],
+    db: AsyncSession,
+) -> set[int]:
+    if not entry_ids:
+        return set()
+
+    read_state = FeedbackReadState
+    comment_activity = exists().where(
+        FeedbackComment.entry_id == FeedbackEntry.id,
+        FeedbackComment.author_id != user_id,
+        or_(
+            read_state.last_read_at.is_(None),
+            FeedbackComment.created_at > read_state.last_read_at,
+        ),
+    )
+    entry_activity = or_(
+        read_state.last_read_at.is_(None),
+        FeedbackEntry.created_at > read_state.last_read_at,
+    )
+    stmt = (
+        select(FeedbackEntry.id)
+        .outerjoin(
+            read_state,
+            (read_state.entry_id == FeedbackEntry.id) & (read_state.user_id == user_id),
+        )
+        .where(
+            FeedbackEntry.id.in_(entry_ids),
+            or_(
+                and_(FeedbackEntry.author_id != user_id, entry_activity),
+                comment_activity,
+            ),
+        )
+    )
+    return set((await db.execute(stmt)).scalars().all())
+
+
 async def _build_entry_out(
     entry: FeedbackEntry,
     current_user: User,
@@ -123,6 +161,7 @@ async def _build_entry_out(
         .select_from(FeedbackComment)
         .where(FeedbackComment.entry_id == entry.id)
     )
+    unread_ids = await _get_unread_entry_ids(current_user.id, [entry.id], db)
     return FeedbackEntryOut(
         id=entry.id,
         type=entry.type,
@@ -136,6 +175,7 @@ async def _build_entry_out(
         ),
         vote_count=entry.vote_count,
         voted_by_me=voted is not None,
+        unread_by_me=entry.id in unread_ids,
         comment_count=comment_count or 0,
         created_at=entry.created_at,
     )
@@ -187,6 +227,7 @@ async def _build_entries_out(
         )
     ).all()
     comment_counts: dict[int, int] = {row.entry_id: row.cnt for row in count_rows}
+    unread_ids = await _get_unread_entry_ids(current_user.id, entry_ids, db)
 
     result: list[FeedbackEntryOut] = []
     for entry in entries:
@@ -208,6 +249,7 @@ async def _build_entries_out(
                 ),
                 vote_count=entry.vote_count,
                 voted_by_me=entry.id in voted_ids,
+                unread_by_me=entry.id in unread_ids,
                 comment_count=comment_counts.get(entry.id, 0),
                 created_at=entry.created_at,
             )

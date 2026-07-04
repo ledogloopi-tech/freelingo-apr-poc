@@ -250,7 +250,7 @@ Six Zustand stores hold all client-side state. No React Context is used for glob
 ### App shell notifications
 
 - `frontend/src/app/(app)/layout.tsx` fetches `GET /api/feedback/unread-summary` after authenticated initialization and renders a fixed circular red badge on the Feedback navigation item in both desktop and mobile menus. The display is capped at `99+` and hidden at zero.
-- `frontend/src/app/(app)/feedback/page.tsx` marks only the opened feedback detail thread as read with `POST /api/feedback/{entry_id}/read`, then dispatches `freelingo:feedback-read` so the app shell refreshes the badge.
+- `frontend/src/app/(app)/feedback/page.tsx` shows a red unread label beside the entry status badge when `unread_by_me` is true. It marks only the opened feedback detail thread as read with `POST /api/feedback/{entry_id}/read`, updates the visible list item, then dispatches `freelingo:feedback-read` so the app shell refreshes the sidebar badge.
 
 ### Shared/generic components
 

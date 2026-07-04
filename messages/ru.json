@@ -1353,7 +1353,7 @@
   },
   "whatsNew": {
     "title": "Что нового",
-    "version": "v1.8.21",
+    "version": "v1.8.22",
     "cta": "Понятно",
     "entry1": {
       "label": "Уведомления о непрочитанном фидбэке",
@@ -1459,6 +1459,7 @@
     "statusInProgress": "В процессе",
     "statusDone": "Готово",
     "statusDeclined": "Отклонено",
+    "unread": "Не прочитано",
     "modalCreateTitleFeature": "Новое предложение",
     "modalCreateTitleBug": "Сообщить об ошибке",
     "labelTitle": "Заголовок",
