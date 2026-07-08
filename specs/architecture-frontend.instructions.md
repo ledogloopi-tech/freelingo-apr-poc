@@ -254,7 +254,7 @@ Six Zustand stores hold all client-side state. No React Context is used for glob
 
 ### Shared/generic components
 
-- **`ThemeProvider.tsx`** — Dark/light/system theme via `next-themes`
+- **`ThemeProvider.tsx`** — Dark/light/system theme via the persisted Zustand `theme` store. The root `src/app/layout.tsx` also injects a small head script that reads `localStorage.fl-theme` and `prefers-color-scheme` before first paint, applying `html[data-theme='light']` when needed so light-system users do not see a dark initial flash on public or authenticated pages.
 - **`TargetLanguageSelector.tsx`** — Language picker dropdown with flags. It renders entries from `TARGET_LANGUAGE_CATALOG` after filtering by `availableCodes` when that operator-provided list is present.
 - **`TargetLanguageText.tsx`** — Reusable wrapper for content in the learner's target language. It applies `lang`, language-aware typography classes from `target-languages.ts`, and optional secondary reading/translation lines for future romanisation/pinyin support.
 - **`LanguageSwitcher.tsx`** — UI locale switcher
