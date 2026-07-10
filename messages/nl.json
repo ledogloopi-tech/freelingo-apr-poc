@@ -114,7 +114,6 @@
     "contact": "Contact",
     "feedback": "Feedback",
     "reviews": "Reviews",
-    "system": "Systeem",
     "switchLanguage": "Taal wijzigen"
   },
   "auth": {
@@ -789,6 +788,7 @@
     "users": "Gebruikers",
     "feedback": "Feedback",
     "reviews": "Reviews",
+    "system": "Systeem",
     "invites": "Uitnodigingslinks",
     "createUser": "Gebruiker aanmaken",
     "createInvite": "Uitnodiging genereren",

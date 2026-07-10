@@ -114,7 +114,6 @@
     "contact": "Contact",
     "feedback": "Feedback",
     "reviews": "Recenzii",
-    "system": "Sistem",
     "switchLanguage": "Schimbă limba"
   },
   "auth": {
@@ -789,6 +788,7 @@
     "users": "Utilizatori",
     "feedback": "Feedback",
     "reviews": "Recenzii",
+    "system": "Sistem",
     "invites": "Linkuri de invitație",
     "createUser": "Creează utilizator",
     "createInvite": "Generează invitație",

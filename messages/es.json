@@ -114,7 +114,6 @@
     "contact": "Contacto",
     "feedback": "Feedback",
     "reviews": "Reseñas",
-    "system": "Sistema",
     "switchLanguage": "Cambiar idioma"
   },
   "auth": {
@@ -789,6 +788,7 @@
     "users": "Usuarios",
     "feedback": "Feedback",
     "reviews": "Reseñas",
+    "system": "Sistema",
     "invites": "Invitaciones",
     "createUser": "Crear usuario",
     "createInvite": "Generar invitación",
