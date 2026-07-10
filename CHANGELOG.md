@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Consistent page backgrounds**: public pages now use the dot-grid background, while the authenticated application and all of its loading states use a solid background without a visual flash between patterns.
 - **Landing anchor navigation**: Features, Reviews, Pricing, and FAQ anchor links now reserve space for the sticky navigation bar so section content remains fully visible after scrolling.
+- **Official feedback authors**: suggestions, bug reports, and replies written by an administrator now show a compact gold `ADMIN` badge beside the author's display name in the community board and admin queue.
 - **What's New version marker**: bumped to `v1.8.23` while keeping the existing What's New entry text unchanged.
 
 ## [1.8.22] - 2026-07-04

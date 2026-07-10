@@ -7,6 +7,7 @@ import { useAuthStore } from '@/store/auth'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { PageLoading } from '@/components/ui/page-loading'
 import { Pagination } from '@/components/ui/pagination'
+import { AdminAuthorBadge } from '@/components/feedback/AdminAuthorBadge'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -16,6 +17,7 @@ interface FeedbackAuthor {
   id: number
   username: string
   display_name: string
+  role: 'admin' | 'user'
 }
 
 interface FeedbackEntry {
@@ -368,9 +370,12 @@ function DetailView({
             {entry.description}
           </p>
           <div className="flex flex-wrap items-center gap-3 pt-1">
-            <span className="text-fl-hint text-fl-muted-4 font-mono">
-              {t('by')} {entry.author.display_name} ·{' '}
-              {formatDate(entry.created_at)}
+            <span className="text-fl-hint text-fl-muted-4 inline-flex flex-wrap items-center gap-x-1 font-mono">
+              <span>
+                {t('by')} {entry.author.display_name}
+              </span>
+              <AdminAuthorBadge role={entry.author.role} />
+              <span>· {formatDate(entry.created_at)}</span>
             </span>
             {/* Vote button — only for features */}
             {entry.type === 'feature' && (
@@ -408,8 +413,10 @@ function DetailView({
             comments.map((c) => (
               <div key={c.id} className="space-y-1 px-6 py-4">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-fl-hint text-fl-muted-2 font-mono">
-                    {c.author.display_name} · {formatDate(c.created_at)}
+                  <span className="text-fl-hint text-fl-muted-2 inline-flex flex-wrap items-center gap-x-1 font-mono">
+                    <span>{c.author.display_name}</span>
+                    <AdminAuthorBadge role={c.author.role} />
+                    <span>· {formatDate(c.created_at)}</span>
                   </span>
                   {currentUserId === c.author.id && (
                     <button
@@ -794,9 +801,12 @@ export default function FeedbackPage() {
                       {entry.description}
                     </p>
                     <div className="flex flex-wrap items-center gap-3">
-                      <span className="text-fl-hint text-fl-muted-4 font-mono">
-                        {t('by')} {entry.author.display_name} ·{' '}
-                        {formatDate(entry.created_at)}
+                      <span className="text-fl-hint text-fl-muted-4 inline-flex flex-wrap items-center gap-x-1 font-mono">
+                        <span>
+                          {t('by')} {entry.author.display_name}
+                        </span>
+                        <AdminAuthorBadge role={entry.author.role} />
+                        <span>· {formatDate(entry.created_at)}</span>
                       </span>
                       {entry.comment_count > 0 && (
                         <span className="text-fl-hint text-fl-muted-4 font-mono">
