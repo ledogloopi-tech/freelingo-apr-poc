@@ -347,8 +347,9 @@ To avoid Next.js buffering the SSE stream (since Next.js API rewrites buffer res
 - `/settings` — Key components: Profile edit, password change, English variant, conversation timeouts, theme, logout; Phase: 1
 - `/faq` — Key components: FAQ with accordion UI; Phase: 1+
 - `/admin` — Key components: Admin overview with quick links and maintenance-mode status (admin only); Phase: 1
-- `/admin/users` — Key components: User CRUD table/cards, create-user sheet, invite link generator with copy action, maintenance toggle, search and filters (admin only); Phase: 1
+- `/admin/users` — Key components: User CRUD table/cards, create-user sheet, invite link generator with copy action, search and filters (admin only); Phase: 1
 - `/admin/users/[id]` — Key components: User detail with summary header, Profile/Languages/Activity/Quotas/Subscription tabs, quota validation, and confirmations; Phase: 1
+- `/admin/system` — Key components: dedicated maintenance-mode status and toggle using the existing explicit update flow (admin only); Phase: 1
 
 ### State management (Zustand stores)
 

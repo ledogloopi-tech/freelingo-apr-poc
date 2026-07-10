@@ -3,13 +3,20 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { MessageSquareText, Settings, Star, Users } from 'lucide-react'
+import {
+  LayoutDashboard,
+  MessageSquareText,
+  Settings,
+  Star,
+  Users,
+} from 'lucide-react'
 
 const items = [
-  { href: '/admin', key: 'overview', icon: Settings },
+  { href: '/admin', key: 'overview', icon: LayoutDashboard },
   { href: '/admin/users', key: 'users', icon: Users },
   { href: '/admin/feedback', key: 'feedback', icon: MessageSquareText },
   { href: '/admin/reviews', key: 'reviews', icon: Star },
+  { href: '/admin/system', key: 'system', icon: Settings },
 ] as const
 
 export function AdminNav() {

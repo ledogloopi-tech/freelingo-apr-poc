@@ -164,7 +164,7 @@ export default function AdminOverviewPage() {
             </p>
           </div>
           <Link
-            href="/admin/users"
+            href="/admin/system"
             className="border-fl-border text-fl-label text-fl-muted-1 hover:text-fl-fg hover:border-fl-border-2 ml-auto border px-3 py-2 font-mono tracking-widest uppercase transition-colors"
           >
             {t('openSystemControls')}
