@@ -162,7 +162,10 @@ export default async function Home() {
 
       {/* Features */}
       <ScrollReveal>
-        <section id="features" className="mx-auto w-full max-w-5xl px-6 pb-24">
+        <section
+          id="features"
+          className="mx-auto w-full max-w-5xl scroll-mt-16 px-6 pb-24"
+        >
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {[
               {
@@ -218,7 +221,7 @@ export default async function Home() {
 
       {/* Pricing */}
       <ScrollReveal>
-        <div id="pricing">
+        <div id="pricing" className="scroll-mt-16">
           <PricingSection
             stripeEnabled={stripeEnabled}
             trialDays={trialDays}
@@ -273,7 +276,10 @@ export default async function Home() {
 
       {/* FAQ */}
       <ScrollReveal>
-        <section id="faq" className="mx-auto w-full max-w-5xl px-6 pb-16">
+        <section
+          id="faq"
+          className="mx-auto w-full max-w-5xl scroll-mt-16 px-6 pb-16"
+        >
           <h2 className="text-fl-label text-fl-muted-2 mb-8 text-center font-mono tracking-widest uppercase">
             {t('faqTitle')}
           </h2>
