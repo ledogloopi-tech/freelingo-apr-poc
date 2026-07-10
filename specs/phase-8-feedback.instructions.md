@@ -83,7 +83,7 @@ Creates `feedback_read_states` with `entry_id` and `user_id` indexes plus the un
 
 ### Endpoints
 
-- **GET `/`** — Rate limit: 60/min. Auth: get_current_user. Notes: Accepts `q` (title, description, username, or display name search; max 100 chars), `type`, `status` (alias for `status_filter`), `sort` (votes\|date), `order` (asc\|desc), `skip`, `limit`. If `status` is omitted, `done` entries are excluded by default from both the public board and admin queue; they are returned only when `status=done` is explicitly requested. Count runs against `stmt.subquery()` for accurate filtered totals.
+- **GET `/`** — Rate limit: 60/min. Auth: get_current_user. Notes: Accepts `q` (title, description, username, or display name search; max 100 chars), `type`, `status` (alias for `status_filter`), `sort` (votes\|date), `order` (asc\|desc), `skip` (default 0), and `limit` (default 10, max 100). Entry ID is the deterministic secondary ordering criterion, in the same direction as the requested order, so ties cannot shuffle rows between offset pages. If `status` is omitted, `done` entries are excluded by default from both the public board and admin queue; they are returned only when `status=done` is explicitly requested. Count runs against `stmt.subquery()` for accurate filtered totals.
 - **GET `/unread-summary`** — Rate limit: 60/min. Auth: get_current_user. Notes: Returns `{unread_count}` for the authenticated user's unread feedback threads. Activity by the same user does not count as unread for that user.
 - **POST `/`** — Rate limit: 10/hour. Auth: get_current_user. Notes: Creates entry with status `pending`, marks it read for the author, returns HTTP 201, and fires an admin email notification (see below).
 - **GET `/{id}`** — Rate limit: 60/min. Auth: get_current_user. Notes: Returns `FeedbackEntryDetail` with comments list (ordered by `created_at ASC`).
@@ -130,7 +130,7 @@ Creates `feedback_read_states` with `entry_id` and `user_id` indexes plus the un
 - `getStatusLabel(status)` uses a lookup object (`{ pending: t('statusPending'), ... }`) — **not** string template manipulation — to avoid runtime errors with underscored keys like `in_progress`.
 - `DetailView` receives `isAdmin` and `getStatusLabel` as props from the parent to avoid re-deriving them.
 - `CreateModal` calls `onCreated()` with no arguments after a successful POST; the parent reloads with `loadEntries(0, tab, sort, statusFilter)`.
-- Pagination: identical two-effect pattern as `admin/users/page.tsx` — one effect on `page`, one effect on filters that resets to page 0 before loading.
+- Pagination: 10 entries per page with the identical two-effect pattern as `admin/users/page.tsx` — one effect on `page`, one effect on filters that resets to page 0 before loading.
 - Default listing behavior: entries with `status=done` are hidden unless the status dropdown is set to Done.
 - Admin users see delete button on all entries in both list and detail views; regular users only see it on their own entries.
 - The shared `AdminAuthorBadge` renders a compact gold `ADMIN` marker beside the author name in entry lists, entry detail metadata, and comment headers only when `author.role == "admin"`; normal users receive no role label.
@@ -147,7 +147,7 @@ Creates `feedback_read_states` with `entry_id` and `user_id` indexes plus the un
 
 ### `/admin/feedback` (`frontend/src/app/(app)/admin/feedback/page.tsx`)
 
-Paginated feedback queue for admins. Filters: `q` search, type (all/feature/bug), status, and sort (date/votes). Entries with `status=done` are hidden from the default queue and only appear when the Done status filter is selected. The page uses shared admin primitives (`AdminPageHeader`, `AdminPanel`, `AdminMetric`, `AdminBadge`) and renders a dense desktop table plus responsive mobile cards. Administrator authors use the same `AdminAuthorBadge` as the community board in both desktop and mobile layouts. Status changes use an inline `<select>` and trigger `PATCH /{id}/status`; delete uses `ConfirmDialog`. The page includes the shared `AdminNav` navigation alongside `/admin` and `/admin/users`.
+Paginated feedback queue for admins, showing 10 entries per page. Filters: `q` search, type (all/feature/bug), status, and sort (date/votes). Entries with `status=done` are hidden from the default queue and only appear when the Done status filter is selected. The page uses shared admin primitives (`AdminPageHeader`, `AdminPanel`, `AdminMetric`, `AdminBadge`) and renders a dense desktop table plus responsive mobile cards. Administrator authors use the same `AdminAuthorBadge` as the community board in both desktop and mobile layouts. Status changes use an inline `<select>` and trigger `PATCH /{id}/status`; delete uses `ConfirmDialog`. The page includes the shared `AdminNav` navigation alongside `/admin` and `/admin/users`.
 
 ---
 

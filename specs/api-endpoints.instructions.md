@@ -58,7 +58,7 @@ Requires `role="admin"`. All endpoints return 403 for non-admin users.
 - **GET `/maintenance`** — Returns `{"maintenance_mode": bool}` — current maintenance mode state
 - **PATCH `/maintenance`** — Toggles maintenance mode on/off in Redis. Returns `{"maintenance_mode": bool}`
 - **PUT `/maintenance`** — Sets maintenance mode explicitly. Body: `{maintenance_mode: bool}`. Returns `{"maintenance_mode": bool}`
-- **GET `/reviews`** — Rate limit: 60/min. Lists reviews for admin moderation. Query params: `is_approved`, `rating` (1–5), `target_language`, `order` (`asc`|`desc`), `skip`, `limit`. Returns `{items, total, skip, limit}`.
+- **GET `/reviews`** — Rate limit: 60/min. Lists reviews for admin moderation. Query params: `is_approved`, `rating` (1–5), `target_language`, `order` (`asc`|`desc`), `skip` (default 0), `limit` (default 10, max 100). Returns `{items, total, skip, limit}`.
 - **PATCH `/reviews/{review_id}`** — Rate limit: 60/min. Updates review approval state. Body: `{is_approved: bool}`. Returns updated review.
 - **DELETE `/reviews/{review_id}`** — Rate limit: 60/min. Permanently deletes a review. Returns HTTP 204.
 
@@ -277,7 +277,7 @@ All endpoints require `require_subscription`. Unlike Listening, exercise text is
 
 All endpoints require `get_current_user`. Status update requires `require_admin`. Every embedded entry or comment `author` object contains `{id, username, display_name, role}` so clients can identify administrator-authored content.
 
-- **GET ``** — Rate limit: 60/min. Auth: get_current_user. Returns paginated list of feedback entries. Query params: `q` (search by title, description, username, or display name; max 100 chars), `type` (`feature`\|`bug`), `status` (`pending`\|`planned`\|`in_progress`\|`done`\|`declined`), `sort` (`votes`\|`date`, default `votes`), `order` (`asc`\|`desc`, default `desc`), `skip` (default 0), `limit` (default 20, max 100). When `status` is omitted, entries with `status=done` are excluded from the public board and admin queue; they are returned only with `status=done`. Response: `{items, total, skip, limit}`. Each item includes `voted_by_me`, `unread_by_me`, and `comment_count` fields injected server-side.
+- **GET ``** — Rate limit: 60/min. Auth: get_current_user. Returns paginated list of feedback entries. Query params: `q` (search by title, description, username, or display name; max 100 chars), `type` (`feature`\|`bug`), `status` (`pending`\|`planned`\|`in_progress`\|`done`\|`declined`), `sort` (`votes`\|`date`, default `votes`), `order` (`asc`\|`desc`, default `desc`), `skip` (default 0), `limit` (default 10, max 100). Ordering uses entry ID as a deterministic tie-breaker in the requested direction. When `status` is omitted, entries with `status=done` are excluded from the public board and admin queue; they are returned only with `status=done`. Response: `{items, total, skip, limit}`. Each item includes `voted_by_me`, `unread_by_me`, and `comment_count` fields injected server-side.
 - **POST ``** — Rate limit: 10/hour. Auth: get_current_user. Creates a new feature request or bug report. Body: `{type, title, description}`. Returns HTTP 201 + the created entry.
 - **GET `/unread-summary`** — Rate limit: 60/min. Auth: get_current_user. Returns `{unread_count}` for the authenticated user's unread feedback threads. Counts threads with new entries or comments from other users, including `done` entries, and does not expose read state for other users.
 - **GET `/{id}`** — Rate limit: 60/min. Auth: get_current_user. Returns a single entry with its full comment thread ordered by `created_at ASC`, including `unread_by_me` for the current user.
@@ -297,7 +297,7 @@ User review endpoints. Admin moderation endpoints live under `/api/admin/reviews
 - **POST ``** — Rate limit: 5/hour. Auth: get_current_user. Creates the authenticated user's single review and queues an admin email notification to `CONTACT_EMAIL` when email is configured. Body: `{rating: 1-5, comment?: string}`. Stores display-name and active-learning-language snapshots server-side, creates with `is_approved=false`, returns HTTP 201, and returns HTTP 409 with `review_already_exists` if the user already has a review.
 - **PATCH `/me`** — Rate limit: 10/hour. Auth: get_current_user. Updates the authenticated user's existing review. Body: `{rating: 1-5, comment?: string}`. Refreshes display-name and active-learning-language snapshots, resets `is_approved=false`, returns the updated review, and returns HTTP 404 with `review_not_found` if the user has not submitted one yet.
 - **DELETE `/me`** — Rate limit: 10/hour. Auth: get_current_user. Deletes the authenticated user's existing review and returns HTTP 204. Returns HTTP 404 with `review_not_found` if the user has not submitted one yet.
-- **GET `/public`** — Rate limit: 60/min. Public. Returns approved landing reviews only (`is_approved=true` and `rating >= 4`), ordered newest-first. Query param: `limit` (default 20, max 100). Response omits `user_id` and `is_approved`.
+- **GET `/public`** — Rate limit: 60/min. Public. Returns approved landing reviews only (`is_approved=true` and `rating >= 4`), ordered newest-first. Query param: `limit` (default 100, max 100). The landing carousel requests 100 reviews. Response omits `user_id` and `is_approved`.
 
 ## Memories — `/api/memories`
 

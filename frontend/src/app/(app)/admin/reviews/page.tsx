@@ -28,7 +28,7 @@ import {
 import { getLanguageByCode } from '@/lib/target-languages'
 import type { ReviewAdmin } from '@/types/api'
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 10
 
 type ApprovalFilter = 'all' | 'pending' | 'approved'
 

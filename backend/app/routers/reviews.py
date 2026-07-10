@@ -97,7 +97,7 @@ async def delete_my_review(
 @limiter.limit("60/minute")
 async def list_public_reviews(
     request: Request,
-    limit: int = Query(default=20, ge=1, le=100),
+    limit: int = Query(default=100, ge=1, le=100),
     db: AsyncSession = Depends(get_db),
 ) -> list[Review]:
     result = await db.execute(
@@ -121,7 +121,7 @@ async def list_admin_reviews(
     target_language: str | None = Query(default=None, max_length=10),
     order: Literal["asc", "desc"] = Query(default="desc"),
     skip: int = Query(default=0, ge=0),
-    limit: int = Query(default=20, ge=1, le=100),
+    limit: int = Query(default=10, ge=1, le=100),
     admin: User = Depends(require_admin),
     db: AsyncSession = Depends(get_db),
 ) -> PaginatedReviewsResponse:

@@ -45,7 +45,7 @@ interface FeedbackComment {
 type Tab = 'feature' | 'bug'
 type SortOption = 'votes' | 'date'
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 10
 
 const STATUS_STYLES: Record<string, string> = {
   pending: 'border-fl-border text-fl-muted-2',

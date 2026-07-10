@@ -97,11 +97,11 @@ Status: implemented in `backend/app/routers/reviews.py` and registered in `backe
 
 ### Public endpoint - `/api/reviews/public`
 
-- **GET `/`** - Rate limit: 60/min. Public endpoint for the landing page. Returns approved reviews with `rating >= 4`, ordered newest-first. Query param: `limit` (default 20, max 100).
+- **GET `/`** - Rate limit: 60/min. Public endpoint for the landing page. Returns approved reviews with `rating >= 4`, ordered newest-first. Query param: `limit` (default 100, max 100); the landing carousel requests 100 reviews.
 
 ### Admin endpoints - `/api/admin/reviews`
 
-- **GET `/`** - Rate limit: 60/min. Auth: `require_admin`. Lists all reviews with pagination and optional filters: `is_approved`, `rating`, `target_language`, `order`, `skip`, `limit`.
+- **GET `/`** - Rate limit: 60/min. Auth: `require_admin`. Lists all reviews with pagination and optional filters: `is_approved`, `rating`, `target_language`, `order`, `skip` (default 0), and `limit` (default 10, max 100).
 - **PATCH `/{review_id}`** - Rate limit: 60/min. Auth: `require_admin`. Updates `is_approved` to approve or unapprove a review.
 - **DELETE `/{review_id}`** - Rate limit: 60/min. Auth: `require_admin`. Permanently deletes a review.
 
@@ -282,6 +282,8 @@ UX requirements:
 Add a new admin reviews section.
 
 Implemented at `frontend/src/app/(app)/admin/reviews/page.tsx`, with navigation entry in `frontend/src/components/admin/AdminNav.tsx`.
+
+The moderation list uses the shared pagination controls and shows 10 reviews per page.
 
 The admin overview (`/admin`) also surfaces reviews waiting for approval via the `reviews_pending` field from `GET /api/admin/stats` and includes a quick-link card to the review moderation section.
 

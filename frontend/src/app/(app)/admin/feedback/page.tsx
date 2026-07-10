@@ -47,7 +47,7 @@ interface FeedbackEntry {
 type TypeFilter = 'all' | 'feature' | 'bug'
 type SortFilter = 'date' | 'votes'
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 10
 
 const STATUS_OPTIONS = [
   'pending',

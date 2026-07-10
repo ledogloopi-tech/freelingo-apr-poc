@@ -308,7 +308,7 @@ subject to the Stripe paywall when `STRIPE_ENABLED=true`.
 - **GET `/api/reading/next`** — Rate limit: 10/min. Auth: require_subscription. Returns the next uncompleted exercise for the user's CEFR level and language. **Text and questions are included immediately** (unlike listening). Returns `{"available": false}` when the pool is empty. Supports `?wait=true` for long-polling (max 90 s).
 - **POST `/api/reading/generate`** — Rate limit: 5/min. Auth: require_subscription. Acquires a per-(level, language) Redis lock (`nx=True, ex=60`) and enqueues a `BackgroundTask` that calls LLM and saves the exercise. Returns HTTP 202 with `{"status": "generating"}`. Returns 202 if a generation job is already running.
 - **POST `/api/reading/attempt`** — Rate limit: 20/min. Auth: require_subscription. Submits answers (`{exercise_id, answers, replay}`). Returns score (0–5), XP earned (0–50), and correct answers. Returns 404 (exercise not found), 409 (already attempted), 400 (wrong number of answers).
-- **GET `/api/reading/history`** — Rate limit: 30/min. Auth: get_current_user. Returns paginated list of the user's past attempts with scores, XP, exercise text, and correct answers. Query params: `skip` (default 0), `limit` (default 10, max 50).
+- **GET `/api/reading/history`** — Rate limit: 60/min. Auth: require_subscription. Returns paginated list of the user's past attempts with scores, XP, exercise text, and correct answers. Query params: `skip` (default 0), `limit` (default 10, max 50).
 
 > **Key difference from listening:** `GET /next` returns the exercise `text` immediately
 > in the response body — there is no audio to serve and no "transcript reveal" on submit.
@@ -412,7 +412,7 @@ Six UI states controlled by local `PageState` type:
 - `idle` — No exercise available and no generation in progress; shows "Generate exercise" button
 - `exercise` — Passage text + question form shown simultaneously; "Submit" activates when all 5 answered
 - `results` — Score, XP, per-question feedback (correct/incorrect highlight); "Next exercise" / "View history" buttons. After a successful new attempt, the page may open the reusable review prompt, subject to duplicate-review checks and local dismissal cooldown. Replay attempts from history do not trigger the prompt.
-- `history` — Paginated list of past attempts; each row shows topic, score, date, "Review" (expands full text + answers)
+- `history` — Paginated list of past attempts, 10 per page, using the shared Previous/Next controls. Each card shows topic, score, a text preview, and a replay action. Page changes send `skip` and `limit` to the history endpoint; controls are hidden for a single page and disabled while loading.
 
 **Key UX difference from Listening:** there is no audio player and no "I'm ready"
 gate — the text passage and questions are displayed side by side (or stacked on mobile)
@@ -504,7 +504,7 @@ separate fetch (same pattern as listening history).
 - `GET /api/reading/next` — 10/min
 - `POST /api/reading/generate` — 5/min
 - `POST /api/reading/attempt` — 20/min
-- `GET /api/reading/history` — 30/min
+- `GET /api/reading/history` — 60/min
 
 ---
 
