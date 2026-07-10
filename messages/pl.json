@@ -788,6 +788,7 @@
     "users": "Użytkownicy",
     "feedback": "Opinie",
     "reviews": "Recenzje",
+    "system": "System",
     "invites": "Linki zaproszenia",
     "createUser": "Utwórz użytkownika",
     "createInvite": "Generuj zaproszenie",
@@ -1353,7 +1354,7 @@
   },
   "whatsNew": {
     "title": "Co nowego",
-    "version": "v1.8.22",
+    "version": "v1.8.23",
     "cta": "Rozumiem",
     "entry1": {
       "label": "Nieprzeczytane powiadomienia z feedbacku",

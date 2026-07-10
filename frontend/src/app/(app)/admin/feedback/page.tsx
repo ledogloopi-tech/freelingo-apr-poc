@@ -22,12 +22,14 @@ import {
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { PageLoading } from '@/components/ui/page-loading'
 import { Pagination } from '@/components/ui/pagination'
+import { AdminAuthorBadge } from '@/components/feedback/AdminAuthorBadge'
 import { apiFetch } from '@/lib/api'
 
 interface FeedbackAuthor {
   id: number
   username: string
   display_name: string
+  role: 'admin' | 'user'
 }
 
 interface FeedbackEntry {
@@ -487,9 +489,12 @@ export default function AdminFeedbackPage() {
                         <p className="text-fl-muted-2 mt-1 line-clamp-2 font-mono text-xs leading-relaxed">
                           {entry.description}
                         </p>
-                        <p className="text-fl-label text-fl-muted-4 mt-2 font-mono">
-                          {t('by')} {entry.author.display_name} ·{' '}
-                          {formatDate(entry.created_at)}
+                        <p className="text-fl-label text-fl-muted-4 mt-2 flex flex-wrap items-center gap-x-1 font-mono">
+                          <span>
+                            {t('by')} {entry.author.display_name}
+                          </span>
+                          <AdminAuthorBadge role={entry.author.role} />
+                          <span>· {formatDate(entry.created_at)}</span>
                         </p>
                       </td>
                       <td className="px-5 py-4 align-top">
@@ -585,9 +590,12 @@ export default function AdminFeedbackPage() {
                     <p className="text-fl-muted-2 mt-1 line-clamp-3 font-mono text-xs leading-relaxed">
                       {entry.description}
                     </p>
-                    <p className="text-fl-label text-fl-muted-4 mt-2 font-mono">
-                      {t('by')} {entry.author.display_name} ·{' '}
-                      {formatDate(entry.created_at)}
+                    <p className="text-fl-label text-fl-muted-4 mt-2 flex flex-wrap items-center gap-x-1 font-mono">
+                      <span>
+                        {t('by')} {entry.author.display_name}
+                      </span>
+                      <AdminAuthorBadge role={entry.author.role} />
+                      <span>· {formatDate(entry.created_at)}</span>
                     </p>
                   </div>
 

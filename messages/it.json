@@ -788,6 +788,7 @@
     "users": "Utenti",
     "feedback": "Feedback",
     "reviews": "Recensioni",
+    "system": "Sistema",
     "invites": "Inviti",
     "createUser": "Crea utente",
     "createInvite": "Genera invito",
@@ -1353,7 +1354,7 @@
   },
   "whatsNew": {
     "title": "Novità",
-    "version": "v1.8.22",
+    "version": "v1.8.23",
     "cta": "Capito",
     "entry1": {
       "label": "Notifiche di feedback non letto",

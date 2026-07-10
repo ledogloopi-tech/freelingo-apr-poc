@@ -49,7 +49,7 @@ A runtime toggle (Redis flag `maintenance_mode`) that blocks all subscription-ga
 
 - **Backend**: `require_subscription` checks only subscription status. `require_not_maintenance` checks only `maintenance_mode` for non-admin users and returns HTTP 503 when active. Chat, listening, reading, and conversation warmup endpoints use both dependencies explicitly; the WebSocket (`/ws/conversation`) checks the flag manually with the same admin bypass. Memory-management endpoints use only `require_subscription`, so maintenance mode does not block listing or deleting saved memories.
 - **Frontend**: `MaintenanceGate` component renders a static banner for non-admin users. Applied on the four gated pages (`/chat`, `/conversation`, `/listening`, `/reading`). Lessons, flashcards, memory settings, and other free features are unaffected.
-- **Admin toggle**: `PATCH /api/admin/maintenance` — no restart required.
+- **Admin toggle**: `/admin/system` shows the current state and sets it explicitly through `PUT /api/admin/maintenance` with `{maintenance_mode: boolean}` — no restart required. The overview retains a status summary that links to System; the Users page contains only user-management controls.
 
 ### Lessons are no longer paywalled
 

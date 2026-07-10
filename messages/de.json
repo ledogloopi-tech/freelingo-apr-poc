@@ -788,6 +788,7 @@
     "users": "Benutzer",
     "feedback": "Feedback",
     "reviews": "Bewertungen",
+    "system": "System",
     "invites": "Einladungen",
     "createUser": "Benutzer erstellen",
     "createInvite": "Einladung erstellen",
@@ -1353,7 +1354,7 @@
   },
   "whatsNew": {
     "title": "Neuigkeiten",
-    "version": "v1.8.22",
+    "version": "v1.8.23",
     "cta": "Verstanden",
     "entry1": {
       "label": "Ungelesene Feedback-Hinweise",

@@ -788,6 +788,7 @@
     "users": "Utilizatori",
     "feedback": "Feedback",
     "reviews": "Recenzii",
+    "system": "Sistem",
     "invites": "Linkuri de invitație",
     "createUser": "Creează utilizator",
     "createInvite": "Generează invitație",
@@ -1353,7 +1354,7 @@
   },
   "whatsNew": {
     "title": "Noutăți",
-    "version": "v1.8.22",
+    "version": "v1.8.23",
     "cta": "Am înțeles",
     "entry1": {
       "label": "Notificări de feedback necitit",
