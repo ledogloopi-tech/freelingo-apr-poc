@@ -155,6 +155,11 @@ frontend/
 
 ## Page routes
 
+### Background policy
+
+- Public surfaces use `bg-dot-grid` over `bg-fl-bg`: the `/` landing page, `(auth)` routes, and `(legal)` routes.
+- The authenticated `(app)` shell uses a solid `bg-fl-bg` without `bg-dot-grid`. Its route-level loading fallback and session-initialization loading state follow the same solid treatment so hydration and authentication do not flash a different background pattern.
+
 ### Public (auth) routes — `(auth)/`
 
 - `/login` — Email + password login.
