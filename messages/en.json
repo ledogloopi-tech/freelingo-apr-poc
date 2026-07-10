@@ -788,6 +788,7 @@
     "users": "Users",
     "feedback": "Feedback",
     "reviews": "Reviews",
+    "system": "System",
     "invites": "Invite Links",
     "createUser": "Create User",
     "createInvite": "Generate Invite",
@@ -1353,7 +1354,7 @@
   },
   "whatsNew": {
     "title": "What's New",
-    "version": "v1.8.22",
+    "version": "v1.8.23",
     "cta": "Got it",
     "entry1": {
       "label": "Unread feedback notifications",

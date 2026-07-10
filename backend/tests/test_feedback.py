@@ -415,12 +415,13 @@ async def test_create_feature_request(client, test_user):
     assert data["voted_by_me"] is False
     assert data["comment_count"] == 0
     assert "author" in data
+    assert data["author"]["role"] == "user"
 
 
 @pytest.mark.asyncio
-async def test_create_bug_report(client, test_user):
-    """A bug report can be created."""
-    _, headers = test_user
+async def test_create_bug_report(client, admin_user):
+    """A bug report can be created with the author's admin role."""
+    _, headers = admin_user
     resp = await client.post(
         "/api/feedback",
         headers=headers,
@@ -432,6 +433,7 @@ async def test_create_bug_report(client, test_user):
     )
     assert resp.status_code == 201
     assert resp.json()["type"] == "bug"
+    assert resp.json()["author"]["role"] == "admin"
 
 
 @pytest.mark.asyncio
@@ -861,13 +863,13 @@ async def test_update_status_invalid_value(client, admin_user, test_user, db_ses
 
 
 @pytest.mark.asyncio
-async def test_add_comment(client, test_user, db_session):
-    """A comment can be added to an entry."""
+async def test_add_comment(client, admin_user, db_session):
+    """An admin comment includes the author's role."""
     from datetime import datetime, timezone
 
     from app.models.feedback import FeedbackEntry
 
-    user, headers = test_user
+    user, headers = admin_user
     entry = FeedbackEntry(
         type="feature",
         title="Commentable",
@@ -890,6 +892,7 @@ async def test_add_comment(client, test_user, db_session):
     assert data["body"] == "Nice idea!"
     assert data["entry_id"] == entry.id
     assert "author" in data
+    assert data["author"]["role"] == "admin"
 
 
 @pytest.mark.asyncio
@@ -926,6 +929,7 @@ async def test_list_comments(client, test_user, db_session):
     data = resp.json()
     assert data["total"] == 2
     assert data["items"][0]["body"] == "First"
+    assert data["items"][0]["author"]["role"] == "user"
 
 
 @pytest.mark.asyncio
@@ -1436,6 +1440,7 @@ async def test_feedback_entry_out_shape(client, test_user, db_session):
     assert "id" in item["author"]
     assert "username" in item["author"]
     assert "display_name" in item["author"]
+    assert item["author"]["role"] == "user"
     assert "vote_count" in item
     assert "voted_by_me" in item
     assert "unread_by_me" in item
@@ -1475,6 +1480,7 @@ async def test_feedback_entry_detail_includes_comments(client, test_user, db_ses
     data = resp.json()
     assert len(data["comments"]) == 1
     assert data["comments"][0]["body"] == "Hello"
+    assert data["comments"][0]["author"]["role"] == "user"
     assert data["comment_count"] == 1
 
 

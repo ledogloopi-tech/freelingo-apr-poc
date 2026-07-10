@@ -788,6 +788,7 @@
     "users": "Utilisateurs",
     "feedback": "Retours",
     "reviews": "Avis",
+    "system": "Système",
     "invites": "Invitations",
     "createUser": "Créer un utilisateur",
     "createInvite": "Générer une invitation",
@@ -1353,7 +1354,7 @@
   },
   "whatsNew": {
     "title": "Nouveautés",
-    "version": "v1.8.22",
+    "version": "v1.8.23",
     "cta": "Compris",
     "entry1": {
       "label": "Notifications de feedback non lu",

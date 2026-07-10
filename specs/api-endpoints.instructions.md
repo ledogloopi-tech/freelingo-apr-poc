@@ -275,7 +275,7 @@ All endpoints require `require_subscription`. Unlike Listening, exercise text is
 
 ## Feedback — `/api/feedback`
 
-All endpoints require `get_current_user`. Status update requires `require_admin`.
+All endpoints require `get_current_user`. Status update requires `require_admin`. Every embedded entry or comment `author` object contains `{id, username, display_name, role}` so clients can identify administrator-authored content.
 
 - **GET ``** — Rate limit: 60/min. Auth: get_current_user. Returns paginated list of feedback entries. Query params: `q` (search by title, description, username, or display name; max 100 chars), `type` (`feature`\|`bug`), `status` (`pending`\|`planned`\|`in_progress`\|`done`\|`declined`), `sort` (`votes`\|`date`, default `votes`), `order` (`asc`\|`desc`, default `desc`), `skip` (default 0), `limit` (default 20, max 100). When `status` is omitted, entries with `status=done` are excluded from the public board and admin queue; they are returned only with `status=done`. Response: `{items, total, skip, limit}`. Each item includes `voted_by_me`, `unread_by_me`, and `comment_count` fields injected server-side.
 - **POST ``** — Rate limit: 10/hour. Auth: get_current_user. Creates a new feature request or bug report. Body: `{type, title, description}`. Returns HTTP 201 + the created entry.

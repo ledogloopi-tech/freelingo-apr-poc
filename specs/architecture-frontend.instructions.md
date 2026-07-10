@@ -22,13 +22,14 @@ frontend/
 │   │   │   ├── reset-password/
 │   │   │   └── verify-email/
 │   │   │
-│   │   ├── (app)/               # Authenticated routes — sidebar layout (19 pages)
+│   │   ├── (app)/               # Authenticated routes — sidebar layout
 │   │   │   ├── layout.tsx       # Sidebar + global layout shell
 │   │   │   ├── loading.tsx
 │   │   │   ├── admin/           # Admin overview + admin-only management routes
 │   │   │   ├── admin/users/     # User list + [id] detail: tabs, quotas, subscription override
 │   │   │   ├── admin/feedback/  # Feedback queue admin panel: search, filters, responsive table/cards
 │   │   │   ├── admin/reviews/   # Review moderation: filters, approve/unapprove, delete
+│   │   │   ├── admin/system/    # Runtime system controls: maintenance mode
 │   │   │   ├── assessment/      # Level test: BeginnerGate → AdaptiveQuizCard → DurationSelector → optional/persistent voice trial offer
 │   │   │   ├── chat/            # AI tutor SSE chat + conversation history
 │   │   │   ├── conversation/    # Real-time voice conversation (WebSocket + VAD) + post-assessment trial entry/profile sync
@@ -155,6 +156,11 @@ frontend/
 
 ## Page routes
 
+### Background policy
+
+- Public surfaces use `bg-dot-grid` over `bg-fl-bg`: the `/` landing page, `(auth)` routes, and `(legal)` routes.
+- The authenticated `(app)` shell uses a solid `bg-fl-bg` without `bg-dot-grid`. Its route-level loading fallback and session-initialization loading state follow the same solid treatment so hydration and authentication do not flash a different background pattern.
+
 ### Public (auth) routes — `(auth)/`
 
 - `/login` — Email + password login.
@@ -188,12 +194,13 @@ frontend/
 - `/faq` — Frequently asked questions.
 - `/admin/reviews` — Admin-only review moderation with status/rating filters, approve/unapprove, and delete confirmation.
 - Onboarding Checkout — If a user reloads onboarding after registration and the refresh cookie exists but no access token is in memory, onboarding refreshes `/api/auth/refresh` before creating the Stripe Checkout session for the selected monthly/yearly plan.
-- Landing page — The primary CTA sends anonymous visitors to registration and authenticated visitors to the dashboard. Pricing plan CTAs for hosted subscriptions preserve monthly/yearly intent with `plan=monthly|yearly` through registration and onboarding before Stripe Checkout for anonymous visitors; authenticated unsubscribed visitors start Stripe Checkout directly from the selected monthly/yearly pricing button, refreshing the access token from the session cookie first when needed. The pricing and trial copy separates the free-trial promise from the later paid price, highlights yearly as the best-value option with two months free, labels monthly as the flexible alternative, and repeats no-charge-today/cancel-anytime reassurance only when trial eligibility is unknown or `trial_used=false`; authenticated users with `trial_used=true` see neutral plan-selection and amount-confirmation copy instead. The bottom pricing CTA defaults to yearly intent and starts yearly Checkout directly for authenticated unsubscribed users. `/billing/canceled` uses neutral no-charge-in-this-session copy and sends users back to the dashboard or settings plans without promising future trial availability. The shared paywall detects premium-gated route context for chat, voice conversation, listening, and reading so the upgrade message matches the user's attempted action; its free-path exit remains available but visually secondary. The top navigation includes a Reviews anchor between Features and Pricing when approved public reviews are available; the same conditional link appears in the mobile menu. Public landing sections for features, reviews, pricing, open source, and FAQ share `max-w-5xl` content width for consistent horizontal rhythm; the hero and footer keep their own composition. The reviews section shows a compact average-rating and total-review-count badge below the subtitle, using localized formatting and public-facing copy. Review carousel cards keep a consistent height and clamp long comments to 6 lines.
-- `/feedback` — Feature requests and bug reports board (community).
-- `/admin` — Admin overview with aggregated metrics including pending feedback and pending review approvals, operational alerts, quick links to users/feedback/reviews, and maintenance-mode status (admin only).
-- `/admin/users` — User management with responsive table/cards, search, filters, invite copy workflow, create-user sheet with required email, and maintenance toggle (admin only). The desktop table uses fixed column widths: user 25%, email 25%, role 12.5%, status 12.5%, subscription 15%, actions 10%; subscription badges stay on one line and truncate with an ellipsis when localized labels exceed the available width. Invite and create-user action buttons rely on their icons for the leading action affordance and do not include a duplicate `+` in localized labels.
+- Landing page — The primary CTA sends anonymous visitors to registration and authenticated visitors to the dashboard. Pricing plan CTAs for hosted subscriptions preserve monthly/yearly intent with `plan=monthly|yearly` through registration and onboarding before Stripe Checkout for anonymous visitors; authenticated unsubscribed visitors start Stripe Checkout directly from the selected monthly/yearly pricing button, refreshing the access token from the session cookie first when needed. The pricing and trial copy separates the free-trial promise from the later paid price, highlights yearly as the best-value option with two months free, labels monthly as the flexible alternative, and repeats no-charge-today/cancel-anytime reassurance only when trial eligibility is unknown or `trial_used=false`; authenticated users with `trial_used=true` see neutral plan-selection and amount-confirmation copy instead. The bottom pricing CTA defaults to yearly intent and starts yearly Checkout directly for authenticated unsubscribed users. `/billing/canceled` uses neutral no-charge-in-this-session copy and sends users back to the dashboard or settings plans without promising future trial availability. The shared paywall detects premium-gated route context for chat, voice conversation, listening, and reading so the upgrade message matches the user's attempted action; its free-path exit remains available but visually secondary. The top navigation includes a Reviews anchor between Features and Pricing when approved public reviews are available; the same conditional link appears in the mobile menu. The Features, Reviews, Pricing, and FAQ anchor targets use `scroll-mt-16` so their content clears the sticky `h-14` navigation bar. Public landing sections for features, reviews, pricing, open source, and FAQ share `max-w-5xl` content width for consistent horizontal rhythm; the hero and footer keep their own composition. The reviews section shows a compact average-rating and total-review-count badge below the subtitle, using localized formatting and public-facing copy. Review carousel cards keep a consistent height and clamp long comments to 6 lines.
+- `/feedback` — Feature requests and bug reports board (community). Entry list metadata, entry detail metadata, and comment headers render the shared gold `AdminAuthorBadge` beside the display name only when the embedded author role is `admin`.
+- `/admin` — Admin overview with aggregated metrics including pending feedback and pending review approvals, operational alerts, quick links to users/feedback/reviews, and a read-only maintenance-mode status whose System Controls action links to `/admin/system` (admin only).
+- `/admin/users` — User management with responsive table/cards, search, filters, invite copy workflow, and a create-user sheet with required email (admin only). The desktop table uses fixed column widths: user 25%, email 25%, role 12.5%, status 12.5%, subscription 15%, actions 10%; subscription badges stay on one line and truncate with an ellipsis when localized labels exceed the available width. Invite and create-user action buttons rely on their icons for the leading action affordance and do not include a duplicate `+` in localized labels.
 - `/admin/users/[id]` — Admin user detail with summary header and tabs for Profile, Languages, Activity, Quotas, and Subscription. Quotas separate current usage from configured limits; email verification and subscription overrides use confirmation dialogs.
-- `/admin/feedback` — Feedback queue admin panel with search, type/status/sort filters, filtered metrics by feedback type, desktop table, mobile cards, status updates, and delete confirmation. Status updates refresh the queue when the updated entry no longer matches the active filter (admin only).
+- `/admin/feedback` — Feedback queue admin panel with search, type/status/sort filters, filtered metrics by feedback type, desktop table, mobile cards, status updates, delete confirmation, and the same administrator-author badge used by the community board. Status updates refresh the queue when the updated entry no longer matches the active filter (admin only).
+- `/admin/system` — Dedicated runtime system-controls page. It preserves the existing explicit `PUT /api/admin/maintenance` request, `{maintenance_mode}` payload, `useConfigStore` update, status colours, loading state, and error handling previously located on `/admin/users`. The inactive enable action uses the standard `bg-fl-accent` button treatment; yellow remains reserved for the active maintenance warning state.
 
 ### Legal routes — `(legal)/`
 
@@ -240,6 +247,7 @@ Six Zustand stores hold all client-side state. No React Context is used for glob
 - `billing/` — Stripe subscription management UI; landing `PricingSection` hides for active/trialing subscribers; `MaintenanceGate` hides gated pages from non-admin users during maintenance
 - `chat/` — Message display, input, SSE stream handling
 - `conversation/` — `ConversationMode`, `MicButton`, `StatusIndicator`, `TranscriptBubble`, VAD integration
+- `feedback/` — `AdminAuthorBadge`, a compact gold `ADMIN` marker rendered only for feedback authors whose embedded API role is `admin`
 - `flashcard/` — Flashcard flip animation, SM-2 rating buttons
 - `lesson/` — Exercise renderers (multiple choice, fill-in-blank, listening, reading)
 - `plan/` — `LevelTestBanner`, `UnitCard`, `UnitDrawer`

@@ -7,7 +7,7 @@ export default function AppLoading() {
   const t = useTranslations('common')
 
   return (
-    <div className="bg-fl-bg bg-dot-grid flex min-h-screen items-center justify-center">
+    <div className="bg-fl-bg flex min-h-screen items-center justify-center">
       <span className="text-fl-muted-2 animate-pulse font-mono text-xs tracking-widest uppercase">
         ● {t('loading')}
       </span>

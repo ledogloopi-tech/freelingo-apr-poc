@@ -75,7 +75,7 @@ backend/
 │   │   ├── contact.py           # Contact form submission
 │   │   ├── conversation.py      # WebSocket voice conversation
 │   │   ├── curriculum.py        # Curriculum data (now auth-required)
-│   │   ├── feedback.py          # Feedback board CRUD, filters, search, unread counters, admin status management
+│   │   ├── feedback.py          # Feedback CRUD, search, unread counters, author roles, admin status management
 │   │   ├── flashcards.py        # Spaced-repetition flashcard CRUD + review
 │   │   ├── grammar.py            # Grammar reference topics by language and CEFR level
 │   │   ├── health.py            # Public minimal liveness check + private admin diagnostics
@@ -153,6 +153,8 @@ The application uses 21 SQLAlchemy ORM model sections organized into 5 domains:
 - **Multi-language**: UserLanguage (phase 10 — enables learning multiple target languages per user)
 
 All models use SQLAlchemy 2.0 declarative style with `Mapped[T]` type annotations. PostgreSQL JSON columns store structured content for lessons, plans, exercises, and skill scores.
+
+Feedback entry and comment response schemas embed `FeedbackAuthor` with `id`, `username`, `display_name`, and `role`. The router resolves the current user role while building both individual and batched responses, allowing the frontend to distinguish administrator-authored community content without changing the feedback database models.
 
 For complete schema details, relationships, constraints, and business rules, see [database-models.instructions.md](database-models.instructions.md).
 

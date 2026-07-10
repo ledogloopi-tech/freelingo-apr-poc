@@ -13,6 +13,7 @@ class FeedbackAuthor(BaseModel):
     id: int
     username: str
     display_name: str
+    role: str
 
     model_config = {"from_attributes": True}
 

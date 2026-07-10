@@ -33,10 +33,12 @@ freelingo/
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── (auth)/          # Public routes: login, register, onboarding, verify-email, forgot-password, reset-password, billing (7 pages)
-│   │   │   ├── (app)/           # Authenticated routes (18 pages) — sidebar layout
+│   │   │   ├── (app)/           # Authenticated routes — sidebar layout
 │   │   │   │   ├── admin/       # Admin overview (admin only)
 │   │   │   │   ├── admin/users/ # User management (admin only)
 │   │   │   │   ├── admin/feedback/ # Feedback board admin panel (admin only)
+│   │   │   │   ├── admin/reviews/ # Review moderation (admin only)
+│   │   │   │   ├── admin/system/ # Runtime system controls (admin only)
 │   │   │   │   ├── assessment/  # Level test entry + adaptive quiz
 │   │   │   │   ├── chat/        # AI tutor chat (SSE streaming, conversation history)
 │   │   │   │   ├── conversation/ # Real-time voice conversation (WebSocket + VAD)
@@ -151,7 +153,7 @@ Stable turn guard: frontend ignores user speech while the tutor turn is active
 
 ### Maintenance mode
 
-Stored as a simple Redis flag (`maintenance_mode` = `"1"` / `"0"`). Toggled by the admin at runtime via `PATCH /api/admin/maintenance` — no restart required.
+Stored as a simple Redis flag (`maintenance_mode` = `"1"` / `"0"`). Set explicitly by the admin at runtime via `PUT /api/admin/maintenance` — no restart required.
 
 **Backend guard** (`app/core/deps.py`):
 
@@ -160,7 +162,7 @@ Stored as a simple Redis flag (`maintenance_mode` = `"1"` / `"0"`). Toggled by t
 - `require_subscription` — checks only subscription status. It does not consult maintenance mode.
 - `require_not_maintenance` — checks only the `maintenance_mode` flag for operational feature availability. Non-admin users receive HTTP 503 when maintenance is active; admins bypass the guard so they can verify gated features during maintenance. Applied explicitly alongside `require_subscription` on chat, listening, reading, and conversation warmup endpoints. The WebSocket (`/ws/conversation`) performs the same maintenance check manually. Memory-management endpoints use only `require_subscription`.
 
-**Frontend**: `MaintenanceGate` component renders a static banner when `maintenance_mode` is true for non-admin users. Applied on top of `PaywallGate` in the four subscription-gated pages: `/chat`, `/conversation`, `/listening`, `/reading`.
+**Frontend**: `MaintenanceGate` component renders a static banner when `maintenance_mode` is true for non-admin users. Applied on top of `PaywallGate` in the four subscription-gated pages: `/chat`, `/conversation`, `/listening`, `/reading`. Administrators manage the flag from the dedicated `/admin/system` section; the admin overview keeps a read-only status summary linking to that page.
 
 **Public exposure**: `GET /api/config` returns `maintenance_mode: bool` so the frontend can read the state without an authenticated request.
 

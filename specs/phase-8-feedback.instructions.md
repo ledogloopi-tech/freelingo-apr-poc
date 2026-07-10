@@ -7,7 +7,7 @@ applyTo: "backend/**, frontend/**"
 
 ## Overview
 
-A community feedback board where users can submit feature requests and bug reports, vote on suggestions, discuss entries via flat comment threads, and see a sidebar unread counter for new feedback activity. Admins manage entry status and can delete any entry or comment.
+A community feedback board where users can submit feature requests and bug reports, vote on suggestions, discuss entries via flat comment threads, and see a sidebar unread counter for new feedback activity. Admins manage entry status and can delete any entry or comment. Administrator-authored entries and replies carry an `ADMIN` badge beside the author's display name.
 
 ---
 
@@ -99,7 +99,7 @@ Creates `feedback_read_states` with `entry_id` and `user_id` indexes plus the un
 
 ## Schemas (`backend/app/schemas/feedback.py`)
 
-- `FeedbackAuthor` — embedded author info: `id`, `username`, `display_name`. `from_attributes=True`.
+- `FeedbackAuthor` — embedded author info: `id`, `username`, `display_name`, `role`. The live user role is resolved for entry and comment responses so clients can identify administrator-authored content. `from_attributes=True`.
 - `FeedbackEntryCreate` — validates `type` pattern `^(feature|bug)$`, title 1–200, description 1–5000.
 - `FeedbackCommentOut` — **defined before** `FeedbackEntryDetail` to avoid forward reference issues with Pydantic.
 - `FeedbackUnreadSummary` — `{unread_count: int}`.
@@ -133,6 +133,7 @@ Creates `feedback_read_states` with `entry_id` and `user_id` indexes plus the un
 - Pagination: identical two-effect pattern as `admin/users/page.tsx` — one effect on `page`, one effect on filters that resets to page 0 before loading.
 - Default listing behavior: entries with `status=done` are hidden unless the status dropdown is set to Done.
 - Admin users see delete button on all entries in both list and detail views; regular users only see it on their own entries.
+- The shared `AdminAuthorBadge` renders a compact gold `ADMIN` marker beside the author name in entry lists, entry detail metadata, and comment headers only when `author.role == "admin"`; normal users receive no role label.
 - Feedback list items show a red unread label immediately to the right of the status badge when `unread_by_me` is true. This is independent from the feedback status and only reflects the current user's read state.
 - Opening a detail view calls `POST /api/feedback/{entry_id}/read` and marks only that thread as read for the current user.
 
@@ -146,7 +147,7 @@ Creates `feedback_read_states` with `entry_id` and `user_id` indexes plus the un
 
 ### `/admin/feedback` (`frontend/src/app/(app)/admin/feedback/page.tsx`)
 
-Paginated feedback queue for admins. Filters: `q` search, type (all/feature/bug), status, and sort (date/votes). Entries with `status=done` are hidden from the default queue and only appear when the Done status filter is selected. The page uses shared admin primitives (`AdminPageHeader`, `AdminPanel`, `AdminMetric`, `AdminBadge`) and renders a dense desktop table plus responsive mobile cards. Status changes use an inline `<select>` and trigger `PATCH /{id}/status`; delete uses `ConfirmDialog`. The page includes the shared `AdminNav` navigation alongside `/admin` and `/admin/users`.
+Paginated feedback queue for admins. Filters: `q` search, type (all/feature/bug), status, and sort (date/votes). Entries with `status=done` are hidden from the default queue and only appear when the Done status filter is selected. The page uses shared admin primitives (`AdminPageHeader`, `AdminPanel`, `AdminMetric`, `AdminBadge`) and renders a dense desktop table plus responsive mobile cards. Administrator authors use the same `AdminAuthorBadge` as the community board in both desktop and mobile layouts. Status changes use an inline `<select>` and trigger `PATCH /{id}/status`; delete uses `ConfirmDialog`. The page includes the shared `AdminNav` navigation alongside `/admin` and `/admin/users`.
 
 ---
 
