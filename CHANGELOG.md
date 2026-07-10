@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.24] - 2026-07-10
+
+### Changed
+
+- **Consistent list pagination**: the community Feedback board, admin Feedback queue, and admin review moderation now show 10 results per page, matching admin users and saved vocabulary.
+- **Complete exercise histories**: Listening and Reading histories now use the shared Previous/Next pagination controls to expose every attempt in pages of 10 instead of showing only the first page with a passive remaining-count label.
+- **Landing review carousel**: the public reviews carousel now requests up to 100 approved positive reviews instead of limiting the landing page to 12.
+- **What's New version marker**: bumped to `v1.8.24` while keeping the existing What's New entry text unchanged.
+
+### Fixed
+
+- **Stable Feedback pages**: Feedback ordering now uses the entry ID as a deterministic tie-breaker, preventing tied vote or date values from shuffling entries between offset pages.
+
 ## [1.8.23] - 2026-07-10
 
 ### Changed

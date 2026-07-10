@@ -44,7 +44,7 @@ async def test_list_feedback_pagination(client, test_user, db_session):
                 description=f"Desc {i}",
                 status="pending",
                 author_id=user.id,
-                vote_count=10 - i,
+                vote_count=10,
                 created_at=now,
             )
         )
@@ -67,6 +67,8 @@ async def test_list_feedback_pagination(client, test_user, db_session):
     ids1 = {e["id"] for e in data["items"]}
     ids2 = {e["id"] for e in data2["items"]}
     assert ids1.isdisjoint(ids2)
+    ordered_ids = [e["id"] for e in data["items"] + data2["items"]]
+    assert ordered_ids == sorted(ordered_ids, reverse=True)
 
 
 @pytest.mark.asyncio

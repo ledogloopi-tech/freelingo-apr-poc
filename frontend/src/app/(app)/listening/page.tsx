@@ -9,6 +9,7 @@ import { MaintenanceGate } from '@/components/billing/MaintenanceBanner'
 import { type ListeningExercise } from '@/types/api'
 import { WordTooltip, useWordSave } from '@/components/ui/WordTooltip'
 import { PageLoading } from '@/components/ui/page-loading'
+import { Pagination } from '@/components/ui/pagination'
 import { ExerciseAudioPlayer } from '@/components/ui/exercise-audio-player'
 import { TargetLanguageText } from '@/components/TargetLanguageText'
 import {
@@ -51,6 +52,8 @@ type PageState =
   | 'results'
   | 'history'
 
+const HISTORY_PAGE_SIZE = 10
+
 function ListeningPage() {
   const t = useTranslations('listening')
   const tCommon = useTranslations('common')
@@ -70,6 +73,8 @@ function ListeningPage() {
   const [result, setResult] = useState<SubmitResult | null>(null)
   const [history, setHistory] = useState<AttemptItem[]>([])
   const [historyTotal, setHistoryTotal] = useState(0)
+  const [historyPage, setHistoryPage] = useState(0)
+  const [historyLoading, setHistoryLoading] = useState(false)
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [reviewPromptOpen, setReviewPromptOpen] = useState(false)
@@ -222,10 +227,16 @@ function ListeningPage() {
     }
   }
 
-  async function loadHistory() {
+  async function loadHistory(pageIndex = 0) {
     setPageState('history')
+    setHistoryPage(pageIndex)
+    setHistoryLoading(true)
     try {
-      const res = await apiFetch('/api/listening/history')
+      const params = new URLSearchParams({
+        skip: String(pageIndex * HISTORY_PAGE_SIZE),
+        limit: String(HISTORY_PAGE_SIZE),
+      })
+      const res = await apiFetch(`/api/listening/history?${params.toString()}`)
       if (res.ok) {
         const data = (await res.json()) as {
           items: AttemptItem[]
@@ -236,6 +247,8 @@ function ListeningPage() {
       }
     } catch {
       /* ignore */
+    } finally {
+      setHistoryLoading(false)
     }
   }
 
@@ -280,7 +293,9 @@ function ListeningPage() {
           </button>
         </div>
 
-        {history.length === 0 ? (
+        {historyLoading && history.length === 0 ? (
+          <PageLoading fullScreen={false} className="block p-5" />
+        ) : history.length === 0 ? (
           <div className="border-fl-border bg-fl-surface border p-6 text-center">
             <p className="text-fl-muted-3 font-mono text-xs tracking-wide">
               {t('historyEmpty')}
@@ -335,13 +350,18 @@ function ListeningPage() {
                 </button>
               </div>
             ))}
-            {historyTotal > history.length && (
-              <p className="text-fl-label text-fl-muted-4 py-2 text-center font-mono">
-                {t('moreInHistory', { count: historyTotal - history.length })}
-              </p>
-            )}
           </div>
         )}
+
+        <Pagination
+          page={historyPage}
+          totalPages={Math.ceil(historyTotal / HISTORY_PAGE_SIZE)}
+          loading={historyLoading}
+          onPageChange={loadHistory}
+          prevLabel={`← ${tCommon('back')}`}
+          nextLabel={`${tCommon('next')} →`}
+          className="mt-4"
+        />
 
         {/* Word-save tooltip */}
         {selectedWord && (
@@ -475,7 +495,7 @@ function ListeningPage() {
             {t('nextExercise')}
           </button>
           <button
-            onClick={loadHistory}
+            onClick={() => loadHistory(0)}
             className="border-fl-border bg-fl-surface text-fl-muted-2 hover:text-fl-fg hover:bg-fl-surface-2 border px-4 py-3 font-mono text-xs tracking-widest uppercase transition-colors"
           >
             {t('viewHistory')}
@@ -515,7 +535,7 @@ function ListeningPage() {
             {t('title')}
           </h1>
           <button
-            onClick={loadHistory}
+            onClick={() => loadHistory(0)}
             className="text-fl-label text-fl-muted-2 hover:text-fl-fg font-mono tracking-widest uppercase transition-colors"
           >
             {t('history')}
@@ -557,7 +577,7 @@ function ListeningPage() {
           </p>
         </div>
         <button
-          onClick={loadHistory}
+          onClick={() => loadHistory(0)}
           className="text-fl-label text-fl-muted-2 hover:text-fl-fg shrink-0 font-mono tracking-widest uppercase transition-colors"
         >
           {t('history')}

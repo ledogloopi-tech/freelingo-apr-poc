@@ -88,7 +88,7 @@ export default async function Home() {
     const backendUrl = process.env.BACKEND_URL || 'http://backend:8000'
     const [configRes, reviewsRes] = await Promise.all([
       fetch(`${backendUrl}/api/config`, { next: { revalidate: 3600 } }),
-      fetch(`${backendUrl}/api/reviews/public?limit=12`, {
+      fetch(`${backendUrl}/api/reviews/public?limit=100`, {
         next: { revalidate: 300 },
       }),
     ])

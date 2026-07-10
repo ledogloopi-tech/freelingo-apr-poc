@@ -331,7 +331,7 @@ async def list_feedback(
     sort: str = Query(default="votes", pattern="^(votes|date)$"),
     order: str = Query(default="desc", pattern="^(asc|desc)$"),
     skip: int = Query(default=0, ge=0),
-    limit: int = Query(default=20, ge=1, le=100),
+    limit: int = Query(default=10, ge=1, le=100),
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ) -> PaginatedFeedbackResponse:
@@ -360,7 +360,10 @@ async def list_feedback(
     else:
         sort_col = FeedbackEntry.created_at
 
-    stmt = stmt.order_by(sort_col.desc() if order == "desc" else sort_col.asc())
+    if order == "desc":
+        stmt = stmt.order_by(sort_col.desc(), FeedbackEntry.id.desc())
+    else:
+        stmt = stmt.order_by(sort_col.asc(), FeedbackEntry.id.asc())
 
     entries, total = await paginate(db, stmt, skip, limit)
 

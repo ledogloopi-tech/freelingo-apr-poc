@@ -275,7 +275,7 @@ therefore subject to the Stripe paywall when `STRIPE_ENABLED=true`.
 - **POST `/api/listening/generate`** — Rate limit: 5/min. Triggers on-demand generation for the user's level + language variant. Returns the new exercise (without text/correct answers) or `{ "status": "generating" }` if a generation is already in progress.
 - **GET `/api/listening/audio/{exercise_id}`** — Rate limit: 60/min. Streams the MP3 file for the exercise. Returns 404 if the file is missing. Sets `Content-Type: audio/mpeg` and `Accept-Ranges: bytes` for browser seek support.
 - **POST `/api/listening/attempt`** — Rate limit: 20/min. Submits answers. Returns score, XP, correct answers, and the exercise transcript.
-- **GET `/api/listening/history`** — Rate limit: 30/min. Returns paginated list of the user's past attempts with exercise metadata.
+- **GET `/api/listening/history`** — Rate limit: 60/min. Returns the user's past attempts in pages of 10 by default, with exercise metadata. Accepts `skip` and `limit` (max 50).
 
 ### 2.5 Schemas (`app/schemas/listening.py`)
 
@@ -376,7 +376,7 @@ Six UI states controlled by local `PageState` type:
 - `idle` — No exercise available and no generation in progress; shows "Generate" button
 - `exercise` — Exercise card + `ExerciseAudioPlayer` + question form; "Submit" activates when all 5 answered
 - `results` — Score, XP, per-question feedback, transcript, "Next exercise" / "View history" buttons. After a successful new attempt, the page may open the reusable review prompt, subject to duplicate-review checks and local dismissal cooldown. Replay attempts from history do not trigger the prompt.
-- `history` — Paginated list of past attempts; each row shows topic, score, date, "Review" (expands transcript)
+- `history` — Paginated list of past attempts, 10 per page, using the shared Previous/Next controls. Each card shows topic, score, transcript, and a replay action. Page changes send `skip` and `limit` to the history endpoint; controls are hidden for a single page and disabled while loading.
 
 **`ExerciseAudioPlayer`** — inline component within the same file:
 
@@ -522,7 +522,7 @@ Add Listening to the access rules table in `specs/phase-5-stripe-subscriptions.i
 - `POST /api/listening/generate` — 5/min
 - `GET /api/listening/audio/{id}` — 60/min
 - `POST /api/listening/attempt` — 20/min
-- `GET /api/listening/history` — 30/min
+- `GET /api/listening/history` — 60/min
 
 ---
 
