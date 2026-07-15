@@ -283,27 +283,79 @@ describe('APR model audio', () => {
     ).toBeNull()
   })
 
-  it('revokes replaced and unmounted model-audio URLs only', async () => {
+  it('ignores a pending model-audio response after unmount', async () => {
     const view = await renderRecordingStep()
-    mockApiFetch.mockResolvedValueOnce(audioResponse('abc'))
+    let resolveAudio: (res: Response) => void = () => {}
+    mockApiFetch.mockReturnValueOnce(
+      new Promise((resolve) => {
+        resolveAudio = resolve
+      })
+    )
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical model audio' })
+    )
+    const signal = mockApiFetch.mock.lastCall?.[1].signal as AbortSignal
+    expect(signal.aborted).toBe(false)
+
+    view.unmount()
+    expect(signal.aborted).toBe(true)
+
+    resolveAudio(audioResponse('late-after-unmount'))
+    await Promise.resolve()
+    await Promise.resolve()
+
+    expect(URL.createObjectURL).not.toHaveBeenCalled()
+    expect(
+      screen.queryByLabelText('Generated technical model audio playback')
+    ).toBeNull()
+  })
+
+  it('completes a successful Strict Mode model-audio request', async () => {
+    await renderRecordingStep({ strict: true })
+    mockApiFetch.mockResolvedValueOnce(audioResponse('strict-success'))
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical model audio' })
+    )
+
+    await screen.findByLabelText('Generated technical model audio playback')
+    expect(
+      mockApiFetch.mock.calls.filter((call) => call[0] === modelAudioEndpoint)
+    ).toHaveLength(1)
+    expect(URL.createObjectURL).toHaveBeenCalledTimes(1)
+  })
+
+  it('revokes exactly the prior model-audio URL during replacement', async () => {
+    await renderRecordingStep()
+    mockApiFetch.mockResolvedValueOnce(audioResponse('first-model-audio'))
     fireEvent.click(
       screen.getByRole('button', { name: 'Generate technical model audio' })
     )
     await screen.findByLabelText('Generated technical model audio playback')
-    fireEvent.click(screen.getByRole('button', { name: 'Start recording' }))
-    mockApiFetch.mockResolvedValueOnce(audioResponse('def'))
+    const firstModelAudioUrl = vi.mocked(URL.createObjectURL).mock.results[0]
+      ?.value as string
+
+    vi.mocked(URL.revokeObjectURL).mockClear()
+    mockApiFetch.mockResolvedValueOnce(audioResponse('second-model-audio'))
     fireEvent.click(
-      screen.getByRole('button', {
-        name: 'Generate new technical audio',
-      })
+      screen.getByRole('button', { name: 'Generate new technical audio' })
     )
-    await waitFor(() => expect(URL.revokeObjectURL).toHaveBeenCalledTimes(1))
-    view.unmount()
-    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(3)
+
+    await waitFor(() => expect(URL.createObjectURL).toHaveBeenCalledTimes(2))
+    const secondModelAudioUrl = vi.mocked(URL.createObjectURL).mock.results[1]
+      ?.value as string
+
+    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(1)
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith(firstModelAudioUrl)
+    expect(URL.revokeObjectURL).not.toHaveBeenCalledWith(secondModelAudioUrl)
+    expect(
+      screen.getByLabelText('Generated technical model audio playback')
+    ).toBeDefined()
   })
 
-  it('ignores stale responses after restart and allows Strict Mode requests', async () => {
-    await renderRecordingStep({ strict: true })
+  it('ignores stale responses after confirmed restart', async () => {
+    await renderRecordingStep()
     let resolveAudio: (res: Response) => void = () => {}
     mockApiFetch.mockReturnValueOnce(
       new Promise((resolve) => {
