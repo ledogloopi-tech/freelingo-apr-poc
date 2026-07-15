@@ -40,11 +40,11 @@ The recorder checks preferred MIME candidates at runtime with `MediaRecorder.isT
 - `audio/webm`
 - `audio/mp4`
 
-If none are explicitly supported, the recorder uses the browser default `MediaRecorder` constructor. The actual Blob MIME type is stored with the captured attempt.
+If none are explicitly supported, the recorder uses the browser default `MediaRecorder` constructor. The captured format is derived from the best actual browser information available: `recorder.mimeType`, then the selected supported MIME type, then the first non-empty chunk type. If the browser supplies no type, the Blob is created without a fabricated type and the metadata/UI uses the honest technical fallback `unknown`. The previous fabricated value `browser-default` is not used as a Blob MIME type.
 
 ## 7. Permission behavior
 
-Microphone permission is requested only after the learner activates the Start recording button. No permission request is made while the page loads or when the recording step first renders.
+Microphone permission is requested only after the learner activates the Start recording button. No permission request is made while the page loads or when the recording step first renders. Each permission request has a synchronous active-capture token; if permission resolves after unmount or after the request has been cancelled, the returned stream tracks are stopped immediately and no `MediaRecorder` is created.
 
 ## 8. Original-attempt preservation
 
@@ -56,19 +56,19 @@ After an original exists, the learner may record another attempt. The retry is d
 
 ## 10. Player-owned session state
 
-`AprLessonPlayer` owns the Original attempt and Latest retry state, including Blob metadata and object URLs. This preserves attempts while the learner moves backward and forward through the lesson.
+`AprLessonPlayer` owns the Original attempt and Latest retry state, including Blob metadata and object URLs. This preserves attempts while the learner moves backward and forward through the lesson. The player updates its cleanup ref synchronously inside the same state transition that creates, replaces, or clears attempts, so an immediate unmount still revokes retained object URLs.
 
 ## 11. Object URL lifecycle
 
-The player creates object URLs for retained attempts. It revokes the replaced retry URL, all retained URLs on confirmed Restart, and all retained URLs when the lesson player unmounts. It does not revoke the original merely because the recording step is temporarily hidden.
+The player creates object URLs for retained attempts. It revokes the replaced retry URL, all retained URLs on confirmed Restart, and all retained URLs when the lesson player unmounts. It does not revoke the original merely because the recording step is temporarily hidden. Confirmed Restart synchronously clears the cleanup ref after revocation so a later unmount does not double-revoke already cleared URLs; cancelled Restart revokes nothing.
 
 ## 12. Stream cleanup
 
-The recorder stops all MediaStream tracks after capture, after permission or recording errors, and when the recorder unmounts.
+The recorder stops all MediaStream tracks after capture, after permission or recording errors, and when the recorder unmounts. Unmount marks the active capture cancelled before callbacks can run, clears timers, detaches `ondataavailable`, `onstop`, and `onerror`, safely stops any active `MediaRecorder`, discards pending chunks, and suppresses late callbacks so `onCapture` is not called after unmount. The same cancellation path is used for technical errors, preventing an error followed by `onstop` from creating an attempt.
 
 ## 13. Continue gating
 
-The recording step is required only as a technical requirement. Continue is blocked until one Original attempt exists, with the message: “Create one technical microphone recording before continuing.” A retry is optional.
+The recording step is required only as a technical requirement. Continue is blocked until one Original attempt exists, with the message: “Create one technical microphone recording before continuing.” A retry is optional. Duplicate Start activation is guarded synchronously with the active-capture token so rapid clicks cannot open multiple permission prompts or create simultaneous recorders.
 
 ## 14. Restart behavior
 
@@ -125,7 +125,7 @@ Day 4 deliberately does not use:
 
 ## 20. Known limitations
 
-Recordings are available only in the current browser session and are lost on reload, browser close, page unload, or confirmed Restart. Browser MIME support varies. Day 4 does not analyze or transcribe the recording.
+Recordings are available only in the current browser session and are lost on reload, browser close, page unload, or confirmed Restart. Browser MIME support varies, and some browsers may produce no MIME type; in that case APR displays `unknown` while preserving the unmodified Blob data. Day 4 does not analyze or transcribe the recording.
 
 ## 21. Day 5 readiness
 

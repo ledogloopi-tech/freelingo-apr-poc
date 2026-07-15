@@ -123,9 +123,10 @@ const manifest = {
 describe('APR lesson player', () => {
   beforeEach(() => {
     mockApiFetch.mockReset()
+    let objectUrlCounter = 0
     vi.stubGlobal('URL', {
       createObjectURL: vi.fn(
-        (blob: Blob) => `blob:${blob.size}:${Math.random()}`
+        (blob: Blob) => `blob:${blob.size}:${objectUrlCounter++}`
       ),
       revokeObjectURL: vi.fn(),
     })
@@ -289,6 +290,95 @@ describe('APR lesson player', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Restart' }))
     expect(screen.getByText('Step 1 of 5.')).toBeDefined()
     expect(screen.queryByText('Original attempt')).toBeNull()
+  })
+
+  it('revokes retained object URLs on immediate unmount after captures', async () => {
+    const { unmount } = renderManifest()
+
+    await screen.findByText('Step 1 of 5.')
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(screen.getByRole('radio', { name: /layout is clear/i }))
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Start recording' }))
+    const originalSrc = screen
+      .getByLabelText('Original attempt playback')
+      .getAttribute('src')
+
+    unmount()
+
+    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(1)
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith(originalSrc)
+  })
+
+  it('revokes original and latest retry on unmount and only replaced retry during replacement', async () => {
+    const { unmount } = renderManifest()
+
+    await screen.findByText('Step 1 of 5.')
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(screen.getByRole('radio', { name: /layout is clear/i }))
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Start recording' }))
+    const originalSrc = screen
+      .getByLabelText('Original attempt playback')
+      .getAttribute('src')
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Record another attempt' })
+    )
+    const firstRetrySrc = screen
+      .getByLabelText('Latest retry playback')
+      .getAttribute('src')
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Record another attempt' })
+    )
+    const latestRetrySrc = screen
+      .getByLabelText('Latest retry playback')
+      .getAttribute('src')
+
+    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(1)
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith(firstRetrySrc)
+    expect(URL.revokeObjectURL).not.toHaveBeenCalledWith(originalSrc)
+    expect(URL.revokeObjectURL).not.toHaveBeenCalledWith(latestRetrySrc)
+
+    unmount()
+
+    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(3)
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith(originalSrc)
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith(latestRetrySrc)
+  })
+
+  it('does not revoke retained URLs on cancelled Restart and does not double revoke after confirmed Restart', async () => {
+    const confirm = vi.fn().mockReturnValueOnce(false).mockReturnValueOnce(true)
+    vi.stubGlobal('confirm', confirm)
+    const { unmount } = renderManifest()
+
+    await screen.findByText('Step 1 of 5.')
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(screen.getByRole('radio', { name: /layout is clear/i }))
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Start recording' }))
+    const originalSrc = screen
+      .getByLabelText('Original attempt playback')
+      .getAttribute('src')
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Record another attempt' })
+    )
+    const retrySrc = screen
+      .getByLabelText('Latest retry playback')
+      .getAttribute('src')
+
+    fireEvent.click(screen.getByRole('button', { name: 'Restart' }))
+    expect(URL.revokeObjectURL).not.toHaveBeenCalled()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Restart' }))
+    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(2)
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith(originalSrc)
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith(retrySrc)
+
+    unmount()
+    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(2)
   })
 
   it('shows technical completion without academic completion language', async () => {

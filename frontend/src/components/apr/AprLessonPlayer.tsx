@@ -146,25 +146,21 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
   }, [currentStepIndex, complete])
 
   useEffect(() => {
-    recordingAttemptsRef.current = recordingAttempts
-  }, [recordingAttempts])
-
-  useEffect(() => {
     return () => {
       const current = recordingAttemptsRef.current
       if (current.original) URL.revokeObjectURL(current.original.objectUrl)
       if (current.latestRetry)
         URL.revokeObjectURL(current.latestRetry.objectUrl)
+      recordingAttemptsRef.current = {}
     }
   }, [])
 
   function clearRecordingAttempts() {
-    setRecordingAttempts((current) => {
-      if (current.original) URL.revokeObjectURL(current.original.objectUrl)
-      if (current.latestRetry)
-        URL.revokeObjectURL(current.latestRetry.objectUrl)
-      return {}
-    })
+    const current = recordingAttemptsRef.current
+    if (current.original) URL.revokeObjectURL(current.original.objectUrl)
+    if (current.latestRetry) URL.revokeObjectURL(current.latestRetry.objectUrl)
+    recordingAttemptsRef.current = {}
+    setRecordingAttempts({})
   }
 
   function handleAudioCapture(capture: AprCapturedAudio) {
@@ -174,10 +170,14 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     }
     setRecordingWarning(false)
     setRecordingAttempts((current) => {
-      if (!current.original) return { original: attempt }
-      if (current.latestRetry)
+      const next = !current.original
+        ? { original: attempt }
+        : { ...current, latestRetry: attempt }
+      if (current.original && current.latestRetry) {
         URL.revokeObjectURL(current.latestRetry.objectUrl)
-      return { ...current, latestRetry: attempt }
+      }
+      recordingAttemptsRef.current = next
+      return next
     })
   }
 

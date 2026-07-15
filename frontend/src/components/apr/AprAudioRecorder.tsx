@@ -24,7 +24,13 @@ type AprAudioRecorderProps = {
   onCapture: (capture: AprCapturedAudio) => void
 }
 
+type CaptureSession = {
+  id: number
+  cancelled: boolean
+}
+
 const MIME_CANDIDATES = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4']
+const UNKNOWN_MIME_TYPE_LABEL = 'unknown'
 
 const ERROR_MESSAGES = {
   permission:
@@ -53,6 +59,10 @@ function formatElapsed(seconds: number): string {
   return `${seconds.toFixed(1)} seconds`
 }
 
+function recorderIsActive(recorder: MediaRecorder): boolean {
+  return recorder.state !== 'inactive'
+}
+
 export function AprAudioRecorder({
   maxSeconds,
   hasOriginalAttempt,
@@ -69,6 +79,17 @@ export function AprAudioRecorder({
   const startedAtRef = useRef<number>(0)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const autoStopRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const mountedRef = useRef(false)
+  const nextCaptureIdRef = useRef(0)
+  const activeCaptureRef = useRef<CaptureSession | null>(null)
+
+  function isActiveSession(session: CaptureSession): boolean {
+    return (
+      mountedRef.current &&
+      activeCaptureRef.current === session &&
+      !session.cancelled
+    )
+  }
 
   function clearTimers() {
     if (intervalRef.current) clearInterval(intervalRef.current)
@@ -77,23 +98,52 @@ export function AprAudioRecorder({
     autoStopRef.current = null
   }
 
+  function detachRecorderHandlers(recorder: MediaRecorder | null) {
+    if (!recorder) return
+    recorder.ondataavailable = null
+    recorder.onstop = null
+    recorder.onerror = null
+  }
+
+  function clearCaptureReferences() {
+    cleanupStream()
+    recorderRef.current = null
+    chunksRef.current = []
+  }
+
   function cleanupStream() {
     stopStream(streamRef.current)
     streamRef.current = null
   }
 
-  function finishWithError(nextMessage: string, nextState: RecorderState) {
+  function cancelActiveCapture() {
+    const session = activeCaptureRef.current
+    if (session) session.cancelled = true
+    activeCaptureRef.current = null
     clearTimers()
-    cleanupStream()
-    recorderRef.current = null
-    chunksRef.current = []
+    const recorder = recorderRef.current
+    detachRecorderHandlers(recorder)
+    if (recorder && recorderIsActive(recorder)) {
+      try {
+        recorder.stop()
+      } catch {
+        // Cancellation is best effort; tracks and refs are still cleared below.
+      }
+    }
+    clearCaptureReferences()
+  }
+
+  function finishWithError(nextMessage: string, nextState: RecorderState) {
+    cancelActiveCapture()
+    if (!mountedRef.current) return
     setMessage(nextMessage)
     setState(nextState)
   }
 
   function stopRecording() {
+    const session = activeCaptureRef.current
     const recorder = recorderRef.current
-    if (!recorder) return
+    if (!session || !recorder || !isActiveSession(session)) return
     setState('processing')
     setMessage('Processing technical microphone recording.')
     clearTimers()
@@ -105,14 +155,24 @@ export function AprAudioRecorder({
   }
 
   async function startRecording() {
-    if (state === 'recording' || state === 'requesting_permission') return
+    if (activeCaptureRef.current) return
     if (
       typeof MediaRecorder === 'undefined' ||
       !navigator.mediaDevices?.getUserMedia
     ) {
-      finishWithError(ERROR_MESSAGES.unsupported, 'unsupported')
+      if (mountedRef.current) {
+        setMessage(ERROR_MESSAGES.unsupported)
+        setState('unsupported')
+      }
       return
     }
+
+    const session: CaptureSession = {
+      id: nextCaptureIdRef.current + 1,
+      cancelled: false,
+    }
+    nextCaptureIdRef.current = session.id
+    activeCaptureRef.current = session
 
     setState('requesting_permission')
     setElapsedSeconds(0)
@@ -121,60 +181,101 @@ export function AprAudioRecorder({
     let stream: MediaStream | null = null
     try {
       stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      if (!isActiveSession(session)) {
+        stopStream(stream)
+        if (activeCaptureRef.current === session)
+          activeCaptureRef.current = null
+        return
+      }
+
       streamRef.current = stream
       chunksRef.current = []
       const selectedMimeType = selectMimeType()
       const recorder = selectedMimeType
         ? new MediaRecorder(stream, { mimeType: selectedMimeType })
         : new MediaRecorder(stream)
+      if (!isActiveSession(session)) {
+        stopStream(stream)
+        return
+      }
       recorderRef.current = recorder
       startedAtRef.current = Date.now()
 
       recorder.ondataavailable = (event: BlobEvent) => {
+        if (!isActiveSession(session)) return
         if (event.data?.size > 0) chunksRef.current.push(event.data)
       }
 
       recorder.onerror = () => {
+        if (!isActiveSession(session)) return
         finishWithError(ERROR_MESSAGES.generic, 'technical_error')
       }
 
       recorder.onstop = () => {
+        if (!isActiveSession(session)) return
         clearTimers()
         const durationSeconds = Math.max(
           0,
           (Date.now() - startedAtRef.current) / 1000
         )
-        const mimeType =
-          recorder.mimeType || selectedMimeType || 'browser-default'
-        const blob = new Blob(chunksRef.current, { type: mimeType })
+        const chunks = chunksRef.current
+        const firstChunkType = chunks.find((chunk) => chunk.type)?.type
+        const finalMimeType =
+          recorder.mimeType || selectedMimeType || firstChunkType
+        const blob = finalMimeType
+          ? new Blob(chunks, { type: finalMimeType })
+          : new Blob(chunks)
         cleanupStream()
+        detachRecorderHandlers(recorder)
         recorderRef.current = null
         chunksRef.current = []
+        activeCaptureRef.current = null
         if (blob.size <= 0) {
+          if (!mountedRef.current) return
           setState('technical_error')
           setMessage(ERROR_MESSAGES.empty)
           return
         }
-        onCapture({ blob, mimeType: blob.type || mimeType, durationSeconds })
+        onCapture({
+          blob,
+          mimeType: blob.type || finalMimeType || UNKNOWN_MIME_TYPE_LABEL,
+          durationSeconds,
+        })
+        if (!mountedRef.current) return
         setState('ready')
         setMessage(
           'Technical recording captured for this browser session only.'
         )
       }
 
+      if (!isActiveSession(session)) {
+        stopStream(stream)
+        return
+      }
       recorder.start()
+      if (!isActiveSession(session)) {
+        cancelActiveCapture()
+        return
+      }
       setState('recording')
       setMessage(
         'Recording technical microphone test. No audio is being uploaded.'
       )
       intervalRef.current = setInterval(() => {
+        if (!isActiveSession(session)) return
         setElapsedSeconds((Date.now() - startedAtRef.current) / 1000)
       }, 100)
       autoStopRef.current = setTimeout(() => {
+        if (!isActiveSession(session)) return
         stopRecording()
       }, maxSeconds * 1000)
     } catch (error) {
       if (stream) stopStream(stream)
+      if (!isActiveSession(session)) {
+        if (activeCaptureRef.current === session)
+          activeCaptureRef.current = null
+        return
+      }
       const name = error instanceof DOMException ? error.name : ''
       if (name === 'NotAllowedError' || name === 'SecurityError') {
         finishWithError(ERROR_MESSAGES.permission, 'technical_error')
@@ -187,11 +288,13 @@ export function AprAudioRecorder({
   }
 
   useEffect(() => {
+    mountedRef.current = true
     return () => {
-      clearTimers()
-      cleanupStream()
-      recorderRef.current = null
+      mountedRef.current = false
+      cancelActiveCapture()
     }
+    // cancelActiveCapture intentionally reads refs at unmount time.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const isRecording = state === 'recording'
