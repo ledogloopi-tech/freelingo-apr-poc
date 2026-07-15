@@ -1,0 +1,36 @@
+{
+  "audit_date": "2026-07-15",
+  "branch": "apr/poc-primeira-conexao",
+  "current_commit": "30a59da Merge pull request #279 from ArtCC/develop",
+  "tag": {"name": "v1.8.24", "found_locally": false, "commit": null, "note": "No local tags were present and no git remote is configured in this checkout, so the tag commit could not be resolved here."},
+  "created_files_only": [
+    "docs/apr/poc/APR_FREELINGO_DEPENDENCY_MAP.md",
+    "docs/apr/poc/APR_DAY1_RUNBOOK.md",
+    "docs/apr/poc/APR_DAY1_FINDINGS.md",
+    "docs/apr/poc/APR_DAY1_INVENTORY.json"
+  ],
+  "repository_instructions_inspected": ["AGENTS.md", "README.md", "CONTRIBUTING.md", "CONTRIBUTOR_LICENSE_AGREEMENT.md", ".env.example", "docker-compose.yml", "backend/Dockerfile", "frontend/Dockerfile", "frontend/Dockerfile.dev", "scripts/format.sh", "scripts/pre-push.sh"],
+  "technical_areas": {
+    "authentication": ["backend/app/routers/auth.py", "backend/app/core/security.py", "backend/app/core/deps.py", "backend/app/models/user.py", "frontend/src/store/auth.ts", "frontend/src/lib/api.ts", "frontend/src/app/(auth)/login/page.tsx", "frontend/src/app/(auth)/register/page.tsx"],
+    "database_configuration": ["backend/app/core/database.py", "backend/app/core/config.py", "alembic.ini", "backend/alembic/env.py"],
+    "migrations": ["backend/alembic/versions/"],
+    "user_onboarding": ["frontend/src/app/(auth)/onboarding/page.tsx", "backend/app/routers/languages.py", "backend/app/services/user_language_service.py"],
+    "language_selection": ["frontend/src/lib/target-languages.ts", "frontend/src/store/language.ts", "frontend/src/components/TargetLanguageSelector.tsx", "backend/app/services/language_helpers.py", "backend/app/models/user_language.py"],
+    "cefr_or_placement": ["backend/app/routers/assessment.py", "backend/app/services/assessment.py", "backend/app/data/assessment_bank.py", "backend/app/services/prompts/assessment.py", "frontend/src/app/(app)/assessment/page.tsx", "frontend/src/app/(app)/assessment/level-test/page.tsx"],
+    "study_plan_generation": ["backend/app/routers/study_plan.py", "backend/app/services/study_plan_generator.py", "backend/app/models/study_plan.py", "frontend/src/app/(app)/plan/page.tsx"],
+    "lessons": ["backend/app/routers/lessons.py", "backend/app/services/lesson_generator.py", "backend/app/models/lesson.py", "frontend/src/app/(app)/lesson/[id]/page.tsx"],
+    "progress_xp_streaks": ["backend/app/routers/progress.py", "backend/app/services/progress_service.py", "backend/app/models/progress.py", "frontend/src/app/(app)/progress/page.tsx", "frontend/src/store/progress.ts"],
+    "subscriptions_or_quotas": ["backend/app/routers/billing.py", "backend/app/services/subscription_service.py", "backend/app/services/quota_service.py", "backend/app/models/llm_usage.py", "frontend/src/components/billing/", "frontend/src/components/settings/UsageLimitsSection.tsx"],
+    "llm_providers": ["backend/app/services/llm_adapter.py", "backend/app/core/config.py", "backend/app/services/prompts/"],
+    "speech_to_text": ["backend/app/routers/stt.py", "backend/app/services/stt_service.py", "frontend/src/app/api/stt/route.ts"],
+    "text_to_speech": ["backend/app/routers/tts.py", "backend/app/services/tts_service.py", "frontend/src/app/api/tts/route.ts"],
+    "audio_recording": ["frontend/src/components/ui/VoiceRecorder.tsx", "frontend/src/lib/audio.ts", "frontend/src/components/conversation/MicButton.tsx", "frontend/src/lib/conversation-ws.ts"],
+    "audio_storage": ["backend/app/services/listening_service.py", "backend/app/models/listening.py", "docker-compose.yml"],
+    "transcripts": ["backend/app/models/chat_history.py", "backend/app/services/conversation_pipeline.py", "backend/app/models/lesson.py", "backend/app/models/listening.py"],
+    "conversation_or_websocket": ["backend/app/routers/conversation.py", "backend/app/services/conversation_pipeline.py", "frontend/src/app/(app)/conversation/page.tsx", "frontend/src/lib/conversation-ws.ts", "frontend/src/components/conversation/"],
+    "frontend_routing": ["frontend/src/app/", "frontend/src/middleware.ts"],
+    "dashboard": ["frontend/src/app/(app)/dashboard/page.tsx"],
+    "tests": ["backend/tests/", "frontend/tests/"],
+    "local_development_and_deployment": ["README.md", "CONTRIBUTING.md", ".env.example", "docker-compose.yml", "backend/Dockerfile", "frontend/Dockerfile", "frontend/Dockerfile.dev", "scripts/format.sh", "scripts/pre-push.sh"]
+  }
+}
