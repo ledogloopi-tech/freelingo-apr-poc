@@ -17,6 +17,7 @@ on:
       - 'frontend/tests/app/apr-lesson-player.test.tsx'
       - 'frontend/tests/app/apr-audio-recorder.test.tsx'
       - 'frontend/tests/app/apr-transcript-confirmation.test.tsx'
+      - 'frontend/tests/app/apr-model-audio.test.tsx'
       - 'frontend/src/components/apr/**'
       - 'frontend/package-lock.json'
       - 'frontend/package.json'
@@ -81,4 +82,4 @@ jobs:
         run: npx tsc --noEmit
 
       - name: Run APR frontend tests
-        run: npm run test:run -- apr-primeira-conexao.test.tsx apr-lesson-player.test.tsx apr-audio-recorder.test.tsx apr-transcript-confirmation.test.tsx
+        run: npm run test:run -- apr-primeira-conexao.test.tsx apr-lesson-player.test.tsx apr-audio-recorder.test.tsx apr-transcript-confirmation.test.tsx apr-model-audio.test.tsx

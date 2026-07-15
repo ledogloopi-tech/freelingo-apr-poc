@@ -90,7 +90,7 @@ async def test_apr_lesson_endpoint_returns_typed_placeholder_manifest_without_wr
     manifest = res.json()
     assert manifest["lesson_id"] == "APR-R1-RM-01-L01-TECH"
     assert manifest["module_id"] == "APR-R1-RM-01"
-    assert manifest["version"] == "0.3.0-technical-placeholder"
+    assert manifest["version"] == "0.4.0-technical-placeholder"
     assert manifest["title"] == "Enter the Connection"
     assert manifest["internal_title"] == "Lesson Player Technical Demonstration"
     assert manifest["content_status"] == "technical-placeholder"
@@ -386,7 +386,7 @@ async def test_apr_lesson_manifest_day5_transcription_contract(client, test_user
     )
 
     manifest = res.json()
-    assert manifest["version"] == "0.3.0-technical-placeholder"
+    assert manifest["version"] == "0.4.0-technical-placeholder"
     recording_step = manifest["steps"][3]
     assert recording_step["transcription_language"] == "pt"
     assert recording_step["transcription_mode"] == "on-demand"
@@ -398,3 +398,277 @@ async def test_apr_lesson_manifest_day5_transcription_contract(client, test_user
     assert recording_step["storage_status"] == "session-only"
     assert manifest["authorized_for_pilot"] is False
     assert manifest["authorized_for_public_release"] is False
+
+
+class MockAprTtsService:
+    def __init__(self, audio=b"mp3-bytes", mime_type="audio/mpeg", exc=None):
+        self.audio = audio
+        self.mime_type = mime_type
+        self.exc = exc
+        self.calls = []
+
+    async def synthesize_with_metadata(self, text, voice=None, language=None):
+        from app.services.tts_service import TTSResult
+
+        self.calls.append({"text": text, "voice": voice, "language": language})
+        if self.exc:
+            raise self.exc
+        return TTSResult(audio_bytes=self.audio, mime_type=self.mime_type)
+
+
+MODEL_AUDIO_URL = (
+    "/api/apr/modules/primeira-conexao/lessons/enter-the-connection/model-audio"
+)
+MODEL_AUDIO_ID = "APR-R1-RM-01-L01-MODEL-TECH"
+SERVER_CONTROLLED_MODEL_AUDIO_TEXT = (
+    "Olá. Este é um teste técnico de áudio em português brasileiro."
+)
+
+
+def enable_apr_tts(monkeypatch, *, provider="local", voice="pt_BR_technical"):
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+    monkeypatch.setattr(settings, "TTS_PROVIDER", provider)
+    monkeypatch.setattr(settings, "APR_TTS_VOICE", voice)
+
+
+async def test_apr_model_audio_requires_authentication(client):
+    res = await client.post(MODEL_AUDIO_URL, json={"model_audio_id": MODEL_AUDIO_ID})
+
+    assert res.status_code == 401
+
+
+async def test_apr_model_audio_returns_404_when_disabled(client, test_user, monkeypatch):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", False)
+
+    res = await client.post(
+        MODEL_AUDIO_URL,
+        headers=headers,
+        json={"model_audio_id": MODEL_AUDIO_ID},
+    )
+
+    assert res.status_code == 404
+
+
+async def test_apr_model_audio_requires_tts_service(client, test_user, monkeypatch):
+    _user, headers = test_user
+    enable_apr_tts(monkeypatch)
+    monkeypatch.setattr(app.state, "tts_service", None, raising=False)
+
+    res = await client.post(
+        MODEL_AUDIO_URL,
+        headers=headers,
+        json={"model_audio_id": MODEL_AUDIO_ID},
+    )
+
+    assert res.status_code == 503
+
+
+async def test_apr_model_audio_rejects_unknown_identifier(client, test_user, monkeypatch):
+    _user, headers = test_user
+    enable_apr_tts(monkeypatch)
+    mock = MockAprTtsService()
+    monkeypatch.setattr(app.state, "tts_service", mock, raising=False)
+
+    res = await client.post(
+        MODEL_AUDIO_URL,
+        headers=headers,
+        json={"model_audio_id": "UNKNOWN"},
+    )
+
+    assert res.status_code == 400
+    assert mock.calls == []
+
+
+async def test_apr_model_audio_extra_client_text_does_not_control_synthesis(
+    client, test_user, monkeypatch
+):
+    _user, headers = test_user
+    enable_apr_tts(monkeypatch)
+    mock = MockAprTtsService()
+    monkeypatch.setattr(app.state, "tts_service", mock, raising=False)
+
+    res = await client.post(
+        MODEL_AUDIO_URL,
+        headers=headers,
+        json={"model_audio_id": MODEL_AUDIO_ID, "text": "cliente arbitrário"},
+    )
+
+    assert res.status_code == 200
+    assert mock.calls == [
+        {
+            "text": SERVER_CONTROLLED_MODEL_AUDIO_TEXT,
+            "voice": "pt_BR_technical",
+            "language": "pt-BR",
+        }
+    ]
+
+
+async def test_apr_model_audio_local_provider_requires_configured_apr_voice(
+    client, test_user, monkeypatch
+):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+    monkeypatch.setattr(settings, "TTS_PROVIDER", "local")
+    monkeypatch.setattr(settings, "APR_TTS_VOICE", "")
+    mock = MockAprTtsService()
+    monkeypatch.setattr(app.state, "tts_service", mock, raising=False)
+
+    res = await client.post(
+        MODEL_AUDIO_URL,
+        headers=headers,
+        json={"model_audio_id": MODEL_AUDIO_ID},
+    )
+
+    assert res.status_code == 503
+    assert "technical audio issue" in res.text
+    assert mock.calls == []
+
+
+async def test_apr_model_audio_returns_provider_mime_no_store_and_headers_without_writes(
+    client, test_user, db_session, monkeypatch
+):
+    _user, headers = test_user
+    enable_apr_tts(monkeypatch)
+    mock = MockAprTtsService(audio=b"fake-wav", mime_type="audio/wav")
+    monkeypatch.setattr(app.state, "tts_service", mock, raising=False)
+    plans_before = await db_session.scalar(select(func.count()).select_from(StudyPlan))
+    progress_before = await db_session.scalar(select(func.count()).select_from(Progress))
+
+    res = await client.post(
+        MODEL_AUDIO_URL,
+        headers=headers,
+        json={"model_audio_id": MODEL_AUDIO_ID},
+    )
+
+    assert res.status_code == 200
+    assert res.headers["content-type"] == "audio/wav"
+    assert res.headers["cache-control"] == "no-store"
+    assert res.headers["x-apr-audio-status"] == "generated-technical-placeholder"
+    assert res.headers["x-apr-audio-language"] == "pt-BR"
+    assert res.content == b"fake-wav"
+    assert mock.calls == [
+        {
+            "text": SERVER_CONTROLLED_MODEL_AUDIO_TEXT,
+            "voice": "pt_BR_technical",
+            "language": "pt-BR",
+        }
+    ]
+    assert await db_session.scalar(select(func.count()).select_from(StudyPlan)) == plans_before
+    assert await db_session.scalar(select(func.count()).select_from(Progress)) == progress_before
+
+
+@pytest.mark.parametrize("audio", [b"", b"x" * (5 * 1024 * 1024 + 1)])
+async def test_apr_model_audio_empty_or_oversized_provider_audio_fails(
+    client, test_user, monkeypatch, audio
+):
+    _user, headers = test_user
+    enable_apr_tts(monkeypatch)
+    monkeypatch.setattr(app.state, "tts_service", MockAprTtsService(audio=audio), raising=False)
+
+    res = await client.post(
+        MODEL_AUDIO_URL,
+        headers=headers,
+        json={"model_audio_id": MODEL_AUDIO_ID},
+    )
+
+    assert res.status_code == 502
+    assert "technical audio issue" in res.text
+
+
+async def test_apr_model_audio_sanitizes_provider_failures(client, test_user, monkeypatch):
+    _user, headers = test_user
+    enable_apr_tts(monkeypatch)
+    monkeypatch.setattr(
+        app.state,
+        "tts_service",
+        MockAprTtsService(exc=RuntimeError("secret provider url")),
+        raising=False,
+    )
+
+    res = await client.post(
+        MODEL_AUDIO_URL,
+        headers=headers,
+        json={"model_audio_id": MODEL_AUDIO_ID},
+    )
+
+    assert res.status_code == 503
+    assert "secret provider url" not in res.text
+    assert "technical audio issue" in res.text
+
+
+async def test_apr_model_audio_maps_httpx_failure_to_sanitized_error(
+    client, test_user, monkeypatch
+):
+    _user, headers = test_user
+    enable_apr_tts(monkeypatch)
+    request = httpx.Request("POST", "https://provider.example/tts")
+    response = httpx.Response(500, request=request)
+    monkeypatch.setattr(
+        app.state,
+        "tts_service",
+        MockAprTtsService(
+            exc=httpx.HTTPStatusError("secret provider url", request=request, response=response)
+        ),
+        raising=False,
+    )
+
+    res = await client.post(
+        MODEL_AUDIO_URL,
+        headers=headers,
+        json={"model_audio_id": MODEL_AUDIO_ID},
+    )
+
+    assert res.status_code == 502
+    assert "secret provider url" not in res.text
+    assert "provider.example" not in res.text
+
+
+async def test_apr_lesson_manifest_day6_model_audio_contract(client, test_user, monkeypatch):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+
+    res = await client.get(
+        "/api/apr/modules/primeira-conexao/lessons/enter-the-connection", headers=headers
+    )
+
+    manifest = res.json()
+    assert manifest["version"] == "0.4.0-technical-placeholder"
+    assert manifest["current_step_count"] == 5
+    recording_step = manifest["steps"][3]
+    assert recording_step["model_audio_id"] == MODEL_AUDIO_ID
+    assert recording_step["model_audio_mode"] == "on-demand"
+    assert recording_step["model_audio_language"] == "pt-BR"
+    assert recording_step["model_audio_source"] == "generated-technical-placeholder"
+    assert recording_step["model_audio_storage_status"] == "session-only"
+    assert recording_step["model_audio_authorized_as_final_content"] is False
+    assert recording_step["model_audio_required"] is False
+    assert "model_audio_text" not in recording_step
+    assert "model_audio_authorized_as_instructional_audio" not in recording_step
+    assert "model_audio_authorized_as_evidence" not in recording_step
+    assert "requires_human_audio_replacement" not in recording_step
+    assert recording_step["transcription_language"] == "pt"
+    assert recording_step["transcription_mode"] == "on-demand"
+    assert recording_step["requires_learner_confirmation"] is True
+    assert recording_step["transcript_storage_status"] == "session-only"
+    assert recording_step["transcript_authorized_as_evidence"] is False
+    assert recording_step["allow_retry"] is True
+    assert recording_step["preserve_original"] is True
+    assert recording_step["storage_status"] == "session-only"
+    assert manifest["authorized_for_pilot"] is False
+    assert manifest["authorized_for_public_release"] is False
+
+
+async def test_apr_does_not_expose_model_audio_storage_endpoint(client, test_user, monkeypatch):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+    storage_path = f"{MODEL_AUDIO_URL}/storage"
+
+    res = await client.post(storage_path, headers=headers)
+
+    assert res.status_code == 404
+    assert not any(
+        getattr(route, "path", None) == storage_path
+        and "POST" in getattr(route, "methods", set())
+        for route in app.routes
+    )

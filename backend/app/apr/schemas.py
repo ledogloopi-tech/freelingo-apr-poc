@@ -52,6 +52,13 @@ class AprRecordingStep(AprLessonStepBase):
     requires_learner_confirmation: bool
     transcript_storage_status: Literal["session-only"]
     transcript_authorized_as_evidence: bool
+    model_audio_id: str
+    model_audio_mode: Literal["on-demand"]
+    model_audio_language: Literal["pt-BR"]
+    model_audio_source: Literal["generated-technical-placeholder"]
+    model_audio_storage_status: Literal["session-only"]
+    model_audio_authorized_as_final_content: bool
+    model_audio_required: bool
 
 
 class AprReflectionStep(AprLessonStepBase):
@@ -92,3 +99,16 @@ class AprTranscriptDraftResponse(BaseModel):
     requires_learner_confirmation: bool
     authorized_as_evidence: bool
     storage_status: Literal["session-only"]
+
+
+class AprModelAudioRequest(BaseModel):
+    model_audio_id: str
+
+
+class AprModelAudioMetadata(BaseModel):
+    model_audio_id: str
+    language: Literal["pt-BR"]
+    status: Literal["generated-technical-placeholder"]
+    storage_status: Literal["session-only"]
+    authorized_as_final_content: bool
+    required: bool

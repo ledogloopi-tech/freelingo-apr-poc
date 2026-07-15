@@ -11,7 +11,7 @@ from app.apr.schemas import (
 ENTER_THE_CONNECTION_LESSON = AprLessonManifest(
     lesson_id="APR-R1-RM-01-L01-TECH",
     module_id="APR-R1-RM-01",
-    version="0.3.0-technical-placeholder",
+    version="0.4.0-technical-placeholder",
     title="Enter the Connection",
     internal_title="Lesson Player Technical Demonstration",
     content_status="technical-placeholder",
@@ -76,15 +76,26 @@ ENTER_THE_CONNECTION_LESSON = AprLessonManifest(
             title="Microphone capture",
             body=(
                 "Record a brief technical microphone test. This does not assess Portuguese "
-                "capability. Transcription starts only after you request it. The result is a machine-generated draft that you must "
-                "review and correct. Confirmation is not academic evidence and does not "
-                "turn it into academic evidence. Transcript state is session-only."
+                "capability. Model audio is generated only when you request it. It is a "
+                "temporary technical placeholder with provider-dependent voice/accent, "
+                "not final human-recorded Academy audio, not a pronunciation standard, "
+                "not academic evidence, and not saved after the browser session ends. "
+                "Transcription starts only "
+                "after you request it. The result is a machine-generated draft that you "
+                "must review and correct. Confirmation is not academic evidence and does "
+                "not turn it into academic evidence. Transcript state is session-only."
             ),
             required=True,
             prompt=(
                 "This recording remains only in this browser session until you request a "
-                "transcript draft. Transcript confirmation is not a score, language result, "
-                "or academic evidence, and APR does not save transcript state during this POC."
+                "transcript draft. You may also request optional temporary technical "
+                "model audio by approved model-audio identifier. The generated provider "
+                "voice/accent is provider-dependent and not approved human-recorded "
+                "Academy audio, not a pronunciation standard, not used to score you, "
+                "not academic evidence, "
+                "and not saved after the browser session ends. Transcript confirmation "
+                "is not a score, language result, or academic evidence, and APR does not "
+                "save transcript state during this POC."
             ),
             max_seconds=10,
             allow_retry=True,
@@ -95,6 +106,13 @@ ENTER_THE_CONNECTION_LESSON = AprLessonManifest(
             requires_learner_confirmation=True,
             transcript_storage_status="session-only",
             transcript_authorized_as_evidence=False,
+            model_audio_id="APR-R1-RM-01-L01-MODEL-TECH",
+            model_audio_mode="on-demand",
+            model_audio_language="pt-BR",
+            model_audio_source="generated-technical-placeholder",
+            model_audio_storage_status="session-only",
+            model_audio_authorized_as_final_content=False,
+            model_audio_required=False,
         ),
         AprReflectionStep(
             step_id="technical-reflection",

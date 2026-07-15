@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     OPENAI_TTS_MODEL: str = "tts-1"
     OPENAI_TTS_VOICE: str = "nova"
     OPENAI_TTS_SPEED: float = 1.0
+    APR_TTS_VOICE: str = ""
     STT_PROVIDER: str = "local"  # local | openai
     STT_BASE_URL: str = "http://whisper:9000"
     OPENAI_STT_MODEL: str = "whisper-1"

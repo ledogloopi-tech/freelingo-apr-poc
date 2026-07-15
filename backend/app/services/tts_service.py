@@ -1,4 +1,5 @@
 import time
+from dataclasses import dataclass
 
 import httpx
 import openai
@@ -6,6 +7,12 @@ import openai
 from app.core.app_logger import get_logger
 
 logger = get_logger(__name__)
+
+
+@dataclass(frozen=True)
+class TTSResult:
+    audio_bytes: bytes
+    mime_type: str
 
 
 class KokoroTTSService:
@@ -37,6 +44,12 @@ class KokoroTTSService:
             )
             response.raise_for_status()
             return response.content
+
+    async def synthesize_with_metadata(
+        self, text: str, voice: str | None = None, language: str | None = None
+    ) -> TTSResult:
+        audio = await self.synthesize(text, voice=voice, language=language)
+        return TTSResult(audio_bytes=audio, mime_type="audio/mpeg")
 
 
 class OpenAITTSService:
@@ -107,3 +120,9 @@ class OpenAITTSService:
             request_id,
         )
         return audio
+
+    async def synthesize_with_metadata(
+        self, text: str, voice: str | None = None, language: str | None = None
+    ) -> TTSResult:
+        audio = await self.synthesize(text, voice=voice, language=language)
+        return TTSResult(audio_bytes=audio, mime_type="audio/mpeg")
