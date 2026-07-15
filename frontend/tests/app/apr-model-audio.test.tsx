@@ -200,7 +200,7 @@ describe('APR model audio', () => {
       screen.getByRole('button', { name: 'Generate technical model audio' })
     )
     expect(screen.getByText(/Generating technical model audio/)).toBeDefined()
-    await screen.findByLabelText('Technical model audio playback')
+    await screen.findByLabelText('Generated technical model audio playback')
     expect(mockApiFetch).toHaveBeenLastCalledWith(
       modelAudioEndpoint,
       expect.objectContaining({ method: 'POST' })
@@ -216,11 +216,23 @@ describe('APR model audio', () => {
     expect(screen.getByText('Intended language: pt-BR')).toBeDefined()
     expect(screen.getAllByText(/provider-dependent/).length).toBeGreaterThan(0)
     expect(
-      screen.getByLabelText('Technical model audio playback')
+      screen.getByLabelText('Generated technical model audio playback')
     ).not.toHaveAttribute('autoplay')
     expect(
       screen.queryByText(/grade|CEFR|fluency|XP|streak|pronunciation result/i)
     ).toBeNull()
+  })
+
+  it('displays Unknown for a response blob without usable MIME type', async () => {
+    await renderRecordingStep()
+    mockApiFetch.mockResolvedValueOnce(
+      new Response(new Uint8Array([1, 2, 3]).buffer)
+    )
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical model audio' })
+    )
+    await screen.findByLabelText('Generated technical model audio playback')
+    expect(screen.getByText('Actual MIME type: Unknown')).toBeDefined()
   })
 
   it('blocks duplicate pending requests and uses technical failure language without blocking Continue', async () => {
@@ -252,21 +264,23 @@ describe('APR model audio', () => {
     fireEvent.click(
       screen.getByRole('button', { name: 'Generate technical model audio' })
     )
-    await screen.findByLabelText('Technical model audio playback')
+    await screen.findByLabelText('Generated technical model audio playback')
     fireEvent.click(screen.getByRole('button', { name: 'Back' }))
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
     expect(
-      screen.getByLabelText('Technical model audio playback')
+      screen.getByLabelText('Generated technical model audio playback')
     ).toBeDefined()
     vi.mocked(window.confirm).mockReturnValueOnce(false)
     fireEvent.click(screen.getByRole('button', { name: 'Restart' }))
     expect(
-      screen.getByLabelText('Technical model audio playback')
+      screen.getByLabelText('Generated technical model audio playback')
     ).toBeDefined()
     vi.mocked(window.confirm).mockReturnValueOnce(true)
     fireEvent.click(screen.getByRole('button', { name: 'Restart' }))
     expect(URL.revokeObjectURL).toHaveBeenCalled()
-    expect(screen.queryByLabelText('Technical model audio playback')).toBeNull()
+    expect(
+      screen.queryByLabelText('Generated technical model audio playback')
+    ).toBeNull()
   })
 
   it('revokes replaced and unmounted model-audio URLs only', async () => {
@@ -275,12 +289,12 @@ describe('APR model audio', () => {
     fireEvent.click(
       screen.getByRole('button', { name: 'Generate technical model audio' })
     )
-    await screen.findByLabelText('Technical model audio playback')
+    await screen.findByLabelText('Generated technical model audio playback')
     fireEvent.click(screen.getByRole('button', { name: 'Start recording' }))
     mockApiFetch.mockResolvedValueOnce(audioResponse('def'))
     fireEvent.click(
       screen.getByRole('button', {
-        name: /Generate a new technical model audio clip/,
+        name: 'Generate new technical audio',
       })
     )
     await waitFor(() => expect(URL.revokeObjectURL).toHaveBeenCalledTimes(1))
@@ -303,7 +317,7 @@ describe('APR model audio', () => {
     resolveAudio(audioResponse('stale'))
     await waitFor(() =>
       expect(
-        screen.queryByLabelText('Technical model audio playback')
+        screen.queryByLabelText('Generated technical model audio playback')
       ).toBeNull()
     )
     expect(URL.createObjectURL).not.toHaveBeenCalled()
@@ -332,7 +346,7 @@ describe('APR model audio', () => {
       screen.getByRole('button', { name: 'Generate technical model audio' })
     )
     resolveNewer(audioResponse('newer'))
-    await screen.findByLabelText('Technical model audio playback')
+    await screen.findByLabelText('Generated technical model audio playback')
     resolveOlder(audioResponse('older'))
     await waitFor(() => expect(URL.createObjectURL).toHaveBeenCalledTimes(1))
   })

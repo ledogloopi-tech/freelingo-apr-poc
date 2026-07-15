@@ -78,7 +78,7 @@ export function AprModelAudio({
       </p>
       <Button type="button" onClick={onGenerate} disabled={isRequesting}>
         {hasAudio
-          ? 'Generate a new technical model audio clip'
+          ? 'Generate new technical audio'
           : 'Generate technical model audio'}
       </Button>
       {isRequesting && (
@@ -107,12 +107,15 @@ export function AprModelAudio({
             controls
             preload="metadata"
             src={state.objectUrl}
-            aria-label="Technical model audio playback"
+            aria-label="Generated technical model audio playback"
           />
           <p>Model-audio id: {modelAudioId}</p>
           <p>Technical status: {state.metadata?.status}</p>
           <p>Intended language: {state.metadata?.language}</p>
-          <p>Actual MIME type: {state.mimeType}</p>
+          <p>
+            Actual MIME type:{' '}
+            {state.mimeType === 'unknown' ? 'Unknown' : state.mimeType}
+          </p>
           <p>Approximate size: {state.byteSize} bytes.</p>
           <p>
             Generated provider voice/accent is temporary and provider-dependent.

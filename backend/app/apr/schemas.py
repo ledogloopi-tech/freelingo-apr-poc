@@ -1,6 +1,6 @@
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class AprModuleMetadata(BaseModel):
@@ -102,6 +102,8 @@ class AprTranscriptDraftResponse(BaseModel):
 
 
 class AprModelAudioRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
     model_audio_id: str
 
 

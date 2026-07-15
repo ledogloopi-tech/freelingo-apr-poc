@@ -8,6 +8,7 @@ on:
       - 'backend/app/apr/**'
       - 'backend/app/core/config.py'
       - 'backend/app/main.py'
+      - 'backend/app/services/tts_service.py'
       - 'backend/tests/test_apr.py'
       - 'docker-compose.yml'
       - 'docker-compose.dev.yml'

@@ -39,6 +39,7 @@ APR_MODEL_AUDIO_ID = "APR-R1-RM-01-L01-MODEL-TECH"
 APR_MODEL_AUDIO_TEXT = "Olá. Este é um teste técnico de áudio em português brasileiro."
 APR_MODEL_AUDIO_LANGUAGE = "pt-BR"
 APR_MODEL_AUDIO_MAX_BYTES = 5 * 1024 * 1024
+APR_MODEL_AUDIO_MIME_TYPES = {"audio/mpeg", "audio/wav", "audio/ogg", "audio/mp4", "audio/webm"}
 APR_MODEL_AUDIO_METADATA = AprModelAudioMetadata(
     model_audio_id=APR_MODEL_AUDIO_ID,
     language="pt-BR",
@@ -124,17 +125,22 @@ async def create_enter_the_connection_model_audio(
     except httpx.HTTPStatusError:
         raise HTTPException(status_code=502, detail=APR_MODEL_AUDIO_ERROR) from None
     except httpx.RequestError:
-        raise HTTPException(status_code=503, detail=APR_MODEL_AUDIO_ERROR) from None
+        raise HTTPException(status_code=502, detail=APR_MODEL_AUDIO_ERROR) from None
     except Exception:
         raise HTTPException(status_code=503, detail=APR_MODEL_AUDIO_ERROR) from None
 
     audio = result.audio_bytes
-    if not audio or len(audio) > APR_MODEL_AUDIO_MAX_BYTES:
+    mime_type = (result.mime_type or "").split(";", 1)[0].strip().lower()
+    if (
+        not audio
+        or len(audio) > APR_MODEL_AUDIO_MAX_BYTES
+        or mime_type not in APR_MODEL_AUDIO_MIME_TYPES
+    ):
         raise HTTPException(status_code=502, detail=APR_MODEL_AUDIO_ERROR)
 
     return Response(
         content=audio,
-        media_type=result.mime_type,
+        media_type=mime_type,
         headers={
             "Cache-Control": "no-store",
             "X-APR-Audio-Status": APR_MODEL_AUDIO_METADATA.status,

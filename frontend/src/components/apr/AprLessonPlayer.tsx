@@ -262,7 +262,7 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       setModelAudioState({
         status: 'ready',
         objectUrl,
-        mimeType: blob.type || 'audio/mpeg',
+        mimeType: blob.type || 'unknown',
         byteSize: blob.size,
         technicalError: '',
         requestGeneration: generation,
