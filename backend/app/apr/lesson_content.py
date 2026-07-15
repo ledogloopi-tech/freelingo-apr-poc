@@ -77,8 +77,8 @@ ENTER_THE_CONNECTION_LESSON = AprLessonManifest(
             body=(
                 "Record a brief technical microphone test. This does not assess Portuguese "
                 "capability. Transcription starts only after you request it. The result is a machine-generated draft that you must "
-                "review and correct. Confirmation does not turn it into academic evidence, "
-                "and transcript state is session-only."
+                "review and correct. Confirmation is not academic evidence and does not "
+                "turn it into academic evidence. Transcript state is session-only."
             ),
             required=True,
             prompt=(

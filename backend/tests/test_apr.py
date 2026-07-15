@@ -145,7 +145,9 @@ async def test_apr_does_not_expose_recording_upload_endpoint(client, test_user, 
 
     assert res.status_code == 404
     assert not any(
-        route.path == recordings_path and "POST" in route.methods for route in app.routes
+        getattr(route, "path", None) == recordings_path
+        and "POST" in getattr(route, "methods", set())
+        for route in app.routes
     )
 
 
