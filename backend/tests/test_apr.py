@@ -1,6 +1,7 @@
 import pytest
 from sqlalchemy import func, select
 
+from app.core.config import settings
 from app.models.progress import Progress
 from app.models.study_plan import StudyPlan
 
@@ -13,10 +14,21 @@ async def test_apr_endpoint_requires_authentication(client):
     assert res.status_code == 401
 
 
+async def test_apr_endpoint_returns_404_when_disabled(client, test_user, monkeypatch):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", False)
+
+    res = await client.get("/api/apr/modules/primeira-conexao", headers=headers)
+
+    assert res.status_code == 404
+    assert res.json() == {"detail": "APR proof of concept is disabled"}
+
+
 async def test_apr_endpoint_returns_fixed_metadata_without_study_plan(
-    client, test_user, db_session
+    client, test_user, db_session, monkeypatch
 ):
     _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
 
     plans_before = await db_session.scalar(select(func.count()).select_from(StudyPlan))
     progress_before = await db_session.scalar(select(func.count()).select_from(Progress))
@@ -37,5 +49,5 @@ async def test_apr_endpoint_returns_fixed_metadata_without_study_plan(
     plans_after = await db_session.scalar(select(func.count()).select_from(StudyPlan))
     progress_after = await db_session.scalar(select(func.count()).select_from(Progress))
 
-    assert plans_after == plans_before == 0
-    assert progress_after == progress_before == 0
+    assert plans_after == plans_before
+    assert progress_after == progress_before

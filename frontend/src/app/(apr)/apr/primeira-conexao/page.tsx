@@ -21,24 +21,22 @@ type AprModuleMetadata = {
   authorized_for_public_release: boolean
 }
 
-const aprPocEnabled = process.env.NEXT_PUBLIC_APR_POC_ENABLED !== 'false'
-
 export default function AprPrimeiraConexaoPage() {
   const [module, setModule] = useState<AprModuleMetadata | null>(null)
-  const [loading, setLoading] = useState(aprPocEnabled)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!aprPocEnabled) {
-      setError('The APR technical proof of concept is disabled in this environment.')
-      return
-    }
-
     let active = true
 
     async function loadModule() {
       try {
         const res = await apiFetch('/api/apr/modules/primeira-conexao')
+        if (res.status === 404) {
+          throw new Error(
+            'The APR technical proof of concept is disabled in this environment.'
+          )
+        }
         if (!res.ok) {
           throw new Error(`APR API returned HTTP ${res.status}`)
         }
@@ -46,11 +44,19 @@ export default function AprPrimeiraConexaoPage() {
         if (active) setModule(data)
       } catch (err) {
         if (active) {
-          setError(
-            err instanceof Error
-              ? `Technical error loading APR module metadata: ${err.message}`
-              : 'Technical error loading APR module metadata.'
-          )
+          if (
+            err instanceof Error &&
+            err.message ===
+              'The APR technical proof of concept is disabled in this environment.'
+          ) {
+            setError(err.message)
+          } else {
+            setError(
+              err instanceof Error
+                ? `Technical error loading APR module metadata: ${err.message}`
+                : 'Technical error loading APR module metadata.'
+            )
+          }
         }
       } finally {
         if (active) setLoading(false)
