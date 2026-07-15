@@ -33,6 +33,7 @@ class Settings(BaseSettings):
     CORS_ORIGINS: list[str] = ["http://localhost:3000"]
     COOKIE_SECURE: bool = False
     LOG_LEVEL: str = "INFO"
+    APR_POC_ENABLED: bool = False
 
     # Default AI usage quotas for new/subscribed users. A quota value of 0 means unlimited.
     DEFAULT_CONVERSATION_MAX_DURATION: int = 1800
