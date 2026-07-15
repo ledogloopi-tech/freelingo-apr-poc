@@ -26,57 +26,9 @@ on:
       - 'frontend/package.json'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  apply-day7-corrections:
-    name: Apply transferred Day 7 corrections
-    if: github.head_ref == 'codex/add-technical-feedback-and-retry-orchestration'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout pull-request branch
-        uses: actions/checkout@v6
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
-
-      - name: Apply and publish correction files through GitHub API
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          python - <<'PY'
-          import base64
-          import gzip
-          from pathlib import Path
-
-          source = Path('.github/workflows/apr-day7-publish-corrections.yml').read_text()
-          start = source.index('H4sIAKcQWGoC')
-          end = source.index('\nAPR_PATCH_B64', start)
-          encoded = ''.join(source[start:end].split())
-          patch = gzip.decompress(base64.b64decode(encoded))
-          Path('/tmp/day7.patch').write_bytes(patch)
-          print(f'Decoded correction patch: {len(patch)} bytes')
-          PY
-          git apply --check /tmp/day7.patch
-          git apply /tmp/day7.patch
-          for path in \
-            backend/app/apr/lesson_content.py \
-            backend/tests/test_apr.py \
-            docs/apr/poc/APR_DAY7_FEEDBACK_RETRY.md \
-            frontend/src/components/apr/AprFeedbackRetry.tsx \
-            frontend/src/components/apr/AprLessonPlayer.tsx \
-            frontend/tests/app/apr-feedback-retry.test.tsx
-          do
-            sha="$(gh api "repos/${GITHUB_REPOSITORY}/contents/${path}?ref=${GITHUB_HEAD_REF}" --jq .sha)"
-            content="$(base64 -w0 "${path}")"
-            gh api --method PUT "repos/${GITHUB_REPOSITORY}/contents/${path}" \
-              -f message='Fix APR Day 7 feedback lifecycle hardening' \
-              -f content="${content}" \
-              -f branch="${GITHUB_HEAD_REF}" \
-              -f sha="${sha}" >/dev/null
-          done
-
   apr-backend-tests:
     name: APR backend tests
     runs-on: ubuntu-latest
