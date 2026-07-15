@@ -8,7 +8,7 @@ This runbook records what was attempted during the Day 1 repository audit for us
 
 - Working branch created or selected: `apr/poc-primeira-conexao`.
 - Git tag checked: `v1.8.24`.
-- Exact tag commit recorded in `APR_DAY1_INVENTORY.json`.
+- The exact `v1.8.24` tag commit could not be resolved because this checkout had no local tags or configured Git remote. This unresolved result is recorded in `APR_DAY1_INVENTORY.json`.
 
 ## Repository instructions inspected
 
