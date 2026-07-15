@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react'
 import { StrictMode } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -75,6 +81,23 @@ const feedback = {
   authorized_as_academic_feedback: false,
   authorized_as_evidence: false,
   storage_status: 'session-only',
+}
+
+function feedbackResponse(
+  revision = 1,
+  overrides: Record<string, unknown> = {}
+) {
+  return { ...feedback, source_confirmation_revision: revision, ...overrides }
+}
+
+function latestFeedbackBody() {
+  const calls = feedbackCalls()
+  return JSON.parse(String(calls.at(-1)?.[1]?.body)) as Record<string, unknown>
+}
+
+async function flushMicrotasks() {
+  await Promise.resolve()
+  await Promise.resolve()
 }
 
 const manifest = {
@@ -162,12 +185,13 @@ async function renderRecording(strict = false) {
   mockApiFetch.mockResolvedValueOnce(jsonResponse(manifest))
   if (strict) mockApiFetch.mockResolvedValueOnce(jsonResponse(manifest))
   const ui = <AprLessonPlayer endpoint={endpoint} />
-  render(strict ? <StrictMode>{ui}</StrictMode> : ui)
+  const result = render(strict ? <StrictMode>{ui}</StrictMode> : ui)
   await screen.findByText('Orientation')
   fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
   fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
   fireEvent.click(screen.getByLabelText('OK'))
   fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+  return result
 }
 
 async function confirmOriginal(text = 'olá confirmado') {
@@ -347,5 +371,404 @@ describe('APR feedback retry', () => {
         screen.queryByText('Controlled technical feedback')
       ).not.toBeInTheDocument()
     )
+  })
+
+  it('blocks rapid duplicate feedback activation while a request is pending', async () => {
+    const pending = deferredResponse()
+    await renderRecording()
+    await confirmOriginal()
+    mockApiFetch.mockReturnValueOnce(pending.promise)
+
+    const feedbackButton = screen.getByRole('button', {
+      name: 'Generate technical feedback',
+    })
+    fireEvent.click(feedbackButton)
+    fireEvent.click(feedbackButton)
+    fireEvent.click(feedbackButton)
+
+    expect(feedbackCalls()).toHaveLength(1)
+    pending.resolve(jsonResponse(feedbackResponse()))
+    await screen.findByText('Controlled technical feedback')
+  })
+
+  it('attaches one successful feedback response in Strict Mode with revision 1', async () => {
+    const pending = deferredResponse()
+    await renderRecording(true)
+    await confirmOriginal()
+    mockApiFetch.mockReturnValueOnce(pending.promise)
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical feedback' })
+    )
+    expect(feedbackCalls()).toHaveLength(1)
+    expect(latestFeedbackBody().transcript_confirmation_revision).toBe(1)
+    pending.resolve(jsonResponse(feedbackResponse()))
+
+    await screen.findByText('Controlled technical feedback')
+  })
+
+  it('ignores a pending feedback response after unmount without a state-update warning', async () => {
+    const pending = deferredResponse()
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const view = await renderRecording()
+    await confirmOriginal()
+    mockApiFetch.mockReturnValueOnce(pending.promise)
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical feedback' })
+    )
+    const signal = feedbackCalls()[0][1]?.signal as AbortSignal
+
+    screen.getByText('Generating technical feedback…')
+    view.unmount()
+    expect(signal.aborted).toBe(true)
+    pending.resolve(jsonResponse(feedbackResponse()))
+    await flushMicrotasks()
+    expect(consoleError).not.toHaveBeenCalled()
+    consoleError.mockRestore()
+  })
+
+  it('aborts and ignores a pending old revision response, then attaches revision 2 feedback', async () => {
+    const pendingRevisionOne = deferredResponse()
+    await renderRecording()
+    await confirmOriginal('primeiro')
+    mockApiFetch.mockReturnValueOnce(pendingRevisionOne.promise)
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical feedback' })
+    )
+    const oldSignal = feedbackCalls()[0][1]?.signal as AbortSignal
+    expect(latestFeedbackBody().transcript_confirmation_revision).toBe(1)
+
+    fireEvent.change(screen.getByLabelText('Reviewed transcript correction'), {
+      target: { value: 'segundo' },
+    })
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Confirm reviewed transcript' })
+    )
+    expect(oldSignal.aborted).toBe(true)
+    pendingRevisionOne.resolve(jsonResponse(feedbackResponse(1)))
+    await flushMicrotasks()
+    expect(
+      screen.queryByText('Controlled technical feedback')
+    ).not.toBeInTheDocument()
+
+    mockApiFetch.mockResolvedValueOnce(jsonResponse(feedbackResponse(2)))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical feedback' })
+    )
+    expect(latestFeedbackBody().transcript_confirmation_revision).toBe(2)
+    await screen.findByText('Controlled technical feedback')
+  })
+
+  it('does not allow an older response to overwrite newer feedback after valid re-request', async () => {
+    const older = deferredResponse()
+    await renderRecording()
+    await confirmOriginal('primeiro')
+    mockApiFetch.mockReturnValueOnce(older.promise)
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical feedback' })
+    )
+
+    fireEvent.change(screen.getByLabelText('Reviewed transcript correction'), {
+      target: { value: 'segundo' },
+    })
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Confirm reviewed transcript' })
+    )
+    mockApiFetch.mockResolvedValueOnce(
+      jsonResponse(
+        feedbackResponse(2, { acknowledgement: 'new revision acknowledgement' })
+      )
+    )
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical feedback' })
+    )
+    await screen.findByText('new revision acknowledgement')
+
+    older.resolve(
+      jsonResponse(
+        feedbackResponse(1, { acknowledgement: 'old revision acknowledgement' })
+      )
+    )
+    await flushMicrotasks()
+    expect(screen.getByText('new revision acknowledgement')).toBeInTheDocument()
+    expect(
+      screen.queryByText('old revision acknowledgement')
+    ).not.toBeInTheDocument()
+  })
+
+  it('keeps confirmation revisions exact for unchanged, changed, empty, and Strict Mode confirmations', async () => {
+    await renderRecording(true)
+    await confirmOriginal('primeiro')
+    mockApiFetch.mockResolvedValueOnce(jsonResponse(feedbackResponse(1)))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical feedback' })
+    )
+    expect(latestFeedbackBody().transcript_confirmation_revision).toBe(1)
+    await screen.findByText('Controlled technical feedback')
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Confirm reviewed transcript' })
+    )
+    expect(
+      screen.getByText('Controlled technical feedback')
+    ).toBeInTheDocument()
+
+    fireEvent.change(screen.getByLabelText('Reviewed transcript correction'), {
+      target: { value: '' },
+    })
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Confirm reviewed transcript' })
+    )
+    expect(
+      screen.getByText('Enter a reviewed transcript before confirming.')
+    ).toBeInTheDocument()
+
+    fireEvent.change(screen.getByLabelText('Reviewed transcript correction'), {
+      target: { value: 'segundo' },
+    })
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Confirm reviewed transcript' })
+    )
+    mockApiFetch.mockResolvedValueOnce(jsonResponse(feedbackResponse(2)))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical feedback' })
+    )
+    expect(latestFeedbackBody().transcript_confirmation_revision).toBe(2)
+  })
+
+  it('rejects malformed or mismatched feedback responses without attaching feedback', async () => {
+    const invalidResponses = [
+      { feedback_id: 'wrong-id' },
+      { attempt_role: 'latest_retry' },
+      { source_confirmation_revision: 2 },
+      { authorized_as_academic_feedback: true },
+      { authorized_as_evidence: true },
+      { acknowledgement: '' },
+      { status: 'ready' },
+      { storage_status: 'database' },
+    ]
+
+    for (const override of invalidResponses) {
+      cleanup()
+      mockApiFetch.mockReset()
+      await renderRecording()
+      await confirmOriginal()
+      mockApiFetch.mockResolvedValueOnce(
+        jsonResponse(feedbackResponse(1, override))
+      )
+      fireEvent.click(
+        screen.getByRole('button', { name: 'Generate technical feedback' })
+      )
+      await screen.findByText(
+        'APR could not load technical feedback. This is a feedback-service issue, not a language result.'
+      )
+      expect(
+        screen.queryByText('Controlled technical feedback')
+      ).not.toBeInTheDocument()
+      expect(
+        screen.queryByText('Waiting for an optional post-feedback retry.')
+      ).not.toBeInTheDocument()
+      screen.getByText('Original attempt')
+    }
+  })
+
+  it('does not request feedback automatically after any Day 4-6 learner action or navigation', async () => {
+    await renderRecording()
+    fireEvent.click(screen.getByRole('button', { name: 'Start recording' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Record another attempt' })
+    )
+    mockApiFetch.mockResolvedValueOnce(
+      jsonResponse({ draft_text: 'original draft' })
+    )
+    fireEvent.click(
+      screen.getAllByRole('button', { name: /Generate.*transcript draft/ })[0]
+    )
+    await screen.findByDisplayValue('original draft')
+    fireEvent.change(screen.getByLabelText('Reviewed transcript correction'), {
+      target: { value: 'original confirmado' },
+    })
+    fireEvent.click(
+      screen.getAllByRole('button', { name: 'Confirm reviewed transcript' })[0]
+    )
+    mockApiFetch.mockResolvedValueOnce(
+      jsonResponse({ draft_text: 'retry draft' })
+    )
+    fireEvent.click(
+      screen.getAllByRole('button', { name: /Generate.*transcript draft/ })[1]
+    )
+    await screen.findByDisplayValue('retry draft')
+    fireEvent.click(
+      screen.getAllByRole('button', { name: 'Confirm reviewed transcript' })[1]
+    )
+    mockApiFetch.mockResolvedValueOnce(
+      new Response('audio', {
+        status: 200,
+        headers: {
+          'Content-Type': 'audio/mpeg',
+          'X-APR-Audio-Status': 'generated-technical-placeholder',
+          'X-APR-Audio-Language': 'pt-BR',
+        },
+      })
+    )
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical model audio' })
+    )
+    await screen.findByText('Generated technical model audio playback')
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Back' }))
+
+    expect(feedbackCalls()).toHaveLength(0)
+  })
+
+  it('preserves learner recordings, transcripts, and model audio after feedback failure', async () => {
+    await renderRecording()
+    fireEvent.click(screen.getByRole('button', { name: 'Start recording' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Record another attempt' })
+    )
+    mockApiFetch.mockResolvedValueOnce(
+      jsonResponse({ draft_text: 'original machine' })
+    )
+    fireEvent.click(
+      screen.getAllByRole('button', { name: /Generate.*transcript draft/ })[0]
+    )
+    await screen.findByDisplayValue('original machine')
+    fireEvent.change(screen.getByLabelText('Reviewed transcript correction'), {
+      target: { value: 'original confirmed' },
+    })
+    fireEvent.click(
+      screen.getAllByRole('button', { name: 'Confirm reviewed transcript' })[0]
+    )
+    mockApiFetch.mockResolvedValueOnce(
+      jsonResponse({ draft_text: 'retry machine' })
+    )
+    fireEvent.click(
+      screen.getAllByRole('button', { name: /Generate.*transcript draft/ })[1]
+    )
+    await screen.findByDisplayValue('retry machine')
+    fireEvent.change(
+      screen.getAllByLabelText('Reviewed transcript correction')[1],
+      { target: { value: 'retry confirmed' } }
+    )
+    fireEvent.click(
+      screen.getAllByRole('button', { name: 'Confirm reviewed transcript' })[1]
+    )
+    mockApiFetch.mockResolvedValueOnce(
+      new Response('audio', {
+        status: 200,
+        headers: {
+          'Content-Type': 'audio/mpeg',
+          'X-APR-Audio-Status': 'generated-technical-placeholder',
+          'X-APR-Audio-Language': 'pt-BR',
+        },
+      })
+    )
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical model audio' })
+    )
+    await screen.findByText('Generated technical model audio playback')
+
+    mockApiFetch.mockResolvedValueOnce(jsonResponse({ detail: 'down' }, 503))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical feedback' })
+    )
+    await screen.findByText(
+      'APR could not load technical feedback. This is a feedback-service issue, not a language result.'
+    )
+
+    expect(
+      screen.getByLabelText('Original attempt playback')
+    ).toBeInTheDocument()
+    expect(screen.getByLabelText('Latest retry playback')).toBeInTheDocument()
+    expect(screen.getByText('original machine')).toBeInTheDocument()
+    expect(screen.getByDisplayValue('original confirmed')).toBeInTheDocument()
+    expect(screen.getAllByText('original confirmed').length).toBeGreaterThan(0)
+    expect(screen.getByText('retry machine')).toBeInTheDocument()
+    expect(screen.getByDisplayValue('retry confirmed')).toBeInTheDocument()
+    expect(
+      screen.getByText('Generated technical model audio playback')
+    ).toBeInTheDocument()
+  })
+
+  it('keeps retry orchestration optional and preserves Original while replacing Latest retry', async () => {
+    await renderRecording()
+    await confirmOriginal()
+    const originalSrc = screen
+      .getByLabelText('Original attempt playback')
+      .getAttribute('src')
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Record another attempt' })
+    )
+    mockApiFetch.mockResolvedValueOnce(jsonResponse(feedbackResponse()))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical feedback' })
+    )
+    await screen.findByText('Waiting for an optional post-feedback retry.')
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    expect(screen.getByText('Reflection')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Back' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Record another attempt' })
+    )
+    expect(
+      screen.getByText('Post-feedback retry captured.')
+    ).toBeInTheDocument()
+    const retrySrc = screen
+      .getByLabelText('Latest retry playback')
+      .getAttribute('src')
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Record another attempt' })
+    )
+    expect(
+      screen.getByLabelText('Original attempt playback').getAttribute('src')
+    ).toBe(originalSrc)
+    expect(
+      screen.getByLabelText('Latest retry playback').getAttribute('src')
+    ).not.toBe(retrySrc)
+    expect(
+      screen.getByText(/does not indicate improvement or a language result/)
+    ).toBeInTheDocument()
+  })
+
+  it('keeps cancelled restart separate from confirmed restart clearing feedback and revision', async () => {
+    await renderRecording()
+    await confirmOriginal()
+    mockApiFetch.mockResolvedValueOnce(jsonResponse(feedbackResponse()))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical feedback' })
+    )
+    await screen.findByText('Controlled technical feedback')
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Record another attempt' })
+    )
+    expect(
+      screen.getByText('Post-feedback retry captured.')
+    ).toBeInTheDocument()
+
+    vi.mocked(window.confirm).mockReturnValueOnce(false)
+    fireEvent.click(screen.getByRole('button', { name: 'Restart' }))
+    expect(
+      screen.getByText('Controlled technical feedback')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText('Post-feedback retry captured.')
+    ).toBeInTheDocument()
+
+    vi.mocked(window.confirm).mockReturnValueOnce(true)
+    fireEvent.click(screen.getByRole('button', { name: 'Restart' }))
+    expect(
+      screen.queryByText('Controlled technical feedback')
+    ).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(screen.getByLabelText('OK'))
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    await confirmOriginal('after restart')
+    mockApiFetch.mockResolvedValueOnce(jsonResponse(feedbackResponse(1)))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate technical feedback' })
+    )
+    expect(latestFeedbackBody().transcript_confirmation_revision).toBe(1)
   })
 })

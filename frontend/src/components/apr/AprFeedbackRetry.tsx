@@ -81,6 +81,7 @@ export function AprFeedbackRetry({ state, isEligible, onGenerate }: Props) {
     >
       <h3 className="font-medium">Optional technical feedback</h3>
       {(state.status === 'not_requested' ||
+        state.status === 'ineligible' ||
         state.status === 'technical_error') && (
         <Button type="button" onClick={onGenerate} disabled={isRequesting}>
           {state.status === 'technical_error'

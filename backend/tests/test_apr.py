@@ -1,7 +1,10 @@
+from pathlib import Path
+
 import httpx
 import pytest
 from sqlalchemy import func, select
 
+from app.apr import router as apr_router
 from app.core.config import settings
 from app.main import app
 from app.models.progress import Progress
@@ -759,6 +762,32 @@ async def test_apr_feedback_returns_404_when_disabled(client, test_user, monkeyp
     assert res.status_code == 404
 
 
+class SentinelAprSttService:
+    def __init__(self):
+        self.calls = []
+
+    async def transcribe(self, *args, **kwargs):
+        self.calls.append({"args": args, "kwargs": kwargs})
+        raise AssertionError("APR feedback endpoint must not call STT")
+
+
+class SentinelAprTtsService:
+    def __init__(self):
+        self.calls = []
+
+    async def synthesize_with_metadata(self, *args, **kwargs):
+        self.calls.append({"args": args, "kwargs": kwargs})
+        raise AssertionError("APR feedback endpoint must not call TTS")
+
+
+def install_feedback_provider_sentinels(monkeypatch):
+    stt = SentinelAprSttService()
+    tts = SentinelAprTtsService()
+    monkeypatch.setattr(app.state, "stt_service", stt, raising=False)
+    monkeypatch.setattr(app.state, "tts_service", tts, raising=False)
+    return stt, tts
+
+
 @pytest.mark.parametrize(
     "payload",
     [
@@ -780,26 +809,26 @@ async def test_apr_feedback_returns_404_when_disabled(client, test_user, monkeyp
         feedback_payload(user_id="user"),
     ],
 )
-async def test_apr_feedback_rejects_unapproved_or_extra_request_fields(
+async def test_apr_feedback_rejects_unapproved_or_extra_request_fields_without_services(
     client, test_user, monkeypatch, payload
 ):
     _user, headers = test_user
     monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
-    stt_before = getattr(app.state, "stt_service", None)
-    tts_before = getattr(app.state, "tts_service", None)
+    stt, tts = install_feedback_provider_sentinels(monkeypatch)
 
     res = await client.post(FEEDBACK_URL, headers=headers, json=payload)
 
     assert res.status_code in {400, 422}
-    assert getattr(app.state, "stt_service", None) is stt_before
-    assert getattr(app.state, "tts_service", None) is tts_before
+    assert stt.calls == []
+    assert tts.calls == []
 
 
-async def test_apr_feedback_returns_controlled_no_store_response_without_writes(
+async def test_apr_feedback_returns_controlled_no_store_response_without_writes_or_services(
     client, test_user, db_session, monkeypatch
 ):
     _user, headers = test_user
     monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+    stt, tts = install_feedback_provider_sentinels(monkeypatch)
     plans_before = await db_session.scalar(select(func.count()).select_from(StudyPlan))
     progress_before = await db_session.scalar(select(func.count()).select_from(Progress))
 
@@ -852,15 +881,67 @@ async def test_apr_feedback_returns_controlled_no_store_response_without_writes(
         "evidence_state",
     }
     assert forbidden.isdisjoint(res.json())
+    assert stt.calls == []
+    assert tts.calls == []
+    assert await db_session.scalar(select(func.count()).select_from(StudyPlan)) == plans_before
+    assert await db_session.scalar(select(func.count()).select_from(Progress)) == progress_before
+
+
+async def test_apr_feedback_unexpected_failure_is_sanitized_without_writes(
+    client, test_user, db_session, monkeypatch
+):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+    stt, tts = install_feedback_provider_sentinels(monkeypatch)
+    secret = "secret-token http://internal.example/feedback"
+
+    def raise_secret_exception(*args, **kwargs):
+        raise RuntimeError(secret)
+
+    monkeypatch.setattr(apr_router, "AprFeedbackDraftResponse", raise_secret_exception)
+    plans_before = await db_session.scalar(select(func.count()).select_from(StudyPlan))
+    progress_before = await db_session.scalar(select(func.count()).select_from(Progress))
+
+    res = await client.post(FEEDBACK_URL, headers=headers, json=feedback_payload())
+
+    assert res.status_code == 503
+    assert res.json() == {
+        "detail": "APR could not load technical feedback. This is a feedback-service issue, not a language result."
+    }
+    body = res.text
+    assert "secret-token" not in body
+    assert "internal.example" not in body
+    assert "transcript" not in body
+    assert "audio" not in body
+    assert stt.calls == []
+    assert tts.calls == []
     assert await db_session.scalar(select(func.count()).select_from(StudyPlan)) == plans_before
     assert await db_session.scalar(select(func.count()).select_from(Progress)) == progress_before
 
 
 async def test_apr_feedback_has_no_persistence_model_or_migration():
-    from pathlib import Path
+    backend_root = Path(__file__).resolve().parents[1]
+    model_dir = backend_root / "app" / "models"
+    migration_dir = backend_root / "alembic" / "versions"
 
-    assert not any(Path("backend/app/models").glob("*feedback*.py"))
-    assert not any(Path("backend/alembic/versions").glob("*feedback*.py"))
+    assert model_dir.is_dir()
+    assert migration_dir.is_dir()
+    assert not any(path.name.lower().startswith("apr_feedback") for path in model_dir.glob("*.py"))
+    assert not any("feedback" in path.name.lower() for path in migration_dir.glob("*.py"))
+
+
+async def test_apr_feedback_does_not_expose_storage_route(client, test_user, monkeypatch):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+    storage_path = f"{FEEDBACK_URL}/storage"
+
+    res = await client.post(storage_path, headers=headers)
+
+    assert res.status_code == 404
+    assert not any(
+        getattr(route, "path", None) == storage_path and "POST" in getattr(route, "methods", set())
+        for route in app.routes
+    )
 
 
 async def test_apr_feedback_manifest_fields(client, test_user, monkeypatch):
@@ -874,6 +955,9 @@ async def test_apr_feedback_manifest_fields(client, test_user, monkeypatch):
     manifest = res.json()
     assert manifest["version"] == "0.5.0-technical-placeholder"
     assert manifest["current_step_count"] == 5
+    assert manifest["content_status"] == "technical-placeholder"
+    assert manifest["authorized_for_pilot"] is False
+    assert manifest["authorized_for_public_release"] is False
     assert [step["step_type"] for step in manifest["steps"]] == [
         "orientation",
         "information",
@@ -882,27 +966,34 @@ async def test_apr_feedback_manifest_fields(client, test_user, monkeypatch):
         "reflection",
     ]
     recording_step = manifest["steps"][3]
-    assert (
-        recording_step
-        | {
-            "feedback_id": FEEDBACK_ID,
-            "feedback_mode": "on-demand",
-            "feedback_source_attempt": "original",
-            "feedback_requires_confirmed_transcript": True,
-            "feedback_source": "controlled-technical-placeholder",
-            "feedback_storage_status": "session-only",
-            "feedback_authorized_as_academic_feedback": False,
-            "feedback_authorized_as_evidence": False,
-            "feedback_required": False,
-            "retry_orchestration_mode": "optional-post-feedback-latest-retry",
-            "retry_required": False,
-        }
-        == recording_step
-    )
-    assert recording_step["max_seconds"] == 10
-    assert recording_step["allow_retry"] is True
-    assert recording_step["preserve_original"] is True
-    assert recording_step["transcription_mode"] == "on-demand"
-    assert recording_step["model_audio_id"] == "APR-R1-RM-01-L01-MODEL-TECH"
-    assert manifest["authorized_for_pilot"] is False
-    assert manifest["authorized_for_public_release"] is False
+    expected_recording_fields = {
+        "max_seconds": 10,
+        "allow_retry": True,
+        "preserve_original": True,
+        "storage_status": "session-only",
+        "transcription_language": "pt",
+        "transcription_mode": "on-demand",
+        "requires_learner_confirmation": True,
+        "transcript_storage_status": "session-only",
+        "transcript_authorized_as_evidence": False,
+        "model_audio_id": "APR-R1-RM-01-L01-MODEL-TECH",
+        "model_audio_mode": "on-demand",
+        "model_audio_language": "pt-BR",
+        "model_audio_source": "generated-technical-placeholder",
+        "model_audio_storage_status": "session-only",
+        "model_audio_authorized_as_final_content": False,
+        "model_audio_required": False,
+        "feedback_id": FEEDBACK_ID,
+        "feedback_mode": "on-demand",
+        "feedback_source_attempt": "original",
+        "feedback_requires_confirmed_transcript": True,
+        "feedback_source": "controlled-technical-placeholder",
+        "feedback_storage_status": "session-only",
+        "feedback_authorized_as_academic_feedback": False,
+        "feedback_authorized_as_evidence": False,
+        "feedback_required": False,
+        "retry_orchestration_mode": "optional-post-feedback-latest-retry",
+        "retry_required": False,
+    }
+    for field, value in expected_recording_fields.items():
+        assert recording_step[field] == value

@@ -6,7 +6,7 @@ Add controlled technical feedback and optional retry orchestration to the APR te
 
 ## 2. Branch
 
-`codex/apr-day7-feedback-retry`
+`codex/add-technical-feedback-and-retry-orchestration`
 
 ## 3. Why Day 7 feedback is deterministic
 
@@ -14,7 +14,7 @@ Day 7 validates workflow control only: confirmed Original transcript, explicit f
 
 ## 4. Why Day 7 does not use an LLM
 
-The proof needs a stable backend contract and predictable test results. LLM output would introduce evaluation risk, variable wording, and provider dependency.
+The proof needs a stable backend contract and predictable test results. LLM output would introduce evaluation risk, variable wording, provider dependency, and potential academic claims.
 
 ## 5. Fixed feedback identifier
 
@@ -62,15 +62,15 @@ Feedback is never requested on render, navigation, recording, STT, draft arrival
 
 ## 13. Original confirmation revision
 
-The first confirmed Original transcript is revision 1. Later confirmed changed Original text increments the session-only revision.
+The first confirmed Original transcript is revision 1. Later confirmed changed Original text increments the session-only revision. Confirmation revision changes happen outside React transcript-state updater callbacks so those callbacks remain pure.
 
 ## 14. Feedback-source lineage
 
-Each feedback response is tied to the exact Original confirmation revision accepted by the backend.
+Each feedback response is tied to the exact Original confirmation revision accepted by the backend and rechecked on the frontend before attachment.
 
 ## 15. Feedback invalidation
 
-Changed Original re-confirmation, confirmation clearing, confirmed Restart, and unmount invalidate current feedback and retry-cycle state.
+Changed Original re-confirmation, Original draft regeneration, confirmation clearing, confirmed Restart, and unmount invalidate current feedback and retry-cycle state. Stale transcription responses cannot invalidate current feedback because request id and attempt id are verified before invalidation.
 
 ## 16. Duplicate-request protection
 
@@ -78,80 +78,88 @@ The player uses synchronous request ownership with a generation id and active Ab
 
 ## 17. Stale-response protection
 
-Responses after restart, unmount, source revision change, confirmation clearing, or a newer request are ignored.
+Responses after restart, unmount, source revision change, confirmation clearing, or a newer request are ignored. A response may attach only if the component is mounted, the signal is not aborted, the generation still owns the response, the current revision still equals the requested revision, and a confirmed Original transcript still exists.
 
-## 18. Pre-feedback retry behavior
+## 18. Runtime response validation
+
+The frontend validates the feedback JSON before attaching it. The response must match the requested feedback id, Original role, requested revision, `technical-placeholder` status, `server-controlled` source, false academic and Evidence authorization, false `requires_retry`, true `retry_allowed`, `session-only` storage, and non-empty controlled text fields.
+
+## 19. Malformed-response behavior
+
+Malformed or mismatched feedback responses do not display controlled feedback, do not snapshot the retry sequence, enter the existing non-judgmental technical-error state, and preserve recordings, transcripts, and model audio.
+
+## 20. Pre-feedback retry behavior
 
 A Latest retry captured before feedback remains available but does not complete the post-feedback retry cycle.
 
-## 19. Post-feedback retry behavior
+## 21. Post-feedback retry behavior
 
 When feedback becomes ready, APR snapshots the current Latest retry sequence. A later Latest retry capture marks only the technical retry cycle as captured.
 
-## 20. Original-attempt preservation
+## 22. Original-attempt preservation
 
 Feedback never replaces or modifies the Original recording.
 
-## 21. Latest-retry replacement
+## 23. Latest-retry replacement
 
 Latest retry remains replaceable. Replacing it does not affect the Original attempt.
 
-## 22. Transcript separation
+## 24. Transcript separation
 
 Machine draft, working transcript, and learner-confirmed transcript remain separate for Original and Latest retry.
 
-## 23. Model-audio separation
+## 25. Model-audio separation
 
 Feedback does not send, modify, or depend on model audio. Model audio remains a separate session-only generated technical asset.
 
-## 24. Navigation
+## 26. Navigation
 
 Valid feedback and retry-cycle status survive Back and Continue navigation.
 
-## 25. Restart
+## 27. Restart
 
-Cancelled Restart preserves feedback and retry status. Confirmed Restart aborts active feedback and clears session state.
+Cancelled Restart preserves feedback and retry status. Confirmed Restart aborts active feedback, clears confirmation revision, clears feedback state, and clears retry-cycle state.
 
-## 26. Unmount
+## 28. Unmount
 
-Unmount aborts active feedback requests and ignores late responses.
+Unmount aborts active feedback requests and ignores late responses without setting state after unmount.
 
-## 27. Accessibility
+## 29. Accessibility
 
 The interface uses real buttons, concise status and alert regions, polite announcements for requesting and readiness, and non-color-only status copy.
 
-## 28. Technical-failure behavior
+## 30. Technical-failure behavior
 
 Failure displays: APR could not load technical feedback. This is a feedback-service issue, not a language result.
 
-## 29. No persistence
+## 31. No persistence
 
-Day 7 writes no database rows, files, object storage, localStorage, IndexedDB, transcripts, audio, or feedback records.
+Day 7 writes no database rows, files, object storage, localStorage, IndexedDB, transcripts, audio, or feedback records. Backend tests inspect the actual backend model directory at `backend/app/models` and migration directory at `backend/alembic/versions`, derived from `tests/test_apr.py`, and assert those directories exist.
 
-## 30. No scoring
+## 32. No scoring
 
 No score, correctness, fluency, pronunciation, grammar, CEFR, proficiency, pass/fail, or improvement field exists.
 
-## 31. No Evidence
+## 33. No Evidence
 
 The endpoint and UI do not create Evidence or Capability Observations.
 
-## 32. No academic-feedback authorization
+## 34. No academic-feedback authorization
 
 The response explicitly sets academic-feedback and evidence authorization to false.
 
-## 33. Tests run
+## 35. Tests run
 
-Focused backend and frontend tests were added for the deterministic endpoint and session-only frontend orchestration.
+Expanded tests cover pure transcript updater behavior, exact confirmation revisions, runtime feedback response validation, duplicate request prevention, Strict Mode successful request, unmount abort and late response handling, revision-change abort and re-request, older response overwrite prevention, no automatic requests, learner-state preservation on technical failure, restart behavior, retry orchestration, backend persistence paths, sanitized unexpected backend failures, no feedback storage route, external service non-use, and full Day 4-Day 7 manifest regression coverage.
 
-## 34. Tests blocked
+## 36. Tests blocked
 
-Full backend formatting safety may require Python 3.14; this local environment can require `black --fast` because its Python parser is older than the target.
+Local Python 3.14 pytest may be unavailable in some editing environments. In that case, backend static validation can run locally and the focused GitHub workflow remains configured for Python 3.14.
 
-## 35. Known limitations
+## 37. Known limitations
 
 State remains browser-session only and is lost on reload. Feedback content is intentionally fixed and not pedagogically meaningful.
 
-## 36. Day 8 readiness
+## 38. Day 8 readiness
 
 READY WITH CONSTRAINTS
