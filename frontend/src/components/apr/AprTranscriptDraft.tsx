@@ -44,6 +44,7 @@ export function AprTranscriptDraft({
   onConfirm,
 }: Props) {
   const hasDraft = state.machineDraft.length > 0
+  const isRequesting = state.status === 'requesting'
   const textareaId = `${attemptLabel.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-transcript`
   return (
     <section
@@ -56,16 +57,12 @@ export function AprTranscriptDraft({
         configured speech-to-text service. APR does not save the audio or
         transcript in its database during this technical proof of concept.
       </p>
-      <Button
-        type="button"
-        onClick={onGenerate}
-        disabled={state.status === 'requesting'}
-      >
+      <Button type="button" onClick={onGenerate} disabled={isRequesting}>
         {hasDraft
           ? 'Generate a new transcript draft'
           : 'Generate transcript draft'}
       </Button>
-      {state.status === 'requesting' && (
+      {isRequesting && (
         <p role="status" aria-live="polite" className="text-sm">
           Generating transcript draft for {attemptLabel}. Audio playback remains
           available.
@@ -98,9 +95,10 @@ export function AprTranscriptDraft({
             id={textareaId}
             className="border-input bg-background ring-offset-background focus-visible:ring-ring min-h-28 w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             value={state.workingTranscript}
+            disabled={isRequesting}
             onChange={(event) => onWorkingChange(event.target.value)}
           />
-          <Button type="button" onClick={onConfirm}>
+          <Button type="button" onClick={onConfirm} disabled={isRequesting}>
             Confirm reviewed transcript
           </Button>
           {state.technicalError && state.status !== 'technical_error' && (

@@ -1,3 +1,4 @@
+import httpx
 import pytest
 from sqlalchemy import func, select
 
@@ -138,13 +139,14 @@ async def test_apr_lesson_endpoint_returns_typed_placeholder_manifest_without_wr
 async def test_apr_does_not_expose_recording_upload_endpoint(client, test_user, monkeypatch):
     _user, headers = test_user
     monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+    recordings_path = "/api/apr/modules/primeira-conexao/lessons/enter-the-connection/recordings"
 
-    res = await client.post(
-        "/api/apr/modules/primeira-conexao/lessons/enter-the-connection/recordings",
-        headers=headers,
-    )
+    res = await client.post(recordings_path, headers=headers)
 
     assert res.status_code == 404
+    assert not any(
+        route.path == recordings_path and "POST" in route.methods for route in app.routes
+    )
 
 
 class MockAprSttService:
@@ -195,7 +197,7 @@ async def test_apr_transcription_returns_404_when_disabled(client, test_user, mo
 async def test_apr_transcription_requires_stt_service(client, test_user, monkeypatch):
     _user, headers = test_user
     monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
-    app.state.stt_service = None
+    monkeypatch.setattr(app.state, "stt_service", None, raising=False)
 
     res = await client.post(
         TRANSCRIPTION_URL,
@@ -214,7 +216,7 @@ async def test_apr_transcription_returns_typed_draft_and_uses_portuguese(
     _user, headers = test_user
     monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
     mock = MockAprSttService()
-    app.state.stt_service = mock
+    monkeypatch.setattr(app.state, "stt_service", mock, raising=False)
     plans_before = await db_session.scalar(select(func.count()).select_from(StudyPlan))
     progress_before = await db_session.scalar(select(func.count()).select_from(Progress))
 
@@ -251,7 +253,7 @@ async def test_apr_transcription_accepts_octet_stream_fallback(client, test_user
     _user, headers = test_user
     monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
     mock = MockAprSttService()
-    app.state.stt_service = mock
+    monkeypatch.setattr(app.state, "stt_service", mock, raising=False)
 
     res = await client.post(
         TRANSCRIPTION_URL,
@@ -262,6 +264,7 @@ async def test_apr_transcription_accepts_octet_stream_fallback(client, test_user
 
     assert res.status_code == 200
     assert mock.calls[0]["mime_type"] == "application/octet-stream"
+    assert mock.calls[0]["filename"] == "apr-transcription-draft.bin"
 
 
 @pytest.mark.parametrize(
@@ -277,17 +280,20 @@ async def test_apr_transcription_rejects_invalid_inputs(
 ):
     _user, headers = test_user
     monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
-    app.state.stt_service = MockAprSttService()
+    mock = MockAprSttService()
+    monkeypatch.setattr(app.state, "stt_service", mock, raising=False)
 
     res = await client.post(TRANSCRIPTION_URL, headers=headers, data=data, files=files)
 
     assert res.status_code == expected_status
+    assert mock.calls == []
 
 
 async def test_apr_transcription_rejects_oversized_audio(client, test_user, monkeypatch):
     _user, headers = test_user
     monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
-    app.state.stt_service = MockAprSttService()
+    mock = MockAprSttService()
+    monkeypatch.setattr(app.state, "stt_service", mock, raising=False)
 
     res = await client.post(
         TRANSCRIPTION_URL,
@@ -297,12 +303,39 @@ async def test_apr_transcription_rejects_oversized_audio(client, test_user, monk
     )
 
     assert res.status_code == 413
+    assert mock.calls == []
+
+
+async def test_apr_transcription_maps_httpx_provider_failure_to_sanitized_502(
+    client, test_user, monkeypatch
+):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+    request = httpx.Request("POST", "https://provider.example/asr")
+    response = httpx.Response(500, request=request)
+    mock = MockAprSttService(
+        exc=httpx.HTTPStatusError("secret provider url", request=request, response=response)
+    )
+    monkeypatch.setattr(app.state, "stt_service", mock, raising=False)
+
+    res = await client.post(
+        TRANSCRIPTION_URL,
+        headers=headers,
+        data={"attempt_role": "original"},
+        files={"audio": ("audio.webm", b"abc", "audio/webm")},
+    )
+
+    assert res.status_code == 502
+    assert "secret provider url" not in res.text
+    assert "provider.example" not in res.text
+    assert "technical transcription issue" in res.text
 
 
 async def test_apr_transcription_sanitizes_provider_failures(client, test_user, monkeypatch):
     _user, headers = test_user
     monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
-    app.state.stt_service = MockAprSttService(exc=RuntimeError("secret provider url"))
+    mock = MockAprSttService(exc=RuntimeError("secret provider url"))
+    monkeypatch.setattr(app.state, "stt_service", mock, raising=False)
 
     res = await client.post(
         TRANSCRIPTION_URL,
@@ -321,7 +354,8 @@ async def test_apr_transcription_treats_empty_provider_output_as_technical_failu
 ):
     _user, headers = test_user
     monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
-    app.state.stt_service = MockAprSttService(text="   ")
+    mock = MockAprSttService(text="   ")
+    monkeypatch.setattr(app.state, "stt_service", mock, raising=False)
 
     res = await client.post(
         TRANSCRIPTION_URL,
@@ -331,6 +365,14 @@ async def test_apr_transcription_treats_empty_provider_output_as_technical_failu
     )
 
     assert res.status_code == 502
+    assert mock.calls == [
+        {
+            "audio_bytes": b"abc",
+            "filename": "apr-transcription-draft.ogg",
+            "mime_type": "audio/ogg",
+            "language": "pt",
+        }
+    ]
 
 
 async def test_apr_lesson_manifest_day5_transcription_contract(client, test_user, monkeypatch):

@@ -38,7 +38,7 @@ The POC limit is 10 MB. MIME validation normalizes codec parameters before check
 - `audio/wav`
 - `audio/mpeg`
 - `audio/ogg`
-- `application/octet-stream` as the honest unknown-format fallback for browsers that do not report a known audio type
+- `application/octet-stream` as the honest unknown-format fallback for browsers that do not report a known audio type. APR uses `.bin` filenames for this fallback and passes `application/octet-stream` unchanged; provider support for unknown audio remains constrained.
 
 ## 8. Temporary audio transmission
 
@@ -46,7 +46,7 @@ When the learner requests a transcript draft, the selected recording is transmit
 
 ## 9. No APR backend persistence
 
-The endpoint reads audio only for the request and does not write audio or transcript content to the filesystem, database, object storage, chat history, progress, study plan, or evidence records. No migration was added.
+The endpoint reads at most the 10 MB limit plus one byte before deciding whether to reject the upload, then passes only bounded valid audio to STT. It does not write audio or transcript content to the filesystem, database, object storage, chat history, progress, study plan, or evidence records. No migration was added. The Day 4 recording-upload path has no APR route; requests to it receive the framework default 404.
 
 ## 10. Privacy-safe logging
 
@@ -62,7 +62,7 @@ The editable working transcript starts as a copy of the machine draft. Learner e
 
 ## 13. Learner-confirmed transcript
 
-The learner confirms explicitly with `Confirm reviewed transcript`. Confirmation stores the reviewed text separately from the machine draft and may be replaced by a later confirmation in the same session.
+The learner confirms explicitly with `Confirm reviewed transcript`. Confirmation stores the reviewed text separately from the machine draft and may be replaced by a later confirmation in the same session. When a later transcript draft succeeds, APR replaces the machine draft and working transcript and clears the stale learner-confirmed transcript.
 
 ## 14. Original and retry separation
 
@@ -70,7 +70,7 @@ Original and Latest retry have separate transcript state. Replacing Latest retry
 
 ## 15. Stale-request protection
 
-The frontend uses `AbortController`, attempt identities, and request generations. Stale responses after retry replacement, Restart, unmount, or a newer request are ignored.
+The frontend uses `AbortController`, attempt identities, synchronous per-role request ownership refs, and request generations. Rapid duplicate activations for the same attempt role are blocked before React rerenders. Stale responses after retry replacement, Restart, unmount, or a newer request are ignored. The lifecycle effect explicitly restores mounted state during setup so React Strict Mode cleanup/setup cycles do not strand the player as unmounted.
 
 ## 16. Technical failure separation
 
@@ -87,7 +87,7 @@ The transcript UI uses semantic headings, labeled textarea controls, real button
 ## 19. Tests run
 
 - Backend APR tests were added for the new endpoint, manifest contract, validation, provider boundary, sanitized failures, and no StudyPlan/Progress writes.
-- Frontend APR transcript confirmation tests were added for explicit request, APR endpoint usage, machine draft preservation, learner confirmation, failure language, and Continue behavior.
+- Frontend APR transcript confirmation tests were expanded for explicit request, APR endpoint usage, FormData roles and filenames, no manual multipart header, duplicate-request prevention, machine draft preservation, learner confirmation and reconfirmation, regeneration clearing stale confirmation, original/retry separation, retry replacement, Back/Continue preservation, Restart behavior, stale response handling, Strict Mode behavior, failure language, Continue behavior, and forbidden endpoint checks.
 
 ## 20. Tests blocked
 

@@ -18,7 +18,7 @@ APR_TRANSCRIPTION_MIME_EXTENSIONS = {
     "audio/wav": "wav",
     "audio/mpeg": "mp3",
     "audio/ogg": "ogg",
-    "application/octet-stream": "webm",
+    "application/octet-stream": "bin",
 }
 APR_TRANSCRIPTION_ERROR = (
     "APR could not generate a transcript draft. This is a technical transcription issue, "
@@ -93,7 +93,7 @@ async def create_enter_the_connection_transcription_draft(
     if mime_type not in APR_TRANSCRIPTION_MIME_EXTENSIONS:
         raise HTTPException(status_code=415, detail="Unsupported APR transcription audio format")
 
-    audio_bytes = await audio.read()
+    audio_bytes = await audio.read(APR_TRANSCRIPTION_MAX_BYTES + 1)
     if not audio_bytes:
         raise HTTPException(status_code=400, detail="APR transcription audio is empty")
     if len(audio_bytes) > APR_TRANSCRIPTION_MAX_BYTES:
@@ -126,8 +126,3 @@ async def create_enter_the_connection_transcription_draft(
         authorized_as_evidence=False,
         storage_status="session-only",
     )
-
-
-@router.post("/modules/primeira-conexao/lessons/enter-the-connection/recordings")
-async def unsupported_recording_upload() -> None:
-    raise HTTPException(status_code=404, detail="APR recording upload is not available")

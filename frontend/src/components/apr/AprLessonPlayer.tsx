@@ -110,10 +110,21 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
   const attemptsRef = useRef(recordingAttempts)
   const mountedRef = useRef(true)
   const nextAttemptIdRef = useRef(0)
-  const abortRefs = useRef<{
-    original?: AbortController
-    latestRetry?: AbortController
-  }>({})
+  const requestRefs = useRef<{
+    original: {
+      generation: number
+      activeGeneration: number | null
+      controller?: AbortController
+    }
+    latestRetry: {
+      generation: number
+      activeGeneration: number | null
+      controller?: AbortController
+    }
+  }>({
+    original: { generation: 0, activeGeneration: null },
+    latestRetry: { generation: 0, activeGeneration: null },
+  })
 
   useEffect(() => {
     let active = true
@@ -148,19 +159,32 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     headingRef.current?.focus()
   }, [currentStepIndex, complete])
 
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    mountedRef.current = true
+    return () => {
       mountedRef.current = false
-      abortRefs.current.original?.abort()
-      abortRefs.current.latestRetry?.abort()
+      abortTranscriptRequest('original')
+      abortTranscriptRequest('latestRetry')
       const current = attemptsRef.current
       if (current.original) URL.revokeObjectURL(current.original.objectUrl)
       if (current.latestRetry)
         URL.revokeObjectURL(current.latestRetry.objectUrl)
       attemptsRef.current = {}
-    },
-    []
-  )
+    }
+  }, [])
+
+  function abortTranscriptRequest(role: AttemptRole) {
+    const request = requestRefs.current[role]
+    request.generation += 1
+    request.activeGeneration = null
+    request.controller?.abort()
+    request.controller = undefined
+  }
+
+  function abortAllTranscriptRequests() {
+    abortTranscriptRequest('original')
+    abortTranscriptRequest('latestRetry')
+  }
 
   function resetTranscripts() {
     setTranscripts({
@@ -169,8 +193,7 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     })
   }
   function clearRecordingAttempts() {
-    abortRefs.current.original?.abort()
-    abortRefs.current.latestRetry?.abort()
+    abortAllTranscriptRequests()
     const current = attemptsRef.current
     if (current.original) URL.revokeObjectURL(current.original.objectUrl)
     if (current.latestRetry) URL.revokeObjectURL(current.latestRetry.objectUrl)
@@ -185,23 +208,25 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       id: ++nextAttemptIdRef.current,
       objectUrl: URL.createObjectURL(capture.blob),
     }
+    const current = attemptsRef.current
+    const replacingRetry = Boolean(current.original)
+    const replacedRetry = replacingRetry ? current.latestRetry : undefined
+    const next = !current.original
+      ? { original: attempt }
+      : { ...current, latestRetry: attempt }
+
+    if (replacingRetry) {
+      abortTranscriptRequest('latestRetry')
+      setTranscripts((t) => ({
+        ...t,
+        latestRetry: createEmptyTranscriptState(),
+      }))
+    }
+    if (replacedRetry) URL.revokeObjectURL(replacedRetry.objectUrl)
+
+    attemptsRef.current = next
     setRecordingWarning(false)
-    setRecordingAttempts((current) => {
-      const next = !current.original
-        ? { original: attempt }
-        : { ...current, latestRetry: attempt }
-      if (current.original) {
-        abortRefs.current.latestRetry?.abort()
-        setTranscripts((t) => ({
-          ...t,
-          latestRetry: createEmptyTranscriptState(),
-        }))
-      }
-      if (current.original && current.latestRetry)
-        URL.revokeObjectURL(current.latestRetry.objectUrl)
-      attemptsRef.current = next
-      return next
-    })
+    setRecordingAttempts(next)
   }
 
   function filenameForAttempt(attempt: AprRecordingAttempt) {
@@ -210,16 +235,19 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     if (mime.includes('wav')) return 'apr-recording.wav'
     if (mime.includes('mpeg')) return 'apr-recording.mp3'
     if (mime.includes('ogg')) return 'apr-recording.ogg'
-    return 'apr-recording.webm'
+    if (mime.includes('webm')) return 'apr-recording.webm'
+    return 'apr-recording.bin'
   }
 
   async function requestTranscriptDraft(role: AttemptRole) {
-    const attempt = recordingAttempts[role]
-    if (!attempt || transcripts[role].status === 'requesting') return
-    const requestId = transcripts[role].requestId + 1
-    abortRefs.current[role]?.abort()
+    const attempt = attemptsRef.current[role]
+    const request = requestRefs.current[role]
+    if (!attempt || request.activeGeneration !== null) return
+    const requestId = request.generation + 1
+    request.generation = requestId
+    request.activeGeneration = requestId
     const controller = new AbortController()
-    abortRefs.current[role] = controller
+    request.controller = controller
     setTranscripts((t) => ({
       ...t,
       [role]: {
@@ -259,6 +287,7 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
             status: 'draft_ready',
             machineDraft: data.draft_text,
             workingTranscript: data.draft_text,
+            confirmedTranscript: '',
             technicalError: '',
           },
         }
@@ -278,6 +307,11 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
               },
             }
       )
+    } finally {
+      if (requestRefs.current[role].activeGeneration === requestId) {
+        requestRefs.current[role].activeGeneration = null
+        requestRefs.current[role].controller = undefined
+      }
     }
   }
 
