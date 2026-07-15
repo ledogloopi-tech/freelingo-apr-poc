@@ -27,7 +27,6 @@ async def get_primeira_conexao_metadata(
     )
 
 
-
 @router.get(
     "/modules/primeira-conexao/lessons/enter-the-connection",
     response_model=AprLessonManifest,

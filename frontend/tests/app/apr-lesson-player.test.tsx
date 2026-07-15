@@ -9,6 +9,35 @@ vi.mock('@/lib/api', () => ({
   apiFetch: mockApiFetch,
 }))
 
+vi.mock('@/components/apr/AprAudioRecorder', () => ({
+  AprAudioRecorder: ({
+    hasOriginalAttempt,
+    onCapture,
+  }: {
+    hasOriginalAttempt: boolean
+    onCapture: (capture: {
+      blob: Blob
+      mimeType: string
+      durationSeconds: number
+    }) => void
+  }) => (
+    <button
+      type="button"
+      onClick={() =>
+        onCapture({
+          blob: new Blob([hasOriginalAttempt ? 'retry' : 'original'], {
+            type: 'audio/webm',
+          }),
+          mimeType: 'audio/webm',
+          durationSeconds: hasOriginalAttempt ? 2.2 : 1.1,
+        })
+      }
+    >
+      {hasOriginalAttempt ? 'Record another attempt' : 'Start recording'}
+    </button>
+  ),
+}))
+
 import AprEnterTheConnectionLessonPage from '@/app/(apr)/apr/primeira-conexao/lessons/enter-the-connection/page'
 
 function jsonResponse(data: unknown, status = 200) {
@@ -21,14 +50,14 @@ function jsonResponse(data: unknown, status = 200) {
 const manifest = {
   lesson_id: 'APR-R1-RM-01-L01-TECH',
   module_id: 'APR-R1-RM-01',
-  version: '0.1.0-technical-placeholder',
+  version: '0.2.0-technical-placeholder',
   title: 'Enter the Connection',
   internal_title: 'Lesson Player Technical Demonstration',
   content_status: 'technical-placeholder',
   authorized_for_pilot: false,
   authorized_for_public_release: false,
   estimated_minutes: 5,
-  current_step_count: 4,
+  current_step_count: 5,
   steps: [
     {
       step_id: 'orientation',
@@ -66,6 +95,19 @@ const manifest = {
       ],
     },
     {
+      step_id: 'microphone-capture',
+      step_type: 'recording',
+      title: 'Microphone capture',
+      body: 'Record a brief technical microphone test. This does not assess Portuguese capability.',
+      required: true,
+      prompt:
+        'This recording remains only in this browser session. It is not uploaded, transcribed, scored or saved to the APR backend.',
+      max_seconds: 10,
+      allow_retry: true,
+      preserve_original: true,
+      storage_status: 'session-only',
+    },
+    {
       step_id: 'technical-reflection',
       step_type: 'reflection',
       title: 'Reflection',
@@ -81,7 +123,12 @@ const manifest = {
 describe('APR lesson player', () => {
   beforeEach(() => {
     mockApiFetch.mockReset()
-    vi.unstubAllGlobals()
+    vi.stubGlobal('URL', {
+      createObjectURL: vi.fn(
+        (blob: Blob) => `blob:${blob.size}:${Math.random()}`
+      ),
+      revokeObjectURL: vi.fn(),
+    })
   })
 
   function renderManifest() {
@@ -109,24 +156,24 @@ describe('APR lesson player', () => {
   it('supports Step X of Y behavior, Back, and Continue', async () => {
     renderManifest()
 
-    expect(await screen.findByText('Step 1 of 4.')).toBeDefined()
+    expect(await screen.findByText('Step 1 of 5.')).toBeDefined()
     expect(screen.getByRole('button', { name: 'Back' })).toBeDisabled()
 
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
-    expect(screen.getByText('Step 2 of 4.')).toBeDefined()
+    expect(screen.getByText('Step 2 of 5.')).toBeDefined()
     expect(screen.getByRole('button', { name: 'Back' })).not.toBeDisabled()
 
     fireEvent.click(screen.getByRole('button', { name: 'Back' }))
-    expect(screen.getByText('Step 1 of 4.')).toBeDefined()
+    expect(screen.getByText('Step 1 of 5.')).toBeDefined()
   })
 
   it('requires choice selection and shows fixed feedback', async () => {
     renderManifest()
 
-    await screen.findByText('Step 1 of 4.')
+    await screen.findByText('Step 1 of 5.')
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
-    expect(screen.getByText('Step 3 of 4.')).toBeDefined()
+    expect(screen.getByText('Step 3 of 5.')).toBeDefined()
 
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
     expect(
@@ -148,10 +195,12 @@ describe('APR lesson player', () => {
   it('preserves reflection text during backward and forward navigation and enforces limits', async () => {
     renderManifest()
 
-    await screen.findByText('Step 1 of 4.')
+    await screen.findByText('Step 1 of 5.')
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
     fireEvent.click(screen.getByRole('radio', { name: /layout is clear/i }))
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Start recording' }))
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
 
     const textarea = screen.getByLabelText('What should the APR team verify?')
@@ -173,25 +222,84 @@ describe('APR lesson player', () => {
     vi.stubGlobal('confirm', confirm)
     renderManifest()
 
-    await screen.findByText('Step 1 of 4.')
+    await screen.findByText('Step 1 of 5.')
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
-    expect(screen.getByText('Step 2 of 4.')).toBeDefined()
+    expect(screen.getByText('Step 2 of 5.')).toBeDefined()
 
     fireEvent.click(screen.getByRole('button', { name: 'Restart' }))
-    expect(screen.getByText('Step 2 of 4.')).toBeDefined()
+    expect(screen.getByText('Step 2 of 5.')).toBeDefined()
 
     fireEvent.click(screen.getByRole('button', { name: 'Restart' }))
-    expect(screen.getByText('Step 1 of 4.')).toBeDefined()
+    expect(screen.getByText('Step 1 of 5.')).toBeDefined()
     expect(confirm).toHaveBeenCalledTimes(2)
+  })
+
+  it('requires one original recording, preserves original, replaces only latest retry, and clears on confirmed restart', async () => {
+    const confirm = vi.fn().mockReturnValueOnce(false).mockReturnValueOnce(true)
+    vi.stubGlobal('confirm', confirm)
+    renderManifest()
+
+    await screen.findByText('Step 1 of 5.')
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(screen.getByRole('radio', { name: /layout is clear/i }))
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+
+    expect(screen.getByText('Step 4 of 5.')).toBeDefined()
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    expect(
+      screen.getByText(
+        'Create one technical microphone recording before continuing.'
+      )
+    ).toBeDefined()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Start recording' }))
+    expect(screen.getByText('Original attempt')).toBeDefined()
+    expect(screen.getByLabelText('Original attempt playback')).toBeDefined()
+    const originalSrc = screen
+      .getByLabelText('Original attempt playback')
+      .getAttribute('src')
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Record another attempt' })
+    )
+    expect(screen.getByText('Latest retry')).toBeDefined()
+    const retrySrc = screen
+      .getByLabelText('Latest retry playback')
+      .getAttribute('src')
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Record another attempt' })
+    )
+    expect(
+      screen.getByLabelText('Original attempt playback').getAttribute('src')
+    ).toBe(originalSrc)
+    expect(
+      screen.getByLabelText('Latest retry playback').getAttribute('src')
+    ).not.toBe(retrySrc)
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith(retrySrc)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    expect(screen.getByText('Step 5 of 5.')).toBeDefined()
+    fireEvent.click(screen.getByRole('button', { name: 'Back' }))
+    expect(screen.getByText('Original attempt')).toBeDefined()
+    expect(screen.getByText('Latest retry')).toBeDefined()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Restart' }))
+    expect(screen.getByText('Original attempt')).toBeDefined()
+    fireEvent.click(screen.getByRole('button', { name: 'Restart' }))
+    expect(screen.getByText('Step 1 of 5.')).toBeDefined()
+    expect(screen.queryByText('Original attempt')).toBeNull()
   })
 
   it('shows technical completion without academic completion language', async () => {
     renderManifest()
 
-    await screen.findByText('Step 1 of 4.')
+    await screen.findByText('Step 1 of 5.')
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
     fireEvent.click(screen.getByRole('radio', { name: /layout is clear/i }))
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Start recording' }))
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
 

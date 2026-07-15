@@ -2,6 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { apiFetch } from '@/lib/api'
+import {
+  AprAudioRecorder,
+  type AprCapturedAudio,
+} from '@/components/apr/AprAudioRecorder'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,7 +21,12 @@ const APR_DISABLED_MESSAGE =
 
 type AprBaseStep = {
   step_id: string
-  step_type: 'orientation' | 'information' | 'single_choice' | 'reflection'
+  step_type:
+    | 'orientation'
+    | 'information'
+    | 'single_choice'
+    | 'recording'
+    | 'reflection'
   title: string
   body: string
   required: boolean
@@ -34,6 +43,15 @@ type AprSingleChoiceStep = AprBaseStep & {
   options: AprSingleChoiceOption[]
 }
 
+type AprRecordingStep = AprBaseStep & {
+  step_type: 'recording'
+  prompt: string
+  max_seconds: number
+  allow_retry: boolean
+  preserve_original: boolean
+  storage_status: 'session-only'
+}
+
 type AprReflectionStep = AprBaseStep & {
   step_type: 'reflection'
   prompt: string
@@ -44,6 +62,7 @@ type AprReflectionStep = AprBaseStep & {
 type AprLessonStep =
   | (AprBaseStep & { step_type: 'orientation' | 'information' })
   | AprSingleChoiceStep
+  | AprRecordingStep
   | AprReflectionStep
 
 type AprLessonManifest = {
@@ -62,6 +81,13 @@ type AprLessonManifest = {
 
 type StepResponses = Record<string, { choice?: string; reflection?: string }>
 
+type AprRecordingAttempt = {
+  blob: Blob
+  mimeType: string
+  durationSeconds: number
+  objectUrl: string
+}
+
 export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
   const [manifest, setManifest] = useState<AprLessonManifest | null>(null)
   const [loading, setLoading] = useState(true)
@@ -69,8 +95,14 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const [responses, setResponses] = useState<StepResponses>({})
   const [choiceWarning, setChoiceWarning] = useState(false)
+  const [recordingWarning, setRecordingWarning] = useState(false)
+  const [recordingAttempts, setRecordingAttempts] = useState<{
+    original?: AprRecordingAttempt
+    latestRetry?: AprRecordingAttempt
+  }>({})
   const [complete, setComplete] = useState(false)
   const headingRef = useRef<HTMLHeadingElement>(null)
+  const recordingAttemptsRef = useRef(recordingAttempts)
 
   useEffect(() => {
     let active = true
@@ -113,6 +145,46 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     headingRef.current?.focus()
   }, [currentStepIndex, complete])
 
+  useEffect(() => {
+    recordingAttemptsRef.current = recordingAttempts
+  }, [recordingAttempts])
+
+  useEffect(() => {
+    return () => {
+      const current = recordingAttemptsRef.current
+      if (current.original) URL.revokeObjectURL(current.original.objectUrl)
+      if (current.latestRetry)
+        URL.revokeObjectURL(current.latestRetry.objectUrl)
+    }
+  }, [])
+
+  function clearRecordingAttempts() {
+    setRecordingAttempts((current) => {
+      if (current.original) URL.revokeObjectURL(current.original.objectUrl)
+      if (current.latestRetry)
+        URL.revokeObjectURL(current.latestRetry.objectUrl)
+      return {}
+    })
+  }
+
+  function handleAudioCapture(capture: AprCapturedAudio) {
+    const attempt: AprRecordingAttempt = {
+      ...capture,
+      objectUrl: URL.createObjectURL(capture.blob),
+    }
+    setRecordingWarning(false)
+    setRecordingAttempts((current) => {
+      if (!current.original) return { original: attempt }
+      if (current.latestRetry)
+        URL.revokeObjectURL(current.latestRetry.objectUrl)
+      return { ...current, latestRetry: attempt }
+    })
+  }
+
+  function formatDuration(seconds: number) {
+    return `${seconds.toFixed(1)} seconds`
+  }
+
   function restart() {
     if (
       window.confirm(
@@ -122,6 +194,8 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       setResponses({})
       setCurrentStepIndex(0)
       setChoiceWarning(false)
+      setRecordingWarning(false)
+      clearRecordingAttempts()
       setComplete(false)
     }
   }
@@ -169,7 +243,12 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       setChoiceWarning(true)
       return
     }
+    if (currentStep.step_type === 'recording' && !recordingAttempts.original) {
+      setRecordingWarning(true)
+      return
+    }
     setChoiceWarning(false)
+    setRecordingWarning(false)
     if (currentStepIndex === manifest.steps.length - 1) {
       setComplete(true)
       return
@@ -283,6 +362,70 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
                 </p>
               )}
             </fieldset>
+          )}
+
+          {currentStep.step_type === 'recording' && (
+            <div className="space-y-4">
+              <p className="rounded-lg border p-3 text-sm">
+                {currentStep.prompt}
+              </p>
+              <AprAudioRecorder
+                maxSeconds={currentStep.max_seconds}
+                hasOriginalAttempt={Boolean(recordingAttempts.original)}
+                onCapture={handleAudioCapture}
+              />
+              {recordingWarning && (
+                <p role="alert" className="text-destructive text-sm">
+                  Create one technical microphone recording before continuing.
+                </p>
+              )}
+              {recordingAttempts.original && (
+                <section
+                  aria-label="Original attempt"
+                  className="space-y-2 rounded-lg border p-4"
+                >
+                  <h3 className="font-medium">Original attempt</h3>
+                  <audio
+                    controls
+                    preload="metadata"
+                    src={recordingAttempts.original.objectUrl}
+                    aria-label="Original attempt playback"
+                  />
+                  <p className="text-muted-foreground text-sm">
+                    Technical format: {recordingAttempts.original.mimeType}.
+                    Approximate duration:{' '}
+                    {formatDuration(recordingAttempts.original.durationSeconds)}
+                    .
+                  </p>
+                  <p className="text-muted-foreground text-sm">
+                    This attempt remains session-only and is not uploaded,
+                    transcribed, scored, or saved to the APR backend.
+                  </p>
+                </section>
+              )}
+              {recordingAttempts.latestRetry && (
+                <section
+                  aria-label="Latest retry"
+                  className="space-y-2 rounded-lg border p-4"
+                >
+                  <h3 className="font-medium">Latest retry</h3>
+                  <audio
+                    controls
+                    preload="metadata"
+                    src={recordingAttempts.latestRetry.objectUrl}
+                    aria-label="Latest retry playback"
+                  />
+                  <p className="text-muted-foreground text-sm">
+                    Technical format: {recordingAttempts.latestRetry.mimeType}.
+                    Approximate duration:{' '}
+                    {formatDuration(
+                      recordingAttempts.latestRetry.durationSeconds
+                    )}
+                    .
+                  </p>
+                </section>
+              )}
+            </div>
           )}
 
           {currentStep.step_type === 'reflection' && (
