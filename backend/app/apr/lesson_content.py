@@ -11,7 +11,7 @@ from app.apr.schemas import (
 ENTER_THE_CONNECTION_LESSON = AprLessonManifest(
     lesson_id="APR-R1-RM-01-L01-TECH",
     module_id="APR-R1-RM-01",
-    version="0.4.0-technical-placeholder",
+    version="0.5.0-technical-placeholder",
     title="Enter the Connection",
     internal_title="Lesson Player Technical Demonstration",
     content_status="technical-placeholder",
@@ -80,6 +80,7 @@ ENTER_THE_CONNECTION_LESSON = AprLessonManifest(
                 "temporary technical placeholder with provider-dependent voice/accent, "
                 "not final human-recorded Academy audio, not a pronunciation standard, "
                 "not academic evidence, and not saved after the browser session ends. "
+                "Optional technical feedback becomes available only after you learner-confirm the Original transcript. It begins only after your explicit request, uses a fixed technical retry cue, does not evaluate Portuguese, does not inspect pronunciation or audio quality, does not create a score or academic feedback, and remains session-only with optional retry state. APR preserves the Original attempt. "
                 "Transcription starts only "
                 "after you request it. The result is a machine-generated draft that you "
                 "must review and correct. Confirmation is not academic evidence and does "
@@ -95,7 +96,7 @@ ENTER_THE_CONNECTION_LESSON = AprLessonManifest(
                 "not academic evidence, "
                 "and not saved after the browser session ends. Transcript confirmation "
                 "is not a score, language result, or academic evidence, and APR does not "
-                "save transcript state during this POC."
+                "save transcript state during this POC. Optional feedback and retry state remain session-only, and the retry is optional."
             ),
             max_seconds=10,
             allow_retry=True,
@@ -113,6 +114,17 @@ ENTER_THE_CONNECTION_LESSON = AprLessonManifest(
             model_audio_storage_status="session-only",
             model_audio_authorized_as_final_content=False,
             model_audio_required=False,
+            feedback_id="APR-R1-RM-01-L01-FEEDBACK-TECH",
+            feedback_mode="on-demand",
+            feedback_source_attempt="original",
+            feedback_requires_confirmed_transcript=True,
+            feedback_source="controlled-technical-placeholder",
+            feedback_storage_status="session-only",
+            feedback_authorized_as_academic_feedback=False,
+            feedback_authorized_as_evidence=False,
+            feedback_required=False,
+            retry_orchestration_mode="optional-post-feedback-latest-retry",
+            retry_required=False,
         ),
         AprReflectionStep(
             step_id="technical-reflection",
