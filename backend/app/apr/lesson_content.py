@@ -2,6 +2,7 @@ from app.apr.schemas import (
     AprInformationStep,
     AprLessonManifest,
     AprOrientationStep,
+    AprRecordingStep,
     AprReflectionStep,
     AprSingleChoiceOption,
     AprSingleChoiceStep,
@@ -10,14 +11,14 @@ from app.apr.schemas import (
 ENTER_THE_CONNECTION_LESSON = AprLessonManifest(
     lesson_id="APR-R1-RM-01-L01-TECH",
     module_id="APR-R1-RM-01",
-    version="0.1.0-technical-placeholder",
+    version="0.2.0-technical-placeholder",
     title="Enter the Connection",
     internal_title="Lesson Player Technical Demonstration",
     content_status="technical-placeholder",
     authorized_for_pilot=False,
     authorized_for_public_release=False,
     estimated_minutes=5,
-    current_step_count=4,
+    current_step_count=5,
     steps=[
         AprOrientationStep(
             step_id="orientation",
@@ -68,6 +69,25 @@ ENTER_THE_CONNECTION_LESSON = AprLessonManifest(
                     feedback="Fixed technical feedback: no language capability was calculated.",
                 ),
             ],
+        ),
+        AprRecordingStep(
+            step_id="microphone-capture",
+            step_type="recording",
+            title="Microphone capture",
+            body=(
+                "Record a brief technical microphone test. This does not assess Portuguese "
+                "capability, is not academic evidence, is not uploaded, and is not saved "
+                "after the browser session ends."
+            ),
+            required=True,
+            prompt=(
+                "This recording remains only in this browser session. It is not uploaded, "
+                "transcribed, scored or saved to the APR backend."
+            ),
+            max_seconds=10,
+            allow_retry=True,
+            preserve_original=True,
+            storage_status="session-only",
         ),
         AprReflectionStep(
             step_id="technical-reflection",

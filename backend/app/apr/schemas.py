@@ -40,6 +40,15 @@ class AprSingleChoiceStep(AprLessonStepBase):
     options: list[AprSingleChoiceOption]
 
 
+class AprRecordingStep(AprLessonStepBase):
+    step_type: Literal["recording"]
+    prompt: str
+    max_seconds: int = Field(gt=0)
+    allow_retry: bool
+    preserve_original: bool
+    storage_status: Literal["session-only"]
+
+
 class AprReflectionStep(AprLessonStepBase):
     step_type: Literal["reflection"]
     prompt: str
@@ -48,7 +57,11 @@ class AprReflectionStep(AprLessonStepBase):
 
 
 AprLessonStep = (
-    AprOrientationStep | AprInformationStep | AprSingleChoiceStep | AprReflectionStep
+    AprOrientationStep
+    | AprInformationStep
+    | AprSingleChoiceStep
+    | AprRecordingStep
+    | AprReflectionStep
 )
 
 
