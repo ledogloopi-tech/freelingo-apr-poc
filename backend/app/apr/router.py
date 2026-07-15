@@ -2,9 +2,16 @@ from typing import Literal
 
 import httpx
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile, status
+from fastapi.responses import Response
 
 from app.apr.lesson_content import ENTER_THE_CONNECTION_LESSON
-from app.apr.schemas import AprLessonManifest, AprModuleMetadata, AprTranscriptDraftResponse
+from app.apr.schemas import (
+    AprLessonManifest,
+    AprModelAudioMetadata,
+    AprModelAudioRequest,
+    AprModuleMetadata,
+    AprTranscriptDraftResponse,
+)
 from app.core.config import settings
 from app.core.deps import get_current_user
 from app.models.user import User
@@ -23,6 +30,23 @@ APR_TRANSCRIPTION_MIME_EXTENSIONS = {
 APR_TRANSCRIPTION_ERROR = (
     "APR could not generate a transcript draft. This is a technical transcription issue, "
     "not a language result."
+)
+APR_MODEL_AUDIO_ERROR = (
+    "APR could not generate technical model audio. This is a technical audio issue, "
+    "not a language result."
+)
+APR_MODEL_AUDIO_ID = "APR-R1-RM-01-L01-MODEL-TECH"
+APR_MODEL_AUDIO_TEXT = "Olá. Este é um teste técnico de áudio em português brasileiro."
+APR_MODEL_AUDIO_LANGUAGE = "pt-BR"
+APR_MODEL_AUDIO_MAX_BYTES = 5 * 1024 * 1024
+APR_MODEL_AUDIO_MIME_TYPES = {"audio/mpeg", "audio/wav", "audio/ogg", "audio/mp4", "audio/webm"}
+APR_MODEL_AUDIO_METADATA = AprModelAudioMetadata(
+    model_audio_id=APR_MODEL_AUDIO_ID,
+    language="pt-BR",
+    status="generated-technical-placeholder",
+    storage_status="session-only",
+    authorized_as_final_content=False,
+    required=False,
 )
 
 
@@ -68,6 +92,61 @@ async def get_enter_the_connection_lesson(
     _ensure_apr_enabled()
 
     return ENTER_THE_CONNECTION_LESSON
+
+
+@router.post(
+    "/modules/primeira-conexao/lessons/enter-the-connection/model-audio",
+)
+async def create_enter_the_connection_model_audio(
+    request: Request,
+    body: AprModelAudioRequest,
+    _current_user: User = Depends(get_current_user),
+) -> Response:
+    _ensure_apr_enabled()
+
+    if body.model_audio_id != APR_MODEL_AUDIO_ID:
+        raise HTTPException(status_code=400, detail="APR model-audio id is not approved")
+
+    tts_service = getattr(request.app.state, "tts_service", None)
+    if tts_service is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="APR model-audio service is unavailable",
+        )
+
+    apr_voice = settings.APR_TTS_VOICE.strip() or None
+    if settings.TTS_PROVIDER == "local" and apr_voice is None:
+        raise HTTPException(status_code=503, detail=APR_MODEL_AUDIO_ERROR)
+
+    try:
+        result = await tts_service.synthesize_with_metadata(
+            APR_MODEL_AUDIO_TEXT, voice=apr_voice, language=APR_MODEL_AUDIO_LANGUAGE
+        )
+    except httpx.HTTPStatusError:
+        raise HTTPException(status_code=502, detail=APR_MODEL_AUDIO_ERROR) from None
+    except httpx.RequestError:
+        raise HTTPException(status_code=502, detail=APR_MODEL_AUDIO_ERROR) from None
+    except Exception:
+        raise HTTPException(status_code=503, detail=APR_MODEL_AUDIO_ERROR) from None
+
+    audio = result.audio_bytes
+    mime_type = (result.mime_type or "").split(";", 1)[0].strip().lower()
+    if (
+        not audio
+        or len(audio) > APR_MODEL_AUDIO_MAX_BYTES
+        or mime_type not in APR_MODEL_AUDIO_MIME_TYPES
+    ):
+        raise HTTPException(status_code=502, detail=APR_MODEL_AUDIO_ERROR)
+
+    return Response(
+        content=audio,
+        media_type=mime_type,
+        headers={
+            "Cache-Control": "no-store",
+            "X-APR-Audio-Status": APR_MODEL_AUDIO_METADATA.status,
+            "X-APR-Audio-Language": APR_MODEL_AUDIO_METADATA.language,
+        },
+    )
 
 
 @router.post(

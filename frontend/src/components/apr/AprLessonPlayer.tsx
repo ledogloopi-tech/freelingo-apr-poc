@@ -6,6 +6,12 @@ import {
   type AprCapturedAudio,
 } from '@/components/apr/AprAudioRecorder'
 import {
+  AprModelAudio,
+  createEmptyModelAudioState,
+  type AprModelAudioMetadata,
+  type AprModelAudioState,
+} from '@/components/apr/AprModelAudio'
+import {
   AprTranscriptDraft,
   createEmptyTranscriptState,
   type AprTranscriptState,
@@ -57,6 +63,13 @@ type AprRecordingStep = AprBaseStep & {
   requires_learner_confirmation: boolean
   transcript_storage_status: 'session-only'
   transcript_authorized_as_evidence: boolean
+  model_audio_id: string
+  model_audio_mode: 'on-demand'
+  model_audio_language: 'pt-BR'
+  model_audio_source: 'generated-technical-placeholder'
+  model_audio_storage_status: 'session-only'
+  model_audio_authorized_as_final_content: boolean
+  model_audio_required: boolean
 }
 type AprReflectionStep = AprBaseStep & {
   step_type: 'reflection'
@@ -98,6 +111,16 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     original?: AprRecordingAttempt
     latestRetry?: AprRecordingAttempt
   }>({})
+  const [modelAudio, setModelAudio] = useState<AprModelAudioState>(() =>
+    createEmptyModelAudioState()
+  )
+  const modelAudioRef = useRef<AprModelAudioState>(createEmptyModelAudioState())
+  const modelAudioRequestRef = useRef<{
+    generation: number
+    controller?: AbortController
+  }>({
+    generation: 0,
+  })
   const [transcripts, setTranscripts] = useState<{
     original: AprTranscriptState
     latestRetry: AprTranscriptState
@@ -165,6 +188,10 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       mountedRef.current = false
       abortTranscriptRequest('original')
       abortTranscriptRequest('latestRetry')
+      abortModelAudioRequest()
+      if (modelAudioRef.current.objectUrl)
+        URL.revokeObjectURL(modelAudioRef.current.objectUrl)
+      modelAudioRef.current = createEmptyModelAudioState()
       const current = attemptsRef.current
       if (current.original) URL.revokeObjectURL(current.original.objectUrl)
       if (current.latestRetry)
@@ -172,6 +199,90 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       attemptsRef.current = {}
     }
   }, [])
+
+  function setModelAudioState(next: AprModelAudioState) {
+    modelAudioRef.current = next
+    setModelAudio(next)
+  }
+
+  function clearModelAudioUrl() {
+    if (modelAudioRef.current.objectUrl)
+      URL.revokeObjectURL(modelAudioRef.current.objectUrl)
+    setModelAudioState(createEmptyModelAudioState())
+  }
+
+  function abortModelAudioRequest() {
+    modelAudioRequestRef.current.generation += 1
+    modelAudioRequestRef.current.controller?.abort()
+    modelAudioRequestRef.current.controller = undefined
+  }
+
+  function metadataFromHeaders(res: Response): AprModelAudioMetadata {
+    return {
+      language: res.headers.get('X-APR-Audio-Language') ?? 'pt-BR',
+      status:
+        res.headers.get('X-APR-Audio-Status') ??
+        'generated-technical-placeholder',
+    }
+  }
+
+  async function requestModelAudio(step: AprRecordingStep) {
+    if (modelAudioRef.current.status === 'requesting') return
+    abortModelAudioRequest()
+    const generation = modelAudioRequestRef.current.generation + 1
+    modelAudioRequestRef.current.generation = generation
+    const controller = new AbortController()
+    modelAudioRequestRef.current.controller = controller
+    setModelAudioState({
+      ...modelAudioRef.current,
+      status: 'requesting',
+      technicalError: '',
+      requestGeneration: generation,
+    })
+    try {
+      const res = await apiFetch(`${endpoint}/model-audio`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model_audio_id: step.model_audio_id,
+        }),
+        signal: controller.signal,
+      })
+      if (!res.ok) throw new Error('technical model-audio failure')
+      const blob = await res.blob()
+      if (
+        !mountedRef.current ||
+        controller.signal.aborted ||
+        modelAudioRequestRef.current.generation !== generation
+      )
+        return
+      const objectUrl = URL.createObjectURL(blob)
+      const previousUrl = modelAudioRef.current.objectUrl
+      if (previousUrl) URL.revokeObjectURL(previousUrl)
+      setModelAudioState({
+        status: 'ready',
+        objectUrl,
+        mimeType: blob.type || 'unknown',
+        byteSize: blob.size,
+        technicalError: '',
+        requestGeneration: generation,
+        metadata: metadataFromHeaders(res),
+      })
+    } catch {
+      if (!mountedRef.current || controller.signal.aborted) return
+      if (modelAudioRequestRef.current.generation !== generation) return
+      setModelAudioState({
+        ...modelAudioRef.current,
+        status: 'technical_error',
+        technicalError:
+          'APR could not generate technical model audio. This is a technical audio issue, not a language result.',
+        requestGeneration: generation,
+      })
+    } finally {
+      if (modelAudioRequestRef.current.generation === generation)
+        modelAudioRequestRef.current.controller = undefined
+    }
+  }
 
   function abortTranscriptRequest(role: AttemptRole) {
     const request = requestRefs.current[role]
@@ -357,6 +468,8 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       setChoiceWarning(false)
       setRecordingWarning(false)
       clearRecordingAttempts()
+      abortModelAudioRequest()
+      clearModelAudioUrl()
       setComplete(false)
     }
   }
@@ -518,6 +631,13 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
               <p className="rounded-lg border p-3 text-sm">
                 {currentStep.prompt}
               </p>
+              <AprModelAudio
+                state={modelAudio}
+                modelAudioId={currentStep.model_audio_id}
+                intendedLanguage={currentStep.model_audio_language}
+                isRequired={currentStep.model_audio_required}
+                onGenerate={() => requestModelAudio(currentStep)}
+              />
               <AprAudioRecorder
                 maxSeconds={currentStep.max_seconds}
                 hasOriginalAttempt={Boolean(recordingAttempts.original)}

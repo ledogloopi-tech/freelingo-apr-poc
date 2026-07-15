@@ -50,7 +50,7 @@ function jsonResponse(data: unknown, status = 200) {
 const manifest = {
   lesson_id: 'APR-R1-RM-01-L01-TECH',
   module_id: 'APR-R1-RM-01',
-  version: '0.3.0-technical-placeholder',
+  version: '0.4.0-technical-placeholder',
   title: 'Enter the Connection',
   internal_title: 'Lesson Player Technical Demonstration',
   content_status: 'technical-placeholder',
@@ -111,6 +111,13 @@ const manifest = {
       requires_learner_confirmation: true,
       transcript_storage_status: 'session-only',
       transcript_authorized_as_evidence: false,
+      model_audio_id: 'APR-R1-RM-01-L01-MODEL-TECH',
+      model_audio_mode: 'on-demand',
+      model_audio_language: 'pt-BR',
+      model_audio_source: 'generated-technical-placeholder',
+      model_audio_storage_status: 'session-only',
+      model_audio_authorized_as_final_content: false,
+      model_audio_required: false,
     },
     {
       step_id: 'technical-reflection',
