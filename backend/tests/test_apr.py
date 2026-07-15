@@ -563,13 +563,20 @@ async def test_apr_model_audio_returns_valid_provider_mime_no_store_and_headers_
     assert await db_session.scalar(select(func.count()).select_from(Progress)) == progress_before
 
 
-@pytest.mark.parametrize("audio", [b"", b"x" * (5 * 1024 * 1024 + 1)])
+@pytest.mark.parametrize("case", ["empty", "oversized"])
 async def test_apr_model_audio_empty_or_oversized_provider_audio_fails(
-    client, test_user, monkeypatch, audio
+    client, test_user, monkeypatch, case
 ):
+    audio = b"" if case == "empty" else b"x" * (5 * 1024 * 1024 + 1)
+
     _user, headers = test_user
     enable_apr_tts(monkeypatch)
-    monkeypatch.setattr(app.state, "tts_service", MockAprTtsService(audio=audio), raising=False)
+    monkeypatch.setattr(
+        app.state,
+        "tts_service",
+        MockAprTtsService(audio=audio),
+        raising=False,
+    )
 
     res = await client.post(
         MODEL_AUDIO_URL,
