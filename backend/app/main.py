@@ -11,6 +11,7 @@ from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
 from alembic import command
+from app.apr import router as apr_router
 from app.core.config import settings
 from app.core.limiter import limiter
 
@@ -128,6 +129,7 @@ async def security_headers_middleware(request: Request, call_next) -> Response:
 
 
 app.include_router(auth.router)
+app.include_router(apr_router.router)
 app.include_router(admin.router)
 app.include_router(assessment.router)
 app.include_router(study_plan.router)
