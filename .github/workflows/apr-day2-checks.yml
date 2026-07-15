@@ -1,4 +1,4 @@
-name: APR Day 2 checks
+name: APR focused checks
 
 on:
   pull_request:
@@ -14,6 +14,8 @@ on:
       - 'docs/apr/poc/**'
       - 'frontend/src/app/(apr)/**'
       - 'frontend/tests/app/apr-primeira-conexao.test.tsx'
+      - 'frontend/tests/app/apr-lesson-player.test.tsx'
+      - 'frontend/src/components/apr/**'
       - 'frontend/package-lock.json'
       - 'frontend/package.json'
 
@@ -45,7 +47,7 @@ jobs:
       - name: Run APR backend tests
         env:
           DATABASE_URL: 'sqlite+aiosqlite:///:memory:'
-          SECRET_KEY: ci-secret-key-for-apr-day2-32b
+          SECRET_KEY: ci-secret-key-for-apr-focused-32b
           RATE_LIMIT_ENABLED: 'false'
         run: pytest tests/test_apr.py -v --no-cov
 
@@ -77,4 +79,4 @@ jobs:
         run: npx tsc --noEmit
 
       - name: Run APR frontend tests
-        run: npm run test:run -- apr-primeira-conexao.test.tsx
+        run: npm run test:run -- apr-primeira-conexao.test.tsx apr-lesson-player.test.tsx

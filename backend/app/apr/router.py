@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from app.apr.schemas import AprModuleMetadata
+from app.apr.lesson_content import ENTER_THE_CONNECTION_LESSON
+from app.apr.schemas import AprLessonManifest, AprModuleMetadata
 from app.core.config import settings
 from app.core.deps import get_current_user
 from app.models.user import User
@@ -24,3 +25,17 @@ async def get_primeira_conexao_metadata(
         authorized_for_pilot=False,
         authorized_for_public_release=False,
     )
+
+
+
+@router.get(
+    "/modules/primeira-conexao/lessons/enter-the-connection",
+    response_model=AprLessonManifest,
+)
+async def get_enter_the_connection_lesson(
+    _current_user: User = Depends(get_current_user),
+) -> AprLessonManifest:
+    if not settings.APR_POC_ENABLED:
+        raise HTTPException(status_code=404, detail="APR proof of concept is disabled")
+
+    return ENTER_THE_CONNECTION_LESSON
