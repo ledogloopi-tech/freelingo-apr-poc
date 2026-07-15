@@ -50,7 +50,7 @@ function jsonResponse(data: unknown, status = 200) {
 const manifest = {
   lesson_id: 'APR-R1-RM-01-L01-TECH',
   module_id: 'APR-R1-RM-01',
-  version: '0.2.0-technical-placeholder',
+  version: '0.3.0-technical-placeholder',
   title: 'Enter the Connection',
   internal_title: 'Lesson Player Technical Demonstration',
   content_status: 'technical-placeholder',
@@ -106,6 +106,11 @@ const manifest = {
       allow_retry: true,
       preserve_original: true,
       storage_status: 'session-only',
+      transcription_language: 'pt',
+      transcription_mode: 'on-demand',
+      requires_learner_confirmation: true,
+      transcript_storage_status: 'session-only',
+      transcript_authorized_as_evidence: false,
     },
     {
       step_id: 'technical-reflection',

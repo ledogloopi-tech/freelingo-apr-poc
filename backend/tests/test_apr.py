@@ -2,6 +2,7 @@ import pytest
 from sqlalchemy import func, select
 
 from app.core.config import settings
+from app.main import app
 from app.models.progress import Progress
 from app.models.study_plan import StudyPlan
 
@@ -88,7 +89,7 @@ async def test_apr_lesson_endpoint_returns_typed_placeholder_manifest_without_wr
     manifest = res.json()
     assert manifest["lesson_id"] == "APR-R1-RM-01-L01-TECH"
     assert manifest["module_id"] == "APR-R1-RM-01"
-    assert manifest["version"] == "0.2.0-technical-placeholder"
+    assert manifest["version"] == "0.3.0-technical-placeholder"
     assert manifest["title"] == "Enter the Connection"
     assert manifest["internal_title"] == "Lesson Player Technical Demonstration"
     assert manifest["content_status"] == "technical-placeholder"
@@ -120,9 +121,11 @@ async def test_apr_lesson_endpoint_returns_typed_placeholder_manifest_without_wr
     recording_text = f"{recording_step['body']} {recording_step['prompt']}"
     assert "does not assess Portuguese capability" in recording_text
     assert "not academic evidence" in recording_text
-    assert "not uploaded" in recording_text
-    assert "browser session" in recording_text
-    assert "not uploaded, transcribed, scored or saved to the APR backend" in recording_text
+    assert "Transcription starts only after" in recording_text
+    assert "machine-generated draft" in recording_text
+    assert "review and correct" in recording_text
+    assert "does not turn it into academic evidence" in recording_text
+    assert "session-only" in recording_text
     assert manifest["steps"][4]["max_characters"] == 240
 
     plans_after = await db_session.scalar(select(func.count()).select_from(StudyPlan))
@@ -142,3 +145,212 @@ async def test_apr_does_not_expose_recording_upload_endpoint(client, test_user, 
     )
 
     assert res.status_code == 404
+
+
+class MockAprSttService:
+    def __init__(self, text=" rascunho técnico ", exc=None):
+        self.text = text
+        self.exc = exc
+        self.calls = []
+
+    async def transcribe(self, audio_bytes, filename, *, mime_type, language):
+        self.calls.append(
+            {
+                "audio_bytes": audio_bytes,
+                "filename": filename,
+                "mime_type": mime_type,
+                "language": language,
+            }
+        )
+        if self.exc:
+            raise self.exc
+        return self.text
+
+
+TRANSCRIPTION_URL = (
+    "/api/apr/modules/primeira-conexao/lessons/enter-the-connection/transcription-drafts"
+)
+
+
+async def test_apr_transcription_requires_authentication(client):
+    res = await client.post(TRANSCRIPTION_URL)
+
+    assert res.status_code == 401
+
+
+async def test_apr_transcription_returns_404_when_disabled(client, test_user, monkeypatch):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", False)
+
+    res = await client.post(
+        TRANSCRIPTION_URL,
+        headers=headers,
+        data={"attempt_role": "original"},
+        files={"audio": ("audio.webm", b"abc", "audio/webm")},
+    )
+
+    assert res.status_code == 404
+
+
+async def test_apr_transcription_requires_stt_service(client, test_user, monkeypatch):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+    app.state.stt_service = None
+
+    res = await client.post(
+        TRANSCRIPTION_URL,
+        headers=headers,
+        data={"attempt_role": "original"},
+        files={"audio": ("audio.webm", b"abc", "audio/webm")},
+    )
+
+    assert res.status_code == 503
+
+
+@pytest.mark.parametrize("attempt_role", ["original", "latest_retry"])
+async def test_apr_transcription_returns_typed_draft_and_uses_portuguese(
+    client, test_user, db_session, monkeypatch, attempt_role
+):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+    mock = MockAprSttService()
+    app.state.stt_service = mock
+    plans_before = await db_session.scalar(select(func.count()).select_from(StudyPlan))
+    progress_before = await db_session.scalar(select(func.count()).select_from(Progress))
+
+    res = await client.post(
+        TRANSCRIPTION_URL,
+        headers=headers,
+        data={"attempt_role": attempt_role},
+        files={"audio": ("ignored.webm", b"abc", "audio/webm;codecs=opus")},
+    )
+
+    assert res.status_code == 200
+    assert res.json() == {
+        "attempt_role": attempt_role,
+        "draft_text": "rascunho técnico",
+        "language": "pt",
+        "status": "machine-generated-draft",
+        "requires_learner_confirmation": True,
+        "authorized_as_evidence": False,
+        "storage_status": "session-only",
+    }
+    assert mock.calls == [
+        {
+            "audio_bytes": b"abc",
+            "filename": "apr-transcription-draft.webm",
+            "mime_type": "audio/webm",
+            "language": "pt",
+        }
+    ]
+    assert await db_session.scalar(select(func.count()).select_from(StudyPlan)) == plans_before
+    assert await db_session.scalar(select(func.count()).select_from(Progress)) == progress_before
+
+
+async def test_apr_transcription_accepts_octet_stream_fallback(client, test_user, monkeypatch):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+    mock = MockAprSttService()
+    app.state.stt_service = mock
+
+    res = await client.post(
+        TRANSCRIPTION_URL,
+        headers=headers,
+        data={"attempt_role": "original"},
+        files={"audio": ("audio.bin", b"abc", "application/octet-stream")},
+    )
+
+    assert res.status_code == 200
+    assert mock.calls[0]["mime_type"] == "application/octet-stream"
+
+
+@pytest.mark.parametrize(
+    ("files", "data", "expected_status"),
+    [
+        ({"audio": ("audio.webm", b"", "audio/webm")}, {"attempt_role": "original"}, 400),
+        ({"audio": ("audio.txt", b"abc", "text/plain")}, {"attempt_role": "original"}, 415),
+        ({"audio": ("audio.webm", b"abc", "audio/webm")}, {"attempt_role": "other"}, 422),
+    ],
+)
+async def test_apr_transcription_rejects_invalid_inputs(
+    client, test_user, monkeypatch, files, data, expected_status
+):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+    app.state.stt_service = MockAprSttService()
+
+    res = await client.post(TRANSCRIPTION_URL, headers=headers, data=data, files=files)
+
+    assert res.status_code == expected_status
+
+
+async def test_apr_transcription_rejects_oversized_audio(client, test_user, monkeypatch):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+    app.state.stt_service = MockAprSttService()
+
+    res = await client.post(
+        TRANSCRIPTION_URL,
+        headers=headers,
+        data={"attempt_role": "original"},
+        files={"audio": ("audio.webm", b"x" * (10 * 1024 * 1024 + 1), "audio/webm")},
+    )
+
+    assert res.status_code == 413
+
+
+async def test_apr_transcription_sanitizes_provider_failures(client, test_user, monkeypatch):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+    app.state.stt_service = MockAprSttService(exc=RuntimeError("secret provider url"))
+
+    res = await client.post(
+        TRANSCRIPTION_URL,
+        headers=headers,
+        data={"attempt_role": "original"},
+        files={"audio": ("audio.webm", b"abc", "audio/webm")},
+    )
+
+    assert res.status_code == 503
+    assert "secret provider url" not in res.text
+    assert "technical transcription issue" in res.text
+
+
+async def test_apr_transcription_treats_empty_provider_output_as_technical_failure(
+    client, test_user, monkeypatch
+):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+    app.state.stt_service = MockAprSttService(text="   ")
+
+    res = await client.post(
+        TRANSCRIPTION_URL,
+        headers=headers,
+        data={"attempt_role": "latest_retry"},
+        files={"audio": ("audio.ogg", b"abc", "audio/ogg")},
+    )
+
+    assert res.status_code == 502
+
+
+async def test_apr_lesson_manifest_day5_transcription_contract(client, test_user, monkeypatch):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+
+    res = await client.get(
+        "/api/apr/modules/primeira-conexao/lessons/enter-the-connection", headers=headers
+    )
+
+    manifest = res.json()
+    assert manifest["version"] == "0.3.0-technical-placeholder"
+    recording_step = manifest["steps"][3]
+    assert recording_step["transcription_language"] == "pt"
+    assert recording_step["transcription_mode"] == "on-demand"
+    assert recording_step["requires_learner_confirmation"] is True
+    assert recording_step["transcript_storage_status"] == "session-only"
+    assert recording_step["transcript_authorized_as_evidence"] is False
+    assert recording_step["allow_retry"] is True
+    assert recording_step["preserve_original"] is True
+    assert recording_step["storage_status"] == "session-only"
+    assert manifest["authorized_for_pilot"] is False
+    assert manifest["authorized_for_public_release"] is False
