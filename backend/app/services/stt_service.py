@@ -48,7 +48,7 @@ class WhisperSTTService:
             data = response.json()
             # Response: {"text": "...", ...}
             text = data.get("text", "").strip()
-            logger.info("[stt] Transcribed: %r", text)
+            logger.info("[stt] Transcribed text length: %d characters", len(text))
             return text
 
 
@@ -77,5 +77,5 @@ class OpenAISTTService:
             timeout=60.0,
         )
         text = response.text.strip()
-        logger.info("[stt-openai] Transcribed: %r", text)
+        logger.info("[stt-openai] Transcribed text length: %d characters", len(text))
         return text

@@ -11,7 +11,7 @@ from app.apr.schemas import (
 ENTER_THE_CONNECTION_LESSON = AprLessonManifest(
     lesson_id="APR-R1-RM-01-L01-TECH",
     module_id="APR-R1-RM-01",
-    version="0.2.0-technical-placeholder",
+    version="0.3.0-technical-placeholder",
     title="Enter the Connection",
     internal_title="Lesson Player Technical Demonstration",
     content_status="technical-placeholder",
@@ -76,18 +76,25 @@ ENTER_THE_CONNECTION_LESSON = AprLessonManifest(
             title="Microphone capture",
             body=(
                 "Record a brief technical microphone test. This does not assess Portuguese "
-                "capability, is not academic evidence, is not uploaded, and is not saved "
-                "after the browser session ends."
+                "capability. Transcription starts only after you request it. The result is a machine-generated draft that you must "
+                "review and correct. Confirmation is not academic evidence and does not "
+                "turn it into academic evidence. Transcript state is session-only."
             ),
             required=True,
             prompt=(
-                "This recording remains only in this browser session. It is not uploaded, "
-                "transcribed, scored or saved to the APR backend."
+                "This recording remains only in this browser session until you request a "
+                "transcript draft. Transcript confirmation is not a score, language result, "
+                "or academic evidence, and APR does not save transcript state during this POC."
             ),
             max_seconds=10,
             allow_retry=True,
             preserve_original=True,
             storage_status="session-only",
+            transcription_language="pt",
+            transcription_mode="on-demand",
+            requires_learner_confirmation=True,
+            transcript_storage_status="session-only",
+            transcript_authorized_as_evidence=False,
         ),
         AprReflectionStep(
             step_id="technical-reflection",

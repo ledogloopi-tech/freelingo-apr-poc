@@ -1,11 +1,15 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { apiFetch } from '@/lib/api'
 import {
   AprAudioRecorder,
   type AprCapturedAudio,
 } from '@/components/apr/AprAudioRecorder'
+import {
+  AprTranscriptDraft,
+  createEmptyTranscriptState,
+  type AprTranscriptState,
+} from '@/components/apr/AprTranscriptDraft'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -15,6 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { apiFetch } from '@/lib/api'
 
 const APR_DISABLED_MESSAGE =
   'The APR technical proof of concept is disabled in this environment.'
@@ -31,18 +36,15 @@ type AprBaseStep = {
   body: string
   required: boolean
 }
-
 type AprSingleChoiceOption = {
   option_id: string
   label: string
   feedback: string
 }
-
 type AprSingleChoiceStep = AprBaseStep & {
   step_type: 'single_choice'
   options: AprSingleChoiceOption[]
 }
-
 type AprRecordingStep = AprBaseStep & {
   step_type: 'recording'
   prompt: string
@@ -50,21 +52,23 @@ type AprRecordingStep = AprBaseStep & {
   allow_retry: boolean
   preserve_original: boolean
   storage_status: 'session-only'
+  transcription_language: 'pt'
+  transcription_mode: 'on-demand'
+  requires_learner_confirmation: boolean
+  transcript_storage_status: 'session-only'
+  transcript_authorized_as_evidence: boolean
 }
-
 type AprReflectionStep = AprBaseStep & {
   step_type: 'reflection'
   prompt: string
   placeholder?: string | null
   max_characters: number
 }
-
 type AprLessonStep =
   | (AprBaseStep & { step_type: 'orientation' | 'information' })
   | AprSingleChoiceStep
   | AprRecordingStep
   | AprReflectionStep
-
 type AprLessonManifest = {
   lesson_id: string
   module_id: string
@@ -78,15 +82,9 @@ type AprLessonManifest = {
   current_step_count: number
   steps: AprLessonStep[]
 }
-
 type StepResponses = Record<string, { choice?: string; reflection?: string }>
-
-type AprRecordingAttempt = {
-  blob: Blob
-  mimeType: string
-  durationSeconds: number
-  objectUrl: string
-}
+type AprRecordingAttempt = AprCapturedAudio & { id: number; objectUrl: string }
+type AttemptRole = 'original' | 'latestRetry'
 
 export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
   const [manifest, setManifest] = useState<AprLessonManifest | null>(null)
@@ -100,42 +98,58 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     original?: AprRecordingAttempt
     latestRetry?: AprRecordingAttempt
   }>({})
+  const [transcripts, setTranscripts] = useState<{
+    original: AprTranscriptState
+    latestRetry: AprTranscriptState
+  }>(() => ({
+    original: createEmptyTranscriptState(),
+    latestRetry: createEmptyTranscriptState(),
+  }))
   const [complete, setComplete] = useState(false)
   const headingRef = useRef<HTMLHeadingElement>(null)
-  const recordingAttemptsRef = useRef(recordingAttempts)
+  const attemptsRef = useRef(recordingAttempts)
+  const mountedRef = useRef(true)
+  const nextAttemptIdRef = useRef(0)
+  const requestRefs = useRef<{
+    original: {
+      generation: number
+      activeGeneration: number | null
+      controller?: AbortController
+    }
+    latestRetry: {
+      generation: number
+      activeGeneration: number | null
+      controller?: AbortController
+    }
+  }>({
+    original: { generation: 0, activeGeneration: null },
+    latestRetry: { generation: 0, activeGeneration: null },
+  })
 
   useEffect(() => {
     let active = true
-
     async function loadLesson() {
       try {
         const res = await apiFetch(endpoint)
-        if (res.status === 404) {
-          throw new Error(APR_DISABLED_MESSAGE)
-        }
-        if (!res.ok) {
+        if (res.status === 404) throw new Error(APR_DISABLED_MESSAGE)
+        if (!res.ok)
           throw new Error(`APR lesson API returned HTTP ${res.status}`)
-        }
         const data = (await res.json()) as AprLessonManifest
         if (active) setManifest(data)
       } catch (err) {
         if (!active) return
-        if (err instanceof Error && err.message === APR_DISABLED_MESSAGE) {
-          setError(APR_DISABLED_MESSAGE)
-        } else {
-          setError(
-            err instanceof Error
+        setError(
+          err instanceof Error && err.message === APR_DISABLED_MESSAGE
+            ? APR_DISABLED_MESSAGE
+            : err instanceof Error
               ? `Technical error loading APR lesson player: ${err.message}`
               : 'Technical error loading APR lesson player.'
-          )
-        }
+        )
       } finally {
         if (active) setLoading(false)
       }
     }
-
     loadLesson()
-
     return () => {
       active = false
     }
@@ -146,45 +160,192 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
   }, [currentStepIndex, complete])
 
   useEffect(() => {
+    mountedRef.current = true
     return () => {
-      const current = recordingAttemptsRef.current
+      mountedRef.current = false
+      abortTranscriptRequest('original')
+      abortTranscriptRequest('latestRetry')
+      const current = attemptsRef.current
       if (current.original) URL.revokeObjectURL(current.original.objectUrl)
       if (current.latestRetry)
         URL.revokeObjectURL(current.latestRetry.objectUrl)
-      recordingAttemptsRef.current = {}
+      attemptsRef.current = {}
     }
   }, [])
 
+  function abortTranscriptRequest(role: AttemptRole) {
+    const request = requestRefs.current[role]
+    request.generation += 1
+    request.activeGeneration = null
+    request.controller?.abort()
+    request.controller = undefined
+  }
+
+  function abortAllTranscriptRequests() {
+    abortTranscriptRequest('original')
+    abortTranscriptRequest('latestRetry')
+  }
+
+  function resetTranscripts() {
+    setTranscripts({
+      original: createEmptyTranscriptState(),
+      latestRetry: createEmptyTranscriptState(),
+    })
+  }
   function clearRecordingAttempts() {
-    const current = recordingAttemptsRef.current
+    abortAllTranscriptRequests()
+    const current = attemptsRef.current
     if (current.original) URL.revokeObjectURL(current.original.objectUrl)
     if (current.latestRetry) URL.revokeObjectURL(current.latestRetry.objectUrl)
-    recordingAttemptsRef.current = {}
+    attemptsRef.current = {}
     setRecordingAttempts({})
+    resetTranscripts()
   }
 
   function handleAudioCapture(capture: AprCapturedAudio) {
-    const attempt: AprRecordingAttempt = {
+    const attempt = {
       ...capture,
+      id: ++nextAttemptIdRef.current,
       objectUrl: URL.createObjectURL(capture.blob),
     }
+    const current = attemptsRef.current
+    const replacingRetry = Boolean(current.original)
+    const replacedRetry = replacingRetry ? current.latestRetry : undefined
+    const next = !current.original
+      ? { original: attempt }
+      : { ...current, latestRetry: attempt }
+
+    if (replacingRetry) {
+      abortTranscriptRequest('latestRetry')
+      setTranscripts((t) => ({
+        ...t,
+        latestRetry: createEmptyTranscriptState(),
+      }))
+    }
+    if (replacedRetry) URL.revokeObjectURL(replacedRetry.objectUrl)
+
+    attemptsRef.current = next
     setRecordingWarning(false)
-    setRecordingAttempts((current) => {
-      const next = !current.original
-        ? { original: attempt }
-        : { ...current, latestRetry: attempt }
-      if (current.original && current.latestRetry) {
-        URL.revokeObjectURL(current.latestRetry.objectUrl)
-      }
-      recordingAttemptsRef.current = next
-      return next
-    })
+    setRecordingAttempts(next)
   }
 
+  function filenameForAttempt(attempt: AprRecordingAttempt) {
+    const mime = attempt.blob.type || attempt.mimeType
+    if (mime.includes('mp4')) return 'apr-recording.mp4'
+    if (mime.includes('wav')) return 'apr-recording.wav'
+    if (mime.includes('mpeg')) return 'apr-recording.mp3'
+    if (mime.includes('ogg')) return 'apr-recording.ogg'
+    if (mime.includes('webm')) return 'apr-recording.webm'
+    return 'apr-recording.bin'
+  }
+
+  async function requestTranscriptDraft(role: AttemptRole) {
+    const attempt = attemptsRef.current[role]
+    const request = requestRefs.current[role]
+    if (!attempt || request.activeGeneration !== null) return
+    const requestId = request.generation + 1
+    request.generation = requestId
+    request.activeGeneration = requestId
+    const controller = new AbortController()
+    request.controller = controller
+    setTranscripts((t) => ({
+      ...t,
+      [role]: {
+        ...t[role],
+        status: 'requesting',
+        requestId,
+        attemptId: attempt.id,
+        technicalError: '',
+      },
+    }))
+    const formData = new FormData()
+    formData.append('audio', attempt.blob, filenameForAttempt(attempt))
+    formData.append(
+      'attempt_role',
+      role === 'original' ? 'original' : 'latest_retry'
+    )
+    try {
+      const res = await apiFetch(`${endpoint}/transcription-drafts`, {
+        method: 'POST',
+        body: formData,
+        signal: controller.signal,
+      })
+      if (!res.ok) throw new Error('technical transcription failure')
+      const data = (await res.json()) as { draft_text: string }
+      if (!mountedRef.current || controller.signal.aborted) return
+      setTranscripts((t) => {
+        if (
+          t[role].requestId !== requestId ||
+          t[role].attemptId !== attempt.id ||
+          attemptsRef.current[role]?.id !== attempt.id
+        )
+          return t
+        return {
+          ...t,
+          [role]: {
+            ...t[role],
+            status: 'draft_ready',
+            machineDraft: data.draft_text,
+            workingTranscript: data.draft_text,
+            confirmedTranscript: '',
+            technicalError: '',
+          },
+        }
+      })
+    } catch {
+      if (!mountedRef.current || controller.signal.aborted) return
+      setTranscripts((t) =>
+        t[role].requestId !== requestId || t[role].attemptId !== attempt.id
+          ? t
+          : {
+              ...t,
+              [role]: {
+                ...t[role],
+                status: 'technical_error',
+                technicalError:
+                  'APR could not generate a transcript draft. This is a technical transcription issue, not a language result.',
+              },
+            }
+      )
+    } finally {
+      if (requestRefs.current[role].activeGeneration === requestId) {
+        requestRefs.current[role].activeGeneration = null
+        requestRefs.current[role].controller = undefined
+      }
+    }
+  }
+
+  function updateWorkingTranscript(role: AttemptRole, value: string) {
+    setTranscripts((t) => ({
+      ...t,
+      [role]: { ...t[role], workingTranscript: value, technicalError: '' },
+    }))
+  }
+  function confirmTranscript(role: AttemptRole) {
+    setTranscripts((t) => {
+      const reviewed = t[role].workingTranscript.trim()
+      return reviewed
+        ? {
+            ...t,
+            [role]: {
+              ...t[role],
+              status: 'confirmed',
+              confirmedTranscript: reviewed,
+              technicalError: '',
+            },
+          }
+        : {
+            ...t,
+            [role]: {
+              ...t[role],
+              technicalError: 'Enter a reviewed transcript before confirming.',
+            },
+          }
+    })
+  }
   function formatDuration(seconds: number) {
     return `${seconds.toFixed(1)} seconds`
   }
-
   function restart() {
     if (
       window.confirm(
@@ -200,15 +361,13 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     }
   }
 
-  if (loading) {
+  if (loading)
     return (
       <div role="status" className="rounded-lg border p-4 text-sm">
         Loading APR technical placeholder lesson…
       </div>
     )
-  }
-
-  if (error) {
+  if (error)
     return (
       <div
         role="alert"
@@ -217,8 +376,6 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
         {error}
       </div>
     )
-  }
-
   if (!manifest) return null
 
   const currentStep = manifest.steps[currentStepIndex]
@@ -229,16 +386,13 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
           (option) => option.option_id === currentResponse.choice
         )
       : undefined
-
   function updateStepResponse(stepId: string, response: StepResponses[string]) {
     setResponses((current) => ({
       ...current,
       [stepId]: { ...(current[stepId] ?? {}), ...response },
     }))
   }
-
   function continueForward() {
-    if (!manifest) return
     if (currentStep.step_type === 'single_choice' && !currentResponse.choice) {
       setChoiceWarning(true)
       return
@@ -249,14 +403,14 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     }
     setChoiceWarning(false)
     setRecordingWarning(false)
-    if (currentStepIndex === manifest.steps.length - 1) {
+    if (currentStepIndex === (manifest?.steps.length ?? 0) - 1) {
       setComplete(true)
       return
     }
     setCurrentStepIndex((index) => index + 1)
   }
 
-  if (complete) {
+  if (complete)
     return (
       <Card>
         <CardHeader>
@@ -282,7 +436,6 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
         </CardContent>
       </Card>
     )
-  }
 
   return (
     <Card>
@@ -307,7 +460,6 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
           </p>
           <p>Not authorized for pilot or public release.</p>
         </section>
-
         <div
           role="status"
           aria-live="polite"
@@ -315,7 +467,6 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
         >
           Step {currentStepIndex + 1} of {manifest.current_step_count}.
         </div>
-
         <article className="space-y-4">
           <h2
             ref={headingRef}
@@ -325,7 +476,6 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
             {currentStep.title}
           </h2>
           <p className="text-muted-foreground">{currentStep.body}</p>
-
           {currentStep.step_type === 'single_choice' && (
             <fieldset className="space-y-3">
               <legend className="font-medium">
@@ -363,7 +513,6 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
               )}
             </fieldset>
           )}
-
           {currentStep.step_type === 'recording' && (
             <div className="space-y-4">
               <p className="rounded-lg border p-3 text-sm">
@@ -398,9 +547,19 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
                     .
                   </p>
                   <p className="text-muted-foreground text-sm">
-                    This attempt remains session-only and is not uploaded,
-                    transcribed, scored, or saved to the APR backend.
+                    This attempt remains session-only and is not uploaded unless
+                    you explicitly request a transcript draft. It is not scored
+                    or saved to the APR backend.
                   </p>
+                  <AprTranscriptDraft
+                    attemptLabel="Original attempt"
+                    state={transcripts.original}
+                    onGenerate={() => requestTranscriptDraft('original')}
+                    onWorkingChange={(value) =>
+                      updateWorkingTranscript('original', value)
+                    }
+                    onConfirm={() => confirmTranscript('original')}
+                  />
                 </section>
               )}
               {recordingAttempts.latestRetry && (
@@ -423,11 +582,19 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
                     )}
                     .
                   </p>
+                  <AprTranscriptDraft
+                    attemptLabel="Latest retry"
+                    state={transcripts.latestRetry}
+                    onGenerate={() => requestTranscriptDraft('latestRetry')}
+                    onWorkingChange={(value) =>
+                      updateWorkingTranscript('latestRetry', value)
+                    }
+                    onConfirm={() => confirmTranscript('latestRetry')}
+                  />
                 </section>
               )}
             </div>
           )}
-
           {currentStep.step_type === 'reflection' && (
             <div className="space-y-2">
               <label
@@ -458,7 +625,6 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
             </div>
           )}
         </article>
-
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <Button type="button" variant="outline" onClick={restart}>
             Restart

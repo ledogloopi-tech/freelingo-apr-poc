@@ -47,6 +47,11 @@ class AprRecordingStep(AprLessonStepBase):
     allow_retry: bool
     preserve_original: bool
     storage_status: Literal["session-only"]
+    transcription_language: Literal["pt"]
+    transcription_mode: Literal["on-demand"]
+    requires_learner_confirmation: bool
+    transcript_storage_status: Literal["session-only"]
+    transcript_authorized_as_evidence: bool
 
 
 class AprReflectionStep(AprLessonStepBase):
@@ -77,3 +82,13 @@ class AprLessonManifest(BaseModel):
     estimated_minutes: int
     current_step_count: int
     steps: list[AprLessonStep]
+
+
+class AprTranscriptDraftResponse(BaseModel):
+    attempt_role: Literal["original", "latest_retry"]
+    draft_text: str
+    language: Literal["pt"]
+    status: Literal["machine-generated-draft"]
+    requires_learner_confirmation: bool
+    authorized_as_evidence: bool
+    storage_status: Literal["session-only"]
