@@ -59,6 +59,17 @@ class AprRecordingStep(AprLessonStepBase):
     model_audio_storage_status: Literal["session-only"]
     model_audio_authorized_as_final_content: bool
     model_audio_required: bool
+    feedback_id: str
+    feedback_mode: Literal["on-demand"]
+    feedback_source_attempt: Literal["original"]
+    feedback_requires_confirmed_transcript: bool
+    feedback_source: Literal["controlled-technical-placeholder"]
+    feedback_storage_status: Literal["session-only"]
+    feedback_authorized_as_academic_feedback: bool
+    feedback_authorized_as_evidence: bool
+    feedback_required: bool
+    retry_orchestration_mode: Literal["optional-post-feedback-latest-retry"]
+    retry_required: bool
 
 
 class AprReflectionStep(AprLessonStepBase):
@@ -114,3 +125,29 @@ class AprModelAudioMetadata(BaseModel):
     storage_status: Literal["session-only"]
     authorized_as_final_content: bool
     required: bool
+
+
+class AprFeedbackDraftRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    feedback_id: str
+    attempt_role: Literal["original"]
+    transcript_confirmation_revision: int = Field(ge=1)
+
+
+class AprFeedbackDraftResponse(BaseModel):
+    feedback_id: str
+    attempt_role: Literal["original"]
+    source_confirmation_revision: int
+    status: Literal["technical-placeholder"]
+    source: Literal["server-controlled"]
+    acknowledgement: str
+    primary_priority: str
+    cue: str
+    retry_instruction: str
+    uncertainty: str
+    requires_retry: bool
+    retry_allowed: bool
+    authorized_as_academic_feedback: bool
+    authorized_as_evidence: bool
+    storage_status: Literal["session-only"]

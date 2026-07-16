@@ -6,6 +6,12 @@ import {
   type AprCapturedAudio,
 } from '@/components/apr/AprAudioRecorder'
 import {
+  AprFeedbackRetry,
+  createEmptyFeedbackState,
+  type AprFeedbackResponse,
+  type AprFeedbackState,
+} from '@/components/apr/AprFeedbackRetry'
+import {
   AprModelAudio,
   createEmptyModelAudioState,
   type AprModelAudioMetadata,
@@ -70,6 +76,17 @@ type AprRecordingStep = AprBaseStep & {
   model_audio_storage_status: 'session-only'
   model_audio_authorized_as_final_content: boolean
   model_audio_required: boolean
+  feedback_id: string
+  feedback_mode: 'on-demand'
+  feedback_source_attempt: 'original'
+  feedback_requires_confirmed_transcript: boolean
+  feedback_source: 'controlled-technical-placeholder'
+  feedback_storage_status: 'session-only'
+  feedback_authorized_as_academic_feedback: boolean
+  feedback_authorized_as_evidence: boolean
+  feedback_required: boolean
+  retry_orchestration_mode: 'optional-post-feedback-latest-retry'
+  retry_required: boolean
 }
 type AprReflectionStep = AprBaseStep & {
   step_type: 'reflection'
@@ -98,6 +115,40 @@ type AprLessonManifest = {
 type StepResponses = Record<string, { choice?: string; reflection?: string }>
 type AprRecordingAttempt = AprCapturedAudio & { id: number; objectUrl: string }
 type AttemptRole = 'original' | 'latestRetry'
+type AprTranscriptCollection = {
+  original: AprTranscriptState
+  latestRetry: AprTranscriptState
+}
+
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === 'string' && value.trim().length > 0
+}
+
+function isValidFeedbackResponse(
+  value: unknown,
+  expectedFeedbackId: string,
+  expectedRevision: number
+): value is AprFeedbackResponse {
+  if (!value || typeof value !== 'object') return false
+  const candidate = value as Record<string, unknown>
+  return (
+    candidate.feedback_id === expectedFeedbackId &&
+    candidate.attempt_role === 'original' &&
+    candidate.source_confirmation_revision === expectedRevision &&
+    candidate.status === 'technical-placeholder' &&
+    candidate.source === 'server-controlled' &&
+    candidate.requires_retry === false &&
+    candidate.retry_allowed === true &&
+    candidate.authorized_as_academic_feedback === false &&
+    candidate.authorized_as_evidence === false &&
+    candidate.storage_status === 'session-only' &&
+    isNonEmptyString(candidate.acknowledgement) &&
+    isNonEmptyString(candidate.primary_priority) &&
+    isNonEmptyString(candidate.cue) &&
+    isNonEmptyString(candidate.retry_instruction) &&
+    isNonEmptyString(candidate.uncertainty)
+  )
+}
 
 export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
   const [manifest, setManifest] = useState<AprLessonManifest | null>(null)
@@ -121,13 +172,27 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
   }>({
     generation: 0,
   })
-  const [transcripts, setTranscripts] = useState<{
-    original: AprTranscriptState
-    latestRetry: AprTranscriptState
-  }>(() => ({
+  const [transcripts, setTranscripts] = useState<AprTranscriptCollection>(
+    () => ({
+      original: createEmptyTranscriptState(),
+      latestRetry: createEmptyTranscriptState(),
+    })
+  )
+  const transcriptsRef = useRef<AprTranscriptCollection>({
     original: createEmptyTranscriptState(),
     latestRetry: createEmptyTranscriptState(),
-  }))
+  })
+  const [feedback, setFeedback] = useState<AprFeedbackState>(() =>
+    createEmptyFeedbackState()
+  )
+  const feedbackRef = useRef<AprFeedbackState>(createEmptyFeedbackState())
+  const feedbackRequestRef = useRef<{
+    generation: number
+    activeGeneration: number | null
+    controller?: AbortController
+  }>({ generation: 0, activeGeneration: null })
+  const latestRetrySequenceRef = useRef(0)
+  const originalConfirmationRevisionRef = useRef(0)
   const [complete, setComplete] = useState(false)
   const headingRef = useRef<HTMLHeadingElement>(null)
   const attemptsRef = useRef(recordingAttempts)
@@ -189,6 +254,7 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       abortTranscriptRequest('original')
       abortTranscriptRequest('latestRetry')
       abortModelAudioRequest()
+      abortFeedbackRequest()
       if (modelAudioRef.current.objectUrl)
         URL.revokeObjectURL(modelAudioRef.current.objectUrl)
       modelAudioRef.current = createEmptyModelAudioState()
@@ -199,6 +265,44 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       attemptsRef.current = {}
     }
   }, [])
+
+  function setTranscriptsState(next: AprTranscriptCollection) {
+    transcriptsRef.current = next
+    setTranscripts(next)
+  }
+
+  function updateTranscriptState(role: AttemptRole, next: AprTranscriptState) {
+    setTranscriptsState({ ...transcriptsRef.current, [role]: next })
+  }
+
+  function setFeedbackState(next: AprFeedbackState) {
+    feedbackRef.current = next
+    setFeedback(next)
+  }
+
+  function abortFeedbackRequest() {
+    feedbackRequestRef.current.generation += 1
+    feedbackRequestRef.current.activeGeneration = null
+    feedbackRequestRef.current.controller?.abort()
+    feedbackRequestRef.current.controller = undefined
+  }
+
+  function invalidateFeedback() {
+    abortFeedbackRequest()
+    setFeedbackState(createEmptyFeedbackState())
+  }
+
+  function syncFeedbackRetryStatus() {
+    const current = feedbackRef.current
+    if (
+      current.status === 'ready' &&
+      current.retrySequenceSnapshot !== null &&
+      latestRetrySequenceRef.current > current.retrySequenceSnapshot &&
+      !current.postFeedbackRetryCaptured
+    ) {
+      setFeedbackState({ ...current, postFeedbackRetryCaptured: true })
+    }
+  }
 
   function setModelAudioState(next: AprModelAudioState) {
     modelAudioRef.current = next
@@ -297,8 +401,87 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     abortTranscriptRequest('latestRetry')
   }
 
+  async function requestFeedbackDraft(step: AprRecordingStep) {
+    const currentFeedback = feedbackRef.current
+    if (currentFeedback.status === 'requesting') return
+    const revision = originalConfirmationRevisionRef.current
+    if (!transcriptsRef.current.original.confirmedTranscript || revision < 1)
+      return
+    abortFeedbackRequest()
+    const generation = feedbackRequestRef.current.generation + 1
+    feedbackRequestRef.current.generation = generation
+    feedbackRequestRef.current.activeGeneration = generation
+    const controller = new AbortController()
+    feedbackRequestRef.current.controller = controller
+    setFeedbackState({
+      ...currentFeedback,
+      status: 'requesting',
+      feedbackId: step.feedback_id,
+      sourceAttemptRole: 'original',
+      sourceConfirmationRevision: revision,
+      technicalError: '',
+      requestGeneration: generation,
+      postFeedbackRetryCaptured: false,
+    })
+    try {
+      const res = await apiFetch(`${endpoint}/feedback-drafts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          feedback_id: step.feedback_id,
+          attempt_role: 'original',
+          transcript_confirmation_revision: revision,
+        }),
+        signal: controller.signal,
+      })
+      if (!res.ok) throw new Error('technical feedback failure')
+      const data = (await res.json()) as unknown
+      if (
+        !mountedRef.current ||
+        controller.signal.aborted ||
+        feedbackRequestRef.current.generation !== generation ||
+        originalConfirmationRevisionRef.current !== revision ||
+        !transcriptsRef.current.original.confirmedTranscript
+      )
+        return
+      if (!isValidFeedbackResponse(data, step.feedback_id, revision))
+        throw new Error('invalid technical feedback response')
+      const snapshot = latestRetrySequenceRef.current
+      setFeedbackState({
+        status: 'ready',
+        feedbackId: data.feedback_id,
+        sourceAttemptRole: 'original',
+        sourceConfirmationRevision: data.source_confirmation_revision,
+        response: data,
+        technicalError: '',
+        requestGeneration: generation,
+        retrySequenceSnapshot: snapshot,
+        postFeedbackRetryCaptured: latestRetrySequenceRef.current > snapshot,
+      })
+    } catch {
+      if (!mountedRef.current || controller.signal.aborted) return
+      if (feedbackRequestRef.current.generation !== generation) return
+      setFeedbackState({
+        ...feedbackRef.current,
+        status: 'technical_error',
+        technicalError:
+          'APR could not load technical feedback. This is a feedback-service issue, not a language result.',
+        requestGeneration: generation,
+        retrySequenceSnapshot: null,
+        postFeedbackRetryCaptured: false,
+      })
+    } finally {
+      if (feedbackRequestRef.current.activeGeneration === generation) {
+        feedbackRequestRef.current.activeGeneration = null
+        feedbackRequestRef.current.controller = undefined
+      }
+    }
+  }
+
   function resetTranscripts() {
-    setTranscripts({
+    originalConfirmationRevisionRef.current = 0
+    invalidateFeedback()
+    setTranscriptsState({
       original: createEmptyTranscriptState(),
       latestRetry: createEmptyTranscriptState(),
     })
@@ -328,16 +511,18 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
 
     if (replacingRetry) {
       abortTranscriptRequest('latestRetry')
-      setTranscripts((t) => ({
-        ...t,
+      latestRetrySequenceRef.current += 1
+      setTranscriptsState({
+        ...transcriptsRef.current,
         latestRetry: createEmptyTranscriptState(),
-      }))
+      })
     }
     if (replacedRetry) URL.revokeObjectURL(replacedRetry.objectUrl)
 
     attemptsRef.current = next
     setRecordingWarning(false)
     setRecordingAttempts(next)
+    if (replacingRetry) syncFeedbackRetryStatus()
   }
 
   function filenameForAttempt(attempt: AprRecordingAttempt) {
@@ -359,16 +544,13 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     request.activeGeneration = requestId
     const controller = new AbortController()
     request.controller = controller
-    setTranscripts((t) => ({
-      ...t,
-      [role]: {
-        ...t[role],
-        status: 'requesting',
-        requestId,
-        attemptId: attempt.id,
-        technicalError: '',
-      },
-    }))
+    updateTranscriptState(role, {
+      ...transcriptsRef.current[role],
+      status: 'requesting',
+      requestId,
+      attemptId: attempt.id,
+      technicalError: '',
+    })
     const formData = new FormData()
     formData.append('audio', attempt.blob, filenameForAttempt(attempt))
     formData.append(
@@ -384,40 +566,39 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       if (!res.ok) throw new Error('technical transcription failure')
       const data = (await res.json()) as { draft_text: string }
       if (!mountedRef.current || controller.signal.aborted) return
-      setTranscripts((t) => {
-        if (
-          t[role].requestId !== requestId ||
-          t[role].attemptId !== attempt.id ||
-          attemptsRef.current[role]?.id !== attempt.id
-        )
-          return t
-        return {
-          ...t,
-          [role]: {
-            ...t[role],
-            status: 'draft_ready',
-            machineDraft: data.draft_text,
-            workingTranscript: data.draft_text,
-            confirmedTranscript: '',
-            technicalError: '',
-          },
-        }
+      const currentTranscript = transcriptsRef.current[role]
+      if (
+        currentTranscript.requestId !== requestId ||
+        currentTranscript.attemptId !== attempt.id ||
+        attemptsRef.current[role]?.id !== attempt.id
+      )
+        return
+      if (role === 'original') {
+        originalConfirmationRevisionRef.current = 0
+        invalidateFeedback()
+      }
+      updateTranscriptState(role, {
+        ...currentTranscript,
+        status: 'draft_ready',
+        machineDraft: data.draft_text,
+        workingTranscript: data.draft_text,
+        confirmedTranscript: '',
+        technicalError: '',
       })
     } catch {
       if (!mountedRef.current || controller.signal.aborted) return
-      setTranscripts((t) =>
-        t[role].requestId !== requestId || t[role].attemptId !== attempt.id
-          ? t
-          : {
-              ...t,
-              [role]: {
-                ...t[role],
-                status: 'technical_error',
-                technicalError:
-                  'APR could not generate a transcript draft. This is a technical transcription issue, not a language result.',
-              },
-            }
+      const currentTranscript = transcriptsRef.current[role]
+      if (
+        currentTranscript.requestId !== requestId ||
+        currentTranscript.attemptId !== attempt.id
       )
+        return
+      updateTranscriptState(role, {
+        ...currentTranscript,
+        status: 'technical_error',
+        technicalError:
+          'APR could not generate a transcript draft. This is a technical transcription issue, not a language result.',
+      })
     } finally {
       if (requestRefs.current[role].activeGeneration === requestId) {
         requestRefs.current[role].activeGeneration = null
@@ -427,31 +608,34 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
   }
 
   function updateWorkingTranscript(role: AttemptRole, value: string) {
-    setTranscripts((t) => ({
-      ...t,
-      [role]: { ...t[role], workingTranscript: value, technicalError: '' },
-    }))
+    updateTranscriptState(role, {
+      ...transcriptsRef.current[role],
+      workingTranscript: value,
+      technicalError: '',
+    })
   }
   function confirmTranscript(role: AttemptRole) {
-    setTranscripts((t) => {
-      const reviewed = t[role].workingTranscript.trim()
-      return reviewed
-        ? {
-            ...t,
-            [role]: {
-              ...t[role],
-              status: 'confirmed',
-              confirmedTranscript: reviewed,
-              technicalError: '',
-            },
-          }
-        : {
-            ...t,
-            [role]: {
-              ...t[role],
-              technicalError: 'Enter a reviewed transcript before confirming.',
-            },
-          }
+    const currentTranscript = transcriptsRef.current[role]
+    const reviewed = currentTranscript.workingTranscript.trim()
+    if (!reviewed) {
+      updateTranscriptState(role, {
+        ...currentTranscript,
+        technicalError: 'Enter a reviewed transcript before confirming.',
+      })
+      return
+    }
+    const originalChanged =
+      role === 'original' &&
+      reviewed !== transcriptsRef.current.original.confirmedTranscript
+    if (originalChanged) {
+      originalConfirmationRevisionRef.current += 1
+      invalidateFeedback()
+    }
+    updateTranscriptState(role, {
+      ...currentTranscript,
+      status: 'confirmed',
+      confirmedTranscript: reviewed,
+      technicalError: '',
     })
   }
   function formatDuration(seconds: number) {
@@ -470,6 +654,9 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       clearRecordingAttempts()
       abortModelAudioRequest()
       clearModelAudioUrl()
+      originalConfirmationRevisionRef.current = 0
+      latestRetrySequenceRef.current = 0
+      invalidateFeedback()
       setComplete(false)
     }
   }
@@ -679,6 +866,28 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
                       updateWorkingTranscript('original', value)
                     }
                     onConfirm={() => confirmTranscript('original')}
+                  />
+                  <AprFeedbackRetry
+                    state={
+                      transcripts.original.confirmedTranscript
+                        ? {
+                            ...(feedback.sourceConfirmationRevision ===
+                            originalConfirmationRevisionRef.current
+                              ? feedback
+                              : createEmptyFeedbackState()),
+                            status:
+                              feedback.sourceConfirmationRevision ===
+                                originalConfirmationRevisionRef.current &&
+                              feedback.status !== 'ineligible'
+                                ? feedback.status
+                                : 'not_requested',
+                          }
+                        : createEmptyFeedbackState()
+                    }
+                    isEligible={Boolean(
+                      transcripts.original.confirmedTranscript
+                    )}
+                    onGenerate={() => requestFeedbackDraft(currentStep)}
                   />
                 </section>
               )}
