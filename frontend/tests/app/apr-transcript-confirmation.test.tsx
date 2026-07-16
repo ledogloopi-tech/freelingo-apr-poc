@@ -451,10 +451,12 @@ describe('APR transcript confirmation', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
     await screen.findByText('Reflection')
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
-    expect(screen.getByText('Technical completion only')).toBeInTheDocument()
+    expect(
+      screen.getAllByText('Session-only technical summary')[0]
+    ).toBeInTheDocument()
     expect(
       screen.getByText(
-        'This technical completion is not academic Lesson completion.'
+        'You reached the end of this technical prototype. This summary describes browser-session activity only. It is not lesson completion, Progress, Evidence, a score, or a language result.'
       )
     ).toBeInTheDocument()
     expect(

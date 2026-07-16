@@ -93,7 +93,7 @@ async def test_apr_lesson_endpoint_returns_typed_placeholder_manifest_without_wr
     manifest = res.json()
     assert manifest["lesson_id"] == "APR-R1-RM-01-L01-TECH"
     assert manifest["module_id"] == "APR-R1-RM-01"
-    assert manifest["version"] == "0.5.0-technical-placeholder"
+    assert manifest["version"] == "0.6.0-technical-placeholder"
     assert manifest["title"] == "Enter the Connection"
     assert manifest["internal_title"] == "Lesson Player Technical Demonstration"
     assert manifest["content_status"] == "technical-placeholder"
@@ -130,6 +130,38 @@ async def test_apr_lesson_endpoint_returns_typed_placeholder_manifest_without_wr
     assert "review and correct" in recording_text
     assert "does not turn it into academic evidence" in recording_text
     assert "session-only" in recording_text
+
+    expected_recording_fields = {
+        "max_seconds": 10,
+        "allow_retry": True,
+        "preserve_original": True,
+        "storage_status": "session-only",
+        "transcription_language": "pt",
+        "transcription_mode": "on-demand",
+        "requires_learner_confirmation": True,
+        "transcript_storage_status": "session-only",
+        "transcript_authorized_as_evidence": False,
+        "model_audio_id": "APR-R1-RM-01-L01-MODEL-TECH",
+        "model_audio_mode": "on-demand",
+        "model_audio_language": "pt-BR",
+        "model_audio_source": "generated-technical-placeholder",
+        "model_audio_storage_status": "session-only",
+        "model_audio_authorized_as_final_content": False,
+        "model_audio_required": False,
+        "feedback_id": "APR-R1-RM-01-L01-FEEDBACK-TECH",
+        "feedback_mode": "on-demand",
+        "feedback_source_attempt": "original",
+        "feedback_requires_confirmed_transcript": True,
+        "feedback_source": "controlled-technical-placeholder",
+        "feedback_storage_status": "session-only",
+        "feedback_authorized_as_academic_feedback": False,
+        "feedback_authorized_as_evidence": False,
+        "feedback_required": False,
+        "retry_orchestration_mode": "optional-post-feedback-latest-retry",
+        "retry_required": False,
+    }
+    for field, expected in expected_recording_fields.items():
+        assert recording_step[field] == expected
     assert manifest["steps"][4]["max_characters"] == 240
 
     plans_after = await db_session.scalar(select(func.count()).select_from(StudyPlan))
@@ -389,7 +421,7 @@ async def test_apr_lesson_manifest_day5_transcription_contract(client, test_user
     )
 
     manifest = res.json()
-    assert manifest["version"] == "0.5.0-technical-placeholder"
+    assert manifest["version"] == "0.6.0-technical-placeholder"
     recording_step = manifest["steps"][3]
     assert recording_step["transcription_language"] == "pt"
     assert recording_step["transcription_mode"] == "on-demand"
@@ -693,7 +725,7 @@ async def test_apr_lesson_manifest_day6_model_audio_contract(client, test_user, 
     )
 
     manifest = res.json()
-    assert manifest["version"] == "0.5.0-technical-placeholder"
+    assert manifest["version"] == "0.6.0-technical-placeholder"
     assert manifest["current_step_count"] == 5
     recording_step = manifest["steps"][3]
     assert recording_step["model_audio_id"] == MODEL_AUDIO_ID
@@ -968,7 +1000,7 @@ async def test_apr_feedback_manifest_fields(client, test_user, monkeypatch):
     )
 
     manifest = res.json()
-    assert manifest["version"] == "0.5.0-technical-placeholder"
+    assert manifest["version"] == "0.6.0-technical-placeholder"
     assert manifest["current_step_count"] == 5
     assert manifest["content_status"] == "technical-placeholder"
     assert manifest["authorized_for_pilot"] is False
@@ -1012,3 +1044,34 @@ async def test_apr_feedback_manifest_fields(client, test_user, monkeypatch):
     }
     for field, value in expected_recording_fields.items():
         assert recording_step[field] == value
+
+
+async def test_apr_does_not_expose_session_closure_or_academic_persistence_endpoints(
+    client, test_user, monkeypatch
+):
+    _user, headers = test_user
+    monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
+    forbidden_paths = [
+        "/api/apr/modules/primeira-conexao/lessons/enter-the-connection/session-closure",
+        "/api/apr/modules/primeira-conexao/lessons/enter-the-connection/completion",
+        "/api/apr/modules/primeira-conexao/completion",
+        "/api/apr/modules/primeira-conexao/lessons/enter-the-connection/progress",
+        "/api/apr/modules/primeira-conexao/lessons/enter-the-connection/evidence",
+    ]
+
+    for path in forbidden_paths:
+        res = await client.post(path, headers=headers)
+        assert res.status_code == 404
+        assert not any(
+            getattr(route, "path", None) == path
+            and "POST" in getattr(route, "methods", set())
+            for route in app.routes
+        )
+
+
+def test_apr_does_not_add_persistence_model_or_migration():
+    apr_model_files = list(Path("app/models").glob("*apr*"))
+    apr_migration_files = list(Path("alembic/versions").glob("*apr*"))
+
+    assert apr_model_files == []
+    assert apr_migration_files == []
