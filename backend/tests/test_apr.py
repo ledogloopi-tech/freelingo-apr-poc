@@ -878,6 +878,7 @@ async def test_apr_feedback_returns_controlled_no_store_response_without_writes_
         "fluency",
         "pronunciation_result",
         "grammar_result",
+        "capability_result",
         "evidence_state",
     }
     assert forbidden.isdisjoint(res.json())
@@ -926,8 +927,22 @@ async def test_apr_feedback_has_no_persistence_model_or_migration():
 
     assert model_dir.is_dir()
     assert migration_dir.is_dir()
-    assert not any(path.name.lower().startswith("apr_feedback") for path in model_dir.glob("*.py"))
-    assert not any("feedback" in path.name.lower() for path in migration_dir.glob("*.py"))
+
+    apr_persistence_markers = (
+        "apr_feedback",
+        "apr-r1-rm-01-l01-feedback-tech",
+        "apr_feedback_draft",
+        "apr_feedback_retry",
+    )
+
+    for directory in (model_dir, migration_dir):
+        for path in directory.glob("*.py"):
+            searchable = (
+                f"{path.name}\n{path.read_text(encoding='utf-8')}"
+            ).lower()
+            assert not any(
+                marker in searchable for marker in apr_persistence_markers
+            )
 
 
 async def test_apr_feedback_does_not_expose_storage_route(client, test_user, monkeypatch):
