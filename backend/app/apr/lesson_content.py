@@ -11,7 +11,7 @@ from app.apr.schemas import (
 ENTER_THE_CONNECTION_LESSON = AprLessonManifest(
     lesson_id="APR-R1-RM-01-L01-TECH",
     module_id="APR-R1-RM-01",
-    version="0.5.0-technical-placeholder",
+    version="0.6.0-technical-placeholder",
     title="Enter the Connection",
     internal_title="Lesson Player Technical Demonstration",
     content_status="technical-placeholder",

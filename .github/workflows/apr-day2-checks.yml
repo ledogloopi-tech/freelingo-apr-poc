@@ -14,6 +14,8 @@ on:
       - 'docker-compose.dev.yml'
       - 'docs/apr/poc/**'
       - 'docs/apr/poc/APR_DAY7_FEEDBACK_RETRY.md'
+      - 'docs/apr/poc/APR_DAY8_STAGING_RUNBOOK.md'
+      - 'docs/apr/poc/APR_DAY8_FOUNDER_WALKTHROUGH.md'
       - 'frontend/src/app/(apr)/**'
       - 'frontend/tests/app/apr-primeira-conexao.test.tsx'
       - 'frontend/tests/app/apr-lesson-player.test.tsx'
@@ -21,6 +23,7 @@ on:
       - 'frontend/tests/app/apr-transcript-confirmation.test.tsx'
       - 'frontend/tests/app/apr-model-audio.test.tsx'
       - 'frontend/tests/app/apr-feedback-retry.test.tsx'
+      - 'frontend/tests/app/apr-session-closure.test.tsx'
       - 'frontend/src/components/apr/**'
       - 'frontend/package-lock.json'
       - 'frontend/package.json'
@@ -85,4 +88,4 @@ jobs:
         run: npx tsc --noEmit
 
       - name: Run APR frontend tests
-        run: npm run test:run -- apr-primeira-conexao.test.tsx apr-lesson-player.test.tsx apr-audio-recorder.test.tsx apr-transcript-confirmation.test.tsx apr-model-audio.test.tsx apr-feedback-retry.test.tsx
+        run: npm run test:run -- apr-primeira-conexao.test.tsx apr-lesson-player.test.tsx apr-audio-recorder.test.tsx apr-transcript-confirmation.test.tsx apr-model-audio.test.tsx apr-feedback-retry.test.tsx apr-session-closure.test.tsx

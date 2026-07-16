@@ -405,10 +405,10 @@ describe('APR lesson player', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
 
-    expect(screen.getByText('APR lesson-player shell completed')).toBeDefined()
+    expect(screen.getByText('Technical session ready for review')).toBeDefined()
     expect(
       screen.getByText(
-        'This technical completion is not academic Lesson completion.'
+        'You reached the end of this technical prototype. This summary describes browser-session activity only. It is not lesson completion, Progress, Evidence, a score, or a language result.'
       )
     ).toBeDefined()
     expect(screen.queryByText(/you completed Lesson 1/i)).toBeNull()

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import {
   AprAudioRecorder,
   type AprCapturedAudio,
@@ -32,6 +33,10 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { apiFetch } from '@/lib/api'
+import {
+  AprSessionClosure,
+  type AprSessionSummary,
+} from '@/components/apr/AprSessionClosure'
 
 const APR_DISABLED_MESSAGE =
   'The APR technical proof of concept is disabled in this environment.'
@@ -151,6 +156,7 @@ function isValidFeedbackResponse(
 }
 
 export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
+  const router = useRouter()
   const [manifest, setManifest] = useState<AprLessonManifest | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -193,7 +199,7 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
   }>({ generation: 0, activeGeneration: null })
   const latestRetrySequenceRef = useRef(0)
   const originalConfirmationRevisionRef = useRef(0)
-  const [complete, setComplete] = useState(false)
+  const [showSessionClosure, setShowSessionClosure] = useState(false)
   const headingRef = useRef<HTMLHeadingElement>(null)
   const attemptsRef = useRef(recordingAttempts)
   const mountedRef = useRef(true)
@@ -245,7 +251,7 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
 
   useEffect(() => {
     headingRef.current?.focus()
-  }, [currentStepIndex, complete])
+  }, [currentStepIndex, showSessionClosure])
 
   useEffect(() => {
     mountedRef.current = true
@@ -657,7 +663,7 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       originalConfirmationRevisionRef.current = 0
       latestRetrySequenceRef.current = 0
       invalidateFeedback()
-      setComplete(false)
+      setShowSessionClosure(false)
     }
   }
 
@@ -704,37 +710,57 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     setChoiceWarning(false)
     setRecordingWarning(false)
     if (currentStepIndex === (manifest?.steps.length ?? 0) - 1) {
-      setComplete(true)
+      setShowSessionClosure(true)
       return
     }
     setCurrentStepIndex((index) => index + 1)
   }
 
-  if (complete)
+  function buildSessionSummary(): AprSessionSummary {
+    const feedbackIsCurrent =
+      feedback.status === 'ready' &&
+      feedback.sourceConfirmationRevision ===
+        originalConfirmationRevisionRef.current &&
+      Boolean(transcripts.original.confirmedTranscript) &&
+      originalConfirmationRevisionRef.current > 0
+    return {
+      originalRecording: recordingAttempts.original
+        ? 'Captured'
+        : 'Not captured',
+      originalTranscript:
+        transcripts.original.confirmedTranscript &&
+        originalConfirmationRevisionRef.current > 0
+          ? 'Confirmed'
+          : 'Not confirmed',
+      latestRetry: recordingAttempts.latestRetry ? 'Captured' : 'Not captured',
+      technicalModelAudio:
+        modelAudio.status === 'ready'
+          ? 'Generated'
+          : modelAudio.status === 'technical_error'
+            ? 'Technical issue'
+            : 'Not generated',
+      controlledTechnicalFeedback: feedbackIsCurrent
+        ? 'Ready'
+        : feedback.status === 'technical_error'
+          ? 'Technical issue'
+          : 'Not requested',
+      postFeedbackRetry: !feedbackIsCurrent
+        ? 'Not applicable'
+        : feedback.postFeedbackRetryCaptured
+          ? 'Captured'
+          : 'Not captured',
+    }
+  }
+
+  if (showSessionClosure)
     return (
-      <Card>
-        <CardHeader>
-          <Badge className="w-fit" variant="secondary">
-            Technical completion only
-          </Badge>
-          <CardTitle ref={headingRef} tabIndex={-1} className="text-2xl">
-            APR lesson-player shell completed
-          </CardTitle>
-          <CardDescription>
-            This technical completion is not academic Lesson completion.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p>
-            The shell reached the end of the placeholder manifest. No learning
-            rewards, proficiency claims, progress credit, Entry Evidence, or
-            Capability Observation were created.
-          </p>
-          <Button type="button" variant="outline" onClick={restart}>
-            Restart
-          </Button>
-        </CardContent>
-      </Card>
+      <AprSessionClosure
+        headingRef={headingRef}
+        summary={buildSessionSummary()}
+        onBackToReflection={() => setShowSessionClosure(false)}
+        onRestart={restart}
+        onExit={() => router.push('/apr/primeira-conexao')}
+      />
     )
 
   return (
