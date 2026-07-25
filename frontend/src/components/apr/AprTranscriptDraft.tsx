@@ -53,43 +53,40 @@ export function AprTranscriptDraft({
     >
       <h4 className="font-medium">{attemptLabel} transcript review</h4>
       <p className="text-muted-foreground text-sm">
-        When you request a transcript draft, this recording is sent to the
-        configured speech-to-text service. APR does not save the audio or
-        transcript in its database during this technical proof of concept.
+        La transcripción es una ayuda técnica. Puede equivocarse y no evalúa tu
+        portugués.
       </p>
       <Button type="button" onClick={onGenerate} disabled={isRequesting}>
-        {hasDraft
-          ? 'Generate a new transcript draft'
-          : 'Generate transcript draft'}
+        {hasDraft ? 'Generar otra transcripción' : 'Solicitar transcripción'}
       </Button>
       {isRequesting && (
         <p role="status" aria-live="polite" className="text-sm">
-          Generating transcript draft for {attemptLabel}. Audio playback remains
-          available.
+          Generando transcripción para {attemptLabel}. La reproducción sigue
+          disponible.
         </p>
       )}
       {state.status === 'technical_error' && (
         <div role="alert" className="space-y-2 text-sm">
           <p>
-            APR could not generate a transcript draft. This is a technical
-            transcription issue, not a language result.
+            No pudimos generar la transcripción. Esto es un problema técnico, no
+            un resultado sobre tu portugués.
           </p>
           <Button type="button" variant="outline" onClick={onGenerate}>
-            Retry transcript draft
+            Intentar transcripción de nuevo
           </Button>
         </div>
       )}
       {hasDraft && (
         <div className="space-y-3">
           <div className="rounded-md border p-3 text-sm">
-            <p className="font-medium">Machine-generated transcript draft</p>
+            <p className="font-medium">Borrador generado por máquina</p>
             <p>{state.machineDraft}</p>
           </div>
           <p className="text-sm">
-            Review and correct this draft before confirming it.
+            Puedes editar el borrador antes de confirmarlo.
           </p>
           <label htmlFor={textareaId} className="block font-medium">
-            Reviewed transcript correction
+            Texto revisado
           </label>
           <textarea
             id={textareaId}
@@ -99,7 +96,7 @@ export function AprTranscriptDraft({
             onChange={(event) => onWorkingChange(event.target.value)}
           />
           <Button type="button" onClick={onConfirm} disabled={isRequesting}>
-            Confirm reviewed transcript
+            Confirmar este texto
           </Button>
           {state.technicalError && state.status !== 'technical_error' && (
             <p role="alert" className="text-destructive text-sm">
@@ -108,11 +105,11 @@ export function AprTranscriptDraft({
           )}
           {state.confirmedTranscript && (
             <div className="rounded-md border p-3 text-sm">
-              <p className="font-medium">Learner-confirmed transcript</p>
+              <p className="font-medium">Texto confirmado por ti</p>
               <p>{state.confirmedTranscript}</p>
               <p className="text-muted-foreground mt-2">
-                This confirmation records what you intended to say. It is not a
-                score, pronunciation judgment or academic evidence.
+                Al confirmar, indicas que este texto representa lo que quisiste
+                decir. No estás enviando Evidencia ni aceptando una puntuación.
               </p>
             </div>
           )}

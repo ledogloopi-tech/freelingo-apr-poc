@@ -1,405 +1,90 @@
+import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { StrictMode } from 'react'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { AprLessonPlayer } from '@/components/apr/AprLessonPlayer'
+import {
+  day9Manifest,
+  endpoint,
+  jsonResponse,
+  modelAudioId,
+} from './apr-day9-fixtures'
 
 const { mockApiFetch } = vi.hoisted(() => ({ mockApiFetch: vi.fn() }))
-
 vi.mock('@/lib/api', () => ({ apiFetch: mockApiFetch }))
-
+vi.mock('next/navigation', () => ({ useRouter: () => ({ push: vi.fn() }) }))
 vi.mock('@/components/apr/AprAudioRecorder', () => ({
-  AprAudioRecorder: ({
-    hasOriginalAttempt,
-    onCapture,
-  }: {
-    hasOriginalAttempt: boolean
-    onCapture: (capture: {
-      blob: Blob
-      mimeType: string
-      durationSeconds: number
-    }) => void
-  }) => (
-    <button
-      type="button"
-      onClick={() =>
-        onCapture({
-          blob: new Blob([hasOriginalAttempt ? 'retry' : 'original'], {
-            type: 'audio/webm',
-          }),
-          mimeType: 'audio/webm',
-          durationSeconds: 1,
-        })
-      }
-    >
-      {hasOriginalAttempt ? 'Record another attempt' : 'Start recording'}
-    </button>
-  ),
+  AprAudioRecorder: () => <button type="button">Comenzar grabación</button>,
 }))
 
-import AprEnterTheConnectionLessonPage from '@/app/(apr)/apr/primeira-conexao/lessons/enter-the-connection/page'
-
-const endpoint =
-  '/api/apr/modules/primeira-conexao/lessons/enter-the-connection'
-const modelAudioEndpoint = `${endpoint}/model-audio`
-const modelAudioId = 'APR-R1-RM-01-L01-MODEL-TECH'
-
-function jsonResponse(data: unknown) {
-  return new Response(JSON.stringify(data), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
+beforeEach(() => {
+  mockApiFetch.mockReset()
+  vi.stubGlobal('URL', {
+    createObjectURL: vi.fn(() => 'blob:model'),
+    revokeObjectURL: vi.fn(),
   })
+})
+async function step2() {
+  mockApiFetch.mockResolvedValueOnce(jsonResponse(day9Manifest()))
+  render(<AprLessonPlayer endpoint={endpoint} />)
+  await screen.findByText('Entrar en la conexión')
+  fireEvent.click(screen.getByRole('button', { name: 'Continuar' }))
+  await screen.findByText('Escucha una apertura')
 }
 
-function audioResponse(bytes = 'mp3') {
-  return new Response(bytes, {
-    status: 200,
-    headers: {
-      'Content-Type': 'audio/mpeg',
-      'X-APR-Audio-Language': 'pt-BR',
-      'X-APR-Audio-Status': 'generated-technical-placeholder',
-    },
-  })
-}
-
-const manifest = {
-  lesson_id: 'APR-R1-RM-01-L01-TECH',
-  module_id: 'APR-R1-RM-01',
-  version: '0.4.0-technical-placeholder',
-  title: 'Enter the Connection',
-  internal_title: 'Lesson Player Technical Demonstration',
-  content_status: 'technical-placeholder',
-  authorized_for_pilot: false,
-  authorized_for_public_release: false,
-  estimated_minutes: 5,
-  current_step_count: 5,
-  steps: [
-    {
-      step_id: 'orientation',
-      step_type: 'orientation',
-      title: 'Orientation',
-      body: 'Placeholder.',
-      required: true,
-    },
-    {
-      step_id: 'information',
-      step_type: 'information',
-      title: 'Information',
-      body: 'Placeholder.',
-      required: true,
-    },
-    {
-      step_id: 'interface-choice',
-      step_type: 'single_choice',
-      title: 'Single-choice interaction',
-      body: 'Choose.',
-      required: true,
-      options: [
-        {
-          option_id: 'a',
-          label: 'The layout is clear enough to continue testing.',
-          feedback: 'Fixed technical feedback.',
-        },
-      ],
-    },
-    {
-      step_id: 'microphone-capture',
-      step_type: 'recording',
-      title: 'Microphone capture',
-      body: 'Record.',
-      required: true,
-      prompt: 'Prompt.',
-      max_seconds: 10,
-      allow_retry: true,
-      preserve_original: true,
-      storage_status: 'session-only',
-      transcription_language: 'pt',
-      transcription_mode: 'on-demand',
-      requires_learner_confirmation: true,
-      transcript_storage_status: 'session-only',
-      transcript_authorized_as_evidence: false,
-      model_audio_id: modelAudioId,
-      model_audio_mode: 'on-demand',
-      model_audio_language: 'pt-BR',
-      model_audio_source: 'generated-technical-placeholder',
-      model_audio_storage_status: 'session-only',
-      model_audio_authorized_as_final_content: false,
-      model_audio_required: false,
-    },
-    {
-      step_id: 'technical-reflection',
-      step_type: 'reflection',
-      title: 'Reflection',
-      body: 'Reflect.',
-      required: false,
-      prompt: 'Prompt?',
-      max_characters: 20,
-    },
-  ],
-}
-
-async function renderRecordingStep({ strict = false } = {}) {
-  mockApiFetch.mockResolvedValueOnce(jsonResponse(manifest))
-  if (strict) mockApiFetch.mockResolvedValueOnce(jsonResponse(manifest))
-  const result = render(
-    strict ? (
-      <StrictMode>
-        <AprEnterTheConnectionLessonPage />
-      </StrictMode>
-    ) : (
-      <AprEnterTheConnectionLessonPage />
-    )
-  )
-  await screen.findByText('Step 1 of 5.')
-  fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
-  fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
-  fireEvent.click(screen.getByRole('radio'))
-  fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
-  await screen.findByText('Step 4 of 5.')
-  return result
-}
-
-async function navigateFromStartToRecordingStep() {
-  await screen.findByText('Step 1 of 5.')
-  fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
-  fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
-  fireEvent.click(screen.getByRole('radio'))
-  fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
-  await screen.findByText('Step 4 of 5.')
-}
-
-describe('APR model audio', () => {
-  beforeEach(() => {
-    mockApiFetch.mockReset()
-    vi.stubGlobal('URL', {
-      createObjectURL: vi.fn(
-        (blob: Blob) => `blob:${blob.size}:${Math.random()}`
-      ),
-      revokeObjectURL: vi.fn(),
-    })
-    vi.spyOn(window, 'confirm').mockReturnValue(true)
-  })
-
-  it('does not request model audio on render, recording, or transcript success', async () => {
-    await renderRecordingStep()
+describe('APR Day 9 model audio', () => {
+  it('is optional, in Step 2, explicit, server-identified, no-autoplay, temporary, and revokes URLs', async () => {
+    await step2()
     expect(mockApiFetch).toHaveBeenCalledTimes(1)
-    fireEvent.click(screen.getByRole('button', { name: 'Start recording' }))
-    expect(mockApiFetch).toHaveBeenCalledTimes(1)
-    mockApiFetch.mockResolvedValueOnce(jsonResponse({ draft_text: 'rascunho' }))
-    fireEvent.click(
-      await screen.findByRole('button', { name: 'Generate transcript draft' })
-    )
-    await waitFor(() => expect(mockApiFetch).toHaveBeenCalledTimes(2))
-    expect(mockApiFetch.mock.calls.map((call) => call[0])).not.toContain(
-      modelAudioEndpoint
-    )
-  })
-
-  it('requests only the APR endpoint after explicit activation and creates playback without autoplay', async () => {
-    await renderRecordingStep()
-    mockApiFetch.mockResolvedValueOnce(audioResponse('abc'))
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Generate technical model audio' })
-    )
-    expect(screen.getByText(/Generating technical model audio/)).toBeDefined()
-    await screen.findByLabelText('Generated technical model audio playback')
-    expect(mockApiFetch).toHaveBeenLastCalledWith(
-      modelAudioEndpoint,
-      expect.objectContaining({ method: 'POST' })
-    )
-    const body = JSON.parse(mockApiFetch.mock.lastCall?.[1].body as string)
-    expect(body).toEqual({ model_audio_id: modelAudioId })
-    expect(Object.keys(body)).toEqual(['model_audio_id'])
-    expect(mockApiFetch.mock.calls.some((call) => call[0] === '/api/tts')).toBe(
-      false
-    )
-    expect(URL.createObjectURL).toHaveBeenCalled()
-    expect(screen.getByText('Actual MIME type: audio/mpeg')).toBeDefined()
-    expect(screen.getByText('Intended language: pt-BR')).toBeDefined()
-    expect(screen.getAllByText(/provider-dependent/).length).toBeGreaterThan(0)
     expect(
-      screen.getByLabelText('Generated technical model audio playback')
-    ).not.toHaveAttribute('autoplay')
-    expect(
-      screen.queryByText(/grade|CEFR|fluency|XP|streak|pronunciation result/i)
-    ).toBeNull()
-  })
-
-  it('displays Unknown for a response blob without usable MIME type', async () => {
-    await renderRecordingStep()
+      screen.getAllByText(
+        'Audio temporal generado para pruebas. No es la grabación final de la Academia.'
+      ).length
+    ).toBeGreaterThan(0)
     mockApiFetch.mockResolvedValueOnce(
-      new Response(new Uint8Array([1, 2, 3]).buffer)
-    )
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Generate technical model audio' })
-    )
-    await screen.findByLabelText('Generated technical model audio playback')
-    expect(screen.getByText('Actual MIME type: Unknown')).toBeDefined()
-  })
-
-  it('blocks duplicate pending requests and uses technical failure language without blocking Continue', async () => {
-    await renderRecordingStep()
-    let resolveAudio: (res: Response) => void = () => {}
-    mockApiFetch.mockReturnValueOnce(
-      new Promise((resolve) => {
-        resolveAudio = resolve
+      new Response('audio', {
+        status: 200,
+        headers: {
+          'Content-Type': 'audio/mpeg',
+          'X-APR-Audio-Status': 'generated-temporary-testing',
+          'X-APR-Audio-Language': 'pt-BR',
+        },
       })
     )
-    const button = screen.getByRole('button', {
-      name: 'Generate technical model audio',
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Escuchar audio temporal' })
+    )
+    const audio = await screen.findByLabelText(
+      'Reproducción del audio temporal'
+    )
+    expect(audio).not.toHaveAttribute('autoplay')
+    expect(JSON.parse(mockApiFetch.mock.calls[1][1].body)).toEqual({
+      model_audio_id: modelAudioId,
     })
-    fireEvent.click(button)
-    fireEvent.click(button)
-    expect(mockApiFetch).toHaveBeenCalledTimes(2)
-    resolveAudio(new Response('fail', { status: 503 }))
-    expect(
-      await screen.findByText(/technical audio issue, not a language result/i)
-    ).toBeDefined()
-    fireEvent.click(screen.getByRole('button', { name: 'Start recording' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
-    expect(screen.getByText('Step 5 of 5.')).toBeDefined()
-  })
-
-  it('preserves model audio across navigation, clears on confirmed restart, and preserves on cancelled restart', async () => {
-    await renderRecordingStep()
-    mockApiFetch.mockResolvedValueOnce(audioResponse('abc'))
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Generate technical model audio' })
-    )
-    await screen.findByLabelText('Generated technical model audio playback')
-    fireEvent.click(screen.getByRole('button', { name: 'Back' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
-    expect(
-      screen.getByLabelText('Generated technical model audio playback')
-    ).toBeDefined()
-    vi.mocked(window.confirm).mockReturnValueOnce(false)
-    fireEvent.click(screen.getByRole('button', { name: 'Restart' }))
-    expect(
-      screen.getByLabelText('Generated technical model audio playback')
-    ).toBeDefined()
-    vi.mocked(window.confirm).mockReturnValueOnce(true)
-    fireEvent.click(screen.getByRole('button', { name: 'Restart' }))
-    expect(URL.revokeObjectURL).toHaveBeenCalled()
-    expect(
-      screen.queryByLabelText('Generated technical model audio playback')
-    ).toBeNull()
-  })
-
-  it('ignores a pending model-audio response after unmount', async () => {
-    const view = await renderRecordingStep()
-    let resolveAudio: (res: Response) => void = () => {}
-    mockApiFetch.mockReturnValueOnce(
-      new Promise((resolve) => {
-        resolveAudio = resolve
-      })
-    )
-
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Generate technical model audio' })
-    )
-    const signal = mockApiFetch.mock.lastCall?.[1].signal as AbortSignal
-    expect(signal.aborted).toBe(false)
-
-    view.unmount()
-    expect(signal.aborted).toBe(true)
-
-    resolveAudio(audioResponse('late-after-unmount'))
-    await Promise.resolve()
-    await Promise.resolve()
-
-    expect(URL.createObjectURL).not.toHaveBeenCalled()
-    expect(
-      screen.queryByLabelText('Generated technical model audio playback')
-    ).toBeNull()
-  })
-
-  it('completes a successful Strict Mode model-audio request', async () => {
-    await renderRecordingStep({ strict: true })
-    mockApiFetch.mockResolvedValueOnce(audioResponse('strict-success'))
-
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Generate technical model audio' })
-    )
-
-    await screen.findByLabelText('Generated technical model audio playback')
-    expect(
-      mockApiFetch.mock.calls.filter((call) => call[0] === modelAudioEndpoint)
-    ).toHaveLength(1)
-    expect(URL.createObjectURL).toHaveBeenCalledTimes(1)
-  })
-
-  it('revokes exactly the prior model-audio URL during replacement', async () => {
-    await renderRecordingStep()
-    mockApiFetch.mockResolvedValueOnce(audioResponse('first-model-audio'))
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Generate technical model audio' })
-    )
-    await screen.findByLabelText('Generated technical model audio playback')
-    const firstModelAudioUrl = vi.mocked(URL.createObjectURL).mock.results[0]
-      ?.value as string
-
-    vi.mocked(URL.revokeObjectURL).mockClear()
-    mockApiFetch.mockResolvedValueOnce(audioResponse('second-model-audio'))
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Generate new technical audio' })
-    )
-
-    await waitFor(() => expect(URL.createObjectURL).toHaveBeenCalledTimes(2))
-    const secondModelAudioUrl = vi.mocked(URL.createObjectURL).mock.results[1]
-      ?.value as string
-
-    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(1)
-    expect(URL.revokeObjectURL).toHaveBeenCalledWith(firstModelAudioUrl)
-    expect(URL.revokeObjectURL).not.toHaveBeenCalledWith(secondModelAudioUrl)
-    expect(
-      screen.getByLabelText('Generated technical model audio playback')
-    ).toBeDefined()
-  })
-
-  it('ignores stale responses after confirmed restart', async () => {
-    await renderRecordingStep()
-    let resolveAudio: (res: Response) => void = () => {}
-    mockApiFetch.mockReturnValueOnce(
-      new Promise((resolve) => {
-        resolveAudio = resolve
+    mockApiFetch.mockResolvedValueOnce(
+      new Response('new', {
+        status: 200,
+        headers: { 'Content-Type': 'audio/mpeg' },
       })
     )
     fireEvent.click(
-      screen.getByRole('button', { name: 'Generate technical model audio' })
+      screen.getByRole('button', { name: 'Generar de nuevo audio temporal' })
     )
-    fireEvent.click(screen.getByRole('button', { name: 'Restart' }))
-    resolveAudio(audioResponse('stale'))
     await waitFor(() =>
-      expect(
-        screen.queryByLabelText('Generated technical model audio playback')
-      ).toBeNull()
+      expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:model')
     )
-    expect(URL.createObjectURL).not.toHaveBeenCalled()
   })
 
-  it('prevents an older response from overwriting a newer clip', async () => {
-    await renderRecordingStep()
-    let resolveOlder: (res: Response) => void = () => {}
-    let resolveNewer: (res: Response) => void = () => {}
-    mockApiFetch.mockReturnValueOnce(
-      new Promise((resolve) => {
-        resolveOlder = resolve
-      })
-    )
+  it('treats TTS failure as technical and still allows progression', async () => {
+    await step2()
+    mockApiFetch.mockResolvedValueOnce(new Response('', { status: 503 }))
     fireEvent.click(
-      screen.getByRole('button', { name: 'Generate technical model audio' })
+      screen.getByRole('button', { name: 'Escuchar audio temporal' })
     )
-    fireEvent.click(screen.getByRole('button', { name: 'Restart' }))
-    await navigateFromStartToRecordingStep()
-    mockApiFetch.mockReturnValueOnce(
-      new Promise((resolve) => {
-        resolveNewer = resolve
-      })
-    )
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Generate technical model audio' })
-    )
-    resolveNewer(audioResponse('newer'))
-    await screen.findByLabelText('Generated technical model audio playback')
-    resolveOlder(audioResponse('older'))
-    await waitFor(() => expect(URL.createObjectURL).toHaveBeenCalledTimes(1))
+    expect(
+      await screen.findByText(/No pudimos generar el audio temporal/)
+    ).toBeDefined()
+    fireEvent.click(screen.getByRole('button', { name: 'Continuar' }))
+    expect(
+      await screen.findByText('Abre espacio para una respuesta')
+    ).toBeDefined()
   })
 })

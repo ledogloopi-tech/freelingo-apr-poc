@@ -15,31 +15,41 @@ export type AprSessionSummary = {
   technicalModelAudio: 'Generated' | 'Not generated' | 'Technical issue'
   controlledTechnicalFeedback: 'Ready' | 'Not requested' | 'Technical issue'
   postFeedbackRetry: 'Captured' | 'Not captured' | 'Not applicable'
+  writtenPractice: 'Provided' | 'Not provided'
+}
+
+export type AprSessionClosureContent = {
+  content_id: string
+  badge: string
+  heading: string
+  body: string
+  primary_action: string
+  secondary_action: string
 }
 
 type Props = {
   headingRef: RefObject<HTMLHeadingElement | null>
   summary: AprSessionSummary
+  closure: AprSessionClosureContent
   onBackToReflection: () => void
   onRestart: () => void
   onExit: () => void
 }
 
 const summaryRows: { key: keyof AprSessionSummary; label: string }[] = [
-  { key: 'originalRecording', label: 'Original recording' },
-  { key: 'originalTranscript', label: 'Original transcript' },
+  { key: 'originalRecording', label: 'Original' },
+  { key: 'originalTranscript', label: 'Texto confirmado' },
   { key: 'latestRetry', label: 'Latest retry' },
-  { key: 'technicalModelAudio', label: 'Technical model audio' },
-  {
-    key: 'controlledTechnicalFeedback',
-    label: 'Controlled technical feedback',
-  },
-  { key: 'postFeedbackRetry', label: 'Post-feedback retry' },
+  { key: 'technicalModelAudio', label: 'Audio temporal' },
+  { key: 'controlledTechnicalFeedback', label: 'Ayuda controlada' },
+  { key: 'postFeedbackRetry', label: 'Retry posterior' },
+  { key: 'writtenPractice', label: 'Práctica escrita' },
 ]
 
 export function AprSessionClosure({
   headingRef,
   summary,
+  closure,
   onBackToReflection,
   onRestart,
   onExit,
@@ -48,19 +58,17 @@ export function AprSessionClosure({
     <Card>
       <CardHeader>
         <Badge className="w-fit" variant="secondary">
-          Session-only technical summary
+          {closure.badge}
         </Badge>
         <h1
           ref={headingRef}
           tabIndex={-1}
           className="font-heading text-2xl font-medium sm:text-3xl"
         >
-          Technical session ready for review
+          {closure.heading}
         </h1>
-        <CardDescription>
-          You reached the end of this technical prototype. This summary
-          describes browser-session activity only. It is not lesson completion,
-          Progress, Evidence, a score, or a language result.
+        <CardDescription className="whitespace-pre-line">
+          {closure.body}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -72,7 +80,7 @@ export function AprSessionClosure({
             id="apr-session-summary-heading"
             className="font-heading text-xl font-semibold"
           >
-            Session-only technical summary
+            Resumen técnico de la sesión
           </h2>
           <dl className="grid gap-3 sm:grid-cols-2">
             {summaryRows.map((row) => (
@@ -86,18 +94,18 @@ export function AprSessionClosure({
           </dl>
         </section>
         <p className="text-muted-foreground text-sm">
-          Next: review your session, restart the technical flow, or exit to the
-          APR module.
+          Puedes revisar tu reflexión, reiniciar con confirmación o salir al
+          módulo APR.
         </p>
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Button type="button" variant="outline" onClick={onBackToReflection}>
-            Back to reflection
+            Volver a la reflexión
           </Button>
           <Button type="button" variant="outline" onClick={onRestart}>
-            Restart technical session
+            {closure.secondary_action}
           </Button>
           <Button type="button" onClick={onExit}>
-            Exit to APR module
+            {closure.primary_action}
           </Button>
         </div>
       </CardContent>

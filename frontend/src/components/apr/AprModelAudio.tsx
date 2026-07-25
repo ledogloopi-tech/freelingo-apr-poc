@@ -56,69 +56,62 @@ export function AprModelAudio({
       aria-labelledby="apr-model-audio-heading"
     >
       <h3 id="apr-model-audio-heading" className="font-medium">
-        Technical model audio
+        Audio temporal de modelo
       </h3>
       <p className="text-muted-foreground text-sm">
-        This is generated technical model audio for the APR proof of concept. It
-        is not approved final human-recorded Academy audio, not a pronunciation
-        standard, not a pronunciation judgment, and not academic evidence.
+        Audio temporal generado para pruebas. No es la grabación final de la
+        Academia.
       </p>
       <p className="text-muted-foreground text-sm">
-        When you request model audio, APR sends only the approved model-audio
-        identifier to the APR backend. The backend resolves the controlled
-        technical text and uses the configured text-to-speech service. APR does
-        not save the generated audio in its database during this proof of
-        concept.
+        El audio se solicita solo cuando tú lo pides. El servidor usa el texto
+        aprobado; no envías texto libre.
       </p>
       <p className="text-muted-foreground text-sm">
-        Intended content language: {intendedLanguage}. Generated provider voice
-        and accent are temporary and provider-dependent, not verified Brazilian
-        Portuguese. Model audio is {isRequired ? 'required' : 'optional'} and
-        remains session-only.
+        Idioma del modelo: {intendedLanguage}. El audio es{' '}
+        {isRequired ? 'obligatorio' : 'opcional'} y permanece solo durante esta
+        sesión.
       </p>
       <Button type="button" onClick={onGenerate} disabled={isRequesting}>
         {hasAudio
-          ? 'Generate new technical audio'
-          : 'Generate technical model audio'}
+          ? 'Generar de nuevo audio temporal'
+          : 'Escuchar audio temporal'}
       </Button>
       {isRequesting && (
         <p role="status" aria-live="polite" className="text-sm">
-          Generating technical model audio. Learner recording playback remains
-          available.
+          Generando audio temporal. Puedes continuar si no está disponible.
         </p>
       )}
       {state.status === 'technical_error' && (
         <div role="alert" className="space-y-2 text-sm">
           <p>
-            APR could not generate technical model audio. This is a technical
-            audio issue, not a language result.
+            No pudimos generar el audio temporal. Esto es un problema técnico,
+            no un resultado sobre tu portugués.
           </p>
           <Button type="button" variant="outline" onClick={onGenerate}>
-            Retry technical model audio
+            Intentar audio temporal de nuevo
           </Button>
         </div>
       )}
       {hasAudio && (
         <div className="space-y-2 rounded-md border p-3 text-sm">
-          <p className="font-medium">
-            Generated technical model audio playback
-          </p>
+          <p className="font-medium">Reproducción del audio temporal</p>
           <audio
             controls
             preload="metadata"
             src={state.objectUrl}
-            aria-label="Generated technical model audio playback"
+            aria-label="Reproducción del audio temporal"
           />
-          <p>Model-audio id: {modelAudioId}</p>
-          <p>Technical status: {state.metadata?.status}</p>
-          <p>Intended language: {state.metadata?.language}</p>
+          <p>ID de audio: {modelAudioId}</p>
+          <p>Estado técnico: {state.metadata?.status}</p>
+          <p>Idioma: {state.metadata?.language}</p>
           <p>
-            Actual MIME type:{' '}
+            Tipo MIME:{' '}
             {state.mimeType === 'unknown' ? 'Unknown' : state.mimeType}
           </p>
-          <p>Approximate size: {state.byteSize} bytes.</p>
+          <p>Tamaño aproximado: {state.byteSize} bytes.</p>
           <p>
-            Generated provider voice/accent is temporary and provider-dependent.
+            Audio temporal generado para pruebas. No es la grabación final de la
+            Academia.
           </p>
         </div>
       )}
