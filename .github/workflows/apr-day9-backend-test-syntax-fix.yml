@@ -1,0 +1,75 @@
+name: APR Day 9 backend test syntax fix
+
+on:
+  push:
+    branches:
+      - codex/implement-apr-day-9-lesson-slice
+
+permissions:
+  contents: write
+
+jobs:
+  fix-syntax:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out PR branch
+        uses: actions/checkout@v6
+        with:
+          ref: codex/implement-apr-day-9-lesson-slice
+          fetch-depth: 0
+
+      - name: Repair escaped newlines in backend tests
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('backend/tests/test_apr.py')
+          text = path.read_text(encoding='utf-8')
+
+          replacements = [
+              (
+                  '''        "notice": "Puedes practicar el mismo mensaje por escrito.
+
+          Esta ruta mantiene el propósito de construir una apertura personal, pero no permite interpretar habla, pronunciación ni inteligibilidad.",''',
+                  r'''        "notice": "Puedes practicar el mismo mensaje por escrito.\n\nEsta ruta mantiene el propósito de construir una apertura personal, pero no permite interpretar habla, pronunciación ni inteligibilidad.",''',
+              ),
+              (
+                  '''        "detalle personal e invitación.
+
+          El mensaje tiene una forma clara de abrir la "''',
+                  r'''        "detalle personal e invitación.\n\nEl mensaje tiene una forma clara de abrir la "''',
+              ),
+              (
+                  '''            "Intenta una vez más, si te resulta útil.
+
+          Conserva tu nombre y tu detalle "
+                      "verdadero. Piensa en tres movimientos:
+
+          entra → comparte → invita
+
+          No "''',
+                  r'''            "Intenta una vez más, si te resulta útil.\n\nConserva tu nombre y tu detalle "
+                      "verdadero. Piensa en tres movimientos:\n\nentra → comparte → invita\n\nNo "''',
+              ),
+          ]
+
+          for index, (old, new) in enumerate(replacements, start=1):
+              if old not in text:
+                  raise SystemExit(f'replacement {index}: malformed source block not found')
+              text = text.replace(old, new, 1)
+
+          path.write_text(text, encoding='utf-8')
+          PY
+
+          python -m py_compile backend/tests/test_apr.py
+          rm .github/workflows/apr-day9-backend-test-syntax-fix.yml
+
+      - name: Commit syntax correction
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add backend/tests/test_apr.py .github/workflows/apr-day9-backend-test-syntax-fix.yml
+          git diff --cached --check
+          git commit -m "Fix APR Day 9 backend test syntax"
+          git push origin HEAD:codex/implement-apr-day-9-lesson-slice
