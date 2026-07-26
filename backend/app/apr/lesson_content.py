@@ -1,109 +1,169 @@
 from app.apr.schemas import (
+    AprContentBlock,
     AprInformationStep,
     AprLessonManifest,
+    AprModelAudioConfig,
     AprOrientationStep,
     AprRecordingStep,
     AprReflectionStep,
+    AprSessionClosureContent,
     AprSingleChoiceOption,
     AprSingleChoiceStep,
+    AprWrittenAlternative,
 )
 
+CONTENT_PACKAGE_ID = "APR-R1-RM01-L01-D9"
+MODEL_SCRIPT = "Oi! Eu sou a Marina. Gosto de música. E você?"
+MODEL_AUDIO_ID = "APR-AUD-R1-RM01-L01-D9-MDL-001"
+TEMPORARY_AUDIO_ID = "APR-AUD-R1-RM01-L01-D9-TMP-001"
+FEEDBACK_ID = "APR-FBK-R1-RM01-L01-D9-001"
+
 ENTER_THE_CONNECTION_LESSON = AprLessonManifest(
-    lesson_id="APR-R1-RM-01-L01-TECH",
+    lesson_id="APR-R1-RM-01-L01",
     module_id="APR-R1-RM-01",
-    version="0.6.0-technical-placeholder",
+    content_package_id=CONTENT_PACKAGE_ID,
+    version="1.0.0-day9-controlled-slice",
     title="Enter the Connection",
-    internal_title="Lesson Player Technical Demonstration",
-    content_status="technical-placeholder",
+    internal_title="Day 9 Controlled Instructional Vertical Slice",
+    content_status="approved-day9-instructional-slice",
+    practice_classification="instructional-practice-only",
+    authorization_notice=(
+        "Internal Day 9 instructional Practice only. Not complete Lesson 1, Evidence, "
+        "Progress, Completion, pilot, public release, score, proficiency assessment, or R1A."
+    ),
     authorized_for_pilot=False,
     authorized_for_public_release=False,
-    estimated_minutes=5,
+    estimated_minutes=8,
     current_step_count=5,
+    session_closure=AprSessionClosureContent(
+        content_id="APR-CNT-R1-RM01-L01-D9-CLS-001",
+        badge="Resumen de esta sesión",
+        heading="Tu práctica está lista para cerrar",
+        body=(
+            "Hoy practicaste una forma de abrir contacto en portugués y dejar espacio para una respuesta.\n\n"
+            "Esto no genera una nota, una conclusión sobre tu nivel, Evidencia formal ni un registro de finalización.\n\n"
+            "Tu grabación, el texto confirmado y la reflexión permanecen solamente durante esta sesión."
+        ),
+        primary_action="Cerrar esta práctica",
+        secondary_action="Reiniciar",
+    ),
     steps=[
         AprOrientationStep(
             step_id="orientation",
             step_type="orientation",
-            title="Orientation",
+            title="Entrar en la conexión",
             body=(
-                "Technical placeholder lesson. Approved lesson content pending. "
-                "This interaction tests the APR lesson player, not Portuguese capability. "
-                "It is not academically approved, not authorized for pilot, and not authorized "
-                "for public release."
+                "Una conversación no empieza con una frase perfecta. Empieza cuando haces espacio para otra persona.\n\n"
+                "En esta práctica vas a saludar, decir quién eres, compartir algo verdadero y terminar con una invitación breve: E você?\n\n"
+                "Habla con suficiente claridad para que otra persona pueda seguirte. Tu acento no necesita desaparecer."
             ),
             required=True,
+            content_ids=["APR-CNT-R1-RM01-L01-D9-ORI-001"],
         ),
         AprInformationStep(
-            step_id="information",
+            step_id="model-listening-bridge-notice",
             step_type="information",
-            title="Information",
-            body=(
-                "This placeholder screen demonstrates that versioned structured lesson content "
-                "can be loaded inside the isolated APR backend and frontend boundary. It does "
-                "not contain final Lesson 1 curriculum or language instruction."
-            ),
+            title="Escucha una apertura",
+            body="Escucha para entender qué hace la frase. No intentes copiar cada sonido.",
             required=True,
+            content_ids=[
+                MODEL_AUDIO_ID,
+                "APR-TXT-R1-RM01-L01-D9-TR-001",
+                "APR-BRG-R1-RM01-L01-D9-001",
+                "APR-PRN-R1-RM01-L01-D9-001",
+                TEMPORARY_AUDIO_ID,
+            ],
+            model_script=MODEL_SCRIPT,
+            controlled_transcript=MODEL_SCRIPT,
+            transcript_label="Ver el texto",
+            optional_translation="Hola. Soy Marina. Me gusta la música. ¿Y tú?",
+            translation_label="Ver el significado en español",
+            spanish_bridge=AprContentBlock(
+                content_id="APR-BRG-R1-RM01-L01-D9-001",
+                heading="Puente desde el español",
+                body=(
+                    "En español dices me gusta la música.\n\n"
+                    "En portugués, el bloque más útil aquí es:\n\n"
+                    "Gosto de música.\n\n"
+                    "El significado es cercano, pero la estructura cambia. No traduzcas palabra por palabra. Recupera gosto de + algo verdadero y vuelve al portugués."
+                ),
+            ),
+            pronunciation_guidance=AprContentBlock(
+                content_id="APR-PRN-R1-RM01-L01-D9-001",
+                heading="Una prioridad de claridad",
+                body=(
+                    "En você, la fuerza cae al final: vo-CÊ.\n\n"
+                    "Busca que la pregunta llegue clara. No necesitas imitar un acento."
+                ),
+            ),
+            pragmatic_guidance=AprContentBlock(
+                content_id="APR-CNT-R1-RM01-L01-D9-PRG-001",
+                heading="Haz espacio para la otra persona",
+                body=(
+                    "Oi es un inicio cotidiano y útil en muchas situaciones. Olá también es natural.\n\n"
+                    "La calidez no exige sonar efusivo. Puedes hablar con tu propia personalidad y dejar espacio para la respuesta."
+                ),
+            ),
+            model_audio=AprModelAudioConfig(
+                model_audio_id=MODEL_AUDIO_ID,
+                temporary_audio_id=TEMPORARY_AUDIO_ID,
+                mode="on-demand",
+                language="pt-BR",
+                source="generated-temporary-testing",
+                storage_status="session-only",
+                authorized_as_final_content=False,
+                required=False,
+                disclosure="Audio temporal generado para pruebas. No es la grabación final de la Academia.",
+            ),
         ),
         AprSingleChoiceStep(
-            step_id="interface-choice",
+            step_id="recognition-invitation",
             step_type="single_choice",
-            title="Single-choice interaction",
-            body=(
-                "Choose any interface-testing option. This does not evaluate Portuguese ability, "
-                "does not create Entry Evidence, and does not produce Capability Observations."
-            ),
+            title="Abre espacio para una respuesta",
+            body="¿Qué hace Marina para convertir su presentación en una invitación a conversar?",
             required=True,
+            content_ids=["APR-INT-R1-RM01-L01-D9-REC-001"],
+            correct_option_id="invites-response",
             options=[
                 AprSingleChoiceOption(
-                    option_id="layout-clear",
-                    label="The layout is clear enough to continue testing.",
-                    feedback="Fixed technical feedback: the lesson player recorded this session-only selection.",
+                    option_id="repeats-name",
+                    label="Repite su nombre para que la otra persona lo memorice.",
+                    feedback="Fíjate en el final. E você? transforma una presentación en una invitación a responder.",
                 ),
                 AprSingleChoiceOption(
-                    option_id="need-review",
-                    label="The placeholder needs future academic review.",
-                    feedback="Fixed technical feedback: future approved lesson specifications can replace this placeholder.",
+                    option_id="invites-response",
+                    label="Comparte algo verdadero y termina con E você?",
+                    feedback="La frase no termina en Marina. E você? abre espacio para que la otra persona participe.",
                 ),
                 AprSingleChoiceOption(
-                    option_id="not-assessment",
-                    label="This is not a Portuguese assessment.",
-                    feedback="Fixed technical feedback: no language capability was calculated.",
+                    option_id="explains-grammar",
+                    label="Explica cómo funciona la gramática de gosto de.",
+                    feedback="Fíjate en el final. E você? transforma una presentación en una invitación a responder.",
                 ),
             ],
         ),
         AprRecordingStep(
-            step_id="microphone-capture",
+            step_id="personal-practice",
             step_type="recording",
-            title="Microphone capture",
+            title="Hazlo tuyo",
             body=(
-                "Record a brief technical microphone test. This does not assess Portuguese "
-                "capability. Model audio is generated only when you request it. It is a "
-                "temporary technical placeholder with provider-dependent voice/accent, "
-                "not final human-recorded Academy audio, not a pronunciation standard, "
-                "not academic evidence, and not saved after the browser session ends. "
-                "Optional technical feedback becomes available only after you confirm "
-                "the Original transcript. It begins only after your explicit request, "
-                "uses a fixed technical retry cue, does not evaluate Portuguese, does "
-                "not inspect pronunciation or audio quality, does not create a score "
-                "or academic feedback, and remains session-only with optional retry "
-                "state. APR preserves the Original attempt. "
-                "Transcription starts only "
-                "after you request it. The result is a machine-generated draft that you "
-                "must review and correct. Confirmation is not academic evidence and does "
-                "not turn it into academic evidence. Transcript state is session-only."
+                "Imagina que acabas de conocer a alguien en un contexto cotidiano.\n\n"
+                "En portugués:\n\n"
+                "1. saluda;\n2. di tu nombre;\n3. comparte algo verdadero y seguro que te gusta;\n4. termina con E você?\n\n"
+                "Usa el modelo como apoyo, pero cambia el nombre y el detalle para que sean tuyos."
             ),
             required=True,
-            prompt=(
-                "This recording remains only in this browser session until you request a "
-                "transcript draft. You may also request optional temporary technical "
-                "model audio by approved model-audio identifier. The generated provider "
-                "voice/accent is provider-dependent and not approved human-recorded "
-                "Academy audio, not a pronunciation standard, not used to score you, "
-                "not academic evidence, "
-                "and not saved after the browser session ends. Transcript confirmation "
-                "is not a score, language result, or academic evidence, and APR does not "
-                "save transcript state during this POC. Optional feedback and retry state remain session-only, and the retry is optional."
-            ),
-            max_seconds=10,
+            content_ids=[
+                "APR-PRM-R1-RM01-L01-D9-SPK-001",
+                FEEDBACK_ID,
+                "APR-PRM-R1-RM01-L01-D9-RTY-001",
+                "APR-ALT-R1-RM01-L01-D9-WRT-001",
+            ],
+            prompt="Practica tu apertura en portugués cuando estés listo.",
+            production_frame="Oi! Eu sou ________. Gosto de ________. E você?",
+            privacy_notice="Elige un detalle verdadero que te resulte cómodo compartir. No necesitas dar información privada.",
+            practice_notice="Esta grabación es práctica. No genera una nota, una evaluación de pronunciación ni una conclusión sobre tu nivel.",
+            max_seconds=20,
             allow_retry=True,
             preserve_original=True,
             storage_status="session-only",
@@ -112,36 +172,46 @@ ENTER_THE_CONNECTION_LESSON = AprLessonManifest(
             requires_learner_confirmation=True,
             transcript_storage_status="session-only",
             transcript_authorized_as_evidence=False,
-            model_audio_id="APR-R1-RM-01-L01-MODEL-TECH",
-            model_audio_mode="on-demand",
-            model_audio_language="pt-BR",
-            model_audio_source="generated-technical-placeholder",
-            model_audio_storage_status="session-only",
-            model_audio_authorized_as_final_content=False,
-            model_audio_required=False,
-            feedback_id="APR-R1-RM-01-L01-FEEDBACK-TECH",
+            feedback_id=FEEDBACK_ID,
             feedback_mode="on-demand",
             feedback_source_attempt="original",
             feedback_requires_confirmed_transcript=True,
-            feedback_source="controlled-technical-placeholder",
+            feedback_source="server-deterministic",
             feedback_storage_status="session-only",
             feedback_authorized_as_academic_feedback=False,
             feedback_authorized_as_evidence=False,
             feedback_required=False,
             retry_orchestration_mode="optional-post-feedback-latest-retry",
             retry_required=False,
+            retry_instruction=(
+                "Intenta una vez más, si te resulta útil.\n\n"
+                "Conserva tu nombre y tu detalle verdadero. Piensa en tres movimientos:\n\n"
+                "entra → comparte → invita\n\n"
+                "No necesitas sonar perfecto."
+            ),
+            written_alternative=AprWrittenAlternative(
+                content_id="APR-ALT-R1-RM01-L01-D9-WRT-001",
+                label="Practicar por escrito",
+                notice=(
+                    "Puedes practicar el mismo mensaje por escrito.\n\n"
+                    "Esta ruta mantiene el propósito de construir una apertura personal, pero no permite interpretar habla, pronunciación ni inteligibilidad."
+                ),
+                prompt="Escribe tu apertura en portugués:",
+                frame="Oi! Eu sou ________. Gosto de ________. E você?",
+                storage_status="session-only",
+                practice_classification="instructional-practice-only",
+                max_characters=240,
+            ),
         ),
         AprReflectionStep(
-            step_id="technical-reflection",
+            step_id="reflection",
             step_type="reflection",
-            title="Reflection",
-            body=(
-                "Enter a short technical note about the shell behavior only. This is not saved "
-                "to the backend and does not count as academic Lesson completion."
-            ),
+            title="Reflexiona",
+            body="También puedes escribir:\n\nHoy me ayudó ________ porque ________.",
             required=False,
-            prompt="What should the APR team verify before replacing this placeholder with an approved lesson specification?",
-            placeholder="Example: Confirm approved content, evidence rules, and learner-facing copy.",
+            content_ids=["APR-PRM-R1-RM01-L01-D9-REF-001"],
+            prompt="¿Qué bloque te ayudó más a entrar en la interacción: Eu sou..., Gosto de... o E você??\n\nEscribe una frase breve sobre por qué.",
+            placeholder="Hoy me ayudó ________ porque ________.",
             max_characters=240,
         ),
     ],

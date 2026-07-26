@@ -23,6 +23,11 @@ import {
   createEmptyTranscriptState,
   type AprTranscriptState,
 } from '@/components/apr/AprTranscriptDraft'
+import {
+  AprSessionClosure,
+  type AprSessionClosureContent,
+  type AprSessionSummary,
+} from '@/components/apr/AprSessionClosure'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -33,10 +38,6 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { apiFetch } from '@/lib/api'
-import {
-  AprSessionClosure,
-  type AprSessionSummary,
-} from '@/components/apr/AprSessionClosure'
 
 const APR_DISABLED_MESSAGE =
   'The APR technical proof of concept is disabled in this environment.'
@@ -52,6 +53,31 @@ type AprBaseStep = {
   title: string
   body: string
   required: boolean
+  content_ids: string[]
+}
+type AprContentBlock = { content_id: string; heading: string; body: string }
+type AprModelAudioConfig = {
+  model_audio_id: string
+  temporary_audio_id: string
+  mode: 'on-demand'
+  language: 'pt-BR'
+  source: string
+  storage_status: 'session-only'
+  authorized_as_final_content: boolean
+  required: boolean
+  disclosure: string
+}
+type AprInformationStep = AprBaseStep & {
+  step_type: 'information'
+  model_script?: string
+  controlled_transcript?: string
+  transcript_label?: string
+  optional_translation?: string
+  translation_label?: string
+  spanish_bridge?: AprContentBlock
+  pronunciation_guidance?: AprContentBlock
+  pragmatic_guidance?: AprContentBlock
+  model_audio?: AprModelAudioConfig
 }
 type AprSingleChoiceOption = {
   option_id: string
@@ -61,10 +87,26 @@ type AprSingleChoiceOption = {
 type AprSingleChoiceStep = AprBaseStep & {
   step_type: 'single_choice'
   options: AprSingleChoiceOption[]
+  correct_option_id: string
+  prompt_label: string
+  required_warning: string
+}
+type AprWrittenAlternative = {
+  content_id: string
+  label: string
+  notice: string
+  prompt: string
+  frame: string
+  storage_status: 'session-only'
+  practice_classification: string
+  max_characters: number
 }
 type AprRecordingStep = AprBaseStep & {
   step_type: 'recording'
   prompt: string
+  production_frame: string
+  privacy_notice: string
+  practice_notice: string
   max_seconds: number
   allow_retry: boolean
   preserve_original: boolean
@@ -74,24 +116,19 @@ type AprRecordingStep = AprBaseStep & {
   requires_learner_confirmation: boolean
   transcript_storage_status: 'session-only'
   transcript_authorized_as_evidence: boolean
-  model_audio_id: string
-  model_audio_mode: 'on-demand'
-  model_audio_language: 'pt-BR'
-  model_audio_source: 'generated-technical-placeholder'
-  model_audio_storage_status: 'session-only'
-  model_audio_authorized_as_final_content: boolean
-  model_audio_required: boolean
   feedback_id: string
   feedback_mode: 'on-demand'
   feedback_source_attempt: 'original'
   feedback_requires_confirmed_transcript: boolean
-  feedback_source: 'controlled-technical-placeholder'
+  feedback_source: 'server-deterministic'
   feedback_storage_status: 'session-only'
   feedback_authorized_as_academic_feedback: boolean
   feedback_authorized_as_evidence: boolean
   feedback_required: boolean
   retry_orchestration_mode: 'optional-post-feedback-latest-retry'
   retry_required: boolean
+  retry_instruction: string
+  written_alternative: AprWrittenAlternative
 }
 type AprReflectionStep = AprBaseStep & {
   step_type: 'reflection'
@@ -100,21 +137,26 @@ type AprReflectionStep = AprBaseStep & {
   max_characters: number
 }
 type AprLessonStep =
-  | (AprBaseStep & { step_type: 'orientation' | 'information' })
+  | (AprBaseStep & { step_type: 'orientation' })
+  | AprInformationStep
   | AprSingleChoiceStep
   | AprRecordingStep
   | AprReflectionStep
 type AprLessonManifest = {
   lesson_id: string
   module_id: string
+  content_package_id: string
   version: string
   title: string
   internal_title: string
   content_status: string
+  practice_classification: string
+  authorization_notice: string
   authorized_for_pilot: boolean
   authorized_for_public_release: boolean
   estimated_minutes: number
   current_step_count: number
+  session_closure: AprSessionClosureContent
   steps: AprLessonStep[]
 }
 type StepResponses = Record<string, { choice?: string; reflection?: string }>
@@ -128,7 +170,13 @@ type AprTranscriptCollection = {
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === 'string' && value.trim().length > 0
 }
-
+function paragraphs(text: string) {
+  return text.split('\n\n').map((paragraph) => (
+    <p key={paragraph} className="whitespace-pre-line">
+      {paragraph}
+    </p>
+  ))
+}
 function isValidFeedbackResponse(
   value: unknown,
   expectedFeedbackId: string,
@@ -140,18 +188,15 @@ function isValidFeedbackResponse(
     candidate.feedback_id === expectedFeedbackId &&
     candidate.attempt_role === 'original' &&
     candidate.source_confirmation_revision === expectedRevision &&
-    candidate.status === 'technical-placeholder' &&
-    candidate.source === 'server-controlled' &&
+    candidate.status === 'controlled-instructional-guidance' &&
+    candidate.source === 'server-deterministic' &&
     candidate.requires_retry === false &&
     candidate.retry_allowed === true &&
     candidate.authorized_as_academic_feedback === false &&
     candidate.authorized_as_evidence === false &&
     candidate.storage_status === 'session-only' &&
-    isNonEmptyString(candidate.acknowledgement) &&
-    isNonEmptyString(candidate.primary_priority) &&
-    isNonEmptyString(candidate.cue) &&
-    isNonEmptyString(candidate.retry_instruction) &&
-    isNonEmptyString(candidate.uncertainty)
+    isNonEmptyString(candidate.feedback_case) &&
+    isNonEmptyString(candidate.acknowledgement)
   )
 }
 
@@ -164,6 +209,8 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
   const [responses, setResponses] = useState<StepResponses>({})
   const [choiceWarning, setChoiceWarning] = useState(false)
   const [recordingWarning, setRecordingWarning] = useState(false)
+  const [writtenSelected, setWrittenSelected] = useState(false)
+  const [writtenPractice, setWrittenPractice] = useState('')
   const [recordingAttempts, setRecordingAttempts] = useState<{
     original?: AprRecordingAttempt
     latestRetry?: AprRecordingAttempt
@@ -175,9 +222,7 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
   const modelAudioRequestRef = useRef<{
     generation: number
     controller?: AbortController
-  }>({
-    generation: 0,
-  })
+  }>({ generation: 0 })
   const [transcripts, setTranscripts] = useState<AprTranscriptCollection>(
     () => ({
       original: createEmptyTranscriptState(),
@@ -204,20 +249,17 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
   const attemptsRef = useRef(recordingAttempts)
   const mountedRef = useRef(true)
   const nextAttemptIdRef = useRef(0)
-  const requestRefs = useRef<{
+  const requestRefs = useRef({
     original: {
-      generation: number
-      activeGeneration: number | null
-      controller?: AbortController
-    }
+      generation: 0,
+      activeGeneration: null as number | null,
+      controller: undefined as AbortController | undefined,
+    },
     latestRetry: {
-      generation: number
-      activeGeneration: number | null
-      controller?: AbortController
-    }
-  }>({
-    original: { generation: 0, activeGeneration: null },
-    latestRetry: { generation: 0, activeGeneration: null },
+      generation: 0,
+      activeGeneration: null as number | null,
+      controller: undefined as AbortController | undefined,
+    },
   })
 
   useEffect(() => {
@@ -248,14 +290,11 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       active = false
     }
   }, [endpoint])
-
   useEffect(() => {
     headingRef.current?.focus()
   }, [currentStepIndex, showSessionClosure])
-
-  useEffect(() => {
-    mountedRef.current = true
-    return () => {
+  useEffect(
+    () => () => {
       mountedRef.current = false
       abortTranscriptRequest('original')
       abortTranscriptRequest('latestRetry')
@@ -263,80 +302,56 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       abortFeedbackRequest()
       if (modelAudioRef.current.objectUrl)
         URL.revokeObjectURL(modelAudioRef.current.objectUrl)
-      modelAudioRef.current = createEmptyModelAudioState()
       const current = attemptsRef.current
       if (current.original) URL.revokeObjectURL(current.original.objectUrl)
       if (current.latestRetry)
         URL.revokeObjectURL(current.latestRetry.objectUrl)
-      attemptsRef.current = {}
-    }
-  }, [])
-
+    },
+    []
+  )
   function setTranscriptsState(next: AprTranscriptCollection) {
     transcriptsRef.current = next
     setTranscripts(next)
   }
-
   function updateTranscriptState(role: AttemptRole, next: AprTranscriptState) {
     setTranscriptsState({ ...transcriptsRef.current, [role]: next })
   }
-
   function setFeedbackState(next: AprFeedbackState) {
     feedbackRef.current = next
     setFeedback(next)
   }
-
   function abortFeedbackRequest() {
     feedbackRequestRef.current.generation += 1
     feedbackRequestRef.current.activeGeneration = null
     feedbackRequestRef.current.controller?.abort()
     feedbackRequestRef.current.controller = undefined
   }
-
   function invalidateFeedback() {
     abortFeedbackRequest()
     setFeedbackState(createEmptyFeedbackState())
   }
-
-  function syncFeedbackRetryStatus() {
-    const current = feedbackRef.current
-    if (
-      current.status === 'ready' &&
-      current.retrySequenceSnapshot !== null &&
-      latestRetrySequenceRef.current > current.retrySequenceSnapshot &&
-      !current.postFeedbackRetryCaptured
-    ) {
-      setFeedbackState({ ...current, postFeedbackRetryCaptured: true })
-    }
-  }
-
   function setModelAudioState(next: AprModelAudioState) {
     modelAudioRef.current = next
     setModelAudio(next)
   }
-
   function clearModelAudioUrl() {
     if (modelAudioRef.current.objectUrl)
       URL.revokeObjectURL(modelAudioRef.current.objectUrl)
     setModelAudioState(createEmptyModelAudioState())
   }
-
   function abortModelAudioRequest() {
     modelAudioRequestRef.current.generation += 1
     modelAudioRequestRef.current.controller?.abort()
     modelAudioRequestRef.current.controller = undefined
   }
-
   function metadataFromHeaders(res: Response): AprModelAudioMetadata {
     return {
       language: res.headers.get('X-APR-Audio-Language') ?? 'pt-BR',
       status:
-        res.headers.get('X-APR-Audio-Status') ??
-        'generated-technical-placeholder',
+        res.headers.get('X-APR-Audio-Status') ?? 'generated-temporary-testing',
     }
   }
-
-  async function requestModelAudio(step: AprRecordingStep) {
+  async function requestModelAudio(config: AprModelAudioConfig) {
     if (modelAudioRef.current.status === 'requesting') return
     abortModelAudioRequest()
     const generation = modelAudioRequestRef.current.generation + 1
@@ -353,12 +368,10 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       const res = await apiFetch(`${endpoint}/model-audio`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model_audio_id: step.model_audio_id,
-        }),
+        body: JSON.stringify({ model_audio_id: config.model_audio_id }),
         signal: controller.signal,
       })
-      if (!res.ok) throw new Error('technical model-audio failure')
+      if (!res.ok) throw new Error('model-audio failure')
       const blob = await res.blob()
       if (
         !mountedRef.current ||
@@ -379,13 +392,17 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
         metadata: metadataFromHeaders(res),
       })
     } catch {
-      if (!mountedRef.current || controller.signal.aborted) return
-      if (modelAudioRequestRef.current.generation !== generation) return
+      if (
+        !mountedRef.current ||
+        controller.signal.aborted ||
+        modelAudioRequestRef.current.generation !== generation
+      )
+        return
       setModelAudioState({
         ...modelAudioRef.current,
         status: 'technical_error',
         technicalError:
-          'APR could not generate technical model audio. This is a technical audio issue, not a language result.',
+          'No pudimos generar el audio temporal. Esto es un problema técnico, no un resultado sobre tu portugués.',
         requestGeneration: generation,
       })
     } finally {
@@ -393,7 +410,6 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
         modelAudioRequestRef.current.controller = undefined
     }
   }
-
   function abortTranscriptRequest(role: AttemptRole) {
     const request = requestRefs.current[role]
     request.generation += 1
@@ -401,18 +417,16 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     request.controller?.abort()
     request.controller = undefined
   }
-
   function abortAllTranscriptRequests() {
     abortTranscriptRequest('original')
     abortTranscriptRequest('latestRetry')
   }
-
   async function requestFeedbackDraft(step: AprRecordingStep) {
     const currentFeedback = feedbackRef.current
     if (currentFeedback.status === 'requesting') return
     const revision = originalConfirmationRevisionRef.current
-    if (!transcriptsRef.current.original.confirmedTranscript || revision < 1)
-      return
+    const confirmed = transcriptsRef.current.original.confirmedTranscript
+    if (!confirmed || revision < 1) return
     abortFeedbackRequest()
     const generation = feedbackRequestRef.current.generation + 1
     feedbackRequestRef.current.generation = generation
@@ -437,10 +451,11 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
           feedback_id: step.feedback_id,
           attempt_role: 'original',
           transcript_confirmation_revision: revision,
+          confirmed_transcript: confirmed,
         }),
         signal: controller.signal,
       })
-      if (!res.ok) throw new Error('technical feedback failure')
+      if (!res.ok) throw new Error('feedback failure')
       const data = (await res.json()) as unknown
       if (
         !mountedRef.current ||
@@ -451,7 +466,7 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       )
         return
       if (!isValidFeedbackResponse(data, step.feedback_id, revision))
-        throw new Error('invalid technical feedback response')
+        throw new Error('invalid feedback response')
       const snapshot = latestRetrySequenceRef.current
       setFeedbackState({
         status: 'ready',
@@ -465,13 +480,17 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
         postFeedbackRetryCaptured: latestRetrySequenceRef.current > snapshot,
       })
     } catch {
-      if (!mountedRef.current || controller.signal.aborted) return
-      if (feedbackRequestRef.current.generation !== generation) return
+      if (
+        !mountedRef.current ||
+        controller.signal.aborted ||
+        feedbackRequestRef.current.generation !== generation
+      )
+        return
       setFeedbackState({
         ...feedbackRef.current,
         status: 'technical_error',
         technicalError:
-          'APR could not load technical feedback. This is a feedback-service issue, not a language result.',
+          'La ayuda técnica no estuvo disponible. Esto no es un resultado sobre tu portugués.',
         requestGeneration: generation,
         retrySequenceSnapshot: null,
         postFeedbackRetryCaptured: false,
@@ -483,7 +502,6 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       }
     }
   }
-
   function resetTranscripts() {
     originalConfirmationRevisionRef.current = 0
     invalidateFeedback()
@@ -501,7 +519,6 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     setRecordingAttempts({})
     resetTranscripts()
   }
-
   function handleAudioCapture(capture: AprCapturedAudio) {
     const attempt = {
       ...capture,
@@ -514,7 +531,6 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     const next = !current.original
       ? { original: attempt }
       : { ...current, latestRetry: attempt }
-
     if (replacingRetry) {
       abortTranscriptRequest('latestRetry')
       latestRetrySequenceRef.current += 1
@@ -524,13 +540,19 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       })
     }
     if (replacedRetry) URL.revokeObjectURL(replacedRetry.objectUrl)
-
     attemptsRef.current = next
     setRecordingWarning(false)
     setRecordingAttempts(next)
-    if (replacingRetry) syncFeedbackRetryStatus()
+    const currentFeedback = feedbackRef.current
+    if (
+      replacingRetry &&
+      currentFeedback.status === 'ready' &&
+      currentFeedback.retrySequenceSnapshot !== null &&
+      latestRetrySequenceRef.current > currentFeedback.retrySequenceSnapshot &&
+      !currentFeedback.postFeedbackRetryCaptured
+    )
+      setFeedbackState({ ...currentFeedback, postFeedbackRetryCaptured: true })
   }
-
   function filenameForAttempt(attempt: AprRecordingAttempt) {
     const mime = attempt.blob.type || attempt.mimeType
     if (mime.includes('mp4')) return 'apr-recording.mp4'
@@ -540,7 +562,6 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     if (mime.includes('webm')) return 'apr-recording.webm'
     return 'apr-recording.bin'
   }
-
   async function requestTranscriptDraft(role: AttemptRole) {
     const attempt = attemptsRef.current[role]
     const request = requestRefs.current[role]
@@ -569,7 +590,7 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
         body: formData,
         signal: controller.signal,
       })
-      if (!res.ok) throw new Error('technical transcription failure')
+      if (!res.ok) throw new Error('transcription failure')
       const data = (await res.json()) as { draft_text: string }
       if (!mountedRef.current || controller.signal.aborted) return
       const currentTranscript = transcriptsRef.current[role]
@@ -603,7 +624,7 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
         ...currentTranscript,
         status: 'technical_error',
         technicalError:
-          'APR could not generate a transcript draft. This is a technical transcription issue, not a language result.',
+          'No pudimos generar la transcripción. Esto es un problema técnico, no un resultado sobre tu portugués.',
       })
     } finally {
       if (requestRefs.current[role].activeGeneration === requestId) {
@@ -612,7 +633,6 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       }
     }
   }
-
   function updateWorkingTranscript(role: AttemptRole, value: string) {
     updateTranscriptState(role, {
       ...transcriptsRef.current[role],
@@ -626,7 +646,7 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     if (!reviewed) {
       updateTranscriptState(role, {
         ...currentTranscript,
-        technicalError: 'Enter a reviewed transcript before confirming.',
+        technicalError: 'Escribe el texto revisado antes de confirmar.',
       })
       return
     }
@@ -650,13 +670,15 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
   function restart() {
     if (
       window.confirm(
-        'Restart this technical placeholder lesson and clear current session responses?'
+        '¿Reiniciar esta práctica y borrar el estado de esta sesión?'
       )
     ) {
       setResponses({})
       setCurrentStepIndex(0)
       setChoiceWarning(false)
       setRecordingWarning(false)
+      setWrittenSelected(false)
+      setWrittenPractice('')
       clearRecordingAttempts()
       abortModelAudioRequest()
       clearModelAudioUrl()
@@ -666,11 +688,25 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       setShowSessionClosure(false)
     }
   }
+  function updateStepResponse(stepId: string, response: StepResponses[string]) {
+    setResponses((current) => ({
+      ...current,
+      [stepId]: { ...(current[stepId] ?? {}), ...response },
+    }))
+  }
+  function showStaticSelfCheck() {
+    setFeedbackState({
+      ...createEmptyFeedbackState(),
+      status: 'static_self_check',
+      technicalError:
+        'No podemos verificar con seguridad qué dijiste. La transcripción es una ayuda opcional, no una evaluación.\n\nEscucha tu grabación y comprueba si incluiste:\n\nsaludo, nombre, Gosto de..., E você?',
+    })
+  }
 
   if (loading)
     return (
       <div role="status" className="rounded-lg border p-4 text-sm">
-        Loading APR technical placeholder lesson…
+        Loading APR Day 9 lesson…
       </div>
     )
   if (error)
@@ -683,7 +719,6 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
       </div>
     )
   if (!manifest) return null
-
   const currentStep = manifest.steps[currentStepIndex]
   const currentResponse = responses[currentStep.step_id] ?? {}
   const selectedOption =
@@ -692,18 +727,17 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
           (option) => option.option_id === currentResponse.choice
         )
       : undefined
-  function updateStepResponse(stepId: string, response: StepResponses[string]) {
-    setResponses((current) => ({
-      ...current,
-      [stepId]: { ...(current[stepId] ?? {}), ...response },
-    }))
-  }
+  const writtenReady = writtenSelected && writtenPractice.trim().length > 0
   function continueForward() {
     if (currentStep.step_type === 'single_choice' && !currentResponse.choice) {
       setChoiceWarning(true)
       return
     }
-    if (currentStep.step_type === 'recording' && !recordingAttempts.original) {
+    if (
+      currentStep.step_type === 'recording' &&
+      !recordingAttempts.original &&
+      !writtenReady
+    ) {
       setRecordingWarning(true)
       return
     }
@@ -715,7 +749,6 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
     }
     setCurrentStepIndex((index) => index + 1)
   }
-
   function buildSessionSummary(): AprSessionSummary {
     const feedbackIsCurrent =
       feedback.status === 'ready' &&
@@ -749,14 +782,15 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
         : feedback.postFeedbackRetryCaptured
           ? 'Captured'
           : 'Not captured',
+      writtenPractice: writtenReady ? 'Provided' : 'Not provided',
     }
   }
-
   if (showSessionClosure)
     return (
       <AprSessionClosure
         headingRef={headingRef}
         summary={buildSessionSummary()}
+        closure={manifest.session_closure}
         onBackToReflection={() => setShowSessionClosure(false)}
         onRestart={restart}
         onExit={() => router.push('/apr/primeira-conexao')}
@@ -779,19 +813,15 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
           aria-label="Lesson authorization"
           className="rounded-lg border p-4 text-sm"
         >
-          <p>Technical placeholder lesson. Approved lesson content pending.</p>
-          <p>
-            This interaction tests the APR lesson player, not Portuguese
-            capability.
-          </p>
-          <p>Not authorized for pilot or public release.</p>
+          <p>{manifest.authorization_notice}</p>
+          <p>No autorizado para piloto ni lanzamiento público.</p>
         </section>
         <div
           role="status"
           aria-live="polite"
           className="rounded-lg border p-3 text-sm"
         >
-          Step {currentStepIndex + 1} of {manifest.current_step_count}.
+          Paso {currentStepIndex + 1} de {manifest.current_step_count}.
         </div>
         <article className="space-y-4">
           <h2
@@ -801,11 +831,77 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
           >
             {currentStep.title}
           </h2>
-          <p className="text-muted-foreground">{currentStep.body}</p>
+          <div className="text-muted-foreground space-y-3">
+            {paragraphs(currentStep.body)}
+          </div>
+          {currentStep.step_type === 'information' && (
+            <div className="space-y-4">
+              {currentStep.model_script && (
+                <p
+                  className="rounded-lg border p-3 text-lg font-medium"
+                  lang="pt-BR"
+                >
+                  {currentStep.model_script}
+                </p>
+              )}
+              {currentStep.controlled_transcript && (
+                <details>
+                  <summary className="cursor-pointer font-medium">
+                    {currentStep.transcript_label}
+                  </summary>
+                  <p className="mt-2" lang="pt-BR">
+                    {currentStep.controlled_transcript}
+                  </p>
+                </details>
+              )}
+              {currentStep.optional_translation && (
+                <details>
+                  <summary className="cursor-pointer font-medium">
+                    {currentStep.translation_label}
+                  </summary>
+                  <p className="mt-2">{currentStep.optional_translation}</p>
+                </details>
+              )}
+              {[
+                currentStep.spanish_bridge,
+                currentStep.pronunciation_guidance,
+                currentStep.pragmatic_guidance,
+              ]
+                .filter(Boolean)
+                .map(
+                  (block) =>
+                    block && (
+                      <section
+                        key={block.content_id}
+                        className="space-y-2 rounded-lg border p-4"
+                      >
+                        <h3 className="font-medium">{block.heading}</h3>
+                        {paragraphs(block.body)}
+                      </section>
+                    )
+                )}
+              {currentStep.model_audio && (
+                <>
+                  <p className="text-sm font-medium">
+                    {currentStep.model_audio.disclosure}
+                  </p>
+                  <AprModelAudio
+                    state={modelAudio}
+                    modelAudioId={currentStep.model_audio.model_audio_id}
+                    intendedLanguage={currentStep.model_audio.language}
+                    isRequired={currentStep.model_audio.required}
+                    onGenerate={() =>
+                      requestModelAudio(currentStep.model_audio!)
+                    }
+                  />
+                </>
+              )}
+            </div>
+          )}
           {currentStep.step_type === 'single_choice' && (
             <fieldset className="space-y-3">
               <legend className="font-medium">
-                Choose one interface-testing option.
+                {currentStep.prompt_label}
               </legend>
               {currentStep.options.map((option) => (
                 <label
@@ -829,7 +925,7 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
               ))}
               {choiceWarning && (
                 <p role="alert" className="text-destructive text-sm">
-                  Select one interface-testing option before continuing.
+                  {currentStep.required_warning}
                 </p>
               )}
               {selectedOption && (
@@ -841,24 +937,61 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
           )}
           {currentStep.step_type === 'recording' && (
             <div className="space-y-4">
-              <p className="rounded-lg border p-3 text-sm">
-                {currentStep.prompt}
+              <p
+                className="rounded-lg border p-3 text-lg font-medium"
+                lang="pt-BR"
+              >
+                {currentStep.production_frame}
               </p>
-              <AprModelAudio
-                state={modelAudio}
-                modelAudioId={currentStep.model_audio_id}
-                intendedLanguage={currentStep.model_audio_language}
-                isRequired={currentStep.model_audio_required}
-                onGenerate={() => requestModelAudio(currentStep)}
-              />
+              <p>{currentStep.privacy_notice}</p>
+              <p>{currentStep.practice_notice}</p>
               <AprAudioRecorder
                 maxSeconds={currentStep.max_seconds}
                 hasOriginalAttempt={Boolean(recordingAttempts.original)}
                 onCapture={handleAudioCapture}
               />
+              <section className="space-y-3 rounded-lg border p-4">
+                <h3 className="font-medium">
+                  {currentStep.written_alternative.label}
+                </h3>
+                {paragraphs(currentStep.written_alternative.notice)}
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setWrittenSelected(true)}
+                >
+                  {currentStep.written_alternative.label}
+                </Button>
+                {writtenSelected && (
+                  <>
+                    <label
+                      className="block font-medium"
+                      htmlFor="apr-written-practice"
+                    >
+                      {currentStep.written_alternative.prompt}
+                    </label>
+                    <p lang="pt-BR">{currentStep.written_alternative.frame}</p>
+                    <textarea
+                      id="apr-written-practice"
+                      className="border-input bg-background ring-offset-background focus-visible:ring-ring min-h-28 w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                      maxLength={currentStep.written_alternative.max_characters}
+                      value={writtenPractice}
+                      onChange={(event) =>
+                        setWrittenPractice(
+                          event.target.value.slice(
+                            0,
+                            currentStep.written_alternative.max_characters
+                          )
+                        )
+                      }
+                    />
+                  </>
+                )}
+              </section>
               {recordingWarning && (
                 <p role="alert" className="text-destructive text-sm">
-                  Create one technical microphone recording before continuing.
+                  Graba un Original o completa la práctica escrita antes de
+                  continuar.
                 </p>
               )}
               {recordingAttempts.original && (
@@ -866,7 +999,7 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
                   aria-label="Original attempt"
                   className="space-y-2 rounded-lg border p-4"
                 >
-                  <h3 className="font-medium">Original attempt</h3>
+                  <h3 className="font-medium">Original protegido</h3>
                   <audio
                     controls
                     preload="metadata"
@@ -874,18 +1007,13 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
                     aria-label="Original attempt playback"
                   />
                   <p className="text-muted-foreground text-sm">
-                    Technical format: {recordingAttempts.original.mimeType}.
-                    Approximate duration:{' '}
+                    Formato: {recordingAttempts.original.mimeType}. Duración
+                    aproximada:{' '}
                     {formatDuration(recordingAttempts.original.durationSeconds)}
                     .
                   </p>
-                  <p className="text-muted-foreground text-sm">
-                    This attempt remains session-only and is not uploaded unless
-                    you explicitly request a transcript draft. It is not scored
-                    or saved to the APR backend.
-                  </p>
                   <AprTranscriptDraft
-                    attemptLabel="Original attempt"
+                    attemptLabel="Original"
                     state={transcripts.original}
                     onGenerate={() => requestTranscriptDraft('original')}
                     onWorkingChange={(value) =>
@@ -908,13 +1036,25 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
                                 ? feedback.status
                                 : 'not_requested',
                           }
-                        : createEmptyFeedbackState()
+                        : feedback.status === 'static_self_check'
+                          ? feedback
+                          : createEmptyFeedbackState()
                     }
                     isEligible={Boolean(
                       transcripts.original.confirmedTranscript
                     )}
+                    hasOriginal={Boolean(recordingAttempts.original)}
+                    onStaticSelfCheck={showStaticSelfCheck}
                     onGenerate={() => requestFeedbackDraft(currentStep)}
                   />
+                  {feedback.status === 'static_self_check' && (
+                    <div className="rounded-lg border p-3 text-sm whitespace-pre-line">
+                      {feedback.technicalError}
+                    </div>
+                  )}
+                  <p className="rounded-lg border p-3 text-sm whitespace-pre-line">
+                    {currentStep.retry_instruction}
+                  </p>
                 </section>
               )}
               {recordingAttempts.latestRetry && (
@@ -922,21 +1062,13 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
                   aria-label="Latest retry"
                   className="space-y-2 rounded-lg border p-4"
                 >
-                  <h3 className="font-medium">Latest retry</h3>
+                  <h3 className="font-medium">Latest retry separado</h3>
                   <audio
                     controls
                     preload="metadata"
                     src={recordingAttempts.latestRetry.objectUrl}
                     aria-label="Latest retry playback"
                   />
-                  <p className="text-muted-foreground text-sm">
-                    Technical format: {recordingAttempts.latestRetry.mimeType}.
-                    Approximate duration:{' '}
-                    {formatDuration(
-                      recordingAttempts.latestRetry.durationSeconds
-                    )}
-                    .
-                  </p>
                   <AprTranscriptDraft
                     attemptLabel="Latest retry"
                     state={transcripts.latestRetry}
@@ -954,10 +1086,13 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
             <div className="space-y-2">
               <label
                 htmlFor={`${currentStep.step_id}-reflection`}
-                className="font-medium"
+                className="font-medium whitespace-pre-line"
               >
                 {currentStep.prompt}
               </label>
+              <p className="text-muted-foreground whitespace-pre-line">
+                {currentStep.body}
+              </p>
               <textarea
                 id={`${currentStep.step_id}-reflection`}
                 className="border-input bg-background ring-offset-background focus-visible:ring-ring min-h-32 w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
@@ -974,15 +1109,15 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
                 }
               />
               <p className="text-muted-foreground text-sm">
-                {(currentResponse.reflection ?? '').length} of{' '}
-                {currentStep.max_characters} characters.
+                {(currentResponse.reflection ?? '').length} de{' '}
+                {currentStep.max_characters} caracteres.
               </p>
             </div>
           )}
         </article>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <Button type="button" variant="outline" onClick={restart}>
-            Restart
+            Reiniciar
           </Button>
           <div className="flex gap-3">
             <Button
@@ -993,10 +1128,10 @@ export function AprLessonPlayer({ endpoint }: { endpoint: string }) {
                 setCurrentStepIndex((index) => Math.max(0, index - 1))
               }
             >
-              Back
+              Atrás
             </Button>
             <Button type="button" onClick={continueForward}>
-              Continue
+              Continuar
             </Button>
           </div>
         </div>

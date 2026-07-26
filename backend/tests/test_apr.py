@@ -44,7 +44,7 @@ async def test_apr_endpoint_returns_fixed_metadata_without_study_plan(
     assert res.json() == {
         "module_id": "APR-R1-RM-01",
         "title": "Primeira Conexão",
-        "status": "technical-boundary-only",
+        "status": "internal-instructional-vertical-slice",
         "target_language": "pt-BR",
         "bridge_language": "es",
         "authorized_for_pilot": False,
@@ -76,7 +76,7 @@ async def test_apr_lesson_endpoint_returns_404_when_disabled(client, test_user, 
     assert res.json() == {"detail": "APR proof of concept is disabled"}
 
 
-async def test_apr_lesson_endpoint_returns_typed_placeholder_manifest_without_writes(
+async def test_apr_lesson_endpoint_returns_controlled_day9_manifest_without_writes(
     client, test_user, db_session, monkeypatch
 ):
     _user, headers = test_user
@@ -91,12 +91,14 @@ async def test_apr_lesson_endpoint_returns_typed_placeholder_manifest_without_wr
 
     assert res.status_code == 200
     manifest = res.json()
-    assert manifest["lesson_id"] == "APR-R1-RM-01-L01-TECH"
+    assert manifest["lesson_id"] == "APR-R1-RM-01-L01"
     assert manifest["module_id"] == "APR-R1-RM-01"
-    assert manifest["version"] == "0.6.0-technical-placeholder"
+    assert manifest["content_package_id"] == "APR-R1-RM01-L01-D9"
+    assert manifest["version"] == "1.0.0-day9-controlled-slice"
     assert manifest["title"] == "Enter the Connection"
-    assert manifest["internal_title"] == "Lesson Player Technical Demonstration"
-    assert manifest["content_status"] == "technical-placeholder"
+    assert manifest["internal_title"] == "Day 9 Controlled Instructional Vertical Slice"
+    assert manifest["content_status"] == "approved-day9-instructional-slice"
+    assert manifest["practice_classification"] == "instructional-practice-only"
     assert manifest["authorized_for_pilot"] is False
     assert manifest["authorized_for_public_release"] is False
     assert manifest["current_step_count"] == 5
@@ -108,31 +110,37 @@ async def test_apr_lesson_endpoint_returns_typed_placeholder_manifest_without_wr
         "recording",
         "reflection",
     ]
-    assert "Technical placeholder lesson" in manifest["steps"][0]["body"]
-    assert "Approved lesson content pending" in manifest["steps"][0]["body"]
-    assert (
-        "This interaction tests the APR lesson player, not Portuguese capability."
-        in manifest["steps"][0]["body"]
-    )
+
+    orientation_step = manifest["steps"][0]
+    assert orientation_step["content_ids"] == ["APR-CNT-R1-RM01-L01-D9-ORI-001"]
+    assert "Una conversación no empieza con una frase perfecta" in orientation_step["body"]
+    assert "E você?" in orientation_step["body"]
+
+    information_step = manifest["steps"][1]
+    assert information_step["step_id"] == "model-listening-bridge-notice"
+    assert information_step["model_script"] == "Oi! Eu sou a Marina. Gosto de música. E você?"
+    assert information_step["controlled_transcript"] == information_step["model_script"]
+    assert information_step["spanish_bridge"]["content_id"] == "APR-BRG-R1-RM01-L01-D9-001"
+    assert information_step["pronunciation_guidance"]["content_id"] == "APR-PRN-R1-RM01-L01-D9-001"
+    assert information_step["model_audio"] == {
+        "model_audio_id": "APR-AUD-R1-RM01-L01-D9-MDL-001",
+        "temporary_audio_id": "APR-AUD-R1-RM01-L01-D9-TMP-001",
+        "mode": "on-demand",
+        "language": "pt-BR",
+        "source": "generated-temporary-testing",
+        "storage_status": "session-only",
+        "authorized_as_final_content": False,
+        "required": False,
+        "disclosure": "Audio temporal generado para pruebas. No es la grabación final de la Academia.",
+    }
+
     assert "options" in manifest["steps"][2]
     assert all("feedback" in option for option in manifest["steps"][2]["options"])
-    recording_step = manifest["steps"][3]
-    assert recording_step["step_id"] == "microphone-capture"
-    assert recording_step["max_seconds"] == 10
-    assert recording_step["allow_retry"] is True
-    assert recording_step["preserve_original"] is True
-    assert recording_step["storage_status"] == "session-only"
-    recording_text = f"{recording_step['body']} {recording_step['prompt']}"
-    assert "does not assess Portuguese capability" in recording_text
-    assert "not academic evidence" in recording_text
-    assert "Transcription starts only after" in recording_text
-    assert "machine-generated draft" in recording_text
-    assert "review and correct" in recording_text
-    assert "does not turn it into academic evidence" in recording_text
-    assert "session-only" in recording_text
 
+    recording_step = manifest["steps"][3]
+    assert recording_step["step_id"] == "personal-practice"
     expected_recording_fields = {
-        "max_seconds": 10,
+        "max_seconds": 20,
         "allow_retry": True,
         "preserve_original": True,
         "storage_status": "session-only",
@@ -141,18 +149,11 @@ async def test_apr_lesson_endpoint_returns_typed_placeholder_manifest_without_wr
         "requires_learner_confirmation": True,
         "transcript_storage_status": "session-only",
         "transcript_authorized_as_evidence": False,
-        "model_audio_id": "APR-R1-RM-01-L01-MODEL-TECH",
-        "model_audio_mode": "on-demand",
-        "model_audio_language": "pt-BR",
-        "model_audio_source": "generated-technical-placeholder",
-        "model_audio_storage_status": "session-only",
-        "model_audio_authorized_as_final_content": False,
-        "model_audio_required": False,
-        "feedback_id": "APR-R1-RM-01-L01-FEEDBACK-TECH",
+        "feedback_id": "APR-FBK-R1-RM01-L01-D9-001",
         "feedback_mode": "on-demand",
         "feedback_source_attempt": "original",
         "feedback_requires_confirmed_transcript": True,
-        "feedback_source": "controlled-technical-placeholder",
+        "feedback_source": "server-deterministic",
         "feedback_storage_status": "session-only",
         "feedback_authorized_as_academic_feedback": False,
         "feedback_authorized_as_evidence": False,
@@ -162,11 +163,21 @@ async def test_apr_lesson_endpoint_returns_typed_placeholder_manifest_without_wr
     }
     for field, expected in expected_recording_fields.items():
         assert recording_step[field] == expected
+    assert "model_audio_id" not in recording_step
+    assert recording_step["written_alternative"] == {
+        "content_id": "APR-ALT-R1-RM01-L01-D9-WRT-001",
+        "label": "Practicar por escrito",
+        "notice": "Puedes practicar el mismo mensaje por escrito.\n\nEsta ruta mantiene el propósito de construir una apertura personal, pero no permite interpretar habla, pronunciación ni inteligibilidad.",
+        "prompt": "Escribe tu apertura en portugués:",
+        "frame": "Oi! Eu sou ________. Gosto de ________. E você?",
+        "storage_status": "session-only",
+        "practice_classification": "instructional-practice-only",
+        "max_characters": 240,
+    }
     assert manifest["steps"][4]["max_characters"] == 240
 
     plans_after = await db_session.scalar(select(func.count()).select_from(StudyPlan))
     progress_after = await db_session.scalar(select(func.count()).select_from(Progress))
-
     assert plans_after == plans_before
     assert progress_after == progress_before
 
@@ -421,7 +432,7 @@ async def test_apr_lesson_manifest_day5_transcription_contract(client, test_user
     )
 
     manifest = res.json()
-    assert manifest["version"] == "0.6.0-technical-placeholder"
+    assert manifest["version"] == "1.0.0-day9-controlled-slice"
     recording_step = manifest["steps"][3]
     assert recording_step["transcription_language"] == "pt"
     assert recording_step["transcription_mode"] == "on-demand"
@@ -452,9 +463,9 @@ class MockAprTtsService:
 
 
 MODEL_AUDIO_URL = "/api/apr/modules/primeira-conexao/lessons/enter-the-connection/model-audio"
-MODEL_AUDIO_ID = "APR-R1-RM-01-L01-MODEL-TECH"
+MODEL_AUDIO_ID = "APR-AUD-R1-RM01-L01-D9-MDL-001"
 SERVER_CONTROLLED_MODEL_AUDIO_TEXT = (
-    "Olá. Este é um teste técnico de áudio em português brasileiro."
+    "Oi! Eu sou a Marina. Gosto de música. E você?"
 )
 
 
@@ -582,7 +593,7 @@ async def test_apr_model_audio_returns_valid_provider_mime_no_store_and_headers_
     assert res.status_code == 200
     assert res.headers["content-type"] == mime_type
     assert res.headers["cache-control"] == "no-store"
-    assert res.headers["x-apr-audio-status"] == "generated-technical-placeholder"
+    assert res.headers["x-apr-audio-status"] == "generated-temporary-testing"
     assert res.headers["x-apr-audio-language"] == "pt-BR"
     assert res.content == b"fake-audio"
     assert mock.calls == [
@@ -716,7 +727,9 @@ async def test_apr_model_audio_maps_request_error_to_sanitized_502(client, test_
     assert "technical audio issue" in res.text
 
 
-async def test_apr_lesson_manifest_day6_model_audio_contract(client, test_user, monkeypatch):
+async def test_apr_lesson_manifest_day9_model_audio_contract(
+    client, test_user, monkeypatch
+):
     _user, headers = test_user
     monkeypatch.setattr(settings, "APR_POC_ENABLED", True)
 
@@ -725,20 +738,28 @@ async def test_apr_lesson_manifest_day6_model_audio_contract(client, test_user, 
     )
 
     manifest = res.json()
-    assert manifest["version"] == "0.6.0-technical-placeholder"
+    assert manifest["version"] == "1.0.0-day9-controlled-slice"
     assert manifest["current_step_count"] == 5
+    information_step = manifest["steps"][1]
+    assert information_step["step_type"] == "information"
+    assert information_step["model_audio"] == {
+        "model_audio_id": MODEL_AUDIO_ID,
+        "temporary_audio_id": "APR-AUD-R1-RM01-L01-D9-TMP-001",
+        "mode": "on-demand",
+        "language": "pt-BR",
+        "source": "generated-temporary-testing",
+        "storage_status": "session-only",
+        "authorized_as_final_content": False,
+        "required": False,
+        "disclosure": "Audio temporal generado para pruebas. No es la grabación final de la Academia.",
+    }
+    assert information_step["model_script"] == SERVER_CONTROLLED_MODEL_AUDIO_TEXT
+    assert information_step["controlled_transcript"] == SERVER_CONTROLLED_MODEL_AUDIO_TEXT
+
     recording_step = manifest["steps"][3]
-    assert recording_step["model_audio_id"] == MODEL_AUDIO_ID
-    assert recording_step["model_audio_mode"] == "on-demand"
-    assert recording_step["model_audio_language"] == "pt-BR"
-    assert recording_step["model_audio_source"] == "generated-technical-placeholder"
-    assert recording_step["model_audio_storage_status"] == "session-only"
-    assert recording_step["model_audio_authorized_as_final_content"] is False
-    assert recording_step["model_audio_required"] is False
-    assert "model_audio_text" not in recording_step
-    assert "model_audio_authorized_as_instructional_audio" not in recording_step
-    assert "model_audio_authorized_as_evidence" not in recording_step
-    assert "requires_human_audio_replacement" not in recording_step
+    assert "model_audio_id" not in recording_step
+    assert "model_audio_mode" not in recording_step
+    assert "model_audio_source" not in recording_step
     assert recording_step["transcription_language"] == "pt"
     assert recording_step["transcription_mode"] == "on-demand"
     assert recording_step["requires_learner_confirmation"] is True
@@ -766,7 +787,7 @@ async def test_apr_does_not_expose_model_audio_storage_endpoint(client, test_use
 
 
 FEEDBACK_URL = "/api/apr/modules/primeira-conexao/lessons/enter-the-connection/feedback-drafts"
-FEEDBACK_ID = "APR-R1-RM-01-L01-FEEDBACK-TECH"
+FEEDBACK_ID = "APR-FBK-R1-RM01-L01-D9-001"
 
 
 def feedback_payload(**overrides):
@@ -774,6 +795,7 @@ def feedback_payload(**overrides):
         "feedback_id": FEEDBACK_ID,
         "attempt_role": "original",
         "transcript_confirmation_revision": 1,
+        "confirmed_transcript": "Oi! Eu sou Ana. Gosto de música. E você?",
     }
     payload.update(overrides)
     return payload
@@ -828,10 +850,12 @@ def install_feedback_provider_sentinels(monkeypatch):
         feedback_payload(transcript_confirmation_revision=0),
         feedback_payload(transcript="text"),
         feedback_payload(transcript_text="text"),
-        feedback_payload(confirmed_transcript="text"),
+        {key: value for key, value in feedback_payload().items() if key != "confirmed_transcript"},
+        feedback_payload(confirmed_transcript="   "),
+        feedback_payload(confirmed_transcript="x" * 501),
         feedback_payload(audio="blob"),
         feedback_payload(recording="blob"),
-        feedback_payload(model_audio_id="APR-R1-RM-01-L01-MODEL-TECH"),
+        feedback_payload(model_audio_id="APR-AUD-R1-RM01-L01-D9-MDL-001"),
         feedback_payload(language="pt-BR"),
         feedback_payload(score=1),
         feedback_payload(prompt="prompt"),
@@ -870,27 +894,32 @@ async def test_apr_feedback_returns_controlled_no_store_response_without_writes_
         json=feedback_payload(transcript_confirmation_revision=3),
     )
 
+    approved_feedback = (
+        "En el texto que confirmaste aparecen las cuatro funciones: saludo, presentación, "
+        "detalle personal e invitación.\n\nEl mensaje tiene una forma clara de abrir la "
+        "interacción. En un segundo intento, mantén el significado y deja que E você? "
+        "llegue como una pregunta."
+    )
     assert res.status_code == 200
     assert res.headers["Cache-Control"] == "no-store"
     assert res.json() == {
         "feedback_id": FEEDBACK_ID,
+        "feedback_case": "all-components",
         "attempt_role": "original",
         "source_confirmation_revision": 3,
-        "status": "technical-placeholder",
-        "source": "server-controlled",
-        "acknowledgement": "You completed and confirmed an Original technical attempt.",
-        "primary_priority": "Keep the main message together for one more optional attempt.",
-        "cue": "Pause briefly, then repeat the same intended message once.",
+        "status": "controlled-instructional-guidance",
+        "source": "server-deterministic",
+        "acknowledgement": approved_feedback,
+        "primary_priority": approved_feedback,
+        "cue": "saludo, nombre, Gosto de..., E você?",
         "retry_instruction": (
-            "Record one optional Latest retry after this feedback. APR will preserve "
-            "the Original attempt."
+            "Intenta una vez más, si te resulta útil.\n\nConserva tu nombre y tu detalle "
+            "verdadero. Piensa en tres movimientos:\n\nentra → comparte → invita\n\nNo "
+            "necesitas sonar perfecto."
         ),
         "uncertainty": (
-            "This technical placeholder does not evaluate meaning, grammar, pronunciation, "
-            "fluency, intelligibility, correctness, or improvement. This content exists only "
-            "to test feedback-and-retry orchestration. It is not final lesson feedback. It "
-            "is not Professor Gabriel output. It is not generated by an LLM. It is not "
-            "academic feedback. It is not Evidence."
+            "Esta ayuda usa solamente el texto confirmado por ti. No evalúa pronunciación, "
+            "fluidez, inteligibilidad, corrección general, mejora ni nivel. No es Evidencia."
         ),
         "requires_retry": False,
         "retry_allowed": True,
@@ -939,7 +968,7 @@ async def test_apr_feedback_unexpected_failure_is_sanitized_without_writes(
 
     assert res.status_code == 503
     assert res.json() == {
-        "detail": "APR could not load technical feedback. This is a feedback-service issue, not a language result."
+        "detail": "La ayuda técnica no estuvo disponible. Esto no es un resultado sobre tu portugués."
     }
     body = res.text
     assert "secret-token" not in body
@@ -1000,9 +1029,11 @@ async def test_apr_feedback_manifest_fields(client, test_user, monkeypatch):
     )
 
     manifest = res.json()
-    assert manifest["version"] == "0.6.0-technical-placeholder"
+    assert manifest["content_package_id"] == "APR-R1-RM01-L01-D9"
+    assert manifest["version"] == "1.0.0-day9-controlled-slice"
     assert manifest["current_step_count"] == 5
-    assert manifest["content_status"] == "technical-placeholder"
+    assert manifest["content_status"] == "approved-day9-instructional-slice"
+    assert manifest["practice_classification"] == "instructional-practice-only"
     assert manifest["authorized_for_pilot"] is False
     assert manifest["authorized_for_public_release"] is False
     assert [step["step_type"] for step in manifest["steps"]] == [
@@ -1012,9 +1043,18 @@ async def test_apr_feedback_manifest_fields(client, test_user, monkeypatch):
         "recording",
         "reflection",
     ]
+
+    information_step = manifest["steps"][1]
+    assert information_step["model_audio"]["model_audio_id"] == MODEL_AUDIO_ID
+    assert information_step["model_audio"]["temporary_audio_id"] == "APR-AUD-R1-RM01-L01-D9-TMP-001"
+    assert information_step["model_audio"]["source"] == "generated-temporary-testing"
+    assert information_step["model_audio"]["storage_status"] == "session-only"
+    assert information_step["model_audio"]["authorized_as_final_content"] is False
+    assert information_step["model_audio"]["required"] is False
+
     recording_step = manifest["steps"][3]
     expected_recording_fields = {
-        "max_seconds": 10,
+        "max_seconds": 20,
         "allow_retry": True,
         "preserve_original": True,
         "storage_status": "session-only",
@@ -1023,18 +1063,11 @@ async def test_apr_feedback_manifest_fields(client, test_user, monkeypatch):
         "requires_learner_confirmation": True,
         "transcript_storage_status": "session-only",
         "transcript_authorized_as_evidence": False,
-        "model_audio_id": "APR-R1-RM-01-L01-MODEL-TECH",
-        "model_audio_mode": "on-demand",
-        "model_audio_language": "pt-BR",
-        "model_audio_source": "generated-technical-placeholder",
-        "model_audio_storage_status": "session-only",
-        "model_audio_authorized_as_final_content": False,
-        "model_audio_required": False,
         "feedback_id": FEEDBACK_ID,
         "feedback_mode": "on-demand",
         "feedback_source_attempt": "original",
         "feedback_requires_confirmed_transcript": True,
-        "feedback_source": "controlled-technical-placeholder",
+        "feedback_source": "server-deterministic",
         "feedback_storage_status": "session-only",
         "feedback_authorized_as_academic_feedback": False,
         "feedback_authorized_as_evidence": False,
@@ -1044,6 +1077,7 @@ async def test_apr_feedback_manifest_fields(client, test_user, monkeypatch):
     }
     for field, value in expected_recording_fields.items():
         assert recording_step[field] == value
+    assert "model_audio_id" not in recording_step
 
 
 async def test_apr_does_not_expose_session_closure_or_academic_persistence_endpoints(

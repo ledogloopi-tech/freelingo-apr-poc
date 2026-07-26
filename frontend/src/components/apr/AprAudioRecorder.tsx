@@ -34,14 +34,15 @@ const UNKNOWN_MIME_TYPE_LABEL = 'unknown'
 
 const ERROR_MESSAGES = {
   permission:
-    'Microphone access was not granted. This is a technical access issue, not a language failure.',
+    'No pudimos usar el micrófono. Esto es un problema técnico, no un resultado sobre tu portugués. Puedes intentarlo de nuevo, continuar con la práctica escrita o cerrar la sesión.',
   noDevice:
-    'No microphone was detected. This is a technical access issue, not a language failure.',
+    'No pudimos usar el micrófono. Esto es un problema técnico, no un resultado sobre tu portugués. Puedes intentarlo de nuevo, continuar con la práctica escrita o cerrar la sesión.',
   unsupported:
-    'This browser cannot record audio for the APR technical proof of concept.',
-  empty: 'No usable audio was captured. Try the technical recording again.',
+    'No pudimos usar el micrófono. Esto es un problema técnico, no un resultado sobre tu portugués. Puedes intentarlo de nuevo, continuar con la práctica escrita o cerrar la sesión.',
+  empty:
+    'No pudimos usar el micrófono. Esto es un problema técnico, no un resultado sobre tu portugués. Puedes intentarlo de nuevo, continuar con la práctica escrita o cerrar la sesión.',
   generic:
-    'A technical microphone error occurred. No language result was recorded.',
+    'No pudimos usar el micrófono. Esto es un problema técnico, no un resultado sobre tu portugués. Puedes intentarlo de nuevo, continuar con la práctica escrita o cerrar la sesión.',
 }
 
 function selectMimeType(): string | undefined {
@@ -71,7 +72,7 @@ export function AprAudioRecorder({
   const [state, setState] = useState<RecorderState>('idle')
   const [elapsedSeconds, setElapsedSeconds] = useState(0)
   const [message, setMessage] = useState(
-    'Recorder is idle. Microphone access has not been requested.'
+    'La grabadora está lista. El micrófono se pedirá solo cuando lo indiques.'
   )
   const recorderRef = useRef<MediaRecorder | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
@@ -145,7 +146,7 @@ export function AprAudioRecorder({
     const recorder = recorderRef.current
     if (!session || !recorder || !isActiveSession(session)) return
     setState('processing')
-    setMessage('Processing technical microphone recording.')
+    setMessage('Preparando tu grabación de práctica.')
     clearTimers()
     try {
       recorder.stop()
@@ -176,7 +177,7 @@ export function AprAudioRecorder({
 
     setState('requesting_permission')
     setElapsedSeconds(0)
-    setMessage('Requesting microphone access for the APR technical recording.')
+    setMessage('Solicitando acceso al micrófono para tu práctica.')
 
     let stream: MediaStream | null = null
     try {
@@ -243,9 +244,7 @@ export function AprAudioRecorder({
         })
         if (!mountedRef.current) return
         setState('ready')
-        setMessage(
-          'Technical recording captured for this browser session only.'
-        )
+        setMessage('Grabación de práctica capturada solo para esta sesión.')
       }
 
       if (!isActiveSession(session)) {
@@ -258,9 +257,7 @@ export function AprAudioRecorder({
         return
       }
       setState('recording')
-      setMessage(
-        'Recording technical microphone test. No audio is being uploaded.'
-      )
+      setMessage('Grabando tu práctica. No se está subiendo audio.')
       intervalRef.current = setInterval(() => {
         if (!isActiveSession(session)) return
         setElapsedSeconds((Date.now() - startedAtRef.current) / 1000)
@@ -300,20 +297,20 @@ export function AprAudioRecorder({
   const isRecording = state === 'recording'
   const isBusy = state === 'requesting_permission' || state === 'processing'
   const buttonLabel = isRecording
-    ? 'Stop recording'
+    ? 'Detener grabación'
     : hasOriginalAttempt
-      ? 'Record another attempt'
-      : 'Start recording'
+      ? 'Grabar otro intento'
+      : 'Comenzar grabación'
 
   return (
     <div className="space-y-4 rounded-lg border p-4">
       <div role="status" aria-live="polite" className="space-y-1 text-sm">
         <p className="font-medium">
-          Recording status: {state.replace('_', ' ')}
+          Estado de grabación: {state.replace('_', ' ')}
         </p>
         <p>{message}</p>
         {(isRecording || elapsedSeconds > 0) && (
-          <p>Elapsed recording time: {formatElapsed(elapsedSeconds)}</p>
+          <p>Tiempo grabado: {formatElapsed(elapsedSeconds)}</p>
         )}
       </div>
       <Button
