@@ -167,9 +167,7 @@ async def test_apr_lesson_endpoint_returns_controlled_day9_manifest_without_writ
     assert recording_step["written_alternative"] == {
         "content_id": "APR-ALT-R1-RM01-L01-D9-WRT-001",
         "label": "Practicar por escrito",
-        "notice": "Puedes practicar el mismo mensaje por escrito.
-
-Esta ruta mantiene el propósito de construir una apertura personal, pero no permite interpretar habla, pronunciación ni inteligibilidad.",
+        "notice": "Puedes practicar el mismo mensaje por escrito.\n\nEsta ruta mantiene el propósito de construir una apertura personal, pero no permite interpretar habla, pronunciación ni inteligibilidad.",
         "prompt": "Escribe tu apertura en portugués:",
         "frame": "Oi! Eu sou ________. Gosto de ________. E você?",
         "storage_status": "session-only",
@@ -898,9 +896,7 @@ async def test_apr_feedback_returns_controlled_no_store_response_without_writes_
 
     approved_feedback = (
         "En el texto que confirmaste aparecen las cuatro funciones: saludo, presentación, "
-        "detalle personal e invitación.
-
-El mensaje tiene una forma clara de abrir la "
+        "detalle personal e invitación.\n\nEl mensaje tiene una forma clara de abrir la "
         "interacción. En un segundo intento, mantén el significado y deja que E você? "
         "llegue como una pregunta."
     )
@@ -917,14 +913,8 @@ El mensaje tiene una forma clara de abrir la "
         "primary_priority": approved_feedback,
         "cue": "saludo, nombre, Gosto de..., E você?",
         "retry_instruction": (
-            "Intenta una vez más, si te resulta útil.
-
-Conserva tu nombre y tu detalle "
-            "verdadero. Piensa en tres movimientos:
-
-entra → comparte → invita
-
-No "
+            "Intenta una vez más, si te resulta útil.\n\nConserva tu nombre y tu detalle "
+            "verdadero. Piensa en tres movimientos:\n\nentra → comparte → invita\n\nNo "
             "necesitas sonar perfecto."
         ),
         "uncertainty": (
